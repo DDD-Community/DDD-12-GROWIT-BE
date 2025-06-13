@@ -45,4 +45,4 @@ jobs:
     needs: pr-build
     uses: ./.github/actions/slack.yml
     with:
-      job-status: ${{ needs.build.result }}
+      job-status: ${{ needs.pr-build.result }}
