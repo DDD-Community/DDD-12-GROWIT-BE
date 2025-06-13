@@ -1,3 +1,27 @@
+# Spring Boot specific
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+.settings/
+.project
+.classpath
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+app/build/
+
+# Logs
+logs/
+*.log
+
 # Compiled class file
 *.class
 
