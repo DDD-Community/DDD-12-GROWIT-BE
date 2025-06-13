@@ -18,3 +18,5 @@ jobs:
         with:
           release-type: java
           package-name: com.growit.app
+          token: ${{ secrets.GH_TOKEN }}
+          mode: github-release
