@@ -1,0 +1,76 @@
+name: Full CI/CD Pipeline
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      CLUSTER_NAME: ${{ secrets.ECS_CLUSTER }}
+      SERVICE_NAME: ${{ secrets.ECS_SERVICE }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Extract version from tag
+        id: extract_version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      - name: Build Docker image
+        run: |
+          chmod +x gradlew
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION
+
+      - name: Render ECS task definition with secrets
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: grow-it-app-task-def.json
+          container-name: grow-it-app-container
+          image: "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.VERSION }}"
+          environment-variables: |
+            SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}
+            JAVA_OPTS=${{ secrets.JAVA_OPTS }}
+            SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
+            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
+            SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            OTHER_API_KEY=${{ secrets.OTHER_API_KEY }}
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          wait-for-service-stability: false
+          cluster: ${{ env.CLUSTER_NAME }}
+          service: ${{ env.SERVICE_NAME }}
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+
+  notify:
+    name: Notify Slack
+    needs: build-and-deploy
+    uses: ./.github/actions/slack.yml
+    with:
+      job-status: ${{ needs.build.result }}

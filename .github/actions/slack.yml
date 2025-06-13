@@ -1,0 +1,21 @@
+name: Notify Slack
+
+on:
+  workflow_call:
+    inputs:
+      job-status:
+        required: true
+        type: string
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification
+        if: ${{ inputs.job-status == 'failure' || inputs.job-status == 'success' }}
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ inputs.job-status }}
+          fields: repo,message,commit,author
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
