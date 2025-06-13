@@ -71,6 +71,6 @@ jobs:
   notify:
     name: Notify Slack
     needs: build-and-deploy
-    uses: ./.github/actions/slack.yml
+    uses: ./.github/workflows/slack.yml
     with:
       job-status: ${{ needs.build-and-deploy.result }}

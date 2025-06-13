@@ -43,6 +43,6 @@ jobs:
   notify:
     name: Notify Slack
     needs: pr-build
-    uses: ./.github/actions/slack.yml
+    uses: ./.github/workflows/slack.yml
     with:
       job-status: ${{ needs.pr-build.result }}

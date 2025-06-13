@@ -18,4 +18,3 @@ jobs:
         with:
           release-type: java
           package-name: com.growit.app
-          mode: github-release

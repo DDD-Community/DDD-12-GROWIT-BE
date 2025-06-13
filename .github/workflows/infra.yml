@@ -52,6 +52,6 @@ jobs:
   notify:
     name: Notify Slack
     needs: terraform
-    uses: ./.github/actions/slack.yml
+    uses: ./.github/workflows/slack.yml
     with:
       job-status: ${{ needs.terraform.result }}
