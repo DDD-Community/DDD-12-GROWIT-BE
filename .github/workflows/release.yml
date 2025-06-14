@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -11,12 +14,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Release Please
-        uses: google-github-actions/release-please-action@v3
+        uses: googleapis/release-please-action@v4
         with:
-          release-type: java
-          package-name: com.growit.app
+          release-type: simple
           token: ${{ secrets.GH_TOKEN }}
-          mode: github-release
