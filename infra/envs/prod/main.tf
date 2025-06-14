@@ -1,12 +1,12 @@
 module "vpc" {
   source     = "../../modules/vpc"
-  name       = "growit-prod"
+  name       = "growit"
   cidr_block = "10.0.0.0/16"
 }
 
 module "subnet" {
   source = "../../modules/subnet"
-  name   = "growit-prod"
+  name   = "growit"
   vpc_id = module.vpc.vpc_id
   public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnet_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
@@ -15,7 +15,7 @@ module "subnet" {
 
 module "route" {
   source             = "../../modules/route"
-  name               = "growit-prod"
+  name               = "growit"
   vpc_id             = module.vpc.vpc_id
   igw_id             = module.vpc.igw_id
   public_subnet_ids  = module.subnet.public_subnet_ids
@@ -24,13 +24,13 @@ module "route" {
 
 module "sg" {
   source = "../../modules/security-group"
-  name   = "growit-prod"
+  name   = "growit"
   vpc_id = module.vpc.vpc_id
 }
 
 module "rds" {
   source             = "../../modules/rds"
-  name               = "growit-prod"
+  name               = "growit"
   private_subnet_ids = module.subnet.private_subnet_ids
   db_sg_id           = module.sg.db_sg_id
   db_name            = "growitdb"
@@ -41,7 +41,7 @@ module "rds" {
 
 module "bastion" {
   source           = "../../modules/bastion"
-  name             = "growit-prod"
+  name             = "growit-bastion"
   ami_id = "ami-0c593c3690c32e925" # ap-northeast-2 (서울)의 Amazon Linux 2 AMI
   public_subnet_id = module.subnet.public_subnet_ids[0]
   key_name         = var.bastion_key_name
@@ -50,17 +50,17 @@ module "bastion" {
 
 module "ecs" {
   source             = "../../modules/ecs"
-  cluster_name       = "growit-prod-ecs"
-  ami_id = "ami-0c593c3690c32e925" # Amazon Linux 2 ECS Optimized AMI (예시값, 실제로 확인 필요)
+  cluster_name       = "growit-cluster"
+  ami_id = "ami-001ad82b79a6bc41e" # Amazon Linux 2 ECS Optimized AMI (예시값, 실제로 확인 필요)
   key_name           = var.bastion_key_name
-  instance_type      = "t2.micro"
+  instance_type      = "t2.medium"
   private_subnet_ids = module.subnet.private_subnet_ids
 }
 
 # ALB module
 module "alb" {
   source            = "../../modules/alb"
-  name              = "growit-prod"
+  name              = "growit-alb"
   vpc_id            = module.vpc.vpc_id
   public_subnet_ids = module.subnet.public_subnet_ids
 }
