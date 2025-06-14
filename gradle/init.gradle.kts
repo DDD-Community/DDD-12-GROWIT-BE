@@ -17,7 +17,7 @@ rootProject {
     apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
     extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
       java {
-        target("src/**/*.java")`
+        target("src/**/*.java")
         googleJavaFormat("1.27.0")
         removeUnusedImports()
         importOrder()

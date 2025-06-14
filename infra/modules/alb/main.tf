@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "this" {
   target_type = "ip"
 
   health_check {
-    path                = "/acurator/health"
+    path                = "/actuator/health"
     healthy_threshold   = 2
     unhealthy_threshold = 2
     interval            = 30

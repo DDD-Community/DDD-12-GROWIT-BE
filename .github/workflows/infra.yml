@@ -2,10 +2,8 @@ name: Terraform CI
 
 on:
   push:
-    paths:
-      - "infra/**"  # 예: infra/ 아래가 Terraform 디렉토리
     branches:
-      - main
+      - infra
 
 jobs:
   terraform:

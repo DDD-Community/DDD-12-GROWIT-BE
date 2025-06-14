@@ -6,6 +6,9 @@ on:
       job-status:
         required: true
         type: string
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
 
 jobs:
   notify:
@@ -18,4 +21,4 @@ jobs:
           status: ${{ inputs.job-status }}
           fields: repo,message,commit,author
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -40,9 +40,14 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
+
   notify:
     name: Notify Slack
     needs: pr-build
     uses: ./.github/workflows/slack.yml
+
     with:
       job-status: ${{ needs.pr-build.result }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+

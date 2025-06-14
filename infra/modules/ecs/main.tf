@@ -24,19 +24,18 @@ resource "aws_iam_role_policy_attachment" "ecs_instance_role_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
-resource "aws_iam_instance_profile" "ecs_instance_profile" {
-  name = "${var.cluster_name}-instance-profile"
-  role = aws_iam_role.ecs_instance_role.name
+data "aws_iam_instance_profile" "ecs_instance_profile" {
+  name = "ecsInstanceRole"
 }
 
 resource "aws_launch_template" "ecs" {
   name_prefix   = "${var.cluster_name}-lt-"
   image_id = var.ami_id         # Amazon Linux 2 with ECS Agent
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
   key_name      = var.key_name
 
   iam_instance_profile {
-    name = aws_iam_instance_profile.ecs_instance_profile.name
+    name = data.aws_iam_instance_profile.ecs_instance_profile.name
   }
 
   credit_specification {

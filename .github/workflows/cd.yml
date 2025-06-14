@@ -48,8 +48,8 @@ jobs:
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: grow-it-app-task-def.json
-          container-name: grow-it-app-container
+          task-definition: ./app/growit-app-task-def.json
+          container-name: growit-app-service
           image: "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.VERSION }}"
           environment-variables: |
             SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}

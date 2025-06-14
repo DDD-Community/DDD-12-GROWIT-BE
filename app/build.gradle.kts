@@ -2,7 +2,6 @@ plugins {
   java
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.dependency.management)
-  alias(libs.plugins.spotless)
   jacoco
 }
 
@@ -26,7 +25,6 @@ repositories {
 }
 
 dependencies {
-  implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.web)
   implementation(libs.spring.boot.starter.actuator)
 
@@ -39,7 +37,6 @@ dependencies {
   runtimeOnly(libs.postgresql)
 
   testImplementation(libs.spring.boot.starter.test)
-  testImplementation(libs.spring.security.test)
   testRuntimeOnly(libs.junit.platform.launcher)
 }
 
