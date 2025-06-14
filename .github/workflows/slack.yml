@@ -6,6 +6,9 @@ on:
       job-status:
         required: true
         type: string
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
 
 jobs:
   notify:
