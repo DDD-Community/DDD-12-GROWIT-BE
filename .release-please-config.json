@@ -1,0 +1,9 @@
+{
+  "packages": {
+    "": {
+      "release-type": "java",
+      "package-name": "com.growit.app",
+      "branch": "main"
+    }
+  }
+}
