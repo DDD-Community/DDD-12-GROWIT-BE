@@ -1,8 +1,8 @@
 {
-  "family": "my-app-task",
+  "family": "growit-app-service-task",
   "containerDefinitions": [
     {
-      "name": "my-app",
+      "name": "growit-app-service",
       "image": "${ECR_IMAGE_URI}:${VERSION}",
       "essential": true,
       "portMappings": [
