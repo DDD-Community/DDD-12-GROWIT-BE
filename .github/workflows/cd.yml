@@ -38,7 +38,7 @@ jobs:
       - name: Build Docker image
         run: |
           chmod +x gradlew
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION ./app
 
       - name: Push Docker image to ECR
         run: |
