@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.5...v1.0.6) (2025-06-15)
+
+
+### Bug Fixes
+
+* **cd:** task-def.json 파라미터 위치 변경 ([38428f9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/38428f9a4881938a08e6fe47a1a91371918c06a7))
+
 ## [1.0.5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.4...v1.0.5) (2025-06-15)
 
 
