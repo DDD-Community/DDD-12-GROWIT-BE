@@ -4,25 +4,25 @@
   "executionRoleArn": "${EXECUTION_ROLE_ARN}",
 
   "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "compatibilities": [
+    "EC2",
+    "FARGATE"
+  ],
+  "requiresCompatibilities": [
+    "EC2",
+    "FARGATE"
+  ],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
   "containerDefinitions": [
     {
       "name": "growit-app-service",
       "image": "${ECR_IMAGE_URI}:${VERSION}",
       "essential": true,
-      "compatibilities": [
-        "EC2",
-        "FARGATE"
-      ],
-      "requiresCompatibilities": [
-        "EC2",
-        "FARGATE"
-      ],
-      "cpu": "256",
-      "memory": "512",
-      "runtimePlatform": {
-        "cpuArchitecture": "X86_64",
-        "operatingSystemFamily": "LINUX"
-      },
       "portMappings": [
         { "containerPort": 8080, "hostPort": 8080 }
       ],
