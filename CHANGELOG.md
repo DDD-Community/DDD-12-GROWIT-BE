@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.0...v1.0.1) (2025-06-15)
+
+
+### Bug Fixes
+
+* **cd:** slack secret 변경 ([34b02da](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/34b02da36d6dc96b00a3d25bcd421ded71d2789c))
+
 ## 1.0.0 (2025-06-15)
 
 
