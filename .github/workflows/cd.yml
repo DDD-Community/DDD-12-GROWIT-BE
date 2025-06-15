@@ -72,5 +72,8 @@ jobs:
     name: Notify Slack
     needs: build-and-deploy
     uses: ./.github/workflows/slack.yml
+
     with:
       job-status: ${{ needs.build-and-deploy.result }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
