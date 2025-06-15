@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.4...v1.0.5) (2025-06-15)
+
+
+### Bug Fixes
+
+* **cd:** add taskRoleArn ([ed364a5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ed364a59fa6d49ec56bee7aadc145378162a95b3))
+
 ## [1.0.4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.3...v1.0.4) (2025-06-15)
 
 
