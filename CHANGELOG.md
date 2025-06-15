@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.1...v1.0.2) (2025-06-15)
+
+
+### Bug Fixes
+
+* **cd:** Dockerfile path . -&gt; ./app ([36613e3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/36613e320582d84f4c1d5e2d7e4605844492096f))
+
 ## [1.0.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.0...v1.0.1) (2025-06-15)
 
 
