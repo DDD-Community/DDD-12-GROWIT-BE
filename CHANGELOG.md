@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.2...v1.0.3) (2025-06-15)
+
+
+### Bug Fixes
+
+* **cd:** add gradlew build ([28e3880](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/28e3880cdf1152ac825e259879935e7fa2fb9cf4))
+
 ## [1.0.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.1...v1.0.2) (2025-06-15)
 
 
