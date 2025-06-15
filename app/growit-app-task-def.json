@@ -1,8 +1,7 @@
 {
   "family": "growit-app-service-task",
-  "taskRoleArn": "${EXECUTION_ROLE_ARN}",
-  "executionRoleArn": "${EXECUTION_ROLE_ARN}",
-
+  "taskRoleArn": "arn:aws:iam::820856275774:role/growit-cluster-ecs-instance-role",
+  "executionRoleArn": "arn:aws:iam::820856275774:role/growit-cluster-ecs-instance-role",
   "networkMode": "awsvpc",
   "cpu": "256",
   "memory": "512",
