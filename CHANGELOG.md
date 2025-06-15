@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.3...v1.0.4) (2025-06-15)
+
+
+### Bug Fixes
+
+* **cd:** add "memory": 512 in task-def.json ([ad9d5ec](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ad9d5ec48858da555c97976b9aac3b3b2a88eba7))
+
 ## [1.0.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.2...v1.0.3) (2025-06-15)
 
 
