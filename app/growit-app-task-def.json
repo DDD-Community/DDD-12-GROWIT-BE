@@ -5,6 +5,7 @@
       "name": "growit-app-service",
       "image": "${ECR_IMAGE_URI}:${VERSION}",
       "essential": true,
+      "memory": 512,
       "portMappings": [
         { "containerPort": 8080, "hostPort": 8080 }
       ],
