@@ -9,10 +9,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
   @Id
@@ -39,4 +36,14 @@ public class UserEntity {
 
   @Column(length = 32)
   private String refreshToken;
+
+  @Builder
+  public UserEntity(Email email, String password, String name, JobRoleEntity jobRole, CareerYear careerYear, String refreshToken) {
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.jobRole = jobRole;
+    this.careerYear = careerYear;
+    this.refreshToken = refreshToken;
+  }
 }

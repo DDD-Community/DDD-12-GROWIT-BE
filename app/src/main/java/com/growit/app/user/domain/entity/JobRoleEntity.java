@@ -8,10 +8,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "jobrole")
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JobRoleEntity {
 
   @Id
@@ -21,4 +18,9 @@ public class JobRoleEntity {
 
   @Column(length = 32, nullable = false)
   private String name;
+
+  @Builder
+  public JobRoleEntity(String name) {
+    this.name = name;
+  }
 }
