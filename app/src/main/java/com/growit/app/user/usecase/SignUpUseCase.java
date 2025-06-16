@@ -1,10 +1,10 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.resource.domain.service.JobRoleValidator;
-import com.growit.app.user.domain.User;
-import com.growit.app.user.domain.UserRepository;
-import com.growit.app.user.domain.dto.SignUpCommand;
-import com.growit.app.user.domain.service.UserValidator;
+import com.growit.app.user.domain.resource.service.JobRoleValidator;
+import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.user.UserRepository;
+import com.growit.app.user.domain.user.dto.SignUpCommand;
+import com.growit.app.user.domain.user.service.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

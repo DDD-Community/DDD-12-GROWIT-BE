@@ -1,6 +1,6 @@
 package com.growit.app.user.controller.dto.request;
 
-import com.growit.app.user.domain.vo.CareerYear;
+import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
