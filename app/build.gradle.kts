@@ -27,7 +27,7 @@ repositories {
 dependencies {
   implementation(libs.spring.boot.starter.web)
   implementation(libs.spring.boot.starter.actuator)
-
+  implementation(libs.spring.boot.starter.data.jpa)
   developmentOnly(libs.spring.boot.devtools)
 
   compileOnly(libs.lombok)
