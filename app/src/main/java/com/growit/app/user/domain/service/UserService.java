@@ -1,3 +1,7 @@
 package com.growit.app.user.domain.service;
 
-public interface UserService {}
+import com.growit.app.auth.domain.dto.SignUpCommand;
+
+public interface UserService {
+  void signup(SignUpCommand command);
+}
