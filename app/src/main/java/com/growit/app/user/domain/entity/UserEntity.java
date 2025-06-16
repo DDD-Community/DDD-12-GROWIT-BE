@@ -17,7 +17,8 @@ public class UserEntity {
   @Column(columnDefinition = "BINARY(16)")
   private UUID id;
 
-  @Column(length = 50, nullable = false, unique = true)
+  @Embedded
+  @AttributeOverride(name = "value", column = @Column(name = "email", length = 50, nullable = false, unique = true))
   private Email email;
 
   @Column(length = 64, nullable = false)
