@@ -2,7 +2,7 @@ name: Full CI/CD Pipeline
 
 on:
   release:
-    types: [published]
+    types: [ published ]
   workflow_dispatch:
 
 jobs:
@@ -56,15 +56,20 @@ jobs:
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION
 
+      - name: Generate final task.json from template
+        run: |
+          envsubst < app/growit-app-task-def.json > app/growit-app-task-def-new.json
+        env:
+          EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
+
       - name: Render ECS task definition with secrets
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ./app/growit-app-task-def.json
+          task-definition: ./app/growit-app-task-def-new.json
           container-name: growit-app-service
           image: "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.VERSION }}"
           environment-variables: |
-            EXECUTION_ROLE_ARN=${{ secrets.EXECUTION_ROLE_ARN }}
             SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}
             JAVA_OPTS=${{ secrets.JAVA_OPTS }}
             SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}

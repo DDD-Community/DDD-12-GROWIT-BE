@@ -2,7 +2,7 @@
 name: Feature 요청
 about: 새로운 기능이나 개선 사항 제안
 title: "[Feature] "
-labels: enhancement
+labels: feature
 assignees: ''
 
 ---

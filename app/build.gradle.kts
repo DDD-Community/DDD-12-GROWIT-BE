@@ -25,8 +25,23 @@ repositories {
 }
 
 dependencies {
+  implementation(libs.spring.boot.starter.security)
+  implementation(libs.spring.boot.starter.validation)
+
+  // validation
+  implementation("org.springframework.boot:spring-boot-starter-validation")
+
+  // uuid
+  implementation(libs.nanoid)
+
+  // jwt
+  implementation(libs.jjwt.api)
+  runtimeOnly(libs.jjwt.impl)
+  runtimeOnly(libs.jjwt.jackson)
+
   implementation(libs.spring.boot.starter.web)
   implementation(libs.spring.boot.starter.actuator)
+  implementation(libs.spring.boot.starter.data.jpa)
 
   developmentOnly(libs.spring.boot.devtools)
 
