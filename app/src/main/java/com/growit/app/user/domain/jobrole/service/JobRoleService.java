@@ -1,7 +1,7 @@
-package com.growit.app.user.domain.resource.service;
+package com.growit.app.user.domain.jobrole.service;
 
 import com.growit.app.common.error.BadRequestError;
-import com.growit.app.user.domain.resource.JobRoleRepository;
+import com.growit.app.user.domain.jobrole.JobRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

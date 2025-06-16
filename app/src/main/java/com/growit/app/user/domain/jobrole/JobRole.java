@@ -1,4 +1,4 @@
-package com.growit.app.user.domain.resource;
+package com.growit.app.user.domain.jobrole;
 
 
 import lombok.*;

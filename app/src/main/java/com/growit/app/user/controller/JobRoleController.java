@@ -1,8 +1,8 @@
 package com.growit.app.user.controller;
 
 import com.growit.app.common.dto.Response;
-import com.growit.app.user.domain.resource.JobRole;
-import com.growit.app.user.domain.resource.JobRoleRepository;
+import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.user.domain.jobrole.JobRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/resource")
-public class ResourceController {
+public class JobRoleController {
 
   private final JobRoleRepository jobRoleRepository;
 

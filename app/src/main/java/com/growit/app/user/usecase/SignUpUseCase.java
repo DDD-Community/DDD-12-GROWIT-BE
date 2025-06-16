@@ -1,6 +1,6 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.user.domain.resource.service.JobRoleValidator;
+import com.growit.app.user.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.SignUpCommand;

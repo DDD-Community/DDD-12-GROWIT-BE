@@ -1,7 +1,7 @@
-package com.growit.app.user.infrastructure.persistence.resource;
+package com.growit.app.user.infrastructure.persistence.jobrole;
 
-import com.growit.app.user.domain.resource.JobRole;
-import com.growit.app.user.domain.resource.JobRoleRepository;
+import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.user.domain.jobrole.JobRoleRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
