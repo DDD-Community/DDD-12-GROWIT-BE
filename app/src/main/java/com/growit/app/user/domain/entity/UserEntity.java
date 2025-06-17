@@ -13,8 +13,8 @@ import java.util.UUID;
 public class UserEntity {
 
   @Id
-  @GeneratedValue(generator = "uuid2")
-  @Column(columnDefinition = "BINARY(16)")
+  @GeneratedValue
+  @Column(columnDefinition = "UUID")
   private UUID id;
 
   @Embedded

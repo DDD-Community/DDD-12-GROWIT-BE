@@ -12,8 +12,8 @@ import java.util.UUID;
 public class JobRoleEntity {
 
   @Id
-  @GeneratedValue(generator = "uuid2")
-  @Column(columnDefinition = "BINARY(16)")
+  @GeneratedValue
+  @Column(columnDefinition = "UUID")
   private UUID id;
 
   @Column(length = 32, nullable = false)
