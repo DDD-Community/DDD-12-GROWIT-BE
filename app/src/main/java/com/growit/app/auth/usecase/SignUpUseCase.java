@@ -4,7 +4,7 @@ import com.growit.app.auth.controller.dto.SignUpRequest;
 import com.growit.app.auth.domain.dto.SignUpCommand;
 import com.growit.app.common.exception.CustomException;
 import com.growit.app.common.exception.ErrorCode;
-import com.growit.app.user.domain.entity.CareerYear;
+import com.growit.app.user.domain.vo.CareerYear;
 import com.growit.app.user.domain.entity.JobRoleEntity;
 import com.growit.app.user.domain.repository.JobRoleRepository;
 import com.growit.app.user.domain.service.UserService;

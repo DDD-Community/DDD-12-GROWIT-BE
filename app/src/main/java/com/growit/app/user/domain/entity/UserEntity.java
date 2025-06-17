@@ -1,5 +1,6 @@
 package com.growit.app.user.domain.entity;
 
+import com.growit.app.user.domain.vo.CareerYear;
 import com.growit.app.user.domain.vo.Email;
 import jakarta.persistence.*;
 import lombok.*;
