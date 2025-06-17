@@ -1,5 +1,7 @@
 package com.growit.app.user.domain.vo;
 
+import com.growit.app.common.exception.CustomException;
+import com.growit.app.common.exception.ErrorCode;
 import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
@@ -14,7 +16,7 @@ public record Email(String value) {
   public Email {
     Objects.requireNonNull(value, "이메일은 null 일 수 없습니다.");
     if (!EMAIL_PATTERN.matcher(value).matches()) {
-      throw new IllegalArgumentException("유효하지 않은 이메일 형식입니다: " + value);
+      throw new CustomException(ErrorCode.INVALID_INPUT);
     }
   }
 
