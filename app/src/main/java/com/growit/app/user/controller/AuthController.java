@@ -1,5 +1,6 @@
 package com.growit.app.user.controller;
 
+import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
@@ -39,8 +40,8 @@ public class AuthController {
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<TokenResponse> reissue(@RequestBody String refreshToken) {
-    Token token = reissueUseCase.execute(refreshToken);
+  public ResponseEntity<TokenResponse> reissue(@RequestBody ReissueRequest request) {
+    Token token = reissueUseCase.execute(request.getRefreshToken());
     return ResponseEntity.status(HttpStatus.OK).body(mapper.toResponse(token));
   }
 }

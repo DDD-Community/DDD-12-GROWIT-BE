@@ -32,6 +32,15 @@ public class JwtFilter extends OncePerRequestFilter {
     throws ServletException, IOException {
 
     try {
+
+      // Skip JWT validation for /auth and /actuator paths
+      String uri = httpServletRequest.getRequestURI();
+      if (uri.startsWith("/auth") || uri.startsWith("/actuator")) {
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        return;
+      }
+
+
       // Extract and validate the Authorization header
       String authorizationHeader = httpServletRequest.getHeader("Authorization");
       if (authorizationHeader == null) {

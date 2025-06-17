@@ -20,13 +20,12 @@ public class JwtTokenService implements TokenService {
   private Claims parseClaims(String token) {
     try {
       return Jwts.parser()
+
         .setSigningKey(jwtProperties.getSecretKey())
         .parseClaimsJws(token)
         .getBody();
-    } catch (ExpiredJwtException
-             | IllegalArgumentException
-             | MalformedJwtException
-             | UnsupportedJwtException e) {
+    } catch (ExpiredJwtException | IllegalArgumentException | MalformedJwtException | UnsupportedJwtException |
+             SignatureException e) {
       throw new InvalidJwtTokenError();
     }
   }
