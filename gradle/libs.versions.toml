@@ -6,6 +6,7 @@ postgresql = "42.7.3"
 junit = "1.10.1"
 jjwt = "0.11.5"
 nanoid = "2.0.0"
+logstash = "7.4"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
@@ -29,3 +30,4 @@ jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 nanoid = { module = "com.aventrix.jnanoid:jnanoid", version.ref = "nanoid" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }

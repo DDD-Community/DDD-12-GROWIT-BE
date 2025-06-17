@@ -28,8 +28,10 @@ dependencies {
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
 
+  // log
+  implementation(libs.logstash.logback.encoder) // 또는 최신 안정 버전
+
   // validation
-  implementation("org.springframework.boot:spring-boot-starter-validation")
 
   // uuid
   implementation(libs.nanoid)
