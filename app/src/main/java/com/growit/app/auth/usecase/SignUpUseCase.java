@@ -9,18 +9,15 @@ import com.growit.app.user.domain.entity.JobRoleEntity;
 import com.growit.app.user.domain.repository.JobRoleRepository;
 import com.growit.app.user.domain.service.UserService;
 import com.growit.app.user.domain.vo.Email;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@AllArgsConstructor
 public class SignUpUseCase {
   private final UserService userService;
   private final JobRoleRepository jobRoleRepository;
-
-  public SignUpUseCase(UserService userService, JobRoleRepository jobRoleRepository) {
-    this.userService = userService;
-    this.jobRoleRepository = jobRoleRepository;
-  }
 
   @Transactional
   public void execute(SignUpRequest request) {

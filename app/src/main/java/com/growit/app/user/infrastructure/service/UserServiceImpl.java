@@ -24,7 +24,8 @@ public class UserServiceImpl implements UserService {
     if (userRepository.existsByEmail(command.email())) {
       throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
     }
-    UserEntity user = UserEntity.builder()
+
+    UserEntity userEntity = UserEntity.builder()
       .email(command.email())
       .password(passwordEncoder.encode(command.password()))
       .name(command.name())
@@ -32,6 +33,6 @@ public class UserServiceImpl implements UserService {
       .careerYear(command.careerYear())
       .refreshToken(null)
       .build();
-    userRepository.save(user);
+    userRepository.save(userEntity);
   }
 }
