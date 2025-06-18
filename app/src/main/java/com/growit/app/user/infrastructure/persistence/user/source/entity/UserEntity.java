@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserJpaEntity extends BaseEntity {
+public class UserEntity extends BaseEntity {
 
   @Column(nullable = false, unique = true)
   private String uid;

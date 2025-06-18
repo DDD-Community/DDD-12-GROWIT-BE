@@ -3,29 +3,30 @@ package com.growit.app.user.infrastructure.persistence.user;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
-import com.growit.app.user.infrastructure.persistence.user.source.UserJpaEntityRepository;
-import java.util.Optional;
+import com.growit.app.user.infrastructure.persistence.user.source.DbUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-  private final UserMapper mapper;
-  private final UserJpaEntityRepository userJpaEntityRepository;
+  private final UserEntityMapper mapper;
+  private final DbUserRepository dbUserRepository;
 
   @Override
   public Optional<User> findByEmail(Email email) {
-    return userJpaEntityRepository.findByEmail(email.value()).map(mapper::toDomain);
+    return dbUserRepository.findByEmail(email.value()).map(mapper::toDomain);
   }
 
   @Override
   public Optional<User> findUserById(String id) {
-    return userJpaEntityRepository.findByUid(id).map(mapper::toDomain);
+    return dbUserRepository.findByUid(id).map(mapper::toDomain);
   }
 
   @Override
   public void saveUser(User user) {
-    userJpaEntityRepository.save(mapper.toEntity(user));
+    dbUserRepository.save(mapper.toEntity(user));
   }
 }
