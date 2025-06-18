@@ -31,8 +31,6 @@ dependencies {
   // log
   implementation(libs.logstash.logback.encoder) // 또는 최신 안정 버전
 
-  // validation
-
   // uuid
   implementation(libs.nanoid)
 
@@ -54,7 +52,10 @@ dependencies {
   runtimeOnly(libs.postgresql)
 
   testImplementation(libs.spring.boot.starter.test)
-  testRuntimeOnly(libs.junit.platform.launcher)
+  testImplementation(libs.spring.security.test)
+
+  testRuntimeOnly(libs.h2)
+  testImplementation(libs.rest.assured)
 }
 
 tasks.test {

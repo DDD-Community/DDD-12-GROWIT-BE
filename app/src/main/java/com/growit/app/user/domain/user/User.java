@@ -5,12 +5,13 @@ import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import java.util.Objects;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
   private String id;
   private Email email;
