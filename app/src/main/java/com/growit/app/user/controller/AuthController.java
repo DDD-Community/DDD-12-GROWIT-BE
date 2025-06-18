@@ -36,12 +36,12 @@ public class AuthController {
   @PostMapping("/signin")
   public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest request) {
     Token token = signInUseCase.execute(new Email(request.getEmail()), request.getPassword());
-    return ResponseEntity.status(HttpStatus.OK).body(mapper.toResponse(token));
+    return ResponseEntity.ok(mapper.toResponse(token));
   }
 
   @PostMapping("/reissue")
   public ResponseEntity<TokenResponse> reissue(@RequestBody ReissueRequest request) {
     Token token = reissueUseCase.execute(request.getRefreshToken());
-    return ResponseEntity.status(HttpStatus.OK).body(mapper.toResponse(token));
+    return ResponseEntity.ok(mapper.toResponse(token));
   }
 }

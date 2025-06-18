@@ -5,7 +5,6 @@ import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.jobrole.JobRoleRepository;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.usecase.dto.UserDto;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class GetUserUseCase {
   private final JobRoleRepository jobRoleRepository;
 
-  @Transactional
   public UserDto execute(User user) {
     JobRole jobRole =
         jobRoleRepository

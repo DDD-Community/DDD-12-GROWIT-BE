@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class SignUpUseCase {
-
   private final JobRoleValidator jobRoleValidator;
   private final UserRepository userRepository;
   private final UserValidator userValidator;

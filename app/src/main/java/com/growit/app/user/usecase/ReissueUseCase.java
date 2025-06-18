@@ -3,7 +3,6 @@ package com.growit.app.user.usecase;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.token.service.TokenService;
 import com.growit.app.user.domain.user.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ public class ReissueUseCase {
   private final UserRepository userRepository;
   private final TokenService tokenService;
 
-  @Transactional
   public Token execute(String refreshToken) {
     final String id = tokenService.getId(refreshToken);
     userRepository.findUserById(id).orElseThrow();
