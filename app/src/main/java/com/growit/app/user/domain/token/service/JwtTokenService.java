@@ -23,11 +23,11 @@ public class JwtTokenService implements TokenService {
           .parseClaimsJws(token)
           .getBody();
     } catch (ExpiredJwtException
-        | IllegalArgumentException
-        | MalformedJwtException
-        | UnsupportedJwtException
-        | SignatureException e) {
-      throw new InvalidJwtTokenError();
+             | IllegalArgumentException
+             | MalformedJwtException
+             | UnsupportedJwtException
+             | SignatureException e) {
+      throw new InvalidJwtTokenException();
     }
   }
 

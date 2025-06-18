@@ -1,6 +1,6 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.common.error.BadRequestError;
+import com.growit.app.common.error.BadRequestException;
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.jobrole.JobRoleRepository;
 import com.growit.app.user.domain.user.User;
@@ -17,7 +17,7 @@ public class GetUserUseCase {
     JobRole jobRole =
         jobRoleRepository
             .findById(user.getJobRoleId())
-            .orElseThrow(() -> new BadRequestError("직무가 존재하지 않습니다"));
+            .orElseThrow(() -> new BadRequestException("직무가 존재하지 않습니다"));
 
     return new UserDto(user, jobRole);
   }

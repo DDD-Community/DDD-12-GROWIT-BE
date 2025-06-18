@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class BaseError extends RuntimeException {
+public class BaseException extends RuntimeException {
   private final String message;
 }
