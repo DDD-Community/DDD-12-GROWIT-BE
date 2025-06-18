@@ -21,4 +21,3 @@ public class ReissueUseCase {
     return tokenService.reIssue(refreshToken);
   }
 }
-

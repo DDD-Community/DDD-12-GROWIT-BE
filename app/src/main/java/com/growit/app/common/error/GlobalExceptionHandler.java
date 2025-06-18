@@ -2,11 +2,10 @@ package com.growit.app.common.error;
 
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 import com.growit.app.common.dto.GrowitErrorResponse;
+import java.lang.reflect.MalformedParametersException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.lang.reflect.MalformedParametersException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,20 +17,13 @@ public class GlobalExceptionHandler {
     ValueInstantiationException.class,
   })
   public ResponseEntity<GrowitErrorResponse> returnBadRequestException(RuntimeException e) {
-    return ResponseEntity.badRequest().body(
-      GrowitErrorResponse.builder()
-        .message(e.getMessage())
-        .build()
-    );
+    return ResponseEntity.badRequest()
+        .body(GrowitErrorResponse.builder().message(e.getMessage()).build());
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<GrowitErrorResponse> handleMalformedParametersException(
-    Exception e) {
-    return ResponseEntity.internalServerError().body(
-      GrowitErrorResponse.builder()
-        .message(e.getMessage())
-        .build()
-    );
+  public ResponseEntity<GrowitErrorResponse> handleMalformedParametersException(Exception e) {
+    return ResponseEntity.internalServerError()
+        .body(GrowitErrorResponse.builder().message(e.getMessage()).build());
   }
 }

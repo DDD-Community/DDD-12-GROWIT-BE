@@ -5,19 +5,18 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.ContentCachingRequestWrapper;
-import org.springframework.web.util.ContentCachingResponseWrapper;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 @Slf4j
 @Component
@@ -27,8 +26,8 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
-    HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-    throws ServletException, IOException {
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
 
     ContentCachingRequestWrapper cachingRequest = new ContentCachingRequestWrapper(request);
     ContentCachingResponseWrapper cachingResponse = new ContentCachingResponseWrapper(response);
@@ -57,7 +56,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
       // 요청 바디
       try {
         String requestBody =
-          new String(cachingRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
+            new String(cachingRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
         logMap.put("requestBody", requestBody);
       } catch (Exception e) {
         logMap.put("requestBody", "unreadable");
@@ -66,7 +65,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
       // 응답 바디
       try {
         String responseBody =
-          new String(cachingResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+            new String(cachingResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
         logMap.put("responseBody", responseBody);
       } catch (Exception e) {
         logMap.put("responseBody", "unreadable");
@@ -78,5 +77,4 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
       cachingResponse.copyBodyToResponse();
     }
   }
-
 }

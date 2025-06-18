@@ -4,10 +4,9 @@ import com.growit.app.common.config.jwt.JwtProperties;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.user.User;
 import io.jsonwebtoken.*;
-import org.springframework.stereotype.Service;
-
 import java.util.Calendar;
 import java.util.Date;
+import org.springframework.stereotype.Service;
 
 @Service
 public class JwtTokenService implements TokenService {
@@ -20,12 +19,14 @@ public class JwtTokenService implements TokenService {
   private Claims parseClaims(String token) {
     try {
       return Jwts.parser()
-
-        .setSigningKey(jwtProperties.getSecretKey())
-        .parseClaimsJws(token)
-        .getBody();
-    } catch (ExpiredJwtException | IllegalArgumentException | MalformedJwtException | UnsupportedJwtException |
-             SignatureException e) {
+          .setSigningKey(jwtProperties.getSecretKey())
+          .parseClaimsJws(token)
+          .getBody();
+    } catch (ExpiredJwtException
+        | IllegalArgumentException
+        | MalformedJwtException
+        | UnsupportedJwtException
+        | SignatureException e) {
       throw new InvalidJwtTokenError();
     }
   }
@@ -42,10 +43,10 @@ public class JwtTokenService implements TokenService {
     final Date expiredDate = new Date(now.getTime() + (second * 1000L));
 
     return Jwts.builder()
-      .setClaims(claims)
-      .setExpiration(expiredDate)
-      .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-      .compact();
+        .setClaims(claims)
+        .setExpiration(expiredDate)
+        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+        .compact();
   }
 
   private boolean isExpiredSoon(Date expirationDate) {

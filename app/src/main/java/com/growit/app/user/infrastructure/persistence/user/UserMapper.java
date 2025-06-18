@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
   public UserJpaEntity toEntity(User domain) {
     return UserJpaEntity.builder()
-      .uid(domain.getId())
-      .email(domain.getEmail().value())
-      .password(domain.getPassword())
-      .name(domain.getName())
-      .jobRoleId(domain.getJobRoleId())
-      .careerYear(domain.getCareerYear())
-      .build();
+        .uid(domain.getId())
+        .email(domain.getEmail().value())
+        .password(domain.getPassword())
+        .name(domain.getName())
+        .jobRoleId(domain.getJobRoleId())
+        .careerYear(domain.getCareerYear())
+        .build();
   }
 
   public User toDomain(UserJpaEntity entity) {
@@ -24,12 +24,12 @@ public class UserMapper {
     }
 
     return User.builder()
-      .id(entity.getUid())
-      .email(new Email(entity.getEmail()))
-      .password(entity.getPassword())
-      .name(entity.getName())
-      .jobRoleId(entity.getJobRoleId())
-      .careerYear(entity.getCareerYear())
-      .build();
+        .id(entity.getUid())
+        .email(new Email(entity.getEmail()))
+        .password(entity.getPassword())
+        .name(entity.getName())
+        .jobRoleId(entity.getJobRoleId())
+        .careerYear(entity.getCareerYear())
+        .build();
   }
 }

@@ -22,19 +22,19 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
-      .cors(AbstractHttpConfigurer::disable)
-      .formLogin(AbstractHttpConfigurer::disable)
-      .logout(AbstractHttpConfigurer::disable)
-      .requestCache(RequestCacheConfigurer::disable)
-      .authorizeHttpRequests(
-        auth ->
-          auth.requestMatchers("/auth/**", "/actuator/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated())
-      .addFilterBefore(new JwtFilter(tokenService, userRepository), AuthorizationFilter.class)
-      .sessionManagement(
-        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        .cors(AbstractHttpConfigurer::disable)
+        .formLogin(AbstractHttpConfigurer::disable)
+        .logout(AbstractHttpConfigurer::disable)
+        .requestCache(RequestCacheConfigurer::disable)
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/auth/**", "/actuator/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .addFilterBefore(new JwtFilter(tokenService, userRepository), AuthorizationFilter.class)
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     return http.build();
   }
 }

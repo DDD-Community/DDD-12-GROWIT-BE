@@ -20,8 +20,7 @@ public class SignInUseCase {
   @Transactional
   public Token execute(Email email, String password) {
     final User user = userRepository.findByEmail(email).orElseThrow();
-    final boolean isPasswordCorrect =
-      passwordEncoder.matches(password, user.getPassword());
+    final boolean isPasswordCorrect = passwordEncoder.matches(password, user.getPassword());
     if (!isPasswordCorrect) throw new RuntimeException();
 
     return tokenService.createToken(user);

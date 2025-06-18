@@ -1,9 +1,7 @@
 package com.growit.app.user.domain.jobrole;
 
-
+import java.util.Base64;
 import lombok.*;
-
-import java.util.UUID;
 
 @Getter
 @Builder
@@ -15,9 +13,9 @@ public class JobRole {
 
   public static JobRole from(String name) {
     // validation 추가
-    return JobRole
-      .builder()
-      .id(UUID.randomUUID().toString())
-      .name(name).build();
+    return JobRole.builder()
+        .id(Base64.getEncoder().encodeToString(name.getBytes()))
+        .name(name)
+        .build();
   }
 }

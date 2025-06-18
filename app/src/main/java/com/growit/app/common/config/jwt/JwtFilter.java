@@ -8,6 +8,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,9 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -27,10 +26,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
-    HttpServletRequest httpServletRequest,
-    HttpServletResponse httpServletResponse,
-    FilterChain filterChain)
-    throws ServletException, IOException {
+      HttpServletRequest httpServletRequest,
+      HttpServletResponse httpServletResponse,
+      FilterChain filterChain)
+      throws ServletException, IOException {
     try {
       String uri = httpServletRequest.getRequestURI();
       if (uri.startsWith("/auth") || uri.startsWith("/actuator")) {
@@ -48,8 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String id = tokenService.getId(token);
         User user = userRepository.findUserById(id).orElseThrow();
         Authentication authentication =
-          new UsernamePasswordAuthenticationToken(
-            user, null, List.of());
+            new UsernamePasswordAuthenticationToken(user, null, List.of());
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else {
         throw new Exception("invalid token");

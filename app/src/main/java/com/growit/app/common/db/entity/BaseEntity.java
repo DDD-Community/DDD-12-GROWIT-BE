@@ -1,10 +1,9 @@
 package com.growit.app.common.db.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 
 @Getter
 @SuperBuilder
@@ -24,11 +23,11 @@ public abstract class BaseEntity {
 
   @PrePersist
   protected void onCreate() {
-      this.createdAt = this.updatedAt = LocalDateTime.now();
+    this.createdAt = this.updatedAt = LocalDateTime.now();
   }
 
   @PreUpdate
   protected void onUpdate() {
-      this.updatedAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
   }
 }

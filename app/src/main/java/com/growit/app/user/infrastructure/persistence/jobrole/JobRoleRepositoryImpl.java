@@ -2,8 +2,6 @@ package com.growit.app.user.infrastructure.persistence.jobrole;
 
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.jobrole.JobRoleRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,17 +9,13 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class JobRoleRepositoryImpl implements JobRoleRepository {
-  private final Map<String, JobRole> jobRoleMap = Stream.of(
-    JobRole.from("기획자"),
-    JobRole.from("디자이너"),
-    JobRole.from("개발자")
-  ).collect(Collectors.toMap(
-    JobRole::getId,
-    Function.identity()
-  ));
+  private final Map<String, JobRole> jobRoleMap =
+      Stream.of(JobRole.from("기획자"), JobRole.from("디자이너"), JobRole.from("개발자"))
+          .collect(Collectors.toMap(JobRole::getId, Function.identity()));
 
   @Override
   public Optional<JobRole> findById(String id) {

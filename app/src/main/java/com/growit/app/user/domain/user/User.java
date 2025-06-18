@@ -4,9 +4,8 @@ import com.growit.app.common.util.IdGenerator;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
-import lombok.*;
-
 import java.util.Objects;
+import lombok.*;
 
 @Getter
 @Builder
@@ -22,13 +21,13 @@ public class User {
 
   public static User from(SignUpCommand command) {
     return User.builder()
-      .id(IdGenerator.generateId())
-      .email(command.email())
-      .password(command.password())
-      .name(command.name())
-      .jobRoleId(command.jobRoleId())
-      .careerYear(command.careerYear())
-      .build();
+        .id(IdGenerator.generateId())
+        .email(command.email())
+        .password(command.password())
+        .name(command.name())
+        .jobRoleId(command.jobRoleId())
+        .careerYear(command.careerYear())
+        .build();
   }
 
   @Override
