@@ -12,9 +12,7 @@ public class FakeUserRepository implements UserRepository {
 
   @Override
   public Optional<User> findByEmail(Email email) {
-    return store.values().stream()
-        .filter(user -> user.getEmail().equals(email))
-        .findFirst();
+    return store.values().stream().filter(user -> user.getEmail().equals(email)).findFirst();
   }
 
   @Override

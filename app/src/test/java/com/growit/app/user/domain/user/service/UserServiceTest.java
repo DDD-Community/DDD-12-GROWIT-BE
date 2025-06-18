@@ -1,5 +1,7 @@
 package com.growit.app.user.domain.user.service;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.growit.app.common.error.BadRequestException;
 import com.growit.app.fake.FakeUserRepository;
 import com.growit.app.fake.UserFixture;
@@ -7,8 +9,6 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class UserServiceTest {
 
@@ -47,7 +47,6 @@ class UserServiceTest {
     String invalidEmail = "invalid-email";
 
     // when & then
-    assertThatThrownBy(() -> new Email(invalidEmail))
-        .isInstanceOf(BadRequestException.class);
+    assertThatThrownBy(() -> new Email(invalidEmail)).isInstanceOf(BadRequestException.class);
   }
 }

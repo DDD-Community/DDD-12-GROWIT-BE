@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-  private final UserEntityMapper mapper;
+  private final UserDbMapper mapper;
   private final DbUserRepository dbUserRepository;
 
   @Override

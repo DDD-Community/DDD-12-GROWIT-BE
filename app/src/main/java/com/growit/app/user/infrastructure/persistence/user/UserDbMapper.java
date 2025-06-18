@@ -6,7 +6,7 @@ import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEnt
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserEntityMapper {
+public class UserDbMapper {
   public UserEntity toEntity(User domain) {
     return UserEntity.builder()
         .uid(domain.getId())
