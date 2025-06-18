@@ -29,11 +29,11 @@ public class UserRequestMapper {
 
   public UserResponse toResponse(UserDto user) {
     return UserResponse.builder()
-        .id(user.getUser().getId())
-        .name(user.getUser().getName())
-        .jobRole(user.getJobRole())
-        .email(user.getUser().getEmail().value())
-        .careerYear(user.getUser().getCareerYear().name())
+        .id(user.user().getId())
+        .name(user.user().getName())
+        .jobRole(user.jobRole())
+        .email(user.user().getEmail().value())
+        .careerYear(user.user().getCareerYear().name())
         .build();
   }
 }

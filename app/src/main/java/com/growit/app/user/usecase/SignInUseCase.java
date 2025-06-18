@@ -1,5 +1,6 @@
 package com.growit.app.user.usecase;
 
+import com.growit.app.common.error.NotFoundException;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.token.service.TokenService;
 import com.growit.app.user.domain.user.User;
@@ -17,9 +18,9 @@ public class SignInUseCase {
   private final PasswordEncoder passwordEncoder;
 
   public Token execute(Email email, String password) {
-    final User user = userRepository.findByEmail(email).orElseThrow();
+    final User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
     final boolean isPasswordCorrect = passwordEncoder.matches(password, user.getPassword());
-    if (!isPasswordCorrect) throw new RuntimeException();
+    if (!isPasswordCorrect) throw new NotFoundException("로그인 정보를 확인해주세요");
 
     return tokenService.createToken(user);
   }

@@ -1,14 +1,13 @@
 package com.growit.app.common.config.jwt;
 
 import com.growit.app.user.domain.token.service.TokenService;
+import com.growit.app.user.domain.token.service.error.ExpiredTokenException;
+import com.growit.app.user.domain.token.service.error.InvalidTokenException;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,8 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest httpServletRequest,
       HttpServletResponse httpServletResponse,
-      FilterChain filterChain)
-      throws ServletException, IOException {
+      FilterChain filterChain) {
     try {
       String uri = httpServletRequest.getRequestURI();
       if (uri.startsWith("/auth") || uri.startsWith("/actuator")) {
@@ -39,22 +37,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
       String authorizationHeader = httpServletRequest.getHeader("Authorization");
       if (authorizationHeader == null) {
-        throw new Exception("Authorization header is empty");
+        throw new InvalidTokenException();
       }
-
       String token = authorizationHeader.substring("Bearer ".length());
-      if (tokenService.isValid(token)) {
-        String id = tokenService.getId(token);
-        User user = userRepository.findUserById(id).orElseThrow();
-        Authentication authentication =
-            new UsernamePasswordAuthenticationToken(user, null, List.of());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-      } else {
-        throw new Exception("invalid token");
-      }
+      String id = tokenService.getId(token);
+      User user = userRepository.findUserById(id).orElseThrow();
+      Authentication authentication =
+          new UsernamePasswordAuthenticationToken(user, null, List.of());
+      SecurityContextHolder.getContext().setAuthentication(authentication);
 
       filterChain.doFilter(httpServletRequest, httpServletResponse);
-    } catch (ExpiredJwtException e) {
+    } catch (ExpiredTokenException e) {
       httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
     } catch (Exception e) {
       httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());

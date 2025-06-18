@@ -2,6 +2,8 @@ package com.growit.app.user.domain.token.service;
 
 import com.growit.app.common.config.jwt.JwtProperties;
 import com.growit.app.user.domain.token.Token;
+import com.growit.app.user.domain.token.service.error.ExpiredTokenException;
+import com.growit.app.user.domain.token.service.error.InvalidTokenException;
 import com.growit.app.user.domain.user.User;
 import io.jsonwebtoken.*;
 import java.util.Calendar;
@@ -22,12 +24,13 @@ public class JwtTokenService implements TokenService {
           .setSigningKey(jwtProperties.getSecretKey())
           .parseClaimsJws(token)
           .getBody();
-    } catch (ExpiredJwtException
-             | IllegalArgumentException
+    } catch (IllegalArgumentException
              | MalformedJwtException
              | UnsupportedJwtException
              | SignatureException e) {
-      throw new InvalidJwtTokenException();
+      throw new InvalidTokenException();
+    } catch (ExpiredJwtException e) {
+      throw new ExpiredTokenException();
     }
   }
 
@@ -64,12 +67,6 @@ public class JwtTokenService implements TokenService {
     final Claims claims = parseClaims(token);
 
     return claims.get("id", String.class);
-  }
-
-  @Override
-  public boolean isValid(String token) {
-    final Claims claims = parseClaims(token);
-    return claims.getExpiration().after(new Date());
   }
 
   @Override

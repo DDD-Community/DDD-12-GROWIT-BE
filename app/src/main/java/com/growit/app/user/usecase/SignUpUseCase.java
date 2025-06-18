@@ -23,9 +23,10 @@ public class SignUpUseCase {
     jobRoleValidator.checkJobRoleExists(command.jobRoleId());
     userValidator.checkEmailExists(command.email());
 
-    SignUpCommand encodedCommand =
+    final SignUpCommand encodedCommand =
         command.withEncodedPassword(passwordEncoder.encode(command.password()));
-    User user = User.from(encodedCommand);
+    final User user = User.from(encodedCommand);
+
     userRepository.saveUser(user);
   }
 }

@@ -14,7 +14,7 @@ public class GetUserUseCase {
   private final JobRoleRepository jobRoleRepository;
 
   public UserDto execute(User user) {
-    JobRole jobRole =
+    final JobRole jobRole =
         jobRoleRepository
             .findById(user.getJobRoleId())
             .orElseThrow(() -> new BadRequestException("직무가 존재하지 않습니다"));
