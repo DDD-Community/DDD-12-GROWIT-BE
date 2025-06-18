@@ -1,0 +1,26 @@
+package com.growit.app.user.infrastructure.persistence.jobrole.source;
+
+import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@AllArgsConstructor
+public class JobRepositoryImpl implements JobRoleRepository {
+  private final DBJobRoleRepository jobRoleRepository;
+  private final JobRoleDBMapper jobRoleDBMapper;
+
+  @Override
+  public List<JobRole> findAll() {
+    return jobRoleRepository.findAll().stream().map(jobRoleDBMapper::toDomain).toList();
+  }
+
+  @Override
+  public Optional<JobRole> findById(String id) {
+    return jobRoleRepository.findById(id).map(jobRoleDBMapper::toDomain);
+  }
+}
