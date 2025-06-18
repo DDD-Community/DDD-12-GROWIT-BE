@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -30,18 +31,13 @@ public class JwtFilter extends OncePerRequestFilter {
     HttpServletResponse httpServletResponse,
     FilterChain filterChain)
     throws ServletException, IOException {
-
     try {
-
-      // Skip JWT validation for /auth and /actuator paths
       String uri = httpServletRequest.getRequestURI();
       if (uri.startsWith("/auth") || uri.startsWith("/actuator")) {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
         return;
       }
 
-
-      // Extract and validate the Authorization header
       String authorizationHeader = httpServletRequest.getHeader("Authorization");
       if (authorizationHeader == null) {
         throw new Exception("Authorization header is empty");
@@ -53,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
         User user = userRepository.findUserById(id).orElseThrow();
         Authentication authentication =
           new UsernamePasswordAuthenticationToken(
-            user, null);
+            user, null, List.of());
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else {
         throw new Exception("invalid token");

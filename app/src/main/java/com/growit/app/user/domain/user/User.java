@@ -6,6 +6,8 @@ import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -27,5 +29,18 @@ public class User {
       .jobRoleId(command.jobRoleId())
       .careerYear(command.careerYear())
       .build();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return Objects.equals(id, user.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
   }
 }
