@@ -6,6 +6,9 @@ import com.growit.app.user.domain.token.service.error.ExpiredTokenException;
 import com.growit.app.user.domain.token.service.error.InvalidTokenException;
 import com.growit.app.user.domain.user.User;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 import org.springframework.stereotype.Service;
@@ -20,18 +23,17 @@ public class JwtTokenService implements TokenService {
 
   private Claims parseClaims(String token) {
     try {
-      return Jwts.parser()
-          .setSigningKey(jwtProperties.getSecretKey())
-          .parseClaimsJws(token)
-          .getBody();
-    } catch (IllegalArgumentException
-             | MalformedJwtException
-             | UnsupportedJwtException
-             | SignatureException e) {
+      return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
+
+    } catch (IllegalArgumentException | MalformedJwtException | UnsupportedJwtException e) {
       throw new InvalidTokenException();
     } catch (ExpiredJwtException e) {
       throw new ExpiredTokenException();
     }
+  }
+
+  private Key getKey() {
+    return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
   }
 
   private Claims createClaim(String id) {
@@ -48,7 +50,7 @@ public class JwtTokenService implements TokenService {
     return Jwts.builder()
         .setClaims(claims)
         .setExpiration(expiredDate)
-        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+        .signWith(getKey(), SignatureAlgorithm.HS256)
         .compact();
   }
 

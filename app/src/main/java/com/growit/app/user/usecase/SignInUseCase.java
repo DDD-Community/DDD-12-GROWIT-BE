@@ -18,7 +18,10 @@ public class SignInUseCase {
   private final PasswordEncoder passwordEncoder;
 
   public Token execute(Email email, String password) {
-    final User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
+    final User user =
+        userRepository
+            .findByEmail(email)
+            .orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
     final boolean isPasswordCorrect = passwordEncoder.matches(password, user.getPassword());
     if (!isPasswordCorrect) throw new NotFoundException("로그인 정보를 확인해주세요");
 

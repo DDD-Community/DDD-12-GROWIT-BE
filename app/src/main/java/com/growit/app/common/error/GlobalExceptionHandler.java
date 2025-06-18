@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler({
-      BadRequestException.class,
-      MalformedParametersException.class,
-      IllegalArgumentException.class,
-      ValueInstantiationException.class,
+    BadRequestException.class,
+    MalformedParametersException.class,
+    IllegalArgumentException.class,
+    ValueInstantiationException.class,
   })
   public ResponseEntity<GrowitErrorResponse> returnBadRequestException(RuntimeException e) {
     return ResponseEntity.badRequest()
-        .body(GrowitErrorResponse.builder().message("입력한 정보가 올바르지 않습니다. \n" + e.getMessage()).build());
+        .body(
+            GrowitErrorResponse.builder()
+                .message("입력한 정보가 올바르지 않습니다. \n" + e.getMessage())
+                .build());
   }
 
   @ExceptionHandler(Exception.class)
@@ -33,8 +36,8 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler({
-      TokenNotFoundException.class,
-      InvalidTokenException.class,
+    TokenNotFoundException.class,
+    InvalidTokenException.class,
   })
   public ResponseEntity<GrowitErrorResponse> handleForbiddenException(BaseException e) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -42,7 +45,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler({
-      ExpiredTokenException.class,
+    ExpiredTokenException.class,
   })
   public ResponseEntity<GrowitErrorResponse> handleUnauthorizedException(BaseException e) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -50,7 +53,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler({
-      AlreadyExistsEmailException.class,
+    AlreadyExistsEmailException.class,
   })
   public ResponseEntity<GrowitErrorResponse> handleConflictException(BaseException e) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -58,7 +61,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler({
-      NotFoundException.class,
+    NotFoundException.class,
   })
   public ResponseEntity<GrowitErrorResponse> handleNotFoundException(BaseException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)

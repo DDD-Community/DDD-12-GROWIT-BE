@@ -2,7 +2,7 @@ package com.growit.app.common.config.jwt;
 
 import com.growit.app.user.domain.token.service.TokenService;
 import com.growit.app.user.domain.token.service.error.ExpiredTokenException;
-import com.growit.app.user.domain.token.service.error.InvalidTokenException;
+import com.growit.app.user.domain.token.service.error.TokenNotFoundException;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import jakarta.servlet.FilterChain;
@@ -37,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
       String authorizationHeader = httpServletRequest.getHeader("Authorization");
       if (authorizationHeader == null) {
-        throw new InvalidTokenException();
+        throw new TokenNotFoundException();
       }
       String token = authorizationHeader.substring("Bearer ".length());
       String id = tokenService.getId(token);
