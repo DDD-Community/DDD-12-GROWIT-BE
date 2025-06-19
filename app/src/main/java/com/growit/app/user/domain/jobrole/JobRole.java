@@ -7,6 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JobRole {
-  private String id;
+  private String uid;
   private String name;
 }

@@ -21,16 +21,17 @@ public class JobRoleEntity extends BaseEntity {
   @Column(length = 32, nullable = false)
   private String name;
 
-  @Builder
-  public JobRoleEntity(String jobRoleId, String name) {
-    this.uid = jobRoleId;
-    this.name = name;
-  }
-
   @PrePersist
   public void ensureJobRoleId() {
     if (this.uid == null || this.uid.isBlank()) {
       this.uid = NanoIdUtils.randomNanoId();
     }
   }
+
+  @Builder
+  public JobRoleEntity(String jobRoleId, String name) {
+    this.uid = jobRoleId;
+    this.name = name;
+  }
+
 }
