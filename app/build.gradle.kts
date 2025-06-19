@@ -32,6 +32,11 @@ dependencies {
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.nanoid)
 
+  // jwt
+  implementation(libs.jjwt.api)
+  runtimeOnly(libs.jjwt.impl)
+  runtimeOnly(libs.jjwt.jackson)
+
 
   developmentOnly(libs.spring.boot.devtools)
 
