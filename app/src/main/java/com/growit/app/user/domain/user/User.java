@@ -4,9 +4,11 @@ import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
-@AllArgsConstructor
+@Getter
 @Builder
+@AllArgsConstructor
 public class User {
   private String id;
 
