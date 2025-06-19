@@ -1,9 +1,8 @@
 package com.growit.app.user.domain.user.vo;
 
-import com.growit.app.common.exception.BaseException;
+import com.growit.app.common.exception.BadRequestException;
 import jakarta.persistence.Embeddable;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Embeddable
@@ -13,9 +12,8 @@ public record Email(String value) {
     Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
   public Email {
-    Objects.requireNonNull(value, "이메일은 null 일 수 없습니다.");
     if (!EMAIL_PATTERN.matcher(value).matches()) {
-      throw new BaseException("");
+      throw new BadRequestException("유효하지 않은 이메일입니다.");
     }
   }
 

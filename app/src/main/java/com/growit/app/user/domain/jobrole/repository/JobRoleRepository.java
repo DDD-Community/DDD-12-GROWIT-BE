@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface JobRoleRepository {
   List<JobRole> findAll();
+
   Optional<JobRole> findById(String id);
 }

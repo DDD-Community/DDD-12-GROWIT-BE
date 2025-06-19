@@ -21,7 +21,7 @@ public class JobRepositoryImpl implements JobRoleRepository {
   }
 
   @Override
-  public Optional<JobRole> findById(String id) {
-    return dbjobRoleRepository.findById(id).map(jobRoleDBMapper::toDomain);
+  public Optional<JobRole> findById(String uId) {
+    return dbjobRoleRepository.findByUid(uId).map(jobRoleDBMapper::toDomain);
   }
 }
