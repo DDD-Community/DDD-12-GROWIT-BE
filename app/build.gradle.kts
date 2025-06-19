@@ -30,6 +30,7 @@ dependencies {
   implementation(libs.spring.boot.starter.data.jpa)
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
+  implementation(libs.nanoid)
 
 
   developmentOnly(libs.spring.boot.devtools)

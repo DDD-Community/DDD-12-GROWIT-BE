@@ -4,6 +4,7 @@ lombok = "1.18.30"
 h2 = "2.2.224"
 postgresql = "42.7.3"
 junit = "1.10.1"
+nanoid = "2.0.0"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
@@ -24,3 +25,5 @@ postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" 
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
 spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "springBoot" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
+
+nanoid = { module = "com.aventrix.jnanoid:jnanoid", version.ref = "nanoid" }

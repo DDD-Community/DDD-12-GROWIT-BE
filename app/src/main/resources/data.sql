@@ -1,3 +1,6 @@
-INSERT INTO jobrole (id, name) VALUES (random_uuid(), '개발자');
-INSERT INTO jobrole (id, name) VALUES (random_uuid(), '디자이너');
-INSERT INTO jobrole (id, name) VALUES (random_uuid(), '기획자');
+INSERT INTO jobrole (uid, name, created_at, updated_at)
+VALUES ('uid1', '개발자', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO jobrole (uid, name, created_at, updated_at)
+VALUES ('uid2', '디자이너', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO jobrole (uid, name, created_at, updated_at)
+VALUES ('uid3', '기획자', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
