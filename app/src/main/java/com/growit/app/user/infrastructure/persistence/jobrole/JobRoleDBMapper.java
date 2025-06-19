@@ -1,4 +1,4 @@
-package com.growit.app.user.infrastructure.persistence.jobrole.source;
+package com.growit.app.user.infrastructure.persistence.jobrole;
 
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.infrastructure.persistence.jobrole.source.entity.JobRoleEntity;
@@ -14,7 +14,7 @@ public class JobRoleDBMapper {
 
   public JobRoleEntity toEntity(JobRole jobRole) {
     if (jobRole == null) return null;
-    return JobRoleEntity.builder().id(jobRole.getId()).name(jobRole.getName()).build();
+    return JobRoleEntity.builder().jobRoleId(jobRole.getId()).name(jobRole.getName()).build();
   }
 
 }
