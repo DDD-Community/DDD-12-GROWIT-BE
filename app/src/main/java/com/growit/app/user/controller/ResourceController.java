@@ -1,7 +1,7 @@
 package com.growit.app.user.controller;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.user.controller.dto.JobRoleResponse;
+import com.growit.app.user.controller.dto.response.JobRoleResponse;
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
 import lombok.RequiredArgsConstructor;
