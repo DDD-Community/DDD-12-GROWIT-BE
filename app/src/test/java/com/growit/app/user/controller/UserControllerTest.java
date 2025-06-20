@@ -34,11 +34,9 @@ class UserControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockBean
-  private GetUserUseCase getUserUseCase;
+  @MockBean private GetUserUseCase getUserUseCase;
 
-  @MockBean
-  private UserRequestMapper mapper;
+  @MockBean private UserRequestMapper mapper;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -55,17 +53,17 @@ class UserControllerTest {
     UserDto userDto = new UserDto(user, jobRole);
 
     given(getUserUseCase.execute(user)).willReturn(userDto);
-    given(mapper.toResponse(userDto)).willReturn(new UserResponse(
-        user.getId(),
-        user.getEmail().value(),
-        user.getName(),
-        jobRole,
-        user.getCareerYear().name()
-    ));
+    given(mapper.toResponse(userDto))
+        .willReturn(
+            new UserResponse(
+                user.getId(),
+                user.getEmail().value(),
+                user.getName(),
+                jobRole,
+                user.getCareerYear().name()));
 
     mockMvc
-        .perform(get("/users/myprofile")
-            .header("Authorization", "Bearer mock-jwt-token"))
+        .perform(get("/users/myprofile").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andDo(
             document(
@@ -79,7 +77,6 @@ class UserControllerTest {
                         fieldWithPath("data.name").type(STRING).description("이름"),
                         fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
                         fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
-                        fieldWithPath("data.careerYear").type(STRING).description("경력 연차")
-                    )));
+                        fieldWithPath("data.careerYear").type(STRING).description("경력 연차"))));
   }
 }

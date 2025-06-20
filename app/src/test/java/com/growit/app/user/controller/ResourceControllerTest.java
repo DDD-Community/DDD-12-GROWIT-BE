@@ -30,8 +30,7 @@ class ResourceControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockBean
-  private JobRoleRepository jobRoleRepository;
+  @MockBean private JobRoleRepository jobRoleRepository;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {

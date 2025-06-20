@@ -30,7 +30,10 @@ public class JwtFilter extends OncePerRequestFilter {
       FilterChain filterChain) {
     try {
       String uri = httpServletRequest.getRequestURI();
-      if (uri.startsWith("/auth") || uri.startsWith("/actuator") || uri.startsWith("/swagger-ui") || uri.startsWith("/static")) {
+      if (uri.startsWith("/auth")
+          || uri.startsWith("/actuator")
+          || uri.startsWith("/swagger-ui")
+          || uri.startsWith("/static")) {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
         return;
       }

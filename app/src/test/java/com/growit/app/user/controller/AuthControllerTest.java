@@ -111,10 +111,7 @@ class AuthControllerTest {
                         fieldWithPath("password").type(STRING).description("사용자 비밀번호"))
                     .responseFields(
                         fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
-                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰")
-                    )
-            )
-        );
+                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))));
   }
 
   @Test
@@ -141,8 +138,6 @@ class AuthControllerTest {
                         fieldWithPath("refreshToken").type(STRING).description("리프레시 토큰"))
                     .responseFields(
                         fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
-                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰")
-                    )
-            ));
+                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))));
   }
 }
