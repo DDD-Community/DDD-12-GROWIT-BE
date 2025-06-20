@@ -30,12 +30,12 @@ public class User {
 
   public static User from(SignUpCommand command) {
     return User.builder()
-      .id(generateId())
-      .email(command.email())
-      .password(command.password())
-      .name(command.name())
-      .jobRoleId(command.jobRoleId())
-      .careerYear(command.careerYear())
-      .build();
+        .id(generateId())
+        .email(command.email())
+        .password(command.password())
+        .name(command.name())
+        .jobRoleId(command.jobRoleId())
+        .careerYear(command.careerYear())
+        .build();
   }
 }
