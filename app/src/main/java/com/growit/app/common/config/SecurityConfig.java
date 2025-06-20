@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,11 +32,15 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable)
       .cors(AbstractHttpConfigurer::disable)
       .formLogin(AbstractHttpConfigurer::disable)
+      .httpBasic(AbstractHttpConfigurer::disable)
       .logout(AbstractHttpConfigurer::disable)
       .requestCache(RequestCacheConfigurer::disable)
+      .headers(headers -> headers
+        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+      )
       .authorizeHttpRequests(
         auth ->
-          auth.requestMatchers("/auth/**", "/actuator/**")
+          auth.requestMatchers("/auth/**", "/actuator/**", "/h2-console/**", "/resource/jobroles")
             .permitAll()
             .anyRequest()
             .authenticated())
@@ -44,4 +49,5 @@ public class SecurityConfig {
         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     return http.build();
   }
+
 }

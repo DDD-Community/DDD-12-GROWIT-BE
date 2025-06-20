@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) {
     try {
       String uri = request.getRequestURI();
-      if (uri.startsWith("/auth") || uri.startsWith("/actuator")) {
+      if (uri.startsWith("/auth") || uri.startsWith("/actuator") || uri.startsWith("/h2-console") || uri.startsWith("/resource")) {
         filterChain.doFilter(request, response);
         return;
       }
@@ -41,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
       String token = authHeader.substring("Bearer ".length());
       String id = tokenService.getId(token);
-      User user = userRepository.findUserById(id).orElseThrow();
+      User user = userRepository.findUserByuId(id).orElseThrow();
       Authentication authentication =
         new UsernamePasswordAuthenticationToken(user, null, List.of());
       SecurityContextHolder.getContext().setAuthentication(authentication);
