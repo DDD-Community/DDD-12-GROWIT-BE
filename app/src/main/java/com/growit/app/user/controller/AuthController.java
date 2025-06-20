@@ -5,6 +5,7 @@ import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.TokenResponse;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
+import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
@@ -36,22 +37,14 @@ public class AuthController {
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
       @Valid @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(signInRequest);
-    TokenResponse response =
-        TokenResponse.builder()
-            .accessToken(token.accessToken())
-            .refreshToken(token.refreshToken())
-            .build();
+    TokenResponse response = ResponseMapper.toTokenResponse(token);
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 
   @PostMapping("/reissue")
   public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody ReissueRequest request) {
     Token token = reissueUseCase.execute(request.getRefreshToken());
-    TokenResponse response =
-        TokenResponse.builder()
-            .accessToken(token.accessToken())
-            .refreshToken(token.refreshToken())
-            .build();
+    TokenResponse response = ResponseMapper.toTokenResponse(token);
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 }
