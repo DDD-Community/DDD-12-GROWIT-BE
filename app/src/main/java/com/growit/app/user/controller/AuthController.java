@@ -7,6 +7,7 @@ import com.growit.app.user.domain.auth.dto.SignUpRequest;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class AuthController {
   private final SignInUseCase signInUseCase;
 
   @PostMapping("/signup")
-  public ResponseEntity<Void> signup(@RequestBody SignUpRequest signUpRequest) {
+  public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
     signUpUseCase.execute(signUpRequest);
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
