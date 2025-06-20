@@ -38,14 +38,14 @@ public class AuthController {
 
   @PostMapping("/signin")
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
-      @Valid @RequestBody SignInRequest signInRequest) {
+    @Valid @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(requestMapper.toSignInCommand(signInRequest));
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
   }
 
   @PostMapping("/reissue")
   public ResponseEntity<ApiResponse<TokenResponse>> reissue(
-      @RequestBody ReissueRequest reissueRequest) {
+      @Valid @RequestBody ReissueRequest reissueRequest) {
     Token token = reissueUseCase.execute(requestMapper.toReIssueCommand(reissueRequest));
 
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
