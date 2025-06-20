@@ -60,12 +60,14 @@ dependencies {
   testRuntimeOnly(libs.h2)
   testImplementation(libs.rest.assured)
 
-  testImplementation("com.epages:restdocs-api-spec-mockmvc:0.15.3")
+  testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc:3.0.3")
+  testImplementation("com.epages:restdocs-api-spec-mockmvc:0.18.2")
 
 }
 
 tasks.test {
   useJUnitPlatform()
+  finalizedBy("openapi3")
 }
 
 openapi3 {
@@ -77,8 +79,11 @@ openapi3 {
 }
 
 tasks.register<Copy>("copyOasToSwagger") {
-  delete("src/main/resources/static/swagger-ui/openapi3.yaml") // 기존 yaml 파일 삭제
-  from("$buildDir/api-spec/openapi3.yaml") // 복제할 yaml 파일 타겟팅
-  into("src/main/resources/static/swagger-ui/.") // 타겟 디렉토리로 파일 복제
-  dependsOn("openapi3") // openapi3 task가 먼저 실행되도록 설정
+  dependsOn("openapi3") // openapi3 실행 이후 복사
+  from("$buildDir/api-spec/openapi3.yaml")
+  into("src/main/resources/static/swagger-ui/")
+}
+
+tasks.named("openapi3") {
+  finalizedBy("copyOasToSwagger") // openapi3 후 복사
 }

@@ -2,9 +2,9 @@ package com.growit.app.user.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
@@ -31,7 +31,8 @@ class AuthControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockBean private SignUpUseCase signUpUseCase; // ✅ mock bean 주입
+  @MockBean
+  private SignUpUseCase signUpUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -45,26 +46,26 @@ class AuthControllerTest {
   void postSignUpTest() throws Exception {
     String requestBody =
         """
-        {
-            "email": "test@example.com",
-            "password": "securePass123",
-            "name": "홍길동",
-            "jobRoleId": "backend",
-            "careerYear": "JUNIOR"
-        }
-        """;
+            {
+                "email": "test@example.com",
+                "password": "securePass123",
+                "name": "홍길동",
+                "jobRoleId": "backend",
+                "careerYear": "JUNIOR"
+            }
+            """;
     // mock 동작 정의 (필요 시)
     doNothing().when(signUpUseCase).execute(any(SignUpCommand.class));
 
     mockMvc
         .perform(post("/auth/signup").contentType(MediaType.APPLICATION_JSON).content(requestBody))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andDo(
             MockMvcRestDocumentationWrapper.document(
                 "auth-signup",
                 new ResourceSnippetParametersBuilder()
                     .tag("Auth")
-                    .description("사용자 회원가입 요청")
+                    .description("사용자 회원가입")
                     .requestFields(
                         fieldWithPath("email").type(STRING).description("사용자 이메일"),
                         fieldWithPath("password").type(STRING).description("사용자 비밀번호"),
