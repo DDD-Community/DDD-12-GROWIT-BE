@@ -38,7 +38,8 @@ public class SecurityConfig {
         .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers("/auth/**", "/actuator/**", "/h2-console/**", "/resource/jobroles")
+                auth.requestMatchers(
+                        "/auth/**", "/actuator/**", "/h2-console/**", "/resource/jobroles")
                     .permitAll()
                     .anyRequest()
                     .authenticated())

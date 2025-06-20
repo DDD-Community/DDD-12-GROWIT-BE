@@ -9,7 +9,6 @@ import com.growit.app.user.domain.user.service.AlreadyExistEmailException;
 import java.lang.reflect.MalformedParametersException;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -72,12 +71,10 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<Map<String, List<String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-    List<String> messages = ex.getBindingResult()
-      .getFieldErrors()
-      .stream()
-      .map(FieldError::getDefaultMessage)
-      .toList();
+  public ResponseEntity<Map<String, List<String>>> handleValidationExceptions(
+      MethodArgumentNotValidException ex) {
+    List<String> messages =
+        ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
     Map<String, List<String>> body = Map.of("message", messages);
     return ResponseEntity.badRequest().body(body);
   }
