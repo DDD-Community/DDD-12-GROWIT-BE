@@ -10,15 +10,15 @@ do
   if [[ "$local_sha" = "$z40" ]]; then
     echo "$local_ref, $remote_ref"
     :
-  # Move along if we don't match refs/for/
-  elif [[ ! "$remote_ref" =~ ^refs/for/.+ ]]; then
+  # Move along if we don't match refs/heads/
+  elif [[ ! "$remote_ref" =~ ^refs/heads/.+ ]]; then
     echo "$local_ref, $remote_ref"
     :
   else
     echo "$local_ref, $local_sha, $remote_ref, $remote_sha"
     if [[ "$remote_sha" = "$z40" ]]; then
       # New branch, examine all commits
-      branchname="${remote_ref#refs/for/}"
+      branchname="${remote_ref#refs/heads/}"
 
       if [[ "$branchname" =~ % ]]; then
         # Gerrit allows various push-options by appending them to the remote
