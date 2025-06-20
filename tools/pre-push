@@ -30,7 +30,6 @@ do
         echo "NOTE: stripping Gerrit push-options beginning at '%'"
         branchname=${branchname%%\%*}
       fi
-
       if git check-ref-format --allow-onelevel "$branchname"; then
         range="${remote}/${branchname}..$local_sha"
       fi
