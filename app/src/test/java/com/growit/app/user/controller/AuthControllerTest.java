@@ -33,15 +33,11 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
 class AuthControllerTest {
-
   private MockMvc mockMvc;
 
-  @MockBean
-  private SignUpUseCase signUpUseCase;
-  @MockBean
-  private SignInUseCase signInUseCase;
-  @MockBean
-  private ReissueUseCase reissueUseCase;
+  @MockBean private SignUpUseCase signUpUseCase;
+  @MockBean private SignInUseCase signInUseCase;
+  @MockBean private ReissueUseCase reissueUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
