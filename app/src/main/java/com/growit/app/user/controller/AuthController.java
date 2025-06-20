@@ -5,6 +5,7 @@ import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.request.TokenResponse;
+import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.usecase.ReissueUseCase;
@@ -26,25 +27,26 @@ public class AuthController {
   private final SignUpUseCase signUpUseCase;
   private final SignInUseCase signInUseCase;
   private final ReissueUseCase reissueUseCase;
+  private final RequestMapper requestMapper;
+  private final ResponseMapper responseMapper;
 
   @PostMapping("/signup")
   public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
-    signUpUseCase.execute(signUpRequest);
+    signUpUseCase.execute(requestMapper.toSignUpCommand(signUpRequest));
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
 
   @PostMapping("/signin")
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
       @Valid @RequestBody SignInRequest signInRequest) {
-    Token token = signInUseCase.execute(signInRequest);
-    TokenResponse response = ResponseMapper.toTokenResponse(token);
-    return ResponseEntity.ok(ApiResponse.success(response));
+    Token token = signInUseCase.execute(requestMapper.toSignInCommand(signInRequest));
+    return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody ReissueRequest request) {
-    Token token = reissueUseCase.execute(request.getRefreshToken());
-    TokenResponse response = ResponseMapper.toTokenResponse(token);
-    return ResponseEntity.ok(ApiResponse.success(response));
+  public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody ReissueRequest reissueRequest) {
+    Token token = reissueUseCase.execute(requestMapper.toReIssueCommand(reissueRequest));
+
+    return ResponseEntity.ok(ApiResponse.success( responseMapper.toTokenResponse(token)));
   }
 }

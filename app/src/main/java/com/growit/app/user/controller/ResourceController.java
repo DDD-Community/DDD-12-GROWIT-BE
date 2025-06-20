@@ -1,7 +1,6 @@
 package com.growit.app.user.controller;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.user.controller.dto.response.JobRoleResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
@@ -17,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/resource")
 @RequiredArgsConstructor
 public class ResourceController {
-
   private final JobRoleRepository jobRoleRepository;
+  private final ResponseMapper responseMapper;
 
   @GetMapping("/jobroles")
   public ResponseEntity<ApiResponse<Map<String, Object>>> getAllJobRoles() {
     List<JobRole> jobRoles = jobRoleRepository.findAll();
-    List<JobRoleResponse> responses = ResponseMapper.toJobRoleResponseList(jobRoles);
-    return ResponseEntity.ok(ApiResponse.success(Map.of("jobRoles", responses)));
+    return ResponseEntity.ok(ApiResponse.success(Map.of("jobRoles", responseMapper.toJobRoleResponseList(jobRoles))));
   }
 }

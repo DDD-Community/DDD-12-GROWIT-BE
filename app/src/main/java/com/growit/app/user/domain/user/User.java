@@ -1,6 +1,6 @@
 package com.growit.app.user.domain.user;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
+import com.growit.app.common.util.IDGenerator;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
@@ -24,13 +24,9 @@ public class User {
 
   private CareerYear careerYear;
 
-  public static String generateId() {
-    return NanoIdUtils.randomNanoId();
-  }
-
   public static User from(SignUpCommand command) {
     return User.builder()
-        .id(generateId())
+        .id(IDGenerator.generateId())
         .email(command.email())
         .password(command.password())
         .name(command.name())

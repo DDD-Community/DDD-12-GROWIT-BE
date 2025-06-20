@@ -1,6 +1,5 @@
 package com.growit.app.user.infrastructure.persistence.user.source.entity;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.persistence.*;
@@ -34,10 +33,4 @@ public class UserEntity extends BaseEntity {
   @Column(name = "career_year", nullable = false)
   private CareerYear careerYear;
 
-  @PrePersist
-  public void ensureUserUId() {
-    if (this.uid == null || this.uid.isBlank()) {
-      this.uid = NanoIdUtils.randomNanoId();
-    }
-  }
 }

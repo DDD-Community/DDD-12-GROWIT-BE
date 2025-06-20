@@ -4,7 +4,6 @@ import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.user.User;
-import com.growit.app.user.domain.user.dto.UserDto;
 import com.growit.app.user.usecase.GetUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
   private final GetUserUseCase getUserUseCase;
+  private final ResponseMapper responseMapper;
 
   @GetMapping("/myprofile")
   public ResponseEntity<ApiResponse<UserResponse>> getUser(@AuthenticationPrincipal User user) {
-    UserDto userDto = getUserUseCase.execute(user);
-    UserResponse response = ResponseMapper.toUserResponse(userDto);
-    return ResponseEntity.ok(ApiResponse.success(response));
+    return ResponseEntity.ok(ApiResponse.success(responseMapper.toUserResponse(getUserUseCase.execute(user))));
   }
 }

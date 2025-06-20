@@ -1,14 +1,11 @@
 package com.growit.app.user.usecase;
 
 import com.growit.app.common.exception.BaseException;
-import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.domain.jobrole.service.JobRoleService;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.service.UserService;
-import com.growit.app.user.domain.user.vo.CareerYear;
-import com.growit.app.user.domain.user.vo.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,19 +20,14 @@ public class SignUpUseCase {
   private final UserService userService;
 
   @Transactional
-  public void execute(SignUpRequest request) throws BaseException {
-    SignUpCommand command =
-        new SignUpCommand(
-            new Email(request.getEmail()),
-            passwordEncoder.encode(request.getPassword()),
-            request.getName(),
-            request.getJobRoleId(),
-            CareerYear.valueOf(request.getCareerYear().toUpperCase()));
+  public void execute(SignUpCommand command) throws BaseException {
 
     jobRoleService.checkJobRoleExist(command.jobRoleId());
     userService.checkEmailExists(command.email());
 
-    User user = User.from(command);
+    final SignUpCommand encodePassword = command.encodePassword(passwordEncoder.encode(command.password()));
+    final User user = User.from(encodePassword);
+
     userRepository.saveUser(user);
   }
 }
