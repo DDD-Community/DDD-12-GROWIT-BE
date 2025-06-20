@@ -1,37 +1,71 @@
 package com.growit.app.user.domain.token.service;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.growit.app.common.config.jwt.JwtProperties;
+import com.growit.app.user.domain.token.service.exception.ExpiredTokenException;
+import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
+import io.jsonwebtoken.*;
 
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.user.User;
+import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
 @Service
+@AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
-  private String secretKey;
+  private final JwtProperties jwtProperties;
+
+  private Key getKey() {
+    return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
+  }
+
+  private Claims parseClaims(String token) {
+    try {
+      return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
+
+    } catch (IllegalArgumentException | MalformedJwtException | UnsupportedJwtException e) {
+      throw new InvalidTokenException();
+    } catch (ExpiredJwtException e) {
+      throw new ExpiredTokenException();
+    }
+  }
+
+  private Claims createClaim(String id) {
+    final Claims claims = Jwts.claims();
+    claims.put("id", id);
+
+    return claims;
+  }
+
+  private String createToken(Claims claims, int second) {
+    final Date now = new Date();
+    final Date expiredDate = new Date(now.getTime() + (second * 1000L));
+
+    return Jwts.builder()
+      .setClaims(claims)
+      .setExpiration(expiredDate)
+      .signWith(getKey(), SignatureAlgorithm.HS256)
+      .compact();
+  }
+
   @Override
   public Token createToken(User user) {
-    long now = System.currentTimeMillis();
-    long accessTokenValidity = 1000 * 60 * 60; // 1시간
-    long refreshTokenValidity = 1000 * 60 * 60 * 24 * 7; // 1주
-    String accessToken = Jwts.builder()
-      .setSubject(user.getEmail().toString())
-      .claim("userId", user.getId())
-      .setIssuedAt(new Date(now))
-      .setExpiration(new Date(now + accessTokenValidity))
-      .signWith(SignatureAlgorithm.HS256, secretKey)
-      .compact();
-
-    String refreshToken = Jwts.builder()
-      .setSubject(user.getEmail().toString())
-      .setIssuedAt(new Date(now))
-      .setExpiration(new Date(now + refreshTokenValidity))
-      .signWith(SignatureAlgorithm.HS256, secretKey)
-      .compact();
+    final Claims claims = createClaim(user.getId());
+    final String accessToken = createToken(claims, jwtProperties.getExpiredSecond());
+    final String refreshToken = createToken(claims, jwtProperties.getRefreshExpiredSecond());
 
     return new Token(accessToken, refreshToken);
+  }
+
+  @Override
+  public String getId(String token) {
+    final Claims claims = parseClaims(token);
+
+    return claims.get("id", String.class);
   }
 }

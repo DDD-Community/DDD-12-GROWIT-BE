@@ -9,13 +9,13 @@ import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.service.UserService;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SignUpUseCase {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
@@ -32,7 +32,6 @@ public class SignUpUseCase {
       request.getJobRoleId(),
       CareerYear.valueOf(request.getCareerYear().toUpperCase())
     );
-    System.out.println("command :: " + command);
 
     jobRoleService.checkJobRoleExist(command.jobRoleId());
     userService.checkEmailExists(command.email());
