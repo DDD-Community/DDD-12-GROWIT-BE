@@ -33,5 +33,4 @@ public class JobRoleEntity extends BaseEntity {
     this.uid = jobRoleId;
     this.name = name;
   }
-
 }

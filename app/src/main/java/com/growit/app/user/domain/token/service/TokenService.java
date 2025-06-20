@@ -12,4 +12,3 @@ public interface TokenService {
 
   Token reIssue(String token);
 }
-

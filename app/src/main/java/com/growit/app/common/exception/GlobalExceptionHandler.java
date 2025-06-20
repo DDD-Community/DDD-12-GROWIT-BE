@@ -6,7 +6,6 @@ import com.growit.app.user.domain.token.service.exception.ExpiredTokenException;
 import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
 import com.growit.app.user.domain.token.service.exception.TokenNotFoundException;
 import com.growit.app.user.domain.user.service.AlreadyExistEmailException;
-
 import java.lang.reflect.MalformedParametersException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +23,14 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> returnBadRequestException(RuntimeException e) {
     return ResponseEntity.badRequest()
-      .body(
-        BaseErrorResponse.builder()
-          .message("입력한 정보가 올바르지 않습니다. \n" + e.getMessage())
-          .build());
+        .body(
+            BaseErrorResponse.builder().message("입력한 정보가 올바르지 않습니다. \n" + e.getMessage()).build());
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<BaseErrorResponse> handleException(Exception e) {
     return ResponseEntity.internalServerError()
-      .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 
   @ExceptionHandler({
@@ -42,7 +39,7 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleForbiddenException(BaseException e) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-      .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 
   @ExceptionHandler({
@@ -50,7 +47,7 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleUnauthorizedException(BaseException e) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-      .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 
   @ExceptionHandler({
@@ -58,7 +55,7 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleConflictException(BaseException e) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
-      .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 
   @ExceptionHandler({
@@ -66,6 +63,6 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleNotFoundException(BaseException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-      .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 }

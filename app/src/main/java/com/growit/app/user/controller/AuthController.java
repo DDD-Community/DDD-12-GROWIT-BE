@@ -33,23 +33,25 @@ public class AuthController {
   }
 
   @PostMapping("/signin")
-  public ResponseEntity<ApiResponse<TokenResponse>> signin(@RequestBody SignInRequest signInRequest) {
+  public ResponseEntity<ApiResponse<TokenResponse>> signin(
+      @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(signInRequest);
-    TokenResponse response = TokenResponse.builder()
-      .accessToken(token.accessToken())
-      .refreshToken(token.refreshToken())
-      .build();
+    TokenResponse response =
+        TokenResponse.builder()
+            .accessToken(token.accessToken())
+            .refreshToken(token.refreshToken())
+            .build();
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 
   @PostMapping("/reissue")
   public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody ReissueRequest request) {
     Token token = reissueUseCase.execute(request.getRefreshToken());
-    TokenResponse response = TokenResponse.builder()
-      .accessToken(token.accessToken())
-      .refreshToken(token.refreshToken())
-      .build();
+    TokenResponse response =
+        TokenResponse.builder()
+            .accessToken(token.accessToken())
+            .refreshToken(token.refreshToken())
+            .build();
     return ResponseEntity.ok(ApiResponse.success(response));
   }
-
 }

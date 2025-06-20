@@ -15,9 +15,9 @@ public class GetUserUseCase {
 
   public UserDto execute(User user) {
     final JobRole jobRole =
-      jobRoleRepository
-        .findById(user.getJobRoleId())
-        .orElseThrow(() -> new BadRequestException("직무가 존재하지 않습니다"));
+        jobRoleRepository
+            .findById(user.getJobRoleId())
+            .orElseThrow(() -> new BadRequestException("직무가 존재하지 않습니다"));
 
     return new UserDto(user, jobRole);
   }

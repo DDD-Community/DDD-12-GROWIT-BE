@@ -22,27 +22,27 @@ public class SignUpUseCase {
   private final JobRoleService jobRoleService;
   private final UserService userService;
 
-
   @Transactional
   public void execute(SignUpRequest request) throws BaseException {
-    SignUpCommand command = new SignUpCommand(
-      new Email(request.getEmail()),
-      request.getPassword(),
-      request.getName(),
-      request.getJobRoleId(),
-      CareerYear.valueOf(request.getCareerYear().toUpperCase())
-    );
+    SignUpCommand command =
+        new SignUpCommand(
+            new Email(request.getEmail()),
+            request.getPassword(),
+            request.getName(),
+            request.getJobRoleId(),
+            CareerYear.valueOf(request.getCareerYear().toUpperCase()));
 
     jobRoleService.checkJobRoleExist(command.jobRoleId());
     userService.checkEmailExists(command.email());
 
-    User user = User.builder()
-      .email(command.email())
-      .password(passwordEncoder.encode(command.password()))
-      .name(command.name())
-      .jobRoleId(command.jobRoleId())
-      .careerYear(command.careerYear())
-      .build();
+    User user =
+        User.builder()
+            .email(command.email())
+            .password(passwordEncoder.encode(command.password()))
+            .name(command.name())
+            .jobRoleId(command.jobRoleId())
+            .careerYear(command.careerYear())
+            .build();
 
     userRepository.saveUser(user);
   }

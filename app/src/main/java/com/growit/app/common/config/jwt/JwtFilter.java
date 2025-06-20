@@ -8,6 +8,7 @@ import com.growit.app.user.domain.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -26,10 +25,16 @@ public class JwtFilter extends OncePerRequestFilter {
   private final UserRepository userRepository;
 
   @Override
-  protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) {
+  protected void doFilterInternal(
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain) {
     try {
       String uri = request.getRequestURI();
-      if (uri.startsWith("/auth") || uri.startsWith("/actuator") || uri.startsWith("/h2-console") || uri.startsWith("/resource")) {
+      if (uri.startsWith("/auth")
+          || uri.startsWith("/actuator")
+          || uri.startsWith("/h2-console")
+          || uri.startsWith("/resource")) {
         filterChain.doFilter(request, response);
         return;
       }
@@ -43,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
       String id = tokenService.getId(token);
       User user = userRepository.findUserByuId(id).orElseThrow();
       Authentication authentication =
-        new UsernamePasswordAuthenticationToken(user, null, List.of());
+          new UsernamePasswordAuthenticationToken(user, null, List.of());
       SecurityContextHolder.getContext().setAuthentication(authentication);
 
       filterChain.doFilter(request, response);

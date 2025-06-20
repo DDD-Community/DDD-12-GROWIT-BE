@@ -1,26 +1,23 @@
 package com.growit.app.user.domain.token.service;
 
 import com.growit.app.common.config.jwt.JwtProperties;
+import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.token.service.exception.ExpiredTokenException;
 import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
-import io.jsonwebtoken.*;
-
-import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.user.User;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
   private final JwtProperties jwtProperties;
-
 
   private Key getKey() {
     return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
@@ -49,10 +46,10 @@ public class TokenServiceImpl implements TokenService {
     final Date expiredDate = new Date(now.getTime() + (second * 1000L));
 
     return Jwts.builder()
-      .setClaims(claims)
-      .setExpiration(expiredDate)
-      .signWith(getKey(), SignatureAlgorithm.HS256)
-      .compact();
+        .setClaims(claims)
+        .setExpiration(expiredDate)
+        .signWith(getKey(), SignatureAlgorithm.HS256)
+        .compact();
   }
 
   private boolean isExpiredSoon(Date expirationDate) {
@@ -66,7 +63,6 @@ public class TokenServiceImpl implements TokenService {
     return currentDate.after(thirtyDaysBefore);
   }
 
-
   @Override
   public Token createToken(User user) {
     final Claims claims = createClaim(user.getId());
@@ -76,7 +72,6 @@ public class TokenServiceImpl implements TokenService {
 
     return new Token(accessToken, refreshToken);
   }
-
 
   public String getId(String token) {
     final Claims claims = parseClaims(token);

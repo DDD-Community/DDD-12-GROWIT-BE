@@ -13,7 +13,7 @@ public class JobRoleServiceImpl implements JobRoleService {
 
   @Override
   public void checkJobRoleExist(String id) {
-    if(jobRoleRepository.findById(id).isEmpty()){
+    if (jobRoleRepository.findById(id).isEmpty()) {
       throw new BadRequestException("직무가 존재하지 않습니다");
     }
   }

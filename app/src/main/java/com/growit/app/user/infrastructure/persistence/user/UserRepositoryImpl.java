@@ -4,10 +4,9 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,7 +18,6 @@ public class UserRepositoryImpl implements UserRepository {
   public Optional<User> findByEmail(Email email) {
     return dbUserRepository.findByEmail(email.value()).map(userDBMapper::toDomain);
   }
-
 
   @Override
   public Optional<User> findUserByuId(String id) {

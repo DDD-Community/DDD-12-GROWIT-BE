@@ -9,12 +9,14 @@ public class JobRoleDBMapper {
 
   public JobRole toDomain(JobRoleEntity jobRoleEntity) {
     if (jobRoleEntity == null) return null;
-    return JobRole.builder().uid(String.valueOf(jobRoleEntity.getUid())).name(jobRoleEntity.getName()).build();
+    return JobRole.builder()
+        .uid(String.valueOf(jobRoleEntity.getUid()))
+        .name(jobRoleEntity.getName())
+        .build();
   }
 
   public JobRoleEntity toEntity(JobRole jobRole) {
     if (jobRole == null) return null;
     return JobRoleEntity.builder().jobRoleId(jobRole.getUid()).name(jobRole.getName()).build();
   }
-
 }
