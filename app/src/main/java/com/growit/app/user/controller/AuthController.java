@@ -1,10 +1,12 @@
 package com.growit.app.user.controller;
 
 import com.growit.app.common.response.ApiResponse;
+import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.TokenResponse;
 import com.growit.app.user.domain.auth.dto.SignUpRequest;
 import com.growit.app.user.domain.token.Token;
+import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
 import jakarta.validation.Valid;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
   private final SignUpUseCase signUpUseCase;
   private final SignInUseCase signInUseCase;
+  private final ReissueUseCase reissueUseCase;
 
   @PostMapping("/signup")
   public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
@@ -32,6 +35,16 @@ public class AuthController {
   @PostMapping("/signin")
   public ResponseEntity<ApiResponse<TokenResponse>> signin(@RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(signInRequest);
+    TokenResponse response = TokenResponse.builder()
+      .accessToken(token.accessToken())
+      .refreshToken(token.refreshToken())
+      .build();
+    return ResponseEntity.ok(ApiResponse.success(response));
+  }
+
+  @PostMapping("/reissue")
+  public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody ReissueRequest request) {
+    Token token = reissueUseCase.execute(request.getRefreshToken());
     TokenResponse response = TokenResponse.builder()
       .accessToken(token.accessToken())
       .refreshToken(token.refreshToken())

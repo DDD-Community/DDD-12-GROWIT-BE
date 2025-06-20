@@ -82,4 +82,18 @@ public class TokenServiceImpl implements TokenService {
     final Claims claims = parseClaims(token);
     return claims.get("id", String.class);
   }
+
+  @Override
+  public Token reIssue(String token) {
+    final Claims claims = parseClaims(token);
+    final Date expirationDate = claims.getExpiration();
+
+    final String accessToken = createToken(claims, jwtProperties.getExpiredSecond());
+    if (isExpiredSoon(expirationDate)) {
+      final String newRefreshToken = createToken(claims, jwtProperties.getRefreshExpiredSecond());
+      return new Token(accessToken, newRefreshToken);
+    } else {
+      return new Token(accessToken, token);
+    }
+  }
 }
