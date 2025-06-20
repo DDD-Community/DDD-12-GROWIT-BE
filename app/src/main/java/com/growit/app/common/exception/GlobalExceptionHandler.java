@@ -7,8 +7,13 @@ import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
 import com.growit.app.user.domain.token.service.exception.TokenNotFoundException;
 import com.growit.app.user.domain.user.service.AlreadyExistEmailException;
 import java.lang.reflect.MalformedParametersException;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -64,5 +69,16 @@ public class GlobalExceptionHandler {
   public ResponseEntity<BaseErrorResponse> handleNotFoundException(BaseException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<Map<String, List<String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    List<String> messages = ex.getBindingResult()
+      .getFieldErrors()
+      .stream()
+      .map(FieldError::getDefaultMessage)
+      .toList();
+    Map<String, List<String>> body = Map.of("message", messages);
+    return ResponseEntity.badRequest().body(body);
   }
 }
