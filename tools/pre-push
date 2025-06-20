@@ -6,6 +6,9 @@ z40=0000000000000000000000000000000000000000
 
 while read local_ref local_sha remote_ref remote_sha
 do
+  echo "[PRE-PUSH] Inspecting: $local_ref -> $remote_ref"
+  echo "[PRE-PUSH] Local SHA: $local_sha"
+  echo "[PRE-PUSH] Remote SHA: $remote_sha"
   # Handle delete
   if [[ "$local_sha" = "$z40" ]]; then
     echo "$local_ref, $remote_ref"
@@ -62,4 +65,5 @@ if [[ -n "$run_checks" ]]; then
   exit $?
 fi
 
+echo "[PRE-PUSH] No Gerrit push detected, skipping additional checks"
 exit 0
