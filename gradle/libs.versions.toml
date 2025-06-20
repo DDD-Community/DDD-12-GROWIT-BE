@@ -15,6 +15,7 @@ junitJupiter = "5.9.3"
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
+restdocs = { id = "com.epages.restdocs-api-spec", version = "0.18.2" }
 
 [libraries]
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "springBoot" }
