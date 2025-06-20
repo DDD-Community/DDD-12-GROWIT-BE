@@ -1,7 +1,7 @@
 package com.growit.app.user.usecase;
 
 import com.growit.app.common.exception.BaseException;
-import com.growit.app.user.domain.auth.dto.SignUpRequest;
+import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.domain.jobrole.service.JobRoleService;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;

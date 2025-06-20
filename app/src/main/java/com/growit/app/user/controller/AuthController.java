@@ -4,7 +4,7 @@ import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.TokenResponse;
-import com.growit.app.user.domain.auth.dto.SignUpRequest;
+import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
@@ -34,7 +34,7 @@ public class AuthController {
 
   @PostMapping("/signin")
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
-      @RequestBody SignInRequest signInRequest) {
+      @Valid @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(signInRequest);
     TokenResponse response =
         TokenResponse.builder()
