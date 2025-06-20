@@ -40,7 +40,7 @@ public class SecurityConfig {
       )
       .authorizeHttpRequests(
         auth ->
-          auth.requestMatchers("/auth/**", "/actuator/**", "/h2-console/**", "/resource/jobroles")
+          auth.requestMatchers("/auth/**", "/actuator/**", "/h2-console/**")
             .permitAll()
             .anyRequest()
             .authenticated())
