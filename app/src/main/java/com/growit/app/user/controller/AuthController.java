@@ -44,9 +44,10 @@ public class AuthController {
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody ReissueRequest reissueRequest) {
+  public ResponseEntity<ApiResponse<TokenResponse>> reissue(
+      @RequestBody ReissueRequest reissueRequest) {
     Token token = reissueUseCase.execute(requestMapper.toReIssueCommand(reissueRequest));
 
-    return ResponseEntity.ok(ApiResponse.success( responseMapper.toTokenResponse(token)));
+    return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
   }
 }

@@ -27,7 +27,7 @@ public class SignInUseCase {
             .findByEmail(command.email())
             .orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
 
-    boolean isCorrectPassword =  passwordEncoder.matches(command.password(), user.getPassword());
+    boolean isCorrectPassword = passwordEncoder.matches(command.password(), user.getPassword());
     if (!isCorrectPassword) throw new NotFoundException("로그인 정보를 확인해주세요");
 
     return tokenService.createToken(user);

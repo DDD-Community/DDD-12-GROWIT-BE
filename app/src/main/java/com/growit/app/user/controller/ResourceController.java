@@ -22,6 +22,7 @@ public class ResourceController {
   @GetMapping("/jobroles")
   public ResponseEntity<ApiResponse<Map<String, Object>>> getAllJobRoles() {
     List<JobRole> jobRoles = jobRoleRepository.findAll();
-    return ResponseEntity.ok(ApiResponse.success(Map.of("jobRoles", responseMapper.toJobRoleResponseList(jobRoles))));
+    return ResponseEntity.ok(
+        ApiResponse.success(Map.of("jobRoles", responseMapper.toJobRoleResponseList(jobRoles))));
   }
 }

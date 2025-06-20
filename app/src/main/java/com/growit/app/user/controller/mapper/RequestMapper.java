@@ -14,23 +14,18 @@ import org.springframework.stereotype.Component;
 public class RequestMapper {
   public SignUpCommand toSignUpCommand(SignUpRequest request) {
     return new SignUpCommand(
-      new Email(request.getEmail()),
-      request.getPassword(),
-      request.getName(),
-      request.getJobRoleId(),
-      CareerYear.valueOf(request.getCareerYear().toUpperCase()));
+        new Email(request.getEmail()),
+        request.getPassword(),
+        request.getName(),
+        request.getJobRoleId(),
+        CareerYear.valueOf(request.getCareerYear().toUpperCase()));
   }
 
   public SignInCommand toSignInCommand(SignInRequest request) {
-    return new SignInCommand(
-      new Email(request.getEmail()),
-        request.getPassword()
-    );
+    return new SignInCommand(new Email(request.getEmail()), request.getPassword());
   }
 
   public ReIssueCommand toReIssueCommand(ReissueRequest request) {
-    return new ReIssueCommand(
-      request.getRefreshToken()
-    );
+    return new ReIssueCommand(request.getRefreshToken());
   }
 }

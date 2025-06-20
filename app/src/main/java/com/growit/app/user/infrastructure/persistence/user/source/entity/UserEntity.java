@@ -32,5 +32,4 @@ public class UserEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "career_year", nullable = false)
   private CareerYear careerYear;
-
 }

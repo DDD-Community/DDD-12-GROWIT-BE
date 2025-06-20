@@ -6,9 +6,8 @@ import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.user.dto.UserDto;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseMapper {

@@ -25,7 +25,8 @@ public class SignUpUseCase {
     jobRoleService.checkJobRoleExist(command.jobRoleId());
     userService.checkEmailExists(command.email());
 
-    final SignUpCommand encodePassword = command.encodePassword(passwordEncoder.encode(command.password()));
+    final SignUpCommand encodePassword =
+        command.encodePassword(passwordEncoder.encode(command.password()));
     final User user = User.from(encodePassword);
 
     userRepository.saveUser(user);

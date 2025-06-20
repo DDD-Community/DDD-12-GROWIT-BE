@@ -21,6 +21,7 @@ public class UserController {
 
   @GetMapping("/myprofile")
   public ResponseEntity<ApiResponse<UserResponse>> getUser(@AuthenticationPrincipal User user) {
-    return ResponseEntity.ok(ApiResponse.success(responseMapper.toUserResponse(getUserUseCase.execute(user))));
+    return ResponseEntity.ok(
+        ApiResponse.success(responseMapper.toUserResponse(getUserUseCase.execute(user))));
   }
 }

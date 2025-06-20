@@ -4,7 +4,7 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 
 public class IDGenerator {
 
-  public static String generateId(){
+  public static String generateId() {
     return NanoIdUtils.randomNanoId();
   }
 }
