@@ -37,12 +37,14 @@ public class AuthController {
   @PostMapping("/signin")
   public ResponseEntity<Response<TokenResponse>> signIn(@RequestBody SignInRequest request) {
     Token token = signInUseCase.execute(new Email(request.getEmail()), request.getPassword());
+
     return ResponseEntity.ok(Response.ok(mapper.toResponse(token)));
   }
 
   @PostMapping("/reissue")
   public ResponseEntity<Response<TokenResponse>> reissue(@RequestBody ReissueRequest request) {
     Token token = reissueUseCase.execute(request.getRefreshToken());
+    
     return ResponseEntity.ok(Response.ok(mapper.toResponse(token)));
   }
 }

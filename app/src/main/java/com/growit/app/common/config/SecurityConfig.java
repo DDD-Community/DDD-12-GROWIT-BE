@@ -28,7 +28,7 @@ public class SecurityConfig {
         .requestCache(RequestCacheConfigurer::disable)
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers("/auth/**", "/actuator/**")
+                auth.requestMatchers("/auth/**", "/actuator/**", "/swagger-ui/**", "/static/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())

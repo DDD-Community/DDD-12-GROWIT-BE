@@ -67,14 +67,14 @@ dependencies {
 
 tasks.test {
   useJUnitPlatform()
-  finalizedBy("openapi3")
+  finalizedBy("copyOasToSwagger")
 }
 
 openapi3 {
   this.setServer("http://localhost:8080")
-  title = "My API"
-  description = "My API description"
-  version = "0.1.0"
+  title = "GrowIT API"
+  description = "GrowIT description"
+  version = "0.0.1"
   format = "yaml" // or json
 }
 
@@ -84,6 +84,4 @@ tasks.register<Copy>("copyOasToSwagger") {
   into("src/main/resources/static/swagger-ui/")
 }
 
-tasks.named("openapi3") {
-  finalizedBy("copyOasToSwagger") // openapi3 후 복사
-}
+

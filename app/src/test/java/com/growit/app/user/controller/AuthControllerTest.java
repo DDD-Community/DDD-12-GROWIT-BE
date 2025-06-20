@@ -1,6 +1,7 @@
 package com.growit.app.user.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -9,7 +10,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
+import com.growit.app.user.domain.token.Token;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
+import com.growit.app.user.domain.user.vo.Email;
+import com.growit.app.user.usecase.ReissueUseCase;
+import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +38,10 @@ class AuthControllerTest {
 
   @MockBean
   private SignUpUseCase signUpUseCase;
+  @MockBean
+  private SignInUseCase signInUseCase;
+  @MockBean
+  private ReissueUseCase reissueUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -43,7 +52,7 @@ class AuthControllerTest {
   }
 
   @Test
-  void postSignUpTest() throws Exception {
+  void signupTest() throws Exception {
     String requestBody =
         """
             {
@@ -74,5 +83,66 @@ class AuthControllerTest {
                         fieldWithPath("careerYear")
                             .type(STRING)
                             .description("경력 연차 (예: JUNIOR, MID, SENIOR)"))));
+  }
+
+  @Test
+  void signInTest() throws Exception {
+    String requestBody =
+        """
+            {
+                "email": "test@example.com",
+                "password": "securePass123"
+            }
+            """;
+    given(signInUseCase.execute(new Email("test@example.com"), "securePass123"))
+        .willReturn(new Token("accessToken", "refreshToken"));
+
+    mockMvc
+        .perform(post("/auth/signin").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .andExpect(status().isOk())
+        .andDo(
+            MockMvcRestDocumentationWrapper.document(
+                "auth-signin",
+                new ResourceSnippetParametersBuilder()
+                    .tag("Auth")
+                    .description("사용자 로그인")
+                    .requestFields(
+                        fieldWithPath("email").type(STRING).description("사용자 이메일"),
+                        fieldWithPath("password").type(STRING).description("사용자 비밀번호"))
+                    .responseFields(
+                        fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
+                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰")
+                    )
+            )
+        );
+  }
+
+  @Test
+  void reissueTest() throws Exception {
+    String requestBody =
+        """
+            {
+                "refreshToken": "dummy-refresh-token"
+            }
+            """;
+    given(reissueUseCase.execute("dummy-refresh-token"))
+        .willReturn(new Token("accessToken", "refreshToken"));
+
+    mockMvc
+        .perform(post("/auth/reissue").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .andExpect(status().isOk())
+        .andDo(
+            MockMvcRestDocumentationWrapper.document(
+                "auth-reissue",
+                new ResourceSnippetParametersBuilder()
+                    .tag("Auth")
+                    .description("토큰 재발급")
+                    .requestFields(
+                        fieldWithPath("refreshToken").type(STRING).description("리프레시 토큰"))
+                    .responseFields(
+                        fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
+                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰")
+                    )
+            ));
   }
 }
