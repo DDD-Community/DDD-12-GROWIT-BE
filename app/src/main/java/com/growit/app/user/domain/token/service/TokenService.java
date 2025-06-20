@@ -9,6 +9,5 @@ public interface TokenService {
   Token createToken(User user);
 
   String getId(String token) throws InvalidTokenException, ExpiredTokenException;
-
 }
 

@@ -22,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 
   @Override
-  public Optional<User> findUserById(String id) {
+  public Optional<User> findUserByuId(String id) {
     return dbUserRepository.findByUid(id).map(userDBMapper::toDomain);
   }
 

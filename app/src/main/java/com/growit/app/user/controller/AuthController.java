@@ -32,12 +32,10 @@ public class AuthController {
   @PostMapping("/signin")
   public ResponseEntity<ApiResponse<TokenResponse>> signin(@RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(signInRequest);
-
     TokenResponse response = TokenResponse.builder()
-      .accessToken(token.accessToekn())
+      .accessToken(token.accessToken())
       .refreshToken(token.refreshToken())
       .build();
-
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 

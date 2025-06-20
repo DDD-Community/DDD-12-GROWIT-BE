@@ -25,7 +25,6 @@ public class SignInUseCase {
   public Token execute(SignInRequest request) throws BaseException {
     SignInCommand command = new SignInCommand(new Email(request.getEmail()), request.getPassword());
     User user = userRepository.findByEmail(command.email()).orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
-
     boolean isCorrectPassword = passwordEncoder.matches(request.getPassword(), user.getPassword());
     if (!isCorrectPassword) throw new NotFoundException("로그인 정보를 확인해주세요");
 

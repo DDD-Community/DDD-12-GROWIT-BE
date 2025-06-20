@@ -12,7 +12,6 @@ public class UserDBMapper {
   }
 
   public User toDomain(UserEntity entity) {
-    System.out.println("entity :: " + entity);
     if (entity == null) return null;
     return User.builder().id(entity.getUid()).email(new Email(entity.getEmail())).password(entity.getPassword()).name(entity.getName()).jobRoleId(entity.getJobRoleId()).careerYear(entity.getCareerYear()).build();
   }

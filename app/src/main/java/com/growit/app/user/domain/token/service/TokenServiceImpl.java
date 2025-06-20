@@ -13,12 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
 @AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
   private final JwtProperties jwtProperties;
+
 
   private Key getKey() {
     return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
@@ -53,19 +55,31 @@ public class TokenServiceImpl implements TokenService {
       .compact();
   }
 
+  private boolean isExpiredSoon(Date expirationDate) {
+    final Date currentDate = new Date();
+
+    final Calendar calendar = Calendar.getInstance();
+    calendar.setTime(expirationDate);
+    calendar.add(Calendar.DATE, -30);
+    final Date thirtyDaysBefore = calendar.getTime();
+
+    return currentDate.after(thirtyDaysBefore);
+  }
+
+
   @Override
   public Token createToken(User user) {
     final Claims claims = createClaim(user.getId());
+
     final String accessToken = createToken(claims, jwtProperties.getExpiredSecond());
     final String refreshToken = createToken(claims, jwtProperties.getRefreshExpiredSecond());
 
     return new Token(accessToken, refreshToken);
   }
 
-  @Override
+
   public String getId(String token) {
     final Claims claims = parseClaims(token);
-
     return claims.get("id", String.class);
   }
 }
