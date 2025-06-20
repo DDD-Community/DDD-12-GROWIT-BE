@@ -7,8 +7,8 @@ import com.growit.app.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ReissueUseCase {
   private final UserRepository userRepository;
   private final TokenService tokenService;
