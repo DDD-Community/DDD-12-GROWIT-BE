@@ -27,7 +27,7 @@ public class SignUpUseCase {
     SignUpCommand command =
         new SignUpCommand(
             new Email(request.getEmail()),
-            request.getPassword(),
+            passwordEncoder.encode(request.getPassword()),
             request.getName(),
             request.getJobRoleId(),
             CareerYear.valueOf(request.getCareerYear().toUpperCase()));
@@ -35,15 +35,7 @@ public class SignUpUseCase {
     jobRoleService.checkJobRoleExist(command.jobRoleId());
     userService.checkEmailExists(command.email());
 
-    User user =
-        User.builder()
-            .email(command.email())
-            .password(passwordEncoder.encode(command.password()))
-            .name(command.name())
-            .jobRoleId(command.jobRoleId())
-            .careerYear(command.careerYear())
-            .build();
-
+    User user = User.from(command);
     userRepository.saveUser(user);
   }
 }
