@@ -2,6 +2,7 @@ plugins {
   java
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.dependency.management)
+  alias(libs.plugins.restdocs)
   jacoco
 }
 
@@ -37,7 +38,6 @@ dependencies {
   runtimeOnly(libs.jjwt.impl)
   runtimeOnly(libs.jjwt.jackson)
 
-
   developmentOnly(libs.spring.boot.devtools)
 
   compileOnly(libs.lombok)
@@ -47,9 +47,34 @@ dependencies {
   runtimeOnly(libs.postgresql)
 
   testImplementation(libs.spring.boot.starter.test)
-  testRuntimeOnly(libs.junit.platform.launcher)
+  testImplementation(libs.spring.security.test)
+
+  testRuntimeOnly(libs.h2)
+  testImplementation(libs.rest.assured)
+
+  testImplementation(libs.restdocs.mockmvc)
+  testImplementation(libs.restdocs.api.spec)
 }
 
 tasks.test {
   useJUnitPlatform()
+  finalizedBy("copyOasToSwagger")
+}
+
+openapi3 {
+  this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
+  title = "GrowIT API"
+  description = "GrowIT description"
+  version = project.version.toString()
+  format = "yaml" // or json
+}
+
+tasks.register<Copy>("copyOasToSwagger") {
+  dependsOn("openapi3") // openapi3 실행 이후 복사
+  from("$buildDir/api-spec/openapi3.yaml")
+  into("src/main/resources/static/swagger-ui/")
+}
+
+tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
+  outputs.cacheIf { false }
 }

@@ -6,11 +6,14 @@ postgresql = "42.7.3"
 junit = "1.10.1"
 nanoid = "2.0.0"
 jjwt = "0.11.5"
-
+restAssured = "5.3.1"
+restdocs = "3.0.3"
+apispec = "0.18.2"
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
+restdocs = { id = "com.epages.restdocs-api-spec", version = "0.18.2" }
 
 [libraries]
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "springBoot" }
@@ -24,7 +27,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
-spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "springBoot" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
@@ -32,3 +35,8 @@ jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 
 nanoid = { module = "com.aventrix.jnanoid:jnanoid", version.ref = "nanoid" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "restAssured" }
+restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "restdocs" }
+restdocs-api-spec = { module = "com.epages:restdocs-api-spec-mockmvc", version.ref = "apispec" }
+
+
