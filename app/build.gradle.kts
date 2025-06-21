@@ -75,6 +75,12 @@ tasks.register<Copy>("copyOasToSwagger") {
   into("src/main/resources/static/swagger-ui/")
 }
 
+
+// Ensure that the build task depends on copyOpenApiYaml
+tasks.named("build") {
+  dependsOn("copyOasToSwagger")
+}
+
 tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
   outputs.cacheIf { false }
 }
