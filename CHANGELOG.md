@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.1.0...v1.2.0) (2025-06-21)
+
+
+### Features
+
+* **swagger:** api docs 구현 ([743d89a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/743d89ac50f0d634f40218d63ce86e1ff2b4c0ff))
+* **swagger:** api docs 구현 ([7075b2e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7075b2ec2d7cab4970e836c8e798b7f408e3238a)), closes [#16](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/16)
+
+
+### Bug Fixes
+
+* ci error ([8bbb342](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8bbb34235525be5b9e9ff66f50de743dc1a9774d))
+* ci error ([ebad0da](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ebad0dafa06b1323f51a45be7a87a16622dafe64))
+
 ## [1.1.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.0.7...v1.1.0) (2025-06-20)
 
 
