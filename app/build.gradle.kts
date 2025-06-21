@@ -63,7 +63,7 @@ tasks.test {
 
 openapi3 {
   this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
-  title = "GrowIT API"
+  title = "GrowIT API Specification"
   description = "GrowIT description"
   version = project.version.toString()
   format = "yaml" // or json
