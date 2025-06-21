@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.2.0...v1.3.0) (2025-06-21)
+
+
+### Features
+
+* **cors:** cors 허용 적용 ([b556396](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b556396e359d27867d0e5e2fd27e87e06fe0f008))
+* **cors:** cors 허용 적용 ([935d607](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/935d6079dc0f2f721365e37a45112e8fca69cdd2))
+
 ## [1.2.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.1.0...v1.2.0) (2025-06-21)
 
 
