@@ -21,7 +21,6 @@ public class SignInUseCase {
 
   @Transactional
   public Token execute(SignInCommand command) throws BaseException {
-
     User user =
         userRepository
             .findByEmail(command.email())

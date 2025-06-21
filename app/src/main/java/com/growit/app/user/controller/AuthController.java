@@ -33,7 +33,7 @@ public class AuthController {
   @PostMapping("/signup")
   public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
     signUpUseCase.execute(requestMapper.toSignUpCommand(signUpRequest));
-    return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @PostMapping("/signin")

@@ -38,7 +38,7 @@ jobs:
         run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache
 
       - name: Run Tests
-        run: ./gradlew test
+        run: ./gradlew test --no-configuration-cache
 
 
   notify:

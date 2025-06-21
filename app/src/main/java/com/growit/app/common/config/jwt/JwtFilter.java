@@ -34,6 +34,8 @@ public class JwtFilter extends OncePerRequestFilter {
       if (uri.startsWith("/auth")
           || uri.startsWith("/actuator")
           || uri.startsWith("/h2-console")
+          || uri.startsWith("/swagger-ui")
+          || uri.startsWith("/static")
           || uri.startsWith("/resource")) {
         filterChain.doFilter(request, response);
         return;

@@ -2,9 +2,9 @@ spring:
   application:
     name: growit
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/test
+    username: test
+    password: 1234
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -15,7 +15,8 @@ spring:
       hibernate:
         format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
 jwt:
   expired-second: 3600
   refresh-expired-second: 86400
-  secret-key: ${JWT_SECRET}
+  secret-key: mySuperSecureKeyThatIsMoreThan32BytesLong123
