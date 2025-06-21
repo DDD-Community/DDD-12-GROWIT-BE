@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.3.0...v1.3.1) (2025-06-21)
+
+
+### Bug Fixes
+
+* **release:** openapi3 내용 수정 - 배포용 ([5813e7d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5813e7de77d11d3532d5ed17acb52a6d0208669e))
+
 ## [1.3.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.2.0...v1.3.0) (2025-06-21)
 
 
