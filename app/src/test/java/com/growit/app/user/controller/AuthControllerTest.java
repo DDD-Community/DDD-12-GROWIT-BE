@@ -57,7 +57,7 @@ class AuthControllerTest {
                 "email": "test@example.com",
                 "password": "securePass123",
                 "name": "홍길동",
-                "jobRoleId": "backend",
+                "jobRoleId": "6rOg7Zmp7IOd",
                 "careerYear": "JUNIOR"
             }
             """;
@@ -91,7 +91,8 @@ class AuthControllerTest {
             }
             """;
     Token token = new Token("accessToken", "refreshToken");
-    given(responseMapper.toTokenResponse(any())).willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
+    given(responseMapper.toTokenResponse(any()))
+        .willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
     mockMvc
         .perform(post("/auth/signin").contentType(MediaType.APPLICATION_JSON).content(requestBody))
         .andExpect(status().isOk())
@@ -118,7 +119,8 @@ class AuthControllerTest {
             }
             """;
     Token token = new Token("accessToken", "refreshToken");
-    given(responseMapper.toTokenResponse(any())).willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
+    given(responseMapper.toTokenResponse(any()))
+        .willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
 
     mockMvc
         .perform(post("/auth/reissue").contentType(MediaType.APPLICATION_JSON).content(requestBody))

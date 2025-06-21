@@ -24,7 +24,6 @@ public class UserController {
   public ResponseEntity<ApiResponse<UserResponse>> getUser(@AuthenticationPrincipal User user) {
     UserDto result = getUserUseCase.execute(user);
     UserResponse userResponse = responseMapper.toUserResponse(result);
-    return ResponseEntity.ok(
-      ApiResponse.success(userResponse));
+    return ResponseEntity.ok(ApiResponse.success(userResponse));
   }
 }

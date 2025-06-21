@@ -22,9 +22,9 @@ public class SignInUseCase {
   @Transactional
   public Token execute(SignInCommand command) throws BaseException {
     User user =
-      userRepository
-        .findByEmail(command.email())
-        .orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
+        userRepository
+            .findByEmail(command.email())
+            .orElseThrow(() -> new NotFoundException("로그인 정보를 확인해주세요"));
 
     boolean isCorrectPassword = passwordEncoder.matches(command.password(), user.getPassword());
     if (!isCorrectPassword) throw new NotFoundException("로그인 정보를 확인해주세요");
