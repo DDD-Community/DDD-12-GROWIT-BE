@@ -74,3 +74,7 @@ tasks.register<Copy>("copyOasToSwagger") {
   from("$buildDir/api-spec/openapi3.yaml")
   into("src/main/resources/static/swagger-ui/")
 }
+
+tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
+  outputs.cacheIf { false }
+}
