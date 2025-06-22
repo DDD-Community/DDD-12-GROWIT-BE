@@ -21,9 +21,11 @@ public class SignUpUseCase {
   private final UserService userService;
 
   @Transactional
-  public void execute(SignUpCommand signUpCommand, RequiredConsentCommand requiredConsentCommand) throws BaseException {
+  public void execute(SignUpCommand signUpCommand, RequiredConsentCommand requiredConsentCommand)
+      throws BaseException {
 
-    if (!requiredConsentCommand.isPrivacyPolicyAgreed() || !requiredConsentCommand.isServiceTermsAgreed()) {
+    if (!requiredConsentCommand.isPrivacyPolicyAgreed()
+        || !requiredConsentCommand.isServiceTermsAgreed()) {
       throw new IllegalArgumentException("필수 약관 동의 필요");
     }
 
@@ -31,7 +33,7 @@ public class SignUpUseCase {
     userService.checkEmailExists(signUpCommand.email());
 
     final SignUpCommand encodePassword =
-      signUpCommand.encodePassword(passwordEncoder.encode(signUpCommand.password()));
+        signUpCommand.encodePassword(passwordEncoder.encode(signUpCommand.password()));
     final User user = User.from(encodePassword);
 
     userRepository.saveUser(user);

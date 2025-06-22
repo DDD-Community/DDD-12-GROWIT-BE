@@ -34,8 +34,9 @@ public class AuthController {
 
   @PostMapping("/signup")
   public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
-    SignUpCommand signUpCommand= requestMapper.toSignUpCommand(signUpRequest);
-    RequiredConsentCommand requiredConsentCommand = requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
+    SignUpCommand signUpCommand = requestMapper.toSignUpCommand(signUpRequest);
+    RequiredConsentCommand requiredConsentCommand =
+        requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
     signUpUseCase.execute(signUpCommand, requiredConsentCommand);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }

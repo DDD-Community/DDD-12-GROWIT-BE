@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 public class RequestMapper {
   public SignUpCommand toSignUpCommand(SignUpRequest request) {
     return new SignUpCommand(
-      new Email(request.getEmail()),
-      request.getPassword(),
-      request.getName(),
-      request.getJobRoleId(),
-      CareerYear.valueOf(request.getCareerYear().toUpperCase()));
+        new Email(request.getEmail()),
+        request.getPassword(),
+        request.getName(),
+        request.getJobRoleId(),
+        CareerYear.valueOf(request.getCareerYear().toUpperCase()));
   }
 
   public SignInCommand toSignInCommand(SignInRequest request) {
@@ -31,11 +31,8 @@ public class RequestMapper {
     return new ReIssueCommand(request.getRefreshToken());
   }
 
-  public RequiredConsentCommand  toRequiredConsentCommand(RequiredConsentRequest request) {
+  public RequiredConsentCommand toRequiredConsentCommand(RequiredConsentRequest request) {
     return new RequiredConsentCommand(
-      request.isPrivacyPolicyAgreed(),
-      request.isServiceTermsAgreed()
-    );
+        request.isPrivacyPolicyAgreed(), request.isServiceTermsAgreed());
   }
-
 }
