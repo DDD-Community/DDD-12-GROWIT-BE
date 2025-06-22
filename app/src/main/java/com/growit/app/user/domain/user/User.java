@@ -4,6 +4,7 @@ import com.growit.app.common.util.IDGenerator;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
+import com.growit.app.user.domain.user.vo.RequiredConsent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class User {
   private String jobRoleId;
 
   private CareerYear careerYear;
+
+  private RequiredConsent requiredConsent;
 
   public static User from(SignUpCommand command) {
     return User.builder()

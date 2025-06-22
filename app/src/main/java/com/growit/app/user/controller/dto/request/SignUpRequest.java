@@ -25,4 +25,6 @@ public class SignUpRequest {
 
   @NotNull(message = "경력 연차는 필수입니다.")
   private String careerYear;
+
+  private RequiredConsentRequest requiredConsent;
 }
