@@ -4,6 +4,7 @@ import com.growit.app.common.exception.BaseException;
 import com.growit.app.user.domain.jobrole.service.JobRoleService;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
+import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,19 @@ public class SignUpUseCase {
   private final UserService userService;
 
   @Transactional
-  public void execute(SignUpCommand command) throws BaseException {
+  public void execute(SignUpCommand signUpCommand, RequiredConsentCommand requiredConsentCommand)
+      throws BaseException {
 
-    jobRoleService.checkJobRoleExist(command.jobRoleId());
-    userService.checkEmailExists(command.email());
+    if (!requiredConsentCommand.isPrivacyPolicyAgreed()
+        || !requiredConsentCommand.isServiceTermsAgreed()) {
+      throw new IllegalArgumentException("필수 약관 동의 필요");
+    }
+
+    jobRoleService.checkJobRoleExist(signUpCommand.jobRoleId());
+    userService.checkEmailExists(signUpCommand.email());
 
     final SignUpCommand encodePassword =
-        command.encodePassword(passwordEncoder.encode(command.password()));
+        signUpCommand.encodePassword(passwordEncoder.encode(signUpCommand.password()));
     final User user = User.from(encodePassword);
 
     userRepository.saveUser(user);

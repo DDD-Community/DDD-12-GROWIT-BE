@@ -1,9 +1,11 @@
 package com.growit.app.user.controller.mapper;
 
 import com.growit.app.user.controller.dto.request.ReissueRequest;
+import com.growit.app.user.controller.dto.request.RequiredConsentRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.domain.user.dto.ReIssueCommand;
+import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignInCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
@@ -27,5 +29,10 @@ public class RequestMapper {
 
   public ReIssueCommand toReIssueCommand(ReissueRequest request) {
     return new ReIssueCommand(request.getRefreshToken());
+  }
+
+  public RequiredConsentCommand toRequiredConsentCommand(RequiredConsentRequest request) {
+    return new RequiredConsentCommand(
+        request.isPrivacyPolicyAgreed(), request.isServiceTermsAgreed());
   }
 }

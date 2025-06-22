@@ -8,6 +8,8 @@ import com.growit.app.user.controller.dto.request.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.Token;
+import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
+import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
@@ -32,7 +34,10 @@ public class AuthController {
 
   @PostMapping("/signup")
   public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
-    signUpUseCase.execute(requestMapper.toSignUpCommand(signUpRequest));
+    SignUpCommand signUpCommand = requestMapper.toSignUpCommand(signUpRequest);
+    RequiredConsentCommand requiredConsentCommand =
+        requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
+    signUpUseCase.execute(signUpCommand, requiredConsentCommand);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
