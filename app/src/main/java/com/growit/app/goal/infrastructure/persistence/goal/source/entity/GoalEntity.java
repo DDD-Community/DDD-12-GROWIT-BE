@@ -19,10 +19,7 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String uid;
 
-  @Column(nullable = false)
-  private String password;
-
-  @Column(nullable = false)
+  @Column(nullable = false, length = 128)
   private String name;
 
   @Column(nullable = false)
@@ -31,13 +28,17 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false)
   private LocalDate endDate;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 128)
   private String asIs;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 128)
   private String toBe;
 
-  @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  @OneToMany(
+      mappedBy = "goal",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
+  @Builder.Default
   private List<PlanEntity> plans = new ArrayList<>();
-
 }

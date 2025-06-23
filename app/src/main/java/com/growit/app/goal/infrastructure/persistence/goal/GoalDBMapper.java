@@ -12,17 +12,19 @@ import org.springframework.stereotype.Component;
 public class GoalDBMapper {
   public GoalEntity toEntity(Goal goal) {
     if (goal == null) return null;
-    return GoalEntity.builder()
+    GoalEntity entity = GoalEntity.builder()
         .uid(goal.getId())
         .name(goal.getName())
         .startDate(goal.getDuration().startDate())
         .asIs(goal.getBeforeAfter().asIs())
         .toBe(goal.getBeforeAfter().toBe())
-        .plans(
-            goal.getPlans().stream()
-                .map(plan -> new PlanEntity(plan.getId(), plan.getContent()))
-                .toList())
         .build();
+    entity.setPlans(
+      goal.getPlans().stream()
+        .map(plan -> new PlanEntity(plan.getId(), plan.getContent(), entity))
+        .toList());
+
+    return entity;
   }
 
   public Goal toDomain(GoalEntity entity) {

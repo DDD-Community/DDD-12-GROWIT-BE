@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 public class GoalRepositoryImpl implements GoalRepository {
   private final GoalDBMapper mapper;
   private final DBGoalRepository repository;
+
   @Override
   public Optional<Goal> findById(String id) {
-    return repository.findByuId(id)
-        .map(mapper::toDomain);
+    return repository.findByUid(id).map(mapper::toDomain);
   }
 
   @Override

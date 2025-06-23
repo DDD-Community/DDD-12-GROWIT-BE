@@ -5,9 +5,4 @@ import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.util.List;
 
 public record CreateGoalCommand(
-  String name,
-  GoalDuration duration,
-  BeforeAfter beforeAfter,
-  List<PlanDto> plans
-) {}
-
+    String name, GoalDuration duration, BeforeAfter beforeAfter, List<PlanDto> plans) {}

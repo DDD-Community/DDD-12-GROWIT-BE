@@ -13,9 +13,6 @@ public class Plan {
   private String content;
 
   public static Plan from(String content) {
-    return Plan.builder()
-      .id(IDGenerator.generateId())
-      .content(content)
-      .build();
+    return Plan.builder().id(IDGenerator.generateId()).content(content).build();
   }
 }
