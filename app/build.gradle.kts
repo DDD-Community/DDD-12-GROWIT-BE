@@ -32,8 +32,10 @@ dependencies {
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.nanoid)
-  implementation(libs.query.dsl)
-  annotationProcessor(libs.query.dsl.apt)
+  implementation(libs.querydsl.jpa)
+  annotationProcessor("com.querydsl:querydsl-apt:${libs.versions.querydsl.get()}:jakarta")
+  compileOnly(libs.jakarta.persistence)
+  annotationProcessor(libs.jakarta.persistence)
 
   // jwt
   implementation(libs.jjwt.api)
@@ -87,10 +89,13 @@ tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
   outputs.cacheIf { false }
 }
 
+val generatedSrcDir = "src/main/generated"
+
+// sourceSets 에 generated 소스 디렉터리 추가
 sourceSets {
-  main {
+  named("main") {
     java {
-      srcDir("build/generated/sources/annotationProcessor/java/main")
+      srcDir(generatedSrcDir)
     }
   }
 }
