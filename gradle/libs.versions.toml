@@ -9,6 +9,8 @@ jjwt = "0.11.5"
 restAssured = "5.3.1"
 restdocs = "3.0.3"
 apispec = "0.18.2"
+querydsl = "5.1.0"
+
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
@@ -38,5 +40,6 @@ nanoid = { module = "com.aventrix.jnanoid:jnanoid", version.ref = "nanoid" }
 rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "restAssured" }
 restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "restdocs" }
 restdocs-api-spec = { module = "com.epages:restdocs-api-spec-mockmvc", version.ref = "apispec" }
-
+query-dsl = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
+query-dsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
 

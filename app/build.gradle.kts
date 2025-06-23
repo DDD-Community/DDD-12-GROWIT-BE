@@ -32,6 +32,8 @@ dependencies {
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.nanoid)
+  implementation(libs.query.dsl)
+  annotationProcessor(libs.query.dsl.apt)
 
   // jwt
   implementation(libs.jjwt.api)
@@ -83,4 +85,12 @@ tasks.named("build") {
 
 tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
   outputs.cacheIf { false }
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir("build/generated/sources/annotationProcessor/java/main")
+    }
+  }
 }

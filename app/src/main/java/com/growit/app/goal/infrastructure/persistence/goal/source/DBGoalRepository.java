@@ -4,6 +4,6 @@ import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEnt
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DBGoalRepository extends JpaRepository<GoalEntity, Long> {
+public interface DBGoalRepository extends JpaRepository<GoalEntity, Long>, DBGoalQueryRepository {
   Optional<GoalEntity> findByUid(String uid);
 }
