@@ -17,6 +17,7 @@ public class GoalDBMapper {
             .uid(goal.getId())
             .name(goal.getName())
             .startDate(goal.getDuration().startDate())
+            .endDate(goal.getDuration().endDate())
             .asIs(goal.getBeforeAfter().asIs())
             .toBe(goal.getBeforeAfter().toBe())
             .build();
