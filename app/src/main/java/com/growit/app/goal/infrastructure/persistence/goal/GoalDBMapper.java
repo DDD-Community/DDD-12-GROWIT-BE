@@ -17,8 +17,11 @@ public class GoalDBMapper {
         .name(goal.getName())
         .startDate(goal.getDuration().startDate())
         .asIs(goal.getBeforeAfter().asIs())
-      .toBe(goal.getBeforeAfter().toBe())
-      .plans(goal.getPlans().stream().map(plan -> new PlanEntity(plan.getId(), plan.getContent())).toList())
+        .toBe(goal.getBeforeAfter().toBe())
+        .plans(
+            goal.getPlans().stream()
+                .map(plan -> new PlanEntity(plan.getId(), plan.getContent()))
+                .toList())
         .build();
   }
 
@@ -29,10 +32,15 @@ public class GoalDBMapper {
         .name(entity.getName())
         .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
         .beforeAfter(new BeforeAfter(entity.getAsIs(), entity.getToBe()))
-        .plans(entity.getPlans().stream().map(planEntity -> Plan.builder()
-          .id(planEntity.getUid())
-          .content(planEntity.getContent())
-          .build()).toList())
+        .plans(
+            entity.getPlans().stream()
+                .map(
+                    planEntity ->
+                        Plan.builder()
+                            .id(planEntity.getUid())
+                            .content(planEntity.getContent())
+                            .build())
+                .toList())
         .build();
   }
 }
