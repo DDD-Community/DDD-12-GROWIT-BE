@@ -19,7 +19,6 @@ public class PlanEntity extends BaseEntity {
   @Column(nullable = false, length = 128)
   private String content;
 
-
   @ManyToOne
   @JoinColumn(name = "goal_id")
   private GoalEntity goal;
