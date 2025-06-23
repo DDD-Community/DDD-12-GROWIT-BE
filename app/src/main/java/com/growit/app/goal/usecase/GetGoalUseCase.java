@@ -15,11 +15,9 @@ public class GetGoalUseCase {
   private final GoalRepository goalRepository;
   private final GoalResponseMapper goalResponseMapper;
 
-
   @Transactional(readOnly = true)
   public GoalResponse execute(String uid) {
-    Goal goal = goalRepository.findById(uid)
-      .orElseThrow(GoalNotFoundException::new);
+    Goal goal = goalRepository.findById(uid).orElseThrow(GoalNotFoundException::new);
     return goalResponseMapper.toResponse(goal);
   }
 }

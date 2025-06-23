@@ -17,7 +17,7 @@ public class GoalController {
   private final GetGoalUseCase getGoalUseCase;
 
   @GetMapping("/{uid}")
-  public ResponseEntity<ApiResponse<GoalResponse>> getMyGoal(@PathVariable String uid){
+  public ResponseEntity<ApiResponse<GoalResponse>> getMyGoal(@PathVariable String uid) {
     GoalResponse goalResponse = getGoalUseCase.execute(uid);
     return ResponseEntity.ok(ApiResponse.success(goalResponse));
   }

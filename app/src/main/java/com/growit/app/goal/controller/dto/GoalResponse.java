@@ -1,11 +1,10 @@
 package com.growit.app.goal.controller.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -17,13 +16,4 @@ public class GoalResponse {
   private DurationResponse durationResponse;
   private BeforeAfterResponse beforeAfterResponse;
   private List<PlanResponse> plansResponse;
-
-
-
-
-
-
 }
-
-
-

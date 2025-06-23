@@ -85,6 +85,6 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleGoalNotFoundException(BaseException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-      .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 }
