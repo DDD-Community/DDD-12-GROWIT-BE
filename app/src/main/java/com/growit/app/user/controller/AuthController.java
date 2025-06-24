@@ -4,7 +4,7 @@ import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
-import com.growit.app.user.controller.dto.request.TokenResponse;
+import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.Token;
