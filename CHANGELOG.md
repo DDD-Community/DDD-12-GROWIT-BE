@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.4.0...v1.5.0) (2025-06-24)
+
+
+### Features
+
+* **goal:** domain layer goal 객체 추가 ([618ef11](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/618ef11119a6d4eb2ed6a59ffd32812b32a2fe7b)), closes [#26](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/26)
+* **goal:** GoalEntity userId 추가 ([ea5ee65](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ea5ee65fc7641316b2c0b2340e25efc883e3f2e3))
+
+
+### Bug Fixes
+
+* **goal:** add endDate mapper ([8610c2e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8610c2e864263f348bec81a5d906f5a4fd8d729c)), closes [#26](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/26)
+* **goal:** Entity 1:N 관계 적용 ([2173715](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2173715e959b6067aaebe57a06ca4d93c3022e3a))
+* **goal:** setter 제거 ([02756f5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/02756f5a4de6a75584dc54b00b4a4bc99b6b017f))
+
 ## [1.4.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.3.1...v1.4.0) (2025-06-22)
 
 
