@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetGoalUseCase {
   private final GoalRepository goalRepository;
   private final GoalResponseMapper goalResponseMapper;
-
   @Transactional(readOnly = true)
   public GoalResponse getMyGoal(User user) {
     final Goal goal =

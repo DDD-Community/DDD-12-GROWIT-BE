@@ -22,4 +22,5 @@ public class GoalController {
     GoalResponse goalResponse = getGoalUseCase.getMyGoal(user);
     return ResponseEntity.ok(ApiResponse.success(goalResponse));
   }
+
 }
