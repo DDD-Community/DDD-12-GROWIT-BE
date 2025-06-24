@@ -2,6 +2,7 @@ package com.growit.app.goal.controller;
 
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
+import com.growit.app.goal.controller.dto.response.IdDto;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
@@ -24,10 +25,11 @@ public class GoalController {
   private final GoalRequestMapper goalRequestMapper;
 
   @PostMapping
-  public ResponseEntity<ApiResponse<String>> createGoal(
+  public ResponseEntity<ApiResponse<IdDto>> createGoal(
       @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
     CreateGoalCommand command = goalRequestMapper.toCreateGoalCommand(user.getId(), request);
     String goalId = createGoalUseCase.execute(command);
-    return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(goalId));
+    IdDto response = IdDto.builder().id(goalId).build();
+    return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
   }
 }
