@@ -1,4 +1,4 @@
-package com.growit.app.user.controller.dto.request;
+package com.growit.app.user.controller.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
