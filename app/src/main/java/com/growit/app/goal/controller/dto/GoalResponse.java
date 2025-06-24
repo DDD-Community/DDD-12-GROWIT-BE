@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class GoalResponse {
   private String id;
   private String name;
-  private DurationResponse durationResponse;
-  private BeforeAfterResponse beforeAfterResponse;
-  private List<PlanResponse> plansResponse;
+  private DurationResponse duration;
+  private BeforeAfterResponse beforeAfter;
+  private List<PlanResponse> plans;
 }

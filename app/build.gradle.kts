@@ -32,11 +32,12 @@ dependencies {
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.nanoid)
-  implementation(libs.querydsl.jpa)
-  annotationProcessor("com.querydsl:querydsl-apt:${libs.versions.querydsl.get()}:jakarta")
-  compileOnly(libs.jakarta.persistence)
-  annotationProcessor(libs.jakarta.persistence)
 
+  // QueryDSL 의존성 추가
+  implementation("${libs.querydsl.jpa.jakarta.get()}:jakarta")
+  annotationProcessor("${libs.querydsl.apt.jakarta.get()}:jakarta")
+  annotationProcessor(libs.jakarta.persistence)
+  annotationProcessor(libs.jakarta.annotation)
   // jwt
   implementation(libs.jjwt.api)
   runtimeOnly(libs.jjwt.impl)
@@ -98,4 +99,12 @@ sourceSets {
       srcDir(generatedSrcDir)
     }
   }
+}
+
+tasks.withType<JavaCompile> {
+  options.generatedSourceOutputDirectory.set(file(generatedSrcDir))
+}
+
+tasks.named<Delete>("clean") {
+  delete("src/main/generated")
 }

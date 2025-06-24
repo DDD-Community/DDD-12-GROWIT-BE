@@ -33,13 +33,12 @@ public class GoalResponseMapper {
             .map(plan -> PlanResponse.builder().id(plan.getId()).content(plan.getContent()).build())
             .collect(Collectors.toList());
 
-    // GoalResponse
     return GoalResponse.builder()
-        .id(goal.getId())
-        .name(goal.getName())
-        .durationResponse(duration)
-        .beforeAfterResponse(beforeAfter)
-        .plansResponse(plans)
-        .build();
+      .id(goal.getId())
+      .name(goal.getName())
+      .duration(duration)
+      .beforeAfter(beforeAfter)
+      .plans(plans)
+      .build();
   }
 }

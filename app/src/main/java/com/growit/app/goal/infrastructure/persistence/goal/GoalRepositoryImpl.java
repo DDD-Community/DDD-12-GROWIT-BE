@@ -14,7 +14,7 @@ public class GoalRepositoryImpl implements GoalRepository {
   private final DBGoalRepository repository;
 
   @Override
-  public Optional<Goal> findById(String id) {
+  public Optional<Goal> findByIdWithAllRelations(String id) {
     return repository.findByUid(id).map(mapper::toDomain);
   }
 
