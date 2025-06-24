@@ -15,6 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Goal {
   private String id;
+  private String userId;
   private String name;
   private GoalDuration duration;
   private BeforeAfter beforeAfter;
@@ -23,6 +24,7 @@ public class Goal {
   public static Goal from(CreateGoalCommand command) {
     return Goal.builder()
         .id(IDGenerator.generateId())
+        .userId(command.userId())
         .name(command.name())
         .duration(command.duration())
         .beforeAfter(command.beforeAfter())

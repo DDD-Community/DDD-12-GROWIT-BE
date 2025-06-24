@@ -15,6 +15,7 @@ public class GoalDBMapper {
     GoalEntity entity =
         GoalEntity.builder()
             .uid(goal.getId())
+            .userId(goal.getUserId())
             .name(goal.getName())
             .startDate(goal.getDuration().startDate())
             .endDate(goal.getDuration().endDate())
@@ -33,6 +34,7 @@ public class GoalDBMapper {
     if (entity == null) return null;
     return Goal.builder()
         .id(entity.getUid())
+        .userId(entity.getUserId())
         .name(entity.getName())
         .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
         .beforeAfter(new BeforeAfter(entity.getAsIs(), entity.getToBe()))
