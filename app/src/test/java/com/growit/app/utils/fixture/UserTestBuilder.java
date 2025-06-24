@@ -56,14 +56,6 @@ public class UserTestBuilder {
   }
 
   public User build() {
-    return new User(
-      id,
-      new Email(email),
-      password,
-      name,
-      jobRoleId,
-      careerYear,
-      requiredConsent
-    );
+    return new User(id, new Email(email), password, name, jobRoleId, careerYear, requiredConsent);
   }
 }
