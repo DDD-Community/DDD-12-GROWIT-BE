@@ -17,7 +17,7 @@ public class GoalRequestMapper {
         new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
         new BeforeAfter(request.getBeforeAfter().getAsIs(), request.getBeforeAfter().getToBe()),
         request.getPlans().stream()
-          .map(planRequest -> new PlanDto(planRequest.getContent()))
-          .toList());
+            .map(planRequest -> new PlanDto(planRequest.getContent()))
+            .toList());
   }
 }

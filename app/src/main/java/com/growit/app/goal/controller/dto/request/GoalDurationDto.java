@@ -15,5 +15,4 @@ public class GoalDurationDto {
 
   @NotNull(message = "종료날짜는 필수입니다.")
   private LocalDate endDate;
-
 }
