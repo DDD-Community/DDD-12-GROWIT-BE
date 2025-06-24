@@ -1,9 +1,9 @@
 package com.growit.app.goal.domain.goal;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface GoalRepository {
-  Optional<Goal> findByUserId(String userId);
+  List<Goal> findByUserId(String userId);
 
   void saveGoal(Goal goal);
 }

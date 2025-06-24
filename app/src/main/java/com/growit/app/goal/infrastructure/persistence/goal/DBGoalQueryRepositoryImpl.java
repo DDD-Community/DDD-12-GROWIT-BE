@@ -5,7 +5,8 @@ import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEnt
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.Optional;
+
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,17 +17,15 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public Optional<GoalEntity> findWithPlansByUserId(String userId) {
+  public List<GoalEntity> findWithPlansByUserId(String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
     QPlanEntity plan = QPlanEntity.planEntity;
 
-    GoalEntity entity =
-        queryFactory
+        return queryFactory
             .selectFrom(goal)
             .leftJoin(goal.plans, plan)
             .fetchJoin()
             .where(goal.userId.eq(userId))
-            .fetchOne();
-    return Optional.ofNullable(entity);
+            .fetch();
   }
 }

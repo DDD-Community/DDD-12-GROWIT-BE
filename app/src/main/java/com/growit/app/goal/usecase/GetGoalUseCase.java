@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class GetGoalUseCase {
@@ -17,10 +20,11 @@ public class GetGoalUseCase {
   private final GoalResponseMapper goalResponseMapper;
 
   @Transactional(readOnly = true)
-  public GoalResponse getMyGoal(User user) {
-    final Goal goal =
-        goalRepository.findByUserId(user.getId()).orElseThrow(GoalNotFoundException::new);
-
-    return goalResponseMapper.toResponse(goal);
+  public List<GoalResponse> getMyGoals(User user) {
+    List<Goal> goals = goalRepository.findByUserId(user.getId());
+    if (goals.isEmpty()) throw new GoalNotFoundException();
+    return goals.stream()
+      .map(goalResponseMapper::toResponse)
+      .collect(Collectors.toList());
   }
 }

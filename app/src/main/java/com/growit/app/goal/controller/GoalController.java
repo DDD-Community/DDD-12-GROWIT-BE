@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/goal")
+@RequestMapping("/goals")
 @RequiredArgsConstructor
 public class GoalController {
   private final GetGoalUseCase getGoalUseCase;
 
   @GetMapping("")
-  public ResponseEntity<ApiResponse<GoalResponse>> getMyGoal(@AuthenticationPrincipal User user) {
-    GoalResponse goalResponse = getGoalUseCase.getMyGoal(user);
-    return ResponseEntity.ok(ApiResponse.success(goalResponse));
+  public ResponseEntity<ApiResponse<List<GoalResponse>>> getMyGoal(@AuthenticationPrincipal User user) {
+    List<GoalResponse> goals = getGoalUseCase.getMyGoals(user);
+    return ResponseEntity.ok(ApiResponse.success(goals));
   }
 }

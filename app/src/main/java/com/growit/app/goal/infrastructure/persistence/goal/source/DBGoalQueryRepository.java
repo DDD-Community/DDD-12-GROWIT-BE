@@ -1,8 +1,9 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source;
 
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
-import java.util.Optional;
+
+import java.util.List;
 
 public interface DBGoalQueryRepository {
-  Optional<GoalEntity> findWithPlansByUserId(String userId);
+  List<GoalEntity> findWithPlansByUserId(String userId);
 }
