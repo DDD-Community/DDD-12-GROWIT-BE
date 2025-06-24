@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: GrowIT API
+  title: GrowIT API Specification
   description: GrowIT description
-  version: 0.0.1
+  version: 0.0.2
 servers:
 - url: http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/
 tags: []
