@@ -45,3 +45,19 @@ public class GoalEntity extends BaseEntity {
   @Builder.Default
   private List<PlanEntity> plans = new ArrayList<>();
 }
+
+
+//insert into JOBROLE(UID, NAME, CREATED_AT, UPDATED_AT) VALUES ('uid1', 'developer', CURRENT_TIME, CURRENT_TIME);
+//
+//INSERT INTO GOALS(uid, name, start_date, end_date, as_is, to_be, created_at, updated_at, user_id)
+//VALUES ('uid1', '내 목표는 그로잇 완성', '2025-06-23', '2025-07-20', '기획 정의', '배포 완료', CURRENT_TIME, CURRENT_TIME, 's7WxxfuosYXs38EDcy0Vm');
+//
+//INSERT INTO PLANS(id, goal_id, content, created_at, updated_at, uid)
+//VALUES
+//  ('1', 1, '기획 및 설계 회의', CURRENT_TIME, CURRENT_TIME, 'uid1'),
+//  ('2', 1, '디자인 시안 뽑기', CURRENT_TIME, CURRENT_TIME, 'uid2'),
+//  ('3', 1, '프론트 개발 및 백 개발 완료', CURRENT_TIME, CURRENT_TIME, 'uid3'),
+//  ('4', 1, '배포 완료', CURRENT_TIME, CURRENT_TIME, 'uid4');
+//
+//select * from goals;
+//select * from plans;

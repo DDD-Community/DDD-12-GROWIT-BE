@@ -5,6 +5,7 @@ import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.service.GoalNotFoundException;
+import com.growit.app.user.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetGoalUseCase {
   private final GoalRepository goalRepository;
   private final GoalResponseMapper goalResponseMapper;
-
   @Transactional(readOnly = true)
-  public GoalResponse getGoal(String uid) {
-    Goal goal =
-        goalRepository.findByIdWithAllRelations(uid).orElseThrow(GoalNotFoundException::new);
+  public GoalResponse getMyGoal(User user) {
+    final Goal goal =
+        goalRepository.findByUserId(user.getId()).orElseThrow(GoalNotFoundException::new);
+
+
     return goalResponseMapper.toResponse(goal);
   }
 }

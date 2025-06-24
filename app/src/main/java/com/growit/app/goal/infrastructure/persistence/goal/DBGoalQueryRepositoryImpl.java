@@ -16,7 +16,7 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public Optional<GoalEntity> findWithPlansByUid(String uid) {
+  public Optional<GoalEntity> findWithPlansByUserId(String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
     QPlanEntity plan = QPlanEntity.planEntity;
 
@@ -25,7 +25,7 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
             .selectFrom(goal)
             .leftJoin(goal.plans, plan)
             .fetchJoin()
-            .where(goal.uid.eq(uid))
+            .where(goal.userId.eq(userId))
             .fetchOne();
     return Optional.ofNullable(entity);
   }
