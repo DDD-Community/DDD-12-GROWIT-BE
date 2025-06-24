@@ -3,7 +3,6 @@ package com.growit.app.goal.infrastructure.persistence.goal;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalRepository;
-
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
