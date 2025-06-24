@@ -18,10 +18,7 @@ class GoalServiceTest {
     LocalDate start = LocalDate.of(2025, 6, 23);
     LocalDate end = LocalDate.of(2025, 7, 6);
     GoalDuration duration = new GoalDuration(start, end);
-    List<PlanDto> plans = List.of(
-      new PlanDto("주간계획 1"),
-      new PlanDto("주간계획 2")
-    );
+    List<PlanDto> plans = List.of(new PlanDto("주간계획 1"), new PlanDto("주간계획 2"));
 
     // void 메서드지만 예외가 발생하지 않으면 성공
     goalService.checkPlans(duration, plans);
