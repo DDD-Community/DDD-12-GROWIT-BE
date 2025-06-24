@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.3.1...v1.4.0) (2025-06-22)
+
+
+### Features
+
+* **logic:** 동의 여부 체크 구현 ([0eb17c3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0eb17c3d5a87d2f751656b4ef389ffddc91b77db))
+* **logic:** 동의 여부 체크 구현 ([e94c79c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e94c79cf7fe249f88c1c33c8fa478092eb363740))
+
 ## [1.3.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.3.0...v1.3.1) (2025-06-21)
 
 
