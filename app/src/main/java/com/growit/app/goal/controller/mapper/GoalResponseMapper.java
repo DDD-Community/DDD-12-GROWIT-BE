@@ -34,11 +34,11 @@ public class GoalResponseMapper {
             .collect(Collectors.toList());
 
     return GoalResponse.builder()
-      .id(goal.getId())
-      .name(goal.getName())
-      .duration(duration)
-      .beforeAfter(beforeAfter)
-      .plans(plans)
-      .build();
+        .id(goal.getId())
+        .name(goal.getName())
+        .duration(duration)
+        .beforeAfter(beforeAfter)
+        .plans(plans)
+        .build();
   }
 }

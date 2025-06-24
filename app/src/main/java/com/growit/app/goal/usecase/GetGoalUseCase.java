@@ -17,7 +17,8 @@ public class GetGoalUseCase {
 
   @Transactional(readOnly = true)
   public GoalResponse getGoal(String uid) {
-    Goal goal = goalRepository.findByIdWithAllRelations(uid).orElseThrow(GoalNotFoundException::new);
+    Goal goal =
+        goalRepository.findByIdWithAllRelations(uid).orElseThrow(GoalNotFoundException::new);
     return goalResponseMapper.toResponse(goal);
   }
 }
