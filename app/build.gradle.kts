@@ -106,5 +106,5 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.named<Delete>("clean") {
-  delete("src/main/generated")
+  delete(generatedSrcDir)
 }
