@@ -6,12 +6,11 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.service.GoalNotFoundException;
 import com.growit.app.user.domain.user.User;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,8 +22,6 @@ public class GetGoalUseCase {
   public List<GoalResponse> getMyGoals(User user) {
     List<Goal> goals = goalRepository.findByUserId(user.getId());
     if (goals.isEmpty()) throw new GoalNotFoundException();
-    return goals.stream()
-      .map(goalResponseMapper::toResponse)
-      .collect(Collectors.toList());
+    return goals.stream().map(goalResponseMapper::toResponse).collect(Collectors.toList());
   }
 }
