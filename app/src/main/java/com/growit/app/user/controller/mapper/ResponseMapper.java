@@ -1,7 +1,7 @@
 package com.growit.app.user.controller.mapper;
 
-import com.growit.app.user.controller.dto.request.TokenResponse;
 import com.growit.app.user.controller.dto.response.JobRoleResponse;
+import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.token.Token;
@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseMapper {
+
+  private static JobRoleResponse toJobRoleResponse(JobRole jr) {
+    return new JobRoleResponse(jr.getUid(), jr.getName());
+  }
 
   public TokenResponse toTokenResponse(Token token) {
     return TokenResponse.builder()
@@ -27,10 +31,6 @@ public class ResponseMapper {
         .email(userDto.user().getEmail().value())
         .careerYear(userDto.user().getCareerYear().name())
         .build();
-  }
-
-  private static JobRoleResponse toJobRoleResponse(JobRole jr) {
-    return new JobRoleResponse(jr.getUid(), jr.getName());
   }
 
   public List<JobRoleResponse> toJobRoleResponseList(List<JobRole> jobRoles) {
