@@ -20,6 +20,9 @@ public class GoalEntity extends BaseEntity {
   private String uid;
 
   @Column(nullable = false, length = 128)
+  private String userId;
+
+  @Column(nullable = false, length = 128)
   private String name;
 
   @Column(nullable = false)
