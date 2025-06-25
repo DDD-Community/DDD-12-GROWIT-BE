@@ -33,6 +33,11 @@ dependencies {
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.nanoid)
 
+  // QueryDSL 의존성 추가
+  implementation("${libs.querydsl.jpa.jakarta.get()}:jakarta")
+  annotationProcessor("${libs.querydsl.apt.jakarta.get()}:jakarta")
+  annotationProcessor(libs.jakarta.persistence)
+  annotationProcessor(libs.jakarta.annotation)
   // jwt
   implementation(libs.jjwt.api)
   runtimeOnly(libs.jjwt.impl)
@@ -83,4 +88,23 @@ tasks.named("build") {
 
 tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
   outputs.cacheIf { false }
+}
+
+val generatedSrcDir = "src/main/generated"
+
+// sourceSets 에 generated 소스 디렉터리 추가
+sourceSets {
+  named("main") {
+    java {
+      srcDir(generatedSrcDir)
+    }
+  }
+}
+
+tasks.withType<JavaCompile> {
+  options.generatedSourceOutputDirectory.set(file(generatedSrcDir))
+}
+
+tasks.named<Delete>("clean") {
+  delete(generatedSrcDir)
 }

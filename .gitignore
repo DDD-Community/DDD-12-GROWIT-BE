@@ -61,3 +61,4 @@ override.tf.json
 .env
 .env.*
 .terraform.lock.hcl
+app/src/main/generated

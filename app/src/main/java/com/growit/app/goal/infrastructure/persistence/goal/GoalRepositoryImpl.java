@@ -3,7 +3,8 @@ package com.growit.app.goal.infrastructure.persistence.goal;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalRepository;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +15,10 @@ public class GoalRepositoryImpl implements GoalRepository {
   private final DBGoalRepository repository;
 
   @Override
-  public Optional<Goal> findById(String id) {
-    return repository.findByUid(id).map(mapper::toDomain);
+  public List<Goal> findByUserId(String userId) {
+    return repository.findWithPlansByUserId(userId).stream()
+        .map(mapper::toDomain)
+        .collect(Collectors.toList());
   }
 
   @Override
