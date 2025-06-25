@@ -91,6 +91,26 @@ paths:
       responses:
         "201":
           description: "201"
+  /goals:
+    get:
+      tags:
+      - Goals
+      summary: 내 목표 조회
+      description: 내 목표 조회
+      operationId: get-my-goal
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/auth-signup486549215"
+              examples:
+                get-my-goal:
+                  value: "{\"data\":[{\"id\":\"goal-1\",\"userId\":\"user-1\",\"name\"\
+                    :\"테스트 목표\",\"duration\":{\"startDate\":\"2025-06-23\",\"endDate\"\
+                    :\"2025-06-29\",\"weekCount\":1},\"beforeAfter\":{\"asIs\":\"\
+                    ASIS\",\"toBe\":\"TOBE\"},\"plans\":[]}]}"
   /resource/jobroles:
     get:
       tags:
