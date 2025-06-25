@@ -7,6 +7,7 @@ import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
+import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
@@ -52,8 +53,8 @@ public class GoalController {
   @DeleteMapping("{uid}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
       @PathVariable String uid, @AuthenticationPrincipal User user) {
-    //    DeleteGoalCommand command = goalRequestMapper.toCommand(user.getId(), uid);
-
+    DeleteGoalCommand command = goalRequestMapper.toCommand(uid, user.getId());
+    deleteGoalUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료 되었습니다."));
   }
 }

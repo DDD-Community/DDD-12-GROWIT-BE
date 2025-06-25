@@ -1,5 +1,7 @@
 package com.growit.app.goal.usecase;
 
+import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +14,16 @@ public class DeleteGoalUseCase {
   private final GoalRepository goalRepository;
 
   @Transactional
-  public String execute(DeleteGoalCommand command) {
+  public void execute(DeleteGoalCommand command) {
     String uid = command.uid();
     String userId = command.userId();
 
-    return "";
+    Goal goal =
+        goalRepository
+            .findByUIdAndUserId(uid, userId)
+            .orElseThrow(() -> new NotFoundException("해당 목표가 없습니다."));
+
+    // 3. 삭제
+    goalRepository.deleteGoal(goal);
   }
 }
