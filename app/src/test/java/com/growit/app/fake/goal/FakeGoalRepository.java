@@ -28,20 +28,7 @@ public class FakeGoalRepository implements GoalRepository {
   }
 
   @Override
-  public Optional<Goal> findByUIdAndUserId(String uid, String userId) {
-    List<Goal> goals = store.get(userId);
-    if (goals == null) return Optional.empty();
-    return goals.stream().filter(goal -> goal.getId().equals(uid)).findFirst();
-  }
-
-  @Override
-  public void deleteGoal(Goal goal) {
-    List<Goal> goals = store.get(goal.getUserId());
-    if (goals != null) {
-      goals.removeIf(g -> g.getId().equals(goal.getId()));
-      if (goals.isEmpty()) {
-        store.remove(goal.getUserId());
-      }
-    }
+  public Optional<Goal> findByUid(String goalId) {
+    return Optional.empty();
   }
 }
