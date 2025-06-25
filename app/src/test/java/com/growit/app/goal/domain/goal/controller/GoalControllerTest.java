@@ -54,24 +54,33 @@ public class GoalControllerTest {
         .perform(get("/goals"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
-      .andDo(
-        document(
-          "get-my-goal",
-          new ResourceSnippetParametersBuilder()
-            .tag("Goals")
-            .description("내 목표 조회")
-            .responseFields(
-              fieldWithPath("data[].id").type(STRING).description("목표 ID"),
-              fieldWithPath("data[].name").type(STRING).description("목표 이름"),
-              fieldWithPath("data[].duration").description("기간 정보 객체"),
-              fieldWithPath("data[].duration.startDate").type(STRING).description("시작일 (yyyy-MM-dd)"),
-              fieldWithPath("data[].duration.endDate").type(STRING).description("종료일 (yyyy-MM-dd)"),
-              fieldWithPath("data[].beforeAfter").description("전/후 상태 정보 객체"),
-              fieldWithPath("data[].beforeAfter.asIs").type(STRING).description("현재 상태(As-Is)"),
-              fieldWithPath("data[].beforeAfter.toBe").type(STRING).description("목표 달성 후 상태(To-Be)"),
-              fieldWithPath("data[].plans").description("계획 리스트"),
-              fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
-              fieldWithPath("data[].plans[].content").type(STRING).description("계획 내용")
-            )));
+        .andDo(
+            document(
+                "get-my-goal",
+                new ResourceSnippetParametersBuilder()
+                    .tag("Goals")
+                    .description("내 목표 조회")
+                    .responseFields(
+                        fieldWithPath("data[].id").type(STRING).description("목표 ID"),
+                        fieldWithPath("data[].name").type(STRING).description("목표 이름"),
+                        fieldWithPath("data[].duration").description("기간 정보 객체"),
+                        fieldWithPath("data[].duration.startDate")
+                            .type(STRING)
+                            .description("시작일 (yyyy-MM-dd)"),
+                        fieldWithPath("data[].duration.endDate")
+                            .type(STRING)
+                            .description("종료일 (yyyy-MM-dd)"),
+                        fieldWithPath("data[].beforeAfter").description("전/후 상태 정보 객체"),
+                        fieldWithPath("data[].beforeAfter.asIs")
+                            .type(STRING)
+                            .description("현재 상태(As-Is)"),
+                        fieldWithPath("data[].beforeAfter.toBe")
+                            .type(STRING)
+                            .description("목표 달성 후 상태(To-Be)"),
+                        fieldWithPath("data[].plans").description("계획 리스트"),
+                        fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
+                        fieldWithPath("data[].plans[].content")
+                            .type(STRING)
+                            .description("계획 내용"))));
   }
 }

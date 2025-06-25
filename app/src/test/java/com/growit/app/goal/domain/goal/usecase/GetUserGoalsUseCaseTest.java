@@ -1,5 +1,8 @@
 package com.growit.app.goal.domain.goal.usecase;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+
 import com.growit.app.goal.controller.dto.GoalResponse;
 import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.Goal;
@@ -8,30 +11,22 @@ import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.utils.fixture.GoalTestBuilder;
 import com.growit.app.utils.fixture.UserTestBuilder;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-
 class GetUserGoalsUseCaseTest {
 
-  @Mock
-  private GoalRepository goalRepository;
-  @Mock
-  private GoalResponseMapper goalResponseMapper;
+  @Mock private GoalRepository goalRepository;
+  @Mock private GoalResponseMapper goalResponseMapper;
 
-  @InjectMocks
-  private GetUserGoalsUseCase getUserGoalsUseCase;
+  @InjectMocks private GetUserGoalsUseCase getUserGoalsUseCase;
 
   private User testUser;
-
 
   @BeforeEach
   void setUp() {
@@ -66,4 +61,3 @@ class GetUserGoalsUseCaseTest {
     assertThat(result).isEmpty();
   }
 }
-

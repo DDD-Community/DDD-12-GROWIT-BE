@@ -28,6 +28,10 @@ public class GoalTestBuilder {
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
   private List<Plan> plans = new ArrayList<>();
 
+  public static GoalTestBuilder aGoal() {
+    return new GoalTestBuilder();
+  }
+
   public GoalTestBuilder id(String id) {
     this.id = id;
     return this;
