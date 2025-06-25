@@ -9,7 +9,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.fake.UserFixture;
+import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.jobrole.JobRole;
@@ -19,10 +19,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -34,9 +34,10 @@ class UserControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockBean private GetUserUseCase getUserUseCase;
+  @MockitoBean
+  private GetUserUseCase getUserUseCase;
 
-  @MockBean private ResponseMapper mapper;
+  @MockitoBean private ResponseMapper mapper;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
