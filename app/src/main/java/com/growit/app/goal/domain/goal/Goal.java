@@ -20,6 +20,7 @@ public class Goal {
   private GoalDuration duration;
   private BeforeAfter beforeAfter;
   private List<Plan> plans;
+  private boolean isDelete;
 
   public static Goal from(CreateGoalCommand command) {
     return Goal.builder()
@@ -30,5 +31,9 @@ public class Goal {
         .beforeAfter(command.beforeAfter())
         .plans(command.plans().stream().map(planDto -> Plan.from(planDto.content())).toList())
         .build();
+  }
+
+  public void markAsDeleted() {
+    this.isDelete = true;
   }
 }
