@@ -1,40 +1,38 @@
 package com.growit.app.goal.domain.goal.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
+import com.growit.app.fake.goal.FakeGoalRepository;
+import com.growit.app.fake.goal.GoalFixture;
+import com.growit.app.fake.user.UserFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
-import com.growit.app.utils.fixture.GoalTestBuilder;
-import com.growit.app.utils.fixture.UserTestBuilder;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 class GetUserGoalsUseCaseTest {
 
-  @Mock private GoalRepository goalRepository;
-  @InjectMocks private GetUserGoalsUseCase getUserGoalsUseCase;
+  private FakeGoalRepository fakeGoalRepository;
+  private GetUserGoalsUseCase getUserGoalsUseCase;
 
   private User testUser;
+  private final Goal goal = GoalFixture.defaultGoal();
 
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.openMocks(this);
-    testUser = UserTestBuilder.aUser().withId("user-1").build();
+    fakeGoalRepository = new FakeGoalRepository();
+    getUserGoalsUseCase = new GetUserGoalsUseCase(fakeGoalRepository);
+    testUser = UserFixture.defaultUser();
   }
 
   @Test
   void givenUserWithGoals_whenGetMyGoals_thenReturnGoalResponseList() {
     // given
-    Goal fakeGoal = GoalTestBuilder.aGoal().build();
-    given(goalRepository.findByUserId("user-1")).willReturn(List.of(fakeGoal));
+    Goal fakeGoal = GoalFixture.defaultGoal();
+    fakeGoalRepository.saveGoal(fakeGoal);
+
     // when
     List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser);
 
@@ -44,9 +42,6 @@ class GetUserGoalsUseCaseTest {
 
   @Test
   void givenUserWithoutGoals_whenGetMyGoals_thenReturnEmptyList() {
-    // given
-    given(goalRepository.findByUserId("user-1")).willReturn(Collections.emptyList());
-
     // when
     List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser);
 

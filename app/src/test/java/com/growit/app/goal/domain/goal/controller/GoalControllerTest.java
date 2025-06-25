@@ -9,9 +9,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
+import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
-import com.growit.app.utils.fixture.GoalTestBuilder;
+
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class GoalControllerTest {
   @Test
   void getMyGoal_success() throws Exception {
     // given
-    Goal goal = GoalTestBuilder.aGoal().build();
+    Goal goal = GoalFixture.defaultGoal();
     List<Goal> goals = List.of(goal);
     given(getUserGoalsUseCase.getMyGoals(any())).willReturn(goals);
 
