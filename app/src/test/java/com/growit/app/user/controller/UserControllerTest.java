@@ -34,8 +34,7 @@ class UserControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockitoBean
-  private GetUserUseCase getUserUseCase;
+  @MockitoBean private GetUserUseCase getUserUseCase;
 
   @MockitoBean private ResponseMapper mapper;
 

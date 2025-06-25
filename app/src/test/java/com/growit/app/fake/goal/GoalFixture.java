@@ -4,7 +4,6 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -63,13 +62,12 @@ class GoalBuilder {
 
   public Goal build() {
     return Goal.builder()
-      .id(id)
-      .userId(userId)
-      .name(name)
-      .duration(duration)
-      .beforeAfter(beforeAfter)
-      .plans(plans)
-      .build();
+        .id(id)
+        .userId(userId)
+        .name(name)
+        .duration(duration)
+        .beforeAfter(beforeAfter)
+        .plans(plans)
+        .build();
   }
-
 }

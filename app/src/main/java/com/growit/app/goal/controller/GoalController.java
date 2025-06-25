@@ -13,7 +13,6 @@ import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +29,7 @@ public class GoalController {
   private final DeleteGoalUseCase deleteGoalUseCase;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
-      @AuthenticationPrincipal User user) {
+  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(@AuthenticationPrincipal User user) {
     List<Goal> goals = getUserGoalsUseCase.getMyGoals(user);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }

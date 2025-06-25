@@ -2,9 +2,9 @@ package com.growit.app.fake.goal;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
 public class FakeGoalRepository implements GoalRepository {
   private final Map<String, List<Goal>> store = new ConcurrentHashMap<>();
 
@@ -15,23 +15,23 @@ public class FakeGoalRepository implements GoalRepository {
 
   @Override
   public void saveGoal(Goal goal) {
-    store.compute(goal.getUserId(), (userId, goals) -> {
-      if (goals == null) {
-        goals = new ArrayList<>();
-      }
-      goals.removeIf(g -> g.getId().equals(goal.getId()));
-      goals.add(goal);
-      return goals;
-    });
+    store.compute(
+        goal.getUserId(),
+        (userId, goals) -> {
+          if (goals == null) {
+            goals = new ArrayList<>();
+          }
+          goals.removeIf(g -> g.getId().equals(goal.getId()));
+          goals.add(goal);
+          return goals;
+        });
   }
 
   @Override
   public Optional<Goal> findByUIdAndUserId(String uid, String userId) {
     List<Goal> goals = store.get(userId);
     if (goals == null) return Optional.empty();
-    return goals.stream()
-      .filter(goal -> goal.getId().equals(uid))
-      .findFirst();
+    return goals.stream().filter(goal -> goal.getId().equals(uid)).findFirst();
   }
 
   @Override

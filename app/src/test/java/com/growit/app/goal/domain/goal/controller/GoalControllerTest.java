@@ -12,7 +12,6 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
-
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
