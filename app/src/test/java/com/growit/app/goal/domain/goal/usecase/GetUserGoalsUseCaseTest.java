@@ -3,10 +3,9 @@ package com.growit.app.goal.domain.goal.usecase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import com.growit.app.goal.controller.dto.GoalResponse;
-import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.utils.fixture.GoalTestBuilder;
@@ -22,8 +21,6 @@ import org.mockito.MockitoAnnotations;
 class GetUserGoalsUseCaseTest {
 
   @Mock private GoalRepository goalRepository;
-  @Mock private GoalResponseMapper goalResponseMapper;
-
   @InjectMocks private GetUserGoalsUseCase getUserGoalsUseCase;
 
   private User testUser;
@@ -38,15 +35,14 @@ class GetUserGoalsUseCaseTest {
   void givenUserWithGoals_whenGetMyGoals_thenReturnGoalResponseList() {
     // given
     Goal fakeGoal = GoalTestBuilder.aGoal().build();
-    GoalResponse fakeResponse = goalResponseMapper.toResponse(fakeGoal);
     given(goalRepository.findByUserId("user-1")).willReturn(List.of(fakeGoal));
-    given(goalResponseMapper.toResponse(fakeGoal)).willReturn(fakeResponse);
 
+    GoalDto fakeGoalDto = GoalDto.from(fakeGoal);
     // when
-    List<GoalResponse> result = getUserGoalsUseCase.getMyGoals(testUser);
+    List<GoalDto> result = getUserGoalsUseCase.getMyGoals(testUser);
 
     // then
-    assertThat(result).containsExactly(fakeResponse);
+    assertThat(result).containsExactly(fakeGoalDto);
   }
 
   @Test
@@ -55,7 +51,7 @@ class GetUserGoalsUseCaseTest {
     given(goalRepository.findByUserId("user-1")).willReturn(Collections.emptyList());
 
     // when
-    List<GoalResponse> result = getUserGoalsUseCase.getMyGoals(testUser);
+    List<GoalDto> result = getUserGoalsUseCase.getMyGoals(testUser);
 
     // then
     assertThat(result).isEmpty();

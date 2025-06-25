@@ -5,21 +5,21 @@ import com.growit.app.common.response.IdDto;
 import com.growit.app.goal.controller.dto.GoalResponse;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
+import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
+import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
+import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/goals")
@@ -28,12 +28,16 @@ public class GoalController {
   private final CreateGoalUseCase createGoalUseCase;
   private final GoalRequestMapper goalRequestMapper;
   private final GetUserGoalsUseCase getUserGoalsUseCase;
+  private final DeleteGoalUseCase deleteGoalUseCase;
+  private final GoalResponseMapper responseMapper;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<GoalResponse>>> getMyGoal(
       @AuthenticationPrincipal User user) {
-    List<GoalResponse> goals = getUserGoalsUseCase.getMyGoals(user);
-    return ResponseEntity.ok(ApiResponse.success(goals));
+    List<GoalDto> goals = getUserGoalsUseCase.getMyGoals(user);
+    List<GoalResponse> response =
+        goals.stream().map(responseMapper::toResponse).collect(Collectors.toList());
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
 
   @PostMapping
@@ -43,5 +47,13 @@ public class GoalController {
     String goalId = createGoalUseCase.execute(command);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(goalId)));
+  }
+
+  @DeleteMapping("{uid}")
+  public ResponseEntity<ApiResponse<String>> deleteGoal(
+      @PathVariable String uid, @AuthenticationPrincipal User user) {
+    //    DeleteGoalCommand command = goalRequestMapper.toCommand(user.getId(), uid);
+
+    return ResponseEntity.ok(ApiResponse.success("삭제가 완료 되었습니다."));
   }
 }
