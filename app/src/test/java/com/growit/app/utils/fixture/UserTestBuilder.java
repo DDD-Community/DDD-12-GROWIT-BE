@@ -8,7 +8,7 @@ import com.growit.app.user.domain.user.vo.RequiredConsent;
 public class UserTestBuilder {
   private String id = "user-1";
   private String email = "test@example.com";
-  private String password = "password123";
+  private String password = "1234";
   private String name = "홍길동";
   private String jobRoleId = "dev";
   private CareerYear careerYear = CareerYear.NEWBIE;
