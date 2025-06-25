@@ -25,4 +25,7 @@ public class GoalRepositoryImpl implements GoalRepository {
   public void saveGoal(Goal goal) {
     repository.save(mapper.toEntity(goal));
   }
+
+  @Override
+  public void deleteGoal(Goal goal) {}
 }

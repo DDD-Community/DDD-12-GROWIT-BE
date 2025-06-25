@@ -6,4 +6,6 @@ public interface GoalRepository {
   List<Goal> findByUserId(String userId);
 
   void saveGoal(Goal goal);
+
+  void deleteGoal(Goal goal);
 }
