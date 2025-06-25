@@ -5,7 +5,6 @@ import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.user.domain.user.User;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
