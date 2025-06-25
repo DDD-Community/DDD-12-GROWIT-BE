@@ -7,7 +7,7 @@ import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
-import com.growit.app.goal.usecase.GetGoalUseCase;
+import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -27,12 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class GoalController {
   private final CreateGoalUseCase createGoalUseCase;
   private final GoalRequestMapper goalRequestMapper;
-  private final GetGoalUseCase getGoalUseCase;
+  private final GetUserGoalsUseCase getUserGoalsUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<GoalResponse>>> getMyGoal(
       @AuthenticationPrincipal User user) {
-    List<GoalResponse> goals = getGoalUseCase.getMyGoals(user);
+    List<GoalResponse> goals = getUserGoalsUseCase.getMyGoals(user);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }
 
