@@ -9,9 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.utils.fixture.GoalTestBuilder;
 import java.util.List;
@@ -35,7 +33,6 @@ public class GoalControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
-  private GoalResponseMapper responseMapper;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -49,10 +46,8 @@ public class GoalControllerTest {
   void getMyGoal_success() throws Exception {
     // given
     Goal goal = GoalTestBuilder.aGoal().build();
-    GoalDto fakeDto = GoalDto.from(goal);
-    List<GoalDto> fakeGoalList = List.of(fakeDto);
-
-    given(getUserGoalsUseCase.getMyGoals(any())).willReturn(fakeGoalList);
+    List<Goal> goals = List.of(goal);
+    given(getUserGoalsUseCase.getMyGoals(any())).willReturn(goals);
 
     // when & then
     mockMvc

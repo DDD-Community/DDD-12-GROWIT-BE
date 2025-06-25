@@ -5,7 +5,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.utils.fixture.GoalTestBuilder;
@@ -36,13 +35,11 @@ class GetUserGoalsUseCaseTest {
     // given
     Goal fakeGoal = GoalTestBuilder.aGoal().build();
     given(goalRepository.findByUserId("user-1")).willReturn(List.of(fakeGoal));
-
-    GoalDto fakeGoalDto = GoalDto.from(fakeGoal);
     // when
-    List<GoalDto> result = getUserGoalsUseCase.getMyGoals(testUser);
+    List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser);
 
     // then
-    assertThat(result).containsExactly(fakeGoalDto);
+    assertThat(result).containsExactly(fakeGoal);
   }
 
   @Test
@@ -51,7 +48,7 @@ class GetUserGoalsUseCaseTest {
     given(goalRepository.findByUserId("user-1")).willReturn(Collections.emptyList());
 
     // when
-    List<GoalDto> result = getUserGoalsUseCase.getMyGoals(testUser);
+    List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser);
 
     // then
     assertThat(result).isEmpty();

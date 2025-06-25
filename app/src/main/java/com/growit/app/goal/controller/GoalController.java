@@ -2,20 +2,18 @@ package com.growit.app.goal.controller;
 
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.response.IdDto;
-import com.growit.app.goal.controller.dto.GoalResponse;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
-import com.growit.app.goal.controller.mapper.GoalResponseMapper;
+import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
-import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +28,12 @@ public class GoalController {
   private final GoalRequestMapper goalRequestMapper;
   private final GetUserGoalsUseCase getUserGoalsUseCase;
   private final DeleteGoalUseCase deleteGoalUseCase;
-  private final GoalResponseMapper responseMapper;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<GoalResponse>>> getMyGoal(
+  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
       @AuthenticationPrincipal User user) {
-    List<GoalDto> goals = getUserGoalsUseCase.getMyGoals(user);
-    List<GoalResponse> response =
-        goals.stream().map(responseMapper::toResponse).collect(Collectors.toList());
-    return ResponseEntity.ok(ApiResponse.success(response));
+    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user);
+    return ResponseEntity.ok(ApiResponse.success(goals));
   }
 
   @PostMapping
