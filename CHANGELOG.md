@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.5.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.4.0...v1.5.0) (2025-06-25)
+
+
+### Features
+
+* **GetGoalUseCase:** Exception 변경 ([dd8003a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/dd8003a17ea372dc5f1ae3c63ec8ca799f0ea654))
+* **goal:** domain layer goal 객체 추가 ([618ef11](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/618ef11119a6d4eb2ed6a59ffd32812b32a2fe7b)), closes [#26](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/26)
+* **goal:** GoalEntity userId 추가 ([ea5ee65](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ea5ee65fc7641316b2c0b2340e25efc883e3f2e3))
+* **Goal:** 단일 조회 기능 구현 ([bad705c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/bad705cbcebd68979151c0fb65a796c46c4f47dc))
+* **Goal:** 단일 조회 기능 구현 ([02ff6b2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/02ff6b2582e41b3515c843a0fb942e3095f8db42))
+
+
+### Bug Fixes
+
+* **goal:** add endDate mapper ([8610c2e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8610c2e864263f348bec81a5d906f5a4fd8d729c)), closes [#26](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/26)
+* **goal:** Entity 1:N 관계 적용 ([2173715](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2173715e959b6067aaebe57a06ca4d93c3022e3a))
+* **Goal:** goal =&gt; goals ([e1e4aaf](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e1e4aaf85344125f38025761605df4a91c24c0f6))
+* **goal:** setter 제거 ([02756f5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/02756f5a4de6a75584dc54b00b4a4bc99b6b017f))
+* **select 조건 변경:** select 조회 조건 변경 ([8c439c3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8c439c316590f4e6f842731e4cd4ca2d03b99398))
+* **UseCase:** UserCase 네이밍 변경 및 return 값 변경 ([dc5b6ff](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/dc5b6ff32785d7a4e44f68b74afe1e3f0129c227))
+* 미사용 exception 제거 ([67d5e7a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/67d5e7a57aad8ce1222792067760ade647ec3f37))
+* 충돌 병합 ([4516255](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/45162555255672e21fe8a2e94c068def7c1a8761))
+
 ## [1.4.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.3.1...v1.4.0) (2025-06-22)
 
 
