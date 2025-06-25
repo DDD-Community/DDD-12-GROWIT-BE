@@ -2,7 +2,6 @@ package com.growit.app.common.exception;
 
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 import com.growit.app.common.response.BaseErrorResponse;
-import com.growit.app.goal.domain.goal.service.GoalNotFoundException;
 import com.growit.app.user.domain.token.service.exception.ExpiredTokenException;
 import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
 import com.growit.app.user.domain.token.service.exception.TokenNotFoundException;
@@ -78,13 +77,5 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
     Map<String, List<String>> body = Map.of("message", messages);
     return ResponseEntity.badRequest().body(body);
-  }
-
-  @ExceptionHandler({
-    GoalNotFoundException.class,
-  })
-  public ResponseEntity<BaseErrorResponse> handleGoalNotFoundException(BaseException e) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 }
