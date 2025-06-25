@@ -27,7 +27,6 @@ public class GoalRepositoryImpl implements GoalRepository {
     repository.save(mapper.toEntity(goal));
   }
 
-
   @Override
   public Optional<Goal> findByUid(String goalId) {
     return Optional.empty();
