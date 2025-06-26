@@ -7,7 +7,6 @@ import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
-import com.growit.app.goal.domain.goal.dto.GoalDto;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
@@ -30,9 +29,9 @@ public class GoalController {
   private final DeleteGoalUseCase deleteGoalUseCase;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<GoalDto>>> getMyGoal(@AuthenticationPrincipal User user) {
+  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(@AuthenticationPrincipal User user) {
     List<Goal> goals = getUserGoalsUseCase.getMyGoals(user);
-    return ResponseEntity.ok(ApiResponse.success(goals.stream().map(GoalDto::toDto).toList()));
+    return ResponseEntity.ok(ApiResponse.success(goals));
   }
 
   @PostMapping
@@ -44,10 +43,10 @@ public class GoalController {
     return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(goalId)));
   }
 
-  @DeleteMapping("{uid}")
+  @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
-      @PathVariable("uid") String uid, @AuthenticationPrincipal User user) {
-    DeleteGoalCommand command = goalRequestMapper.toCommand(uid, user.getId());
+      @PathVariable String id, @AuthenticationPrincipal User user) {
+    DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료 되었습니다."));
   }

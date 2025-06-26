@@ -28,7 +28,7 @@ public class FakeGoalRepository implements GoalRepository {
   }
 
   @Override
-  public Optional<Goal> findByUid(String goalId) {
+  public Optional<Goal> findById(String goalId) {
     return Optional.empty();
   }
 }

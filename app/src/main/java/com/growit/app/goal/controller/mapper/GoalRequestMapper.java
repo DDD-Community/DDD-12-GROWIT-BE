@@ -22,7 +22,7 @@ public class GoalRequestMapper {
             .toList());
   }
 
-  public DeleteGoalCommand toCommand(String userId, String goalId) {
-    return new DeleteGoalCommand(userId, goalId);
+  public DeleteGoalCommand toDeleteCommand(String id, String userId) {
+    return new DeleteGoalCommand(id, userId);
   }
 }
