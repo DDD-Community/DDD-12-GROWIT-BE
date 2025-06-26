@@ -52,7 +52,7 @@ class GoalControllerTest {
   void getMyGoal_success() throws Exception {
     // given
         Goal goal = GoalFixture.defaultGoal();
-      List<Goal> goals = List.of(goal);
+          List<Goal> goals = List.of(goal);
          given(getUserGoalsUseCase.getMyGoals(any())).willReturn(goals);
 
     // when & then
