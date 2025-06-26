@@ -26,7 +26,6 @@ public class GoalDBMapper {
         goal.getPlans().stream()
             .map(plan -> new PlanEntity(plan.getId(), plan.getContent(), entity))
             .toList());
-
     return entity;
   }
 

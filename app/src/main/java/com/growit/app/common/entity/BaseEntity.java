@@ -3,6 +3,7 @@ package com.growit.app.common.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,7 +18,7 @@ public abstract class BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long id; // PK
 
   @CreatedDate
   @Column(nullable = false, updatable = false)
@@ -27,5 +28,5 @@ public abstract class BaseEntity {
   @Column(nullable = false)
   private LocalDateTime updatedAt;
 
-  @LastModifiedDate @Column() private LocalDateTime deleteAt;
+  @Setter @Column() private LocalDateTime deletedAt;
 }

@@ -9,7 +9,7 @@ public class FakeGoalRepository implements GoalRepository {
   private final Map<String, List<Goal>> store = new ConcurrentHashMap<>();
 
   @Override
-  public List<Goal> findByUserId(String userId) {
+  public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
     return store.getOrDefault(userId, Collections.emptyList());
   }
 

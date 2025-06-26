@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GoalRepository {
-  List<Goal> findByUserId(String userId);
+  List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId);
 
   void saveGoal(Goal goal);
 

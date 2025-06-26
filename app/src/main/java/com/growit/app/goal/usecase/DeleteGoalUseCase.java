@@ -16,7 +16,6 @@ public class DeleteGoalUseCase {
 
   @Transactional
   public void execute(DeleteGoalCommand command) {
-
     Goal goal =
         goalRepository
             .findByUid(command.uid())
