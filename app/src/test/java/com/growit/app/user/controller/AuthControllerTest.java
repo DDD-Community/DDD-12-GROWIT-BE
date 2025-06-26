@@ -20,11 +20,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -35,11 +35,11 @@ import org.springframework.web.context.WebApplicationContext;
 class AuthControllerTest {
   private MockMvc mockMvc;
 
-  @MockBean private SignUpUseCase signUpUseCase;
-  @MockBean private SignInUseCase signInUseCase;
-  @MockBean private ReissueUseCase reissueUseCase;
-  @MockBean private RequestMapper requestMapper;
-  @MockBean private ResponseMapper responseMapper;
+  @MockitoBean private SignUpUseCase signUpUseCase;
+  @MockitoBean private SignInUseCase signInUseCase;
+  @MockitoBean private ReissueUseCase reissueUseCase;
+  @MockitoBean private RequestMapper requestMapper;
+  @MockitoBean private ResponseMapper responseMapper;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {

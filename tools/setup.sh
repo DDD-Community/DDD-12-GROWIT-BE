@@ -18,6 +18,11 @@ mkdir -p "${GIT_DIR}/hooks/"
 cp "${GIT_ROOT}/tools/pre-push" "${GIT_DIR}/hooks/pre-push" \
   && chmod +x "${GIT_DIR}/hooks/pre-push"
 
+echo "Installing git pre-commit hook"
+echo
+cp "${GIT_ROOT}/tools/pre-push" "${GIT_DIR}/hooks/pre-commit" \
+  && chmod +x "${GIT_DIR}/hooks/pre-commit"
+
 cat <<-EOF
 Checking the following settings helps avoid miscellaneous issues:
   * Settings -> Editor -> General -> Remove trailing spaces on: Modified lines

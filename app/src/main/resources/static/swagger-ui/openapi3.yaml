@@ -111,6 +111,47 @@ paths:
                     :\"테스트 목표\",\"duration\":{\"startDate\":\"2025-06-23\",\"endDate\"\
                     :\"2025-06-29\",\"weekCount\":1},\"beforeAfter\":{\"asIs\":\"\
                     ASIS\",\"toBe\":\"TOBE\"},\"plans\":[]}]}"
+    post:
+      tags:
+      - Goals
+      summary: 목표 생성
+      description: 목표 생성
+      operationId: create-goal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/auth-signup486549215"
+            examples:
+              create-goal:
+                value: |
+                  {
+                      "name": "내 목표는 그로잇 완성",
+                      "duration": {
+                        "startDate": "2025-06-23",
+                        "endDate": "2025-07-20"
+                      },
+                      "beforeAfter": {
+                          "asIs": "기획 정의",
+                          "toBe": "배포 완료"
+                      },
+                      "plans": [
+                          {"content" : "기획 및 설계 회의"},
+                          {"content" : "디자인 시안 뽑기"},
+                          {"content" : "프론트 개발 및 백 개발 완료"},
+                          {"content" : "배포 완료"}
+                      ]
+                  }
+      responses:
+        "201":
+          description: "201"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/auth-signup486549215"
+              examples:
+                create-goal:
+                  value: "{\"data\":{\"id\":\"GcJXlMGShjjsgumKmgpkP\"}}"
   /resource/jobroles:
     get:
       tags:
