@@ -51,9 +51,9 @@ class GoalControllerTest {
   @Test
   void getMyGoal_success() throws Exception {
     // given
-        Goal goal = GoalFixture.defaultGoal();
-          List<Goal> goals = List.of(goal);
-         given(getUserGoalsUseCase.getMyGoals(any())).willReturn(goals);
+    Goal goal = GoalFixture.defaultGoal();
+    List<Goal> goals = List.of(goal);
+    given(getUserGoalsUseCase.getMyGoals(any())).willReturn(goals);
 
     // when & then
     mockMvc
@@ -90,7 +90,6 @@ class GoalControllerTest {
                             .description("계획 내용"))));
   }
 
-
   @Test
   void createGoal() throws Exception {
     String requestBody =
@@ -114,9 +113,11 @@ class GoalControllerTest {
         }
         """;
     mockMvc
-        .perform(post("/goals")
-            .header("Authorization", "Bearer mock-jwt-token")
-            .contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .perform(
+            post("/goals")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
         .andExpect(status().isCreated())
         .andDo(
             document(
@@ -126,16 +127,21 @@ class GoalControllerTest {
                     .description("목표 생성")
                     .requestFields(
                         fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
-                        fieldWithPath("duration.startDate").type(JsonFieldType.STRING).description("시작일 (yyyy-MM-dd)"),
-                        fieldWithPath("duration.endDate").type(JsonFieldType.STRING).description("종료일 (yyyy-MM-dd)"),
-                        fieldWithPath("beforeAfter.asIs").type(JsonFieldType.STRING).description("현재 상태(As-Is)"),
-                        fieldWithPath("beforeAfter.toBe").type(JsonFieldType.STRING).description("목표 달성 후 상태(To-Be)"),
-                        fieldWithPath("plans[].content").type(JsonFieldType.STRING).description("계획 내용")
-                    )
-                    .responseFields(
-                        fieldWithPath("data.id").type(STRING).description("목표 ID")
-                    )
-            )
-        );
+                        fieldWithPath("duration.startDate")
+                            .type(JsonFieldType.STRING)
+                            .description("시작일 (yyyy-MM-dd)"),
+                        fieldWithPath("duration.endDate")
+                            .type(JsonFieldType.STRING)
+                            .description("종료일 (yyyy-MM-dd)"),
+                        fieldWithPath("beforeAfter.asIs")
+                            .type(JsonFieldType.STRING)
+                            .description("현재 상태(As-Is)"),
+                        fieldWithPath("beforeAfter.toBe")
+                            .type(JsonFieldType.STRING)
+                            .description("목표 달성 후 상태(To-Be)"),
+                        fieldWithPath("plans[].content")
+                            .type(JsonFieldType.STRING)
+                            .description("계획 내용"))
+                    .responseFields(fieldWithPath("data.id").type(STRING).description("목표 ID"))));
   }
 }

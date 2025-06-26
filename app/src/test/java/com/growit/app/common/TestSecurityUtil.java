@@ -7,13 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class TestSecurityUtil {
 
-    public static void setMockUser() {
-        SecurityContextHolder.getContext().setAuthentication(
-            new UsernamePasswordAuthenticationToken(UserFixture.defaultUser(), null, List.of())
-        );
-    }
+  public static void setMockUser() {
+    SecurityContextHolder.getContext()
+        .setAuthentication(
+            new UsernamePasswordAuthenticationToken(UserFixture.defaultUser(), null, List.of()));
+  }
 
-    public static void clearSecurityContext() {
-        SecurityContextHolder.clearContext();
-    }
+  public static void clearSecurityContext() {
+    SecurityContextHolder.clearContext();
+  }
 }
