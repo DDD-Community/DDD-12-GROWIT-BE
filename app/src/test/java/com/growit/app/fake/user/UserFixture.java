@@ -1,4 +1,4 @@
-package com.growit.app.fake;
+package com.growit.app.fake.user;
 
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.CareerYear;

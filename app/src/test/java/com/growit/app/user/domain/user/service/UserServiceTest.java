@@ -3,8 +3,8 @@ package com.growit.app.user.domain.user.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.growit.app.common.exception.BadRequestException;
-import com.growit.app.fake.FakeUserRepository;
-import com.growit.app.fake.UserFixture;
+import com.growit.app.fake.user.FakeUserRepository;
+import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.Email;
 import org.junit.jupiter.api.BeforeEach;

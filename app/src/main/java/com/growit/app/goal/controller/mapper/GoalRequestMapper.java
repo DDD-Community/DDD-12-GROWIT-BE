@@ -2,6 +2,7 @@ package com.growit.app.goal.controller.mapper;
 
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
+import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
@@ -19,5 +20,9 @@ public class GoalRequestMapper {
         request.getPlans().stream()
             .map(planRequest -> new PlanDto(planRequest.getContent()))
             .toList());
+  }
+
+  public DeleteGoalCommand toCommand(String userId, String goalId) {
+    return new DeleteGoalCommand(userId, goalId);
   }
 }
