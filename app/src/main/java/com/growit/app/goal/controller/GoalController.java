@@ -43,10 +43,10 @@ public class GoalController {
     return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(goalId)));
   }
 
-  @DeleteMapping("{uid}")
+  @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
-      @PathVariable String uid, @AuthenticationPrincipal User user) {
-    DeleteGoalCommand command = goalRequestMapper.toCommand(uid, user.getId());
+      @PathVariable String id, @AuthenticationPrincipal User user) {
+    DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료 되었습니다."));
   }

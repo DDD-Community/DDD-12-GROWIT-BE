@@ -15,12 +15,12 @@ public class DeleteGoalUseCase {
 
   @Transactional
   public void execute(DeleteGoalCommand command) {
-    String uid = command.uid();
+    String id = command.id();
     String userId = command.userId();
 
     Goal goal =
         goalRepository
-            .findByUIdAndUserId(uid, userId)
+            .findByUIdAndUserId(id, userId)
             .orElseThrow(() -> new NotFoundException("해당 목표가 없습니다."));
 
     // 3. 삭제
