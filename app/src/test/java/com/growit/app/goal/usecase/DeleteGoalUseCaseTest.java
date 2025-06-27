@@ -21,7 +21,7 @@ class DeleteGoalUseCaseTest {
   @BeforeEach
   void setUp() {
     goalRepository = new FakeGoalRepository();
-    GoalValidator goalValidator = new GoalService(); // 실제 서비스 사용
+    GoalValidator goalValidator = new GoalService();
     deleteGoalUseCase = new DeleteGoalUseCase(goalRepository, goalValidator);
   }
 

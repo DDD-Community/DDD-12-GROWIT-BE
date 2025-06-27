@@ -54,11 +54,9 @@ class GoalControllerTest {
 
   @Test
   void getMyGoal() throws Exception {
-    // given
     Goal goal = GoalFixture.defaultGoal();
     goalRepository.saveGoal(goal);
 
-    // when & then
     mockMvc
         .perform(get("/goals").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
@@ -151,7 +149,7 @@ class GoalControllerTest {
   @Test
   void deleteGoal() throws Exception {
     Goal goal = GoalFixture.defaultGoal();
-    goalRepository.saveGoal(goal); // 반드시 DI 받은 인스턴스로 저장
+    goalRepository.saveGoal(goal);
 
     mockMvc
         .perform(
