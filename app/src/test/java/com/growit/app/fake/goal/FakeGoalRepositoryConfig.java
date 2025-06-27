@@ -1,6 +1,5 @@
-package com.growit.app.common;
+package com.growit.app.fake.goal;
 
-import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

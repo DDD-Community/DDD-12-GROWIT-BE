@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.common.FakeGoalRepositoryConfig;
+import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
@@ -149,7 +149,7 @@ class GoalControllerTest {
   }
 
   @Test
-  void deleteGoal_success() throws Exception {
+  void deleteGoal() throws Exception {
     Goal goal = GoalFixture.defaultGoal();
     goalRepository.saveGoal(goal); // 반드시 DI 받은 인스턴스로 저장
 
