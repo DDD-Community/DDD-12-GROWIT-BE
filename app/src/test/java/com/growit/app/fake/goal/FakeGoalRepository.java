@@ -12,8 +12,8 @@ public class FakeGoalRepository implements GoalRepository {
   @Override
   public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
     return store.getOrDefault(userId, Collections.emptyList()).stream()
-      .filter(goal -> !goal.getDeleted())
-      .collect(Collectors.toList());
+        .filter(goal -> !goal.getDeleted())
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -33,8 +33,12 @@ public class FakeGoalRepository implements GoalRepository {
   @Override
   public Optional<Goal> findById(String goalId) {
     return store.values().stream()
-      .flatMap(List::stream)
-      .filter(goal -> goal.getId().equals(goalId))
-      .findFirst();
+        .flatMap(List::stream)
+        .filter(goal -> goal.getId().equals(goalId))
+        .findFirst();
+  }
+
+  public void clear() {
+    store.clear();
   }
 }
