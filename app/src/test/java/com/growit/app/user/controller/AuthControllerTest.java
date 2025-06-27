@@ -9,6 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.growit.app.fake.user.UserFixture;
+import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
@@ -19,6 +22,7 @@ import com.growit.app.user.usecase.SignUpUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -34,6 +38,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 class AuthControllerTest {
   private MockMvc mockMvc;
+  @Autowired private ObjectMapper objectMapper;
 
   @MockitoBean private SignUpUseCase signUpUseCase;
   @MockitoBean private SignInUseCase signInUseCase;
@@ -51,19 +56,11 @@ class AuthControllerTest {
 
   @Test
   void signupTest() throws Exception {
-    String requestBody =
-        """
-            {
-                "email": "test@example.com",
-                "password": "securePass123",
-                "name": "홍길동",
-                "jobRoleId": "6rOg7Zmp7IOd",
-                "careerYear": "JUNIOR"
-            }
-            """;
-    // mock 동작 정의 (필요 시)
+    SignUpRequest signUpRequest = UserFixture.defaultSignUpRequest();
+
     mockMvc
-        .perform(post("/auth/signup").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .perform(post("/auth/signup").contentType(MediaType.APPLICATION_JSON)
+          .content(objectMapper.writeValueAsBytes(signUpRequest)))
         .andExpect(status().isCreated())
         .andDo(
             MockMvcRestDocumentationWrapper.document(
@@ -83,18 +80,12 @@ class AuthControllerTest {
 
   @Test
   void signInTest() throws Exception {
-    String requestBody =
-        """
-            {
-                "email": "test@example.com",
-                "password": "securePass123"
-            }
-            """;
     Token token = new Token("accessToken", "refreshToken");
     given(responseMapper.toTokenResponse(any()))
         .willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
     mockMvc
-        .perform(post("/auth/signin").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .perform(post("/auth/signin").contentType(MediaType.APPLICATION_JSON)
+          .content(objectMapper.writeValueAsBytes(UserFixture.defaultSignInRequest())))
         .andExpect(status().isOk())
         .andDo(
             MockMvcRestDocumentationWrapper.document(
@@ -112,18 +103,13 @@ class AuthControllerTest {
 
   @Test
   void reissueTest() throws Exception {
-    String requestBody =
-        """
-            {
-                "refreshToken": "dummy-refresh-token"
-            }
-            """;
     Token token = new Token("accessToken", "refreshToken");
     given(responseMapper.toTokenResponse(any()))
         .willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
 
     mockMvc
-        .perform(post("/auth/reissue").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+        .perform(post("/auth/reissue").contentType(MediaType.APPLICATION_JSON)
+          .content(objectMapper.writeValueAsBytes(UserFixture.defaultReissueRequest())))
         .andExpect(status().isOk())
         .andDo(
             MockMvcRestDocumentationWrapper.document(

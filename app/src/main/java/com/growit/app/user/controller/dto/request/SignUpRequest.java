@@ -4,9 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class SignUpRequest {
   @NotBlank(message = "이메일은 필수입니다.")
   @Email(message = "유효한 이메일 형식이어야 합니다.")
@@ -26,5 +28,6 @@ public class SignUpRequest {
   @NotNull(message = "경력 연차는 필수입니다.")
   private String careerYear;
 
+  @NotNull(message = "약관동의는 필수입니다.")
   private RequiredConsentRequest requiredConsent;
 }

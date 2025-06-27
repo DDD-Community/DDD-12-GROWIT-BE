@@ -18,20 +18,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/auth-signup486549215"
+              $ref: "#/components/schemas/auth-signin486549215"
             examples:
               auth-reissue:
-                value: |
-                  {
-                      "refreshToken": "dummy-refresh-token"
-                  }
+                value: "{\"refreshToken\":\"dummy-refresh-token\"}"
       responses:
         "200":
           description: "200"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auth-signup486549215"
+                $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 auth-reissue:
                   value: "{\"data\":{\"accessToken\":\"accessToken\",\"refreshToken\"\
@@ -47,21 +44,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/auth-signup486549215"
+              $ref: "#/components/schemas/auth-signin486549215"
             examples:
               auth-signin:
-                value: |
-                  {
-                      "email": "test@example.com",
-                      "password": "securePass123"
-                  }
+                value: "{\"email\":\"test@example.com\",\"password\":\"securePass123\"\
+                  }"
       responses:
         "200":
           description: "200"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auth-signup486549215"
+                $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 auth-signin:
                   value: "{\"data\":{\"accessToken\":\"accessToken\",\"refreshToken\"\
@@ -77,17 +71,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/auth-signup486549215"
+              $ref: "#/components/schemas/auth-signin486549215"
             examples:
               auth-signup:
-                value: |
-                  {
-                      "email": "test@example.com",
-                      "password": "securePass123",
-                      "name": "홍길동",
-                      "jobRoleId": "6rOg7Zmp7IOd",
-                      "careerYear": "JUNIOR"
-                  }
+                value: "{\"email\":\"test@example.com\",\"password\":\"securePass123\"\
+                  ,\"name\":\"홍길동\",\"jobRoleId\":\"6rOg7Zmp7IOd\",\"careerYear\"\
+                  :\"JUNIOR\",\"requiredConsent\":{\"privacyPolicyAgreed\":true,\"\
+                  serviceTermsAgreed\":true}}"
       responses:
         "201":
           description: "201"
@@ -104,7 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auth-signup486549215"
+                $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 get-my-goal:
                   value: "{\"data\":[{\"id\":\"goal-1\",\"userId\":\"user-1\",\"name\"\
@@ -121,37 +111,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/auth-signup486549215"
+              $ref: "#/components/schemas/auth-signin486549215"
             examples:
               create-goal:
-                value: |
-                  {
-                      "name": "내 목표는 그로잇 완성",
-                      "duration": {
-                        "startDate": "2025-06-23",
-                        "endDate": "2025-07-20"
-                      },
-                      "beforeAfter": {
-                          "asIs": "기획 정의",
-                          "toBe": "배포 완료"
-                      },
-                      "plans": [
-                          {"content" : "기획 및 설계 회의"},
-                          {"content" : "디자인 시안 뽑기"},
-                          {"content" : "프론트 개발 및 백 개발 완료"},
-                          {"content" : "배포 완료"}
-                      ]
-                  }
+                value: "{\"name\":\"내 목표는 그로잇 완성\",\"duration\":{\"startDate\":\"\
+                  2025-06-23\",\"endDate\":\"2025-07-20\"},\"beforeAfter\":{\"asIs\"\
+                  :\"기획 정의\",\"toBe\":\"배포 완료\"},\"plans\":[{\"content\":\"기획 및 설계\
+                  \ 회의\"},{\"content\":\"디자인 시안 뽑기\"},{\"content\":\"프론트 개발 및 백 개발\
+                  \ 완료\"},{\"content\":\"배포 완료\"}]}"
       responses:
         "201":
           description: "201"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auth-signup486549215"
+                $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 create-goal:
-                  value: "{\"data\":{\"id\":\"GcJXlMGShjjsgumKmgpkP\"}}"
+                  value: "{\"data\":{\"id\":\"Fr3qV6R2MdouHHAwu3yBk\"}}"
   /resource/jobroles:
     get:
       tags:
@@ -165,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auth-signup486549215"
+                $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 get-job-roles:
                   value: "{\"data\":{\"jobRoles\":[{\"id\":\"dev\",\"name\":\"개발자\"\
@@ -184,7 +161,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/auth-signup486549215"
+                $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 get-user:
                   value: "{\"data\":{\"id\":\"user-1\",\"email\":\"user@example.com\"\
@@ -192,5 +169,5 @@ paths:
                     개발자\"},\"careerYear\":\"JUNIOR\"}}"
 components:
   schemas:
-    auth-signup486549215:
+    auth-signin486549215:
       type: object
