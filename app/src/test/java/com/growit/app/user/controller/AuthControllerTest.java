@@ -59,8 +59,10 @@ class AuthControllerTest {
     SignUpRequest signUpRequest = UserFixture.defaultSignUpRequest();
 
     mockMvc
-        .perform(post("/auth/signup").contentType(MediaType.APPLICATION_JSON)
-          .content(objectMapper.writeValueAsBytes(signUpRequest)))
+        .perform(
+            post("/auth/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(signUpRequest)))
         .andExpect(status().isCreated())
         .andDo(
             MockMvcRestDocumentationWrapper.document(
@@ -84,8 +86,10 @@ class AuthControllerTest {
     given(responseMapper.toTokenResponse(any()))
         .willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
     mockMvc
-        .perform(post("/auth/signin").contentType(MediaType.APPLICATION_JSON)
-          .content(objectMapper.writeValueAsBytes(UserFixture.defaultSignInRequest())))
+        .perform(
+            post("/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(UserFixture.defaultSignInRequest())))
         .andExpect(status().isOk())
         .andDo(
             MockMvcRestDocumentationWrapper.document(
@@ -108,8 +112,10 @@ class AuthControllerTest {
         .willReturn(new TokenResponse(token.accessToken(), token.refreshToken()));
 
     mockMvc
-        .perform(post("/auth/reissue").contentType(MediaType.APPLICATION_JSON)
-          .content(objectMapper.writeValueAsBytes(UserFixture.defaultReissueRequest())))
+        .perform(
+            post("/auth/reissue")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(UserFixture.defaultReissueRequest())))
         .andExpect(status().isOk())
         .andDo(
             MockMvcRestDocumentationWrapper.document(

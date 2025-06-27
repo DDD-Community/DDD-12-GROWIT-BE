@@ -22,16 +22,13 @@ public class GoalFixture {
   public static CreateGoalRequest defaultCreateGoalRequest() {
     return new CreateGoalRequest(
         "내 목표는 그로잇 완성",
-        new GoalDurationDto(LocalDate.of(2025, 6, 23),
-          LocalDate.of(2025, 7, 20)),
+        new GoalDurationDto(LocalDate.of(2025, 6, 23), LocalDate.of(2025, 7, 20)),
         new BeforeAfterDto("기획 정의", "배포 완료"),
         List.of(
             new PlanRequestDto("기획 및 설계 회의"),
             new PlanRequestDto("디자인 시안 뽑기"),
             new PlanRequestDto("프론트 개발 및 백 개발 완료"),
-            new PlanRequestDto("배포 완료")
-        )
-    );
+            new PlanRequestDto("배포 완료")));
   }
 }
 

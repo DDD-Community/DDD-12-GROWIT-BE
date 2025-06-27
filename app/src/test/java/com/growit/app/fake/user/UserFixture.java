@@ -15,12 +15,12 @@ public class UserFixture {
 
   public static SignUpRequest defaultSignUpRequest() {
     return new SignUpRequest(
-      "test@example.com",
-      "securePass123",
-      "홍길동",
-      "6rOg7Zmp7IOd",
-      CareerYear.JUNIOR.name(),
-      new RequiredConsentRequest(true, true));
+        "test@example.com",
+        "securePass123",
+        "홍길동",
+        "6rOg7Zmp7IOd",
+        CareerYear.JUNIOR.name(),
+        new RequiredConsentRequest(true, true));
   }
 
   public static SignInRequest defaultSignInRequest() {
