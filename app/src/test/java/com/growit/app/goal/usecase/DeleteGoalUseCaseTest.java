@@ -1,5 +1,7 @@
 package com.growit.app.goal.usecase;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.goal.FakeGoalRepository;
@@ -10,8 +12,6 @@ import com.growit.app.goal.domain.goal.service.GoalService;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DeleteGoalUseCaseTest {
 
