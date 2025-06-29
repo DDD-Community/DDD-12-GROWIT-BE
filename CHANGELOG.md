@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.6.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.5.0...v1.6.0) (2025-06-29)
+
+
+### Features
+
+* delete에서 softDelete 변경 ([31f1d7f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/31f1d7f3a1a70e4daf915f6d5cb3dfddb9761f85))
+* delete에서 softDelete 변경 ([010f6dc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/010f6dcb09b0335cb20c32dba9f2092c3dabe9f4))
+* **Fixture:** Goal Fixture, Bulder 추가 ([4ac7beb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4ac7bebec29abdb23e6b38caf3ca14acc1ff0be4))
+* GoalService ([b967814](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b967814ca29a25b1d29cb018cae08af49dc959c5))
+* GoalService ([75f988c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/75f988c99f3315799c26932dd1cc5fabe18f85aa))
+* **Goal:** 삭제기능 구현 ([195e8ac](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/195e8ac391b1e7686a222e9549e956a223e40980))
+* **init:** 목표 삭제 기능 초기 코드 커밋 ([2afdc71](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2afdc71b2d4177fd231c90138c92d1c15a330e96))
+
+
+### Bug Fixes
+
+* **DDD:** 도메인 역전 상황 해결 ([61cc5ff](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/61cc5ff63902a48d1d6b19ecd615c33ccc78ac53))
+* **Fixture:** SUT 방식으로 변경 ([b9ecb9e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b9ecb9ebab79a3406fc735268c6dab649a952cda))
+* **Goal:** 삭제 기능 변경 ([0b01e74](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0b01e74dbc9e6a4122eb970be9adece8e35ce538))
+* localDB 변경 ([54fcbf8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/54fcbf841c1fb310ea8826e583d21f72cbf427f0))
+* pr 사항 정리 ([3b1a99c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3b1a99c3a158c21bb5f484f66260e73e46f27ac5))
+* ResponseMapper 형태 제거 ([a927d51](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a927d51e8f816f59510482f15a167d09921c3abd))
+* 가독성 개선, 변수 개선 ([f7c78ca](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f7c78cadff54c9de6fdd233a6e35d9b0015d3037))
+
 ## [1.5.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.4.0...v1.5.0) (2025-06-25)
 
 
