@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.6.1...v1.7.0) (2025-06-29)
+
+
+### Features
+
+* **log:** logstash 추가 ([e96dbf8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e96dbf8a202233e9db849753ff80e79cee02fe7c))
+* **log:** 사용되지 않는 주석 제거 ([60a84f4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/60a84f4811e8018023fd0d3b0621999ef193b8cf))
+
+
+### Bug Fixes
+
+* **error:** resource 경로 없는 경우 notFound 에러처리 ([7743d41](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7743d4121a207132cb52a7267fd542fb03304b0f))
+* **error:** resource 경로 없는 경우 notFound 에러처리 ([c4ee233](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c4ee2336a635facf19ba4baba98745f7e48fcbd0))
+
 ## [1.6.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.6.0...v1.6.1) (2025-06-29)
 
 
