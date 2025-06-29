@@ -2,28 +2,29 @@ package com.growit.app.goal.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.fake.goal.FakeGoalRepository;
+import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -37,11 +38,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
+@Import(FakeGoalRepositoryConfig.class)
 class GoalControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
   @Autowired private ObjectMapper objectMapper;
+  @Autowired private GoalRepository goalRepository;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -50,18 +53,19 @@ class GoalControllerTest {
             .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
             .build();
     TestSecurityUtil.setMockUser();
+    if (goalRepository instanceof FakeGoalRepository fake) {
+      fake.clear();
+    }
   }
 
   @Test
-  void getMyGoal_success() throws Exception {
-    // given
+  void getMyGoal() throws Exception {
     Goal goal = GoalFixture.defaultGoal();
-    List<Goal> goals = List.of(goal);
-    given(getUserGoalsUseCase.getMyGoals(any())).willReturn(goals);
+    goalRepository.saveGoal(goal);
 
     // when & then
     mockMvc
-        .perform(get("/goals"))
+        .perform(get("/goals").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
         .andDo(
@@ -128,5 +132,28 @@ class GoalControllerTest {
                             .type(JsonFieldType.STRING)
                             .description("계획 내용"))
                     .responseFields(fieldWithPath("data.id").type(STRING).description("목표 ID"))));
+  }
+
+  @Test
+  void deleteGoal() throws Exception {
+    Goal goal = GoalFixture.defaultGoal();
+    goalRepository.saveGoal(goal);
+
+    mockMvc
+        .perform(
+            delete("/goals/{id}", goal.getId()).header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").value("삭제가 완료 되었습니다."))
+        .andDo(
+            document(
+                "delete-goal",
+                new ResourceSnippetParametersBuilder()
+                    .tag("Goals")
+                    .description("목표 삭제")
+                    .pathParameters(parameterWithName("id").description("삭제할 목표 ID"))
+                    .responseFields(
+                        fieldWithPath("data")
+                            .type(JsonFieldType.STRING)
+                            .description("삭제가 완료 되었습니다."))));
   }
 }

@@ -97,10 +97,7 @@ paths:
                 $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 get-my-goal:
-                  value: "{\"data\":[{\"id\":\"goal-1\",\"userId\":\"user-1\",\"name\"\
-                    :\"테스트 목표\",\"duration\":{\"startDate\":\"2025-06-23\",\"endDate\"\
-                    :\"2025-06-29\",\"weekCount\":1},\"beforeAfter\":{\"asIs\":\"\
-                    ASIS\",\"toBe\":\"TOBE\"},\"plans\":[]}]}"
+                  value: "{\"data\":[]}"
     post:
       tags:
       - Goals
@@ -128,7 +125,31 @@ paths:
                 $ref: "#/components/schemas/auth-signin486549215"
               examples:
                 create-goal:
-                  value: "{\"data\":{\"id\":\"Fr3qV6R2MdouHHAwu3yBk\"}}"
+                  value: "{\"data\":{\"id\":\"2FkZADlb_D6YESeJzr9u3\"}}"
+  /goals/{id}:
+    delete:
+      tags:
+      - Goals
+      summary: 목표 삭제
+      description: 목표 삭제
+      operationId: delete-goal
+      parameters:
+      - name: id
+        in: path
+        description: ""
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/auth-signin486549215"
+              examples:
+                delete-goal:
+                  value: "{\"data\":\"삭제가 완료 되었습니다.\"}"
   /resource/jobroles:
     get:
       tags:

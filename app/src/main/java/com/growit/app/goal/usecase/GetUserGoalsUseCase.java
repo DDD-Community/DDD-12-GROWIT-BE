@@ -16,7 +16,8 @@ public class GetUserGoalsUseCase {
 
   @Transactional(readOnly = true)
   public List<Goal> getMyGoals(User user) {
-    List<Goal> goals = goalRepository.findByUserId(user.getId());
+    List<Goal> goals = goalRepository.findAllByUserIdAndDeletedAtIsNull(user.getId());
+
     if (goals.isEmpty()) return Collections.emptyList();
     return goals;
   }

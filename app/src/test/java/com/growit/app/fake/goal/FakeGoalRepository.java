@@ -4,13 +4,16 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class FakeGoalRepository implements GoalRepository {
   private final Map<String, List<Goal>> store = new ConcurrentHashMap<>();
 
   @Override
-  public List<Goal> findByUserId(String userId) {
-    return store.getOrDefault(userId, Collections.emptyList());
+  public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
+    return store.getOrDefault(userId, Collections.emptyList()).stream()
+        .filter(goal -> !goal.getDeleted())
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -28,20 +31,14 @@ public class FakeGoalRepository implements GoalRepository {
   }
 
   @Override
-  public Optional<Goal> findByUIdAndUserId(String uid, String userId) {
-    List<Goal> goals = store.get(userId);
-    if (goals == null) return Optional.empty();
-    return goals.stream().filter(goal -> goal.getId().equals(uid)).findFirst();
+  public Optional<Goal> findById(String goalId) {
+    return store.values().stream()
+        .flatMap(List::stream)
+        .filter(goal -> goal.getId().equals(goalId))
+        .findFirst();
   }
 
-  @Override
-  public void deleteGoal(Goal goal) {
-    List<Goal> goals = store.get(goal.getUserId());
-    if (goals != null) {
-      goals.removeIf(g -> g.getId().equals(goal.getId()));
-      if (goals.isEmpty()) {
-        store.remove(goal.getUserId());
-      }
-    }
+  public void clear() {
+    store.clear();
   }
 }

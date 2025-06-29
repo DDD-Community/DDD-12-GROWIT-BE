@@ -3,6 +3,8 @@ package com.growit.app.goal.domain.goal.service;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.fake.goal.GoalFixture;
+import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.LocalDate;
@@ -32,5 +34,11 @@ class GoalServiceTest {
     List<PlanDto> plans = List.of(); // 계획이 없음
 
     assertThrows(BadRequestException.class, () -> goalService.checkPlans(duration, plans));
+  }
+
+  @Test
+  void givenInvalidUser_whenCheckMyGoal_throwBadRequestException() {
+    Goal goal = GoalFixture.defaultGoal();
+    assertThrows(BadRequestException.class, () -> goalService.checkMyGoal(goal, "otherUser"));
   }
 }

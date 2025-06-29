@@ -1,11 +1,13 @@
 package com.growit.app.goal.domain.goal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +23,9 @@ public class Goal {
   private BeforeAfter beforeAfter;
   private List<Plan> plans;
 
+  @Getter(AccessLevel.NONE)
+  private boolean isDelete;
+
   public static Goal from(CreateGoalCommand command) {
     return Goal.builder()
         .id(IDGenerator.generateId())
@@ -30,5 +35,14 @@ public class Goal {
         .beforeAfter(command.beforeAfter())
         .plans(command.plans().stream().map(planDto -> Plan.from(planDto.content())).toList())
         .build();
+  }
+
+  public void deleted() {
+    this.isDelete = true;
+  }
+
+  @JsonIgnore
+  public boolean getDeleted() {
+    return isDelete;
   }
 }

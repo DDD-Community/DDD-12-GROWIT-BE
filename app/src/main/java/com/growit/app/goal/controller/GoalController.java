@@ -12,6 +12,7 @@ import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
+import java.rmi.ServerException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,9 +44,10 @@ public class GoalController {
     return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(goalId)));
   }
 
+  // TODO :: save => delete flag 업데이트(persistence X , 도메인)
   @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
-      @PathVariable String id, @AuthenticationPrincipal User user) {
+      @PathVariable String id, @AuthenticationPrincipal User user) throws ServerException {
     DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료 되었습니다."));

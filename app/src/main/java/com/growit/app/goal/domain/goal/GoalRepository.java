@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GoalRepository {
-  List<Goal> findByUserId(String userId);
+  List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId);
 
   void saveGoal(Goal goal);
 
-  Optional<Goal> findByUIdAndUserId(String uid, String userId);
+  //  void deleteGoal(Goal goal) throws ServerException;
 
-  void deleteGoal(Goal goal);
+  Optional<Goal> findById(String goalId);
 }

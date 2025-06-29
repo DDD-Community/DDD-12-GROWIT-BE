@@ -4,6 +4,8 @@ import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
+import com.growit.app.goal.domain.goal.service.GoalValidator;
+import java.rmi.ServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,18 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeleteGoalUseCase {
   private final GoalRepository goalRepository;
+  private final GoalValidator goalValidator;
 
   @Transactional
-  public void execute(DeleteGoalCommand command) {
-    String id = command.id();
-    String userId = command.userId();
-
+  public void execute(DeleteGoalCommand command) throws ServerException {
     Goal goal =
         goalRepository
-            .findByUIdAndUserId(id, userId)
-            .orElseThrow(() -> new NotFoundException("해당 목표가 없습니다."));
+            .findById(command.id())
+            .orElseThrow(() -> new NotFoundException("해당 되는 목표가 없습니다."));
 
-    // 3. 삭제
-    goalRepository.deleteGoal(goal);
+    goalValidator.checkMyGoal(goal, command.userId());
+    goal.deleted();
+    goalRepository.saveGoal(goal);
   }
 }

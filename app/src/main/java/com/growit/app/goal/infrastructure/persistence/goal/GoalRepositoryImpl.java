@@ -17,25 +17,32 @@ public class GoalRepositoryImpl implements GoalRepository {
   private final DBGoalRepository repository;
 
   @Override
-  public List<Goal> findByUserId(String userId) {
-    return repository.findWithPlansByUserId(userId).stream()
+  public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
+    return repository.findByUserId(userId).stream()
         .map(mapper::toDomain)
         .collect(Collectors.toList());
   }
 
   @Override
   public void saveGoal(Goal goal) {
-    repository.save(mapper.toEntity(goal));
+    GoalEntity entity = mapper.toEntity(goal);
+    Optional<GoalEntity> existing = repository.findByUid(entity.getUid());
+
+    if (existing.isPresent()) {
+      GoalEntity exist = existing.get();
+      // LocalDate => update
+      // TODO :: exist.updateByDomain => DOMAIN => ENTITY(set 값)
+      exist.updateToByDomain(goal);
+      repository.save(exist);
+      return;
+    }
+
+    repository.save(entity);
   }
 
   @Override
-  public Optional<Goal> findByUIdAndUserId(String uid, String userId) {
-    return repository.findByUidAndUserId(uid, userId).map(mapper::toDomain);
-  }
-
-  @Override
-  public void deleteGoal(Goal goal) {
-    Optional<GoalEntity> entityOpt = repository.findByUidAndUserId(goal.getId(), goal.getUserId());
-    entityOpt.ifPresent(repository::delete);
+  public Optional<Goal> findById(String uid) {
+    Optional<GoalEntity> goalEntity = repository.findByUid(uid);
+    return goalEntity.map(mapper::toDomain);
   }
 }

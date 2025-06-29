@@ -44,6 +44,7 @@ class GoalBuilder {
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
   private List<Plan> plans = new ArrayList<>();
+  private boolean isDelete = false;
 
   public GoalBuilder id(String id) {
     this.id = id;
@@ -83,6 +84,7 @@ class GoalBuilder {
         .duration(duration)
         .beforeAfter(beforeAfter)
         .plans(plans)
+        .isDelete(isDelete)
         .build();
   }
 }
