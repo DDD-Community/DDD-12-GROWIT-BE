@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.6.0...v1.6.1) (2025-06-29)
+
+
+### Bug Fixes
+
+* hotfix run ([e92580e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e92580e0e9c09d2a96a1d9d232dbd6dd3f4c1cd1))
+* hotfix run ([6e7e7cb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6e7e7cb00eb1e688420e0b4803a65eb7eda884b3))
+
 ## [1.6.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.5.0...v1.6.0) (2025-06-29)
 
 
