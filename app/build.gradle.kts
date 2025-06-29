@@ -43,6 +43,9 @@ dependencies {
   runtimeOnly(libs.jjwt.impl)
   runtimeOnly(libs.jjwt.jackson)
 
+  // log
+  implementation(libs.logstash.logback.encoder) // 또는 최신 안정 버전
+
   developmentOnly(libs.spring.boot.devtools)
 
   compileOnly(libs.lombok)
@@ -50,6 +53,7 @@ dependencies {
 
   runtimeOnly(libs.h2)
   runtimeOnly(libs.postgresql)
+
 
   testImplementation(libs.spring.boot.starter.test)
   testImplementation(libs.spring.security.test)

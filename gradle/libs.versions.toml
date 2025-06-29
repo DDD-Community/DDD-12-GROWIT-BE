@@ -10,6 +10,7 @@ restAssured = "5.3.1"
 restdocs = "3.0.3"
 apispec = "0.18.2"
 querydsl = "5.0.0"
+logstash = "7.4"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
@@ -44,4 +45,6 @@ querydsl-jpa-jakarta = { module = "com.querydsl:querydsl-jpa", version.ref = "qu
 querydsl-apt-jakarta = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
 jakarta-persistence = { module = "jakarta.persistence:jakarta.persistence-api" }
 jakarta-annotation = {module = "jakarta.annotation:jakarta.annotation-api"}
+
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }
 
