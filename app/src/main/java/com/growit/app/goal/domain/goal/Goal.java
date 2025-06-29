@@ -37,7 +37,7 @@ public class Goal {
         .build();
   }
 
-  public void markAsDeleted() {
+  public void deleted() {
     this.isDelete = true;
   }
 

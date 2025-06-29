@@ -1,11 +1,9 @@
 package com.growit.app.goal.infrastructure.persistence.goal;
 
-import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +18,7 @@ public class GoalRepositoryImpl implements GoalRepository {
 
   @Override
   public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
-    return repository.findWithPlansByUserIdAndDeletedAtIsNull(userId).stream()
+    return repository.findByUserId(userId).stream()
         .map(mapper::toDomain)
         .collect(Collectors.toList());
   }
@@ -32,13 +30,9 @@ public class GoalRepositoryImpl implements GoalRepository {
 
     if (existing.isPresent()) {
       GoalEntity exist = existing.get();
-
-      if (goal.getDeleted()) {
-        if (exist.getDeletedAt() != null) {
-          throw new BadRequestException("이미 삭제된 데이터입니다.");
-        }
-        exist.setDeletedAt(LocalDateTime.now());
-      }
+      // LocalDate => update
+      // TODO :: exist.updateByDomain => DOMAIN => ENTITY(set 값)
+      exist.updateToByDomain(goal);
       repository.save(exist);
       return;
     }

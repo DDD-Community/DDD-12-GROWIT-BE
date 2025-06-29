@@ -16,7 +16,7 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public List<GoalEntity> findWithPlansByUserIdAndDeletedAtIsNull(String userId) {
+  public List<GoalEntity> findByUserId(String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
     QPlanEntity plan = QPlanEntity.planEntity;
     return queryFactory

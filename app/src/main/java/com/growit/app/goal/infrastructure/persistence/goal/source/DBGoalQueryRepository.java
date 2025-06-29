@@ -4,5 +4,5 @@ import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEnt
 import java.util.List;
 
 public interface DBGoalQueryRepository {
-  List<GoalEntity> findWithPlansByUserIdAndDeletedAtIsNull(String userId);
+  List<GoalEntity> findByUserId(String userId);
 }

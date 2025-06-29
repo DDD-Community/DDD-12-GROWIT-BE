@@ -9,12 +9,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
+import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +30,7 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -38,6 +42,8 @@ import org.springframework.web.context.WebApplicationContext;
 class GoalControllerTest {
   private MockMvc mockMvc;
 
+  @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
+  @Autowired private ObjectMapper objectMapper;
   @Autowired private GoalRepository goalRepository;
 
   @BeforeEach
@@ -57,6 +63,7 @@ class GoalControllerTest {
     Goal goal = GoalFixture.defaultGoal();
     goalRepository.saveGoal(goal);
 
+    // when & then
     mockMvc
         .perform(get("/goals").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
@@ -93,32 +100,13 @@ class GoalControllerTest {
 
   @Test
   void createGoal() throws Exception {
-    String requestBody =
-        """
-        {
-            "name": "내 목표는 그로잇 완성",
-            "duration": {
-              "startDate": "2025-06-23",
-              "endDate": "2025-07-20"
-            },
-            "beforeAfter": {
-                "asIs": "기획 정의",
-                "toBe": "배포 완료"
-            },
-            "plans": [
-                {"content" : "기획 및 설계 회의"},
-                {"content" : "디자인 시안 뽑기"},
-                {"content" : "프론트 개발 및 백 개발 완료"},
-                {"content" : "배포 완료"}
-            ]
-        }
-        """;
+    CreateGoalRequest body = GoalFixture.defaultCreateGoalRequest();
     mockMvc
         .perform(
             post("/goals")
                 .header("Authorization", "Bearer mock-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody))
+                .content(objectMapper.writeValueAsString(body)))
         .andExpect(status().isCreated())
         .andDo(
             document(

@@ -1,8 +1,10 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.goal.domain.goal.Goal;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
@@ -44,4 +46,8 @@ public class GoalEntity extends BaseEntity {
       fetch = FetchType.LAZY)
   @Builder.Default
   private List<PlanEntity> plans = new ArrayList<>();
+
+  public void updateToByDomain(Goal goal) {
+    if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
+  }
 }

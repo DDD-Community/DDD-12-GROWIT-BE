@@ -5,6 +5,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
+import java.rmi.ServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,15 +17,14 @@ public class DeleteGoalUseCase {
   private final GoalValidator goalValidator;
 
   @Transactional
-  public void execute(DeleteGoalCommand command) {
+  public void execute(DeleteGoalCommand command) throws ServerException {
     Goal goal =
         goalRepository
             .findById(command.id())
             .orElseThrow(() -> new NotFoundException("해당 되는 목표가 없습니다."));
 
     goalValidator.checkMyGoal(goal, command.userId());
-
-    goal.markAsDeleted();
+    goal.deleted();
     goalRepository.saveGoal(goal);
   }
 }
