@@ -40,8 +40,8 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             auth ->
                 auth.requestMatchers(
-                        "/auth/**",
                         "/actuator/**",
+                        "/auth/**",
                         "/h2-console/**",
                         "/resource/jobroles",
                         "/swagger-ui/**",
