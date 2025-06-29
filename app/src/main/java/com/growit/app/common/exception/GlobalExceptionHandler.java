@@ -15,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -62,10 +63,15 @@ public class GlobalExceptionHandler {
         .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 
-  @ExceptionHandler({
-    NotFoundException.class,
-  })
+  @ExceptionHandler({NotFoundException.class})
   public ResponseEntity<BaseErrorResponse> handleNotFoundException(BaseException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+  }
+
+  @ExceptionHandler({NoResourceFoundException.class})
+  public ResponseEntity<BaseErrorResponse> handleNoResourceFoundException(
+      NoResourceFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
