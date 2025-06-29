@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{requestId}] %-5level %logger{36} - %msg%n"/>
+
+<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+<encoder>
+<pattern>${LOG_PATTERN}</pattern>
+</encoder>
+</appender>
+
+<appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+<providers>
+<timestamp/>
+<logLevel/>
+<loggerName/>
+<threadName/>
+<mdc/>
+<message/>
+<stackTrace/>
+<arguments/>
+<context/>
+</providers>
+</encoder>
+</appender>
+
+<!-- 개발 환경용 설정 -->
+<springProfile name="dev">
+<root level="INFO">
+<appender-ref ref="CONSOLE"/>
+</root>
+</springProfile>
+
+<!-- 운영 환경용 설정 -->
+<springProfile name="prod">
+<root level="INFO">
+<appender-ref ref="JSON_CONSOLE"/>
+</root>
+</springProfile>
+
+</configuration>
