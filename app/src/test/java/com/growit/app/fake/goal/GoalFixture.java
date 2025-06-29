@@ -1,5 +1,9 @@
 package com.growit.app.fake.goal;
 
+import com.growit.app.goal.controller.dto.request.BeforeAfterDto;
+import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
+import com.growit.app.goal.controller.dto.request.GoalDurationDto;
+import com.growit.app.goal.controller.dto.request.PlanRequestDto;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
@@ -14,19 +18,30 @@ public class GoalFixture {
   public static Goal defaultGoal() {
     return new GoalBuilder().build();
   }
+
+  public static CreateGoalRequest defaultCreateGoalRequest() {
+    return new CreateGoalRequest(
+        "내 목표는 그로잇 완성",
+        new GoalDurationDto(LocalDate.of(2025, 6, 23), LocalDate.of(2025, 7, 20)),
+        new BeforeAfterDto("기획 정의", "배포 완료"),
+        List.of(
+            new PlanRequestDto("기획 및 설계 회의"),
+            new PlanRequestDto("디자인 시안 뽑기"),
+            new PlanRequestDto("프론트 개발 및 백 개발 완료"),
+            new PlanRequestDto("배포 완료")));
+  }
 }
 
 class GoalBuilder {
   LocalDate today = LocalDate.now();
   LocalDate thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
   LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+  private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
   String asIs = "ASIS";
   String toBe = "TOBE";
-
   private String id = "goal-1";
   private String userId = "user-1";
   private String name = "테스트 목표";
-  private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
   private List<Plan> plans = new ArrayList<>();
 

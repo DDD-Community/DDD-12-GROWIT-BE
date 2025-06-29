@@ -8,9 +8,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.fake.user.ResourceFixture;
 import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
-import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,11 +41,7 @@ class ResourceControllerTest {
 
   @Test
   void getJobRolesTest() throws Exception {
-    JobRole dev = new JobRole("dev", "개발자");
-    JobRole designer = new JobRole("designer", "디자이너");
-    JobRole planner = new JobRole("planner", "기획자");
-
-    given(jobRoleRepository.findAll()).willReturn(Arrays.asList(dev, designer, planner));
+    given(jobRoleRepository.findAll()).willReturn(ResourceFixture.defaultJobRoles());
 
     mockMvc
         .perform(get("/resource/jobroles"))
