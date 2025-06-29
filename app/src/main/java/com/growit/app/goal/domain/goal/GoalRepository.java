@@ -8,7 +8,5 @@ public interface GoalRepository {
 
   void saveGoal(Goal goal);
 
-  //  void deleteGoal(Goal goal) throws ServerException;
-
   Optional<Goal> findById(String goalId);
 }

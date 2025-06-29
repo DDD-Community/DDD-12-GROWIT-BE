@@ -6,7 +6,6 @@ import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalReposito
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,26 +17,20 @@ public class GoalRepositoryImpl implements GoalRepository {
 
   @Override
   public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
-    return repository.findByUserId(userId).stream()
-        .map(mapper::toDomain)
-        .collect(Collectors.toList());
+    return repository.findByUserId(userId).stream().map(mapper::toDomain).toList();
   }
 
   @Override
   public void saveGoal(Goal goal) {
-    GoalEntity entity = mapper.toEntity(goal);
-    Optional<GoalEntity> existing = repository.findByUid(entity.getUid());
-
+    Optional<GoalEntity> existing = repository.findByUid(goal.getId());
     if (existing.isPresent()) {
       GoalEntity exist = existing.get();
-      // LocalDate => update
-      // TODO :: exist.updateByDomain => DOMAIN => ENTITY(set 값)
       exist.updateToByDomain(goal);
       repository.save(exist);
-      return;
+    } else {
+      GoalEntity entity = mapper.toEntity(goal);
+      repository.save(entity);
     }
-
-    repository.save(entity);
   }
 
   @Override
