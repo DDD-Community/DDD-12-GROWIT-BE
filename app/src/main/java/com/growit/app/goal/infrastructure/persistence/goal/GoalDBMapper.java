@@ -6,6 +6,7 @@ import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.PlanEntity;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,6 +29,7 @@ public class GoalDBMapper {
                 plan ->
                     new PlanEntity(plan.getId(), plan.getWeekOfMonth(), plan.getContent(), entity))
             .toList());
+    entity.setDeletedAt(goal.getDeleted() ? LocalDateTime.now() : null);
     return entity;
   }
 
@@ -49,6 +51,7 @@ public class GoalDBMapper {
                             .content(planEntity.getContent())
                             .build())
                 .toList())
+        .isDelete(entity.getDeletedAt() != null)
         .build();
   }
 }
