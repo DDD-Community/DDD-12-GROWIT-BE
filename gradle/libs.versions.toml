@@ -8,15 +8,17 @@ nanoid = "2.0.0"
 jjwt = "0.11.5"
 restAssured = "5.3.1"
 restdocs = "3.0.3"
-apispec = "0.18.2"
+apispec = "0.19.4"
 querydsl = "5.0.0"
 logstash = "7.4"
+swaggerui = "5.18.2"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
 restdocs = { id = "com.epages.restdocs-api-spec", version = "0.18.2" }
+swagger = { id = "org.hidetake.swagger.generator", version = "2.18.2" }
 
 [libraries]
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "springBoot" }
@@ -44,7 +46,8 @@ restdocs-api-spec = { module = "com.epages:restdocs-api-spec-mockmvc", version.r
 querydsl-jpa-jakarta = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
 querydsl-apt-jakarta = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
 jakarta-persistence = { module = "jakarta.persistence:jakarta.persistence-api" }
-jakarta-annotation = {module = "jakarta.annotation:jakarta.annotation-api"}
+jakarta-annotation = { module = "jakarta.annotation:jakarta.annotation-api"}
+swagger-ui = {module = "org.webjars:swagger-ui", version.ref = "swaggerui" }
 
 logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }
 

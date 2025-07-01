@@ -1,11 +1,15 @@
 package com.growit.app.user.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
@@ -15,6 +19,7 @@ import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.usecase.GetUserUseCase;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,15 +70,23 @@ class UserControllerTest {
         .andDo(
             document(
                 "get-user",
-                new ResourceSnippetParametersBuilder()
-                    .tag("User")
-                    .description("사용자 조회")
-                    .responseFields(
-                        fieldWithPath("data.id").type(STRING).description("사용자 ID"),
-                        fieldWithPath("data.email").type(STRING).description("이메일"),
-                        fieldWithPath("data.name").type(STRING).description("이름"),
-                        fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
-                        fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
-                        fieldWithPath("data.careerYear").type(STRING).description("경력 연차"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("User")
+                        .summary("사용자 조회")
+                        .requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION)
+                                .attributes(key("type").value("String"))
+                                .description("JWT (Your Token)"))
+                        .responseFields(
+                            fieldWithPath("data.id").type(STRING).description("사용자 ID"),
+                            fieldWithPath("data.email").type(STRING).description("이메일"),
+                            fieldWithPath("data.name").type(STRING).description("이름"),
+                            fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
+                            fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
+                            fieldWithPath("data.careerYear").type(STRING).description("경력 연차"))
+                        .build())));
   }
 }
