@@ -9,6 +9,6 @@ public class ToDoRequestMapper {
 
   public CreateToDoCommand toCommand(String userId, CreateToDoRequest request) {
     return new CreateToDoCommand(
-        request.getGoalId(), request.getPlanId(), request.getContent(), request.getDate());
+        userId, request.getGoalId(), request.getPlanId(), request.getContent(), request.getDate());
   }
 }

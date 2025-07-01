@@ -1,6 +1,7 @@
 package com.growit.app.todos.controller.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -9,17 +10,18 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateToDoRequest {
-  @NotBlank(message = "목표명은 필수입니다.")
-  @Size(min = 1, max = 30, message = "목표명은 30자 이하여야 합니다.")
+  @NotBlank(message = "목표는 필수입니다.")
+  @Size(min = 1)
   private String goalId;
 
-  @NotBlank(message = "목표명은 필수입니다.")
-  @Size(min = 1, max = 30, message = "목표명은 30자 이하여야 합니다.")
+  @NotBlank(message = "주간 목표는 필수입니다.")
+  @Size(min = 1)
   private String planId;
 
+  @NotNull(message = "날짜는 필수 입니다.")
   private LocalDate date;
 
-  @NotBlank(message = "목표명은 필수입니다.")
-  @Size(min = 1, max = 30, message = "목표명은 30자 이하여야 합니다.")
+  @NotBlank(message = "할일 내용은 필수입니다.")
+  @Size(min = 5, max = 30, message = "할 일은 5~30자 사이여야 합니다.")
   private String content;
 }
