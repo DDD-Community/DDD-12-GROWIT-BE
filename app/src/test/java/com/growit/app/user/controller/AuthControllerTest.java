@@ -1,7 +1,11 @@
 package com.growit.app.user.controller;
 
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,17 +71,27 @@ class AuthControllerTest {
         .andDo(
             MockMvcRestDocumentationWrapper.document(
                 "auth-signup",
-                new ResourceSnippetParametersBuilder()
-                    .tag("Auth")
-                    .description("사용자 회원가입")
-                    .requestFields(
-                        fieldWithPath("email").type(STRING).description("사용자 이메일"),
-                        fieldWithPath("password").type(STRING).description("사용자 비밀번호"),
-                        fieldWithPath("name").type(STRING).description("사용자 이름"),
-                        fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                        fieldWithPath("careerYear")
-                            .type(STRING)
-                            .description("경력 연차 (예: JUNIOR, MID, SENIOR)"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Auth")
+                        .summary("사용자 회원가입")
+                        .requestFields(
+                            fieldWithPath("email").type(STRING).description("사용자 이메일"),
+                            fieldWithPath("password").type(STRING).description("사용자 비밀번호"),
+                            fieldWithPath("name").type(STRING).description("사용자 이름"),
+                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("경력 연차 (예: JUNIOR, MID, SENIOR)"),
+                            fieldWithPath("requiredConsent.privacyPolicyAgreed")
+                                .type(BOOLEAN)
+                                .description("개인정보 동의"),
+                            fieldWithPath("requiredConsent.serviceTermsAgreed")
+                                .type(BOOLEAN)
+                                .description("서비스 약관 동의"))
+                        .build())));
   }
 
   @Test
@@ -94,15 +108,19 @@ class AuthControllerTest {
         .andDo(
             MockMvcRestDocumentationWrapper.document(
                 "auth-signin",
-                new ResourceSnippetParametersBuilder()
-                    .tag("Auth")
-                    .description("사용자 로그인")
-                    .requestFields(
-                        fieldWithPath("email").type(STRING).description("사용자 이메일"),
-                        fieldWithPath("password").type(STRING).description("사용자 비밀번호"))
-                    .responseFields(
-                        fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
-                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Auth")
+                        .description("사용자 로그인")
+                        .requestFields(
+                            fieldWithPath("email").type(STRING).description("사용자 이메일"),
+                            fieldWithPath("password").type(STRING).description("사용자 비밀번호"))
+                        .responseFields(
+                            fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
+                            fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))
+                        .build())));
   }
 
   @Test
@@ -120,13 +138,17 @@ class AuthControllerTest {
         .andDo(
             MockMvcRestDocumentationWrapper.document(
                 "auth-reissue",
-                new ResourceSnippetParametersBuilder()
-                    .tag("Auth")
-                    .description("토큰 재발급")
-                    .requestFields(
-                        fieldWithPath("refreshToken").type(STRING).description("리프레시 토큰"))
-                    .responseFields(
-                        fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
-                        fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Auth")
+                        .summary("토큰 재발급")
+                        .requestFields(
+                            fieldWithPath("refreshToken").type(STRING).description("리프레시 토큰"))
+                        .responseFields(
+                            fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
+                            fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))
+                        .build())));
   }
 }

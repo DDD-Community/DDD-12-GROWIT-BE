@@ -44,7 +44,6 @@ public class GoalController {
     return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(goalId)));
   }
 
-  // TODO :: save => delete flag 업데이트(persistence X , 도메인)
   @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
       @PathVariable String id, @AuthenticationPrincipal User user) throws ServerException {
