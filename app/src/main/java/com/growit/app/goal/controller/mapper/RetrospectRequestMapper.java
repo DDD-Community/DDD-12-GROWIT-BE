@@ -9,9 +9,6 @@ public class RetrospectRequestMapper {
 
   public CreateRetrospectCommand toCommand(String userId, CreateRetrospectRequest request) {
     return new CreateRetrospectCommand(
-        request.getGoalId(),
-        request.getPlanId(),
-        userId,
-        request.getContent());
+        request.getGoalId(), request.getPlanId(), userId, request.getContent());
   }
 }

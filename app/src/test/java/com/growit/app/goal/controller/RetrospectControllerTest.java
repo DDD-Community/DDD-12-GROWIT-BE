@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.retrospect.FakeRetrospectRepository;
@@ -16,7 +17,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.retrospect.RetrospectRepository;
-import com.growit.app.common.TestSecurityUtil;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +33,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -63,25 +62,16 @@ class RetrospectControllerTest {
   @Test
   void createRetrospect() throws Exception {
     // given
-    Plan plan = Plan.builder()
-        .id("plan-id")
-        .weekOfMonth(1)
-        .content("주간 계획")
-        .build();
+    Plan plan = Plan.builder().id("plan-id").weekOfMonth(1).content("주간 계획").build();
 
-    Goal goal = Goal.builder()
-        .id("goal-id")
-        .userId("user-id")
-        .name("목표")
-        .plans(List.of(plan))
-        .build();
+    Goal goal =
+        Goal.builder().id("goal-id").userId("user-id").name("목표").plans(List.of(plan)).build();
 
     goalRepository.saveGoal(goal);
 
-    CreateRetrospectRequest request = new CreateRetrospectRequest(
-        "goal-id",
-        "plan-id",
-        "이번 주 회고입니다. 계획한 대로 잘 진행되었으며, 다음 주에도 열심히 해보겠습니다.");
+    CreateRetrospectRequest request =
+        new CreateRetrospectRequest(
+            "goal-id", "plan-id", "이번 주 회고입니다. 계획한 대로 잘 진행되었으며, 다음 주에도 열심히 해보겠습니다.");
 
     // when & then
     mockMvc
@@ -97,12 +87,10 @@ class RetrospectControllerTest {
                 requestFields(
                     fieldWithPath("goalId").type(JsonFieldType.STRING).description("목표 ID"),
                     fieldWithPath("planId").type(JsonFieldType.STRING).description("계획 ID"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("회고 내용 (10~200자)")
-                ),
+                    fieldWithPath("content")
+                        .type(JsonFieldType.STRING)
+                        .description("회고 내용 (10~200자)")),
                 responseFields(
-                    fieldWithPath("data.id").type(JsonFieldType.STRING).description("생성된 회고 ID")
-                )
-            )
-        );
+                    fieldWithPath("data.id").type(JsonFieldType.STRING).description("생성된 회고 ID"))));
   }
 }

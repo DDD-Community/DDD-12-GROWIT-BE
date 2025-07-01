@@ -17,24 +17,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class CreateRetrospectUseCaseTest {
 
-  @Mock
-  private RetrospectValidator retrospectValidator;
+  @Mock private RetrospectValidator retrospectValidator;
 
-  @Mock
-  private RetrospectRepository retrospectRepository;
+  @Mock private RetrospectRepository retrospectRepository;
 
-  @InjectMocks
-  private CreateRetrospectUseCase createRetrospectUseCase;
+  @InjectMocks private CreateRetrospectUseCase createRetrospectUseCase;
 
   private CreateRetrospectCommand command;
 
   @BeforeEach
   void setUp() {
-    command = new CreateRetrospectCommand(
-        "goal-id",
-        "plan-id",
-        "user-id",
-        "이번 주 회고입니다. 잘 진행되었습니다.");
+    command =
+        new CreateRetrospectCommand("goal-id", "plan-id", "user-id", "이번 주 회고입니다. 잘 진행되었습니다.");
   }
 
   @Test

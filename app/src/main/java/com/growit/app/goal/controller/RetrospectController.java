@@ -27,6 +27,7 @@ public class RetrospectController {
     CreateRetrospectCommand command = retrospectRequestMapper.toCommand(user.getId(), request);
     String retrospectId = createRetrospectUseCase.execute(command);
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(retrospectId)));
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(ApiResponse.success(new IdDto(retrospectId)));
   }
 }

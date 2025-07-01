@@ -4,9 +4,9 @@ import com.growit.app.goal.domain.retrospect.Retrospect;
 import com.growit.app.goal.domain.retrospect.RetrospectRepository;
 import com.growit.app.goal.infrastructure.persistence.retrospect.source.DBRetrospectRepository;
 import com.growit.app.goal.infrastructure.persistence.retrospect.source.entity.RetrospectEntity;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,7 +31,6 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
 
   @Override
   public Optional<Retrospect> findByGoalIdAndPlanId(String goalId, String planId) {
-    return repository.findByGoalIdAndPlanId(goalId, planId)
-        .map(mapper::toDomain);
+    return repository.findByGoalIdAndPlanId(goalId, planId).map(mapper::toDomain);
   }
 }
