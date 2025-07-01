@@ -70,8 +70,7 @@ dependencies {
   testImplementation(libs.restdocs.mockmvc)
   testImplementation(libs.restdocs.api.spec)
 
-  // 9. SwaggerUI 추가
-  swaggerUI ("org.webjars:swagger-ui:5.18.2")
+  swaggerUI (libs.swagger.ui)
 }
 
 tasks.test {

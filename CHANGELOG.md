@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.7.0...v1.8.0) (2025-07-01)
+
+
+### Features
+
+* **swagger:** authorization 추가 ([00edd1d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/00edd1d9a33144323e85ff890245d692c14685a8)), closes [#51](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/51)
+* **swagger:** static/docs/index.html ([6299068](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6299068a1104b06eb0aad2c05d3ada6f51815e41)), closes [#51](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/51)
+
+
+### Bug Fixes
+
+* **review:** PR 요청사항 반영 ([c0e513e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c0e513ede19e72fbe093e5c656339c1e7cca8037))
+
 ## [1.7.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.6.1...v1.7.0) (2025-06-29)
 
 
