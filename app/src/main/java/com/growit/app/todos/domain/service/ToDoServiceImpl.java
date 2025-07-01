@@ -11,11 +11,9 @@ public class ToDoServiceImpl implements ToDoService {
     LocalDate lastWeekMonday = today.minusWeeks(1).with(java.time.DayOfWeek.MONDAY);
     LocalDate thisWeekSunday = today.with(java.time.DayOfWeek.SUNDAY);
 
-    boolean inRange =
-        (date.isEqual(lastWeekMonday) || date.isAfter(lastWeekMonday))
-            && (date.isEqual(thisWeekSunday) || date.isBefore(thisWeekSunday));
-    if (!inRange) {
+    if (date.isBefore(lastWeekMonday) || date.isAfter(thisWeekSunday)) {
       throw new IllegalArgumentException("ToDo는 지난 주, 이번 주만 생성할 수 있습니다.");
     }
   }
+
 }
