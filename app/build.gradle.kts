@@ -88,8 +88,7 @@ swaggerSources {
 }
 
 openapi3 {
-//  this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
-  this.setServer("http://localhost:8080/")
+  this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
 
   title = "GrowIT API Specification"
   description = "GrowIT description"

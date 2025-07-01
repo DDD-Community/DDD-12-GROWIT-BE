@@ -85,7 +85,6 @@ class GoalControllerTest {
                         .responseFields(
                             fieldWithPath("data[].id").type(STRING).description("목표 ID"),
                             fieldWithPath("data[].name").type(STRING).description("목표 이름"),
-                            fieldWithPath("data[].name").type(STRING).description("목표 이름"),
                             fieldWithPath("data[].duration").description("기간 정보 객체"),
                             fieldWithPath("data[].duration.startDate")
                                 .type(STRING)
