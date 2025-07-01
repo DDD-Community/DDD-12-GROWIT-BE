@@ -1,8 +1,14 @@
+import io.swagger.v3.oas.models.servers.Server
+import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
   java
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.dependency.management)
   alias(libs.plugins.restdocs)
+  alias(libs.plugins.swagger)
+
   jacoco
 }
 
@@ -63,35 +69,68 @@ dependencies {
 
   testImplementation(libs.restdocs.mockmvc)
   testImplementation(libs.restdocs.api.spec)
+
+  // 9. SwaggerUI 추가
+  swaggerUI ("org.webjars:swagger-ui:5.18.2")
 }
 
 tasks.test {
   useJUnitPlatform()
-  finalizedBy("copyOasToSwagger")
+}
+
+
+// swagger
+
+swaggerSources {
+  create("sample") {
+    setInputFile(layout.buildDirectory.file("api-spec/openapi3.yaml").get().asFile)
+  }
 }
 
 openapi3 {
-  this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
+//  this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
+  this.setServer("http://localhost:8080/")
+
   title = "GrowIT API Specification"
   description = "GrowIT description"
   version = project.version.toString()
   format = "yaml" // or json
 }
 
-tasks.register<Copy>("copyOasToSwagger") {
-  dependsOn("openapi3") // openapi3 실행 이후 복사
-  from("$buildDir/api-spec/openapi3.yaml")
-  into("src/main/resources/static/swagger-ui/")
+// JWT (Bearer Token)를 Authorization 헤더에 명시할 수 있게 설정
+tasks.withType<GenerateSwaggerUI>().configureEach {
+  dependsOn("openapi3")
+
+  doFirst {
+    val swaggerUIFile = layout.buildDirectory.file("api-spec/openapi3.yaml").get().asFile
+
+    val securitySchemesContent = """
+      |  securitySchemes:
+      |    bearerAuth:
+      |      type: http
+      |      scheme: bearer
+      |      bearerFormat: JWT
+      |      name: Authorization
+      |      in: header
+      |      description: "Use 'your-access-token' as the value of the Authorization header"
+      |security:
+      |  - bearerAuth: []
+    """.trimMargin()
+
+    swaggerUIFile.appendText("\n$securitySchemesContent")
+  }
 }
 
+// 생성된 Swagger UI 파일들 복사
+tasks.register<Copy>("copyDocument") {
+  dependsOn("generateSwaggerUISample")
 
-// Ensure that the build task depends on copyOpenApiYaml
-tasks.named("build") {
-  dependsOn("copyOasToSwagger")
+  from("build/swagger-ui-sample/")
+  into("src/main/resources/static/docs")
 }
 
-tasks.withType<com.epages.restdocs.apispec.gradle.OpenApi3Task> {
-  outputs.cacheIf { false }
+tasks.named<BootJar>("bootJar") {
+  dependsOn("copyDocument")
 }
 
 val generatedSrcDir = "src/main/generated"

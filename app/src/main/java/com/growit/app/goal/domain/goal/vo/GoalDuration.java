@@ -1,5 +1,6 @@
 package com.growit.app.goal.domain.goal.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growit.app.common.exception.BadRequestException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public record GoalDuration(LocalDate startDate, LocalDate endDate) {
     }
   }
 
+  @JsonIgnore
   public long getWeekCount() {
     return ChronoUnit.WEEKS.between(startDate, endDate.plusDays(1));
   }

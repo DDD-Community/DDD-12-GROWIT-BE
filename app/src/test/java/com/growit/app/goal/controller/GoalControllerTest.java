@@ -1,7 +1,12 @@
 package com.growit.app.goal.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -18,6 +23,7 @@ import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,8 +66,7 @@ class GoalControllerTest {
 
   @Test
   void getMyGoal() throws Exception {
-    Goal goal = GoalFixture.defaultGoal();
-    goalRepository.saveGoal(goal);
+    given(getUserGoalsUseCase.getMyGoals(any())).willReturn(List.of(GoalFixture.defaultGoal()));
 
     // when & then
     mockMvc
@@ -71,31 +76,36 @@ class GoalControllerTest {
         .andDo(
             document(
                 "get-my-goal",
-                new ResourceSnippetParametersBuilder()
-                    .tag("Goals")
-                    .description("내 목표 조회")
-                    .responseFields(
-                        fieldWithPath("data[].id").type(STRING).description("목표 ID"),
-                        fieldWithPath("data[].name").type(STRING).description("목표 이름"),
-                        fieldWithPath("data[].duration").description("기간 정보 객체"),
-                        fieldWithPath("data[].duration.startDate")
-                            .type(STRING)
-                            .description("시작일 (yyyy-MM-dd)"),
-                        fieldWithPath("data[].duration.endDate")
-                            .type(STRING)
-                            .description("종료일 (yyyy-MM-dd)"),
-                        fieldWithPath("data[].beforeAfter").description("전/후 상태 정보 객체"),
-                        fieldWithPath("data[].beforeAfter.asIs")
-                            .type(STRING)
-                            .description("현재 상태(As-Is)"),
-                        fieldWithPath("data[].beforeAfter.toBe")
-                            .type(STRING)
-                            .description("목표 달성 후 상태(To-Be)"),
-                        fieldWithPath("data[].plans").description("계획 리스트"),
-                        fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
-                        fieldWithPath("data[].plans[].content")
-                            .type(STRING)
-                            .description("계획 내용"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("내 목표 조회")
+                        .responseFields(
+                            fieldWithPath("data[].id").type(STRING).description("목표 ID"),
+                            fieldWithPath("data[].name").type(STRING).description("목표 이름"),
+                            fieldWithPath("data[].name").type(STRING).description("목표 이름"),
+                            fieldWithPath("data[].duration").description("기간 정보 객체"),
+                            fieldWithPath("data[].duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].beforeAfter").description("전/후 상태 정보 객체"),
+                            fieldWithPath("data[].beforeAfter.asIs")
+                                .type(STRING)
+                                .description("현재 상태(As-Is)"),
+                            fieldWithPath("data[].beforeAfter.toBe")
+                                .type(STRING)
+                                .description("목표 달성 후 상태(To-Be)"),
+                            fieldWithPath("data[].plans").description("계획 리스트"),
+                            fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data[].plans[].content")
+                                .type(STRING)
+                                .description("계획 내용"))
+                        .build())));
   }
 
   @Test
@@ -111,27 +121,31 @@ class GoalControllerTest {
         .andDo(
             document(
                 "create-goal",
-                new ResourceSnippetParametersBuilder()
-                    .tag("Goals")
-                    .description("목표 생성")
-                    .requestFields(
-                        fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
-                        fieldWithPath("duration.startDate")
-                            .type(JsonFieldType.STRING)
-                            .description("시작일 (yyyy-MM-dd)"),
-                        fieldWithPath("duration.endDate")
-                            .type(JsonFieldType.STRING)
-                            .description("종료일 (yyyy-MM-dd)"),
-                        fieldWithPath("beforeAfter.asIs")
-                            .type(JsonFieldType.STRING)
-                            .description("현재 상태(As-Is)"),
-                        fieldWithPath("beforeAfter.toBe")
-                            .type(JsonFieldType.STRING)
-                            .description("목표 달성 후 상태(To-Be)"),
-                        fieldWithPath("plans[].content")
-                            .type(JsonFieldType.STRING)
-                            .description("계획 내용"))
-                    .responseFields(fieldWithPath("data.id").type(STRING).description("목표 ID"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("목표 생성")
+                        .requestFields(
+                            fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
+                            fieldWithPath("duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("beforeAfter.asIs")
+                                .type(JsonFieldType.STRING)
+                                .description("현재 상태(As-Is)"),
+                            fieldWithPath("beforeAfter.toBe")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 달성 후 상태(To-Be)"),
+                            fieldWithPath("plans[].content")
+                                .type(JsonFieldType.STRING)
+                                .description("계획 내용"))
+                        .responseFields(fieldWithPath("data.id").type(STRING).description("목표 ID"))
+                        .build())));
   }
 
   @Test
@@ -147,13 +161,17 @@ class GoalControllerTest {
         .andDo(
             document(
                 "delete-goal",
-                new ResourceSnippetParametersBuilder()
-                    .tag("Goals")
-                    .description("목표 삭제")
-                    .pathParameters(parameterWithName("id").description("삭제할 목표 ID"))
-                    .responseFields(
-                        fieldWithPath("data")
-                            .type(JsonFieldType.STRING)
-                            .description("삭제가 완료 되었습니다."))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("목표 삭제")
+                        .pathParameters(parameterWithName("id").description("삭제할 목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data")
+                                .type(JsonFieldType.STRING)
+                                .description("삭제가 완료 되었습니다."))
+                        .build())));
   }
 }
