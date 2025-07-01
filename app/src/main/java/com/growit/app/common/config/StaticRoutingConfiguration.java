@@ -11,8 +11,6 @@ public class StaticRoutingConfiguration implements WebMvcConfigurer {
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 
-    registry
-        .addResourceHandler("index.html")
-        .addResourceLocations("classpath:/static/docs/");
+    registry.addResourceHandler("index.html").addResourceLocations("classpath:/static/docs/");
   }
 }
