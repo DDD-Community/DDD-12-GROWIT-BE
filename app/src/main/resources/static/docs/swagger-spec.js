@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"NELUquuYCquEJym0-BtYC\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"w87JopfK7MB1EA8L0mmMb\"\n  }\n}"
                   }
                 }
               }
@@ -391,6 +391,24 @@ window.swaggerSpec={
           }
         }
       },
+      "auth-reissue-424105652" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "accessToken" : {
+                "type" : "string",
+                "description" : "엑세스 토큰"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "리프레시 토큰"
+              }
+            }
+          }
+        }
+      },
       "goals-595510971" : {
         "type" : "object",
         "properties" : {
@@ -442,44 +460,12 @@ window.swaggerSpec={
           }
         }
       },
-      "auth-reissue-424105652" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "accessToken" : {
-                "type" : "string",
-                "description" : "엑세스 토큰"
-              },
-              "refreshToken" : {
-                "type" : "string",
-                "description" : "리프레시 토큰"
-              }
-            }
-          }
-        }
-      },
       "goals-id-1610094206" : {
         "type" : "object",
         "properties" : {
           "data" : {
             "type" : "string",
             "description" : "삭제가 완료 되었습니다."
-          }
-        }
-      },
-      "goals574842772" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "id" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              }
-            }
           }
         }
       },
@@ -504,6 +490,20 @@ window.swaggerSpec={
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      },
+      "goals574842772" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
               }
             }
           }
