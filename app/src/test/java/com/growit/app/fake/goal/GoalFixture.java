@@ -11,7 +11,6 @@ import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GoalFixture {
@@ -43,7 +42,7 @@ class GoalBuilder {
   private String userId = "user-1";
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
-  private List<Plan> plans = new ArrayList<>();
+  private List<Plan> plans = List.of(new Plan("planId", 1,"그로잇 완성"));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {

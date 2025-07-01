@@ -17,7 +17,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Goal {
   private String id;
-  private String userId;
+  @JsonIgnore private String userId;
   private String name;
   private GoalDuration duration;
   private BeforeAfter beforeAfter;
@@ -34,6 +34,7 @@ public class Goal {
         .duration(command.duration())
         .beforeAfter(command.beforeAfter())
         .plans(command.plans().stream().map(Plan::from).toList())
+        .isDelete(false)
         .build();
   }
 

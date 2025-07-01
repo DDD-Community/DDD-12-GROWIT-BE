@@ -11,8 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Plan {
   private String id;
-  private String content;
   private int dayOfMonth;
+  private String content;
 
   public static Plan from(PlanDto dto) {
     return Plan.builder()

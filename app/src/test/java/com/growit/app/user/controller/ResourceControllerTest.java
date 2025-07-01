@@ -1,9 +1,12 @@
 package com.growit.app.user.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,11 +52,15 @@ class ResourceControllerTest {
         .andDo(
             document(
                 "get-job-roles",
-                new ResourceSnippetParametersBuilder()
-                    .tag("JobRole")
-                    .description("전체 직무 목록 조회")
-                    .responseFields(
-                        fieldWithPath("data[].id").type(STRING).description("직무 ID"),
-                        fieldWithPath("data[].name").type(STRING).description("직무 이름"))));
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("JobRole")
+                        .summary("전체 직무 목록 조회")
+                        .responseFields(
+                            fieldWithPath("data.jobRoles[].id").type(STRING).description("직무 ID"),
+                            fieldWithPath("data.jobRoles[].name").type(STRING).description("직무 이름"))
+                        .build())));
   }
 }

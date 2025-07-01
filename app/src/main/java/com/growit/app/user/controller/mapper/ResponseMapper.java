@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ResponseMapper {
 
   private static JobRoleResponse toJobRoleResponse(JobRole jr) {
-    return new JobRoleResponse(jr.getUid(), jr.getName());
+    return new JobRoleResponse(jr.getId(), jr.getName());
   }
 
   public TokenResponse toTokenResponse(Token token) {

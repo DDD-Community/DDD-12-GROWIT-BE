@@ -9,6 +9,6 @@ plugins {
   alias(libs.plugins.dependency.management) apply false
   alias(libs.plugins.spotless) apply false
   alias(libs.plugins.restdocs) apply false
-
+  alias(libs.plugins.swagger) apply false
   jacoco
 }
