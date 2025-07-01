@@ -2,6 +2,7 @@ package com.growit.app.goal.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.epages.restdocs.apispec.SimpleType.NUMBER;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -102,7 +103,7 @@ class GoalControllerTest {
                             fieldWithPath("data[].plans").description("계획 리스트"),
                             fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plans[].dayOfMonth")
-                                .type(STRING)
+                                .type(NUMBER)
                                 .description("주차"),
                             fieldWithPath("data[].plans[].content")
                                 .type(STRING)
@@ -144,7 +145,7 @@ class GoalControllerTest {
                                 .type(JsonFieldType.STRING)
                                 .description("목표 달성 후 상태(To-Be)"),
                             fieldWithPath("plans[].dayOfMonth")
-                                .type(JsonFieldType.STRING)
+                                .type(JsonFieldType.NUMBER)
                                 .description("계획 주차"),
                             fieldWithPath("plans[].content")
                                 .type(JsonFieldType.STRING)
