@@ -62,3 +62,13 @@ override.tf.json
 .env.*
 .terraform.lock.hcl
 app/src/main/generated
+
+### VS Code ###
+.vscode/
+
+### macOS ###
+.DS_Store
+
+### REST Docs ###
+src/main/resources/static/docs/
+app/src/main/resources/static/docs/
