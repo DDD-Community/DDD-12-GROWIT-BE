@@ -102,7 +102,7 @@ class GoalControllerTest {
                                 .description("목표 달성 후 상태(To-Be)"),
                             fieldWithPath("data[].plans").description("계획 리스트"),
                             fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
-                            fieldWithPath("data[].plans[].dayOfMonth")
+                            fieldWithPath("data[].plans[].weekOfMonth")
                                 .type(NUMBER)
                                 .description("주차"),
                             fieldWithPath("data[].plans[].content")
@@ -144,7 +144,7 @@ class GoalControllerTest {
                             fieldWithPath("beforeAfter.toBe")
                                 .type(JsonFieldType.STRING)
                                 .description("목표 달성 후 상태(To-Be)"),
-                            fieldWithPath("plans[].dayOfMonth")
+                            fieldWithPath("plans[].weekOfMonth")
                                 .type(JsonFieldType.NUMBER)
                                 .description("계획 주차"),
                             fieldWithPath("plans[].content")

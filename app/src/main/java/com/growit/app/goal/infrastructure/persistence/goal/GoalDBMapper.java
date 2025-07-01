@@ -26,7 +26,7 @@ public class GoalDBMapper {
         goal.getPlans().stream()
             .map(
                 plan ->
-                    new PlanEntity(plan.getId(), plan.getDayOfMonth(), plan.getContent(), entity))
+                    new PlanEntity(plan.getId(), plan.getWeekOfMonth(), plan.getContent(), entity))
             .toList());
     return entity;
   }
@@ -45,7 +45,7 @@ public class GoalDBMapper {
                     planEntity ->
                         Plan.builder()
                             .id(planEntity.getUid())
-                            .dayOfMonth(planEntity.getDayOfMonth())
+                            .weekOfMonth(planEntity.getWeekOfMonth())
                             .content(planEntity.getContent())
                             .build())
                 .toList())

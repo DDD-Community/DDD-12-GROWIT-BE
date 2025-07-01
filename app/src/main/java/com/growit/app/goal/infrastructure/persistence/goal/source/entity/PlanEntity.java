@@ -17,7 +17,7 @@ public class PlanEntity extends BaseEntity {
   private String uid;
 
   @Column(nullable = false)
-  private int dayOfMonth;
+  private int weekOfMonth;
 
   @Column(nullable = false, length = 128)
   private String content;

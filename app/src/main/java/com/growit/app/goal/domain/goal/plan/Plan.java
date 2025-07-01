@@ -11,13 +11,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Plan {
   private String id;
-  private int dayOfMonth;
+  private int weekOfMonth;
   private String content;
 
   public static Plan from(PlanDto dto) {
     return Plan.builder()
         .id(IDGenerator.generateId())
-        .dayOfMonth(dto.dayOfMonth())
+        .weekOfMonth(dto.weekOfMonth())
         .content(dto.content())
         .build();
   }

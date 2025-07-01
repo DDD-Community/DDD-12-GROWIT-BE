@@ -20,7 +20,7 @@ public class GoalService implements GoalValidator {
 
     Set<Integer> days = new HashSet<>();
     for (PlanDto plan : plans) {
-      if (!days.add(plan.dayOfMonth())) {
+      if (!days.add(plan.weekOfMonth())) {
         throw new BadRequestException("중복 되는 주차가 존재 합니다.");
       }
     }
