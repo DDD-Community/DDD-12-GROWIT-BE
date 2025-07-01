@@ -15,5 +15,4 @@ public class ToDoServiceImpl implements ToDoService {
       throw new IllegalArgumentException("ToDo는 지난 주, 이번 주만 생성할 수 있습니다.");
     }
   }
-
 }
