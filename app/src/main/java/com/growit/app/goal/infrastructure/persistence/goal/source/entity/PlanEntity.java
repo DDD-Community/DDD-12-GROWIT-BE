@@ -16,6 +16,9 @@ public class PlanEntity extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String uid;
 
+  @Column(nullable = false)
+  private int dayOfMonth;
+
   @Column(nullable = false, length = 128)
   private String content;
 
