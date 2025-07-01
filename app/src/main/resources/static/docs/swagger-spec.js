@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"UO-JekHK9NLdxFkE-47Q8\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"4rOVV2M4MHK0-JvDpqD_q\"\n  }\n}"
                   }
                 }
               }
@@ -391,6 +391,24 @@ window.swaggerSpec={
           }
         }
       },
+      "auth-reissue-424105652" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "accessToken" : {
+                "type" : "string",
+                "description" : "엑세스 토큰"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "리프레시 토큰"
+              }
+            }
+          }
+        }
+      },
       "goals-595510971" : {
         "type" : "object",
         "properties" : {
@@ -437,24 +455,6 @@ window.swaggerSpec={
               "toBe" : {
                 "type" : "string",
                 "description" : "목표 달성 후 상태(To-Be)"
-              }
-            }
-          }
-        }
-      },
-      "auth-reissue-424105652" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "accessToken" : {
-                "type" : "string",
-                "description" : "엑세스 토큰"
-              },
-              "refreshToken" : {
-                "type" : "string",
-                "description" : "리프레시 토큰"
               }
             }
           }
