@@ -1,0 +1,30 @@
+package com.growit.goal.usecase;
+
+import com.growit.common.exception.NotFoundException;
+import com.growit.goal.domain.goal.Goal;
+import com.growit.goal.domain.goal.GoalRepository;
+import com.growit.goal.domain.goal.dto.DeleteGoalCommand;
+import com.growit.goal.domain.goal.service.GoalValidator;
+import java.rmi.ServerException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class DeleteGoalUseCase {
+  private final GoalRepository goalRepository;
+  private final GoalValidator goalValidator;
+
+  @Transactional
+  public void execute(DeleteGoalCommand command) throws ServerException {
+    Goal goal =
+        goalRepository
+            .findById(command.id())
+            .orElseThrow(() -> new NotFoundException("해당 되는 목표가 없습니다."));
+
+    goalValidator.checkMyGoal(goal, command.userId());
+    goal.deleted();
+    goalRepository.saveGoal(goal);
+  }
+}
