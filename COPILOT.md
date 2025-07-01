@@ -35,8 +35,8 @@
 - **줄 끝 공백 제거**: `trimTrailingWhitespace()` 자동 적용
 - **파일 마지막 줄 개행 보장**: `endWithNewline()` 적용
 - 코드를 커밋하기 전에 아래 명령어를 실행해주세요:
-  - `./gradlew spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache` – 코드 자동 정리
-  - `./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache` – 포맷팅 검증 (CI에서도 사용 가능)
+  - `./gradlew spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache`
+  - `./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache`
 
 ## 프로젝트 구조 (패키지 구조 기준)
 
@@ -183,7 +183,7 @@
 - 작성한 기능은 단위 테스트 및 통합 테스트 작성 후 PR
 - 코드리뷰 이후 merge 시 모든 테스트가 통과해야 함
 
-## 구현 세부 사항
+## 구현 세부 사항 예시 Root Aggregate 단위 디렉토리 구조
 
 ### 📘 도메인: goal
 
