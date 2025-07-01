@@ -44,7 +44,7 @@ public class SecurityConfig {
                         "/auth/**",
                         "/h2-console/**",
                         "/resource/jobroles",
-                        "/swagger-ui/**",
+                        "/docs/**",
                         "/static/**")
                     .permitAll()
                     .anyRequest()
