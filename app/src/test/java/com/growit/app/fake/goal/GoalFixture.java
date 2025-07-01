@@ -24,10 +24,10 @@ public class GoalFixture {
         new GoalDurationDto(LocalDate.of(2025, 6, 23), LocalDate.of(2025, 7, 20)),
         new BeforeAfterDto("기획 정의", "배포 완료"),
         List.of(
-            new PlanRequestDto("기획 및 설계 회의"),
-            new PlanRequestDto("디자인 시안 뽑기"),
-            new PlanRequestDto("프론트 개발 및 백 개발 완료"),
-            new PlanRequestDto("배포 완료")));
+            new PlanRequestDto(1, "기획 및 설계 회의"),
+            new PlanRequestDto(2, "디자인 시안 뽑기"),
+            new PlanRequestDto(3, "프론트 개발 및 백 개발 완료"),
+            new PlanRequestDto(4, "배포 완료")));
   }
 }
 
@@ -42,7 +42,7 @@ class GoalBuilder {
   private String userId = "user-1";
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
-  private List<Plan> plans = List.of(new Plan("planId", "그로잇 완성"));
+  private List<Plan> plans = List.of(new Plan("planId", 1, "그로잇 완성"));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {

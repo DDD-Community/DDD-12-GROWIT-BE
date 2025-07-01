@@ -24,7 +24,9 @@ public class GoalDBMapper {
             .build();
     entity.setPlans(
         goal.getPlans().stream()
-            .map(plan -> new PlanEntity(plan.getId(), plan.getContent(), entity))
+            .map(
+                plan ->
+                    new PlanEntity(plan.getId(), plan.getWeekOfMonth(), plan.getContent(), entity))
             .toList());
     return entity;
   }
@@ -43,6 +45,7 @@ public class GoalDBMapper {
                     planEntity ->
                         Plan.builder()
                             .id(planEntity.getUid())
+                            .weekOfMonth(planEntity.getWeekOfMonth())
                             .content(planEntity.getContent())
                             .build())
                 .toList())

@@ -1,6 +1,7 @@
 package com.growit.app.goal.domain.goal.plan;
 
 import com.growit.app.common.util.IDGenerator;
+import com.growit.app.goal.domain.goal.dto.PlanDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,9 +11,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Plan {
   private String id;
+  private int weekOfMonth;
   private String content;
 
-  public static Plan from(String content) {
-    return Plan.builder().id(IDGenerator.generateId()).content(content).build();
+  public static Plan from(PlanDto dto) {
+    return Plan.builder()
+        .id(IDGenerator.generateId())
+        .weekOfMonth(dto.weekOfMonth())
+        .content(dto.content())
+        .build();
   }
 }
