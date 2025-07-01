@@ -42,7 +42,7 @@ class GoalBuilder {
   private String userId = "user-1";
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
-  private List<Plan> plans = List.of(new Plan("planId", 1,"그로잇 완성"));
+  private List<Plan> plans = List.of(new Plan("planId", 1, "그로잇 완성"));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {
