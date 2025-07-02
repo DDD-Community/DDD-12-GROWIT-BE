@@ -3,6 +3,7 @@ package com.growit.app.todos.usecase;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.growit.app.fake.goal.FakeGoalRepository;
+import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todos.FakeToDoRepository;
 import com.growit.app.fake.todos.ToDoFixture;
 import com.growit.app.todos.controller.dto.CreateToDoRequest;
@@ -15,13 +16,16 @@ import org.junit.jupiter.api.Test;
 class CreateToDoUseCaseTest {
 
   private CreateToDoUseCase createToDoUseCase;
-  private FakeToDoRepository fakeToDoRepository;
-  private FakeGoalRepository fakeGoalRepository;
+
   @BeforeEach
   void setUp() {
-    fakeToDoRepository = new FakeToDoRepository();
+    FakeToDoRepository fakeToDoRepository = new FakeToDoRepository();
+    FakeGoalRepository fakeGoalRepository = new FakeGoalRepository();
     ToDoValidator toDoValidator = new ToDoService(fakeToDoRepository, fakeGoalRepository);
     createToDoUseCase = new CreateToDoUseCase(toDoValidator, fakeToDoRepository);
+
+    // Goal 데이터 등록
+    fakeGoalRepository.saveGoal(GoalFixture.defaultGoal());
   }
 
   @Test
