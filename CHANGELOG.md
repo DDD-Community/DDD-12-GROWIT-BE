@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.8.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.8.1...v1.8.2) (2025-07-02)
+
+
+### Bug Fixes
+
+* **retrospect:** goal, retrospect 체크 로직 수정 ([dcea307](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/dcea3070951c58746d2cdbdfbfae30a228d9c1ae))
+* **retrospect:** Retrospect 널 케이스 없음 수정 ([5512eb3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5512eb3306460da9a28cc7cf8e4cd02463f0fc0a))
+* **retrospect:** 글자수 관련 로직은 controller body 체크로 변경 ([9f23c16](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9f23c1665dd6ca1552e4cebb9fcae9b848fbb41c))
+
 ## [1.8.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.8.0...v1.8.1) (2025-07-01)
 
 
