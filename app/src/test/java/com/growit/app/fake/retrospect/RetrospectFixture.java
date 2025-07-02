@@ -2,7 +2,7 @@ package com.growit.app.fake.retrospect;
 
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
 
 public class RetrospectFixture {
   public static Retrospect defaultRetrospect() {

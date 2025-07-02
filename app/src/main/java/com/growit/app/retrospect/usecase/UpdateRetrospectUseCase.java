@@ -1,9 +1,12 @@
 package com.growit.app.retrospect.usecase;
 
+import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,23 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CreateRetrospectUseCase {
-  private final GoalValidator goalValidator;
+public class UpdateRetrospectUseCase {
   private final RetrospectValidator retrospectValidator;
   private final RetrospectRepository retrospectRepository;
 
   @Transactional
-  public String execute(CreateRetrospectCommand command) {
-    // 계획 존재 여부 확인
-    goalValidator.checkPlanExists(command.userId(), command.goalId(), command.planId());
+  public void execute(UpdateRetrospectCommand command) {
+    Retrospect retrospect = retrospectRepository.findById(command.id())
+      .orElseThrow(() -> new NotFoundException("회고 정보가 존재하지 않습니다."));
 
-    // 이미 회고가 존재하는지 확인
-    retrospectValidator.checkUniqueRetrospect(command.planId());
+    retrospectValidator.checkMyRetrospect(retrospect, command.userId());
 
-    // 회고 생성 및 저장
-    Retrospect retrospect = Retrospect.from(command);
+    retrospect.updateBy(command);
     retrospectRepository.saveRetrospect(retrospect);
-
-    return retrospect.getId();
   }
 }

@@ -1,7 +1,8 @@
 package com.growit.app.retrospect.domain.retrospect;
 
 import com.growit.app.common.util.IDGenerator;
-import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +25,9 @@ public class Retrospect {
         .planId(command.planId())
         .content(command.content())
         .build();
+  }
+
+  public void updateBy(UpdateRetrospectCommand command) {
+    this.content = command.content();
   }
 }
