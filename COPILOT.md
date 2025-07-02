@@ -154,13 +154,6 @@
 - Controller → UseCase → Domain → Infra 흐름 유지
 - `@Transactional`은 Service 또는 UseCase 레이어에서만 사용
 
-## 테스트 지침
-
-- 단위 테스트: JUnit5 + Mockito 기반
-- 통합 테스트: `@SpringBootTest`, `@Transactional`로 롤백
-- 테스트 구조: `src/test/java/com.growit/{layer}/{className}Test`
-- 테스트 네이밍: `given_when_then` 패턴 사용
-
 ## 의존성 관리
 
 - Gradle 기반 멀티 모듈 구성 지원 (필요 시)
@@ -276,12 +269,49 @@
 - 계층 간 명확한 의존 흐름 유지
 - 도메인 중심의 확장성과 유지보수성 확보
 
+---
 
-### 📘 REST Docs 작성 지침
+## 🧪 테스트 작성 지침서
 
-- 컨트롤러 단위의 API 테스트 시 `MockMvc`를 사용하고 `RestDocumentationExtension`과 함께 테스트 클래스에 명시합니다.
-- 테스트는 `@SpringBootTest` 환경에서 동작하며, 문서 생성을 위해 `RestDocumentationContextProvider`를 주입합니다.
-- `document("식별자")`와 함께 `resource(...)`를 명시하여 문서 구조를 정의합니다.
-- `requestFields`, `responseFields`는 모두 `fieldWithPath(...)`와 함께 `JsonFieldType`, 설명을 작성합니다.
-- 문서는 `build/generated-snippets`에 생성되며, 정적 문서로 연동 시 Swagger나 AsciiDoc 등으로 변환될 수 있습니다.
+아래 Goal 테스트와 같은 형태로 신규 도메인 테스트 지침서를 따라 코드를 작성해주세요!!!.
 
+### 1. 📁 `fake/goal`
+
+- `FakeGoalRepository`: 실제 DB 접근 없이 도메인 테스트를 수행할 수 있는 인메모리 저장소입니다.
+  - 중복 저장 방지, 조회, 삭제 등의 기본 동작을 구현합니다.
+- `GoalFixture.java`: 테스트용 Goal 도메인 객체를 생성하는 빌더 또는 정적 헬퍼 클래스를 정의합니다.
+  - ex) `GoalFixture.aGoal()`, `GoalFixture.withUserId(...)`
+
+### 2. 📁 `goal/controller`
+
+- `GoalControllerTest`: RestDocs 문서화 및 API 입력/출력 검증을 수행합니다.
+  - `@WebMvcTest` 또는 `@SpringBootTest`를 사용
+  - `MockMvc`로 실제 API 호출 흐름을 테스트
+  - 요청 JSON → DTO 매핑, 응답 JSON 스키마 검증 포함
+  - RestDocs 스니펫 생성 (`andDo(document(...))`)
+
+### 3. 📁 `goal/domain/goal/service`
+
+- `GoalServiceTest`: GoalService 내 주요 비즈니스 로직을 검증합니다.
+  - 순수 단위 테스트이며 외부 의존성 없음
+  - 검증/계산 관련 로직은 가능한 한 서비스로 분리하여 테스트 커버리지 확보
+
+### 4. 📁 `goal/domain/goal/vo`
+
+- `GoalDurationTest`: 값 객체(Value Object)의 불변성, 생성 제약, equals/hashcode 등을 테스트합니다.
+  - 생성 실패 케이스도 반드시 포함 (`IllegalArgumentException` 등)
+
+### 5. 📁 `goal/usecase`
+
+- `DeleteGoalUseCaseTest`, `GetUserGoalsUseCaseTest`: 실제 유스케이스 계층의 트랜잭션 흐름과 비즈니스 결과를 검증합니다.
+  - `FakeGoalRepository`와 `GoalFixture` 조합하여 테스트 구성
+  - 유스케이스의 입력(Command) → 기대 결과 또는 예외 처리 흐름까지 테스트
+  - `@Transactional` 기반 흐름이 포함된 경우도 검증
+
+### ✅ 공통 규칙
+
+- 테스트 클래스명은 `~Test` 접미사 사용
+- 테스트 메서드는 `should~when~` 또는 `given~when~then~` 네이밍 규칙
+- AAA (Arrange-Act-Assert) 패턴을 명확히 구분하여 작성
+- 실패 케이스 (예외 발생) 테스트도 반드시 포함
+- 테스트는 서로 독립적으로 동작하도록 구성 (상태 공유 금지)

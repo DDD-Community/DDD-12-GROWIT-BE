@@ -4,7 +4,6 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class FakeGoalRepository implements GoalRepository {
   private final Map<String, List<Goal>> store = new ConcurrentHashMap<>();
@@ -13,7 +12,7 @@ public class FakeGoalRepository implements GoalRepository {
   public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
     return store.getOrDefault(userId, Collections.emptyList()).stream()
         .filter(goal -> !goal.getDeleted())
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
