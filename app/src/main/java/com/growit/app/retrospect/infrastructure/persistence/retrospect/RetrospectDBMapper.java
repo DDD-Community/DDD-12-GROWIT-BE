@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class RetrospectDBMapper {
   public RetrospectEntity toEntity(Retrospect retrospect) {
-    if (retrospect == null) return null;
     return RetrospectEntity.builder()
         .uid(retrospect.getId())
         .userId(retrospect.getUserId())
