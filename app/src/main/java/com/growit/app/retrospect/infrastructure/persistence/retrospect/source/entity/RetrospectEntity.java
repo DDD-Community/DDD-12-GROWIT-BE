@@ -6,9 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(
-    name = "retrospects",
-    uniqueConstraints = {@UniqueConstraint(columnNames = {"goalId", "planId"})})
+@Table(name = "retrospects")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,9 +17,12 @@ public class RetrospectEntity extends BaseEntity {
   private String uid;
 
   @Column(nullable = false, length = 128)
-  private String goalId;
+  private String userId;
 
   @Column(nullable = false, length = 128)
+  private String goalId;
+
+  @Column(nullable = false, length = 128, unique = true)
   private String planId;
 
   @Column(nullable = false, length = 500)

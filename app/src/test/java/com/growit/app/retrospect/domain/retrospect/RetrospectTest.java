@@ -20,6 +20,7 @@ class RetrospectTest {
     // Then
     assertNotNull(retrospect.getId());
     assertEquals(command.goalId(), retrospect.getGoalId());
+    assertEquals(command.userId(), retrospect.getUserId());
     assertEquals(command.planId(), retrospect.getPlanId());
     assertEquals(command.content(), retrospect.getContent());
   }
@@ -30,6 +31,7 @@ class RetrospectTest {
     Retrospect retrospect =
         Retrospect.builder()
             .id("test-id")
+            .userId("user-id")
             .goalId("goal-123")
             .planId("plan-456")
             .content("Test retrospect content")

@@ -28,8 +28,8 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
   }
 
   @Override
-  public Optional<Retrospect> findByGoalIdAndPlanId(String goalId, String planId) {
-    Optional<RetrospectEntity> entity = repository.findByGoalIdAndPlanId(goalId, planId);
+  public Optional<Retrospect> findByPlanId(String planId) {
+    Optional<RetrospectEntity> entity = repository.findByPlanId(planId);
     return entity.map(mapper::toDomain);
   }
 }

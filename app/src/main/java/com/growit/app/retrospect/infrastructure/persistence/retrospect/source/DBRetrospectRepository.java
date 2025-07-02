@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DBRetrospectRepository extends JpaRepository<RetrospectEntity, Long> {
   Optional<RetrospectEntity> findByUid(String uid);
 
-  Optional<RetrospectEntity> findByGoalIdAndPlanId(String goalId, String planId);
+  Optional<RetrospectEntity> findByPlanId(String planId);
 }

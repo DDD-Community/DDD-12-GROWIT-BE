@@ -3,6 +3,8 @@ package com.growit.app.goal.domain.goal.service;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
@@ -13,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class GoalServiceTest {
 
-  private final GoalService goalService = new GoalService();
+  private final GoalService goalService = new GoalService(new FakeGoalRepository());
 
   @Test
   void givenPlans_whenCheckPlans_thenSuccess() {
@@ -40,5 +42,13 @@ class GoalServiceTest {
   void givenInvalidUser_whenCheckMyGoal_throwBadRequestException() {
     Goal goal = GoalFixture.defaultGoal();
     assertThrows(BadRequestException.class, () -> goalService.checkMyGoal(goal, "otherUser"));
+  }
+
+  @Test
+  void givenValidUser_whenCheckPlanExists_throwBadRequestException() {
+    Goal goal = GoalFixture.defaultGoal();
+    assertThrows(
+        NotFoundException.class,
+        () -> goalService.checkPlanExists(goal.getUserId(), goal.getId(), "notExistPlanId"));
   }
 }

@@ -1,9 +1,6 @@
 package com.growit.app.retrospect.domain.retrospect.service;
 
 import com.growit.app.common.exception.BadRequestException;
-import com.growit.app.common.exception.NotFoundException;
-import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RetrospectService implements RetrospectValidator {
   private final RetrospectRepository retrospectRepository;
-  private final GoalRepository goalRepository;
 
   @Override
   public void checkContent(String content) throws BadRequestException {
@@ -31,24 +27,12 @@ public class RetrospectService implements RetrospectValidator {
   }
 
   @Override
-  public void checkUniqueRetrospect(String goalId, String planId) throws BadRequestException {
+  public void checkUniqueRetrospect(String planId) throws BadRequestException {
     retrospectRepository
-        .findByGoalIdAndPlanId(goalId, planId)
+        .findByPlanId(planId)
         .ifPresent(
             existing -> {
               throw new BadRequestException("해당 주간 계획에 대한 회고가 이미 존재합니다.");
             });
-  }
-
-  @Override
-  public void checkPlanExists(String goalId, String planId) throws NotFoundException {
-    Goal goal =
-        goalRepository.findById(goalId).orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
-
-    boolean planExists = goal.getPlans().stream().anyMatch(plan -> plan.getId().equals(planId));
-
-    if (!planExists) {
-      throw new NotFoundException("해당 목표에서 계획을 찾을 수 없습니다.");
-    }
   }
 }

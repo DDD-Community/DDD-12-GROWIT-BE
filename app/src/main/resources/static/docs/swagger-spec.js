@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"j7vXuws7JCF9K-vgJzUmH\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"FiXILZhfEXC52bvHgcdbm\"\n  }\n}"
                   }
                 }
               }

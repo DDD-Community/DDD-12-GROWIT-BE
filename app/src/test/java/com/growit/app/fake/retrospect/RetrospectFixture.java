@@ -23,19 +23,25 @@ public class RetrospectFixture {
   }
 
   public static CreateRetrospectCommand createRetrospectCommandWithContent(
-      String goalId, String planId, String content) {
-    return new CreateRetrospectCommand(goalId, planId, "user-789", content);
+      String goalId, String userId, String planId, String content) {
+    return new CreateRetrospectCommand(goalId, planId, userId, content);
   }
 }
 
 class RetrospectBuilder {
   private String id = "retrospect-123";
+  private String userId = "user-123";
   private String goalId = "goal-123";
   private String planId = "plan-456";
   private String content = "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.";
 
   public RetrospectBuilder id(String id) {
     this.id = id;
+    return this;
+  }
+
+  public RetrospectBuilder userId(String userId) {
+    this.userId = userId;
     return this;
   }
 
@@ -55,6 +61,12 @@ class RetrospectBuilder {
   }
 
   public Retrospect build() {
-    return Retrospect.builder().id(id).goalId(goalId).planId(planId).content(content).build();
+    return Retrospect.builder()
+        .id(id)
+        .userId(userId)
+        .goalId(goalId)
+        .planId(planId)
+        .content(content)
+        .build();
   }
 }

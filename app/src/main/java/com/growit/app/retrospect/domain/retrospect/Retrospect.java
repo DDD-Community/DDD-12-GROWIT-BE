@@ -11,6 +11,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Retrospect {
   private String id;
+  private String userId;
   private String goalId;
   private String planId;
   private String content;
@@ -18,6 +19,7 @@ public class Retrospect {
   public static Retrospect from(CreateRetrospectCommand command) {
     return Retrospect.builder()
         .id(IDGenerator.generateId())
+        .userId(command.userId())
         .goalId(command.goalId())
         .planId(command.planId())
         .content(command.content())

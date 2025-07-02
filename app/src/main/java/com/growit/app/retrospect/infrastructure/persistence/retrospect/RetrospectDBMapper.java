@@ -10,6 +10,7 @@ public class RetrospectDBMapper {
     if (retrospect == null) return null;
     return RetrospectEntity.builder()
         .uid(retrospect.getId())
+        .userId(retrospect.getUserId())
         .goalId(retrospect.getGoalId())
         .planId(retrospect.getPlanId())
         .content(retrospect.getContent())
@@ -20,6 +21,7 @@ public class RetrospectDBMapper {
     if (entity == null) return null;
     return Retrospect.builder()
         .id(entity.getUid())
+        .userId(entity.getUserId())
         .goalId(entity.getGoalId())
         .planId(entity.getPlanId())
         .content(entity.getContent())
