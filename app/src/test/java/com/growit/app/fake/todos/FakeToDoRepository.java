@@ -29,10 +29,8 @@ public class FakeToDoRepository implements ToDoRepository {
 
   @Override
   public int countByToDo(LocalDate date, String userId) {
-    return (int)
-        store.getOrDefault(userId, Collections.emptyList()).stream()
-            .filter(todo -> date.equals(todo.getDate()))
-            .count();
+    List<ToDo> list = store.getOrDefault(userId, Collections.emptyList());
+    return (int) list.stream().filter(todo -> todo.getDate().equals(date)).count();
   }
 
   public void clear() {
