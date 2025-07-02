@@ -5,7 +5,6 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.todos.domain.ToDoRepository;
 import java.time.LocalDate;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +13,16 @@ import org.springframework.stereotype.Service;
 public class ToDoService implements ToDoValidator {
   private final ToDoRepository toDoRepository;
   private final GoalRepository goalRepository;
-  private final static int MAX_TO_COUNT = 10;
+  private static final int MAX_TO_COUNT = 10;
+
   @Override
   public void isDateInRange(LocalDate date, String goalId) throws BadRequestException {
     LocalDate today = LocalDate.now();
 
-    Goal goalEntity = goalRepository.findById(goalId)
-      .orElseThrow(() -> new BadRequestException("해당 목표(goal)가 존재하지 않습니다."));
+    Goal goalEntity =
+        goalRepository
+            .findById(goalId)
+            .orElseThrow(() -> new BadRequestException("해당 목표(goal)가 존재하지 않습니다."));
     LocalDate thisWeekStartDate = goalEntity.getDuration().startDate();
 
     LocalDate thisWeekSunday = today.with(java.time.DayOfWeek.SUNDAY);

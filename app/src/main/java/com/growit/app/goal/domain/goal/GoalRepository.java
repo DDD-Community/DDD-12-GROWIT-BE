@@ -10,7 +10,6 @@ public interface GoalRepository {
 
   Optional<Goal> findById(String goalId);
 
-
   // GoalId => PlanList => Todo Date에 필터 맞는 주차를 찾기
 
 }

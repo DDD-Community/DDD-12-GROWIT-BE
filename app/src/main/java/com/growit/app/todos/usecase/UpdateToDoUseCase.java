@@ -22,7 +22,8 @@ public class UpdateToDoUseCase {
     // NOTE ::
     //  1. planId까지 같이 조회해서 실제 그 주차에있는지 검증을 해야할까?
     //  2. plan간 업데이트가 있을 수 있을까? >> O
-    //  3. date만 받고 알아서 plan을 계산해야할까? >> date(연산해서 알아서 찾는걸로) => Plan(duration) start, end 생성 => id조회 주간 변경 해당
+    //  3. date만 받고 알아서 plan을 계산해야할까? >> date(연산해서 알아서 찾는걸로) => Plan(duration) start, end 생성 => id조회
+    // 주간 변경 해당
 
     // Alarm =>
     //    if (planRepository.findById(command.planId()).isEmpty()) {
@@ -34,9 +35,9 @@ public class UpdateToDoUseCase {
 
     // 10 개
     ToDo toDo =
-      toDoRepository
-        .findById(command.id())
-        .orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
+        toDoRepository
+            .findById(command.id())
+            .orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
 
     //
     toDoValidator.isDateInRange(command.date(), command.planId());

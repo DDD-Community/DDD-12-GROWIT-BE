@@ -34,7 +34,13 @@ public class Goal {
         .name(command.name())
         .duration(command.duration())
         .beforeAfter(command.beforeAfter())
-        .plans(command.plans().stream().map(planDto -> Plan.from(planDto, command.duration().startDate(), command.duration().endDate())).toList())
+        .plans(
+            command.plans().stream()
+                .map(
+                    planDto ->
+                        Plan.from(
+                            planDto, command.duration().startDate(), command.duration().endDate()))
+                .toList())
         .isDelete(false)
         .build();
   }
@@ -49,7 +55,7 @@ public class Goal {
   }
 
   public void fillterByDate(LocalDate date) {
-//    plan에서 date에 맞게 되는 애 찾아서 return 해주기 date 가 true면 넣기
-//    return
+    //    plan에서 date에 맞게 되는 애 찾아서 return 해주기 date 가 true면 넣기
+    //    return
   }
 }
