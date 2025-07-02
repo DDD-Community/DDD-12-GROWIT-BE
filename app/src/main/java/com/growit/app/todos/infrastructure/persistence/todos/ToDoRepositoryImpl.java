@@ -29,7 +29,7 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
-  public int countByToDo(LocalDate date, String userId) {
-    return repository.countByDateAndUserId(date, userId);
+  public int countByToDo(LocalDate date, String userId, String planId) {
+    return repository.countByDateAndUserIdAndPlanId(date, userId, planId);
   }
 }

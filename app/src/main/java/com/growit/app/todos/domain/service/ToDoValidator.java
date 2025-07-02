@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public interface ToDoValidator {
   void isDateInRange(LocalDate date) throws BadRequestException;
 
-  void tooManyToDoCreated(LocalDate date, String userId) throws BadRequestException;
+  void tooManyToDoCreated(LocalDate date, String userId, String planId) throws BadRequestException;
 
   void checkContent(String content) throws BadRequestException;
 }

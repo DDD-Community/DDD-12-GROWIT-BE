@@ -38,6 +38,6 @@ public class ToDoEntity extends BaseEntity {
   private boolean isCompleted;
 
   public void updateToByDomain(ToDo toDo) {
-    if (toDo.isCompleted()) setCompleted(toDo.isCompleted());
+    setCompleted(toDo.isCompleted());
   }
 }

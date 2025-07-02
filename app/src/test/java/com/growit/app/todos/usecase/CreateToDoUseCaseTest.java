@@ -30,9 +30,9 @@ class CreateToDoUseCaseTest {
 
     CreateToDoCommand command =
         new CreateToDoCommand(
+            "user-1",
             request.getGoalId(),
             request.getPlanId(),
-            "user-1",
             request.getContent(),
             request.getDate());
 

@@ -34,22 +34,24 @@ public class ToDoServiceTest {
   @Test
   void givenLessThan10ToDos_whenTooManyToDoCreated_thenSuccess() {
     String userId = "user-1";
+    String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 9; i++) {
-      fakeRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today));
+      fakeRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
     }
-    toDoService.tooManyToDoCreated(today, userId);
+    toDoService.tooManyToDoCreated(today, userId, planId);
   }
 
   @Test
   void given10OrMoreToDos_whenTooManyToDoCreated_thenThrowBadRequestException() {
     String userId = "user-1";
+    String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today));
+      fakeRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
     }
-    System.out.println("전체 저장 개수: " + fakeRepo.countByToDo(today, userId));
-    assertThrows(BadRequestException.class, () -> toDoService.tooManyToDoCreated(today, userId));
+    assertThrows(
+        BadRequestException.class, () -> toDoService.tooManyToDoCreated(today, userId, planId));
   }
 
   @Test

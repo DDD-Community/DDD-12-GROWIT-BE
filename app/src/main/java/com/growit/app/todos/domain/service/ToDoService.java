@@ -22,8 +22,9 @@ public class ToDoService implements ToDoValidator {
     }
   }
 
-  public void tooManyToDoCreated(LocalDate date, String userId) throws BadRequestException {
-    int count = toDoRepository.countByToDo(date, userId);
+  public void tooManyToDoCreated(LocalDate date, String userId, String planId)
+      throws BadRequestException {
+    int count = toDoRepository.countByToDo(date, userId, planId);
     if (count >= 10) {
       throw new BadRequestException("하루에 할 일은 최대 10개까지만 등록할 수 있습니다.");
     }

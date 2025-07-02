@@ -5,5 +5,5 @@ import java.time.LocalDate;
 public interface ToDoRepository {
   void saveToDo(ToDo toDo);
 
-  int countByToDo(LocalDate date, String userId);
+  int countByToDo(LocalDate date, String userId, String planId);
 }
