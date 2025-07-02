@@ -18,9 +18,6 @@ public class CreateRetrospectUseCase {
 
   @Transactional
   public String execute(CreateRetrospectCommand command) {
-    // 회고 내용 유효성 검증
-    retrospectValidator.checkContent(command.content());
-
     // 계획 존재 여부 확인
     goalValidator.checkPlanExists(command.userId(), command.goalId(), command.planId());
 

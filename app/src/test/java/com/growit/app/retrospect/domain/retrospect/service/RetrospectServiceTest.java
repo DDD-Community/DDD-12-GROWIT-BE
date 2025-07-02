@@ -22,35 +22,6 @@ class RetrospectServiceTest {
   }
 
   @Test
-  void givenValidContent_whenCheckContent_thenSuccess() {
-    String validContent = "이번 주는 정말 유익한 한 주였습니다.";
-
-    assertDoesNotThrow(() -> retrospectService.checkContent(validContent));
-  }
-
-  @Test
-  void givenNullContent_whenCheckContent_throwBadRequestException() {
-    assertThrows(BadRequestException.class, () -> retrospectService.checkContent(null));
-  }
-
-  @Test
-  void givenEmptyContent_whenCheckContent_throwBadRequestException() {
-    assertThrows(BadRequestException.class, () -> retrospectService.checkContent(""));
-  }
-
-  @Test
-  void givenShortContent_whenCheckContent_throwBadRequestException() {
-    String shortContent = "짧음";
-    assertThrows(BadRequestException.class, () -> retrospectService.checkContent(shortContent));
-  }
-
-  @Test
-  void givenLongContent_whenCheckContent_throwBadRequestException() {
-    String longContent = "a".repeat(201);
-    assertThrows(BadRequestException.class, () -> retrospectService.checkContent(longContent));
-  }
-
-  @Test
   void givenExistingRetrospect_whenCheckUniqueRetrospect_throwBadRequestException() {
     Retrospect existingRetrospect =
         Retrospect.builder()
