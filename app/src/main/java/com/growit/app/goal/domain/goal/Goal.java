@@ -6,6 +6,7 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class Goal {
         .name(command.name())
         .duration(command.duration())
         .beforeAfter(command.beforeAfter())
-        .plans(command.plans().stream().map(Plan::from).toList())
+        .plans(command.plans().stream().map(planDto -> Plan.from(planDto, command.duration().startDate(), command.duration().endDate())).toList())
         .isDelete(false)
         .build();
   }
@@ -45,5 +46,10 @@ public class Goal {
   @JsonIgnore
   public boolean getDeleted() {
     return isDelete;
+  }
+
+  public void fillterByDate(LocalDate date) {
+//    plan에서 date에 맞게 되는 애 찾아서 return 해주기 date 가 true면 넣기
+//    return
   }
 }

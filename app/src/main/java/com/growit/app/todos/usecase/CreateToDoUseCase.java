@@ -16,9 +16,8 @@ public class CreateToDoUseCase {
 
   @Transactional
   public String execute(CreateToDoCommand command) {
-    toDoValidator.isDateInRange(command.date());
+    toDoValidator.isDateInRange(command.date(), command.goalId());
     toDoValidator.tooManyToDoCreated(command.date(), command.userId(), command.planId());
-    toDoValidator.checkContent(command.content());
 
     ToDo toDo = ToDo.from(command);
     toDoRepository.saveToDo(toDo);
