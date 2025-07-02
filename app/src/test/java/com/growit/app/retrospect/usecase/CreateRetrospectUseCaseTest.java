@@ -9,7 +9,7 @@ import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalService;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
-import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectService;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
 import org.junit.jupiter.api.BeforeEach;

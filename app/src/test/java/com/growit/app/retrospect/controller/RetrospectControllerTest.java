@@ -8,7 +8,9 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
@@ -16,7 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
+import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
+import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +46,7 @@ class RetrospectControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   @MockitoBean private CreateRetrospectUseCase createRetrospectUseCase;
+  @MockitoBean private UpdateRetrospectUseCase updateRetrospectUseCase;
 
   @BeforeEach
   void setUp(
@@ -87,6 +92,33 @@ class RetrospectControllerTest {
                                 .type(JsonFieldType.STRING)
                                 .description("회고 내용"))
                         .responseFields(fieldWithPath("data.id").type(STRING).description("회고 ID"))
+                        .build())));
+  }
+
+  @Test
+  void updateRetrospect() throws Exception {
+    UpdateRetrospectRequest body = RetrospectFixture.defaultUpdateRetrospectRequest();
+    mockMvc
+        .perform(
+            put("/retrospects/{id}", "retrospect-id")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(body)))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "update-retrospect",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Retrospects")
+                        .summary("회고 수정")
+                        .pathParameters(parameterWithName("id").description("회고 ID"))
+                        .requestFields(
+                            fieldWithPath("content")
+                                .type(JsonFieldType.STRING)
+                                .description("회고 내용"))
                         .build())));
   }
 }

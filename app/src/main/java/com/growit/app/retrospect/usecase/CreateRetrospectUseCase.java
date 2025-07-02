@@ -3,7 +3,7 @@ package com.growit.app.retrospect.usecase;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
-import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

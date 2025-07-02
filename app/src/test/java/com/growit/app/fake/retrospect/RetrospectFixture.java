@@ -1,8 +1,10 @@
 package com.growit.app.fake.retrospect;
 
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
+import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
 
 public class RetrospectFixture {
   public static Retrospect defaultRetrospect() {
@@ -25,6 +27,21 @@ public class RetrospectFixture {
   public static CreateRetrospectCommand createRetrospectCommandWithContent(
       String goalId, String userId, String planId, String content) {
     return new CreateRetrospectCommand(goalId, planId, userId, content);
+  }
+
+  public static UpdateRetrospectRequest defaultUpdateRetrospectRequest() {
+    return new UpdateRetrospectRequest(
+        "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+  }
+
+  public static UpdateRetrospectCommand defaultUpdateRetrospectCommand() {
+    return new UpdateRetrospectCommand(
+        "id", "userId", "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+  }
+
+  public static UpdateRetrospectCommand updateRetrospectCommand(
+      String id, String userId, String content) {
+    return new UpdateRetrospectCommand(id, userId, content);
   }
 }
 
