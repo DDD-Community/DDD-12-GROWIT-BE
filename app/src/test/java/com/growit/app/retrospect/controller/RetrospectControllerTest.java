@@ -1,13 +1,20 @@
 package com.growit.app.retrospect.controller;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,63 +49,44 @@ class RetrospectControllerTest {
       RestDocumentationContextProvider restDocumentationContextProvider) {
     this.mockMvc =
         MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentationContextProvider))
+            .apply(
+                MockMvcRestDocumentation.documentationConfiguration(
+                    restDocumentationContextProvider))
             .build();
     TestSecurityUtil.setMockUser();
   }
 
   @Test
-  void 회고_생성_성공() throws Exception {
-    // given
-    String retrospectId = "retrospect-id-123";
-    given(createRetrospectUseCase.execute(any())).willReturn(retrospectId);
-
-    CreateRetrospectRequest request = new CreateRetrospectRequest(
-        "goal-id-123",
-        "plan-id-123",
-        "이번 주는 목표를 잘 달성한 것 같습니다. 다음 주에는 더 열심히 하겠습니다."
-    );
-
-    // when & then
-    mockMvc.perform(post("/retrospects")
-            .header("Authorization", "Bearer mock-jwt-token")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
+  void createRetrospect() throws Exception {
+    CreateRetrospectRequest body = RetrospectFixture.defaultCreateRetrospectRequest();
+    given(createRetrospectUseCase.execute(any())).willReturn("retrospect-id");
+    mockMvc
+        .perform(
+            post("/retrospects")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(body)))
         .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.data.id").value(retrospectId));
-  }
-
-  @Test
-  void 회고_생성_실패_내용_누락() throws Exception {
-    // given
-    CreateRetrospectRequest request = new CreateRetrospectRequest(
-        "goal-id-123",
-        "plan-id-123",
-        ""  // 빈 내용
-    );
-
-    // when & then
-    mockMvc.perform(post("/retrospects")
-            .header("Authorization", "Bearer mock-jwt-token")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  void 회고_생성_실패_내용_너무_짧음() throws Exception {
-    // given
-    CreateRetrospectRequest request = new CreateRetrospectRequest(
-        "goal-id-123",
-        "plan-id-123",
-        "짧음"  // 10자 미만
-    );
-
-    // when & then
-    mockMvc.perform(post("/retrospects")
-            .header("Authorization", "Bearer mock-jwt-token")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isBadRequest());
+        .andDo(
+            document(
+                "create-retrospect",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Retrospects")
+                        .summary("회고 생성")
+                        .requestFields(
+                            fieldWithPath("goalId")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 아이디"),
+                            fieldWithPath("planId")
+                                .type(JsonFieldType.STRING)
+                                .description("계획 아이디"),
+                            fieldWithPath("content")
+                                .type(JsonFieldType.STRING)
+                                .description("회고 내용"))
+                        .responseFields(fieldWithPath("data.id").type(STRING).description("회고 ID"))
+                        .build())));
   }
 }

@@ -17,13 +17,13 @@ public class CreateRetrospectUseCase {
   @Transactional
   public String execute(CreateRetrospectCommand command) {
     // 회고 내용 유효성 검증
-    retrospectValidator.validateContent(command.content());
-    
+    retrospectValidator.checkContent(command.content());
+
     // 계획 존재 여부 확인
-    retrospectValidator.validatePlanExists(command.goalId(), command.planId());
-    
+    retrospectValidator.checkPlanExists(command.goalId(), command.planId());
+
     // 이미 회고가 존재하는지 확인
-    retrospectValidator.validateUniqueRetrospect(command.goalId(), command.planId());
+    retrospectValidator.checkUniqueRetrospect(command.goalId(), command.planId());
 
     // 회고 생성 및 저장
     Retrospect retrospect = Retrospect.from(command);

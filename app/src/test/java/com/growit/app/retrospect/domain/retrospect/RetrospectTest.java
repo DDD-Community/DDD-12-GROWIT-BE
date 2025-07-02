@@ -27,12 +27,13 @@ class RetrospectTest {
   @Test
   void givenRetrospectBuilder_whenBuild_thenRetrospectIsCreated() {
     // Given & When
-    Retrospect retrospect = Retrospect.builder()
-        .id("test-id")
-        .goalId("goal-123")
-        .planId("plan-456")
-        .content("Test retrospect content")
-        .build();
+    Retrospect retrospect =
+        Retrospect.builder()
+            .id("test-id")
+            .goalId("goal-123")
+            .planId("plan-456")
+            .content("Test retrospect content")
+            .build();
 
     // Then
     assertEquals("test-id", retrospect.getId());

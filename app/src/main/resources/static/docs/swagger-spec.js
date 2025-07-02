@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"w87JopfK7MB1EA8L0mmMb\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"j7vXuws7JCF9K-vgJzUmH\"\n  }\n}"
                   }
                 }
               }
@@ -228,6 +228,45 @@ window.swaggerSpec={
                 "examples" : {
                   "get-job-roles" : {
                     "value" : "{\n  \"data\" : {\n    \"jobRoles\" : [ {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    }, {\n      \"id\" : \"designer\",\n      \"name\" : \"디자이너\"\n    }, {\n      \"id\" : \"planner\",\n      \"name\" : \"기획자\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retrospects" : {
+      "post" : {
+        "tags" : [ "Retrospects" ],
+        "summary" : "회고 생성",
+        "description" : "회고 생성",
+        "operationId" : "create-retrospect",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/retrospects-597490674"
+              },
+              "examples" : {
+                "create-retrospect" : {
+                  "value" : "{\n  \"goalId\" : \"goal-123\",\n  \"planId\" : \"plan-456\",\n  \"content\" : \"이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/retrospects-1554052329"
+                },
+                "examples" : {
+                  "create-retrospect" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"retrospect-id\"\n  }\n}"
                   }
                 }
               }
@@ -509,6 +548,20 @@ window.swaggerSpec={
           }
         }
       },
+      "retrospects-1554052329" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "회고 ID"
+              }
+            }
+          }
+        }
+      },
       "users-myprofile638373110" : {
         "type" : "object",
         "properties" : {
@@ -558,6 +611,23 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "retrospects-597490674" : {
+        "type" : "object",
+        "properties" : {
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 아이디"
+          },
+          "planId" : {
+            "type" : "string",
+            "description" : "계획 아이디"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "회고 내용"
           }
         }
       }

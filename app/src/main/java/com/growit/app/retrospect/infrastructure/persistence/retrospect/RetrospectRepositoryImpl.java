@@ -19,9 +19,7 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
     Optional<RetrospectEntity> existing = repository.findByUid(retrospect.getId());
     if (existing.isPresent()) {
       RetrospectEntity entity = existing.get();
-      entity.setGoalId(retrospect.getGoalId());
-      entity.setPlanId(retrospect.getPlanId());
-      entity.setContent(retrospect.getContent());
+      entity.updateByDomain(retrospect);
       repository.save(entity);
     } else {
       RetrospectEntity entity = mapper.toEntity(retrospect);
