@@ -1,6 +1,7 @@
 package com.growit.app.todos.infrastructure.persistence.todos.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.todos.domain.ToDo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -35,4 +36,8 @@ public class ToDoEntity extends BaseEntity {
 
   @Column(nullable = false, columnDefinition = "boolean default false")
   private boolean isCompleted;
+
+  public void updateToByDomain(ToDo toDo) {
+    if (toDo.isCompleted()) setCompleted(toDo.isCompleted());
+  }
 }
