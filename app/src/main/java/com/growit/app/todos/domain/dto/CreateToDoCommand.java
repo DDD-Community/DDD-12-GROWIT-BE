@@ -1,4 +1,4 @@
-package com.growit.app.todos.domain;
+package com.growit.app.todos.domain.dto;
 
 import java.time.LocalDate;
 

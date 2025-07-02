@@ -38,6 +38,11 @@ public class ToDoEntity extends BaseEntity {
   private boolean isCompleted;
 
   public void updateToByDomain(ToDo toDo) {
-    setCompleted(toDo.isCompleted());
+    this.date = toDo.getDate();
+    this.content = toDo.getContent();
+  }
+
+  public void updateCompleted(ToDo todo) {
+    this.isCompleted = todo.isCompleted();
   }
 }

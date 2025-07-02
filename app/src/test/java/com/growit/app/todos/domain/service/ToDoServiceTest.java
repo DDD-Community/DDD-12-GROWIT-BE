@@ -61,12 +61,12 @@ public class ToDoServiceTest {
 
   @Test
   void givenShortContent_whenCheckContent_thenThrow() {
-    assertThrows(IllegalArgumentException.class, () -> toDoService.checkContent("짧다"));
+    assertThrows(BadRequestException.class, () -> toDoService.checkContent("짧다"));
   }
 
   @Test
   void givenLongContent_whenCheckContent_thenThrow() {
     String longContent = "이 내용은 30자를 넘어가는 매우매우매우 긴 내용입니다!";
-    assertThrows(IllegalArgumentException.class, () -> toDoService.checkContent(longContent));
+    assertThrows(BadRequestException.class, () -> toDoService.checkContent(longContent));
   }
 }

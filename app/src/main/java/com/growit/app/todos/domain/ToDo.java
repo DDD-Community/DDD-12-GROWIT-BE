@@ -1,6 +1,8 @@
 package com.growit.app.todos.domain;
 
 import com.growit.app.common.util.IDGenerator;
+import com.growit.app.todos.domain.dto.CreateToDoCommand;
+import com.growit.app.todos.domain.dto.UpdateToDoCommand;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +29,11 @@ public class ToDo {
         .content(command.content())
         .date(command.date())
         .build();
+  }
+
+  public void updateBy(UpdateToDoCommand command) {
+    this.planId = command.planId();
+    this.date = command.date();
+    this.content = command.content();
   }
 }

@@ -32,7 +32,7 @@ public class ToDoService implements ToDoValidator {
 
   public void checkContent(String content) throws BadRequestException {
     if (content == null || content.length() < 5 || content.length() >= 30) {
-      throw new IllegalArgumentException("내용은 5자 이상 30자 미만이어야 합니다.");
+      throw new BadRequestException("내용은 5자 이상 30자 미만이어야 합니다.");
     }
   }
 }

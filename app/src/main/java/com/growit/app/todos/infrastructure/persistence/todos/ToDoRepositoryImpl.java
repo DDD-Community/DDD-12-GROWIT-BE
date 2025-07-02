@@ -19,9 +19,9 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   public void saveToDo(ToDo toDo) {
     Optional<ToDoEntity> existing = repository.findByUid(toDo.getId());
     if (existing.isPresent()) {
-      ToDoEntity exist = existing.get();
-      exist.updateToByDomain(toDo);
-      repository.save(exist);
+      ToDoEntity entity = existing.get();
+      entity.updateToByDomain(toDo);
+      repository.save(entity);
     } else {
       ToDoEntity toDoEntity = mapper.toEntity(toDo);
       repository.save(toDoEntity);
@@ -31,5 +31,11 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   @Override
   public int countByToDo(LocalDate date, String userId, String planId) {
     return repository.countByDateAndUserIdAndPlanId(date, userId, planId);
+  }
+
+  @Override
+  public Optional<ToDo> findById(String id) {
+    Optional<ToDoEntity> entity = repository.findByUid(id);
+    return entity.map(mapper::toDomain);
   }
 }
