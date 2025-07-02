@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.8.2...v1.9.0) (2025-07-02)
+
+
+### Features
+
+* usecase test 구현 ([c8eb7a5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c8eb7a5f238c06285d2d179b478f8e9c93d3b22f))
+
+
+### Bug Fixes
+
+* exception 누락 추가 ([ea7424e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ea7424eea2f8736c2acd0c95dbd9d382d972bc0d))
+* exception 누락 추가 ([d3254ea](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d3254ead6a8e79698d0918b91f61c6d40be80a2e))
+* pr 처리 ([b4e95c1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b4e95c154733e8419f7c90558d66faec4a63a851))
+
 ## [1.8.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.8.1...v1.8.2) (2025-07-02)
 
 
