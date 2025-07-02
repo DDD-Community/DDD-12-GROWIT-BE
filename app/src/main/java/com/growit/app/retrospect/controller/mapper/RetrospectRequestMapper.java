@@ -14,8 +14,8 @@ public class RetrospectRequestMapper {
         request.getGoalId(), request.getPlanId(), userId, request.getContent());
   }
 
-  public UpdateRetrospectCommand toUpdateCommand(String id, String userId, UpdateRetrospectRequest request) {
-    return new UpdateRetrospectCommand(
-      id, userId, request.getContent());
+  public UpdateRetrospectCommand toUpdateCommand(
+      String id, String userId, UpdateRetrospectRequest request) {
+    return new UpdateRetrospectCommand(id, userId, request.getContent());
   }
 }

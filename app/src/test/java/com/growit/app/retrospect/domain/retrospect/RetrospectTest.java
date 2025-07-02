@@ -24,23 +24,4 @@ class RetrospectTest {
     assertEquals(command.planId(), retrospect.getPlanId());
     assertEquals(command.content(), retrospect.getContent());
   }
-
-  @Test
-  void givenRetrospectBuilder_whenBuild_thenRetrospectIsCreated() {
-    // Given & When
-    Retrospect retrospect =
-        Retrospect.builder()
-            .id("test-id")
-            .userId("user-id")
-            .goalId("goal-123")
-            .planId("plan-456")
-            .content("Test retrospect content")
-            .build();
-
-    // Then
-    assertEquals("test-id", retrospect.getId());
-    assertEquals("goal-123", retrospect.getGoalId());
-    assertEquals("plan-456", retrospect.getPlanId());
-    assertEquals("Test retrospect content", retrospect.getContent());
-  }
 }

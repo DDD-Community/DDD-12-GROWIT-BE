@@ -28,7 +28,8 @@ public class RetrospectController {
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createRetrospect(
       @AuthenticationPrincipal User user, @Valid @RequestBody CreateRetrospectRequest request) {
-    CreateRetrospectCommand command = retrospectRequestMapper.toCreateCommand(user.getId(), request);
+    CreateRetrospectCommand command =
+        retrospectRequestMapper.toCreateCommand(user.getId(), request);
     String retrospectId = createRetrospectUseCase.execute(command);
 
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -40,7 +41,8 @@ public class RetrospectController {
       @AuthenticationPrincipal User user,
       @PathVariable String id,
       @Valid @RequestBody UpdateRetrospectRequest request) {
-    UpdateRetrospectCommand command = retrospectRequestMapper.toUpdateCommand(user.getId(), id, request);
+    UpdateRetrospectCommand command =
+        retrospectRequestMapper.toUpdateCommand(id, user.getId(), request);
     updateRetrospectUseCase.execute(command);
 
     return ResponseEntity.ok().build();
