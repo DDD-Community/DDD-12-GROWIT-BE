@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"FiXILZhfEXC52bvHgcdbm\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"M4Cz_oIYw5jlYxoz8RYwo\"\n  }\n}"
                   }
                 }
               }
@@ -275,6 +275,42 @@ window.swaggerSpec={
         }
       }
     },
+    "/retrospects/{id}" : {
+      "put" : {
+        "tags" : [ "Retrospects" ],
+        "summary" : "회고 수정",
+        "description" : "회고 수정",
+        "operationId" : "update-retrospect",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "회고 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/retrospects-id130578538"
+              },
+              "examples" : {
+                "update-retrospect" : {
+                  "value" : "{\n  \"content\" : \"이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      }
+    },
     "/users/myprofile" : {
       "get" : {
         "tags" : [ "User" ],
@@ -313,82 +349,12 @@ window.swaggerSpec={
   },
   "components" : {
     "schemas" : {
-      "goals595146955" : {
+      "retrospects-id130578538" : {
         "type" : "object",
         "properties" : {
-          "data" : {
-            "type" : "array",
-            "items" : {
-              "type" : "object",
-              "properties" : {
-                "duration" : {
-                  "type" : "object",
-                  "properties" : {
-                    "endDate" : {
-                      "type" : "string",
-                      "description" : "종료일 (yyyy-MM-dd)"
-                    },
-                    "startDate" : {
-                      "type" : "string",
-                      "description" : "시작일 (yyyy-MM-dd)"
-                    }
-                  },
-                  "description" : "기간 정보 객체"
-                },
-                "plans" : {
-                  "type" : "array",
-                  "description" : "계획 리스트",
-                  "items" : {
-                    "type" : "object",
-                    "properties" : {
-                      "weekOfMonth" : {
-                        "type" : "number",
-                        "description" : "주차"
-                      },
-                      "id" : {
-                        "type" : "string",
-                        "description" : "계획 ID"
-                      },
-                      "content" : {
-                        "type" : "string",
-                        "description" : "계획 내용"
-                      }
-                    }
-                  }
-                },
-                "name" : {
-                  "type" : "string",
-                  "description" : "목표 이름"
-                },
-                "id" : {
-                  "type" : "string",
-                  "description" : "목표 ID"
-                },
-                "beforeAfter" : {
-                  "type" : "object",
-                  "properties" : {
-                    "asIs" : {
-                      "type" : "string",
-                      "description" : "현재 상태(As-Is)"
-                    },
-                    "toBe" : {
-                      "type" : "string",
-                      "description" : "목표 달성 후 상태(To-Be)"
-                    }
-                  },
-                  "description" : "전/후 상태 정보 객체"
-                }
-              }
-            }
-          }
-        }
-      },
-      "auth-reissue356149288" : {
-        "type" : "object",
-        "properties" : {
-          "refreshToken" : {
+          "content" : {
             "type" : "string",
-            "description" : "리프레시 토큰"
+            "description" : "회고 내용"
           }
         }
       },
@@ -427,24 +393,6 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
-          }
-        }
-      },
-      "auth-reissue-424105652" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "accessToken" : {
-                "type" : "string",
-                "description" : "엑세스 토큰"
-              },
-              "refreshToken" : {
-                "type" : "string",
-                "description" : "리프레시 토큰"
-              }
-            }
           }
         }
       },
@@ -534,20 +482,6 @@ window.swaggerSpec={
           }
         }
       },
-      "goals574842772" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "id" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              }
-            }
-          }
-        }
-      },
       "retrospects-1554052329" : {
         "type" : "object",
         "properties" : {
@@ -557,6 +491,134 @@ window.swaggerSpec={
               "id" : {
                 "type" : "string",
                 "description" : "회고 ID"
+              }
+            }
+          }
+        }
+      },
+      "retrospects-597490674" : {
+        "type" : "object",
+        "properties" : {
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 아이디"
+          },
+          "planId" : {
+            "type" : "string",
+            "description" : "계획 아이디"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "회고 내용"
+          }
+        }
+      },
+      "goals595146955" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "duration" : {
+                  "type" : "object",
+                  "properties" : {
+                    "endDate" : {
+                      "type" : "string",
+                      "description" : "종료일 (yyyy-MM-dd)"
+                    },
+                    "startDate" : {
+                      "type" : "string",
+                      "description" : "시작일 (yyyy-MM-dd)"
+                    }
+                  },
+                  "description" : "기간 정보 객체"
+                },
+                "plans" : {
+                  "type" : "array",
+                  "description" : "계획 리스트",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "weekOfMonth" : {
+                        "type" : "number",
+                        "description" : "주차"
+                      },
+                      "id" : {
+                        "type" : "string",
+                        "description" : "계획 ID"
+                      },
+                      "content" : {
+                        "type" : "string",
+                        "description" : "계획 내용"
+                      }
+                    }
+                  }
+                },
+                "name" : {
+                  "type" : "string",
+                  "description" : "목표 이름"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "목표 ID"
+                },
+                "beforeAfter" : {
+                  "type" : "object",
+                  "properties" : {
+                    "asIs" : {
+                      "type" : "string",
+                      "description" : "현재 상태(As-Is)"
+                    },
+                    "toBe" : {
+                      "type" : "string",
+                      "description" : "목표 달성 후 상태(To-Be)"
+                    }
+                  },
+                  "description" : "전/후 상태 정보 객체"
+                }
+              }
+            }
+          }
+        }
+      },
+      "auth-reissue356149288" : {
+        "type" : "object",
+        "properties" : {
+          "refreshToken" : {
+            "type" : "string",
+            "description" : "리프레시 토큰"
+          }
+        }
+      },
+      "auth-reissue-424105652" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "accessToken" : {
+                "type" : "string",
+                "description" : "엑세스 토큰"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "리프레시 토큰"
+              }
+            }
+          }
+        }
+      },
+      "goals574842772" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
               }
             }
           }
@@ -611,23 +673,6 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
-          }
-        }
-      },
-      "retrospects-597490674" : {
-        "type" : "object",
-        "properties" : {
-          "goalId" : {
-            "type" : "string",
-            "description" : "목표 아이디"
-          },
-          "planId" : {
-            "type" : "string",
-            "description" : "계획 아이디"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "회고 내용"
           }
         }
       }

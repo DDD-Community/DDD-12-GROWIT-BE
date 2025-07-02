@@ -50,7 +50,7 @@ public class GoalService implements GoalValidator {
   @Override
   public void checkMyGoal(Goal goal, String userId) throws BadRequestException {
     if (!goal.getUserId().equals(userId)) {
-      throw new BadRequestException("삭제 권한이 없습니다.");
+      throw new BadRequestException("해당 정보가 올바르지 않습니다.");
     }
   }
 }
