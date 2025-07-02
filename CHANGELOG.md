@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.8.0...v1.8.1) (2025-07-01)
+
+
+### Bug Fixes
+
+* 변수명 변경 ([943bcff](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/943bcff3e5606f86d31662ad6bbd7c23ef326db0))
+
 ## [1.8.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.7.0...v1.8.0) (2025-07-01)
 
 

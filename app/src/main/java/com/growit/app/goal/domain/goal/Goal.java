@@ -33,7 +33,7 @@ public class Goal {
         .name(command.name())
         .duration(command.duration())
         .beforeAfter(command.beforeAfter())
-        .plans(command.plans().stream().map(planDto -> Plan.from(planDto.content())).toList())
+        .plans(command.plans().stream().map(Plan::from).toList())
         .isDelete(false)
         .build();
   }
