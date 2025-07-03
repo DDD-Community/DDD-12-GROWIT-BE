@@ -36,4 +36,8 @@ public class ToDo {
     this.date = command.date();
     this.content = command.content();
   }
+
+  public void isCompleted(boolean isCompleted) {
+    this.isCompleted = isCompleted;
+  }
 }

@@ -2,12 +2,15 @@ package com.growit.app.todos.controller;
 
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.response.IdDto;
+import com.growit.app.todos.controller.dto.CompletedStatusChangeRequest;
 import com.growit.app.todos.controller.dto.CreateToDoRequest;
 import com.growit.app.todos.controller.dto.UpdateToDoRequest;
 import com.growit.app.todos.controller.mapper.ToDoRequestMapper;
+import com.growit.app.todos.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todos.domain.dto.CreateToDoCommand;
 import com.growit.app.todos.domain.dto.UpdateToDoCommand;
 import com.growit.app.todos.usecase.CreateToDoUseCase;
+import com.growit.app.todos.usecase.StatusChangeToDoUseCase;
 import com.growit.app.todos.usecase.UpdateToDoUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
@@ -25,6 +28,7 @@ public class ToDoController {
   private final ToDoRequestMapper toDoRequestMapper;
   private final CreateToDoUseCase createToDoUseCase;
   private final UpdateToDoUseCase updateToDoUseCase;
+  private final StatusChangeToDoUseCase statusChangeToDoUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
@@ -42,5 +46,16 @@ public class ToDoController {
     UpdateToDoCommand command = toDoRequestMapper.toUpdateCommand(id, user.getId(), request);
     updateToDoUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success("업데이트가 완료되었습니다."));
+  }
+
+  @PatchMapping("/{id}")
+  public ResponseEntity<ApiResponse<String>> statusChangeToDo(
+      @PathVariable String id,
+      @AuthenticationPrincipal User user,
+      @Valid @RequestBody CompletedStatusChangeRequest request) {
+    CompletedStatusChangeCommand command =
+        toDoRequestMapper.toCompletedStatusChangeCommand(id, user.getId(), request);
+    statusChangeToDoUseCase.execute(command);
+    return ResponseEntity.ok(ApiResponse.success("상태 변경이 완료되었습니다."));
   }
 }
