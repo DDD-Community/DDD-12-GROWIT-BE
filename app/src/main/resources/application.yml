@@ -9,11 +9,11 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update  # 또는 validate, none, create-drop
-    show-sql: true
+      ddl-auto: none  # 또는 validate, none, create-drop
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 jwt:
   expired-second: 3600
