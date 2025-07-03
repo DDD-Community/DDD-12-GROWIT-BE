@@ -41,8 +41,4 @@ public class ToDoEntity extends BaseEntity {
     this.date = toDo.getDate();
     this.content = toDo.getContent();
   }
-
-  public void updateCompleted(ToDo todo) {
-    this.isCompleted = todo.isCompleted();
-  }
 }
