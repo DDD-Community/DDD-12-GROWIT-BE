@@ -12,5 +12,5 @@ public interface ToDoRepository {
 
   Optional<ToDo> findById(String id);
 
-  void updateCompletedStatus(String id, boolean isCompleted);
+  void updateCompletedStatus(String id, boolean completed);
 }

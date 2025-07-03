@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompletedStatusChangeRequest {
   @JsonProperty("isCompleted")
-  private boolean isCompleted;
+  private boolean completed;
 }

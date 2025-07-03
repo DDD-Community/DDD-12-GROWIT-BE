@@ -46,10 +46,10 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
-  public void updateCompletedStatus(String id, boolean isCompleted) {
+  public void updateCompletedStatus(String id, boolean completed) {
     ToDoEntity entity =
         repository.findByUid(id).orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
-    entity.updateCompleted(isCompleted);
+    entity.updateCompleted(completed);
     repository.save(entity);
   }
 }
