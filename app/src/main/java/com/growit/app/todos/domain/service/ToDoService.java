@@ -42,7 +42,7 @@ public class ToDoService implements ToDoValidator {
 
   public void tooManyToDoUpdated(LocalDate date, String userId, String planId, String toDoId)
       throws BadRequestException {
-    int count = toDoRepository.countByToDo(date, userId, planId, toDoId);
+    int count = toDoRepository.countByToDoWithToDoId(date, userId, planId, toDoId);
     if (count >= MAX_TO_COUNT) {
       throw new BadRequestException("해당 날짜에 이미 TODO 가 10개 입니다.");
     }

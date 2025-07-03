@@ -8,6 +8,7 @@ import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todos.FakeToDoRepository;
 import com.growit.app.fake.todos.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,5 +66,32 @@ public class ToDoServiceTest {
     }
     assertThrows(
         BadRequestException.class, () -> toDoService.tooManyToDoCreated(today, userId, planId));
+  }
+
+  @Test
+  void given10ToDosButOneIsBeingUpdated_whenTooManyToDoUpdated_thenSuccess() {
+    String userId = "user-1";
+    LocalDate today = LocalDate.now();
+    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+    for (int i = 0; i < 10; i++) {
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+    }
+    // 본인의 todoId 하나 빼고 9개만 남았다고 치는 식으로 test 가능
+    toDoService.tooManyToDoUpdated(today, userId, planId, "todo-1");
+  }
+
+  @Test
+  void given10OrMoreToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
+    String userId = "user-1";
+    LocalDate today = LocalDate.now();
+    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+
+    for (int i = 0; i <= 10; i++) {
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+    }
+    // todo-5를 수정할 때, 내 것 제외해도 9개 + 1개(수정하려는 것) → 10개 → 예외 발생
+    assertThrows(
+        BadRequestException.class,
+        () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-5"));
   }
 }
