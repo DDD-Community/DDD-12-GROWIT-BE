@@ -48,8 +48,8 @@ public class ToDoRepositoryImpl implements ToDoRepository {
 
   @Override
   public void setIsCompleted(String id, boolean isCompleted) {
-    ToDoEntity entity = repository.findByUid(id)
-      .orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
+    ToDoEntity entity =
+        repository.findByUid(id).orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
     entity.setCompleted(isCompleted);
     repository.save(entity);
   }
