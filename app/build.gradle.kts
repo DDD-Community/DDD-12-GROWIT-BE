@@ -41,6 +41,7 @@ dependencies {
   // Fly way
   implementation(libs.flyway)
   implementation(libs.flyway.postgresql)
+
   // QueryDSL 의존성 추가
   implementation("${libs.querydsl.jpa.jakarta.get()}:jakarta")
   annotationProcessor("${libs.querydsl.apt.jakarta.get()}:jakarta")
