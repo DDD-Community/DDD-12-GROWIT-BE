@@ -54,7 +54,7 @@ public class FakeToDoRepository implements ToDoRepository {
   }
 
   @Override
-  public void setIsCompleted(String id, boolean isCompleted) {}
+  public void updateCompletedStatus(String id, boolean isCompleted) {}
 
   public void clear() {
     store.clear();

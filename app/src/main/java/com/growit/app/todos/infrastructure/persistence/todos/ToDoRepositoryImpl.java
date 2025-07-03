@@ -22,7 +22,6 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     if (existing.isPresent()) {
       ToDoEntity entity = existing.get();
       entity.updateToByDomain(toDo);
-      entity.updateCompleted(toDo);
       repository.save(entity);
     } else {
       ToDoEntity toDoEntity = mapper.toEntity(toDo);
@@ -47,10 +46,10 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
-  public void setIsCompleted(String id, boolean isCompleted) {
+  public void updateCompletedStatus(String id, boolean isCompleted) {
     ToDoEntity entity =
         repository.findByUid(id).orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
-    entity.setCompleted(isCompleted);
+    entity.updateCompleted(isCompleted);
     repository.save(entity);
   }
 }

@@ -11,7 +11,6 @@ import lombok.*;
 @Entity
 @Table(name = "todos")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -42,7 +41,7 @@ public class ToDoEntity extends BaseEntity {
     this.content = toDo.getContent();
   }
 
-  public void updateCompleted(ToDo todo) {
-    this.isCompleted = todo.isCompleted();
+  public void updateCompleted(boolean isCompleted) {
+    this.isCompleted = isCompleted;
   }
 }
