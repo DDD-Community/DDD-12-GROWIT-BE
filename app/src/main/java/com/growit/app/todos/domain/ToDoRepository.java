@@ -11,4 +11,6 @@ public interface ToDoRepository {
   int countByToDoWithToDoId(LocalDate date, String userId, String planId, String toDoId);
 
   Optional<ToDo> findById(String id);
+
+  void setIsCompleted(String id, boolean isCompleted);
 }

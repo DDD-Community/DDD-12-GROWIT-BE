@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class StatusChangeToDoUseCase {
+public class CompletedStatusChangeToDoUseCase {
   private final ToDoRepository toDoRepository;
 
   @Transactional
@@ -19,7 +19,7 @@ public class StatusChangeToDoUseCase {
         toDoRepository
             .findById(command.id())
             .orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
-
-    toDoRepository.saveToDo(toDo);
+    toDo.isCompleted(command.isCompleted());
+    toDoRepository.setIsCompleted(command.id(), command.isCompleted());
   }
 }

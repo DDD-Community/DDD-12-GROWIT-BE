@@ -10,7 +10,7 @@ import com.growit.app.todos.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todos.domain.dto.CreateToDoCommand;
 import com.growit.app.todos.domain.dto.UpdateToDoCommand;
 import com.growit.app.todos.usecase.CreateToDoUseCase;
-import com.growit.app.todos.usecase.StatusChangeToDoUseCase;
+import com.growit.app.todos.usecase.CompletedStatusChangeToDoUseCase;
 import com.growit.app.todos.usecase.UpdateToDoUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
@@ -28,7 +28,7 @@ public class ToDoController {
   private final ToDoRequestMapper toDoRequestMapper;
   private final CreateToDoUseCase createToDoUseCase;
   private final UpdateToDoUseCase updateToDoUseCase;
-  private final StatusChangeToDoUseCase statusChangeToDoUseCase;
+  private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
