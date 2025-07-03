@@ -7,11 +7,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
@@ -20,11 +18,14 @@ import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.todos.FakeToDoRepository;
 import com.growit.app.fake.todos.FakeToDoRepositoryConfig;
 import com.growit.app.fake.todos.ToDoFixture;
+import com.growit.app.todos.controller.dto.CompletedStatusChangeRequest;
 import com.growit.app.todos.controller.dto.CreateToDoRequest;
 import com.growit.app.todos.controller.dto.UpdateToDoRequest;
 import com.growit.app.todos.domain.ToDoRepository;
+import com.growit.app.todos.usecase.CompletedStatusChangeToDoUseCase;
 import com.growit.app.todos.usecase.CreateToDoUseCase;
 import com.growit.app.todos.usecase.UpdateToDoUseCase;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +51,7 @@ public class ToDoControllerTest {
 
   @MockitoBean private CreateToDoUseCase createToDoUseCase;
   @MockitoBean private UpdateToDoUseCase updateToDoUseCase;
+  @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -129,6 +131,39 @@ public class ToDoControllerTest {
                             fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"))
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 결과 메시지"))
+                        .build())));
+  }
+
+  @Test
+  void statusChangeToDo() throws Exception {
+    String toDoId = "todo-1";
+    willDoNothing().given(statusChangeToDoUseCase).execute(any());
+
+    CompletedStatusChangeRequest request = new CompletedStatusChangeRequest();
+    FieldUtils.writeField(request, "completed", true, true);
+
+    mockMvc
+        .perform(
+            patch("/todos/{id}", toDoId)
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "status-change-todo",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("할 일(TODO) 완료 상태 변경")
+                        .description("할 일의 완료 상태를 변경한다.")
+                        .pathParameters(parameterWithName("id").description("상태를 변경할 TODO ID"))
+                        .requestFields(
+                            fieldWithPath("isCompleted").type("Boolean").description("완료 여부"))
+                        .responseFields(
+                            fieldWithPath("data").type("String").description("변경 결과 메시지"))
                         .build())));
   }
 }
