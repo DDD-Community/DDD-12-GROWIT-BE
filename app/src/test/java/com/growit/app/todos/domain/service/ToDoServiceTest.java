@@ -81,17 +81,16 @@ public class ToDoServiceTest {
   }
 
   @Test
-  void given10OrMoreToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
+  void given10OtherToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
     String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
 
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 0; i < 10; i++) {
       fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
     }
-    // todo-5를 수정할 때, 내 것 제외해도 9개 + 1개(수정하려는 것) → 10개 → 예외 발생
     assertThrows(
-        BadRequestException.class,
-        () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-5"));
+      BadRequestException.class,
+      () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-11"));
   }
 }
