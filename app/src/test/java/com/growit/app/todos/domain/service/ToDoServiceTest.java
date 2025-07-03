@@ -90,7 +90,7 @@ public class ToDoServiceTest {
       fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
     }
     assertThrows(
-      BadRequestException.class,
-      () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-11"));
+        BadRequestException.class,
+        () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-11"));
   }
 }
