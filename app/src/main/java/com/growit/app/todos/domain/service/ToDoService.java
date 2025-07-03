@@ -25,10 +25,6 @@ public class ToDoService implements ToDoValidator {
             .orElseThrow(() -> new BadRequestException("해당 목표(goal)가 존재하지 않습니다."));
     LocalDate thisWeekStartDate = goalEntity.getDuration().startDate();
 
-    System.out.println(date);
-
-    System.out.println("thisWeekStartDate ::" + thisWeekStartDate);
-
     LocalDate thisWeekSunday = today.with(java.time.DayOfWeek.SUNDAY);
 
     if (date.isBefore(thisWeekStartDate) || date.isAfter(thisWeekSunday)) {
