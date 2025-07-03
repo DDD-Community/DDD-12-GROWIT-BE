@@ -36,8 +36,8 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
-  public int countByToDoWithToDoId(LocalDate date, String userId, String planId, String toDoId) {
-    return repository.countByDateAndUserIdAndPlanIdAndUidNot(date, userId, planId, toDoId);
+  public int countByToDoWithToDoId(LocalDate date, String userId, String planId, String id) {
+    return repository.countByDateAndUserIdAndPlanIdAndUidNot(date, userId, planId, id);
   }
 
   @Override

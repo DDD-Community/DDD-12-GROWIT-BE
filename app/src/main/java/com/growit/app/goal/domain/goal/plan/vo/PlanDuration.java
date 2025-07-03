@@ -10,4 +10,8 @@ public record PlanDuration(LocalDate startDate, LocalDate endDate) {
     if (end.isAfter(goalEnd)) end = goalEnd;
     return new PlanDuration(start, end);
   }
+
+  public boolean includes(LocalDate date) {
+    return !date.isBefore(startDate) && !date.isAfter(endDate);
+  }
 }

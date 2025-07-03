@@ -56,12 +56,6 @@ public class Goal {
   }
 
   public Optional<Plan> filterByDate(LocalDate date) {
-    return plans.stream()
-        .filter(
-            plan -> {
-              var d = plan.getPlanDuration();
-              return !date.isBefore(d.startDate()) && !date.isAfter(d.endDate());
-            })
-        .findFirst();
+    return plans.stream().filter(plan -> plan.getPlanDuration().includes(date)).findFirst();
   }
 }

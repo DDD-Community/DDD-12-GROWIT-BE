@@ -34,14 +34,14 @@ public class FakeToDoRepository implements ToDoRepository {
   }
 
   @Override
-  public int countByToDoWithToDoId(LocalDate date, String userId, String planId, String toDoId) {
+  public int countByToDoWithToDoId(LocalDate date, String userId, String planId, String id) {
     return (int)
         store.values().stream()
             .flatMap(List::stream)
             .filter(t -> t.getDate().equals(date))
             .filter(t -> t.getUserId().equals(userId))
             .filter(t -> t.getPlanId().equals(planId))
-            .filter(t -> !t.getId().equals(toDoId))
+            .filter(t -> !t.getId().equals(id))
             .count();
   }
 

@@ -32,7 +32,7 @@ public class UpdateToDoUseCase {
             .findById(toDo.getGoalId())
             .orElseThrow(() -> new NotFoundException("목표가 존재하지 않습니다."));
     Optional<Plan> p = goal.filterByDate(command.date());
-    String planId = p.map(Plan::getId).orElse(null);
+    String planId = p.map(Plan::getId).orElseThrow(() -> new NotFoundException("일치하는 날짜가 없습니다."));
     String goalId = goal.getId();
 
     toDoValidator.isDateInRange(command.date(), goalId);

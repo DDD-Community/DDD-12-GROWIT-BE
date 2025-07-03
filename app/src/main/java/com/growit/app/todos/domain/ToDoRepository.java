@@ -8,7 +8,7 @@ public interface ToDoRepository {
 
   int countByToDo(LocalDate date, String userId, String planId);
 
-  int countByToDoWithToDoId(LocalDate date, String userId, String planId, String toDoId);
+  int countByToDoWithToDoId(LocalDate date, String userId, String planId, String id);
 
   Optional<ToDo> findById(String id);
 

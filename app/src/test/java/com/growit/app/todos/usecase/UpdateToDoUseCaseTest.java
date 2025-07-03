@@ -20,7 +20,6 @@ class UpdateToDoUseCaseTest {
 
   private UpdateToDoUseCase updateToDoUseCase;
   private FakeToDoRepository fakeToDoRepository;
-  private Goal goal;
   private ToDo toDo;
 
   @BeforeEach
@@ -31,12 +30,11 @@ class UpdateToDoUseCaseTest {
     updateToDoUseCase =
         new UpdateToDoUseCase(toDoValidator, fakeToDoRepository, fakeGoalRepository);
 
-    goal = GoalFixture.defaultGoal();
+    Goal goal = GoalFixture.defaultGoal();
     fakeGoalRepository.saveGoal(GoalFixture.defaultGoal());
 
     LocalDate today = LocalDate.now();
     String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
-    System.out.println("planId :: " + planId);
 
     toDo = ToDoFixture.customToDo("todo-1", goal.getUserId(), today, planId, goal.getId());
     fakeToDoRepository.saveToDo(toDo);
