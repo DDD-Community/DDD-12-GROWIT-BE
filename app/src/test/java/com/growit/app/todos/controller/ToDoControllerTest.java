@@ -9,10 +9,10 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,8 +49,7 @@ public class ToDoControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private CreateToDoUseCase createToDoUseCase;
-  @MockitoBean
-  private UpdateToDoUseCase updateToDoUseCase;
+  @MockitoBean private UpdateToDoUseCase updateToDoUseCase;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -106,33 +105,30 @@ public class ToDoControllerTest {
 
     UpdateToDoRequest body = new UpdateToDoRequest(java.time.LocalDate.now(), "수정된 내용");
 
-    mockMvc.perform(
-        put("/todos/{id}", toDoId)
-          .header("Authorization", "Bearer mock-jwt-token")
-          .contentType(MediaType.APPLICATION_JSON)
-          .content(objectMapper.writeValueAsString(body)))
-      .andExpect(status().isOk())
-      .andDo(
-        document(
-          "update-todo",
-          preprocessRequest(prettyPrint()),
-          preprocessResponse(prettyPrint()),
-          resource(
-            new ResourceSnippetParametersBuilder()
-              .tag("Todos")
-              .summary("할 일(TODO) 수정")
-              .pathParameters(parameterWithName("id").description("수정할 TODO ID"))
-              .requestFields(
-                fieldWithPath("content").type(STRING).description("수정할 할 일 내용 (5자 이상 30자 미만)"),
-                fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)")
-              )
-              .responseFields(
-                fieldWithPath("data").type(STRING).description("업데이트 결과 메시지")
-              )
-              .build()
-          )
-        )
-      );
+    mockMvc
+        .perform(
+            put("/todos/{id}", toDoId)
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(body)))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "update-todo",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("할 일(TODO) 수정")
+                        .pathParameters(parameterWithName("id").description("수정할 TODO ID"))
+                        .requestFields(
+                            fieldWithPath("content")
+                                .type(STRING)
+                                .description("수정할 할 일 내용 (5자 이상 30자 미만)"),
+                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"))
+                        .responseFields(
+                            fieldWithPath("data").type(STRING).description("업데이트 결과 메시지"))
+                        .build())));
   }
-
 }
