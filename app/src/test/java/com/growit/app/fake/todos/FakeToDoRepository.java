@@ -47,7 +47,10 @@ public class FakeToDoRepository implements ToDoRepository {
 
   @Override
   public Optional<ToDo> findById(String id) {
-    return Optional.empty();
+    return store.values().stream()
+        .flatMap(List::stream)
+        .filter(todo -> todo.getId().equals(id))
+        .findFirst();
   }
 
   public void clear() {

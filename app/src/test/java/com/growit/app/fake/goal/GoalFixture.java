@@ -46,7 +46,7 @@ class GoalBuilder {
   private List<Plan> plans =
       List.of(
           new Plan(
-              "planId",
+              "plan-1",
               1,
               "그로잇 완성",
               new PlanDuration(LocalDate.parse("2025-06-23"), LocalDate.parse("2025-07-20"))));

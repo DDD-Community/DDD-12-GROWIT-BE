@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ToDoServiceTest {
-  private FakeGoalRepository fakeGoalRepo;
   private FakeToDoRepository fakeToDoRepo;
   private ToDoService toDoService;
 
@@ -22,7 +21,7 @@ public class ToDoServiceTest {
 
   @BeforeEach
   void setUp() {
-    fakeGoalRepo = new FakeGoalRepository();
+    FakeGoalRepository fakeGoalRepo = new FakeGoalRepository();
     fakeToDoRepo = new FakeToDoRepository();
     toDoService = new ToDoService(fakeToDoRepo, fakeGoalRepo);
 
@@ -51,7 +50,8 @@ public class ToDoServiceTest {
     String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 9; i++) {
-      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
     toDoService.tooManyToDoCreated(today, userId, planId);
   }
@@ -62,7 +62,8 @@ public class ToDoServiceTest {
     String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
     assertThrows(
         BadRequestException.class, () -> toDoService.tooManyToDoCreated(today, userId, planId));
@@ -74,7 +75,8 @@ public class ToDoServiceTest {
     LocalDate today = LocalDate.now();
     String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
     // 본인의 todoId 하나 빼고 9개만 남았다고 치는 식으로 test 가능
     toDoService.tooManyToDoUpdated(today, userId, planId, "todo-1");
@@ -87,7 +89,8 @@ public class ToDoServiceTest {
     String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
 
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
     assertThrows(
         BadRequestException.class,
