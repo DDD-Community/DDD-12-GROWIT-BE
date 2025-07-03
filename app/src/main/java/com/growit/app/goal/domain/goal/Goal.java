@@ -8,6 +8,7 @@ import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,8 +55,13 @@ public class Goal {
     return isDelete;
   }
 
-  public void fillterByDate(LocalDate date) {
-    //    plan에서 date에 맞게 되는 애 찾아서 return 해주기 date 가 true면 넣기
-    //    return
+  public Optional<Plan> filterByDate(LocalDate date) {
+    return plans.stream()
+        .filter(
+            plan -> {
+              var d = plan.getPlanDuration();
+              return !date.isBefore(d.startDate()) && !date.isAfter(d.endDate());
+            })
+        .findFirst();
   }
 }

@@ -34,6 +34,11 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
+  public int countByToDo(LocalDate date, String userId, String planId, String toDoId) {
+    return repository.countByDateAndUserIdAndPlanIdAndUidNot(date, userId, planId, toDoId);
+  }
+
+  @Override
   public Optional<ToDo> findById(String id) {
     Optional<ToDoEntity> entity = repository.findByUid(id);
     return entity.map(mapper::toDomain);

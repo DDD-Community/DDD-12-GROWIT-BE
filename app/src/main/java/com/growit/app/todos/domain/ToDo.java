@@ -31,8 +31,8 @@ public class ToDo {
         .build();
   }
 
-  public void updateBy(UpdateToDoCommand command) {
-    this.planId = command.planId();
+  public void updateBy(UpdateToDoCommand command, String planId) {
+    this.planId = planId;
     this.date = command.date();
     this.content = command.content();
   }

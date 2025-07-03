@@ -5,7 +5,6 @@ import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import java.time.LocalDate;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,9 +17,7 @@ public class Plan {
   private int weekOfMonth;
   private String content;
 
-  @JsonIgnore
-  @Getter(AccessLevel.NONE)
-  private PlanDuration planDuration;
+  @JsonIgnore private PlanDuration planDuration;
 
   public static Plan from(PlanDto dto, LocalDate goalStart, LocalDate goalEnd) {
     PlanDuration duration = PlanDuration.calculateDuration(dto.weekOfMonth(), goalStart, goalEnd);

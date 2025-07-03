@@ -11,10 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UpdateToDoRequest {
 
-  @NotBlank(message = "주간 목표는 필수입니다.")
-  @Size(min = 1)
-  private String planId;
-
   @NotNull(message = "날짜는 필수 입니다.")
   private LocalDate date;
 

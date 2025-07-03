@@ -9,4 +9,7 @@ public interface DBToDoRepository extends JpaRepository<ToDoEntity, Long> {
   Optional<ToDoEntity> findByUid(String uid);
 
   int countByDateAndUserIdAndPlanId(LocalDate date, String userId, String planId);
+
+  int countByDateAndUserIdAndPlanIdAndUidNot(
+      LocalDate date, String userId, String planId, String toDoId);
 }

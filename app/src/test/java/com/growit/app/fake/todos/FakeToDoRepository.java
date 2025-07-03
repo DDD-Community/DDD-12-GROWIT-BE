@@ -34,6 +34,11 @@ public class FakeToDoRepository implements ToDoRepository {
   }
 
   @Override
+  public int countByToDo(LocalDate date, String userId, String planId, String toDoId) {
+    return 0;
+  }
+
+  @Override
   public Optional<ToDo> findById(String id) {
     return Optional.empty();
   }
