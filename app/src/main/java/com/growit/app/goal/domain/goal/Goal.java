@@ -40,7 +40,7 @@ public class Goal {
                 .map(
                     planDto ->
                         Plan.from(
-                            planDto, command.duration().startDate(), command.duration().endDate()))
+                            planDto, command.duration().startDate()))
                 .toList())
         .isDelete(false)
         .build();

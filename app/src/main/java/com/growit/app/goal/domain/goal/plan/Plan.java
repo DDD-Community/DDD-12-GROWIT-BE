@@ -19,8 +19,8 @@ public class Plan {
 
   @JsonIgnore private PlanDuration planDuration;
 
-  public static Plan from(PlanDto dto, LocalDate goalStart, LocalDate goalEnd) {
-    PlanDuration duration = PlanDuration.calculateDuration(dto.weekOfMonth(), goalStart, goalEnd);
+  public static Plan from(PlanDto dto, LocalDate goalStart) {
+    PlanDuration duration = PlanDuration.calculateDuration(dto.weekOfMonth(), goalStart);
     return Plan.builder()
         .id(IDGenerator.generateId())
         .weekOfMonth(dto.weekOfMonth())
