@@ -37,10 +37,7 @@ public class Goal {
         .beforeAfter(command.beforeAfter())
         .plans(
             command.plans().stream()
-                .map(
-                    planDto ->
-                        Plan.from(
-                            planDto, command.duration().startDate()))
+                .map(planDto -> Plan.from(planDto, command.duration().startDate()))
                 .toList())
         .isDelete(false)
         .build();
