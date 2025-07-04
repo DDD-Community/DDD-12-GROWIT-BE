@@ -1,6 +1,5 @@
 package com.growit.app.todos.infrastructure.persistence.todos;
 
-import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.todos.domain.ToDo;
 import com.growit.app.todos.domain.ToDoRepository;
 import com.growit.app.todos.infrastructure.persistence.todos.source.DBToDoRepository;
@@ -22,6 +21,7 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     if (existing.isPresent()) {
       ToDoEntity entity = existing.get();
       entity.updateToByDomain(toDo);
+      entity.updateCompleted(toDo.isCompleted());
       repository.save(entity);
     } else {
       ToDoEntity toDoEntity = mapper.toEntity(toDo);
@@ -43,13 +43,5 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   public Optional<ToDo> findById(String id) {
     Optional<ToDoEntity> entity = repository.findByUid(id);
     return entity.map(mapper::toDomain);
-  }
-
-  @Override
-  public void updateCompletedStatus(String id, boolean completed) {
-    ToDoEntity entity =
-        repository.findByUid(id).orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
-    entity.updateCompleted(completed);
-    repository.save(entity);
   }
 }

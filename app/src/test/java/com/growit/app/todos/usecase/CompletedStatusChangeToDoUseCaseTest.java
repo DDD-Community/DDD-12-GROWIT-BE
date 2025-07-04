@@ -21,7 +21,6 @@ class CompletedStatusChangeToDoUseCaseTest {
     fakeToDoRepository = new FakeToDoRepository();
     useCase = new CompletedStatusChangeToDoUseCase(fakeToDoRepository);
 
-    // ToDoFixture에서 기본 데이터 추가
     ToDo todo = ToDoFixture.defaultToDo();
     fakeToDoRepository.saveToDo(todo);
   }
