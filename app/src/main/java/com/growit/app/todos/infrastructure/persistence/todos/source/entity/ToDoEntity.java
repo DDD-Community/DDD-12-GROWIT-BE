@@ -11,7 +11,6 @@ import lombok.*;
 @Entity
 @Table(name = "todos")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,5 +39,6 @@ public class ToDoEntity extends BaseEntity {
   public void updateToByDomain(ToDo toDo) {
     this.date = toDo.getDate();
     this.content = toDo.getContent();
+    this.isCompleted = toDo.isCompleted();
   }
 }

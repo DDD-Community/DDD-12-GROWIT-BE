@@ -53,9 +53,6 @@ public class FakeToDoRepository implements ToDoRepository {
         .findFirst();
   }
 
-  @Override
-  public void setIsCompleted(String id, boolean isCompleted) {}
-
   public void clear() {
     store.clear();
   }
