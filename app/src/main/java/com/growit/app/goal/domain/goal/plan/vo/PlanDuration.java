@@ -3,11 +3,9 @@ package com.growit.app.goal.domain.goal.plan.vo;
 import java.time.LocalDate;
 
 public record PlanDuration(LocalDate startDate, LocalDate endDate) {
-  public static PlanDuration calculateDuration(
-      int weekOfMonth, LocalDate goalStart, LocalDate goalEnd) {
+  public static PlanDuration calculateDuration(int weekOfMonth, LocalDate goalStart) {
     LocalDate start = goalStart.plusWeeks(weekOfMonth - 1);
     LocalDate end = start.plusDays(6);
-    if (end.isAfter(goalEnd)) end = goalEnd;
     return new PlanDuration(start, end);
   }
 
