@@ -9,4 +9,6 @@ public interface GoalRepository {
   void saveGoal(Goal goal);
 
   Optional<Goal> findById(String goalId);
+
+  //  Plan getByPlanId(String planId);
 }
