@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.10.0...v1.10.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* 3차 pr 수정 ([405adeb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/405adebde0c10a947f2468fd11952d56a5426415))
+* 3차 pr 수정 ([b3e1d79](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b3e1d7975b996aeed2e4dc773a8fda0aaae49acc))
+
 ## [1.10.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.9.0...v1.10.0) (2025-07-04)
 
 
