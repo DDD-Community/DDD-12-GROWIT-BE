@@ -9,17 +9,21 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.retrospect.RetrospectFixture;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
+import com.growit.app.retrospect.domain.retrospect.Retrospect;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectWithPlan;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
+import com.growit.app.retrospect.usecase.GetRetrospectUseCase;
 import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +51,7 @@ class RetrospectControllerTest {
 
   @MockitoBean private CreateRetrospectUseCase createRetrospectUseCase;
   @MockitoBean private UpdateRetrospectUseCase updateRetrospectUseCase;
+  @MockitoBean private GetRetrospectUseCase getRetrospectUseCase;
 
   @BeforeEach
   void setUp(
@@ -119,6 +124,42 @@ class RetrospectControllerTest {
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
                                 .description("회고 내용"))
+                        .build())));
+  }
+
+  @Test
+  void getRetrospect() throws Exception {
+    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
+    String planId = retrospect.getPlanId();
+    Plan plan = PlanFixture.customPlan(planId, null, null, null, null);
+
+    RetrospectWithPlan retrospectWithPlan = new RetrospectWithPlan(retrospect, plan);
+
+    given(getRetrospectUseCase.execute(any())).willReturn(retrospectWithPlan);
+
+    mockMvc
+        .perform(
+            get("/retrospects/{id}", retrospect.getId())
+                .header("Authorization", "Bearer mock-jwt-token")
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-retrospect",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Retrospects")
+                        .summary("회고 단건 조회")
+                        .pathParameters(parameterWithName("id").description("회고 ID"))
+                        .responseFields(
+                            fieldWithPath("data.id").description("회고 ID"),
+                            fieldWithPath("data.goalId").description("목표 ID"),
+                            fieldWithPath("data.plan.id").description("계획 ID"),
+                            fieldWithPath("data.plan.weekOfMonth").description("계획 주차"),
+                            fieldWithPath("data.plan.content").description("계획 내용"),
+                            fieldWithPath("data.content").description("회고 내용"))
                         .build())));
   }
 }
