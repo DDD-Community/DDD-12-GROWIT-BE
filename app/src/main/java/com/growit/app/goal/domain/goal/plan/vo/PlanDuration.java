@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public record PlanDuration(LocalDate startDate, LocalDate endDate) {
   public static PlanDuration calculateDuration(
-    int weekOfMonth, LocalDate goalStart, LocalDate goalEnd) {
+      int weekOfMonth, LocalDate goalStart, LocalDate goalEnd) {
     LocalDate start = goalStart.plusWeeks(weekOfMonth - 1);
     LocalDate end = start.plusDays(6);
     return new PlanDuration(start, end);
