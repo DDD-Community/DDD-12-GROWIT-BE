@@ -20,7 +20,6 @@ public class CompletedStatusChangeToDoUseCase {
             .findById(command.id())
             .orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
     toDo.isCompleted(command.completed());
-    System.out.println("isCompleted :: " + toDo.isCompleted());
     toDoRepository.saveToDo(toDo);
   }
 }
