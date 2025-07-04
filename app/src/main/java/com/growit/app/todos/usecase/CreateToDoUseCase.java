@@ -1,8 +1,8 @@
 package com.growit.app.todos.usecase;
 
-import com.growit.app.todos.domain.CreateToDoCommand;
 import com.growit.app.todos.domain.ToDo;
 import com.growit.app.todos.domain.ToDoRepository;
+import com.growit.app.todos.domain.dto.CreateToDoCommand;
 import com.growit.app.todos.domain.service.ToDoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,8 @@ public class CreateToDoUseCase {
 
   @Transactional
   public String execute(CreateToDoCommand command) {
-    toDoValidator.isDateInRange(command.date());
+    toDoValidator.isDateInRange(command.date(), command.goalId());
     toDoValidator.tooManyToDoCreated(command.date(), command.userId(), command.planId());
-    toDoValidator.checkContent(command.content());
 
     ToDo toDo = ToDo.from(command);
     toDoRepository.saveToDo(toDo);

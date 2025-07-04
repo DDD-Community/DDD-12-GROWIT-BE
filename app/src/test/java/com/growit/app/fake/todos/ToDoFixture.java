@@ -14,12 +14,14 @@ public class ToDoFixture {
     return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
   }
 
-  public static ToDo customToDo(String id, String userId, LocalDate date, String planId) {
+  public static ToDo customToDo(
+      String id, String userId, LocalDate date, String planId, String goalId) {
     return new ToDoBuilder()
         .id(id != null ? id : "todo-1")
         .userId(userId != null ? userId : "user-1")
         .date(date != null ? date : LocalDate.now())
         .planId(planId != null ? planId : "plan-1")
+        .goalId(goalId != null ? goalId : "goal-1")
         .build();
   }
 }

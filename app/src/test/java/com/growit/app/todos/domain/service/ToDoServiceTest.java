@@ -3,32 +3,45 @@ package com.growit.app.todos.domain.service;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.fake.goal.FakeGoalRepository;
+import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todos.FakeToDoRepository;
 import com.growit.app.fake.todos.ToDoFixture;
+import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ToDoServiceTest {
-  private FakeToDoRepository fakeRepo;
+  private FakeToDoRepository fakeToDoRepo;
   private ToDoService toDoService;
+
+  private Goal goal;
 
   @BeforeEach
   void setUp() {
-    fakeRepo = new FakeToDoRepository();
-    toDoService = new ToDoService(fakeRepo);
+    FakeGoalRepository fakeGoalRepo = new FakeGoalRepository();
+    fakeToDoRepo = new FakeToDoRepository();
+    toDoService = new ToDoService(fakeToDoRepo, fakeGoalRepo);
+
+    // Goal을 하나 만들어서 저장 (goalId 필요)
+    goal = GoalFixture.defaultGoal();
+    fakeGoalRepo.saveGoal(goal);
   }
 
   @Test
   void givenValidDate_whenIsDateInRange_thenSuccess() {
     LocalDate today = LocalDate.now();
-    toDoService.isDateInRange(today);
+    // isDateInRange(date, goalId)로 goalId 전달!
+    toDoService.isDateInRange(today, goal.getId());
   }
 
   @Test
   void givenInvalidDate_whenIsDateInRange_thenThrowBadRequestException() {
     LocalDate past = LocalDate.now().minusWeeks(2);
-    assertThrows(BadRequestException.class, () -> toDoService.isDateInRange(past));
+    // goalId 반드시 같이 전달!
+    assertThrows(BadRequestException.class, () -> toDoService.isDateInRange(past, goal.getId()));
   }
 
   @Test
@@ -37,7 +50,8 @@ public class ToDoServiceTest {
     String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 9; i++) {
-      fakeRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
     toDoService.tooManyToDoCreated(today, userId, planId);
   }
@@ -48,25 +62,38 @@ public class ToDoServiceTest {
     String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, planId));
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
     assertThrows(
         BadRequestException.class, () -> toDoService.tooManyToDoCreated(today, userId, planId));
   }
 
   @Test
-  void givenValidContent_whenCheckContent_thenSuccess() {
-    toDoService.checkContent("적당한 내용입니다!");
+  void given10ToDosButOneIsBeingUpdated_whenTooManyToDoUpdated_thenSuccess() {
+    String userId = "user-1";
+    LocalDate today = LocalDate.now();
+    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+    for (int i = 0; i < 10; i++) {
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
+    }
+    // 본인의 todoId 하나 빼고 9개만 남았다고 치는 식으로 test 가능
+    toDoService.tooManyToDoUpdated(today, userId, planId, "todo-1");
   }
 
   @Test
-  void givenShortContent_whenCheckContent_thenThrow() {
-    assertThrows(IllegalArgumentException.class, () -> toDoService.checkContent("짧다"));
-  }
+  void given10OtherToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
+    String userId = "user-1";
+    LocalDate today = LocalDate.now();
+    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
 
-  @Test
-  void givenLongContent_whenCheckContent_thenThrow() {
-    String longContent = "이 내용은 30자를 넘어가는 매우매우매우 긴 내용입니다!";
-    assertThrows(IllegalArgumentException.class, () -> toDoService.checkContent(longContent));
+    for (int i = 0; i < 10; i++) {
+      fakeToDoRepo.saveToDo(
+          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
+    }
+    assertThrows(
+        BadRequestException.class,
+        () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-11"));
   }
 }

@@ -6,7 +6,9 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +35,10 @@ public class Goal {
         .name(command.name())
         .duration(command.duration())
         .beforeAfter(command.beforeAfter())
-        .plans(command.plans().stream().map(Plan::from).toList())
+        .plans(
+            command.plans().stream()
+                .map(planDto -> Plan.from(planDto, command.duration().startDate()))
+                .toList())
         .isDelete(false)
         .build();
   }
@@ -45,5 +50,9 @@ public class Goal {
   @JsonIgnore
   public boolean getDeleted() {
     return isDelete;
+  }
+
+  public Optional<Plan> filterByDate(LocalDate date) {
+    return plans.stream().filter(plan -> plan.getPlanDuration().includes(date)).findFirst();
   }
 }
