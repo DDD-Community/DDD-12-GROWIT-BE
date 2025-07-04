@@ -21,7 +21,6 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     if (existing.isPresent()) {
       ToDoEntity entity = existing.get();
       entity.updateToByDomain(toDo);
-      entity.updateCompleted(toDo.isCompleted());
       repository.save(entity);
     } else {
       ToDoEntity toDoEntity = mapper.toEntity(toDo);
