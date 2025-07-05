@@ -21,11 +21,26 @@ import org.junit.jupiter.api.Test;
 class GetRetrospectUseCaseTest {
 
   @Test
+  void filterByPlanId_success() {
+    // given
+    Plan plan1 = PlanFixture.defaultPlan();
+    Plan plan2 = PlanFixture.customPlan("plan-2", null, null, null, null);
+    Goal goal = GoalFixture.customGoal("goal-id1", null, null, null, null, List.of(plan1, plan2));
+
+    // when
+    Plan result = goal.filterByPlanId(goal, "plan-2");
+
+    // then
+    assertThat(result).isEqualTo(plan2);
+  }
+
+  @Test
   void execute_success_withFixture() {
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
     Plan plan = PlanFixture.customPlan(retrospect.getPlanId(), null, null, null, null);
     Goal goal =
         GoalFixture.customGoal(retrospect.getGoalId(), null, null, null, null, List.of(plan));
+
 
     GetRetrospectCommand command =
         new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
@@ -39,8 +54,6 @@ class GetRetrospectUseCaseTest {
     GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
 
     RetrospectWithPlan result = useCase.execute(command);
-    System.out.println(result.getRetrospect() == retrospect);
-    System.out.println(result.getPlan() == plan);
 
     // Assert
     assertThat(result.getRetrospect()).isEqualTo(retrospect);
