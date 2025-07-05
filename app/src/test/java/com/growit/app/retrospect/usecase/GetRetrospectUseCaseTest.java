@@ -41,7 +41,6 @@ class GetRetrospectUseCaseTest {
     Goal goal =
         GoalFixture.customGoal(retrospect.getGoalId(), null, null, null, null, List.of(plan));
 
-
     GetRetrospectCommand command =
         new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
 

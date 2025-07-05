@@ -58,7 +58,7 @@ public class Goal {
   }
 
   public Plan filterByPlanId(Goal goal, String planId) {
-      return goal.getPlans().stream()
+    return goal.getPlans().stream()
         .filter(p -> p.getId().equals(planId))
         .findFirst()
         .orElseThrow(() -> new NotFoundException("일치하는 Plan이 없습니다."));
