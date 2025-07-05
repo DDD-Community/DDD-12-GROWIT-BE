@@ -38,7 +38,7 @@ dependencies {
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.nanoid)
-  // Fly way
+  // Flyway
   implementation(libs.flyway)
   implementation(libs.flyway.postgresql)
 
