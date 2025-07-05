@@ -1,4 +1,3 @@
-import io.swagger.v3.oas.models.servers.Server
 import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
