@@ -23,10 +23,7 @@ import com.growit.app.todo.controller.dto.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.UpdateToDoRequest;
 import com.growit.app.todo.domain.ToDoRepository;
-import com.growit.app.todo.usecase.CompletedStatusChangeToDoUseCase;
-import com.growit.app.todo.usecase.CreateToDoUseCase;
-import com.growit.app.todo.usecase.GetToDoUseCase;
-import com.growit.app.todo.usecase.UpdateToDoUseCase;
+import com.growit.app.todo.usecase.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,6 +52,7 @@ class ToDoControllerTest {
   @MockitoBean private UpdateToDoUseCase updateToDoUseCase;
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @MockitoBean private GetToDoUseCase getToDoUseCase;
+  @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
 
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
@@ -168,6 +166,32 @@ class ToDoControllerTest {
                             fieldWithPath("isCompleted").type("Boolean").description("완료 여부"))
                         .responseFields(
                             fieldWithPath("data").type("String").description("변경 결과 메시지"))
+                        .build())));
+  }
+
+  @Test
+  void deletedTodo() throws Exception {
+    String toDoId = "todo-1";
+    willDoNothing().given(deleteToDoUseCase).execute(any());
+
+    mockMvc
+        .perform(
+            delete("/todos/{id}", toDoId)
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "delete-todo",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("할 일(TODO) 삭제")
+                        .description("할 일을 삭제한다.")
+                        .pathParameters(parameterWithName("id").description("상태를 변경할 TODO ID"))
+                        .responseFields(fieldWithPath("data").type("String").description("결과 메시지"))
                         .build())));
   }
 

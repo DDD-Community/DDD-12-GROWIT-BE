@@ -17,9 +17,10 @@ public class FakeToDoRepository implements ToDoRepository {
           if (todos == null) {
             todos = new ArrayList<>();
           }
-          // 같은 id의 ToDo는 제거(중복 방지)
           todos.removeIf(td -> td.getId().equals(toDo.getId()));
-          todos.add(toDo);
+          if (!toDo.isDeleted()) {
+            todos.add(toDo);
+          }
           return todos;
         });
   }

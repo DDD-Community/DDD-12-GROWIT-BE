@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"_j9vR1GE7DzFPpfyW1EIw\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"uUfZ93pt58Cp6Kvc_iIcV\"\n  }\n}"
                   }
                 }
               }
@@ -276,6 +276,38 @@ window.swaggerSpec={
       }
     },
     "/retrospects/{id}" : {
+      "get" : {
+        "tags" : [ "Retrospects" ],
+        "summary" : "회고 단건 조회",
+        "description" : "회고 단건 조회",
+        "operationId" : "get-retrospect",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "회고 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/retrospects-id1429283436"
+                },
+                "examples" : {
+                  "get-retrospect" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"retrospect-123\",\n    \"goalId\" : \"goal-123\",\n    \"plan\" : {\n      \"id\" : \"plan-456\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"주간 목표\"\n    },\n    \"content\" : \"이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "put" : {
         "tags" : [ "Retrospects" ],
         "summary" : "회고 수정",
@@ -422,6 +454,38 @@ window.swaggerSpec={
                 "examples" : {
                   "update-todo" : {
                     "value" : "{\n  \"data\" : \"업데이트가 완료되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Todos" ],
+        "summary" : "할 일(TODO) 삭제",
+        "description" : "할 일을 삭제한다.",
+        "operationId" : "delete-todo",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "상태를 변경할 TODO ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-id-53473476"
+                },
+                "examples" : {
+                  "delete-todo" : {
+                    "value" : "{\n  \"data\" : \"삭제가 완료되었습니다.\"\n}"
                   }
                 }
               }
@@ -682,6 +746,15 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id-53473476" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "결과 메시지"
+          }
+        }
+      },
       "retrospects-597490674" : {
         "type" : "object",
         "properties" : {
@@ -938,6 +1011,45 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "retrospects-id1429283436" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "회고 ID"
+              },
+              "plan" : {
+                "type" : "object",
+                "properties" : {
+                  "weekOfMonth" : {
+                    "type" : "number",
+                    "description" : "계획 주차"
+                  },
+                  "id" : {
+                    "type" : "string",
+                    "description" : "계획 ID"
+                  },
+                  "content" : {
+                    "type" : "string",
+                    "description" : "계획 내용"
+                  }
+                }
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "회고 내용"
+              }
+            }
           }
         }
       },

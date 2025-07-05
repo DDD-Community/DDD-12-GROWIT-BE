@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Entity
@@ -41,5 +42,8 @@ public class ToDoEntity extends BaseEntity {
     this.date = toDo.getDate();
     this.content = toDo.getContent();
     this.isCompleted = toDo.isCompleted();
+    if (toDo.isDeleted()) {
+      this.setDeletedAt(LocalDateTime.now());
+    }
   }
 }

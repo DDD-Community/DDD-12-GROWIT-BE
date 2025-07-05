@@ -21,6 +21,7 @@ public class ToDo {
   private String content;
   private LocalDate date;
   private boolean isCompleted;
+  private boolean isDeleted;
 
   public static ToDo from(CreateToDoCommand command) {
     return ToDo.builder()
@@ -31,6 +32,7 @@ public class ToDo {
         .content(command.content())
         .date(command.date())
         .isCompleted(false)
+        .isDeleted(false)
         .build();
   }
 
@@ -44,8 +46,17 @@ public class ToDo {
     this.isCompleted = isCompleted;
   }
 
+  public void deleted() {
+    this.isDeleted = true;
+  }
+
   @JsonProperty("isCompleted")
   public boolean isCompleted() {
     return isCompleted;
+  }
+
+  @JsonIgnore
+  public boolean isDeleted() {
+    return isDeleted;
   }
 }

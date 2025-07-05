@@ -10,10 +10,7 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
-import com.growit.app.todo.usecase.CompletedStatusChangeToDoUseCase;
-import com.growit.app.todo.usecase.CreateToDoUseCase;
-import com.growit.app.todo.usecase.GetToDoUseCase;
-import com.growit.app.todo.usecase.UpdateToDoUseCase;
+import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +29,7 @@ public class ToDoController {
   private final UpdateToDoUseCase updateToDoUseCase;
   private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   private final GetToDoUseCase getToDoUseCase;
+  private final DeleteToDoUseCase deleteToDoUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
@@ -67,5 +65,12 @@ public class ToDoController {
       @AuthenticationPrincipal User user, @PathVariable String id) {
     ToDo result = getToDoUseCase.execute(toDoRequestMapper.toGetQuery(id, user.getId()));
     return ResponseEntity.ok(ApiResponse.success(result));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<ApiResponse<String>> deleteToDo(
+      @AuthenticationPrincipal User user, @PathVariable String id) {
+    deleteToDoUseCase.execute(toDoRequestMapper.toDeleteCommand(id, user.getId()));
+    return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 }

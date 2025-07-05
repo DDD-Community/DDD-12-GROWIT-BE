@@ -1,6 +1,5 @@
-package com.growit.app.goal.infrastructure.persistence.goal;
+package com.growit.app.goal.infrastructure.persistence.goal.source;
 
-import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalQueryRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;
@@ -26,10 +25,4 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
         .where(goal.userId.eq(userId), goal.deletedAt.isNull())
         .fetch();
   }
-
-  //  @Override
-  //  public PlanEntity findByPlanId(String planId) {
-  //    QPlanEntity plan = QPlanEntity.planEntity;
-  //    return queryFactory.selectFrom(plan).where(plan.uid.eq(planId)).fetchFirst();
-  //  }
 }
