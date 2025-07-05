@@ -1,5 +1,71 @@
 # Changelog
 
+## [1.12.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.11.0...v1.12.0) (2025-07-05)
+
+
+### Features
+
+* **goal:** isDeleted ([97295e4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/97295e404026e4929eb2758de1794d2ced754931))
+* **goal:** isDeleted ([78593f5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/78593f555ae61ae55bd9c9403c8b8e2c08b7dc9b))
+* **goal:** 코드 충돌 수정 ([9d8516d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9d8516db7a7b4cbe4cb97be24494076ae34f04c2))
+* **todo:** 삭제 기능 구현 ([a8ea82f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a8ea82fe929efb6e87be028dc9936d1959471bd7))
+* **todo:** 삭제 기능 구현 ([59efb29](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/59efb2936119dbced3352af652116b25b4fca8a3)), closes [#83](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/83)
+
+## [1.11.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.10.1...v1.11.0) (2025-07-05)
+
+
+### Features
+
+* **retrospect:** 회고 조회 기능 구현 ([0618e01](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0618e0181c7b0b4167cd98df1ced314d305ffbec))
+* **todo:** 조회 구현 ([833c430](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/833c430206301063457a9df86478f1ac46b56a84))
+* **todo:** 조회 구현 ([a5e52c5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a5e52c58b1b86284543d3d05630a0ddf30d7cded)), closes [#79](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/79)
+* 회고 DDD 로직 수정 ([2200f0e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2200f0e96bdcfc847505d165b0d6318c9070ae74))
+
+
+### Bug Fixes
+
+* **todo:** 공백 제거 ([759c7ae](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/759c7ae85b2ade5b8f8f1d05a4bc40e99b97d7ea))
+
+## [1.10.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.10.0...v1.10.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* 3차 pr 수정 ([405adeb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/405adebde0c10a947f2468fd11952d56a5426415))
+* 3차 pr 수정 ([b3e1d79](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b3e1d7975b996aeed2e4dc773a8fda0aaae49acc))
+
+## [1.10.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.9.0...v1.10.0) (2025-07-04)
+
+
+### Features
+
+* Entity 단 구현 ([a9e7a3a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a9e7a3af3381a9eae5bd20ad0956c869c2a1cf9b))
+* ToDo Status 변경 로직 Init ([667ed61](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/667ed61a6ba68be40851a6ca0d84ede4cb4966d2))
+* ToDo 완료 상태 기능 구현 ([0d96758](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0d96758a28261342471c8051dfb78c247509178a))
+* Update 로직 구현 ([da0bb26](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/da0bb268db1adae7867279a15cb3290e7ae69d43))
+
+
+### Bug Fixes
+
+* 1차 pr 수정 완료 ([e36c676](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e36c676d99ca40ba443a898c9713fdc3d10e456d))
+* 2차 pr 수정 ([10d4b6d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/10d4b6d3a61383fd441f379d6ccbeb0c00e1c044))
+* checkContent 미사용 ([9cbdd39](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9cbdd39ce4df00c49adf4c6ec2982c9c18df559e))
+* conflict solved ([0719358](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/071935872fe080db5b4ce8639d390e8a749f850f))
+* dto 롤백 버그 수정 ([f191e2a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f191e2aa03a440814e11c2759c9d234b986cf97d))
+* Plan 정책 변경 ([c54f7f3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c54f7f3c373c73e5b665facb8a983ab8235118ea))
+* Plan 정책 변경 ([b915a3a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b915a3a43ea8101eed40b94632672b20131a67bc))
+* pr 1차 수정 ([ce6f15e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ce6f15e3e1ebb25da306afefb76a66ad92f4d9e9))
+* pr 2차 수정 ([b85f100](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b85f100b004379f3e4339c0796e03676bcbf8252))
+* pr 2차 수정 ([d91ea6c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d91ea6c4b2108c2c869c640638864490febd0450))
+* pr 2차 수정 ([f8c8471](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f8c847195a47c46ee1686cd46d055f9326b950ab))
+* sout 삭제 ([d8ce9ad](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d8ce9ad5270b2b435fd466d3152d26bb874294c5))
+* Update 로직 구현 ([5604e35](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5604e35b6aa7214ae9f1fc1af1beff127808ad32))
+* 미사용 기능 삭제 ([2d3414a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2d3414a08b90af60883950ea97d1a865db9d8a97))
+* 변수 직렬화 문제 해결 ([a79cb2a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a79cb2a357ce8cb57915eea0a3fbda361282200f))
+* 변수명 구분해서 구현 및 서비스 테스트 동시 변경 ([a7a5820](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a7a5820ad393fd9e6b2460b43b131bf0d788aa64))
+* 서비스 테스트 구현 ([a09fd05](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a09fd059300cf74b85475e1e19746e8ffcbedbc6))
+* 테스트용 sout 제거 ([36ff471](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/36ff471e28c96740314a7615128466a57150a7cb))
+
 ## [1.9.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.8.2...v1.9.0) (2025-07-02)
 
 

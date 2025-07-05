@@ -36,7 +36,7 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/auth-reissue-424105652"
+                  "$ref" : "#/components/schemas/auth-signin-424105652"
                 },
                 "examples" : {
                   "auth-reissue" : {
@@ -75,7 +75,7 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/auth-reissue-424105652"
+                  "$ref" : "#/components/schemas/auth-signin-424105652"
                 },
                 "examples" : {
                   "auth-signin" : {
@@ -131,7 +131,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goal" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-06-30\",\n      \"endDate\" : \"2025-07-06\"\n    },\n    \"beforeAfter\" : {\n      \"asIs\" : \"ASIS\",\n      \"toBe\" : \"TOBE\"\n    },\n    \"plans\" : [ {\n      \"id\" : \"planId\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\"\n    } ]\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-06-30\",\n      \"endDate\" : \"2025-07-06\"\n    },\n    \"beforeAfter\" : {\n      \"asIs\" : \"ASIS\",\n      \"toBe\" : \"TOBE\"\n    },\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\"\n    } ]\n  } ]\n}"
                   }
                 }
               }
@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"M4Cz_oIYw5jlYxoz8RYwo\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"uUfZ93pt58Cp6Kvc_iIcV\"\n  }\n}"
                   }
                 }
               }
@@ -276,6 +276,38 @@ window.swaggerSpec={
       }
     },
     "/retrospects/{id}" : {
+      "get" : {
+        "tags" : [ "Retrospects" ],
+        "summary" : "회고 단건 조회",
+        "description" : "회고 단건 조회",
+        "operationId" : "get-retrospect",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "회고 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/retrospects-id1429283436"
+                },
+                "examples" : {
+                  "get-retrospect" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"retrospect-123\",\n    \"goalId\" : \"goal-123\",\n    \"plan\" : {\n      \"id\" : \"plan-456\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"주간 목표\"\n    },\n    \"content\" : \"이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "put" : {
         "tags" : [ "Retrospects" ],
         "summary" : "회고 수정",
@@ -307,6 +339,203 @@ window.swaggerSpec={
         "responses" : {
           "200" : {
             "description" : "200"
+          }
+        }
+      }
+    },
+    "/todos" : {
+      "post" : {
+        "tags" : [ "Todos" ],
+        "summary" : "할 일(TODO) 생성",
+        "description" : "할 일(TODO) 생성",
+        "operationId" : "create-todo",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/todos1279626246"
+              },
+              "examples" : {
+                "create-todo" : {
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"planId\" : \"plan-1\",\n  \"date\" : \"2025-07-05\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-1453646431"
+                },
+                "examples" : {
+                  "create-todo" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/todos/{id}" : {
+      "get" : {
+        "tags" : [ "Todos" ],
+        "summary" : "할 일(TODO) 조회",
+        "description" : "할 일(TODO) 조회",
+        "operationId" : "get-todo",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "수정할 TODO ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-id203621875"
+                },
+                "examples" : {
+                  "get-todo" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-05\",\n    \"isCompleted\" : false\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Todos" ],
+        "summary" : "할 일(TODO) 수정",
+        "description" : "할 일(TODO) 수정",
+        "operationId" : "update-todo",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "수정할 TODO ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/todos-id-1719108715"
+              },
+              "examples" : {
+                "update-todo" : {
+                  "value" : "{\n  \"date\" : \"2025-07-05\",\n  \"content\" : \"수정된 내용\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-id-1460495507"
+                },
+                "examples" : {
+                  "update-todo" : {
+                    "value" : "{\n  \"data\" : \"업데이트가 완료되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Todos" ],
+        "summary" : "할 일(TODO) 삭제",
+        "description" : "할 일을 삭제한다.",
+        "operationId" : "delete-todo",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "상태를 변경할 TODO ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-id-53473476"
+                },
+                "examples" : {
+                  "delete-todo" : {
+                    "value" : "{\n  \"data\" : \"삭제가 완료되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Todos" ],
+        "summary" : "할 일(TODO) 완료 상태 변경",
+        "description" : "할 일의 완료 상태를 변경한다.",
+        "operationId" : "status-change-todo",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "상태를 변경할 TODO ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/todos-id-1410595756"
+              },
+              "examples" : {
+                "status-change-todo" : {
+                  "value" : "{\n  \"isCompleted\" : true\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-id176249715"
+                },
+                "examples" : {
+                  "status-change-todo" : {
+                    "value" : "{\n  \"data\" : \"상태 변경이 완료되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -355,6 +584,27 @@ window.swaggerSpec={
           "content" : {
             "type" : "string",
             "description" : "회고 내용"
+          }
+        }
+      },
+      "todos1279626246" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 ID"
+          },
+          "planId" : {
+            "type" : "string",
+            "description" : "계획 ID"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "할 일 내용 (5자 이상 30자 미만)"
           }
         }
       },
@@ -496,6 +746,15 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id-53473476" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "결과 메시지"
+          }
+        }
+      },
       "retrospects-597490674" : {
         "type" : "object",
         "properties" : {
@@ -510,6 +769,40 @@ window.swaggerSpec={
           "content" : {
             "type" : "string",
             "description" : "회고 내용"
+          }
+        }
+      },
+      "todos-id203621875" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "date" : {
+                "type" : "string",
+                "description" : "할 일 날짜 (yyyy-MM-dd)"
+              },
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "planId" : {
+                "type" : "string",
+                "description" : "계획 ID"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "할일 ID"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "할 일 내용 (5자 이상 30자 미만)"
+              },
+              "isCompleted" : {
+                "type" : "boolean",
+                "description" : "완료 여부"
+              }
+            }
           }
         }
       },
@@ -583,6 +876,15 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id176249715" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "변경 결과 메시지"
+          }
+        }
+      },
       "auth-reissue356149288" : {
         "type" : "object",
         "properties" : {
@@ -592,7 +894,7 @@ window.swaggerSpec={
           }
         }
       },
-      "auth-reissue-424105652" : {
+      "auth-signin-424105652" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -619,6 +921,29 @@ window.swaggerSpec={
               "id" : {
                 "type" : "string",
                 "description" : "목표 ID"
+              }
+            }
+          }
+        }
+      },
+      "todos-id-1410595756" : {
+        "type" : "object",
+        "properties" : {
+          "isCompleted" : {
+            "type" : "boolean",
+            "description" : "완료 여부"
+          }
+        }
+      },
+      "todos-1453646431" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "생성된 TODO ID"
               }
             }
           }
@@ -663,6 +988,19 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id-1719108715" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 할 일 내용 (5자 이상 30자 미만)"
+          }
+        }
+      },
       "auth-signin32710318" : {
         "type" : "object",
         "properties" : {
@@ -673,6 +1011,54 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "retrospects-id1429283436" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "회고 ID"
+              },
+              "plan" : {
+                "type" : "object",
+                "properties" : {
+                  "weekOfMonth" : {
+                    "type" : "number",
+                    "description" : "계획 주차"
+                  },
+                  "id" : {
+                    "type" : "string",
+                    "description" : "계획 ID"
+                  },
+                  "content" : {
+                    "type" : "string",
+                    "description" : "계획 내용"
+                  }
+                }
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "회고 내용"
+              }
+            }
+          }
+        }
+      },
+      "todos-id-1460495507" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "업데이트 결과 메시지"
           }
         }
       }

@@ -6,6 +6,7 @@ import com.growit.app.goal.controller.dto.request.GoalDurationDto;
 import com.growit.app.goal.controller.dto.request.PlanRequestDto;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
@@ -16,6 +17,24 @@ import java.util.List;
 public class GoalFixture {
   public static Goal defaultGoal() {
     return new GoalBuilder().build();
+  }
+
+  public static Goal customGoal(
+      String id,
+      String userId,
+      String name,
+      GoalDuration duration,
+      BeforeAfter beforeAfter,
+      List<Plan> plans) {
+    GoalBuilder builder = new GoalBuilder();
+    if (id != null) builder.id(id);
+    if (userId != null) builder.userId(userId);
+    if (name != null) builder.name(name);
+    if (duration != null) builder.duration(duration);
+    if (beforeAfter != null) builder.beforeAfter(beforeAfter);
+    if (plans != null) builder.plans(plans);
+
+    return builder.build();
   }
 
   public static CreateGoalRequest defaultCreateGoalRequest() {
@@ -42,7 +61,13 @@ class GoalBuilder {
   private String userId = "user-1";
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
-  private List<Plan> plans = List.of(new Plan("planId", 1, "그로잇 완성"));
+  private List<Plan> plans =
+      List.of(
+          new Plan(
+              "plan-1",
+              1,
+              "그로잇 완성",
+              new PlanDuration(LocalDate.parse("2025-06-23"), LocalDate.parse("2025-07-20"))));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {
