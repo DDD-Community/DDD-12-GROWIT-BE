@@ -170,7 +170,7 @@ class ToDoControllerTest {
   }
 
   @Test
-  void deleteTodo() throws Exception {
+  void deletedTodo() throws Exception {
     String toDoId = "todo-1";
     willDoNothing().given(deleteToDoUseCase).execute(any());
 
