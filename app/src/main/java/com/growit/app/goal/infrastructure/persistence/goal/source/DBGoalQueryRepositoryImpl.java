@@ -25,10 +25,4 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
         .where(goal.userId.eq(userId), goal.deletedAt.isNull())
         .fetch();
   }
-
-  //  @Override
-  //  public PlanEntity findByPlanId(String planId) {
-  //    QPlanEntity plan = QPlanEntity.planEntity;
-  //    return queryFactory.selectFrom(plan).where(plan.uid.eq(planId)).fetchFirst();
-  //  }
 }
