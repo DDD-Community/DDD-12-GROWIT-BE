@@ -21,7 +21,7 @@ public class ToDo {
   private String content;
   private LocalDate date;
   private boolean isCompleted;
-  private boolean isDeleted;
+  @JsonIgnore private boolean isDeleted;
 
   public static ToDo from(CreateToDoCommand command) {
     return ToDo.builder()
