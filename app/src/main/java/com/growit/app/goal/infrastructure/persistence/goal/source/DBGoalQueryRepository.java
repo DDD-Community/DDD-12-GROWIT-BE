@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface DBGoalQueryRepository {
   List<GoalEntity> findByUserId(String userId);
+
+  //  PlanEntity findByPlanId(String planId);
 }

@@ -56,7 +56,7 @@ public class ToDoService implements ToDoValidator, ToDoQuery {
         toDoRepository.findById(id).orElseThrow(() -> new NotFoundException("할 일 정보가 존재하지 않습니다."));
 
     if (!todo.getUserId().equals(userId)) {
-      throw new NotFoundException("사용자 정보가 일치하지 않습니다. ");
+      throw new NotFoundException("사용자 정보가 일치하지 않습니다.");
     }
 
     return todo;

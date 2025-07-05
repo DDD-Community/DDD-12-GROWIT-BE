@@ -19,6 +19,24 @@ public class GoalFixture {
     return new GoalBuilder().build();
   }
 
+  public static Goal customGoal(
+      String id,
+      String userId,
+      String name,
+      GoalDuration duration,
+      BeforeAfter beforeAfter,
+      List<Plan> plans) {
+    GoalBuilder builder = new GoalBuilder();
+    if (id != null) builder.id(id);
+    if (userId != null) builder.userId(userId);
+    if (name != null) builder.name(name);
+    if (duration != null) builder.duration(duration);
+    if (beforeAfter != null) builder.beforeAfter(beforeAfter);
+    if (plans != null) builder.plans(plans);
+
+    return builder.build();
+  }
+
   public static CreateGoalRequest defaultCreateGoalRequest() {
     return new CreateGoalRequest(
         "내 목표는 그로잇 완성",

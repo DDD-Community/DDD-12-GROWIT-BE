@@ -38,4 +38,9 @@ public class GoalRepositoryImpl implements GoalRepository {
     Optional<GoalEntity> goalEntity = repository.findByUid(uid);
     return goalEntity.map(mapper::toDomain);
   }
+
+  //  @Override
+  //  public Plan getByPlanId(String planId) {
+  //    return mapper.toPlanDomain(repository.findByPlanId(planId));
+  //  }
 }

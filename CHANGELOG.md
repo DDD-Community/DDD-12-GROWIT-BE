@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.11.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.10.1...v1.11.0) (2025-07-05)
+
+
+### Features
+
+* **retrospect:** 회고 조회 기능 구현 ([0618e01](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0618e0181c7b0b4167cd98df1ced314d305ffbec))
+* **todo:** 조회 구현 ([833c430](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/833c430206301063457a9df86478f1ac46b56a84))
+* **todo:** 조회 구현 ([a5e52c5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a5e52c58b1b86284543d3d05630a0ddf30d7cded)), closes [#79](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/79)
+* 회고 DDD 로직 수정 ([2200f0e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2200f0e96bdcfc847505d165b0d6318c9070ae74))
+
+
+### Bug Fixes
+
+* **todo:** 공백 제거 ([759c7ae](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/759c7ae85b2ade5b8f8f1d05a4bc40e99b97d7ea))
+
 ## [1.10.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.10.0...v1.10.1) (2025-07-04)
 
 
