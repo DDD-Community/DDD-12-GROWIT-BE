@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.12.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.11.0...v1.12.0) (2025-07-05)
+
+
+### Features
+
+* **goal:** isDeleted ([97295e4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/97295e404026e4929eb2758de1794d2ced754931))
+* **goal:** isDeleted ([78593f5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/78593f555ae61ae55bd9c9403c8b8e2c08b7dc9b))
+* **goal:** 코드 충돌 수정 ([9d8516d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9d8516db7a7b4cbe4cb97be24494076ae34f04c2))
+* **todo:** 삭제 기능 구현 ([a8ea82f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a8ea82fe929efb6e87be028dc9936d1959471bd7))
+* **todo:** 삭제 기능 구현 ([59efb29](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/59efb2936119dbced3352af652116b25b4fca8a3)), closes [#83](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/83)
+
 ## [1.11.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.10.1...v1.11.0) (2025-07-05)
 
 
