@@ -10,5 +10,4 @@ public interface GoalRepository {
 
   Optional<Goal> findById(String goalId);
 
-  //  Plan getByPlanId(String planId);
 }

@@ -30,12 +30,7 @@ public class GetRetrospectUseCase {
             .findById(retrospect.getGoalId())
             .orElseThrow(() -> new NotFoundException("목표가 존재하지 않습니다."));
 
-    Plan plan =
-        goal.getPlans().stream()
-            .filter(p -> p.getId().equals(retrospect.getPlanId()))
-            .findFirst()
-            .orElseThrow(() -> new NotFoundException("일치하는 Plan이 없습니다."));
-
+    Plan plan = goal.filterByPlanId(goal, retrospect.getPlanId());
     return new RetrospectWithPlan(retrospect, plan);
   }
 }

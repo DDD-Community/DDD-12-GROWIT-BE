@@ -1,6 +1,7 @@
 package com.growit.app.goal.domain.goal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
@@ -54,5 +55,12 @@ public class Goal {
 
   public Optional<Plan> filterByDate(LocalDate date) {
     return plans.stream().filter(plan -> plan.getPlanDuration().includes(date)).findFirst();
+  }
+
+  public Plan filterByPlanId(Goal goal, String planId) {
+      return goal.getPlans().stream()
+        .filter(p -> p.getId().equals(planId))
+        .findFirst()
+        .orElseThrow(() -> new NotFoundException("일치하는 Plan이 없습니다."));
   }
 }
