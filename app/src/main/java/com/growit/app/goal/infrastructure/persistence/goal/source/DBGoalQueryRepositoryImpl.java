@@ -1,6 +1,5 @@
-package com.growit.app.goal.infrastructure.persistence.goal;
+package com.growit.app.goal.infrastructure.persistence.goal.source;
 
-import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalQueryRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;

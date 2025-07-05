@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ToDoDBMapper {
   public ToDoEntity toEntity(ToDo todo) {
-    if (todo == null) return null;
     return ToDoEntity.builder()
         .uid(todo.getId())
         .userId(todo.getUserId())
@@ -29,6 +28,7 @@ public class ToDoDBMapper {
         .content(entity.getContent())
         .date(entity.getDate())
         .isCompleted(entity.isCompleted())
+        .isDeleted(entity.getDeletedAt() != null)
         .build();
   }
 }
