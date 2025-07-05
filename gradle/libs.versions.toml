@@ -50,4 +50,5 @@ jakarta-annotation = { module = "jakarta.annotation:jakarta.annotation-api"}
 swagger-ui = {module = "org.webjars:swagger-ui", version.ref = "swaggerui" }
 
 logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }
-
+flyway = { module = "org.flywaydb:flyway-core" }
+flyway-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
