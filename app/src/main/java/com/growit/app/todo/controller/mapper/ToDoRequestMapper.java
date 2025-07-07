@@ -1,8 +1,8 @@
 package com.growit.app.todo.controller.mapper;
 
-import com.growit.app.todo.controller.dto.CompletedStatusChangeRequest;
-import com.growit.app.todo.controller.dto.CreateToDoRequest;
-import com.growit.app.todo.controller.dto.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
+import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
+import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.domain.dto.*;
 import org.springframework.stereotype.Component;
 

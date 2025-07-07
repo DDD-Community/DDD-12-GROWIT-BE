@@ -1,6 +1,6 @@
 package com.growit.app.fake.todo;
 
-import com.growit.app.todo.controller.dto.CreateToDoRequest;
+import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.domain.ToDo;
 import java.time.LocalDate;
 
