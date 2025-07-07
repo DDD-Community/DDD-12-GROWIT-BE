@@ -37,6 +37,7 @@ public class ToDoController {
   private final GetToDoUseCase getToDoUseCase;
   private final DeleteToDoUseCase deleteToDoUseCase;
   private final GetWeeklyPlanUseCase getWeeklyPlanUseCase;
+  private final GetTodayMissionUseCase getTodayMissionUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
@@ -90,5 +91,14 @@ public class ToDoController {
     Map<String, List<WeeklyPlanResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
+  }
+
+  @GetMapping("/todayMission")
+  public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
+      @AuthenticationPrincipal User user,
+      @RequestParam String goalId,
+      @RequestParam String planId) {
+    getTodayMissionUseCase.execute(user.getId(), goalId, planId);
+    return ResponseEntity.ok(new ApiResponse<>(null));
   }
 }
