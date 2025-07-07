@@ -1,9 +1,11 @@
 package com.growit.app.todo.controller.dto.response;
 
 import com.growit.app.todo.domain.ToDo;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class WeeklyPlanResponse {
   private String id;
   private String goalId;
@@ -13,13 +15,13 @@ public class WeeklyPlanResponse {
   private boolean isCompleted;
 
   public static WeeklyPlanResponse from(ToDo todo) {
-    WeeklyPlanResponse res = new WeeklyPlanResponse();
-    res.id = todo.getId();
-    res.goalId = todo.getGoalId();
-    res.planId = todo.getPlanId();
-    res.date = todo.getDate().toString();
-    res.content = todo.getContent();
-    res.isCompleted = todo.isCompleted();
-    return res;
+    return WeeklyPlanResponse.builder()
+        .id(todo.getId())
+        .goalId(todo.getGoalId())
+        .planId(todo.getPlanId())
+        .date(todo.getDate().toString())
+        .content(todo.getContent())
+        .isCompleted(todo.isCompleted())
+        .build();
   }
 }
