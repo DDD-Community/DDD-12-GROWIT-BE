@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 class GetRetrospectUseCaseTest {
 
   @Test
-  void filterByPlanId_success() {
+  void givenGoalWithMultiplePlans_whenFilterByPlanId_thenReturnCorrectPlan() {
     // given
     Plan plan1 = PlanFixture.defaultPlan();
     Plan plan2 = PlanFixture.customPlan("plan-2", null, null, null, null);
@@ -35,14 +35,12 @@ class GetRetrospectUseCaseTest {
   }
 
   @Test
-  void execute_success_withFixture() {
+  void givenValidRetrospectAndGoal_whenExecute_thenReturnRetrospectWithPlan() {
+    // given
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
     Plan plan = PlanFixture.customPlan(retrospect.getPlanId(), null, null, null, null);
-    Goal goal =
-        GoalFixture.customGoal(retrospect.getGoalId(), null, null, null, null, List.of(plan));
-
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
+    Goal goal = GoalFixture.customGoal(retrospect.getGoalId(), null, null, null, null, List.of(plan));
+    GetRetrospectCommand command = new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
 
     RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
     GoalRepository goalRepository = mock(GoalRepository.class);
@@ -52,19 +50,19 @@ class GetRetrospectUseCaseTest {
 
     GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
 
+    // when
     RetrospectWithPlan result = useCase.execute(command);
 
-    // Assert
+    // then
     assertThat(result.getRetrospect()).isEqualTo(retrospect);
     assertThat(result.getPlan()).isEqualTo(plan);
   }
 
   @Test
-  void execute_retrospect_not_found() {
-
+  void givenNonexistentRetrospect_whenExecute_thenThrowNotFoundException() {
+    // given
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
+    GetRetrospectCommand command = new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
 
     RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
     GoalRepository goalRepository = mock(GoalRepository.class);
@@ -73,18 +71,17 @@ class GetRetrospectUseCaseTest {
 
     GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
 
-    // Act & Assert
+    // when & then
     assertThatThrownBy(() -> useCase.execute(command))
-        .isInstanceOf(NotFoundException.class)
-        .hasMessageContaining("회고를 찾을 수 없습니다.");
+      .isInstanceOf(NotFoundException.class)
+      .hasMessageContaining("회고를 찾을 수 없습니다.");
   }
 
   @Test
-  void execute_goal_not_found() {
-    // Arrange
+  void givenNonexistentGoal_whenExecute_thenThrowNotFoundException() {
+    // given
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
+    GetRetrospectCommand command = new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
 
     RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
     GoalRepository goalRepository = mock(GoalRepository.class);
@@ -94,20 +91,18 @@ class GetRetrospectUseCaseTest {
 
     GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
 
-    // Act & Assert
+    // when & then
     assertThatThrownBy(() -> useCase.execute(command))
-        .isInstanceOf(NotFoundException.class)
-        .hasMessageContaining("목표가 존재하지 않습니다.");
+      .isInstanceOf(NotFoundException.class)
+      .hasMessageContaining("목표가 존재하지 않습니다.");
   }
 
   @Test
-  void execute_plan_not_found() {
-    // Arrange
+  void givenGoalWithoutMatchingPlan_whenExecute_thenThrowNotFoundException() {
+    // given
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
     Goal goal = GoalFixture.defaultGoal();
-
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
+    GetRetrospectCommand command = new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
 
     RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
     GoalRepository goalRepository = mock(GoalRepository.class);
@@ -117,9 +112,10 @@ class GetRetrospectUseCaseTest {
 
     GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
 
-    // Act & Assert
+    // when & then
     assertThatThrownBy(() -> useCase.execute(command))
-        .isInstanceOf(NotFoundException.class)
-        .hasMessageContaining("일치하는 Plan이 없습니다.");
+      .isInstanceOf(NotFoundException.class)
+      .hasMessageContaining("일치하는 Plan이 없습니다.");
   }
 }
+
