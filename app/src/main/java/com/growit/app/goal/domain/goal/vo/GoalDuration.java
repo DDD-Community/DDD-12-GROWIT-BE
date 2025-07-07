@@ -18,6 +18,9 @@ public record GoalDuration(LocalDate startDate, LocalDate endDate) {
     if (!endDate.isAfter(startDate)) {
       throw new BadRequestException("목표 종료일은 시작일보다 뒤여야 합니다.");
     }
+    if (startDate.isBefore(LocalDate.now())) {
+      throw new BadRequestException("목표 시작일은 오늘 또는 미래여야 합니다.");
+    }
   }
 
   @JsonIgnore
