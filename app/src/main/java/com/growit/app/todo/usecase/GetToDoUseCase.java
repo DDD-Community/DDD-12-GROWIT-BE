@@ -1,7 +1,7 @@
 package com.growit.app.todo.usecase;
 
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.dto.GetTodDoQueryFilter;
+import com.growit.app.todo.domain.dto.GetToDoQueryFilter;
 import com.growit.app.todo.domain.service.ToDoQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class GetToDoUseCase {
   private final ToDoQuery todoQuery;
 
-  public ToDo execute(GetTodDoQueryFilter query) {
+  public ToDo execute(GetToDoQueryFilter query) {
     return todoQuery.getMyToDo(query.id(), query.userId());
   }
 }
