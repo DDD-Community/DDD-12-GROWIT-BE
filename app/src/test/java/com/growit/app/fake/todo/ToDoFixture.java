@@ -1,8 +1,13 @@
 package com.growit.app.fake.todo;
 
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
+import com.growit.app.todo.controller.dto.response.WeeklyPlanResponse;
 import com.growit.app.todo.domain.ToDo;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ToDoFixture {
 
@@ -12,6 +17,16 @@ public class ToDoFixture {
 
   public static CreateToDoRequest defaultCreateToDoRequest() {
     return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
+  }
+
+  public static Map<String, List<WeeklyPlanResponse>> weeklyPlanMapWith(
+      String key, List<WeeklyPlanResponse> value) {
+    Map<String, List<WeeklyPlanResponse>> map = new LinkedHashMap<>();
+    for (DayOfWeek day : DayOfWeek.values()) {
+      String name = day.name();
+      map.put(name, name.equals(key) ? value : List.of());
+    }
+    return map;
   }
 
   public static ToDo customToDo(

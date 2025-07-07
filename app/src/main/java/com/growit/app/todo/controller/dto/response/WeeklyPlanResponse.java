@@ -1,5 +1,6 @@
 package com.growit.app.todo.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.growit.app.todo.domain.ToDo;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,9 @@ public class WeeklyPlanResponse {
   private String planId;
   private String date;
   private String content;
-  private boolean isCompleted;
+
+  @JsonProperty("isCompleted")
+  private boolean completed;
 
   public static WeeklyPlanResponse from(ToDo todo) {
     return WeeklyPlanResponse.builder()
@@ -21,7 +24,7 @@ public class WeeklyPlanResponse {
         .planId(todo.getPlanId())
         .date(todo.getDate().toString())
         .content(todo.getContent())
-        .isCompleted(todo.isCompleted())
+        .completed(todo.isCompleted())
         .build();
   }
 }

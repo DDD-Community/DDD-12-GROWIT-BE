@@ -249,20 +249,18 @@ class ToDoControllerTest {
             DayOfWeek.MONDAY, List.of(ToDoFixture.defaultToDo()),
             DayOfWeek.TUESDAY, List.of());
 
-    // DTO 변환 (String-keyed, Response DTO)
+    WeeklyPlanResponse mondayResponse =
+        WeeklyPlanResponse.builder()
+            .id("todoId")
+            .goalId(goalId)
+            .planId(planId)
+            .content("목표")
+            .date(LocalDate.now().toString())
+            .completed(true)
+            .build();
+
     Map<String, List<WeeklyPlanResponse>> mapped =
-        Map.of(
-            "MONDAY",
-                List.of(
-                    WeeklyPlanResponse.builder()
-                        .id("todoId")
-                        .goalId(goalId)
-                        .planId(planId)
-                        .content("목표")
-                        .date(LocalDate.now().toString())
-                        .isCompleted(true)
-                        .build()),
-            "TUESDAY", List.of());
+        ToDoFixture.weeklyPlanMapWith("MONDAY", List.of(mondayResponse));
 
     given(getWeeklyPlanUseCase.execute(goalId, planId, userId)).willReturn(grouped);
     given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
