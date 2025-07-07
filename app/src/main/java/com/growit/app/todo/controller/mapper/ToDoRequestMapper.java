@@ -27,7 +27,7 @@ public class ToDoRequestMapper {
     return new DeleteToDoCommand(id, userId);
   }
 
-  public GetTodDoQueryFilter toGetQuery(String id, String userId) {
-    return new GetTodDoQueryFilter(id, userId);
+  public GetToDoQueryFilter toGetQuery(String id, String userId) {
+    return new GetToDoQueryFilter(id, userId);
   }
 }

@@ -73,4 +73,13 @@ public class ToDoController {
     deleteToDoUseCase.execute(toDoRequestMapper.toDeleteCommand(id, user.getId()));
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
+
+  @GetMapping
+  public ResponseEntity<ApiResponse<String>> getWeeklyPlan(
+      @AuthenticationPrincipal User user,
+      @RequestParam String goalId,
+      @RequestParam String planId) {
+    String result = "goalId=" + goalId + ", planId=" + planId;
+    return ResponseEntity.ok(new ApiResponse<>(result));
+  }
 }
