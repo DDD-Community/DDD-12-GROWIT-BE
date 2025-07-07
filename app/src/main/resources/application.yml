@@ -7,13 +7,18 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1 # 초기 버전 1은 스킵한다는 의미
+
   jpa:
     hibernate:
-      ddl-auto: update  # 또는 validate, none, create-drop
-    show-sql: true
+      ddl-auto: none  # 또는 validate, none, create-drop
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 jwt:
   expired-second: 3600
