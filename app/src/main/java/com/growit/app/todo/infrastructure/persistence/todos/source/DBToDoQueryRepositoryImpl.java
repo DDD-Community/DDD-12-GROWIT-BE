@@ -5,6 +5,7 @@ import static com.growit.app.todo.infrastructure.persistence.todos.source.entity
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,20 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
     return queryFactory
         .selectFrom(toDo)
         .where(toDo.planId.eq(planId), toDo.deletedAt.isNull())
+        .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findByUserIdQuery(String userId, LocalDate today) {
+    System.out.println("ENTITY :: " + today);
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.userId.eq(userId),
+            toDo.deletedAt.isNull(),
+            toDo.date.eq(today),
+            toDo.isCompleted.eq(false))
         .fetch();
   }
 }

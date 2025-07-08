@@ -14,4 +14,6 @@ public interface ToDoRepository {
   Optional<ToDo> findById(String id);
 
   List<ToDo> findByPlanId(String planId);
+
+  List<ToDo> findByUserIdQuery(String userId, LocalDate today);
 }

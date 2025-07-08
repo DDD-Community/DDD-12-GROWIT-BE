@@ -16,6 +16,7 @@ import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,17 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("상태 변경이 완료되었습니다."));
   }
 
+  @GetMapping("/today-mission/date")
+  public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
+      @AuthenticationPrincipal User user, @RequestParam String date) {
+    LocalDate today = LocalDate.now();
+    if (date.equals("today")) {
+      List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
+      return ResponseEntity.ok(new ApiResponse<>(toDoList));
+    }
+    return ResponseEntity.ok(new ApiResponse<>(null));
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<ToDo>> getToDoById(
       @AuthenticationPrincipal User user, @PathVariable String id) {
@@ -91,14 +103,5 @@ public class ToDoController {
     Map<String, List<WeeklyPlanResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
-  }
-
-  @GetMapping("/todayMission")
-  public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
-      @AuthenticationPrincipal User user,
-      @RequestParam String goalId,
-      @RequestParam String planId) {
-    getTodayMissionUseCase.execute(user.getId(), goalId, planId);
-    return ResponseEntity.ok(new ApiResponse<>(null));
   }
 }
