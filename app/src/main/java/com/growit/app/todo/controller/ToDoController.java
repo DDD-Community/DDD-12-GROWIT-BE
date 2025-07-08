@@ -39,6 +39,7 @@ public class ToDoController {
   private final DeleteToDoUseCase deleteToDoUseCase;
   private final GetWeeklyPlanUseCase getWeeklyPlanUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
+  private final GetContributionUseCase getContributionUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
@@ -69,7 +70,7 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("상태 변경이 완료되었습니다."));
   }
 
-  @GetMapping("/today-mission/date")
+  @GetMapping("/home/today-mission")
   public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
       @AuthenticationPrincipal User user) {
     LocalDate today = LocalDate.now();
@@ -100,5 +101,12 @@ public class ToDoController {
     Map<String, List<WeeklyPlanResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
+  }
+
+  @GetMapping("/home/contribution")
+  public ResponseEntity<ApiResponse<List<ToDo>>> getContribution(
+      @AuthenticationPrincipal User user, @RequestParam String goalId) {
+    getContributionUseCase.execute(user.getId(), goalId);
+    return ResponseEntity.ok(new ApiResponse<>(null));
   }
 }
