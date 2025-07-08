@@ -15,6 +15,18 @@ public class GetTodayMissionUseCase {
 
   @Transactional
   public List<ToDo> execute(String userId, LocalDate today) {
-    return toDoRepository.findByUserIdQuery(userId, today);
+    List<ToDo> toDoList = toDoRepository.findByUserIdQuery(userId, today);
+
+    List<ToDo> notCompleted = toDoList.stream().filter(todo -> !todo.isCompleted()).toList();
+
+    if (toDoList.isEmpty()) {
+      return null;
+    }
+
+    if (!notCompleted.isEmpty()) {
+      return notCompleted;
+    }
+
+    return List.of();
   }
 }

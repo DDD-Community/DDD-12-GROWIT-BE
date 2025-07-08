@@ -62,6 +62,11 @@ public class FakeToDoRepository implements ToDoRepository {
         .toList();
   }
 
+  @Override
+  public List<ToDo> findByUserIdQuery(String userId, LocalDate today) {
+    return List.of();
+  }
+
   public void clear() {
     store.clear();
   }

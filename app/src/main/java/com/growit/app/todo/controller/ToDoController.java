@@ -71,13 +71,10 @@ public class ToDoController {
 
   @GetMapping("/today-mission/date")
   public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
-      @AuthenticationPrincipal User user, @RequestParam String date) {
+      @AuthenticationPrincipal User user) {
     LocalDate today = LocalDate.now();
-    if (date.equals("today")) {
-      List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
-      return ResponseEntity.ok(new ApiResponse<>(toDoList));
-    }
-    return ResponseEntity.ok(new ApiResponse<>(null));
+    List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
+    return ResponseEntity.ok(new ApiResponse<>(toDoList));
   }
 
   @GetMapping("/{id}")

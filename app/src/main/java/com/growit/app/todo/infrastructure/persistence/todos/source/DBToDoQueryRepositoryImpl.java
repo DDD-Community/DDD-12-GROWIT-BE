@@ -37,15 +37,10 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
 
   @Override
   public List<ToDoEntity> findByUserIdQuery(String userId, LocalDate today) {
-    System.out.println("ENTITY :: " + today);
     QToDoEntity toDo = QToDoEntity.toDoEntity;
     return queryFactory
         .selectFrom(toDo)
-        .where(
-            toDo.userId.eq(userId),
-            toDo.deletedAt.isNull(),
-            toDo.date.eq(today),
-            toDo.isCompleted.eq(false))
+        .where(toDo.userId.eq(userId), toDo.deletedAt.isNull(), toDo.date.eq(today))
         .fetch();
   }
 }
