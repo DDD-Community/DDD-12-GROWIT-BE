@@ -59,6 +59,10 @@ public class ToDoService implements ToDoValidator, ToDoQuery {
       throw new NotFoundException("사용자 정보가 일치하지 않습니다.");
     }
 
+    if(todo.isDeleted()) {
+      throw new NotFoundException("존재하지 않는 ToDo 입니다.");
+    }
+
     return todo;
   }
 }
