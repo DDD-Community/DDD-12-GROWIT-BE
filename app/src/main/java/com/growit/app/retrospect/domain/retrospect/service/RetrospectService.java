@@ -1,6 +1,7 @@
 package com.growit.app.retrospect.domain.retrospect.service;
 
 import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RetrospectService implements RetrospectValidator {
+public class RetrospectService implements RetrospectValidator, RetrospectQuery {
   private final RetrospectRepository retrospectRepository;
 
   @Override
@@ -22,9 +23,9 @@ public class RetrospectService implements RetrospectValidator {
   }
 
   @Override
-  public void checkMyRetrospect(Retrospect retrospect, String userId) throws BadRequestException {
-    if (!retrospect.getUserId().equals(userId)) {
-      throw new BadRequestException("해당 정보가 올바르지 않습니다.");
-    }
+  public Retrospect getMyRetrospect(String id, String userId) throws NotFoundException {
+    return retrospectRepository
+        .findByIdAndUserId(id, userId)
+        .orElseThrow(() -> new NotFoundException("회고 정보가 존재하지 않습니다. "));
   }
 }

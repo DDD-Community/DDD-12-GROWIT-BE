@@ -9,7 +9,6 @@ import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,12 +52,15 @@ public class Goal {
     return isDelete;
   }
 
-  public Optional<Plan> filterByDate(LocalDate date) {
-    return plans.stream().filter(plan -> plan.getPlanDuration().includes(date)).findFirst();
+  public Plan getPlanByDate(LocalDate date) {
+    return plans.stream()
+        .filter(plan -> plan.getPlanDuration().includes(date))
+        .findFirst()
+        .orElseThrow(() -> new NotFoundException("일치하는 날짜가 없습니다."));
   }
 
-  public Plan filterByPlanId(Goal goal, String planId) {
-    return goal.getPlans().stream()
+  public Plan getPlanByPlanId(String planId) {
+    return getPlans().stream()
         .filter(p -> p.getId().equals(planId))
         .findFirst()
         .orElseThrow(() -> new NotFoundException("일치하는 Plan이 없습니다."));

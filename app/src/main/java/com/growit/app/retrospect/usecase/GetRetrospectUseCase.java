@@ -1,13 +1,12 @@
 package com.growit.app.retrospect.usecase;
 
-import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.command.GetRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectWithPlan;
+import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,22 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GetRetrospectUseCase {
-  private final RetrospectRepository retrospectRepository;
-  private final GoalRepository goalRepository;
+  private final RetrospectQuery retrospectQuery;
+  private final GoalQuery goalQuery;
 
   @Transactional(readOnly = true)
   public RetrospectWithPlan execute(GetRetrospectCommand command) {
-    Retrospect retrospect =
-        retrospectRepository
-            .findById(command.id())
-            .orElseThrow(() -> new NotFoundException("회고를 찾을 수 없습니다."));
+    Retrospect retrospect = retrospectQuery.getMyRetrospect(command.id(), command.userId());
+    Goal goal = goalQuery.getMyGoal(retrospect.getGoalId(), retrospect.getUserId());
+    Plan plan = goal.getPlanByPlanId(retrospect.getPlanId());
 
-    Goal goal =
-        goalRepository
-            .findById(retrospect.getGoalId())
-            .orElseThrow(() -> new NotFoundException("목표가 존재하지 않습니다."));
-
-    Plan plan = goal.filterByPlanId(goal, retrospect.getPlanId());
     return new RetrospectWithPlan(retrospect, plan);
   }
 }

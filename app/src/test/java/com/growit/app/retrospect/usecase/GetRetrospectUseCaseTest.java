@@ -1,125 +1,48 @@
 package com.growit.app.retrospect.usecase;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.goal.GoalFixture;
-import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.command.GetRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectWithPlan;
-import java.util.List;
-import java.util.Optional;
+import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class GetRetrospectUseCaseTest {
 
-  @Test
-  void givenGoalWithMultiplePlans_whenFilterByPlanId_thenReturnCorrectPlan() {
-    // given
-    Plan plan1 = PlanFixture.defaultPlan();
-    Plan plan2 = PlanFixture.customPlan("plan-2", null, null, null, null);
-    Goal goal = GoalFixture.customGoal("goal-id1", null, null, null, null, List.of(plan1, plan2));
+  @Mock private RetrospectQuery retrospectQuery;
 
-    // when
-    Plan result = goal.filterByPlanId(goal, "plan-2");
+  @Mock private GoalQuery goalQuery;
 
-    // then
-    assertThat(result).isEqualTo(plan2);
-  }
+  @InjectMocks private GetRetrospectUseCase useCase;
 
   @Test
-  void givenValidRetrospectAndGoal_whenExecute_thenReturnRetrospectWithPlan() {
+  void givenValidRetrospectIdAndUserId_whenExecute_thenReturnRetrospectWithPlan() {
     // given
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    Plan plan = PlanFixture.customPlan(retrospect.getPlanId(), null, null, null, null);
-    Goal goal =
-        GoalFixture.customGoal(retrospect.getGoalId(), null, null, null, null, List.of(plan));
+    Goal goal = GoalFixture.defaultGoal();
+
     GetRetrospectCommand command =
         new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
 
-    RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
-    GoalRepository goalRepository = mock(GoalRepository.class);
-
-    given(retrospectRepository.findById(retrospect.getId())).willReturn(Optional.of(retrospect));
-    given(goalRepository.findById(retrospect.getGoalId())).willReturn(Optional.of(goal));
-
-    GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
+    when(retrospectQuery.getMyRetrospect(retrospect.getId(), retrospect.getUserId()))
+        .thenReturn(retrospect);
+    when(goalQuery.getMyGoal(retrospect.getGoalId(), retrospect.getUserId())).thenReturn(goal);
 
     // when
     RetrospectWithPlan result = useCase.execute(command);
 
     // then
     assertThat(result.getRetrospect()).isEqualTo(retrospect);
-    assertThat(result.getPlan()).isEqualTo(plan);
-  }
-
-  @Test
-  void givenNonexistentRetrospect_whenExecute_thenThrowNotFoundException() {
-    // given
-    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
-
-    RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
-    GoalRepository goalRepository = mock(GoalRepository.class);
-
-    given(retrospectRepository.findById(retrospect.getId())).willReturn(Optional.empty());
-
-    GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
-
-    // when & then
-    assertThatThrownBy(() -> useCase.execute(command))
-        .isInstanceOf(NotFoundException.class)
-        .hasMessageContaining("회고를 찾을 수 없습니다.");
-  }
-
-  @Test
-  void givenNonexistentGoal_whenExecute_thenThrowNotFoundException() {
-    // given
-    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
-
-    RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
-    GoalRepository goalRepository = mock(GoalRepository.class);
-
-    given(retrospectRepository.findById(retrospect.getId())).willReturn(Optional.of(retrospect));
-    given(goalRepository.findById(retrospect.getGoalId())).willReturn(Optional.empty());
-
-    GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
-
-    // when & then
-    assertThatThrownBy(() -> useCase.execute(command))
-        .isInstanceOf(NotFoundException.class)
-        .hasMessageContaining("목표가 존재하지 않습니다.");
-  }
-
-  @Test
-  void givenGoalWithoutMatchingPlan_whenExecute_thenThrowNotFoundException() {
-    // given
-    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    Goal goal = GoalFixture.defaultGoal();
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
-
-    RetrospectRepository retrospectRepository = mock(RetrospectRepository.class);
-    GoalRepository goalRepository = mock(GoalRepository.class);
-
-    given(retrospectRepository.findById(retrospect.getId())).willReturn(Optional.of(retrospect));
-    given(goalRepository.findById(retrospect.getGoalId())).willReturn(Optional.of(goal));
-
-    GetRetrospectUseCase useCase = new GetRetrospectUseCase(retrospectRepository, goalRepository);
-
-    // when & then
-    assertThatThrownBy(() -> useCase.execute(command))
-        .isInstanceOf(NotFoundException.class)
-        .hasMessageContaining("일치하는 Plan이 없습니다.");
   }
 }

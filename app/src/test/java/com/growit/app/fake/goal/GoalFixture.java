@@ -67,7 +67,7 @@ class GoalBuilder {
               "plan-1",
               1,
               "그로잇 완성",
-              new PlanDuration(LocalDate.parse("2025-06-23"), LocalDate.parse("2025-07-20"))));
+              new PlanDuration(LocalDate.now(), LocalDate.parse("2025-07-20"))));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {

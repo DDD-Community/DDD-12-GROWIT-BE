@@ -17,19 +17,25 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
   @Override
   public void saveRetrospect(Retrospect retrospect) {
     Optional<RetrospectEntity> existing = repository.findByUid(retrospect.getId());
+    RetrospectEntity entity;
     if (existing.isPresent()) {
-      RetrospectEntity entity = existing.get();
+      entity = existing.get();
       entity.updateByDomain(retrospect);
-      repository.save(entity);
     } else {
-      RetrospectEntity entity = mapper.toEntity(retrospect);
-      repository.save(entity);
+      entity = mapper.toEntity(retrospect);
     }
+    repository.save(entity);
   }
 
   @Override
   public Optional<Retrospect> findById(String id) {
     Optional<RetrospectEntity> entity = repository.findByUid(id);
+    return entity.map(mapper::toDomain);
+  }
+
+  @Override
+  public Optional<Retrospect> findByIdAndUserId(String id, String userId) {
+    Optional<RetrospectEntity> entity = repository.findByUidAndUserId(id, userId);
     return entity.map(mapper::toDomain);
   }
 

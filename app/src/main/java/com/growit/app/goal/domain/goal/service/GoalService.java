@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoalService implements GoalValidator {
+public class GoalService implements GoalValidator, GoalQuery {
   private final GoalRepository goalRepository;
 
   @Override
@@ -35,11 +35,7 @@ public class GoalService implements GoalValidator {
   @Override
   public void checkPlanExists(String userId, String goalId, String planId)
       throws NotFoundException {
-    Goal goal =
-        goalRepository.findById(goalId).orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
-
-    checkMyGoal(goal, userId);
-
+    Goal goal = getMyGoal(goalId, userId);
     boolean planExists = goal.getPlans().stream().anyMatch(plan -> plan.getId().equals(planId));
 
     if (!planExists) {
@@ -48,9 +44,9 @@ public class GoalService implements GoalValidator {
   }
 
   @Override
-  public void checkMyGoal(Goal goal, String userId) throws BadRequestException {
-    if (!goal.getUserId().equals(userId)) {
-      throw new BadRequestException("해당 정보가 올바르지 않습니다.");
-    }
+  public Goal getMyGoal(String id, String userId) throws NotFoundException {
+    return goalRepository
+        .findByIdAndUserId(id, userId)
+        .orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
   }
 }

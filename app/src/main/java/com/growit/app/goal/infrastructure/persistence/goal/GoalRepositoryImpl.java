@@ -16,7 +16,7 @@ public class GoalRepositoryImpl implements GoalRepository {
   private final DBGoalRepository repository;
 
   @Override
-  public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
+  public List<Goal> findAllByUserId(String userId) {
     return repository.findByUserId(userId).stream().map(mapper::toDomain).toList();
   }
 
@@ -36,6 +36,12 @@ public class GoalRepositoryImpl implements GoalRepository {
   @Override
   public Optional<Goal> findById(String uid) {
     Optional<GoalEntity> goalEntity = repository.findByUid(uid);
+    return goalEntity.map(mapper::toDomain);
+  }
+
+  @Override
+  public Optional<Goal> findByIdAndUserId(String id, String userId) {
+    Optional<GoalEntity> goalEntity = repository.findByUidAndUserId(id, userId);
     return goalEntity.map(mapper::toDomain);
   }
 

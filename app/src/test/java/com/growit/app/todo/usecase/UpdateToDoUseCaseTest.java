@@ -2,6 +2,7 @@ package com.growit.app.todo.usecase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.growit.app.fake.goal.FakeGoalQuery;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.FakeToDoQuery;
@@ -9,7 +10,6 @@ import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoValidator;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.service.ToDoValidator;
@@ -29,14 +29,15 @@ class UpdateToDoUseCaseTest {
     fakeToDoRepository = new FakeToDoRepository();
     FakeToDoQuery toDoQuery = new FakeToDoQuery(fakeToDoRepository);
     ToDoValidator toDoValidator = new FakeToDoValidator();
+    FakeGoalQuery goalQuery = new FakeGoalQuery(fakeGoalRepository);
     updateToDoUseCase =
-        new UpdateToDoUseCase(toDoQuery, toDoValidator, fakeToDoRepository, fakeGoalRepository);
+        new UpdateToDoUseCase(toDoQuery, toDoValidator, fakeToDoRepository, goalQuery);
 
     Goal goal = GoalFixture.defaultGoal();
-    fakeGoalRepository.saveGoal(GoalFixture.defaultGoal());
+    fakeGoalRepository.saveGoal(goal);
 
     LocalDate today = LocalDate.now();
-    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+    String planId = goal.getPlanByDate(today).getId();
 
     toDo = ToDoFixture.customToDo("todo-1", goal.getUserId(), today, planId, goal.getId());
     fakeToDoRepository.saveToDo(toDo);

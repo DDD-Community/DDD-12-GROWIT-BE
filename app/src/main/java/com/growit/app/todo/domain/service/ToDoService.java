@@ -2,8 +2,6 @@ package com.growit.app.todo.domain.service;
 
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
-import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import java.time.LocalDate;
@@ -14,17 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ToDoService implements ToDoValidator, ToDoQuery {
   private final ToDoRepository toDoRepository;
-  private final GoalRepository goalRepository;
   private static final int MAX_TO_COUNT = 10;
 
   @Override
-  public void isDateInRange(LocalDate date, String goalId) throws BadRequestException {
+  public void isDateInRange(LocalDate date, LocalDate thisWeekStartDate)
+      throws BadRequestException {
     LocalDate today = LocalDate.now();
-    Goal goalEntity =
-        goalRepository
-            .findById(goalId)
-            .orElseThrow(() -> new BadRequestException("해당 목표(goal)가 존재하지 않습니다."));
-    LocalDate thisWeekStartDate = goalEntity.getDuration().startDate();
     LocalDate thisWeekSunday = today.with(java.time.DayOfWeek.SUNDAY);
 
     if (date.isBefore(thisWeekStartDate) || date.isAfter(thisWeekSunday)) {
