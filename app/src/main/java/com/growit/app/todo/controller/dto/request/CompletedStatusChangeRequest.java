@@ -1,4 +1,4 @@
-package com.growit.app.todo.controller.dto;
+package com.growit.app.todo.controller.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

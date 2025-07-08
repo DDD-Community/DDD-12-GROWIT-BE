@@ -6,7 +6,7 @@ import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
-import com.growit.app.todo.controller.dto.CreateToDoRequest;
+import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.service.ToDoService;
 import com.growit.app.todo.domain.service.ToDoValidator;

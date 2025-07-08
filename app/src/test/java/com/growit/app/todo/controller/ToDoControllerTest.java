@@ -19,11 +19,18 @@ import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoRepositoryConfig;
 import com.growit.app.fake.todo.ToDoFixture;
-import com.growit.app.todo.controller.dto.CompletedStatusChangeRequest;
-import com.growit.app.todo.controller.dto.CreateToDoRequest;
-import com.growit.app.todo.controller.dto.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
+import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
+import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.response.WeeklyPlanResponse;
+import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
+import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.usecase.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +60,8 @@ class ToDoControllerTest {
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @MockitoBean private GetToDoUseCase getToDoUseCase;
   @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
-
+  @MockitoBean private GetWeeklyPlanUseCase getWeeklyPlanUseCase;
+  @MockitoBean private ToDoResponseMapper toDoResponseMapper;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -225,6 +233,75 @@ class ToDoControllerTest {
                                 .type(STRING)
                                 .description("할 일 날짜 (yyyy-MM-dd)"),
                             fieldWithPath("data.isCompleted").type(BOOLEAN).description("완료 여부"))
+                        .build())));
+  }
+
+  @Test
+  void getWeeklyPlan() throws Exception {
+    // given
+    String userId = "user-1";
+    String goalId = "goal-123";
+    String planId = "plan-456";
+
+    // 도메인 객체 반환 (요일별 Group)
+    Map<DayOfWeek, List<ToDo>> grouped =
+        Map.of(
+            DayOfWeek.MONDAY, List.of(ToDoFixture.defaultToDo()),
+            DayOfWeek.TUESDAY, List.of());
+
+    WeeklyPlanResponse mondayResponse =
+        WeeklyPlanResponse.builder()
+            .id("todoId")
+            .goalId(goalId)
+            .planId(planId)
+            .content("목표")
+            .date(LocalDate.now().toString())
+            .completed(true)
+            .build();
+
+    Map<String, List<WeeklyPlanResponse>> mapped =
+        ToDoFixture.weeklyPlanMapWith("MONDAY", List.of(mondayResponse));
+
+    given(getWeeklyPlanUseCase.execute(goalId, planId, userId)).willReturn(grouped);
+    given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/todos")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("goalId", goalId)
+                .param("planId", planId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-weekly-plan",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("주간 할 일(Weekly Plan) 조회")
+                        .description("특정 목표/플랜에 대한 요일별 할 일을 조회합니다.")
+                        .queryParameters(
+                            parameterWithName("goalId").description("목표 ID"),
+                            parameterWithName("planId").description("계획 ID"))
+                        .responseFields(
+                            fieldWithPath("data.MONDAY[].id").type(STRING).description("TODO ID"),
+                            fieldWithPath("data.MONDAY[].goalId").type(STRING).description("목표 ID"),
+                            fieldWithPath("data.MONDAY[].planId").type(STRING).description("계획 ID"),
+                            fieldWithPath("data.MONDAY[].content").type(STRING).description("내용"),
+                            fieldWithPath("data.MONDAY[].date").type(STRING).description("할 일 날짜"),
+                            fieldWithPath("data.MONDAY[].isCompleted")
+                                .type(BOOLEAN)
+                                .description("완료 여부"),
+                            fieldWithPath("data.TUESDAY").description("화요일 할 일 리스트(없을 수도 있음)"),
+                            fieldWithPath("data.WEDNESDAY").description("수요일 할 일 리스트(없을 수도 있음)"),
+                            fieldWithPath("data.THURSDAY").description("목요일 할 일 리스트(없을 수도 있음)"),
+                            fieldWithPath("data.FRIDAY").description("금요일 할 일 리스트(없을 수도 있음)"),
+                            fieldWithPath("data.SATURDAY").description("토요일 할 일 리스트(없을 수도 있음)"),
+                            fieldWithPath("data.SUNDAY").description("일요일 할 일 리스트(없을 수도 있음)"))
                         .build())));
   }
 }

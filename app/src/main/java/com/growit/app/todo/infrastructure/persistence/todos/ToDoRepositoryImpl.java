@@ -5,6 +5,7 @@ import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todos.source.DBToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -42,5 +43,11 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   public Optional<ToDo> findById(String id) {
     Optional<ToDoEntity> entity = repository.findByUid(id);
     return entity.map(mapper::toDomain);
+  }
+
+  @Override
+  public List<ToDo> findByPlanId(String planId) {
+    List<ToDoEntity> entities = repository.findByPlanIdQuery(planId);
+    return mapper.toDomainList(entities);
   }
 }

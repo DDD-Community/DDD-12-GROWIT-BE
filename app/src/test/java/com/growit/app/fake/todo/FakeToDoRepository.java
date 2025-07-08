@@ -54,6 +54,14 @@ public class FakeToDoRepository implements ToDoRepository {
         .findFirst();
   }
 
+  @Override
+  public List<ToDo> findByPlanId(String planId) {
+    return store.values().stream() // 모든 유저의 할 일 조회
+        .flatMap(List::stream)
+        .filter(todo -> todo.getPlanId().equals(planId))
+        .toList();
+  }
+
   public void clear() {
     store.clear();
   }

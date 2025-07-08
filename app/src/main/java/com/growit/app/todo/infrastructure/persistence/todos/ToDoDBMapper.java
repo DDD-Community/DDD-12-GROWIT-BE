@@ -2,6 +2,8 @@ package com.growit.app.todo.infrastructure.persistence.todos;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,5 +32,20 @@ public class ToDoDBMapper {
         .isCompleted(entity.isCompleted())
         .isDeleted(entity.getDeletedAt() != null)
         .build();
+  }
+
+  public List<ToDo> toDomainList(List<ToDoEntity> entities) {
+    return entities.stream()
+        .map(
+            entity ->
+                ToDo.builder()
+                    .id(entity.getUid())
+                    .goalId(entity.getGoalId())
+                    .planId(entity.getPlanId())
+                    .content(entity.getContent())
+                    .date(entity.getDate())
+                    .isCompleted(entity.isCompleted())
+                    .build())
+        .collect(Collectors.toList());
   }
 }

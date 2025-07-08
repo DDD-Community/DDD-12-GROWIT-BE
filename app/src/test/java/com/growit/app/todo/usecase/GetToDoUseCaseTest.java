@@ -8,7 +8,7 @@ import com.growit.app.fake.todo.FakeToDoQuery;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.dto.GetTodDoQueryFilter;
+import com.growit.app.todo.domain.dto.GetToDoQueryFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class GetToDoUseCaseTest {
 
   @Test
   void givenValidFilter_whenExecute_thenSuccess() {
-    GetTodDoQueryFilter query = new GetTodDoQueryFilter(toDo.getId(), toDo.getUserId());
+    GetToDoQueryFilter query = new GetToDoQueryFilter(toDo.getId(), toDo.getUserId());
 
     ToDo result = getToDoUseCase.execute(query);
 
@@ -38,7 +38,7 @@ class GetToDoUseCaseTest {
   @Test
   void givenNonExistentId_whenExecute_thenThrowsNotFoundException() {
     String nonExistentId = "non-existent-id";
-    GetTodDoQueryFilter query = new GetTodDoQueryFilter(nonExistentId, toDo.getUserId());
+    GetToDoQueryFilter query = new GetToDoQueryFilter(nonExistentId, toDo.getUserId());
 
     assertThrows(NotFoundException.class, () -> getToDoUseCase.execute(query));
   }
@@ -47,7 +47,7 @@ class GetToDoUseCaseTest {
   void givenNotOwnerUserId_whenExecute_thenThrowsNotFoundException() {
     String notOwnerUserId = "not-owner-user";
 
-    GetTodDoQueryFilter query = new GetTodDoQueryFilter(toDo.getId(), notOwnerUserId);
+    GetToDoQueryFilter query = new GetToDoQueryFilter(toDo.getId(), notOwnerUserId);
 
     assertThrows(NotFoundException.class, () -> getToDoUseCase.execute(query));
   }

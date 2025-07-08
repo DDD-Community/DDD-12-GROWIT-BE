@@ -1,4 +1,4 @@
-package com.growit.app.todo.controller.dto;
+package com.growit.app.todo.controller.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
