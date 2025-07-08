@@ -82,7 +82,7 @@ public class ToDoController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<Map<String, List<WeeklyPlanResponse>>>> getWeeklyPlan(
+  public ResponseEntity<ApiResponse<Map<String, List<WeeklyPlanResponse>>>> getWeeklyTodos(
       @AuthenticationPrincipal User user,
       @RequestParam String goalId,
       @RequestParam String planId) {

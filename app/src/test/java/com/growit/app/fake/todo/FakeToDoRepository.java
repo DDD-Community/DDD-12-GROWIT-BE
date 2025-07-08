@@ -2,7 +2,6 @@ package com.growit.app.fake.todo;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,21 +55,11 @@ public class FakeToDoRepository implements ToDoRepository {
   }
 
   @Override
-  public Map<DayOfWeek, List<ToDo>> groupByPlanId(String userId, String goalId, String planId) {
-    List<ToDo> todos =
-        store.getOrDefault(userId, Collections.emptyList()).stream()
-            .filter(todo -> todo.getGoalId().equals(goalId))
-            .filter(todo -> todo.getPlanId().equals(planId))
-            .toList();
-
-    Map<DayOfWeek, List<ToDo>> grouped = new LinkedHashMap<>();
-    for (DayOfWeek day : DayOfWeek.values()) {
-      grouped.put(day, new ArrayList<>());
-    }
-    for (ToDo todo : todos) {
-      grouped.get(todo.getDate().getDayOfWeek()).add(todo);
-    }
-    return grouped;
+  public List<ToDo> findByPlanId(String planId) {
+    return store.values().stream() // 모든 유저의 할 일 조회
+        .flatMap(List::stream)
+        .filter(todo -> todo.getPlanId().equals(planId))
+        .toList();
   }
 
   public void clear() {

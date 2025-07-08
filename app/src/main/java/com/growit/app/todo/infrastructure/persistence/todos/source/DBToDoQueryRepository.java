@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface DBToDoQueryRepository {
   Optional<ToDoEntity> findByUid(String uid);
 
-  List<ToDoEntity> findByUserIdAndGoalIdAndPlanId(String userId, String goalId, String planId);
+  List<ToDoEntity> findByPlanIdQuery(String planId);
 }

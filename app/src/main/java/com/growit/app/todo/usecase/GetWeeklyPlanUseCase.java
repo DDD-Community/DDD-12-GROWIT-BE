@@ -8,8 +8,10 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import jakarta.transaction.Transactional;
 import java.time.DayOfWeek;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,12 @@ public class GetWeeklyPlanUseCase {
     Goal goal =
         goalRepository.findById(goalId).orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
     goalService.checkPlanExists(userId, goal.getId(), planId);
-    return toDoRepository.groupByPlanId(userId, goalId, planId);
+
+    List<ToDo> todos = toDoRepository.findByPlanId(planId);
+
+    return todos.stream()
+        .collect(
+            Collectors.groupingBy(
+                todo -> todo.getDate().getDayOfWeek(), LinkedHashMap::new, Collectors.toList()));
   }
 }

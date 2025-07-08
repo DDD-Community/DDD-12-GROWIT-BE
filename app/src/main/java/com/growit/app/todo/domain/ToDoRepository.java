@@ -1,9 +1,7 @@
 package com.growit.app.todo.domain;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface ToDoRepository {
@@ -15,5 +13,5 @@ public interface ToDoRepository {
 
   Optional<ToDo> findById(String id);
 
-  Map<DayOfWeek, List<ToDo>> groupByPlanId(String goalId, String userId, String planId);
+  List<ToDo> findByPlanId(String planId);
 }
