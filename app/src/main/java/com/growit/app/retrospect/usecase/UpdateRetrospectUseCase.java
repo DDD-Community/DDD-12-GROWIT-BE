@@ -2,7 +2,7 @@ package com.growit.app.retrospect.usecase;
 
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
-import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

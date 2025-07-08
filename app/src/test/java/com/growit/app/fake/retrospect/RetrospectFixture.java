@@ -3,8 +3,8 @@ package com.growit.app.fake.retrospect;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 
 public class RetrospectFixture {
   public static Retrospect defaultRetrospect() {

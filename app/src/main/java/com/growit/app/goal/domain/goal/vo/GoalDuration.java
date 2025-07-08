@@ -1,5 +1,7 @@
 package com.growit.app.goal.domain.goal.vo;
 
+import static com.growit.app.common.util.message.ErrorCode.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growit.app.common.exception.BadRequestException;
 import java.time.DayOfWeek;
@@ -10,13 +12,13 @@ public record GoalDuration(LocalDate startDate, LocalDate endDate) {
 
   public GoalDuration {
     if (startDate.getDayOfWeek() != DayOfWeek.MONDAY) {
-      throw new BadRequestException("목표 시작일은 월요일 이여야 합니다.");
+      throw new BadRequestException(GOAL_DURATION_MONDAY.getCode());
     }
     if (endDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
-      throw new BadRequestException("목표 종료일은 일요일 이여야 합니다. ");
+      throw new BadRequestException(GOAL_DURATION_SUNDAY.getCode());
     }
     if (!endDate.isAfter(startDate)) {
-      throw new BadRequestException("목표 종료일은 시작일보다 뒤여야 합니다.");
+      throw new BadRequestException(GOAL_DURATION_START_END.getCode());
     }
   }
 

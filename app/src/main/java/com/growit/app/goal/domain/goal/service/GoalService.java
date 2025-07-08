@@ -1,5 +1,7 @@
 package com.growit.app.goal.domain.goal.service;
 
+import static com.growit.app.common.util.message.ErrorCode.*;
+
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
@@ -21,13 +23,13 @@ public class GoalService implements GoalValidator, GoalQuery {
   public void checkPlans(GoalDuration duration, List<PlanDto> plans) throws BadRequestException {
     long weeks = duration.getWeekCount();
     if (weeks != plans.size()) {
-      throw new BadRequestException("설정한 날짜 범위와 주간 계획수가 일치하지 않습니다.");
+      throw new BadRequestException(GOAL_PLAN_COUNT_NOT_MATCHED.getCode());
     }
 
     Set<Integer> days = new HashSet<>();
     for (PlanDto plan : plans) {
       if (!days.add(plan.weekOfMonth())) {
-        throw new BadRequestException("중복 되는 주차가 존재 합니다.");
+        throw new BadRequestException(GOAL_PLAN_DUPLICATE.getCode());
       }
     }
   }
@@ -39,7 +41,7 @@ public class GoalService implements GoalValidator, GoalQuery {
     boolean planExists = goal.getPlans().stream().anyMatch(plan -> plan.getId().equals(planId));
 
     if (!planExists) {
-      throw new NotFoundException("해당 목표에서 계획을 찾을 수 없습니다.");
+      throw new NotFoundException(GOAL_PLAN_NOT_FOUND.getCode());
     }
   }
 
@@ -47,6 +49,6 @@ public class GoalService implements GoalValidator, GoalQuery {
   public Goal getMyGoal(String id, String userId) throws NotFoundException {
     return goalRepository
         .findByIdAndUserId(id, userId)
-        .orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
+        .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
   }
 }

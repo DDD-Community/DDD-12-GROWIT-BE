@@ -1,9 +1,11 @@
 package com.growit.app.user.domain.token.service.exception;
 
+import static com.growit.app.common.util.message.ErrorCode.USER_TOKEN_NOT_FOUND;
+
 import com.growit.app.common.exception.BaseException;
 
 public class TokenNotFoundException extends BaseException {
   public TokenNotFoundException() {
-    super("토큰정보가 존재하지 않습니다.");
+    super(USER_TOKEN_NOT_FOUND.getCode());
   }
 }
