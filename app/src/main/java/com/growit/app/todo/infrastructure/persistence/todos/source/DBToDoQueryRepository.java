@@ -11,4 +11,6 @@ public interface DBToDoQueryRepository {
   List<ToDoEntity> findByPlanIdQuery(String planId);
 
   List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today);
+
+  List<ToDoEntity> findByPlanIdIn(List<String> planIds);
 }

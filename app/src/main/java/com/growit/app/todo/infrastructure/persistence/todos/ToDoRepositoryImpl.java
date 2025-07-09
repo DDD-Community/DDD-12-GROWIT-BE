@@ -56,4 +56,10 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     List<ToDoEntity> entities = repository.findByUserIdAndDate(userId, today);
     return mapper.toDomainList(entities);
   }
+
+  @Override
+  public List<ToDo> findByPlanIdIn(List<String> planIds) {
+    List<ToDoEntity> entities = repository.findByPlanIdIn(planIds);
+    return mapper.toDomainList(entities);
+  }
 }

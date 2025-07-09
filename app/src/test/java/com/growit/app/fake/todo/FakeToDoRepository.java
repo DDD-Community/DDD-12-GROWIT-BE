@@ -70,6 +70,11 @@ public class FakeToDoRepository implements ToDoRepository {
         .collect(Collectors.toList());
   }
 
+  @Override
+  public List<ToDo> findByPlanIdIn(List<String> planIds) {
+    return List.of();
+  }
+
   public void clear() {
     store.clear();
   }

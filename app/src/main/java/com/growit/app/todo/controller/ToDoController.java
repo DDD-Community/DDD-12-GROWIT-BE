@@ -104,9 +104,9 @@ public class ToDoController {
   }
 
   @GetMapping("/home/contribution")
-  public ResponseEntity<ApiResponse<List<ToDo>>> getContribution(
+  public ResponseEntity<ApiResponse<List<String>>> getContribution(
       @AuthenticationPrincipal User user, @RequestParam String goalId) {
-    getContributionUseCase.execute(user.getId(), goalId);
-    return ResponseEntity.ok(new ApiResponse<>(null));
+    List<String> statusList = getContributionUseCase.execute(user.getId(), goalId);
+    return ResponseEntity.ok(new ApiResponse<>(statusList));
   }
 }
