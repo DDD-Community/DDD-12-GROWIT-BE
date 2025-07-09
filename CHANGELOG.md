@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.13.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.12.0...v1.13.0) (2025-07-09)
+
+
+### Features
+
+* Controller & UseCase Init ([3f26b3c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3f26b3ccb3367e0c6df02f424ea1bb9e62dffbb5))
+* **flyway:** 테이블 마이그레이션 적용 ([14044d5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/14044d52d4ac330e78d662d1ee23a56e268019c8))
+* Get Contribution init ([3ba4e7f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3ba4e7fc444c42d87cff229f7ceafafcb447db1f))
+* Get Contribution init ([c908b9d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c908b9d0b84dd2612071d7298da0a83f13bf5af3))
+* Init Weekly Plan ([1c44c67](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1c44c670d8c3704f58647107ec8f0a3effa70d72))
+* **main:** merge main todos ([ae043c1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ae043c1ad09720032dd8377e8c461f33b407a51c))
+* **refactoring:** id and userId 체크 함수 통합 ([406d2cd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/406d2cd79d82dde12daa858ca30a1dd5356c4260))
+* **string:** 에러 스트링 messages 로 구성 ([c929b1f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c929b1fa31b53a9f65492829ddb675428e3b83c6))
+* Today Mission 기능 구현 ([ec50a97](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ec50a97a03915fd055ecd1019cc1b594622d0be2))
+* Today Mission 기능 구현 ([69df87d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/69df87d8eab2f0a755408709a73293bc1974c31d))
+* 주차별 ToDo List 조회 기능 생성 ([cc2d0a9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cc2d0a907f36f0a27c24b0cfc8fb51ab4b71a2d9))
+
+
+### Bug Fixes
+
+* 1차 pr fix ([e2c8ed6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e2c8ed6e93fd8a23aa6409a08075b6840e322e9b))
+* 1차 pr fix ([0a6ae39](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0a6ae39f8f4a8327d4a1994a04d48c6c47829224))
+* 1차 PR 수정 ([a265726](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a26572698b829d63544fb0c268ef81024c0a4061))
+* **error:** code 중복 수정 ([bdb8163](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/bdb8163a9c2d08a24a77b61373e30e2d59764767))
+* **error:** 사용되지 않는 repo 삭제 ([5863b36](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5863b36612829e9822f579da105ad195283013e0))
+* **goal:** goal duration 날짜 범위 에러 수정 ([3a8abff](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3a8abff1b581651fb489514b156fccc8422702c5))
+* **goal:** goal duration 날짜 범위 에러 수정 ([7fd658b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7fd658ba440dbd98fa7d07ca9e44d5d341112c37)), closes [#93](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/93)
+* **goal:** goalDuration 생성자 validation 제거 및 validator 로직 수행 ([e4f8019](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e4f8019fc913c722be7b5871052d3a184f15400b))
+* **goal:** goalDuration 생성자 validation 제거 및 validator 로직 수행 ([d88f6f8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d88f6f8c5a9d67b8a529f09ba48335dec4383331)), closes [#103](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/103)
+* readonly true 추가 ([7d97f73](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7d97f738364a9403776ebea35a1f4146bd18328b))
+* rename function name ([bd27c85](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/bd27c85bd751a1d486088d827a17bf5cdc1d934e))
+* rename function name ([4c1c67d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4c1c67d82818f1e9fc25f6c1c39c17c530d2de4b))
+* rename response name ([588ff43](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/588ff431381c9d186a1a79940b04ec090cc2fb19))
+* service test 수정 ([2c857fa](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2c857fa103358b126538987a595d34c612859dbf))
+* today-mission 버그 수정 ([6658db6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6658db6f6682a5ca034122a1721a6606abdb8b50))
+* WeeklyPlan QueryDSL 방식으로 변경 ([c41c1c9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c41c1c940b882e0c1cc11b7e4383137e8163d191))
+* 오탈자 수정 ([38a60ce](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/38a60ce55f6237ea1555dfce36b4da226913dfe1))
+* 오탈자 수정 ([db784f1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/db784f1e5e0417be1d44243d1f7b1f4298ac8220))
+
 ## [1.12.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.11.0...v1.12.0) (2025-07-05)
 
 
