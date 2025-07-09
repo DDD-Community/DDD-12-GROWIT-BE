@@ -40,7 +40,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -115,18 +114,6 @@ class GoalControllerTest {
   @Test
   void createGoal() throws Exception {
     CreateGoalRequest body = GoalFixture.defaultCreateGoalRequest();
-    System.out.println(objectMapper.writeValueAsString(body));
-    MvcResult result =
-        mockMvc
-            .perform(
-                post("/goals")
-                    .header("Authorization", "Bearer mock-jwt-token")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(body)))
-            .andReturn();
-
-    System.out.println("ASSTRING :: " + result.getResponse().getContentAsString());
-    System.out.println("getStatus() ::" + result.getResponse().getStatus());
     mockMvc
         .perform(
             post("/goals")
