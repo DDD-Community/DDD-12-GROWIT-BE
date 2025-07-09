@@ -4,7 +4,6 @@ import static com.growit.app.common.util.message.ErrorCode.*;
 
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
-import com.growit.app.common.util.message.ErrorCode;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
