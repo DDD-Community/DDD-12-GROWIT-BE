@@ -14,7 +14,7 @@ public enum ErrorCode {
   GOAL_PLAN_DUPLICATE("error.goal.plan-duplicate"), // "중복 되는 주차가 존재 합니다."
   GOAL_DURATION_MONDAY("error.goal.duration-monday"), // "목표 시작일은 월요일 이여야 합니다."
   GOAL_DURATION_SUNDAY("error.goal.duration-sunday"), // "목표 시작일은 일요일 이여야 합니다."
-  GOAL_DURATION_START_END("error.goal.duration-sunday"), // "목표 종료일은 시작일보다 뒤여야 합니다."
+  GOAL_DURATION_START_END("error.goal.duration-start-end"), // "목표 종료일은 시작일보다 뒤여야 합니다."
   GOAL_DURATION_START_AFTER_TODAY(
       "error.goal.duration-start-after-today"), // "목표 시작일은 오늘 이후부터 가능합니다."
 
