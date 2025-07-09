@@ -33,18 +33,19 @@ class UpdateToDoUseCaseTest {
         new UpdateToDoUseCase(toDoQuery, toDoValidator, fakeToDoRepository, fakeGoalRepository);
 
     Goal goal = GoalFixture.defaultGoal();
-    fakeGoalRepository.saveGoal(GoalFixture.defaultGoal());
+    fakeGoalRepository.saveGoal(goal);
 
-    LocalDate today = LocalDate.now();
-    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+    // 반드시 goal 기간 내 날짜 사용!
+    LocalDate goalDate = goal.getDuration().startDate();
+    String planId = goal.filterByDate(goalDate).map(Plan::getId).orElseThrow();
 
-    toDo = ToDoFixture.customToDo("todo-1", goal.getUserId(), today, planId, goal.getId());
+    toDo = ToDoFixture.customToDo("todo-1", goal.getUserId(), goalDate, planId, goal.getId());
     fakeToDoRepository.saveToDo(toDo);
   }
 
   @Test
   void givenToDoExists_whenUpdateToDo_thenContentIsUpdated() {
-    LocalDate today = LocalDate.now();
+    LocalDate today = toDo.getDate();
     UpdateToDoCommand command =
         new UpdateToDoCommand(toDo.getId(), toDo.getUserId(), "수정된 내용", today);
     // When: UseCase 실행

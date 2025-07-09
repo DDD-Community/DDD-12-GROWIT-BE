@@ -19,15 +19,14 @@ public class ToDoService implements ToDoValidator, ToDoQuery {
 
   @Override
   public void isDateInRange(LocalDate date, String goalId) throws BadRequestException {
-    LocalDate today = LocalDate.now();
     Goal goalEntity =
         goalRepository
             .findById(goalId)
             .orElseThrow(() -> new BadRequestException("해당 목표(goal)가 존재하지 않습니다."));
-    LocalDate thisWeekStartDate = goalEntity.getDuration().startDate();
-    LocalDate thisWeekSunday = today.with(java.time.DayOfWeek.SUNDAY);
+    LocalDate weekStartDate = goalEntity.getDuration().startDate();
+    LocalDate weekSunday = goalEntity.getDuration().endDate();
 
-    if (date.isBefore(thisWeekStartDate) || date.isAfter(thisWeekSunday)) {
+    if (date.isBefore(weekStartDate) || date.isAfter(weekSunday)) {
       throw new BadRequestException("ToDo는 지난 주차, 이번 주차만 생성/수정할 수 있습니다.");
     }
   }
