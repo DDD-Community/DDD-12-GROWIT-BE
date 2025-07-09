@@ -10,7 +10,6 @@ import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.todo.domain.ToDo;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,14 +26,17 @@ class ToDoServiceTest {
     FakeGoalRepository fakeGoalRepo = new FakeGoalRepository();
     fakeToDoRepo = new FakeToDoRepository();
     toDoService = new ToDoService(fakeToDoRepo, fakeGoalRepo);
-    GoalDuration duration = GoalFixture.createGoalDuration(4);
-    goal = GoalFixture.customGoal("goal-1", "user-1", "이름", duration, null, null);
+
+    // Goal을 하나 만들어서 저장 (goalId 필요)
+    goal = GoalFixture.defaultGoal();
     fakeGoalRepo.saveGoal(goal);
   }
 
   @Test
   void givenValidDate_whenIsDateInRange_thenSuccess() {
-    toDoService.isDateInRange(goal.getDuration().startDate(), goal.getId());
+    LocalDate today = LocalDate.now();
+    // isDateInRange(date, goalId)로 goalId 전달!
+    toDoService.isDateInRange(today, goal.getId());
   }
 
   @Test
@@ -72,7 +74,7 @@ class ToDoServiceTest {
   @Test
   void given10ToDosButOneIsBeingUpdated_whenTooManyToDoUpdated_thenSuccess() {
     String userId = "user-1";
-    LocalDate today = goal.getDuration().startDate();
+    LocalDate today = LocalDate.now();
     String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
     for (int i = 0; i < 10; i++) {
       fakeToDoRepo.saveToDo(
@@ -85,7 +87,7 @@ class ToDoServiceTest {
   @Test
   void given10OtherToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
     String userId = "user-1";
-    LocalDate today = goal.getDuration().startDate();
+    LocalDate today = LocalDate.now();
     String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
 
     for (int i = 0; i < 10; i++) {

@@ -16,6 +16,7 @@ public class CreateGoalUseCase {
 
   @Transactional
   public String execute(CreateGoalCommand command) {
+    goalValidator.checkGoalDuration(command.duration());
     goalValidator.checkPlans(command.duration(), command.plans());
 
     Goal goal = Goal.from(command);

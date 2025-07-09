@@ -8,6 +8,8 @@ import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.util.List;
 
 public interface GoalValidator {
+  void checkGoalDuration(GoalDuration duration);
+
   void checkPlans(GoalDuration duration, List<PlanDto> plans) throws BadRequestException;
 
   void checkMyGoal(Goal goal, String userId) throws BadRequestException;
