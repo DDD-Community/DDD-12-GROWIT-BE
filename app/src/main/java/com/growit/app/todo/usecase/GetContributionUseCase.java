@@ -13,7 +13,10 @@ public class GetContributionUseCase {
 
   @Transactional
   public void execute(String userId, String goalId) {
+    System.out.println(goalId);
+    System.out.println(userId);
     Goal goal = goalRepository.findByIdAndUserId(goalId, userId).orElseThrow();
-    goal.getPlans();
+    System.out.println(goalId);
+    System.out.println(goal.getId());
   }
 }

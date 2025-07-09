@@ -106,6 +106,7 @@ public class ToDoController {
   @GetMapping("/home/contribution")
   public ResponseEntity<ApiResponse<List<ToDo>>> getContribution(
       @AuthenticationPrincipal User user, @RequestParam String goalId) {
+    System.out.println("뭐에서 걸리 는거지 ");
     getContributionUseCase.execute(user.getId(), goalId);
     return ResponseEntity.ok(new ApiResponse<>(null));
   }
