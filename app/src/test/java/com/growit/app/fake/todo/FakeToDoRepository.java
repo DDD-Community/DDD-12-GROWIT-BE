@@ -5,6 +5,7 @@ import com.growit.app.todo.domain.ToDoRepository;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class FakeToDoRepository implements ToDoRepository {
   private final Map<String, List<ToDo>> store = new ConcurrentHashMap<>();
@@ -60,6 +61,13 @@ public class FakeToDoRepository implements ToDoRepository {
         .flatMap(List::stream)
         .filter(todo -> todo.getPlanId().equals(planId))
         .toList();
+  }
+
+  @Override
+  public List<ToDo> findByUserIdAndDate(String userId, LocalDate today) {
+    return store.getOrDefault(userId, Collections.emptyList()).stream()
+        .filter(todo -> todo.getDate().equals(today))
+        .collect(Collectors.toList());
   }
 
   public void clear() {
