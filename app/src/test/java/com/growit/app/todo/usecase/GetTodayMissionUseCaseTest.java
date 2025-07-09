@@ -30,7 +30,7 @@ class GetTodayMissionUseCaseTest {
     ToDo notCompleted = ToDoFixture.customToDo("todo-1", userId, today, "plan-1", "goal-1");
     List<ToDo> toDoList = List.of(notCompleted);
 
-    given(toDoRepository.findByUserIdQuery(userId, today)).willReturn(toDoList);
+    given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(toDoList);
 
     // when
     List<ToDo> result = useCase.execute(userId, today);
@@ -44,7 +44,7 @@ class GetTodayMissionUseCaseTest {
     // given
     String userId = "user-1";
     LocalDate today = LocalDate.now();
-    given(toDoRepository.findByUserIdQuery(userId, today)).willReturn(List.of());
+    given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(List.of());
 
     // when
     List<ToDo> result = useCase.execute(userId, today);
@@ -61,7 +61,7 @@ class GetTodayMissionUseCaseTest {
     ToDo completed = ToDoFixture.customToDo("todo-1", userId, today, "plan-1", "goal-1");
     completed.updateIsCompleted(true); // 직접 완료 처리
 
-    given(toDoRepository.findByUserIdQuery(userId, today)).willReturn(List.of(completed));
+    given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(List.of(completed));
 
     // when
     List<ToDo> result = useCase.execute(userId, today);

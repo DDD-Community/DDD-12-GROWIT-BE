@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class WeeklyPlanResponse {
+public class WeeklyTodosResponse {
   private String id;
   private String goalId;
   private String planId;
@@ -17,8 +17,8 @@ public class WeeklyPlanResponse {
   @JsonProperty("isCompleted")
   private boolean completed;
 
-  public static WeeklyPlanResponse from(ToDo todo) {
-    return WeeklyPlanResponse.builder()
+  public static WeeklyTodosResponse from(ToDo todo) {
+    return WeeklyTodosResponse.builder()
         .id(todo.getId())
         .goalId(todo.getGoalId())
         .planId(todo.getPlanId())

@@ -36,7 +36,7 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
   }
 
   @Override
-  public List<ToDoEntity> findByUserIdQuery(String userId, LocalDate today) {
+  public List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today) {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
     return queryFactory
         .selectFrom(toDo)

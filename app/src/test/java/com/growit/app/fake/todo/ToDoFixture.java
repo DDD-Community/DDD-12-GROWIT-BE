@@ -1,7 +1,7 @@
 package com.growit.app.fake.todo;
 
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
-import com.growit.app.todo.controller.dto.response.WeeklyPlanResponse;
+import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.domain.ToDo;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,9 +19,9 @@ public class ToDoFixture {
     return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
   }
 
-  public static Map<String, List<WeeklyPlanResponse>> weeklyPlanMapWith(
-      String key, List<WeeklyPlanResponse> value) {
-    Map<String, List<WeeklyPlanResponse>> map = new LinkedHashMap<>();
+  public static Map<String, List<WeeklyTodosResponse>> weeklyPlanMapWith(
+      String key, List<WeeklyTodosResponse> value) {
+    Map<String, List<WeeklyTodosResponse>> map = new LinkedHashMap<>();
     for (DayOfWeek day : DayOfWeek.values()) {
       String name = day.name();
       map.put(name, name.equals(key) ? value : List.of());
