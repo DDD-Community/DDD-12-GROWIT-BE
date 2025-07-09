@@ -1,5 +1,7 @@
 package com.growit.app.user.domain.jobrole.service;
 
+import static com.growit.app.common.util.message.ErrorCode.RESOURCE_JOBROLE_NOT_FOUND;
+
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,7 @@ public class JobRoleServiceImpl implements JobRoleService {
   @Override
   public void checkJobRoleExist(String id) {
     if (jobRoleRepository.findById(id).isEmpty()) {
-      throw new BadRequestException("직무가 존재하지 않습니다");
+      throw new BadRequestException(RESOURCE_JOBROLE_NOT_FOUND.getCode());
     }
   }
 }

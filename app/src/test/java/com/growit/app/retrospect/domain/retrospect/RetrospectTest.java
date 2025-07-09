@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.growit.app.fake.retrospect.RetrospectFixture;
-import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
 import org.junit.jupiter.api.Test;
 
 class RetrospectTest {

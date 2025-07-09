@@ -1,5 +1,8 @@
 package com.growit.app.goal.domain.goal;
 
+import static com.growit.app.common.util.message.ErrorCode.GOAL_NOT_EXISTS_DATE;
+import static com.growit.app.common.util.message.ErrorCode.GOAL_PLAN_NOT_FOUND;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.common.util.IDGenerator;
@@ -56,13 +59,13 @@ public class Goal {
     return plans.stream()
         .filter(plan -> plan.getPlanDuration().includes(date))
         .findFirst()
-        .orElseThrow(() -> new NotFoundException("일치하는 날짜가 없습니다."));
+        .orElseThrow(() -> new NotFoundException(GOAL_NOT_EXISTS_DATE.getCode()));
   }
 
   public Plan getPlanByPlanId(String planId) {
     return getPlans().stream()
         .filter(p -> p.getId().equals(planId))
         .findFirst()
-        .orElseThrow(() -> new NotFoundException("일치하는 Plan이 없습니다."));
+        .orElseThrow(() -> new NotFoundException(GOAL_PLAN_NOT_FOUND.getCode()));
   }
 }

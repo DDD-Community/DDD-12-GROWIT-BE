@@ -1,9 +1,11 @@
 package com.growit.app.user.domain.user.service;
 
+import static com.growit.app.common.util.message.ErrorCode.USER_ALREADY_REGISTERED;
+
 import com.growit.app.common.exception.BaseException;
 
 public class AlreadyExistEmailException extends BaseException {
   public AlreadyExistEmailException() {
-    super("해당 이메일로 이미 가입된 계정이 있습니다.");
+    super(USER_ALREADY_REGISTERED.getCode());
   }
 }

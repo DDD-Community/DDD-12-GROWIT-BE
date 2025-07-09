@@ -1,5 +1,7 @@
 package com.growit.app.user.domain.user.vo;
 
+import static com.growit.app.common.util.message.ErrorCode.USER_INVALID_EMAIL;
+
 import com.growit.app.common.exception.BadRequestException;
 import jakarta.persistence.Embeddable;
 import java.util.regex.Pattern;
@@ -11,7 +13,7 @@ public record Email(String value) {
 
   public Email {
     if (!EMAIL_PATTERN.matcher(value).matches()) {
-      throw new BadRequestException("유효하지 않은 이메일입니다.");
+      throw new BadRequestException(USER_INVALID_EMAIL.getCode());
     }
   }
 

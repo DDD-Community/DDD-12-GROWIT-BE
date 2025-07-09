@@ -8,7 +8,7 @@ import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.command.GetRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectWithPlan;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import org.junit.jupiter.api.Test;

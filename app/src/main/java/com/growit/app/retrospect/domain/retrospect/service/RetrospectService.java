@@ -1,5 +1,8 @@
 package com.growit.app.retrospect.domain.retrospect.service;
 
+import static com.growit.app.common.util.message.ErrorCode.RETROSPECT_ALREADY_EXISTS_BY_PLAN;
+import static com.growit.app.common.util.message.ErrorCode.RETROSPECT_NOT_FOUND;
+
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
@@ -18,7 +21,7 @@ public class RetrospectService implements RetrospectValidator, RetrospectQuery {
         .findByPlanId(planId)
         .ifPresent(
             existing -> {
-              throw new BadRequestException("해당 주간 계획에 대한 회고가 이미 존재합니다.");
+              throw new BadRequestException(RETROSPECT_ALREADY_EXISTS_BY_PLAN.getCode());
             });
   }
 
@@ -26,6 +29,6 @@ public class RetrospectService implements RetrospectValidator, RetrospectQuery {
   public Retrospect getMyRetrospect(String id, String userId) throws NotFoundException {
     return retrospectRepository
         .findByIdAndUserId(id, userId)
-        .orElseThrow(() -> new NotFoundException("회고 정보가 존재하지 않습니다. "));
+        .orElseThrow(() -> new NotFoundException(RETROSPECT_NOT_FOUND.getCode()));
   }
 }

@@ -11,10 +11,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UpdateToDoRequest {
 
-  @NotNull(message = "날짜는 필수 입니다.")
+  @NotNull(message = "{validation.todo.date.required}")
   private LocalDate date;
 
-  @NotBlank(message = "할일 내용은 필수입니다.")
-  @Size(min = 5, max = 30, message = "할 일은 5~30자 사이여야 합니다.")
+  @NotBlank(message = "{validation.todo.content.required}")
+  @Size(min = 5, max = 30, message = "{validation.todo.content.size}")
   private String content;
 }

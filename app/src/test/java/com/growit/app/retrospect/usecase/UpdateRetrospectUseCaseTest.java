@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
-import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

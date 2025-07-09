@@ -10,11 +10,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SignInRequest {
 
-  @NotBlank(message = "이메일은 필수입니다.")
-  @Email(message = "유효한 이메일 형식이어야 합니다.")
+  @NotBlank(message = "{validation.signin.email.required}")
+  @Email(message = "{validation.signin.email.invalid}")
   private String email;
 
-  @NotBlank(message = "비밀번호는 필수입니다.")
-  @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
+  @NotBlank(message = "{validation.signin.password.required}")
+  @Size(min = 8, message = "{validation.signin.password.size}")
   private String password;
 }

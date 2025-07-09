@@ -23,12 +23,7 @@ public class SignUpUseCase {
   @Transactional
   public void execute(SignUpCommand signUpCommand, RequiredConsentCommand requiredConsentCommand)
       throws BaseException {
-
-    if (!requiredConsentCommand.isPrivacyPolicyAgreed()
-        || !requiredConsentCommand.isServiceTermsAgreed()) {
-      throw new IllegalArgumentException("필수 약관 동의 필요");
-    }
-
+    requiredConsentCommand.checkRequiredConsent();
     jobRoleService.checkJobRoleExist(signUpCommand.jobRoleId());
     userService.checkEmailExists(signUpCommand.email());
 

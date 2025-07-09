@@ -11,19 +11,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateGoalRequest {
-  @NotBlank(message = "목표명은 필수입니다.")
-  @Size(min = 1, max = 30, message = "목표명은 30자 이하여야 합니다.")
+  @NotBlank(message = "{validation.goal.name.required}")
+  @Size(min = 1, max = 30, message = "{validation.goal.name.size}")
   private String name;
 
-  @NotNull(message = "기간은 필수 입니다.")
+  @NotNull(message = "{validation.goal.duration.required}")
   @Valid
   private GoalDurationDto duration;
 
-  @NotNull(message = "목표 설정은 필수 입니다.")
+  @NotNull(message = "{validation.goal.beforeafter.required}")
   @Valid
   private BeforeAfterDto beforeAfter;
 
-  @NotNull(message = "계획 목록은 필수입니다.")
+  @NotNull(message = "{validation.goal.plans.required}")
   @Valid
   private List<PlanRequestDto> plans;
 }

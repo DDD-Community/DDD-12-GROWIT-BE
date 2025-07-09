@@ -2,9 +2,9 @@ package com.growit.app.retrospect.controller.mapper;
 
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
-import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.command.GetRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.command.UpdateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 import org.springframework.stereotype.Component;
 
 @Component

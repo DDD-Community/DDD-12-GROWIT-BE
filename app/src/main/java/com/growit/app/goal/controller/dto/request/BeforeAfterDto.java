@@ -8,11 +8,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BeforeAfterDto {
-  @NotBlank(message = "현재 상태는 필수입니다.")
-  @Size(min = 1, max = 20, message = "현재 상태는 20자 이하여야 합니다.")
+  @NotBlank(message = "{validation.goal.asis.required}")
+  @Size(min = 1, max = 20, message = "{validation.goal.asis.size}")
   private String asIs;
 
-  @NotBlank(message = "목표 상태는 필수입니다.")
-  @Size(min = 1, max = 20, message = "목표 상태는 20자 이하여야 합니다.")
+  @NotBlank(message = "{validation.goal.tobe.required}")
+  @Size(min = 1, max = 20, message = "{validation.goal.tobe.size}")
   private String toBe;
 }
