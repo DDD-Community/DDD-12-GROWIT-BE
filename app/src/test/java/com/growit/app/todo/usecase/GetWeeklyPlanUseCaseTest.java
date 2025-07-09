@@ -61,12 +61,15 @@ class GetWeeklyPlanUseCaseTest {
 
     // Then
     Map<DayOfWeek, List<ToDo>> expected =
-        todos.stream()
-            .collect(
-                Collectors.groupingBy(
-                    todo -> todo.getDate().getDayOfWeek(),
-                    LinkedHashMap::new,
-                    Collectors.toList()));
+      todos.stream()
+        .collect(
+          Collectors.groupingBy(
+            todo -> todo.getDate().getDayOfWeek(),
+            LinkedHashMap::new,
+            Collectors.toList()));
+    for (DayOfWeek day : DayOfWeek.values()) {
+      expected.putIfAbsent(day, List.of());
+    }
 
     assertThat(result).isEqualTo(expected);
     assertThat(result.get(DayOfWeek.MONDAY)).containsExactly(tuesdayTodo);
