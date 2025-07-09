@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetTodayMissionUseCase {
   private final ToDoRepository toDoRepository;
 
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ToDo> execute(String userId, LocalDate date) {
     List<ToDo> toDoList = toDoRepository.findByUserIdAndDate(userId, date);
 
