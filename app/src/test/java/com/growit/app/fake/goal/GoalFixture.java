@@ -38,9 +38,13 @@ public class GoalFixture {
   }
 
   public static CreateGoalRequest defaultCreateGoalRequest() {
+    LocalDate today = LocalDate.now();
+    LocalDate startDate = today.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+    LocalDate endDate =
+        startDate.plusWeeks(4).with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
     return new CreateGoalRequest(
         "내 목표는 그로잇 완성",
-        new GoalDurationDto(LocalDate.of(2025, 6, 23), LocalDate.of(2025, 7, 20)),
+        new GoalDurationDto(startDate, endDate),
         new BeforeAfterDto("기획 정의", "배포 완료"),
         List.of(
             new PlanRequestDto(1, "기획 및 설계 회의"),
