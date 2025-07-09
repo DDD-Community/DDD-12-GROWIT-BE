@@ -6,7 +6,6 @@ import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.service.GoalService;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
-import jakarta.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,6 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class GetWeeklyPlanUseCase {
   private final GoalService goalService;
   private final GoalRepository goalRepository;
 
-  @Transactional
+  @Transactional(readOnly = true)
   public Map<DayOfWeek, List<ToDo>> execute(String goalId, String planId, String userId) {
     Goal goal =
         goalRepository.findById(goalId).orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
@@ -30,9 +30,17 @@ public class GetWeeklyPlanUseCase {
 
     List<ToDo> todos = toDoRepository.findByPlanId(planId);
 
-    return todos.stream()
-        .collect(
-            Collectors.groupingBy(
-                todo -> todo.getDate().getDayOfWeek(), LinkedHashMap::new, Collectors.toList()));
+    Map<DayOfWeek, List<ToDo>> map =
+        todos.stream()
+            .collect(
+                Collectors.groupingBy(
+                    todo -> todo.getDate().getDayOfWeek(),
+                    LinkedHashMap::new,
+                    Collectors.toList()));
+
+    for (DayOfWeek day : DayOfWeek.values()) {
+      map.putIfAbsent(day, List.of());
+    }
+    return map;
   }
 }

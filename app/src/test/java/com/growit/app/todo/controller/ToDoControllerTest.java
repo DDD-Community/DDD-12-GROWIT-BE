@@ -22,7 +22,7 @@ import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
-import com.growit.app.todo.controller.dto.response.WeeklyPlanResponse;
+import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
@@ -62,6 +62,7 @@ class ToDoControllerTest {
   @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
   @MockitoBean private GetWeeklyPlanUseCase getWeeklyPlanUseCase;
   @MockitoBean private ToDoResponseMapper toDoResponseMapper;
+  @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -249,8 +250,8 @@ class ToDoControllerTest {
             DayOfWeek.MONDAY, List.of(ToDoFixture.defaultToDo()),
             DayOfWeek.TUESDAY, List.of());
 
-    WeeklyPlanResponse mondayResponse =
-        WeeklyPlanResponse.builder()
+    WeeklyTodosResponse mondayResponse =
+        WeeklyTodosResponse.builder()
             .id("todoId")
             .goalId(goalId)
             .planId(planId)
@@ -259,7 +260,7 @@ class ToDoControllerTest {
             .completed(true)
             .build();
 
-    Map<String, List<WeeklyPlanResponse>> mapped =
+    Map<String, List<WeeklyTodosResponse>> mapped =
         ToDoFixture.weeklyPlanMapWith("MONDAY", List.of(mondayResponse));
 
     given(getWeeklyPlanUseCase.execute(goalId, planId, userId)).willReturn(grouped);
@@ -302,6 +303,44 @@ class ToDoControllerTest {
                             fieldWithPath("data.FRIDAY").description("금요일 할 일 리스트(없을 수도 있음)"),
                             fieldWithPath("data.SATURDAY").description("토요일 할 일 리스트(없을 수도 있음)"),
                             fieldWithPath("data.SUNDAY").description("일요일 할 일 리스트(없을 수도 있음)"))
+                        .build())));
+  }
+
+  @Test
+  void getTodayMission() throws Exception {
+    // given
+    List<ToDo> todoList =
+        List.of(
+            ToDoFixture.customToDo("id", "user-1", LocalDate.now(), "planId", "goalId"),
+            ToDoFixture.customToDo("id2", "user-1", LocalDate.now(), "planId", "goalId"));
+    given(getTodayMissionUseCase.execute(any(), any())).willReturn(todoList);
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/todos/home/today-mission")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-today-mission",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("오늘 미션 조회")
+                        .description("오늘 날짜의 미완료 ToDo 리스트를 조회합니다.")
+                        .responseFields(
+                            fieldWithPath("data[].id").type(STRING).description("TODO ID"),
+                            fieldWithPath("data[].goalId").type(STRING).description("목표 ID"),
+                            fieldWithPath("data[].planId").type(STRING).description("계획 ID"),
+                            fieldWithPath("data[].date").type(STRING).description("할 일 날짜"),
+                            fieldWithPath("data[].content").type(STRING).description("내용"),
+                            fieldWithPath("data[].isCompleted")
+                                .type("Boolean")
+                                .description("완료 여부"))
                         .build())));
   }
 }

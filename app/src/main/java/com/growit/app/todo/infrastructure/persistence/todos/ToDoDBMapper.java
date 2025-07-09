@@ -36,16 +36,7 @@ public class ToDoDBMapper {
 
   public List<ToDo> toDomainList(List<ToDoEntity> entities) {
     return entities.stream()
-        .map(
-            entity ->
-                ToDo.builder()
-                    .id(entity.getUid())
-                    .goalId(entity.getGoalId())
-                    .planId(entity.getPlanId())
-                    .content(entity.getContent())
-                    .date(entity.getDate())
-                    .isCompleted(entity.isCompleted())
-                    .build())
-        .collect(Collectors.toList());
+        .map(this::toDomain)
+      .toList();
   }
 }

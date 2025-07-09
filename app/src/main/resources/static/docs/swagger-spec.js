@@ -152,7 +152,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-06-23\",\n    \"endDate\" : \"2025-07-20\"\n  },\n  \"beforeAfter\" : {\n    \"asIs\" : \"기획 정의\",\n    \"toBe\" : \"배포 완료\"\n  },\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-07-14\",\n    \"endDate\" : \"2025-08-10\"\n  },\n  \"beforeAfter\" : {\n    \"asIs\" : \"기획 정의\",\n    \"toBe\" : \"배포 완료\"\n  },\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"amuarqMWEP5peXZRR5OCe\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"45AsddgRnloStLl_mKOan\"\n  }\n}"
                   }
                 }
               }
@@ -376,7 +376,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-weekly-plan" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-07-08\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-07-09\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
                   }
                 }
               }
@@ -397,7 +397,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"planId\" : \"plan-1\",\n  \"date\" : \"2025-07-08\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"planId\" : \"plan-1\",\n  \"date\" : \"2025-07-09\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -447,7 +447,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-08\",\n    \"isCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-09\",\n    \"isCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -477,7 +477,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-07-08\",\n  \"content\" : \"수정된 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-07-09\",\n  \"content\" : \"수정된 내용\"\n}"
                 }
               }
             }
@@ -580,6 +580,31 @@ window.swaggerSpec={
         }
       }
     },
+    "/todos/home/today-mission" : {
+      "get" : {
+        "tags" : [ "Todos" ],
+        "summary" : "오늘 미션 조회",
+        "description" : "오늘 날짜의 미완료 ToDo 리스트를 조회합니다.",
+        "operationId" : "get-today-mission",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-home-today-mission-2063533231"
+                },
+                "examples" : {
+                  "get-today-mission" : {
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-09\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-09\",\n    \"isCompleted\" : false\n  } ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/myprofile" : {
       "get" : {
         "tags" : [ "User" ],
@@ -627,27 +652,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos1279626246" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "할 일 날짜 (yyyy-MM-dd)"
-          },
-          "goalId" : {
-            "type" : "string",
-            "description" : "목표 ID"
-          },
-          "planId" : {
-            "type" : "string",
-            "description" : "계획 ID"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "할 일 내용 (5자 이상 30자 미만)"
-          }
-        }
-      },
       "auth-signup-1821282286" : {
         "type" : "object",
         "properties" : {
@@ -683,6 +687,27 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "todos1279626246" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 ID"
+          },
+          "planId" : {
+            "type" : "string",
+            "description" : "계획 ID"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "할 일 내용 (5자 이상 30자 미만)"
           }
         }
       },
@@ -841,6 +866,43 @@ window.swaggerSpec={
               "isCompleted" : {
                 "type" : "boolean",
                 "description" : "완료 여부"
+              }
+            }
+          }
+        }
+      },
+      "todos-home-today-mission-2063533231" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "date" : {
+                  "type" : "string",
+                  "description" : "할 일 날짜"
+                },
+                "goalId" : {
+                  "type" : "string",
+                  "description" : "목표 ID"
+                },
+                "planId" : {
+                  "type" : "string",
+                  "description" : "계획 ID"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "TODO ID"
+                },
+                "content" : {
+                  "type" : "string",
+                  "description" : "내용"
+                },
+                "isCompleted" : {
+                  "type" : "boolean",
+                  "description" : "완료 여부"
+                }
               }
             }
           }
@@ -1107,20 +1169,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-1453646431" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "id" : {
-                "type" : "string",
-                "description" : "생성된 TODO ID"
-              }
-            }
-          }
-        }
-      },
       "users-myprofile638373110" : {
         "type" : "object",
         "properties" : {
@@ -1155,6 +1203,20 @@ window.swaggerSpec={
               "email" : {
                 "type" : "string",
                 "description" : "이메일"
+              }
+            }
+          }
+        }
+      },
+      "todos-1453646431" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "생성된 TODO ID"
               }
             }
           }
@@ -1199,19 +1261,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id-1719108715" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "할 일 날짜 (yyyy-MM-dd)"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "수정할 할 일 내용 (5자 이상 30자 미만)"
-          }
-        }
-      },
       "auth-signin32710318" : {
         "type" : "object",
         "properties" : {
@@ -1222,6 +1271,19 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "todos-id-1719108715" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 할 일 내용 (5자 이상 30자 미만)"
           }
         }
       },

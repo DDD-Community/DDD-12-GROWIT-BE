@@ -15,6 +15,8 @@ public enum ErrorCode {
   GOAL_DURATION_MONDAY("error.goal.duration-monday"), // "목표 시작일은 월요일 이여야 합니다."
   GOAL_DURATION_SUNDAY("error.goal.duration-sunday"), // "목표 시작일은 일요일 이여야 합니다."
   GOAL_DURATION_START_END("error.goal.duration-sunday"), // "목표 종료일은 시작일보다 뒤여야 합니다."
+  GOAL_DURATION_START_AFTER_TODAY("error.goal.duration-start-after-today"), // "목표 시작일은 오늘 이후부터 가능합니다."
+
   USER_NOT_FOUND("error.user.not-found"),
   USER_INVALID_EMAIL("error.user.invalid-email"), // "유효하지 않은 이메일입니다."
   USER_ALREADY_REGISTERED("error.user.already-registered"), // ""해당 이메일로 이미 가입된 계정이 있습니다.""
