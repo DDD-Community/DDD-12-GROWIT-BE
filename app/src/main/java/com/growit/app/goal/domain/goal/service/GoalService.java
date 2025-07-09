@@ -6,6 +6,8 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +18,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GoalService implements GoalValidator {
   private final GoalRepository goalRepository;
+
+  @Override
+  public void checkGoalDuration(GoalDuration duration) {
+    if (duration.startDate().getDayOfWeek() != DayOfWeek.MONDAY) {
+      throw new BadRequestException("목표 시작일은 월요일 이여야 합니다.");
+    }
+    if (duration.endDate().getDayOfWeek() != DayOfWeek.SUNDAY) {
+      throw new BadRequestException("목표 종료일은 일요일 이여야 합니다. ");
+    }
+    if (!duration.endDate().isAfter(duration.startDate())) {
+      throw new BadRequestException("목표 종료일은 시작일보다 뒤여야 합니다.");
+    }
+    if (duration.startDate().isBefore(LocalDate.now())) {
+      throw new BadRequestException("목표 시작일은 오늘 또는 미래여야 합니다.");
+    }
+  }
 
   @Override
   public void checkPlans(GoalDuration duration, List<PlanDto> plans) throws BadRequestException {
