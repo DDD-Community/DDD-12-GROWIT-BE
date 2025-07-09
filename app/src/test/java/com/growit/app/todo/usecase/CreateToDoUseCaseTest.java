@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 class CreateToDoUseCaseTest {
 
   private CreateToDoUseCase createToDoUseCase;
-  private FakeToDoRepository fakeToDoRepository;
 
   @BeforeEach
   void setUp() {
