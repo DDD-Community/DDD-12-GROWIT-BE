@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.13.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.12.0...v1.13.0) (2025-07-09)
+
+
+### Features
+
+* **flyway:** 테이블 마이그레이션 적용 ([14044d5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/14044d52d4ac330e78d662d1ee23a56e268019c8))
+* Init Weekly Plan ([1c44c67](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1c44c670d8c3704f58647107ec8f0a3effa70d72))
+* 주차별 ToDo List 조회 기능 생성 ([cc2d0a9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cc2d0a907f36f0a27c24b0cfc8fb51ab4b71a2d9))
+
+
+### Bug Fixes
+
+* 1차 PR 수정 ([a265726](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a26572698b829d63544fb0c268ef81024c0a4061))
+* **goal:** goal duration 날짜 범위 에러 수정 ([3a8abff](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3a8abff1b581651fb489514b156fccc8422702c5))
+* **goal:** goal duration 날짜 범위 에러 수정 ([7fd658b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7fd658ba440dbd98fa7d07ca9e44d5d341112c37)), closes [#93](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/93)
+* WeeklyPlan QueryDSL 방식으로 변경 ([c41c1c9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c41c1c940b882e0c1cc11b7e4383137e8163d191))
+* 오탈자 수정 ([38a60ce](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/38a60ce55f6237ea1555dfce36b4da226913dfe1))
+* 오탈자 수정 ([db784f1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/db784f1e5e0417be1d44243d1f7b1f4298ac8220))
+
 ## [1.12.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.11.0...v1.12.0) (2025-07-05)
 
 
