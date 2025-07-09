@@ -94,6 +94,7 @@ class ToDoBuilder {
         .content(content)
         .date(date)
         .isCompleted(isCompleted)
+        .isDeleted(false)
         .build();
   }
 }

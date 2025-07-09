@@ -2,14 +2,12 @@ package com.growit.app.goal.usecase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.fake.goal.FakeGoalQuery;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
-import com.growit.app.goal.domain.goal.service.GoalService;
-import com.growit.app.goal.domain.goal.service.GoalValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +19,7 @@ class DeleteGoalUseCaseTest {
   @BeforeEach
   void setUp() {
     goalRepository = new FakeGoalRepository();
-    GoalValidator goalValidator = new GoalService(goalRepository);
-    deleteGoalUseCase = new DeleteGoalUseCase(goalRepository, goalValidator);
+    deleteGoalUseCase = new DeleteGoalUseCase(goalRepository, new FakeGoalQuery(goalRepository));
   }
 
   @Test
@@ -59,6 +56,6 @@ class DeleteGoalUseCaseTest {
     DeleteGoalCommand command = new DeleteGoalCommand(goal.getId(), "user-2"); // 다른 유저
 
     // when & then
-    assertThrows(BadRequestException.class, () -> deleteGoalUseCase.execute(command));
+    assertThrows(NotFoundException.class, () -> deleteGoalUseCase.execute(command));
   }
 }

@@ -2,50 +2,37 @@ package com.growit.app.retrospect.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.growit.app.fake.goal.FakeGoalRepository;
-import com.growit.app.fake.goal.GoalFixture;
-import com.growit.app.fake.retrospect.FakeRetrospectRepository;
 import com.growit.app.fake.retrospect.RetrospectFixture;
-import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.service.GoalService;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
-import com.growit.app.retrospect.domain.retrospect.command.CreateRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.service.RetrospectService;
+import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
+import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class CreateRetrospectUseCaseTest {
 
-  private CreateRetrospectUseCase createRetrospectUseCase;
-  Goal goal = GoalFixture.defaultGoal();
+  @Mock private GoalValidator goalValidator;
 
-  @BeforeEach
-  void setUp() {
-    FakeGoalRepository goalRepository = new FakeGoalRepository();
-    goalRepository.saveGoal(goal);
+  @Mock private RetrospectValidator retrospectValidator;
 
-    GoalValidator goalValidator = new GoalService(goalRepository);
-    FakeRetrospectRepository retrospectRepository = new FakeRetrospectRepository();
-    RetrospectValidator retrospectValidator = new RetrospectService(retrospectRepository);
-    createRetrospectUseCase =
-        new CreateRetrospectUseCase(goalValidator, retrospectValidator, retrospectRepository);
-  }
+  @Mock private RetrospectRepository retrospectRepository;
+
+  @InjectMocks private CreateRetrospectUseCase createRetrospectUseCase;
 
   @Test
   void givenValidCommand_whenExecute_thenReturnsRetrospectId() {
     // Given
-    CreateRetrospectCommand command =
-        RetrospectFixture.createRetrospectCommandWithContent(
-            goal.getId(),
-            goal.getUserId(),
-            goal.getPlans().get(0).getId(),
-            "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+    CreateRetrospectCommand command = RetrospectFixture.defaultCreateRetrospectCommand();
 
     // When
-    String retrospectId = createRetrospectUseCase.execute(command);
+    String result = createRetrospectUseCase.execute(command);
 
     // Then
-    assertNotNull(retrospectId);
+    assertNotNull(result);
   }
 }

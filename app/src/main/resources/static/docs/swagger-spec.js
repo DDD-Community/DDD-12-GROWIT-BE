@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"u_gb2w8bLnPYSsq_zLK5u\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"WCOKdPr9mHVsGBG8LP_Dt\"\n  }\n}"
                   }
                 }
               }
@@ -300,7 +300,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"retrospect-123\",\n    \"goalId\" : \"goal-123\",\n    \"plan\" : {\n      \"id\" : \"plan-456\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"주간 목표\"\n    },\n    \"content\" : \"이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"retrospect-123\",\n    \"goalId\" : \"goal-123\",\n    \"plan\" : {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"주간 목표\"\n    },\n    \"content\" : \"이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.\"\n  }\n}"
                   }
                 }
               }
@@ -580,6 +580,31 @@ window.swaggerSpec={
         }
       }
     },
+    "/todos/home/today-mission" : {
+      "get" : {
+        "tags" : [ "Todos" ],
+        "summary" : "오늘 미션 조회",
+        "description" : "오늘 날짜의 미완료 ToDo 리스트를 조회합니다.",
+        "operationId" : "get-today-mission",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-home-today-mission-2063533231"
+                },
+                "examples" : {
+                  "get-today-mission" : {
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-09\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-09\",\n    \"isCompleted\" : false\n  } ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/myprofile" : {
       "get" : {
         "tags" : [ "User" ],
@@ -841,6 +866,43 @@ window.swaggerSpec={
               "isCompleted" : {
                 "type" : "boolean",
                 "description" : "완료 여부"
+              }
+            }
+          }
+        }
+      },
+      "todos-home-today-mission-2063533231" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "date" : {
+                  "type" : "string",
+                  "description" : "할 일 날짜"
+                },
+                "goalId" : {
+                  "type" : "string",
+                  "description" : "목표 ID"
+                },
+                "planId" : {
+                  "type" : "string",
+                  "description" : "계획 ID"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "TODO ID"
+                },
+                "content" : {
+                  "type" : "string",
+                  "description" : "내용"
+                },
+                "isCompleted" : {
+                  "type" : "boolean",
+                  "description" : "완료 여부"
+                }
               }
             }
           }
@@ -1160,19 +1222,6 @@ window.swaggerSpec={
           }
         }
       },
-      "auth-signin32710318" : {
-        "type" : "object",
-        "properties" : {
-          "password" : {
-            "type" : "string",
-            "description" : "사용자 비밀번호"
-          },
-          "email" : {
-            "type" : "string",
-            "description" : "사용자 이메일"
-          }
-        }
-      },
       "retrospects-id1429283436" : {
         "type" : "object",
         "properties" : {
@@ -1209,6 +1258,19 @@ window.swaggerSpec={
                 "description" : "회고 내용"
               }
             }
+          }
+        }
+      },
+      "auth-signin32710318" : {
+        "type" : "object",
+        "properties" : {
+          "password" : {
+            "type" : "string",
+            "description" : "사용자 비밀번호"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "사용자 이메일"
           }
         }
       },

@@ -39,25 +39,4 @@ class RetrospectServiceTest {
 
     assertDoesNotThrow(() -> retrospectService.checkUniqueRetrospect("newPlanId"));
   }
-
-  @Test
-  void givenMismatchedUserId_whenCheckMyRetrospect_thenThrowsBadRequestException() {
-    // Given
-    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-
-    // When & Then
-    assertThrows(
-        BadRequestException.class,
-        () -> retrospectService.checkMyRetrospect(retrospect, "invalidUserId"));
-  }
-
-  @Test
-  void givenMatchingUserId_whenCheckMyRetrospect_thenDoesNotThrow() {
-    // Given
-    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-
-    // When & Then
-    assertDoesNotThrow(
-        () -> retrospectService.checkMyRetrospect(retrospect, retrospect.getUserId()));
-  }
 }
