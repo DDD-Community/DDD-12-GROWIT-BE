@@ -37,11 +37,6 @@ public class FakeGoalRepository implements GoalRepository {
         .findFirst();
   }
 
-  @Override
-  public Optional<Goal> findByIdAndUserId(String goalId, String userId) {
-    return Optional.empty();
-  }
-
   public void clear() {
     store.clear();
   }

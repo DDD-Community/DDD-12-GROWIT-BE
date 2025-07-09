@@ -9,6 +9,4 @@ public interface GoalRepository {
   void saveGoal(Goal goal);
 
   Optional<Goal> findById(String goalId);
-
-  Optional<Goal> findByIdAndUserId(String goalId, String userId);
 }
