@@ -5,7 +5,7 @@ import com.growit.app.common.response.IdDto;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
-import com.growit.app.todo.controller.dto.response.WeeklyPlanResponse;
+import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
@@ -93,12 +93,12 @@ public class ToDoController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<Map<String, List<WeeklyPlanResponse>>>> getWeeklyTodos(
+  public ResponseEntity<ApiResponse<Map<String, List<WeeklyTodosResponse>>>> getWeeklyTodos(
       @AuthenticationPrincipal User user,
       @RequestParam String goalId,
       @RequestParam String planId) {
     Map<DayOfWeek, List<ToDo>> grouped = getWeeklyPlanUseCase.execute(goalId, planId, user.getId());
-    Map<String, List<WeeklyPlanResponse>> response =
+    Map<String, List<WeeklyTodosResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
   }

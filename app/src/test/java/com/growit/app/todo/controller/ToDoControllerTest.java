@@ -22,7 +22,7 @@ import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
-import com.growit.app.todo.controller.dto.response.WeeklyPlanResponse;
+import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
@@ -250,8 +250,8 @@ class ToDoControllerTest {
             DayOfWeek.MONDAY, List.of(ToDoFixture.defaultToDo()),
             DayOfWeek.TUESDAY, List.of());
 
-    WeeklyPlanResponse mondayResponse =
-        WeeklyPlanResponse.builder()
+    WeeklyTodosResponse mondayResponse =
+        WeeklyTodosResponse.builder()
             .id("todoId")
             .goalId(goalId)
             .planId(planId)
@@ -260,7 +260,7 @@ class ToDoControllerTest {
             .completed(true)
             .build();
 
-    Map<String, List<WeeklyPlanResponse>> mapped =
+    Map<String, List<WeeklyTodosResponse>> mapped =
         ToDoFixture.weeklyPlanMapWith("MONDAY", List.of(mondayResponse));
 
     given(getWeeklyPlanUseCase.execute(goalId, planId, userId)).willReturn(grouped);
