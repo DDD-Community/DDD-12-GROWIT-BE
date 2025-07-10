@@ -2,8 +2,9 @@ package com.growit.app.retrospect.controller.mapper;
 
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
+import com.growit.app.retrospect.domain.retrospect.dto.CheckRetrospectExistsQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,12 @@ public class RetrospectRequestMapper {
     return new UpdateRetrospectCommand(id, userId, request.getContent());
   }
 
-  public GetRetrospectCommand toGetCommand(String id, String userId) {
-    return new GetRetrospectCommand(id, userId);
+  public GetRetrospectQueryFilter toGetCommand(String id, String userId) {
+    return new GetRetrospectQueryFilter(id, userId);
+  }
+
+  public CheckRetrospectExistsQueryFilter toCheckQuery(
+      String userId, String goalId, String planId) {
+    return new CheckRetrospectExistsQueryFilter(userId, goalId, planId);
   }
 }
