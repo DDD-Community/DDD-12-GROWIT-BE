@@ -2,6 +2,7 @@ package com.growit.app.todo.infrastructure.persistence.todos;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.DBToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
 import java.time.LocalDate;
@@ -54,6 +55,12 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   @Override
   public List<ToDo> findByUserIdAndDate(String userId, LocalDate today) {
     List<ToDoEntity> entities = repository.findByUserIdAndDate(userId, today);
+    return mapper.toDomainList(entities);
+  }
+
+  @Override
+  public List<ToDo> findByDateFilter(GetToDoDateQueryFilter filter) {
+    List<ToDoEntity> entities = repository.findByDateFilter(filter);
     return mapper.toDomainList(entities);
   }
 }

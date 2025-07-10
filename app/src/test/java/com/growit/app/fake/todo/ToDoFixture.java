@@ -15,6 +15,10 @@ public class ToDoFixture {
     return new ToDoBuilder().build();
   }
 
+  public static ToDo completedToDo() {
+    return new ToDoBuilder().isCompleted(true).build();
+  }
+
   public static CreateToDoRequest defaultCreateToDoRequest() {
     return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
   }

@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"ij5gT1Fit-GrIzfbNrF6e\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"P1QQiAvsHUanCqzqCrSNT\"\n  }\n}"
                   }
                 }
               }
@@ -622,6 +622,40 @@ window.swaggerSpec={
         }
       }
     },
+    "/todos/face/status" : {
+      "get" : {
+        "tags" : [ "Todos" ],
+        "summary" : "그로냥 상태 조회",
+        "description" : "사용자와 목표 ID로 얼굴 상태를 조회합니다.",
+        "operationId" : "get-face-status",
+        "parameters" : [ {
+          "name" : "goalId",
+          "in" : "query",
+          "description" : "목표 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-face-status253775494"
+                },
+                "examples" : {
+                  "get-face-status" : {
+                    "value" : "{\n  \"data\" : \"HAPPY\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/todos/home/today-mission" : {
       "get" : {
         "tags" : [ "Todos" ],
@@ -1032,6 +1066,15 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "todos-face-status253775494" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"
           }
         }
       },
