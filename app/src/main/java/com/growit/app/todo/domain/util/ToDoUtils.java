@@ -14,17 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ToDoUtils {
   public static List<ToDo> getNotCompletedToDos(List<ToDo> toDoList) {
-    List<ToDo> notCompleted = toDoList.stream().filter(todo -> !todo.isCompleted()).toList();
-
-    if (toDoList.isEmpty()) {
-      return null;
-    }
-
-    if (!notCompleted.isEmpty()) {
-      return notCompleted;
-    }
-
-    return List.of();
+    return toDoList.stream().filter(todo -> !todo.isCompleted()).toList();
   }
 
   public static Map<DayOfWeek, List<ToDo>> groupByDayOfWeek(List<ToDo> toDoList) {

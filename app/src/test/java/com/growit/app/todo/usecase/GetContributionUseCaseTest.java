@@ -12,6 +12,7 @@ import com.growit.app.todo.domain.util.ToDoUtils;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -71,7 +72,7 @@ class GetContributionUseCaseTest {
     when(goalRepository.findByIdAndUserId(goalId, userId)).thenReturn(Optional.empty());
 
     // when & then
-    org.junit.jupiter.api.Assertions.assertThrows(
+    Assertions.assertThrows(
         java.util.NoSuchElementException.class,
         () -> getContributionUseCase.execute(userId, goalId));
     verify(goalRepository).findByIdAndUserId(goalId, userId);

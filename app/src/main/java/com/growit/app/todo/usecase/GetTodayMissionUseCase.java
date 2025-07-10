@@ -17,6 +17,9 @@ public class GetTodayMissionUseCase {
   @Transactional(readOnly = true)
   public List<ToDo> execute(String userId, LocalDate date) {
     List<ToDo> toDoList = toDoRepository.findByUserIdAndDate(userId, date);
+    if (toDoList.isEmpty()) {
+      return null;
+    }
     return ToDoUtils.getNotCompletedToDos(toDoList);
   }
 }

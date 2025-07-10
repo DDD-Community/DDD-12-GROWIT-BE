@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class GetWeeklyTodosUseCase {
+public class GetWeeklyTodoUseCase {
   private final ToDoRepository toDoRepository;
   private final GoalService goalService;
   private final GoalRepository goalRepository;

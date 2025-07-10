@@ -40,13 +40,16 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
     return queryFactory
         .selectFrom(toDo)
-        .where(toDo.userId.eq(userId), toDo.deletedAt.isNull(), toDo.date.eq(today))
+        .where(toDo.userId.eq(userId), toDo.date.eq(today), toDo.deletedAt.isNull())
         .fetch();
   }
 
   @Override
   public List<ToDoEntity> findByPlanIdIn(List<String> planIds) {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
-    return queryFactory.selectFrom(toDo).where(toDo.planId.in(planIds)).fetch();
+    return queryFactory
+        .selectFrom(toDo)
+        .where(toDo.planId.in(planIds), toDo.deletedAt.isNull())
+        .fetch();
   }
 }

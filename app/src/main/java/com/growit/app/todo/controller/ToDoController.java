@@ -38,7 +38,7 @@ public class ToDoController {
   private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   private final GetToDoUseCase getToDoUseCase;
   private final DeleteToDoUseCase deleteToDoUseCase;
-  private final GetWeeklyTodosUseCase getWeeklyPlanUseCase;
+  private final GetWeeklyTodoUseCase getWeeklyPlanUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
   private final GetContributionUseCase getContributionUseCase;
 

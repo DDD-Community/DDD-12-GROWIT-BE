@@ -61,7 +61,7 @@ class ToDoControllerTest {
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @MockitoBean private GetToDoUseCase getToDoUseCase;
   @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
-  @MockitoBean private GetWeeklyTodosUseCase getWeeklyTodosUseCase;
+  @MockitoBean private GetWeeklyTodoUseCase getWeeklyTodoUseCase;
   @MockitoBean private ToDoResponseMapper toDoResponseMapper;
   @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
   @MockitoBean private GetContributionUseCase getContributionUseCase;
@@ -265,7 +265,7 @@ class ToDoControllerTest {
     Map<String, List<WeeklyTodosResponse>> mapped =
         ToDoFixture.weeklyTodosMapWith("MONDAY", List.of(mondayResponse));
 
-    given(getWeeklyTodosUseCase.execute(goalId, planId, userId)).willReturn(grouped);
+    given(getWeeklyTodoUseCase.execute(goalId, planId, userId)).willReturn(grouped);
     given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
 
     // when & then

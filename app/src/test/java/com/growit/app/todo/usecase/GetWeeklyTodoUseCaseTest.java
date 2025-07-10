@@ -20,19 +20,19 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GetWeeklyTodosUseCaseTest {
+class GetWeeklyTodoUseCaseTest {
 
   private ToDoRepository toDoRepository;
   private GoalService goalService;
   private GoalRepository goalRepository;
-  private GetWeeklyTodosUseCase useCase;
+  private GetWeeklyTodoUseCase useCase;
 
   @BeforeEach
   void setUp() {
     toDoRepository = mock(ToDoRepository.class);
     goalService = mock(GoalService.class);
     goalRepository = mock(GoalRepository.class);
-    useCase = new GetWeeklyTodosUseCase(toDoRepository, goalService, goalRepository);
+    useCase = new GetWeeklyTodoUseCase(toDoRepository, goalService, goalRepository);
   }
 
   @Test

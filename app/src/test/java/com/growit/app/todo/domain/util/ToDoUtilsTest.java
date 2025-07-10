@@ -6,6 +6,8 @@ import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.time.DayOfWeek;
@@ -16,7 +18,7 @@ import org.junit.jupiter.api.Test;
 class ToDoUtilsTest {
 
   @Test
-  void getNotCompletedToDos_returnsEmptyList_whenAllCompleted() {
+  void givenAllToDosCompleted_whenGetNotCompletedToDos_thenReturnsEmptyList() {
     // given
     ToDo completed1 = ToDoFixture.defaultToDo();
     completed1.updateIsCompleted(true);
@@ -32,7 +34,7 @@ class ToDoUtilsTest {
   }
 
   @Test
-  void getNotCompletedToDos_returnsNotCompletedOnly_whenSomeNotCompleted() {
+  void givenSomeToDosNotCompleted_whenGetNotCompletedToDos_thenReturnsOnlyNotCompleted() {
     // given
     ToDo notCompleted = ToDoFixture.defaultToDo();
     ToDo completed = ToDoFixture.defaultToDo();
@@ -46,20 +48,20 @@ class ToDoUtilsTest {
     assertThat(result).containsExactly(notCompleted);
   }
 
+  //  @Test
+  //  void givenEmptyInputList_whenGetNotCompletedToDos_thenReturnsNull() {
+  //    // given
+  //    List<ToDo> todos = List.of();
+  //
+  //    // when
+  //    List<ToDo> result = ToDoUtils.getNotCompletedToDos(todos);
+  //
+  //    // then
+  //    assertThat(result).isNull();
+  //  }
+
   @Test
-  void getNotCompletedToDos_returnsNull_whenInputIsEmpty() {
-    // given
-    List<ToDo> todos = List.of();
-
-    // when
-    List<ToDo> result = ToDoUtils.getNotCompletedToDos(todos);
-
-    // then
-    assertThat(result).isNull();
-  }
-
-  @Test
-  void groupByDayOfWeek_correctlyGroupsByDay_andFillsEmptyDays() {
+  void givenToDosOnSomeDays_whenGroupByDayOfWeek_thenGroupsCorrectlyAndFillsEmptyDays() {
     // given
     ToDo monday =
         ToDoFixture.customToDo(
@@ -85,7 +87,7 @@ class ToDoUtilsTest {
   }
 
   @Test
-  void getContribution_returnsStatusList_for28Days() {
+  void given28DayGoalAndToDos_whenGetContribution_thenReturnsStatusListOf28() {
     // given
     LocalDate startDate = LocalDate.of(2024, 7, 1);
     Goal goal =
@@ -93,15 +95,11 @@ class ToDoUtilsTest {
             "goal-1",
             "user-1",
             "Goal",
-            new com.growit.app.goal.domain.goal.vo.GoalDuration(startDate, startDate.plusDays(27)),
+            new GoalDuration(startDate, startDate.plusDays(27)),
             null,
             List.of(
                 new Plan(
-                    "plan-1",
-                    1,
-                    "Plan",
-                    new com.growit.app.goal.domain.goal.plan.vo.PlanDuration(
-                        startDate, startDate.plusDays(27)))));
+                    "plan-1", 1, "Plan", new PlanDuration(startDate, startDate.plusDays(27)))));
     ToDo completed = ToDoFixture.customToDo("id1", "user-1", startDate, "plan-1", "goal-1");
     completed.updateIsCompleted(true);
     ToDo notCompleted =
