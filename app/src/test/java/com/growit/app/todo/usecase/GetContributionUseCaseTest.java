@@ -1,5 +1,8 @@
 package com.growit.app.todo.usecase;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.plan.Plan;
@@ -7,25 +10,17 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.util.ToDoUtils;
 import com.growit.app.todo.domain.vo.ToDoStatus;
-import com.growit.app.todo.usecase.GetContributionUseCase;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
 class GetContributionUseCaseTest {
 
-  @Mock
-  private GoalRepository goalRepository;
-  @Mock
-  private ToDoRepository toDoRepository;
-  @InjectMocks
-  private GetContributionUseCase getContributionUseCase;
+  @Mock private GoalRepository goalRepository;
+  @Mock private ToDoRepository toDoRepository;
+  @InjectMocks private GetContributionUseCase getContributionUseCase;
 
   @BeforeEach
   void setUp() {
@@ -77,9 +72,8 @@ class GetContributionUseCaseTest {
 
     // when & then
     org.junit.jupiter.api.Assertions.assertThrows(
-      java.util.NoSuchElementException.class,
-      () -> getContributionUseCase.execute(userId, goalId)
-    );
+        java.util.NoSuchElementException.class,
+        () -> getContributionUseCase.execute(userId, goalId));
     verify(goalRepository).findByIdAndUserId(goalId, userId);
     verifyNoInteractions(toDoRepository);
   }
