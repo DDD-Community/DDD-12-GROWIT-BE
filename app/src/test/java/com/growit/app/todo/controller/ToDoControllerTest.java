@@ -64,11 +64,9 @@ class ToDoControllerTest {
   @MockitoBean private GetWeeklyTodosUseCase getWeeklyTodosUseCase;
   @MockitoBean private ToDoResponseMapper toDoResponseMapper;
   @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
-  @MockitoBean
-  private GetContributionUseCase getContributionUseCase;
+  @MockitoBean private GetContributionUseCase getContributionUseCase;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
-
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -353,39 +351,35 @@ class ToDoControllerTest {
   void getContribution() throws Exception {
     // given
     String goalId = "goal-123";
-    List<ToDoStatus> statusList = List.of(
-      ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED, ToDoStatus.IN_PROGRESS, ToDoStatus.NONE
-    );
+    List<ToDoStatus> statusList =
+        List.of(
+            ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED, ToDoStatus.IN_PROGRESS, ToDoStatus.NONE);
     given(getContributionUseCase.execute(anyString(), eq(goalId))).willReturn(statusList);
 
     // when & then
-    mockMvc.perform(
-        get("/todos")
-          .header("Authorization", "Bearer mock-jwt-token")
-          .param("goalId", goalId)
-          .contentType(MediaType.APPLICATION_JSON)
-      )
-      .andExpect(status().isOk())
-      .andDo(
-        document(
-          "get-contribution",
-          preprocessRequest(prettyPrint()),
-          preprocessResponse(prettyPrint()),
-          resource(
-            new ResourceSnippetParametersBuilder()
-              .tag("Todos")
-              .summary("목표별 28일 기여도 리스트 조회")
-              .description("특정 목표(goalId)에 대한 28일간의 기여도(상태) 리스트를 반환합니다.")
-              .queryParameters(
-                parameterWithName("goalId").description("목표 ID")
-              )
-              .responseFields(
-                fieldWithPath("data[]").type("String")
-                  .description("28일간 각 날짜별 ToDoStatus(예: COMPLETED, NOT_STARTED, IN_PROGRESS, NONE)")
-              )
-              .build()
-          )
-        )
-      );
+    mockMvc
+        .perform(
+            get("/todos")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("goalId", goalId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-contribution",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("목표별 28일 기여도 리스트 조회")
+                        .description("특정 목표(goalId)에 대한 28일간의 기여도(상태) 리스트를 반환합니다.")
+                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data[]")
+                                .type("String")
+                                .description(
+                                    "28일간 각 날짜별 ToDoStatus(예: COMPLETED, NOT_STARTED, IN_PROGRESS, NONE)"))
+                        .build())));
   }
 }
