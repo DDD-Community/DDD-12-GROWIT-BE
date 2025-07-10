@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"P1QQiAvsHUanCqzqCrSNT\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"XXK6f-Iy44pgJ8LY8CyzJ\"\n  }\n}"
                   }
                 }
               }
@@ -228,6 +228,31 @@ window.swaggerSpec={
                 "examples" : {
                   "get-job-roles" : {
                     "value" : "{\n  \"data\" : {\n    \"jobRoles\" : [ {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    }, {\n      \"id\" : \"designer\",\n      \"name\" : \"디자이너\"\n    }, {\n      \"id\" : \"planner\",\n      \"name\" : \"기획자\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource/saying" : {
+      "get" : {
+        "tags" : [ "Saying" ],
+        "summary" : "격언 조회",
+        "description" : "격언 조회",
+        "operationId" : "get-saying",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/resource-saying2030450560"
+                },
+                "examples" : {
+                  "get-saying" : {
+                    "value" : "{\n  \"data\" : {\n    \"message\" : \"성공은 매일 반복되는 작은 노력들의 합이다냥!\",\n    \"from\" : \"그로냥\"\n  }\n}"
                   }
                 }
               }
@@ -797,6 +822,24 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "삭제가 완료 되었습니다."
+          }
+        }
+      },
+      "resource-saying2030450560" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "from" : {
+                "type" : "string",
+                "description" : "격언 출처"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "격언 내용"
+              }
+            }
           }
         }
       },
