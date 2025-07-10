@@ -1,5 +1,6 @@
 package com.growit.app.todo.infrastructure.persistence.todos.source;
 
+import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,4 +12,6 @@ public interface DBToDoQueryRepository {
   List<ToDoEntity> findByPlanIdQuery(String planId);
 
   List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today);
+
+  List<ToDoEntity> findByDateFilter(GetToDoDateQueryFilter filter);
 }

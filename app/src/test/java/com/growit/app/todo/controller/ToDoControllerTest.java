@@ -26,6 +26,7 @@ import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.vo.FaceStatus;
 import com.growit.app.todo.usecase.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -63,6 +64,8 @@ class ToDoControllerTest {
   @MockitoBean private GetWeeklyPlanUseCase getWeeklyPlanUseCase;
   @MockitoBean private ToDoResponseMapper toDoResponseMapper;
   @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
+  @MockitoBean private GetFaceStatusUseCase getFaceStatusUseCase;
+
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -341,6 +344,41 @@ class ToDoControllerTest {
                             fieldWithPath("data[].isCompleted")
                                 .type("Boolean")
                                 .description("완료 여부"))
+                        .build())));
+  }
+
+  @Test
+  void getFaceStatus() throws Exception {
+    // given
+    String userId = "user-1";
+    String goalId = "goal-123";
+    FaceStatus expectedStatus = FaceStatus.HAPPY;
+
+    given(getFaceStatusUseCase.execute(userId, goalId)).willReturn(expectedStatus);
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/todos/face/status")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("goalId", goalId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-face-status",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("그로냥 상태 조회")
+                        .description("사용자와 목표 ID로 얼굴 상태를 조회합니다.")
+                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data")
+                                .type(STRING)
+                                .description("얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"))
                         .build())));
   }
 }
