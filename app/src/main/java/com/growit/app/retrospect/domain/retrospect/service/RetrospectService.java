@@ -1,6 +1,10 @@
 package com.growit.app.retrospect.domain.retrospect.service;
 
+import static com.growit.app.common.util.message.ErrorCode.RETROSPECT_ALREADY_EXISTS_BY_PLAN;
+import static com.growit.app.common.util.message.ErrorCode.RETROSPECT_NOT_FOUND;
+
 import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RetrospectService implements RetrospectValidator {
+public class RetrospectService implements RetrospectValidator, RetrospectQuery {
   private final RetrospectRepository retrospectRepository;
 
   @Override
@@ -17,14 +21,14 @@ public class RetrospectService implements RetrospectValidator {
         .findByPlanId(planId)
         .ifPresent(
             existing -> {
-              throw new BadRequestException("해당 주간 계획에 대한 회고가 이미 존재합니다.");
+              throw new BadRequestException(RETROSPECT_ALREADY_EXISTS_BY_PLAN.getCode());
             });
   }
 
   @Override
-  public void checkMyRetrospect(Retrospect retrospect, String userId) throws BadRequestException {
-    if (!retrospect.getUserId().equals(userId)) {
-      throw new BadRequestException("해당 정보가 올바르지 않습니다.");
-    }
+  public Retrospect getMyRetrospect(String id, String userId) throws NotFoundException {
+    return retrospectRepository
+        .findByIdAndUserId(id, userId)
+        .orElseThrow(() -> new NotFoundException(RETROSPECT_NOT_FOUND.getCode()));
   }
 }

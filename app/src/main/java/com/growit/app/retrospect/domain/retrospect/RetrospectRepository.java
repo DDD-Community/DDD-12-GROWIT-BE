@@ -7,5 +7,7 @@ public interface RetrospectRepository {
 
   Optional<Retrospect> findById(String id);
 
+  Optional<Retrospect> findByIdAndUserId(String id, String userId);
+
   Optional<Retrospect> findByPlanId(String planId);
 }

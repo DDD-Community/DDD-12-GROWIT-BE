@@ -8,9 +8,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class GoalDurationDto {
-  @NotNull(message = "시작날짜는 필수입니다.")
+  @NotNull(message = "{validation.goal.start-date.required}")
   private LocalDate startDate;
 
-  @NotNull(message = "종료날짜는 필수입니다.")
+  @NotNull(message = "{validation.goal.end-date.required}")
   private LocalDate endDate;
 }

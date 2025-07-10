@@ -7,16 +7,26 @@ import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GoalServiceTest {
 
-  private final GoalService goalService = new GoalService(new FakeGoalRepository());
+  private final GoalRepository goalRepository = new FakeGoalRepository();
+  private final Goal goal = GoalFixture.defaultGoal();
+
+  private final GoalService goalService = new GoalService(goalRepository);
+
+  @BeforeEach
+  void setUp() {
+    goalRepository.saveGoal(goal);
+  }
 
   @Test
   void givenPlans_whenCheckPlans_thenSuccess() {
@@ -37,12 +47,6 @@ class GoalServiceTest {
     List<PlanDto> plans = List.of(); // 계획이 없음
 
     assertThrows(BadRequestException.class, () -> goalService.checkPlans(duration, plans));
-  }
-
-  @Test
-  void givenInvalidUser_whenCheckMyGoal_throwBadRequestException() {
-    Goal goal = GoalFixture.defaultGoal();
-    assertThrows(BadRequestException.class, () -> goalService.checkMyGoal(goal, "otherUser"));
   }
 
   @Test

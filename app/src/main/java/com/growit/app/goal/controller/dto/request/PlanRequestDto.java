@@ -10,11 +10,11 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class PlanRequestDto {
-  @NotNull(message = "주차는 필수 값입니다.")
+  @NotNull(message = "{validation.goal.plan.week.required}")
   @Min(1)
   private int weekOfMonth;
 
-  @NotBlank(message = "주간 계획은 필수입니다.")
-  @Size(min = 1, max = 20, message = "주간 계획은 20자 이하여야 합니다.")
+  @NotBlank(message = "{validation.goal.plan.content.required}")
+  @Size(min = 1, max = 20, message = "{validation.goal.plan.content.size}")
   private String content;
 }

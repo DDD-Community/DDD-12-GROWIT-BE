@@ -1,5 +1,7 @@
 package com.growit.app.goal.domain.goal.service;
 
+import static com.growit.app.common.util.message.ErrorCode.*;
+
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
@@ -16,22 +18,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoalService implements GoalValidator {
+public class GoalService implements GoalValidator, GoalQuery {
   private final GoalRepository goalRepository;
 
   @Override
   public void checkGoalDuration(GoalDuration duration) {
     if (duration.startDate().getDayOfWeek() != DayOfWeek.MONDAY) {
-      throw new BadRequestException("목표 시작일은 월요일 이여야 합니다.");
+      throw new BadRequestException(GOAL_DURATION_MONDAY.getCode());
     }
     if (duration.endDate().getDayOfWeek() != DayOfWeek.SUNDAY) {
-      throw new BadRequestException("목표 종료일은 일요일 이여야 합니다. ");
+      throw new BadRequestException(GOAL_DURATION_SUNDAY.getCode());
     }
     if (!duration.endDate().isAfter(duration.startDate())) {
-      throw new BadRequestException("목표 종료일은 시작일보다 뒤여야 합니다.");
+      throw new BadRequestException(GOAL_DURATION_START_END.getCode());
     }
     if (duration.startDate().isBefore(LocalDate.now())) {
-      throw new BadRequestException("목표 시작일은 오늘 또는 미래여야 합니다.");
+      throw new BadRequestException(GOAL_DURATION_START_AFTER_TODAY.getCode());
     }
   }
 
@@ -39,13 +41,13 @@ public class GoalService implements GoalValidator {
   public void checkPlans(GoalDuration duration, List<PlanDto> plans) throws BadRequestException {
     long weeks = duration.getWeekCount();
     if (weeks != plans.size()) {
-      throw new BadRequestException("설정한 날짜 범위와 주간 계획수가 일치하지 않습니다.");
+      throw new BadRequestException(GOAL_PLAN_COUNT_NOT_MATCHED.getCode());
     }
 
     Set<Integer> days = new HashSet<>();
     for (PlanDto plan : plans) {
       if (!days.add(plan.weekOfMonth())) {
-        throw new BadRequestException("중복 되는 주차가 존재 합니다.");
+        throw new BadRequestException(GOAL_PLAN_DUPLICATE.getCode());
       }
     }
   }
@@ -53,22 +55,18 @@ public class GoalService implements GoalValidator {
   @Override
   public void checkPlanExists(String userId, String goalId, String planId)
       throws NotFoundException {
-    Goal goal =
-        goalRepository.findById(goalId).orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
-
-    checkMyGoal(goal, userId);
-
+    Goal goal = getMyGoal(goalId, userId);
     boolean planExists = goal.getPlans().stream().anyMatch(plan -> plan.getId().equals(planId));
 
     if (!planExists) {
-      throw new NotFoundException("해당 목표에서 계획을 찾을 수 없습니다.");
+      throw new NotFoundException(GOAL_PLAN_NOT_FOUND.getCode());
     }
   }
 
   @Override
-  public void checkMyGoal(Goal goal, String userId) throws BadRequestException {
-    if (!goal.getUserId().equals(userId)) {
-      throw new BadRequestException("해당 정보가 올바르지 않습니다.");
-    }
+  public Goal getMyGoal(String id, String userId) throws NotFoundException {
+    return goalRepository
+        .findByIdAndUserId(id, userId)
+        .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
   }
 }

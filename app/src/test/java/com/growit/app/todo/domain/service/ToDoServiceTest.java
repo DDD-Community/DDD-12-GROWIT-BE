@@ -9,7 +9,6 @@ import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.todo.domain.ToDo;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,7 @@ class ToDoServiceTest {
   void setUp() {
     FakeGoalRepository fakeGoalRepo = new FakeGoalRepository();
     fakeToDoRepo = new FakeToDoRepository();
-    toDoService = new ToDoService(fakeToDoRepo, fakeGoalRepo);
+    toDoService = new ToDoService(fakeToDoRepo);
 
     // Goal을 하나 만들어서 저장 (goalId 필요)
     goal = GoalFixture.defaultGoal();
@@ -36,14 +35,16 @@ class ToDoServiceTest {
   void givenValidDate_whenIsDateInRange_thenSuccess() {
     LocalDate today = LocalDate.now();
     // isDateInRange(date, goalId)로 goalId 전달!
-    toDoService.isDateInRange(today, goal.getId());
+    toDoService.isDateInRange(today, goal.getDuration().startDate());
   }
 
   @Test
   void givenInvalidDate_whenIsDateInRange_thenThrowBadRequestException() {
     LocalDate past = LocalDate.now().minusWeeks(2);
     // goalId 반드시 같이 전달!
-    assertThrows(BadRequestException.class, () -> toDoService.isDateInRange(past, goal.getId()));
+    assertThrows(
+        BadRequestException.class,
+        () -> toDoService.isDateInRange(past, goal.getDuration().startDate()));
   }
 
   @Test
@@ -75,7 +76,7 @@ class ToDoServiceTest {
   void given10ToDosButOneIsBeingUpdated_whenTooManyToDoUpdated_thenSuccess() {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
-    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+    String planId = goal.getPlanByDate(today).getId();
     for (int i = 0; i < 10; i++) {
       fakeToDoRepo.saveToDo(
           ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
@@ -88,7 +89,7 @@ class ToDoServiceTest {
   void given10OtherToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
-    String planId = goal.filterByDate(today).map(Plan::getId).orElseThrow();
+    String planId = goal.getPlanByDate(today).getId();
 
     for (int i = 0; i < 10; i++) {
       fakeToDoRepo.saveToDo(

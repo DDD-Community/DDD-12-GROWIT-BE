@@ -10,24 +10,24 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class SignUpRequest {
-  @NotBlank(message = "이메일은 필수입니다.")
-  @Email(message = "유효한 이메일 형식이어야 합니다.")
+  @NotBlank(message = "{validation.signup.email.required}")
+  @Email(message = "{validation.signup.email.invalid}")
   private String email;
 
-  @NotBlank(message = "비밀번호는 필수입니다.")
-  @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
+  @NotBlank(message = "{validation.signup.password.required}")
+  @Size(min = 8, message = "{validation.signup.password.size}")
   private String password;
 
-  @NotBlank(message = "이름은 필수입니다.")
-  @Size(min = 2)
+  @NotBlank(message = "{validation.signup.name.required}")
+  @Size(min = 2, message = "{validation.signup.name.size}")
   private String name;
 
-  @NotBlank(message = "직무는 필수입니다.")
+  @NotBlank(message = "{validation.signup.job-role.required}")
   private String jobRoleId;
 
-  @NotNull(message = "경력 연차는 필수입니다.")
+  @NotNull(message = "{validation.signup.career.required}")
   private String careerYear;
 
-  @NotNull(message = "약관동의는 필수입니다.")
+  @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
 }

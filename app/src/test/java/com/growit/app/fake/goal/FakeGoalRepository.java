@@ -6,40 +6,32 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FakeGoalRepository implements GoalRepository {
-  private final Map<String, List<Goal>> store = new ConcurrentHashMap<>();
+  private final Map<String, Goal> store = new ConcurrentHashMap<>();
 
   @Override
-  public List<Goal> findAllByUserIdAndDeletedAtIsNull(String userId) {
-    return store.getOrDefault(userId, Collections.emptyList()).stream()
-        .filter(goal -> !goal.getDeleted())
+  public List<Goal> findAllByUserId(String userId) {
+    return store.values().stream()
+        .filter(goal -> goal.getUserId().equals(userId) && !goal.getDeleted())
         .toList();
   }
 
   @Override
   public void saveGoal(Goal goal) {
-    store.compute(
-        goal.getUserId(),
-        (userId, goals) -> {
-          if (goals == null) {
-            goals = new ArrayList<>();
-          }
-          goals.removeIf(g -> g.getId().equals(goal.getId()));
-          goals.add(goal);
-          return goals;
-        });
+    store.put(goal.getId(), goal);
   }
 
   @Override
   public Optional<Goal> findById(String goalId) {
-    return store.values().stream()
-        .flatMap(List::stream)
-        .filter(goal -> goal.getId().equals(goalId))
-        .findFirst();
+    return Optional.ofNullable(store.get(goalId));
   }
 
   @Override
-  public Optional<Goal> findByIdAndUserId(String userId, String goalId) {
-    return Optional.empty();
+  public Optional<Goal> findByIdAndUserId(String id, String userId) {
+    Goal goal = store.get(id);
+    if (goal == null || !goal.getUserId().equals(userId) || goal.getDeleted()) {
+      return Optional.empty();
+    }
+    return Optional.of(goal);
   }
 
   public void clear() {

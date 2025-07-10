@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 class GetUserGoalsUseCaseTest {
 
-  private final Goal goal = GoalFixture.defaultGoal();
   private FakeGoalRepository fakeGoalRepository;
   private GetUserGoalsUseCase getUserGoalsUseCase;
   private User testUser;

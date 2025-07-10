@@ -28,13 +28,15 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   }
 
   @Override
-  public Optional<GoalEntity> findByIdAndUserId(String id, String userId) {
+  public Optional<GoalEntity> findByUidAndUserId(String uid, String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
-
+    QPlanEntity plan = QPlanEntity.planEntity;
     return Optional.ofNullable(
         queryFactory
             .selectFrom(goal)
-            .where(goal.uid.eq(id), goal.userId.eq(userId), goal.deletedAt.isNull())
+            .leftJoin(goal.plans, plan)
+            .fetchJoin()
+            .where(goal.uid.eq(uid), goal.userId.eq(userId), goal.deletedAt.isNull())
             .fetchOne());
   }
 }

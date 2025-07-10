@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface DBGoalQueryRepository {
   List<GoalEntity> findByUserId(String userId);
 
-  Optional<GoalEntity> findByIdAndUserId(String id, String userId);
+  Optional<GoalEntity> findByUidAndUserId(String uid, String userId);
 }

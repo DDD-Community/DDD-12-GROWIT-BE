@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UpdateRetrospectRequest {
-  @NotBlank(message = "회고 내용은 필수입니다.")
-  @Size(min = 10, max = 200, message = "회고 내용은 10자 이상 200자 이하여야 합니다.")
+  @NotBlank(message = "{validation.retrospect.content.required}")
+  @Size(min = 10, max = 200, message = "{validation.retrospect.content.size}")
   private String content;
 }
