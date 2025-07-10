@@ -43,7 +43,7 @@ public class SecurityConfig {
                         "/actuator/**",
                         "/auth/**",
                         "/h2-console/**",
-                        "/resource/jobroles",
+                        "/resource/**",
                         "/docs/**",
                         "/static/**")
                     .permitAll()
