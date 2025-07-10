@@ -4,16 +4,19 @@ import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.response.IdDto;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
+import com.growit.app.retrospect.controller.dto.response.RetrospectExistResponse;
 import com.growit.app.retrospect.controller.dto.response.RetrospectResponse;
 import com.growit.app.retrospect.controller.mapper.RetrospectRequestMapper;
 import com.growit.app.retrospect.controller.mapper.RetrospectResponseMapper;
+import com.growit.app.retrospect.domain.retrospect.dto.CheckRetrospectExistsQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.dto.RetrospectWithPlan;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
+import com.growit.app.retrospect.usecase.CheckRetrospectExistsByPlanIdUseCase;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectUseCase;
 import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
+import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +30,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RetrospectController {
   private final CreateRetrospectUseCase createRetrospectUseCase;
-  private final RetrospectRequestMapper retrospectRequestMapper;
   private final UpdateRetrospectUseCase updateRetrospectUseCase;
   private final GetRetrospectUseCase getRetrospectUseCase;
+  private final CheckRetrospectExistsByPlanIdUseCase checkRetrospectExistsByPlanIdUseCase;
+
+  private final RetrospectRequestMapper retrospectRequestMapper;
+  private final RetrospectResponseMapper retrospectResponseMapper;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createRetrospect(
@@ -57,13 +63,26 @@ public class RetrospectController {
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<RetrospectResponse>> getRetrospect(
       @AuthenticationPrincipal User user, @PathVariable String id) {
-
-    GetRetrospectCommand command = retrospectRequestMapper.toGetCommand(id, user.getId());
-
+    GetRetrospectQueryFilter command = retrospectRequestMapper.toGetCommand(id, user.getId());
     RetrospectWithPlan result = getRetrospectUseCase.execute(command);
-
     RetrospectResponse response =
-        RetrospectResponseMapper.toResponse(result.getRetrospect(), result.getPlan());
+        retrospectResponseMapper.toResponse(result.getRetrospect(), result.getPlan());
+
+    return ResponseEntity.ok(ApiResponse.success(response));
+  }
+
+  @GetMapping(
+      value = "/exists",
+      params = {"goalId", "planId"})
+  public ResponseEntity<ApiResponse<RetrospectExistResponse>> checkRetrospect(
+      @AuthenticationPrincipal User user,
+      @RequestParam("goalId") String goalId,
+      @RequestParam("planId") String planId) {
+    CheckRetrospectExistsQueryFilter filter =
+        retrospectRequestMapper.toCheckQuery(user.getId(), goalId, planId);
+    boolean isExist = checkRetrospectExistsByPlanIdUseCase.execute(filter);
+    RetrospectExistResponse response = retrospectResponseMapper.toExistResponse(isExist);
+
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 }
