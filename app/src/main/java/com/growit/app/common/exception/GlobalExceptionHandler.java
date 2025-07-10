@@ -30,14 +30,13 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> returnBadRequestException(RuntimeException e) {
     return ResponseEntity.badRequest()
-        .body(
-            BaseErrorResponse.builder().message("입력한 정보가 올바르지 않습니다. \n" + e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<BaseErrorResponse> handleException(Exception e) {
     return ResponseEntity.internalServerError()
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler({
@@ -46,7 +45,7 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleForbiddenException(BaseException e) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler({
@@ -54,7 +53,7 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleUnauthorizedException(BaseException e) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler({
@@ -62,20 +61,20 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<BaseErrorResponse> handleConflictException(BaseException e) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler({NotFoundException.class})
   public ResponseEntity<BaseErrorResponse> handleNotFoundException(BaseException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler({NoResourceFoundException.class})
   public ResponseEntity<BaseErrorResponse> handleNoResourceFoundException(
       NoResourceFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
+        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
