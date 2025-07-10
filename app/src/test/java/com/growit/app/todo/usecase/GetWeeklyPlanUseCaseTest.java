@@ -25,14 +25,14 @@ class GetWeeklyPlanUseCaseTest {
   private ToDoRepository toDoRepository;
   private GoalService goalService;
   private GoalRepository goalRepository;
-  private GetWeeklyPlanUseCase useCase;
+  private GetWeeklyTodosUseCase useCase;
 
   @BeforeEach
   void setUp() {
     toDoRepository = mock(ToDoRepository.class);
     goalService = mock(GoalService.class);
     goalRepository = mock(GoalRepository.class);
-    useCase = new GetWeeklyPlanUseCase(toDoRepository, goalService, goalRepository);
+    useCase = new GetWeeklyTodosUseCase(toDoRepository, goalService, goalRepository);
   }
 
   @Test

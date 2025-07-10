@@ -19,7 +19,7 @@ public class ToDoFixture {
     return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
   }
 
-  public static Map<String, List<WeeklyTodosResponse>> weeklyPlanMapWith(
+  public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(
       String key, List<WeeklyTodosResponse> value) {
     Map<String, List<WeeklyTodosResponse>> map = new LinkedHashMap<>();
     for (DayOfWeek day : DayOfWeek.values()) {

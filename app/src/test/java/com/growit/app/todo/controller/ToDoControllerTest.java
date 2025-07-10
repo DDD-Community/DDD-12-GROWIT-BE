@@ -60,7 +60,7 @@ class ToDoControllerTest {
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @MockitoBean private GetToDoUseCase getToDoUseCase;
   @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
-  @MockitoBean private GetWeeklyPlanUseCase getWeeklyPlanUseCase;
+  @MockitoBean private GetWeeklyTodosUseCase getWeeklyTodosUseCase;
   @MockitoBean private ToDoResponseMapper toDoResponseMapper;
   @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
   @Autowired private ObjectMapper objectMapper;
@@ -238,7 +238,7 @@ class ToDoControllerTest {
   }
 
   @Test
-  void getWeeklyPlan() throws Exception {
+  void getWeeklyTodos() throws Exception {
     // given
     String userId = "user-1";
     String goalId = "goal-123";
@@ -261,9 +261,9 @@ class ToDoControllerTest {
             .build();
 
     Map<String, List<WeeklyTodosResponse>> mapped =
-        ToDoFixture.weeklyPlanMapWith("MONDAY", List.of(mondayResponse));
+        ToDoFixture.weeklyTodosMapWith("MONDAY", List.of(mondayResponse));
 
-    given(getWeeklyPlanUseCase.execute(goalId, planId, userId)).willReturn(grouped);
+    given(getWeeklyTodosUseCase.execute(goalId, planId, userId)).willReturn(grouped);
     given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
 
     // when & then
@@ -318,8 +318,9 @@ class ToDoControllerTest {
     // when & then
     mockMvc
         .perform(
-            get("/todos/home/today-mission")
+            get("/todos")
                 .header("Authorization", "Bearer mock-jwt-token")
+                .param("date", LocalDate.now().toString())
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(

@@ -2,6 +2,7 @@ package com.growit.app.todo.usecase;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.util.ToDoUtils;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,6 @@ public class GetTodayMissionUseCase {
   @Transactional(readOnly = true)
   public List<ToDo> execute(String userId, LocalDate date) {
     List<ToDo> toDoList = toDoRepository.findByUserIdAndDate(userId, date);
-
-    List<ToDo> notCompleted = toDoList.stream().filter(todo -> !todo.isCompleted()).toList();
-
-    if (toDoList.isEmpty()) {
-      return null;
-    }
-
-    if (!notCompleted.isEmpty()) {
-      return notCompleted;
-    }
-
-    return List.of();
+    return ToDoUtils.getNotCompletedToDos(toDoList);
   }
 }

@@ -12,6 +12,7 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
+import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class ToDoController {
   private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   private final GetToDoUseCase getToDoUseCase;
   private final DeleteToDoUseCase deleteToDoUseCase;
-  private final GetWeeklyPlanUseCase getWeeklyPlanUseCase;
+  private final GetWeeklyTodosUseCase getWeeklyPlanUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
   private final GetContributionUseCase getContributionUseCase;
 
@@ -70,9 +71,9 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("상태 변경이 완료되었습니다."));
   }
 
-  @GetMapping("/home/today-mission")
+  @GetMapping(params = "date")
   public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
-      @AuthenticationPrincipal User user) {
+      @AuthenticationPrincipal User user, @RequestParam String date) {
     LocalDate today = LocalDate.now();
     List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
     return ResponseEntity.ok(new ApiResponse<>(toDoList));
@@ -92,7 +93,7 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 
-  @GetMapping
+  @GetMapping(params = {"goalId", "planId"})
   public ResponseEntity<ApiResponse<Map<String, List<WeeklyTodosResponse>>>> getWeeklyTodos(
       @AuthenticationPrincipal User user,
       @RequestParam String goalId,
@@ -103,10 +104,10 @@ public class ToDoController {
     return ResponseEntity.ok(new ApiResponse<>(response));
   }
 
-  @GetMapping("/home/contribution")
-  public ResponseEntity<ApiResponse<List<String>>> getContribution(
+  @GetMapping(params = "goalId")
+  public ResponseEntity<ApiResponse<List<ToDoStatus>>> getContribution(
       @AuthenticationPrincipal User user, @RequestParam String goalId) {
-    List<String> statusList = getContributionUseCase.execute(user.getId(), goalId);
+    List<ToDoStatus> statusList = getContributionUseCase.execute(user.getId(), goalId);
     return ResponseEntity.ok(new ApiResponse<>(statusList));
   }
 }
