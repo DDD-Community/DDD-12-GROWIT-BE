@@ -3,24 +3,23 @@ package com.growit.app.todo.usecase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+import com.growit.app.fake.goal.GoalFixture;
+import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.util.ToDoUtils;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.util.List;
-import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 class GetContributionUseCaseTest {
 
-  @Mock private GoalRepository goalRepository;
   @Mock private ToDoRepository toDoRepository;
+  @Mock private GoalQuery goalQuery;
   @InjectMocks private GetContributionUseCase getContributionUseCase;
 
   @BeforeEach
@@ -33,22 +32,14 @@ class GetContributionUseCaseTest {
     // given
     String userId = "user-1";
     String goalId = "goal-1";
-    String planId1 = "plan-1";
-    String planId2 = "plan-2";
+    Goal goal = GoalFixture.defaultGoal();
 
-    Plan plan1 = mock(Plan.class);
-    when(plan1.getId()).thenReturn(planId1);
-    Plan plan2 = mock(Plan.class);
-    when(plan2.getId()).thenReturn(planId2);
-    Goal goal = mock(Goal.class);
-    when(goal.getPlans()).thenReturn(List.of(plan1, plan2));
+    when(goalQuery.getMyGoal(goalId, userId)).thenReturn(goal);
 
-    when(goalRepository.findByIdAndUserId(goalId, userId)).thenReturn(Optional.of(goal));
-
-    ToDo todo1 = mock(ToDo.class);
-    ToDo todo2 = mock(ToDo.class);
+    ToDo todo1 = ToDoFixture.defaultToDo();
+    ToDo todo2 = ToDoFixture.customToDo("todo-2", null, null, null, goalId);
     List<ToDo> toDoList = List.of(todo1, todo2);
-    when(toDoRepository.findByPlanIdIn(List.of(planId1, planId2))).thenReturn(toDoList);
+    when(toDoRepository.findByGoalId(goalId)).thenReturn(toDoList);
 
     try (MockedStatic<ToDoUtils> utils = Mockito.mockStatic(ToDoUtils.class)) {
       List<ToDoStatus> mockResult = List.of(ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED);
@@ -59,8 +50,8 @@ class GetContributionUseCaseTest {
 
       // then
       assertThat(result).containsExactly(ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED);
-      verify(goalRepository).findByIdAndUserId(goalId, userId);
-      verify(toDoRepository).findByPlanIdIn(List.of(planId1, planId2));
+      verify(goalQuery).getMyGoal(goalId, userId);
+      verify(toDoRepository).findByGoalId(goalId);
     }
   }
 
@@ -69,13 +60,13 @@ class GetContributionUseCaseTest {
     // given
     String userId = "user-1";
     String goalId = "goal-x";
-    when(goalRepository.findByIdAndUserId(goalId, userId)).thenReturn(Optional.empty());
+    when(goalQuery.getMyGoal(goalId, userId)).thenThrow(new java.util.NoSuchElementException());
 
     // when & then
-    Assertions.assertThrows(
+    org.junit.jupiter.api.Assertions.assertThrows(
         java.util.NoSuchElementException.class,
         () -> getContributionUseCase.execute(userId, goalId));
-    verify(goalRepository).findByIdAndUserId(goalId, userId);
+    verify(goalQuery).getMyGoal(goalId, userId);
     verifyNoInteractions(toDoRepository);
   }
 }
