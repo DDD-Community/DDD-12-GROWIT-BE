@@ -43,7 +43,7 @@ class ResourceControllerTest {
   }
 
   @Test
-  void getJobRolesTest() throws Exception {
+  void getJobRoles() throws Exception {
     given(jobRoleRepository.findAll()).willReturn(ResourceFixture.defaultJobRoles());
 
     mockMvc
@@ -61,6 +61,26 @@ class ResourceControllerTest {
                         .responseFields(
                             fieldWithPath("data.jobRoles[].id").type(STRING).description("직무 ID"),
                             fieldWithPath("data.jobRoles[].name").type(STRING).description("직무 이름"))
+                        .build())));
+  }
+
+  @Test
+  void getSaying() throws Exception {
+    mockMvc
+        .perform(get("/resource/saying"))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-saying",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Saying")
+                        .summary("격언 조회")
+                        .responseFields(
+                            fieldWithPath("data.message").type(STRING).description("격언 내용"),
+                            fieldWithPath("data.from").type(STRING).description("격언 출처"))
                         .build())));
   }
 }

@@ -1,5 +1,6 @@
 package com.growit.app.todo.domain;
 
+import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -17,5 +18,7 @@ public interface ToDoRepository {
 
   List<ToDo> findByUserIdAndDate(String userId, LocalDate today);
 
-  List<ToDo> findByPlanIdIn(List<String> planIds);
+  List<ToDo> findByGoalId(String goalId);
+
+  List<ToDo> findByDateFilter(GetToDoDateQueryFilter filter);
 }

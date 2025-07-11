@@ -12,6 +12,7 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
+import com.growit.app.todo.domain.vo.FaceStatus;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
@@ -41,6 +42,7 @@ public class ToDoController {
   private final GetWeeklyTodoUseCase getWeeklyPlanUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
   private final GetContributionUseCase getContributionUseCase;
+  private final GetFaceStatusUseCase getFaceStatusUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
@@ -74,7 +76,12 @@ public class ToDoController {
   @GetMapping(params = "date")
   public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
       @AuthenticationPrincipal User user, @RequestParam String date) {
-    LocalDate today = LocalDate.now();
+    LocalDate today;
+    try {
+      today = LocalDate.parse(date);
+    } catch (Exception e) {
+      today = LocalDate.now();
+    }
     List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
     return ResponseEntity.ok(new ApiResponse<>(toDoList));
   }
@@ -109,5 +116,13 @@ public class ToDoController {
       @AuthenticationPrincipal User user, @RequestParam String goalId) {
     List<ToDoStatus> statusList = getContributionUseCase.execute(user.getId(), goalId);
     return ResponseEntity.ok(new ApiResponse<>(statusList));
+  }
+
+  @GetMapping("/face/status")
+  public ResponseEntity<ApiResponse<FaceStatus>> getFaceStatus(
+      @AuthenticationPrincipal User user, @RequestParam String goalId) {
+    FaceStatus result = getFaceStatusUseCase.execute(user.getId(), goalId);
+
+    return ResponseEntity.ok(new ApiResponse<>(result));
   }
 }

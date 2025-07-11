@@ -9,9 +9,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
+import java.util.stream.IntStream;
 
-@Component
 public class ToDoUtils {
   public static List<ToDo> getNotCompletedToDos(List<ToDo> toDoList) {
     return toDoList.stream().filter(todo -> !todo.isCompleted()).toList();
@@ -34,17 +33,28 @@ public class ToDoUtils {
   }
 
   public static List<ToDoStatus> getContribution(Goal goal, List<ToDo> toDoList) {
-    final int days = 28;
+    final int CONTRIBUTION_DAYS = 28;
+    LocalDate today = LocalDate.now();
+
     Map<LocalDate, List<ToDo>> toDoByDate =
         toDoList.stream().collect(Collectors.groupingBy(ToDo::getDate));
-    List<ToDoStatus> statusList = new ArrayList<>();
-    for (int i = 0; i < days; i++) {
-      LocalDate date = goal.getDuration().startDate().plusDays(i);
-      List<ToDo> todos = toDoByDate.getOrDefault(date, Collections.emptyList());
 
-      ToDoStatus status = getStatus(todos);
-      statusList.add(status);
+    return IntStream.range(0, CONTRIBUTION_DAYS)
+        .mapToObj(i -> goal.getDuration().startDate().plusDays(i))
+        .map(date -> getStatusForDate(date, today, toDoByDate))
+        .collect(Collectors.toList());
+  }
+
+  private static ToDoStatus getStatusForDate(
+      LocalDate date, LocalDate today, Map<LocalDate, List<ToDo>> toDoByDate) {
+    if (date.isAfter(today)) {
+      return ToDoStatus.NONE;
     }
-    return statusList;
+    List<ToDo> todos = toDoByDate.getOrDefault(date, Collections.emptyList());
+    return getStatus(todos);
+  }
+
+  public static List<ToDo> getCompletedToDos(List<ToDo> toDos) {
+    return toDos.stream().filter(ToDo::isCompleted).toList();
   }
 }

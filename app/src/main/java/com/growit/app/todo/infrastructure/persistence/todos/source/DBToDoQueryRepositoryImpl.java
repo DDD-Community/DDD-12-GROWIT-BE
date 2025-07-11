@@ -2,6 +2,7 @@ package com.growit.app.todo.infrastructure.persistence.todos.source;
 
 import static com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity.toDoEntity;
 
+import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -45,11 +46,24 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
   }
 
   @Override
-  public List<ToDoEntity> findByPlanIdIn(List<String> planIds) {
+  public List<ToDoEntity> findByGoalId(String goalId) {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
     return queryFactory
         .selectFrom(toDo)
-        .where(toDo.planId.in(planIds), toDo.deletedAt.isNull())
+        .where(toDo.goalId.in(goalId), toDo.deletedAt.isNull())
+        .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findByDateFilter(GetToDoDateQueryFilter filter) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.userId.eq(filter.userId()),
+            toDo.goalId.eq(filter.goalId()),
+            toDo.date.eq(filter.date()),
+            toDo.deletedAt.isNull())
         .fetch();
   }
 }

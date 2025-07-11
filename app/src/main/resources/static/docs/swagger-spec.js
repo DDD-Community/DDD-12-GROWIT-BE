@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"ij5gT1Fit-GrIzfbNrF6e\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"XXK6f-Iy44pgJ8LY8CyzJ\"\n  }\n}"
                   }
                 }
               }
@@ -228,6 +228,31 @@ window.swaggerSpec={
                 "examples" : {
                   "get-job-roles" : {
                     "value" : "{\n  \"data\" : {\n    \"jobRoles\" : [ {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    }, {\n      \"id\" : \"designer\",\n      \"name\" : \"디자이너\"\n    }, {\n      \"id\" : \"planner\",\n      \"name\" : \"기획자\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource/saying" : {
+      "get" : {
+        "tags" : [ "Saying" ],
+        "summary" : "격언 조회",
+        "description" : "격언 조회",
+        "operationId" : "get-saying",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/resource-saying2030450560"
+                },
+                "examples" : {
+                  "get-saying" : {
+                    "value" : "{\n  \"data\" : {\n    \"message\" : \"성공은 매일 반복되는 작은 노력들의 합이다냥!\",\n    \"from\" : \"그로냥\"\n  }\n}"
                   }
                 }
               }
@@ -622,6 +647,40 @@ window.swaggerSpec={
         }
       }
     },
+    "/todos/face/status" : {
+      "get" : {
+        "tags" : [ "Todos" ],
+        "summary" : "그로냥 상태 조회",
+        "description" : "사용자와 목표 ID로 얼굴 상태를 조회합니다.",
+        "operationId" : "get-face-status",
+        "parameters" : [ {
+          "name" : "goalId",
+          "in" : "query",
+          "description" : "목표 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/todos-face-status253775494"
+                },
+                "examples" : {
+                  "get-face-status" : {
+                    "value" : "{\n  \"data\" : \"HAPPY\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/todos/home/today-mission" : {
       "get" : {
         "tags" : [ "Todos" ],
@@ -763,6 +822,24 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "삭제가 완료 되었습니다."
+          }
+        }
+      },
+      "resource-saying2030450560" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "from" : {
+                "type" : "string",
+                "description" : "격언 출처"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "격언 내용"
+              }
+            }
           }
         }
       },
@@ -1032,6 +1109,15 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "todos-face-status253775494" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"
           }
         }
       },

@@ -1,8 +1,7 @@
 package com.growit.app.todo.usecase;
 
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.util.ToDoUtils;
@@ -15,14 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GetContributionUseCase {
-  private final GoalRepository goalRepository;
   private final ToDoRepository toDoRepository;
+  private final GoalQuery goalQuery;
 
   @Transactional(readOnly = true)
   public List<ToDoStatus> execute(String userId, String goalId) {
-    Goal goal = goalRepository.findByIdAndUserId(goalId, userId).orElseThrow();
-    List<String> planIds = goal.getPlans().stream().map(Plan::getId).toList();
-    List<ToDo> toDoList = toDoRepository.findByPlanIdIn(planIds);
+    Goal goal = goalQuery.getMyGoal(goalId, userId);
+    List<ToDo> toDoList = toDoRepository.findByGoalId(goalId);
 
     return ToDoUtils.getContribution(goal, toDoList);
   }
