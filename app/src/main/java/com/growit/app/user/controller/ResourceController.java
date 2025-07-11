@@ -30,6 +30,6 @@ public class ResourceController {
   @GetMapping("/saying")
   public ResponseEntity<ApiResponse<SayingResponse>> getSaying() {
     return ResponseEntity.ok(
-        ApiResponse.success(new SayingResponse("성공은 매일 반복되는 작은 노력들의 합이다냥!", "그로냥")));
+        ApiResponse.success(new SayingResponse("성공은 매일 반복되는 작은 노력들의 합이다냥!!", "그로냥")));
   }
 }
