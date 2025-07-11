@@ -4,7 +4,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
-import com.growit.app.todo.domain.util.ToDoUtils;
+import com.growit.app.todo.domain.service.ConventionCalculator;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GetContributionUseCase {
   private final ToDoRepository toDoRepository;
+  private final ConventionCalculator conventionCalculator;
   private final GoalQuery goalQuery;
 
   @Transactional(readOnly = true)
@@ -22,6 +23,6 @@ public class GetContributionUseCase {
     Goal goal = goalQuery.getMyGoal(goalId, userId);
     List<ToDo> toDoList = toDoRepository.findByGoalId(goalId);
 
-    return ToDoUtils.getContribution(goal, toDoList);
+    return conventionCalculator.getContribution(goal, toDoList);
   }
 }

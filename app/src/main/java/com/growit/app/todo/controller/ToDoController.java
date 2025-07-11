@@ -18,7 +18,6 @@ import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -76,13 +75,8 @@ public class ToDoController {
   @GetMapping(params = "date")
   public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
       @AuthenticationPrincipal User user, @RequestParam String date) {
-    LocalDate today;
-    try {
-      today = LocalDate.parse(date);
-    } catch (Exception e) {
-      today = LocalDate.now();
-    }
-    List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
+    List<ToDo> toDoList =
+        getTodayMissionUseCase.execute(toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
     return ResponseEntity.ok(new ApiResponse<>(toDoList));
   }
 

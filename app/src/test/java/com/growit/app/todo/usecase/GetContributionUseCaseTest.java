@@ -9,6 +9,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.service.ConventionCalculator;
 import com.growit.app.todo.domain.util.ToDoUtils;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.util.List;
@@ -20,6 +21,7 @@ class GetContributionUseCaseTest {
 
   @Mock private ToDoRepository toDoRepository;
   @Mock private GoalQuery goalQuery;
+  @Mock private ConventionCalculator conventionCalculator;
   @InjectMocks private GetContributionUseCase getContributionUseCase;
 
   @BeforeEach
@@ -43,7 +45,7 @@ class GetContributionUseCaseTest {
 
     try (MockedStatic<ToDoUtils> utils = Mockito.mockStatic(ToDoUtils.class)) {
       List<ToDoStatus> mockResult = List.of(ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED);
-      utils.when(() -> ToDoUtils.getContribution(goal, toDoList)).thenReturn(mockResult);
+      utils.when(() -> conventionCalculator.getContribution(goal, toDoList)).thenReturn(mockResult);
 
       // when
       List<ToDoStatus> result = getContributionUseCase.execute(userId, goalId);
