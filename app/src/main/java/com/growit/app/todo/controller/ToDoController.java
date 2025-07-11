@@ -39,7 +39,7 @@ public class ToDoController {
   private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   private final GetToDoUseCase getToDoUseCase;
   private final DeleteToDoUseCase deleteToDoUseCase;
-  private final GetWeeklyTodoUseCase getWeeklyPlanUseCase;
+  private final GetWeeklyTodoUseCase getWeeklyTodoUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
   private final GetContributionUseCase getContributionUseCase;
   private final GetFaceStatusUseCase getFaceStatusUseCase;
@@ -105,7 +105,7 @@ public class ToDoController {
       @AuthenticationPrincipal User user,
       @RequestParam String goalId,
       @RequestParam String planId) {
-    Map<DayOfWeek, List<ToDo>> grouped = getWeeklyPlanUseCase.execute(goalId, planId, user.getId());
+    Map<DayOfWeek, List<ToDo>> grouped = getWeeklyTodoUseCase.execute(goalId, planId, user.getId());
     Map<String, List<WeeklyTodosResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
