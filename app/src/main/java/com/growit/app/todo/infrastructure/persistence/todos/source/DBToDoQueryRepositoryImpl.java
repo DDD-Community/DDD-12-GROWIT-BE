@@ -50,7 +50,7 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
     return queryFactory
         .selectFrom(toDo)
-        .where(toDo.goalId.in(goalId), toDo.deletedAt.isNull())
+        .where(toDo.goalId.eq(goalId), toDo.deletedAt.isNull())
         .fetch();
   }
 

@@ -318,7 +318,7 @@ class ToDoControllerTest {
         List.of(
             ToDoFixture.customToDo("id", "user-1", LocalDate.now(), "planId", "goalId"),
             ToDoFixture.customToDo("id2", "user-1", LocalDate.now(), "planId", "goalId"));
-    given(getTodayMissionUseCase.execute(any(), any())).willReturn(todoList);
+    given(getTodayMissionUseCase.execute(any())).willReturn(todoList);
 
     // when & then
     mockMvc

@@ -9,13 +9,23 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.service.ConventionCalculator;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 class ToDoUtilsTest {
+  @Mock private ConventionCalculator conventionCalculator;
+
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.openMocks(this);
+  }
 
   @Test
   void givenAllToDosCompleted_whenGetNotCompletedToDos_thenReturnsEmptyList() {
@@ -47,18 +57,6 @@ class ToDoUtilsTest {
     // then
     assertThat(result).containsExactly(notCompleted);
   }
-
-  //  @Test
-  //  void givenEmptyInputList_whenGetNotCompletedToDos_thenReturnsNull() {
-  //    // given
-  //    List<ToDo> todos = List.of();
-  //
-  //    // when
-  //    List<ToDo> result = ToDoUtils.getNotCompletedToDos(todos);
-  //
-  //    // then
-  //    assertThat(result).isNull();
-  //  }
 
   @Test
   void givenToDosOnSomeDays_whenGroupByDayOfWeek_thenGroupsCorrectlyAndFillsEmptyDays() {
@@ -100,18 +98,21 @@ class ToDoUtilsTest {
             List.of(
                 new Plan(
                     "plan-1", 1, "Plan", new PlanDuration(startDate, startDate.plusDays(27)))));
-    ToDo completed = ToDoFixture.customToDo("id1", "user-1", startDate, "plan-1", "goal-1");
+    ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", startDate, "plan-1", "goal-1");
     completed.updateIsCompleted(true);
     ToDo notCompleted =
-        ToDoFixture.customToDo("id2", "user-1", startDate.plusDays(1), "plan-1", "goal-1");
+        ToDoFixture.customToDo("todo-2", "user-1", startDate.plusDays(1), "plan-1", "goal-1");
     notCompleted.updateIsCompleted(false);
 
     List<ToDo> todos = List.of(completed, notCompleted);
 
+    System.out.println("Todos: " + todos); // 디버그 출력
+
     // when
-    List<ToDoStatus> result = ToDoUtils.getContribution(goal, todos);
+    List<ToDoStatus> result = conventionCalculator.getContribution(goal, todos);
 
     // then
+    System.out.println("Result: " + result); // 디버그 출력
     assertThat(result).hasSize(28);
     assertThat(result.get(0)).isEqualTo(ToDoStatus.COMPLETED);
     assertThat(result.get(1)).isEqualTo(ToDoStatus.NOT_STARTED);
