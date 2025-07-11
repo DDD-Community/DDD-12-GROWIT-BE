@@ -59,6 +59,12 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
+  public List<ToDo> findByGoalId(String goalId) {
+    List<ToDoEntity> entities = repository.findByGoalId(goalId);
+    return mapper.toDomainList(entities);
+  }
+
+  @Override
   public List<ToDo> findByDateFilter(GetToDoDateQueryFilter filter) {
     List<ToDoEntity> entities = repository.findByDateFilter(filter);
     return mapper.toDomainList(entities);

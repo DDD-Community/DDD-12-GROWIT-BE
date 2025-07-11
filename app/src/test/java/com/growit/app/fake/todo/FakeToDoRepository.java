@@ -75,6 +75,11 @@ public class FakeToDoRepository implements ToDoRepository {
     return List.of();
   }
 
+  @Override
+  public List<ToDo> findByGoalId(String goalId) {
+    return List.of();
+  }
+
   public void clear() {
     store.clear();
   }

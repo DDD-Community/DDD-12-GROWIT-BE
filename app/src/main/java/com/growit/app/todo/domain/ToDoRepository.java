@@ -18,5 +18,7 @@ public interface ToDoRepository {
 
   List<ToDo> findByUserIdAndDate(String userId, LocalDate today);
 
+  List<ToDo> findByGoalId(String goalId);
+
   List<ToDo> findByDateFilter(GetToDoDateQueryFilter filter);
 }

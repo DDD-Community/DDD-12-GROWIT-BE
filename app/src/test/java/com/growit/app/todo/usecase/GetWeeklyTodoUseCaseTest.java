@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
@@ -20,29 +21,28 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GetWeeklyPlanUseCaseTest {
+class GetWeeklyTodoUseCaseTest {
 
   private ToDoRepository toDoRepository;
   private GoalService goalService;
   private GoalRepository goalRepository;
-  private GetWeeklyPlanUseCase useCase;
+  private GetWeeklyTodoUseCase useCase;
 
   @BeforeEach
   void setUp() {
     toDoRepository = mock(ToDoRepository.class);
     goalService = mock(GoalService.class);
     goalRepository = mock(GoalRepository.class);
-    useCase = new GetWeeklyPlanUseCase(toDoRepository, goalService, goalRepository);
+    useCase = new GetWeeklyTodoUseCase(toDoRepository, goalService, goalRepository);
   }
 
   @Test
   void givenValidGoalAndPlan_whenExecute_thenReturnGroupedTodosByDayOfWeek() {
     // Given
     String userId = "user-1";
-    String goalId = "goal-123";
-    String planId = "plan-456";
-    Goal goal = mock(Goal.class);
-    given(goal.getId()).willReturn(goalId);
+    String goalId = "goal-1";
+    String planId = "plan-1";
+    Goal goal = GoalFixture.defaultGoal();
     given(goalRepository.findById(goalId)).willReturn(Optional.of(goal));
     willDoNothing().given(goalService).checkPlanExists(userId, goalId, planId);
 

@@ -14,4 +14,6 @@ public interface DBToDoQueryRepository {
   List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today);
 
   List<ToDoEntity> findByDateFilter(GetToDoDateQueryFilter filter);
+
+  List<ToDoEntity> findByGoalId(String goalId);
 }

@@ -3,6 +3,7 @@ package com.growit.app.todo.usecase;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
+import com.growit.app.todo.domain.util.ToDoUtils;
 import com.growit.app.todo.domain.vo.FaceStatus;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +19,7 @@ public class GetFaceStatusUseCase {
     LocalDate yesterday = LocalDate.now().minusDays(1);
     GetToDoDateQueryFilter filter = new GetToDoDateQueryFilter(userId, goalId, yesterday);
     List<ToDo> toDos = toDoRepository.findByDateFilter(filter);
-    List<ToDo> completedToDos = toDos.stream().filter(ToDo::isCompleted).toList();
+    List<ToDo> completedToDos = ToDoUtils.getCompletedToDos(toDos);
 
     return FaceStatus.from(completedToDos.size(), toDos.size());
   }
