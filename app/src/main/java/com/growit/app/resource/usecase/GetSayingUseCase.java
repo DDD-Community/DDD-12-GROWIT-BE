@@ -18,6 +18,6 @@ public class GetSayingUseCase {
 
     return sayings.isEmpty()
         ? defaultSaying
-        : sayings.get(LocalDateTime.now().getSecond() % sayings.size());
+        : sayings.get(LocalDateTime.now().getMinute() % sayings.size());
   }
 }

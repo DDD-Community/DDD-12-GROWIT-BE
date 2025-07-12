@@ -1,10 +1,10 @@
-package com.growit.app.fake.user;
+package com.growit.app.fake.resource;
 
 import com.growit.app.resource.domain.jobrole.JobRole;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResourceFixture {
+public class JobRoleFixture {
   public static List<JobRole> defaultJobRoles() {
     JobRole dev = new JobRole("dev", "개발자");
     JobRole designer = new JobRole("designer", "디자이너");
