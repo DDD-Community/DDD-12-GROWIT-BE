@@ -3,8 +3,8 @@ package com.growit.app.user.usecase;
 import static com.growit.app.common.util.message.ErrorCode.RESOURCE_JOBROLE_NOT_FOUND;
 
 import com.growit.app.common.exception.BadRequestException;
-import com.growit.app.user.domain.jobrole.JobRole;
-import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.domain.jobrole.JobRole;
+import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;

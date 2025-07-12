@@ -1,10 +1,12 @@
-package com.growit.app.user.controller;
+package com.growit.app.resource.controller;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.user.controller.dto.response.SayingResponse;
-import com.growit.app.user.controller.mapper.ResponseMapper;
-import com.growit.app.user.domain.jobrole.JobRole;
-import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.controller.dto.response.SayingResponse;
+import com.growit.app.resource.controller.mapper.ResourceResponseMapper;
+import com.growit.app.resource.domain.jobrole.JobRole;
+import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.domain.saying.Saying;
+import com.growit.app.resource.usecase.GetSayingUseCase;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ResourceController {
   private final JobRoleRepository jobRoleRepository;
-  private final ResponseMapper responseMapper;
+  private final GetSayingUseCase getSayingUseCase;
+  private final ResourceResponseMapper responseMapper;
 
   @GetMapping("/jobroles")
   public ResponseEntity<ApiResponse<Map<String, Object>>> getAllJobRoles() {
@@ -29,7 +32,8 @@ public class ResourceController {
 
   @GetMapping("/saying")
   public ResponseEntity<ApiResponse<SayingResponse>> getSaying() {
-    return ResponseEntity.ok(
-        ApiResponse.success(new SayingResponse("성공은 매일 반복되는 작은 노력들의 합이다냥!!", "그로냥")));
+    Saying saying = getSayingUseCase.execute();
+
+    return ResponseEntity.ok(ApiResponse.success(responseMapper.toSayingResponse(saying)));
   }
 }

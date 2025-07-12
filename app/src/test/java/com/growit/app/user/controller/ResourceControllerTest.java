@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.fake.user.ResourceFixture;
-import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

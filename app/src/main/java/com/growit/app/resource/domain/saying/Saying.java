@@ -1,4 +1,4 @@
-package com.growit.app.user.domain.jobrole;
+package com.growit.app.resource.domain.saying;
 
 import lombok.*;
 
@@ -6,7 +6,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JobRole {
+public class Saying {
   private String id;
-  private String name;
+  private String message;
+  private String from;
 }

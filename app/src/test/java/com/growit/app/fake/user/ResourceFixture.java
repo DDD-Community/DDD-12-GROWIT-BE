@@ -1,6 +1,6 @@
 package com.growit.app.fake.user;
 
-import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.resource.domain.jobrole.JobRole;
 import java.util.Arrays;
 import java.util.List;
 
