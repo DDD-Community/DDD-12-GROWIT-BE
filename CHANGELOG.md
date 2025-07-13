@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.4...v1.14.5) (2025-07-13)
+
+
+### Bug Fixes
+
+* **msg:** 핸들링되지 않는 message error ([af23b2e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/af23b2ef63f432e2836cf0b1de0b5f73b28e5557))
+* **msg:** 핸들링되지 않는 message error ([7ceec17](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7ceec1781701d8b12b495be67d8bcab384598e81))
+
 ## [1.14.4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.3...v1.14.4) (2025-07-13)
 
 
