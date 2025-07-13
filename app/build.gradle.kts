@@ -89,7 +89,7 @@ swaggerSources {
 }
 
 openapi3 {
-  this.setServer("http://growit-alb-alb-549641300.ap-northeast-2.elb.amazonaws.com/")
+  this.setServer("https://api.grow-it.me/")
 
   title = "GrowIT API Specification"
   description = "GrowIT description"

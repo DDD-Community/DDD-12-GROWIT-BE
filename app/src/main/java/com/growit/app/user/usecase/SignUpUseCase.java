@@ -1,7 +1,7 @@
 package com.growit.app.user.usecase;
 
 import com.growit.app.common.exception.BaseException;
-import com.growit.app.user.domain.jobrole.service.JobRoleService;
+import com.growit.app.resource.domain.jobrole.service.JobRoleService;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;

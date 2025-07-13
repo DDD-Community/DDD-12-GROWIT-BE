@@ -1,5 +1,6 @@
 package com.growit.app.todo.domain.service;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,8 +10,13 @@ import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +31,6 @@ class ToDoServiceTest {
     FakeGoalRepository fakeGoalRepo = new FakeGoalRepository();
     fakeToDoRepo = new FakeToDoRepository();
     toDoService = new ToDoService(fakeToDoRepo);
-
-    // Goal을 하나 만들어서 저장 (goalId 필요)
     goal = GoalFixture.defaultGoal();
     fakeGoalRepo.saveGoal(goal);
   }
@@ -108,5 +112,59 @@ class ToDoServiceTest {
     var result = toDoService.getMyToDo(todo.getId(), todo.getUserId());
 
     assertNotNull(result);
+  }
+
+  @Test
+  void givenGoalAndToDos_whenGetContribution_thenReturnsCorrectStatus() {
+    // given
+    LocalDate startDate = LocalDate.of(2024, 7, 1);
+    Goal goal =
+        GoalFixture.customGoal(
+            "goal-1",
+            "user-1",
+            "Goal",
+            new GoalDuration(startDate, startDate.plusDays(27)),
+            null,
+            List.of(
+                new Plan(
+                    "plan-1", 1, "Plan", new PlanDuration(startDate, startDate.plusDays(27)))));
+
+    ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", startDate, "plan-1", "goal-1");
+    completed.updateIsCompleted(true);
+    ToDo notCompleted =
+        ToDoFixture.customToDo("todo-2", "user-1", startDate.plusDays(1), "plan-1", "goal-1");
+    notCompleted.updateIsCompleted(false);
+
+    List<ToDo> todos = List.of(completed, notCompleted);
+
+    // when
+    List<ToDoStatus> result = toDoService.getContribution(goal, todos);
+
+    // then
+    assertThat(result).hasSize(28);
+    assertThat(result.get(0)).isEqualTo(ToDoStatus.COMPLETED);
+    assertThat(result.get(1)).isEqualTo(ToDoStatus.NOT_STARTED);
+    for (int i = 2; i < 28; i++) {
+      assertThat(result.get(i)).isEqualTo(ToDoStatus.NONE);
+    }
+  }
+
+  @Test
+  void givenToDos_whenGetStatus_thenReturnsCorrectStatus() {
+    // given
+    ToDo completed =
+        ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), "plan-1", "goal-1");
+    completed.updateIsCompleted(true);
+    ToDo notCompleted =
+        ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), "plan-1", "goal-1");
+    notCompleted.updateIsCompleted(false);
+
+    List<ToDo> todos = List.of(completed, notCompleted);
+
+    // when
+    ToDoStatus status = ToDoStatus.getStatus(todos);
+
+    // then
+    assertThat(status).isEqualTo(ToDoStatus.IN_PROGRESS);
   }
 }

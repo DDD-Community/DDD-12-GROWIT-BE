@@ -12,11 +12,12 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
+import com.growit.app.todo.domain.vo.FaceStatus;
+import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,10 @@ public class ToDoController {
   private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   private final GetToDoUseCase getToDoUseCase;
   private final DeleteToDoUseCase deleteToDoUseCase;
-  private final GetWeeklyPlanUseCase getWeeklyPlanUseCase;
+  private final GetWeeklyTodoUseCase getWeeklyTodoUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
   private final GetContributionUseCase getContributionUseCase;
+  private final GetFaceStatusUseCase getFaceStatusUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createToDo(
@@ -70,11 +72,11 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("상태 변경이 완료되었습니다."));
   }
 
-  @GetMapping("/home/today-mission")
+  @GetMapping(params = "date")
   public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
-      @AuthenticationPrincipal User user) {
-    LocalDate today = LocalDate.now();
-    List<ToDo> toDoList = getTodayMissionUseCase.execute(user.getId(), today);
+      @AuthenticationPrincipal User user, @RequestParam String date) {
+    List<ToDo> toDoList =
+        getTodayMissionUseCase.execute(toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
     return ResponseEntity.ok(new ApiResponse<>(toDoList));
   }
 
@@ -92,21 +94,29 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 
-  @GetMapping
+  @GetMapping(params = {"goalId", "planId"})
   public ResponseEntity<ApiResponse<Map<String, List<WeeklyTodosResponse>>>> getWeeklyTodos(
       @AuthenticationPrincipal User user,
       @RequestParam String goalId,
       @RequestParam String planId) {
-    Map<DayOfWeek, List<ToDo>> grouped = getWeeklyPlanUseCase.execute(goalId, planId, user.getId());
+    Map<DayOfWeek, List<ToDo>> grouped = getWeeklyTodoUseCase.execute(goalId, planId, user.getId());
     Map<String, List<WeeklyTodosResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
   }
 
-  @GetMapping("/home/contribution")
-  public ResponseEntity<ApiResponse<List<ToDo>>> getContribution(
+  @GetMapping(params = "goalId")
+  public ResponseEntity<ApiResponse<List<ToDoStatus>>> getContribution(
       @AuthenticationPrincipal User user, @RequestParam String goalId) {
-    getContributionUseCase.execute(user.getId(), goalId);
-    return ResponseEntity.ok(new ApiResponse<>(null));
+    List<ToDoStatus> statusList = getContributionUseCase.execute(user.getId(), goalId);
+    return ResponseEntity.ok(new ApiResponse<>(statusList));
+  }
+
+  @GetMapping("/face/status")
+  public ResponseEntity<ApiResponse<FaceStatus>> getFaceStatus(
+      @AuthenticationPrincipal User user, @RequestParam String goalId) {
+    FaceStatus result = getFaceStatusUseCase.execute(user.getId(), goalId);
+
+    return ResponseEntity.ok(new ApiResponse<>(result));
   }
 }

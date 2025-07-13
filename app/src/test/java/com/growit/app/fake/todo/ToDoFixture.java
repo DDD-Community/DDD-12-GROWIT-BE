@@ -15,11 +15,15 @@ public class ToDoFixture {
     return new ToDoBuilder().build();
   }
 
+  public static ToDo completedToDo() {
+    return new ToDoBuilder().isCompleted(true).build();
+  }
+
   public static CreateToDoRequest defaultCreateToDoRequest() {
     return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
   }
 
-  public static Map<String, List<WeeklyTodosResponse>> weeklyPlanMapWith(
+  public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(
       String key, List<WeeklyTodosResponse> value) {
     Map<String, List<WeeklyTodosResponse>> map = new LinkedHashMap<>();
     for (DayOfWeek day : DayOfWeek.values()) {

@@ -4,7 +4,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.BOOLEAN;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -26,6 +26,8 @@ import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.vo.FaceStatus;
+import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -60,9 +62,12 @@ class ToDoControllerTest {
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @MockitoBean private GetToDoUseCase getToDoUseCase;
   @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
-  @MockitoBean private GetWeeklyPlanUseCase getWeeklyPlanUseCase;
+  @MockitoBean private GetWeeklyTodoUseCase getWeeklyTodoUseCase;
   @MockitoBean private ToDoResponseMapper toDoResponseMapper;
   @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
+  @MockitoBean private GetFaceStatusUseCase getFaceStatusUseCase;
+
+  @MockitoBean private GetContributionUseCase getContributionUseCase;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -238,7 +243,7 @@ class ToDoControllerTest {
   }
 
   @Test
-  void getWeeklyPlan() throws Exception {
+  void getWeeklyTodos() throws Exception {
     // given
     String userId = "user-1";
     String goalId = "goal-123";
@@ -261,9 +266,9 @@ class ToDoControllerTest {
             .build();
 
     Map<String, List<WeeklyTodosResponse>> mapped =
-        ToDoFixture.weeklyPlanMapWith("MONDAY", List.of(mondayResponse));
+        ToDoFixture.weeklyTodosMapWith("MONDAY", List.of(mondayResponse));
 
-    given(getWeeklyPlanUseCase.execute(goalId, planId, userId)).willReturn(grouped);
+    given(getWeeklyTodoUseCase.execute(goalId, planId, userId)).willReturn(grouped);
     given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
 
     // when & then
@@ -313,13 +318,14 @@ class ToDoControllerTest {
         List.of(
             ToDoFixture.customToDo("id", "user-1", LocalDate.now(), "planId", "goalId"),
             ToDoFixture.customToDo("id2", "user-1", LocalDate.now(), "planId", "goalId"));
-    given(getTodayMissionUseCase.execute(any(), any())).willReturn(todoList);
+    given(getTodayMissionUseCase.execute(any())).willReturn(todoList);
 
     // when & then
     mockMvc
         .perform(
-            get("/todos/home/today-mission")
+            get("/todos")
                 .header("Authorization", "Bearer mock-jwt-token")
+                .param("date", LocalDate.now().toString())
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(
@@ -341,6 +347,77 @@ class ToDoControllerTest {
                             fieldWithPath("data[].isCompleted")
                                 .type("Boolean")
                                 .description("완료 여부"))
+                        .build())));
+  }
+
+  @Test
+  void getContribution() throws Exception {
+    // given
+    String goalId = "goal-123";
+    List<ToDoStatus> statusList =
+        List.of(
+            ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED, ToDoStatus.IN_PROGRESS, ToDoStatus.NONE);
+    given(getContributionUseCase.execute(anyString(), eq(goalId))).willReturn(statusList);
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/todos")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("goalId", goalId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-contribution",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("목표별 28일 기여도 리스트 조회")
+                        .description("특정 목표(goalId)에 대한 28일간의 기여도(상태) 리스트를 반환합니다.")
+                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data[]")
+                                .type("String")
+                                .description(
+                                    "28일간 각 날짜별 ToDoStatus(예: COMPLETED, NOT_STARTED, IN_PROGRESS, NONE)"))
+                        .build())));
+  }
+
+  @Test
+  void getFaceStatus() throws Exception {
+    // given
+    String userId = "user-1";
+    String goalId = "goal-123";
+    FaceStatus expectedStatus = FaceStatus.HAPPY;
+
+    given(getFaceStatusUseCase.execute(userId, goalId)).willReturn(expectedStatus);
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/todos/face/status")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("goalId", goalId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-face-status",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("그로냥 상태 조회")
+                        .description("사용자와 목표 ID로 얼굴 상태를 조회합니다.")
+                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data")
+                                .type(STRING)
+                                .description("얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"))
                         .build())));
   }
 }

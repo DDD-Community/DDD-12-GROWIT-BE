@@ -4,6 +4,7 @@ import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.domain.dto.*;
+import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,5 +30,15 @@ public class ToDoRequestMapper {
 
   public GetToDoQueryFilter toGetQuery(String id, String userId) {
     return new GetToDoQueryFilter(id, userId);
+  }
+
+  public GetDateQueryFilter toGetDateQueryFilter(String userId, String date) {
+    LocalDate today;
+    try {
+      today = LocalDate.parse(date);
+    } catch (Exception e) {
+      today = LocalDate.now();
+    }
+    return new GetDateQueryFilter(userId, today);
   }
 }

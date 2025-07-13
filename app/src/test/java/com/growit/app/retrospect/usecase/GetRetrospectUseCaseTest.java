@@ -8,9 +8,9 @@ import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectCommand;
-import com.growit.app.retrospect.domain.retrospect.dto.RetrospectWithPlan;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
+import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,8 +32,8 @@ class GetRetrospectUseCaseTest {
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
     Goal goal = GoalFixture.defaultGoal();
 
-    GetRetrospectCommand command =
-        new GetRetrospectCommand(retrospect.getId(), retrospect.getUserId());
+    GetRetrospectQueryFilter command =
+        new GetRetrospectQueryFilter(retrospect.getId(), retrospect.getUserId());
 
     when(retrospectQuery.getMyRetrospect(retrospect.getId(), retrospect.getUserId()))
         .thenReturn(retrospect);
