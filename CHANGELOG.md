@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.1...v1.14.2) (2025-07-13)
+
+
+### Bug Fixes
+
+* **saying:** spec 에러 ([0858fca](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0858fca7d0a86bc3759ff01e9a1e615306f0eed8))
+* **saying:** spec 에러 ([e89f22c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e89f22c332205f2a76f77a8572877fa292ad8fe5))
+
 ## [1.14.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.0...v1.14.1) (2025-07-13)
 
 
