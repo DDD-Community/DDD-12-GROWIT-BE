@@ -17,6 +17,10 @@ public class MessageService {
   }
 
   public String msg(String code, Object[] args) {
-    return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+    try {
+      return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+    } catch (Exception e) {
+      return code;
+    }
   }
 }
