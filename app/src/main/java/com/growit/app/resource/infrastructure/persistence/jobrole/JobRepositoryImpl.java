@@ -1,8 +1,8 @@
-package com.growit.app.user.infrastructure.persistence.jobrole;
+package com.growit.app.resource.infrastructure.persistence.jobrole;
 
-import com.growit.app.user.domain.jobrole.JobRole;
-import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
-import com.growit.app.user.infrastructure.persistence.jobrole.source.DBJobRoleRepository;
+import com.growit.app.resource.domain.jobrole.JobRole;
+import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.infrastructure.persistence.jobrole.source.DBJobRoleRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;

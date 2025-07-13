@@ -1,4 +1,4 @@
-package com.growit.app.user.infrastructure.persistence.jobrole.source.entity;
+package com.growit.app.resource.infrastructure.persistence.jobrole.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import jakarta.persistence.Column;

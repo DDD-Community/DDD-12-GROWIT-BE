@@ -1,4 +1,4 @@
-package com.growit.app.user.controller;
+package com.growit.app.resource.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
@@ -11,8 +11,10 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.fake.user.ResourceFixture;
-import com.growit.app.user.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.fake.resource.JobRoleFixture;
+import com.growit.app.fake.resource.SayingFixture;
+import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.usecase.GetSayingUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,7 @@ class ResourceControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private JobRoleRepository jobRoleRepository;
+  @MockitoBean private GetSayingUseCase getSayingUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -44,7 +47,7 @@ class ResourceControllerTest {
 
   @Test
   void getJobRoles() throws Exception {
-    given(jobRoleRepository.findAll()).willReturn(ResourceFixture.defaultJobRoles());
+    given(jobRoleRepository.findAll()).willReturn(JobRoleFixture.defaultJobRoles());
 
     mockMvc
         .perform(get("/resource/jobroles"))
@@ -66,6 +69,8 @@ class ResourceControllerTest {
 
   @Test
   void getSaying() throws Exception {
+    given(getSayingUseCase.execute()).willReturn(SayingFixture.defaultSaying());
+
     mockMvc
         .perform(get("/resource/saying"))
         .andExpect(status().isOk())

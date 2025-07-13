@@ -1,6 +1,6 @@
-package com.growit.app.user.domain.jobrole.repository;
+package com.growit.app.resource.domain.jobrole.repository;
 
-import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.resource.domain.jobrole.JobRole;
 import java.util.List;
 import java.util.Optional;
 

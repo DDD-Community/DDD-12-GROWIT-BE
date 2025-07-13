@@ -1,6 +1,6 @@
-package com.growit.app.user.infrastructure.persistence.jobrole.source;
+package com.growit.app.resource.infrastructure.persistence.jobrole.source;
 
-import com.growit.app.user.infrastructure.persistence.jobrole.source.entity.JobRoleEntity;
+import com.growit.app.resource.infrastructure.persistence.jobrole.source.entity.JobRoleEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

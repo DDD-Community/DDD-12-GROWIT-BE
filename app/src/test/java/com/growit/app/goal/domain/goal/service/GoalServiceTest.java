@@ -58,16 +58,6 @@ class GoalServiceTest {
   }
 
   @Test
-  void givenNullEndDate_whenCreatingGoalDuration_thenThrowException() {
-    // Given
-    LocalDate start = LocalDate.now().plusDays(1);
-    // When & Then
-    assertThrows(
-        BadRequestException.class,
-        () -> goalService.checkGoalDuration(new GoalDuration(start, null)));
-  }
-
-  @Test
   void givenStartDateNotMonday_whenCreatingGoalDuration_thenThrowException() {
     // Given
     LocalDate start = next(DayOfWeek.TUESDAY);

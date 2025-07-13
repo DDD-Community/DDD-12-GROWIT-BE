@@ -1,6 +1,6 @@
 package com.growit.app.user.controller.dto.response;
 
-import com.growit.app.user.domain.jobrole.JobRole;
+import com.growit.app.resource.domain.jobrole.JobRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

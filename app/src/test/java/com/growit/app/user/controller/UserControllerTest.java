@@ -14,9 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.fake.user.UserFixture;
+import com.growit.app.resource.domain.jobrole.JobRole;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
-import com.growit.app.user.domain.jobrole.JobRole;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.usecase.GetUserUseCase;
 import org.apache.http.HttpHeaders;

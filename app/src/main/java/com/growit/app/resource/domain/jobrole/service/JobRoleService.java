@@ -1,4 +1,4 @@
-package com.growit.app.user.domain.jobrole.service;
+package com.growit.app.resource.domain.jobrole.service;
 
 import com.growit.app.common.exception.BadRequestException;
 
