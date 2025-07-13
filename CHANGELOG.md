@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.3...v1.14.4) (2025-07-13)
+
+
+### Bug Fixes
+
+* **version:** swagger test ([616ffcb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/616ffcbd8151612be1b758026789a57ce18401fa))
+
 ## [1.14.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.2...v1.14.3) (2025-07-13)
 
 
