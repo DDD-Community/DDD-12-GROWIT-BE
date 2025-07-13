@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.14.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.13.0...v1.14.0) (2025-07-13)
+
+
+### Features
+
+* **saying:** v2 migration 테이블 생성 및 데이터 추가 ([095fcd2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/095fcd2be63a861b80e0b2d10319941923c5c249))
+* **saying:** 조회 api 연동 ([f0daedc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f0daedce5a9ebdb07d27f51c655c01a3d4e1d0f8)), closes [#116](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/116)
+* **saying:** 조회 api 연동 ([25492cd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/25492cdc21da3c44698bc0b98a8e7db43df9dbeb))
+
+
+### Bug Fixes
+
+* **saying:** 리뷰 반영 완료 ([f2d1dc8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f2d1dc834b0fcf60251fe034b14fa990dd97e9ab))
+
 ## [1.13.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.12.0...v1.13.0) (2025-07-11)
 
 

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetSayingUseCase {
   private final SayingRepository sayingRepository;
-  private static final Saying DEFAULT_SAYING = new Saying("tempId", "성공은 매일 반복되는 작은 노력들의 합이다냥!", "그로냥");
+  private static final Saying DEFAULT_SAYING =
+      new Saying("tempId", "성공은 매일 반복되는 작은 노력들의 합이다냥!", "그로냥");
 
   public Saying execute() {
     final List<Saying> sayings = sayingRepository.findAll();
