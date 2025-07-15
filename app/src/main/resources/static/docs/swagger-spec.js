@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"KDc7suWE0_OPCcRyj3Pod\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"gFmxOu8UrfchcM9uL-nAb\"\n  }\n}"
                   }
                 }
               }
@@ -443,10 +443,10 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-today-mission" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-15\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-15\",\n    \"isCompleted\" : false\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-16\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-16\",\n    \"isCompleted\" : false\n  } ]\n}"
                   },
                   "get-weekly-plan" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-07-15\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-07-16\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
                   },
                   "get-contribution" : {
                     "value" : "{\n  \"data\" : [ \"COMPLETED\", \"NOT_STARTED\", \"IN_PROGRESS\", \"NONE\" ]\n}"
@@ -470,7 +470,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"planId\" : \"plan-1\",\n  \"date\" : \"2025-07-15\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"planId\" : \"plan-1\",\n  \"date\" : \"2025-07-16\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -520,7 +520,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-15\",\n    \"isCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-07-16\",\n    \"isCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -550,7 +550,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-07-15\",\n  \"content\" : \"수정된 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-07-16\",\n  \"content\" : \"수정된 내용\"\n}"
                 }
               }
             }
@@ -720,11 +720,67 @@ window.swaggerSpec={
             }
           }
         }
+      },
+      "put" : {
+        "tags" : [ "User" ],
+        "summary" : "사용자 업데이트",
+        "description" : "사용자 업데이트",
+        "operationId" : "update-user",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "JWT (Your Token)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Bearer mock-jwt-token"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/users-myprofile-662092072"
+              },
+              "examples" : {
+                "update-user" : {
+                  "value" : "{\n  \"name\" : \"updatedName\",\n  \"jobRoleId\" : \"jobRoleId-1\",\n  \"careerYear\" : \"JUNIOR\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/users-myprofile-995496151"
+                },
+                "examples" : {
+                  "update-user" : {
+                    "value" : "{\n  \"data\" : \"사용자 정보를 업데이트 하였습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
   "components" : {
     "schemas" : {
+      "users-myprofile-995496151" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "업데이트 성공 메세지"
+          }
+        }
+      },
       "todos1279626246" : {
         "type" : "object",
         "properties" : {
@@ -895,6 +951,23 @@ window.swaggerSpec={
                 "description" : "완료 여부"
               }
             }
+          }
+        }
+      },
+      "users-myprofile-662092072" : {
+        "type" : "object",
+        "properties" : {
+          "careerYear" : {
+            "type" : "string",
+            "description" : "경력 연차"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "이름"
+          },
+          "jobRoleId" : {
+            "type" : "string",
+            "description" : "직무 ID"
           }
         }
       },
@@ -1197,20 +1270,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-1453646431" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "id" : {
-                "type" : "string",
-                "description" : "생성된 TODO ID"
-              }
-            }
-          }
-        }
-      },
       "users-myprofile638373110" : {
         "type" : "object",
         "properties" : {
@@ -1245,6 +1304,20 @@ window.swaggerSpec={
               "email" : {
                 "type" : "string",
                 "description" : "이메일"
+              }
+            }
+          }
+        }
+      },
+      "todos-1453646431" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "생성된 TODO ID"
               }
             }
           }
