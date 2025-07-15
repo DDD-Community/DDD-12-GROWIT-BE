@@ -25,7 +25,7 @@ public class UserFixture {
         "securePass123",
         "홍길동",
         "6rOg7Zmp7IOd",
-        CareerYear.JUNIOR.name(),
+        CareerYear.JUNIOR,
         new RequiredConsentRequest(true, true));
   }
 
