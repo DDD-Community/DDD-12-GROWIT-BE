@@ -61,7 +61,7 @@ public class ToDoController {
     UpdateToDoCommand command = toDoRequestMapper.toUpdateCommand(id, user.getId(), request);
     ToDoResult result = updateToDoUseCase.execute(command);
     return ResponseEntity.status(HttpStatus.OK)
-      .body(ApiResponse.success(toDoResponseMapper.toToDoResponse(result)));
+        .body(ApiResponse.success(toDoResponseMapper.toToDoResponse(result)));
   }
 
   @PatchMapping("/{id}")
