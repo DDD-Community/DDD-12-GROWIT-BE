@@ -16,16 +16,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoRepositoryConfig;
 import com.growit.app.fake.todo.ToDoFixture;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.response.ToDoResponse;
 import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.vo.FaceStatus;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
@@ -85,7 +89,13 @@ class ToDoControllerTest {
 
   @Test
   void createToDo() throws Exception {
-    given(createToDoUseCase.execute(any())).willReturn("todo-1");
+    Plan plan = PlanFixture.defaultPlan();
+    ToDoResult result = new ToDoResult("todo-1", plan);
+    ToDoResponse toDoResponse =
+        new ToDoResponse("todo-1", new ToDoResponse.PlanInfo(plan.getId(), plan.getWeekOfMonth()));
+
+    given(createToDoUseCase.execute(any())).willReturn(result);
+    given(toDoResponseMapper.toToDoResponse(result)).willReturn(toDoResponse);
 
     CreateToDoRequest body = ToDoFixture.defaultCreateToDoRequest();
     mockMvc
@@ -106,22 +116,30 @@ class ToDoControllerTest {
                         .summary("할 일(TODO) 생성")
                         .requestFields(
                             fieldWithPath("goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("planId").type(STRING).description("계획 ID"),
+                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"),
                             fieldWithPath("content")
                                 .type(STRING)
-                                .description("할 일 내용 (5자 이상 30자 미만)"),
-                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"))
+                                .description("할 일 내용 (5자 이상 30자 미만)"))
                         .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("생성된 TODO ID"))
+                            fieldWithPath("data.id").type(STRING).description("생성된 TODO ID"),
+                            fieldWithPath("data.plan.id").type(STRING).description("플랜 ID"),
+                            fieldWithPath("data.plan.weekOfMonth")
+                                .type("Number")
+                                .description("플랜의 월 기준 N번째 주"))
                         .build())));
   }
 
   @Test
   void updateToDo() throws Exception {
     String toDoId = "todo-1";
-    willDoNothing().given(updateToDoUseCase).execute(any());
+    Plan plan = PlanFixture.defaultPlan();
+    ToDoResult result = new ToDoResult(toDoId, plan);
+    ToDoResponse toDoResponse =
+        new ToDoResponse(toDoId, new ToDoResponse.PlanInfo(plan.getId(), plan.getWeekOfMonth()));
+    UpdateToDoRequest body = new UpdateToDoRequest(LocalDate.now(), "수정된 내용");
 
-    UpdateToDoRequest body = new UpdateToDoRequest(java.time.LocalDate.now(), "수정된 내용");
+    given(updateToDoUseCase.execute(any())).willReturn(result);
+    given(toDoResponseMapper.toToDoResponse(result)).willReturn(toDoResponse);
 
     mockMvc
         .perform(
@@ -146,7 +164,11 @@ class ToDoControllerTest {
                                 .description("수정할 할 일 내용 (5자 이상 30자 미만)"),
                             fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"))
                         .responseFields(
-                            fieldWithPath("data").type(STRING).description("업데이트 결과 메시지"))
+                            fieldWithPath("data.id").type(STRING).description("수정된 TODO ID"),
+                            fieldWithPath("data.plan.id").type(STRING).description("플랜 ID"),
+                            fieldWithPath("data.plan.weekOfMonth")
+                                .type("Number")
+                                .description("플랜의 월 기준 N번째 주"))
                         .build())));
   }
 
