@@ -9,11 +9,11 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,16 +59,19 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculat
 
   @Override
   public List<ToDoStatus> getContribution(Goal goal, List<ToDo> toDoList) {
-    final int CONTRIBUTION_DAYS = 28;
+    LocalDate start = goal.getDuration().startDate();
     LocalDate today = LocalDate.now();
 
     Map<LocalDate, List<ToDo>> toDoByDate =
         toDoList.stream().collect(Collectors.groupingBy(ToDo::getDate));
 
-    return IntStream.range(0, CONTRIBUTION_DAYS)
-        .mapToObj(i -> goal.getDuration().startDate().plusDays(i))
-        .map(date -> getStatusForDate(date, today, toDoByDate))
-        .collect(Collectors.toList());
+    List<ToDoStatus> statusList = new ArrayList<>();
+
+    for (LocalDate date = start; !date.isAfter(today); date = date.plusDays(1)) {
+      statusList.add(getStatusForDate(date, today, toDoByDate));
+    }
+
+    return statusList;
   }
 
   private static ToDoStatus getStatusForDate(
