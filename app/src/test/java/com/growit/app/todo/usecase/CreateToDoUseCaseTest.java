@@ -31,10 +31,9 @@ class CreateToDoUseCaseTest {
   }
 
   @Test
-  void givenValidCommand_whenExecute_thenReturnsToDoId() {
+  void givenValidCommand_whenExecute_thenReturnsToDoResultWithPlan() {
     // Given
     CreateToDoRequest request = ToDoFixture.defaultCreateToDoRequest();
-
     CreateToDoCommand command =
         new CreateToDoCommand(
             "user-1", request.getGoalId(), request.getContent(), request.getDate());
@@ -43,6 +42,8 @@ class CreateToDoUseCaseTest {
     ToDoResult result = createToDoUseCase.execute(command);
 
     // Then
-    assertNotNull(result);
+    assertNotNull(result, "ToDoResult should not be null");
+    assertNotNull(result.getId(), "ToDo ID should not be null");
+    assertNotNull(result.getPlan(), "Plan should not be null");
   }
 }
