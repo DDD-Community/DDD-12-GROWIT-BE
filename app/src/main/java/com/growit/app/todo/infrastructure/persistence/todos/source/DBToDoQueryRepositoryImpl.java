@@ -60,13 +60,13 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
   public int countByDateQuery(GetCountByDateQueryFilter countByDateQueryFilter) {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
     BooleanBuilder builder =
-        new BooleanBuilder()
-            .and(toDo.date.eq(countByDateQueryFilter.date()))
-            .and(toDo.userId.eq(countByDateQueryFilter.userId()))
-            .and(toDo.planId.eq(countByDateQueryFilter.planId()))
-            .and(toDo.deletedAt.isNull());
+      new BooleanBuilder()
+        .and(toDo.date.eq(countByDateQueryFilter.date()))
+        .and(toDo.userId.eq(countByDateQueryFilter.userId()))
+        .and(toDo.planId.eq(countByDateQueryFilter.planId()))
+        .and(toDo.deletedAt.isNull());
 
-    countByDateQueryFilter.toDoId().ifPresent(id -> builder.and(toDo.uid.eq(id)));
+    countByDateQueryFilter.toDoId().ifPresent(id -> builder.and(toDo.uid.ne(id)));
 
     Long count = queryFactory.select(toDo.count()).from(toDo).where(builder).fetchOne();
 
