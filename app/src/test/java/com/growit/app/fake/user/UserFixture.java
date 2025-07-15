@@ -1,16 +1,22 @@
 package com.growit.app.fake.user;
 
-import com.growit.app.user.controller.dto.request.ReissueRequest;
-import com.growit.app.user.controller.dto.request.RequiredConsentRequest;
-import com.growit.app.user.controller.dto.request.SignInRequest;
-import com.growit.app.user.controller.dto.request.SignUpRequest;
+import com.growit.app.user.controller.dto.request.*;
 import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.user.dto.UpdateUserCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 
 public class UserFixture {
   public static User defaultUser() {
     return new UserBuilder().build();
+  }
+
+  public static UpdateUserCommand defaultUpdateUserCommand(User user) {
+    return new UpdateUserCommand(user, "updatedName", "jobRoleId-1", CareerYear.JUNIOR);
+  }
+
+  public static UpdateUserRequest defaultUpdateUserRequest() {
+    return new UpdateUserRequest("updatedName", "jobRoleId-1", CareerYear.JUNIOR);
   }
 
   public static SignUpRequest defaultSignUpRequest() {

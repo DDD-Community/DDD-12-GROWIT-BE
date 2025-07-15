@@ -2,6 +2,7 @@ package com.growit.app.user.domain.user;
 
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
+import com.growit.app.user.domain.user.dto.UpdateUserCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.RequiredConsent;
@@ -36,5 +37,11 @@ public class User {
         .jobRoleId(command.jobRoleId())
         .careerYear(command.careerYear())
         .build();
+  }
+
+  public void updateByCommand(UpdateUserCommand command) {
+    this.name = command.name();
+    this.jobRoleId = command.jobRoleId();
+    this.careerYear = command.careerYear();
   }
 }

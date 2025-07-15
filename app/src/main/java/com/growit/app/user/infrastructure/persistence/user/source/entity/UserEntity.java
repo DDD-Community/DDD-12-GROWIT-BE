@@ -1,6 +1,7 @@
 package com.growit.app.user.infrastructure.persistence.user.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,7 @@ public class UserEntity extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String uid;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private String email;
 
   @Column(nullable = false)
@@ -32,4 +33,10 @@ public class UserEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "career_year", nullable = false)
   private CareerYear careerYear;
+
+  public void updateByDomain(User user) {
+    this.name = user.getName();
+    this.jobRoleId = user.getJobRoleId();
+    this.careerYear = user.getCareerYear();
+  }
 }

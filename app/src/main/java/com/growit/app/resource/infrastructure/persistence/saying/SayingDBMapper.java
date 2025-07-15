@@ -12,7 +12,7 @@ public class SayingDBMapper {
     return Saying.builder()
         .id(String.valueOf(sayingEntity.getId()))
         .message(sayingEntity.getMessage())
-        .from(sayingEntity.getFrom())
+        .author(sayingEntity.getAuthor())
         .build();
   }
 }

@@ -17,5 +17,5 @@ public class SayingEntity extends BaseEntity {
   private String message;
 
   @Column(length = 32, nullable = false)
-  private String from;
+  private String author;
 }

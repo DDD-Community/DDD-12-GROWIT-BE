@@ -1,7 +1,7 @@
 package com.growit.app.user.usecase;
 
 import com.growit.app.common.exception.BaseException;
-import com.growit.app.resource.domain.jobrole.service.JobRoleService;
+import com.growit.app.resource.domain.jobrole.service.JobRoleQuery;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignUpUseCase {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final JobRoleService jobRoleService;
+  private final JobRoleQuery jobRoleService;
   private final UserService userService;
 
   @Transactional

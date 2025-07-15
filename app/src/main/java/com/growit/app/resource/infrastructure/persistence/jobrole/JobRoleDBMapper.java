@@ -14,9 +14,4 @@ public class JobRoleDBMapper {
         .name(jobRoleEntity.getName())
         .build();
   }
-
-  public JobRoleEntity toEntity(JobRole jobRole) {
-    if (jobRole == null) return null;
-    return JobRoleEntity.builder().jobRoleId(jobRole.getId()).name(jobRole.getName()).build();
-  }
 }

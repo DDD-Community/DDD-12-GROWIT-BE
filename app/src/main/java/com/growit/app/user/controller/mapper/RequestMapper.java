@@ -1,13 +1,8 @@
 package com.growit.app.user.controller.mapper;
 
-import com.growit.app.user.controller.dto.request.ReissueRequest;
-import com.growit.app.user.controller.dto.request.RequiredConsentRequest;
-import com.growit.app.user.controller.dto.request.SignInRequest;
-import com.growit.app.user.controller.dto.request.SignUpRequest;
-import com.growit.app.user.domain.user.dto.ReIssueCommand;
-import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
-import com.growit.app.user.domain.user.dto.SignInCommand;
-import com.growit.app.user.domain.user.dto.SignUpCommand;
+import com.growit.app.user.controller.dto.request.*;
+import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.user.dto.*;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import org.springframework.stereotype.Component;
@@ -34,5 +29,10 @@ public class RequestMapper {
   public RequiredConsentCommand toRequiredConsentCommand(RequiredConsentRequest request) {
     return new RequiredConsentCommand(
         request.isPrivacyPolicyAgreed(), request.isServiceTermsAgreed());
+  }
+
+  public UpdateUserCommand toUpdateUserCommand(User user, UpdateUserRequest request) {
+    return new UpdateUserCommand(
+        user, request.getName(), request.getJobRoleId(), request.getCareerYear());
   }
 }
