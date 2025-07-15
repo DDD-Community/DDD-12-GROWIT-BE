@@ -2,6 +2,7 @@ package com.growit.app.todo.infrastructure.persistence.todos;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.DBToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
@@ -31,13 +32,8 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
-  public int countByToDo(LocalDate date, String userId, String planId) {
-    return repository.countByDateAndUserIdAndPlanId(date, userId, planId);
-  }
-
-  @Override
-  public int countByToDoWithToDoId(LocalDate date, String userId, String planId, String id) {
-    return repository.countByDateAndUserIdAndPlanIdAndUidNot(date, userId, planId, id);
+  public int countByDateQuery(GetCountByDateQueryFilter countByDateQueryFilter) {
+    return repository.countByDateQuery(countByDateQueryFilter);
   }
 
   @Override
