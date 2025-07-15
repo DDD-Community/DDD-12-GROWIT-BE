@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
-import com.growit.app.fake.todo.FakeToDoRepository;
-import com.growit.app.fake.todo.ToDoFixture;
+import com.growit.app.fake.todo.*;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
@@ -23,7 +22,9 @@ import org.junit.jupiter.api.Test;
 
 class ToDoServiceTest {
   private FakeToDoRepository fakeToDoRepo;
-  private ToDoService toDoService;
+  private FakeToDoValidator toDoValidator;
+  private FakeToDoQuery toDoQuery;
+  private FakeConventionCalculator conventionCalculator;
 
   private Goal goal;
 
@@ -31,7 +32,9 @@ class ToDoServiceTest {
   void setUp() {
     FakeGoalRepository fakeGoalRepo = new FakeGoalRepository();
     fakeToDoRepo = new FakeToDoRepository();
-    toDoService = new ToDoService(fakeToDoRepo);
+    toDoValidator = new FakeToDoValidator();
+    conventionCalculator = new FakeConventionCalculator();
+    toDoQuery = new FakeToDoQuery(fakeToDoRepo);
     goal = GoalFixture.defaultGoal();
     fakeGoalRepo.saveGoal(goal);
   }
@@ -41,11 +44,11 @@ class ToDoServiceTest {
     String userId = "user-1";
     String planId = "plan-1";
     LocalDate today = LocalDate.now();
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 10; i++) {
       fakeToDoRepo.saveToDo(
           ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
-    toDoService.tooManyToDoCreated(today, userId, planId);
+    toDoValidator.tooManyToDoCreated(today, userId, planId);
   }
 
   @Test
@@ -57,8 +60,11 @@ class ToDoServiceTest {
       fakeToDoRepo.saveToDo(
           ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
+    toDoValidator.setThrowOnTooManyCreate(true);
+    fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-11", userId, today, planId, goal.getId()));
+
     assertThrows(
-        BadRequestException.class, () -> toDoService.tooManyToDoCreated(today, userId, planId));
+        BadRequestException.class, () -> toDoValidator.tooManyToDoCreated(today, userId, planId));
   }
 
   @Test
@@ -70,8 +76,7 @@ class ToDoServiceTest {
       fakeToDoRepo.saveToDo(
           ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
-    // 본인의 todoId 하나 빼고 9개만 남았다고 치는 식으로 test 가능
-    toDoService.tooManyToDoUpdated(today, userId, planId, "todo-1");
+    toDoValidator.tooManyToDoUpdated(today, userId, planId, "todo-1");
   }
 
   @Test
@@ -79,14 +84,15 @@ class ToDoServiceTest {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
     String planId = goal.getPlanByDate(today).getId();
-
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 11; i++) {
       fakeToDoRepo.saveToDo(
           ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
     }
+
+    toDoValidator.setThrowOnTooManyUpdate(true);
     assertThrows(
         BadRequestException.class,
-        () -> toDoService.tooManyToDoUpdated(today, userId, planId, "todo-11"));
+        () -> toDoValidator.tooManyToDoUpdated(today, userId, planId, "todo-11"));
   }
 
   @Test
@@ -94,7 +100,7 @@ class ToDoServiceTest {
     ToDo todo = ToDoFixture.defaultToDo();
     fakeToDoRepo.saveToDo(todo);
 
-    var result = toDoService.getMyToDo(todo.getId(), todo.getUserId());
+    var result = toDoQuery.getMyToDo(todo.getId(), todo.getUserId());
 
     assertNotNull(result);
   }
@@ -141,9 +147,8 @@ class ToDoServiceTest {
 
     List<ToDo> todos = List.of(completed, notCompleted);
 
-    System.out.println(todos.size());
     // when
-    List<ToDoStatus> result = toDoService.getContribution(goal, todos);
+    List<ToDoStatus> result = conventionCalculator.getContribution(goal, todos);
 
     // then
     int expectedSize = (int) ChronoUnit.DAYS.between(startDate, LocalDate.now()) + 1;
