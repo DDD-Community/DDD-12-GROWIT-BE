@@ -11,13 +11,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UpdateUserRequest {
 
-  @NotBlank(message = "{validation.signup.name.required}")
-  @Size(min = 2, message = "{validation.signup.name.size}")
+  @NotBlank(message = "{validation.user.name.required}")
+  @Size(min = 2, message = "{validation.user.name.size}")
   private String name;
 
-  @NotBlank(message = "{validation.signup.job-role.required}")
+  @NotBlank(message = "{validation.user.job-role.required}")
   private String jobRoleId;
 
-  @NotNull(message = "{validation.signup.career.required}")
+  @NotNull(message = "{validation.user.career.required}")
   private CareerYear careerYear;
 }

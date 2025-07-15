@@ -1,9 +1,12 @@
 package com.growit.app.user.controller.mapper;
 
-import com.growit.app.user.controller.dto.request.*;
+import com.growit.app.user.controller.dto.request.ReissueRequest;
+import com.growit.app.user.controller.dto.request.RequiredConsentRequest;
+import com.growit.app.user.controller.dto.request.SignInRequest;
+import com.growit.app.user.controller.dto.request.SignUpRequest;
+import com.growit.app.user.controller.dto.request.UpdateUserRequest;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.*;
-import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +18,7 @@ public class RequestMapper {
         request.getPassword(),
         request.getName(),
         request.getJobRoleId(),
-        CareerYear.valueOf(request.getCareerYear().toUpperCase()));
+        request.getCareerYear());
   }
 
   public SignInCommand toSignInCommand(SignInRequest request) {

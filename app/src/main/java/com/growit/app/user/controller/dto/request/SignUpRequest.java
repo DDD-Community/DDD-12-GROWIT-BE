@@ -1,5 +1,6 @@
 package com.growit.app.user.controller.dto.request;
 
+import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,15 +19,15 @@ public class SignUpRequest {
   @Size(min = 8, message = "{validation.signup.password.size}")
   private String password;
 
-  @NotBlank(message = "{validation.signup.name.required}")
-  @Size(min = 2, message = "{validation.signup.name.size}")
+  @NotBlank(message = "{validation.user.name.required}")
+  @Size(min = 2, message = "{validation.user.name.size}")
   private String name;
 
-  @NotBlank(message = "{validation.signup.job-role.required}")
+  @NotBlank(message = "{validation.user.job-role.required}")
   private String jobRoleId;
 
-  @NotNull(message = "{validation.signup.career.required}")
-  private String careerYear;
+  @NotNull(message = "{validation.user.career.required}")
+  private CareerYear careerYear;
 
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
