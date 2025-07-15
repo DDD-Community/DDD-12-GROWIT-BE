@@ -54,13 +54,14 @@ public class ToDoController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ApiResponse<String>> updateToDo(
+  public ResponseEntity<ApiResponse<ToDoResponse>> updateToDo(
       @PathVariable String id,
       @AuthenticationPrincipal User user,
       @Valid @RequestBody UpdateToDoRequest request) {
     UpdateToDoCommand command = toDoRequestMapper.toUpdateCommand(id, user.getId(), request);
-    updateToDoUseCase.execute(command);
-    return ResponseEntity.ok(ApiResponse.success("업데이트가 완료되었습니다."));
+    ToDoResult result = updateToDoUseCase.execute(command);
+    return ResponseEntity.status(HttpStatus.OK)
+      .body(ApiResponse.success(toDoResponseMapper.toToDoResponse(result)));
   }
 
   @PatchMapping("/{id}")
