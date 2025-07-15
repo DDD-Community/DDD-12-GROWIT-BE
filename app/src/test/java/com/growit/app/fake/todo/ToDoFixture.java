@@ -20,7 +20,7 @@ public class ToDoFixture {
   }
 
   public static CreateToDoRequest defaultCreateToDoRequest() {
-    return new CreateToDoRequest("goal-1", "plan-1", LocalDate.now(), "할 일 예시 내용입니다.");
+    return new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 예시 내용입니다.");
   }
 
   public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(

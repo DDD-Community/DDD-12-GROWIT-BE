@@ -24,17 +24,6 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculat
   private static final int MAX_TO_COUNT = 10;
 
   @Override
-  public void isDateInRange(LocalDate date, LocalDate thisWeekStartDate)
-      throws BadRequestException {
-    LocalDate today = LocalDate.now();
-    LocalDate thisWeekSunday = today.with(java.time.DayOfWeek.SUNDAY);
-
-    if (date.isBefore(thisWeekStartDate) || date.isAfter(thisWeekSunday)) {
-      throw new BadRequestException("ToDo는 지난 주차, 이번 주차만 생성/수정할 수 있습니다.");
-    }
-  }
-
-  @Override
   public void tooManyToDoCreated(LocalDate date, String userId, String planId)
       throws BadRequestException {
     int count = toDoRepository.countByToDo(date, userId, planId);
