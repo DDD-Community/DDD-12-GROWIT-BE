@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 class UserServiceTest {
 
   private final User user = UserFixture.defaultUser();
-  private UserService userService;
+  private UserValidator userValidator;
 
   @BeforeEach
   void setUp() {
     FakeUserRepository fakeUserRepository = new FakeUserRepository();
-    userService = new UserServiceImpl(fakeUserRepository);
+    userValidator = new UserService(fakeUserRepository);
     fakeUserRepository.saveUser(user);
   }
 
@@ -28,7 +28,7 @@ class UserServiceTest {
     Email email = user.getEmail();
 
     // when & then
-    assertThatThrownBy(() -> userService.checkEmailExists(email))
+    assertThatThrownBy(() -> userValidator.checkEmailExists(email))
         .isInstanceOf(AlreadyExistEmailException.class);
   }
 
@@ -38,7 +38,7 @@ class UserServiceTest {
     Email email = new Email("newuser@example.com");
 
     // when & then
-    userService.checkEmailExists(email); // no exception expected
+    userValidator.checkEmailExists(email); // no exception expected
   }
 
   @Test
