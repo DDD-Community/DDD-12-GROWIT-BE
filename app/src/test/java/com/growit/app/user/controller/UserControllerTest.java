@@ -163,4 +163,29 @@ class UserControllerTest {
                             fieldWithPath("data").type(STRING).description("로그아웃 성공 메세지"))
                         .build())));
   }
+
+  @Test
+  void deleteUser() throws Exception {
+    mockMvc
+        .perform(
+            delete("/users/myprofile")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType("application/json"))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "logout-user",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("User")
+                        .summary("사용자 탈퇴")
+                        .requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION)
+                                .attributes(key("type").value("String"))
+                                .description("JWT (Your Token)"))
+                        .responseFields(fieldWithPath("data").type(STRING).description("탈퇴 성공 메세지"))
+                        .build())));
+  }
 }

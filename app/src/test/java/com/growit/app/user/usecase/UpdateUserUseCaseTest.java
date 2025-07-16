@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.user.UserFixture;
-import com.growit.app.resource.domain.jobrole.service.JobRoleQuery;
 import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;

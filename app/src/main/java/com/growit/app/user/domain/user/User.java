@@ -28,6 +28,8 @@ public class User {
 
   private RequiredConsent requiredConsent;
 
+  private boolean isDeleted;
+
   public static User from(SignUpCommand command) {
     return User.builder()
         .id(IDGenerator.generateId())
@@ -36,6 +38,7 @@ public class User {
         .name(command.name())
         .jobRoleId(command.jobRoleId())
         .careerYear(command.careerYear())
+        .isDeleted(false)
         .build();
   }
 
@@ -43,5 +46,9 @@ public class User {
     this.name = command.name();
     this.jobRoleId = command.jobRoleId();
     this.careerYear = command.careerYear();
+  }
+
+  public void deleted() {
+    this.isDeleted = true;
   }
 }
