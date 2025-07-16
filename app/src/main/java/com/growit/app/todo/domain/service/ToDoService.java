@@ -68,17 +68,14 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculat
     List<ToDoStatus> statusList = new ArrayList<>();
 
     for (LocalDate date = start; !date.isAfter(today); date = date.plusDays(1)) {
-      statusList.add(getStatusForDate(date, today, toDoByDate));
+      statusList.add(getStatusForDate(date, toDoByDate));
     }
 
     return statusList;
   }
 
   private static ToDoStatus getStatusForDate(
-      LocalDate date, LocalDate today, Map<LocalDate, List<ToDo>> toDoByDate) {
-    if (date.isAfter(today)) {
-      return ToDoStatus.NONE;
-    }
+    LocalDate date, Map<LocalDate, List<ToDo>> toDoByDate) {
     List<ToDo> todos = toDoByDate.getOrDefault(date, Collections.emptyList());
     return getStatus(todos);
   }
