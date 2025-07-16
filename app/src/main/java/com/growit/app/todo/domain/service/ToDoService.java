@@ -75,7 +75,7 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculat
   }
 
   private static ToDoStatus getStatusForDate(
-    LocalDate date, Map<LocalDate, List<ToDo>> toDoByDate) {
+      LocalDate date, Map<LocalDate, List<ToDo>> toDoByDate) {
     List<ToDo> todos = toDoByDate.getOrDefault(date, Collections.emptyList());
     return getStatus(todos);
   }
