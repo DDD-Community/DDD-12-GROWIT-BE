@@ -9,5 +9,5 @@ import lombok.*;
 public class Saying {
   private String id;
   private String message;
-  private String from;
+  private String author;
 }

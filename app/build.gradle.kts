@@ -130,7 +130,6 @@ tasks.register<Copy>("copyDocument") {
 }
 
 tasks.named<BootJar>("bootJar") {
-//  dependsOn("copyDocument")
 }
 
 val generatedSrcDir = "src/main/generated"

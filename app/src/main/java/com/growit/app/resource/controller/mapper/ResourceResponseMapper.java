@@ -19,6 +19,6 @@ public class ResourceResponseMapper {
   }
 
   public SayingResponse toSayingResponse(Saying saying) {
-    return new SayingResponse(saying.getMessage(), saying.getFrom());
+    return new SayingResponse(saying.getMessage(), saying.getAuthor());
   }
 }

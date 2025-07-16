@@ -4,7 +4,6 @@ import com.growit.app.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,10 +17,4 @@ public class JobRoleEntity extends BaseEntity {
 
   @Column(length = 32, nullable = false)
   private String name;
-
-  @Builder
-  public JobRoleEntity(String jobRoleId, String name) {
-    this.uid = jobRoleId;
-    this.name = name;
-  }
 }

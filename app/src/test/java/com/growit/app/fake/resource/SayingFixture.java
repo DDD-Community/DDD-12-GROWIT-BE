@@ -38,6 +38,6 @@ class SayingBuilder {
   }
 
   public Saying build() {
-    return Saying.builder().id(id).message(message).from(from).build();
+    return Saying.builder().id(id).message(message).author(from).build();
   }
 }

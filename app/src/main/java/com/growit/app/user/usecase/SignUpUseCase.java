@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignUpUseCase {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+
   private final JobRoleValidator jobRoleValidator;
   private final UserValidator userValidator;
 

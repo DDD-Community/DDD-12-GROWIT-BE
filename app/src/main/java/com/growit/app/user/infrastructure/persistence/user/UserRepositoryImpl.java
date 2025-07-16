@@ -4,6 +4,7 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
+import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,12 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public void saveUser(User user) {
-    dbUserRepository.save(userDBMapper.toEntity(user));
+    Optional<UserEntity> userEntity = dbUserRepository.findByUid(user.getId());
+    if (userEntity.isPresent()) {
+      userEntity.get().updateByDomain(user);
+      dbUserRepository.save(userEntity.get());
+    } else {
+      dbUserRepository.save(userDBMapper.toEntity(user));
+    }
   }
 }
