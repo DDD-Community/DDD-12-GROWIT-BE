@@ -21,6 +21,7 @@ import com.growit.app.user.controller.dto.request.UpdateUserRequest;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.user.User;
+import com.growit.app.user.usecase.DeleteUserUseCase;
 import com.growit.app.user.usecase.GetUserUseCase;
 import com.growit.app.user.usecase.LogoutUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
@@ -52,6 +53,7 @@ class UserControllerTest {
   @MockitoBean private GetUserUseCase getUserUseCase;
   @MockitoBean private UpdateUserUseCase updateUserUseCase;
   @MockitoBean private LogoutUseCase logoutUseCase;
+  @MockitoBean private DeleteUserUseCase deleteUserUseCase;
 
   @BeforeEach
   void setUp(
