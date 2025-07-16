@@ -6,7 +6,7 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
-import com.growit.app.user.domain.user.service.UserService;
+import com.growit.app.user.domain.user.service.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ public class SignUpUseCase {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JobRoleQuery jobRoleService;
-  private final UserService userService;
+  private final UserValidator userValidator;
 
   @Transactional
   public void execute(SignUpCommand signUpCommand, RequiredConsentCommand requiredConsentCommand)
       throws BaseException {
     requiredConsentCommand.checkRequiredConsent();
     jobRoleService.checkJobRoleExist(signUpCommand.jobRoleId());
-    userService.checkEmailExists(signUpCommand.email());
+    userValidator.checkEmailExists(signUpCommand.email());
 
     final SignUpCommand encodePassword =
         signUpCommand.encodePassword(passwordEncoder.encode(signUpCommand.password()));

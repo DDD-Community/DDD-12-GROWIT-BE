@@ -6,8 +6,7 @@ import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.snippet.Attributes.key;
@@ -23,6 +22,7 @@ import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.usecase.GetUserUseCase;
+import com.growit.app.user.usecase.LogoutUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +51,7 @@ class UserControllerTest {
 
   @MockitoBean private GetUserUseCase getUserUseCase;
   @MockitoBean private UpdateUserUseCase updateUserUseCase;
+  @MockitoBean private LogoutUseCase logoutUseCase;
 
   @BeforeEach
   void setUp(
@@ -134,6 +135,32 @@ class UserControllerTest {
                             fieldWithPath("careerYear").type(STRING).description("경력 연차"))
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
+                        .build())));
+  }
+
+  @Test
+  void logout() throws Exception {
+    mockMvc
+        .perform(
+            post("/users/myprofile/logout")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType("application/json"))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "logout-user",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("User")
+                        .summary("사용자 로그아웃")
+                        .requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION)
+                                .attributes(key("type").value("String"))
+                                .description("JWT (Your Token)"))
+                        .responseFields(
+                            fieldWithPath("data").type(STRING).description("로그아웃 성공 메세지"))
                         .build())));
   }
 }

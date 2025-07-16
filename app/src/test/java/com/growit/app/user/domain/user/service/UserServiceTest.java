@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 class UserServiceTest {
 
   private final User user = UserFixture.defaultUser();
-  private UserService userService;
+  private UserValidator userService;
 
   @BeforeEach
   void setUp() {
     FakeUserRepository fakeUserRepository = new FakeUserRepository();
-    userService = new UserServiceImpl(fakeUserRepository);
+    userService = new UserService(fakeUserRepository);
     fakeUserRepository.saveUser(user);
   }
 

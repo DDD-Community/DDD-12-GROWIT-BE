@@ -9,6 +9,7 @@ import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.UserDto;
 import com.growit.app.user.usecase.GetUserUseCase;
+import com.growit.app.user.usecase.LogoutUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
   private final GetUserUseCase getUserUseCase;
   private final UpdateUserUseCase updateUserUseCase;
+  private final LogoutUseCase logoutUseCase;
   private final RequestMapper requestMapper;
   private final ResponseMapper responseMapper;
   private final MessageService messageService;
@@ -38,5 +40,11 @@ public class UserController {
       @AuthenticationPrincipal User user, @Valid @RequestBody UpdateUserRequest body) {
     updateUserUseCase.execute(requestMapper.toUpdateUserCommand(user, body));
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.update")));
+  }
+
+  @PostMapping("/myprofile/logout")
+  public ResponseEntity<ApiResponse<String>> logout(@AuthenticationPrincipal User user) {
+    logoutUseCase.execute(user);
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.logout")));
   }
 }

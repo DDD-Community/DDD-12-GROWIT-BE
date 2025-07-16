@@ -1,7 +1,7 @@
 package com.growit.app.common.config;
 
 import com.growit.app.common.config.jwt.JwtFilter;
-import com.growit.app.user.domain.token.service.TokenService;
+import com.growit.app.user.domain.token.service.TokenGenerator;
 import com.growit.app.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-  private final TokenService tokenService;
+  private final TokenGenerator tokenGenerator;
   private final UserRepository userRepository;
 
   @Bean
@@ -49,7 +49,7 @@ public class SecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
-        .addFilterBefore(new JwtFilter(tokenService, userRepository), AuthorizationFilter.class)
+        .addFilterBefore(new JwtFilter(tokenGenerator, userRepository), AuthorizationFilter.class)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     return http.build();

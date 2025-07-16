@@ -4,11 +4,13 @@ import static com.growit.app.common.util.message.ErrorCode.USER_SIGN_IN_FAILED;
 
 import com.growit.app.common.exception.BaseException;
 import com.growit.app.common.exception.NotFoundException;
-import com.growit.app.user.domain.token.Token;
-import com.growit.app.user.domain.token.service.TokenService;
+import com.growit.app.user.domain.token.UserToken;
+import com.growit.app.user.domain.token.UserTokenRepository;
+import com.growit.app.user.domain.token.service.TokenGenerator;
+import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
-import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.SignInCommand;
+import com.growit.app.user.domain.user.service.UserQuery;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,20 +19,21 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class SignInUseCase {
-  private final UserRepository userRepository;
+  private final UserQuery userQuery;
+  private final UserTokenRepository userTokenRepository;
   private final PasswordEncoder passwordEncoder;
-  private final TokenService tokenService;
+  private final TokenGenerator tokenGenerator;
 
   @Transactional
   public Token execute(SignInCommand command) throws BaseException {
-    User user =
-        userRepository
-            .findByEmail(command.email())
-            .orElseThrow(() -> new NotFoundException(USER_SIGN_IN_FAILED.getCode()));
-
-    boolean isCorrectPassword = passwordEncoder.matches(command.password(), user.getPassword());
+    final User user = userQuery.getUserByEmail(command.email());
+    final boolean isCorrectPassword =
+        passwordEncoder.matches(command.password(), user.getPassword());
     if (!isCorrectPassword) throw new NotFoundException(USER_SIGN_IN_FAILED.getCode());
 
-    return tokenService.createToken(user);
+    final Token token = tokenGenerator.createToken(user);
+    userTokenRepository.saveUserToken(UserToken.from(user.getId(), token.refreshToken()));
+
+    return token;
   }
 }

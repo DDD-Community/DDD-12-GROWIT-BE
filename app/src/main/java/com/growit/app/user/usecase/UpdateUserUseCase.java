@@ -18,7 +18,7 @@ public class UpdateUserUseCase {
   public void execute(UpdateUserCommand command) {
     jobRoleQuery.checkJobRoleExist(command.jobRoleId());
 
-    User user = command.user();
+    final User user = command.user();
     user.updateByCommand(command);
 
     userRepository.saveUser(user);

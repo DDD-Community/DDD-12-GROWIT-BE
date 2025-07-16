@@ -2,7 +2,7 @@ package com.growit.app.user.controller.mapper;
 
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.dto.response.UserResponse;
-import com.growit.app.user.domain.token.Token;
+import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.dto.UserDto;
 import org.springframework.stereotype.Component;
 
