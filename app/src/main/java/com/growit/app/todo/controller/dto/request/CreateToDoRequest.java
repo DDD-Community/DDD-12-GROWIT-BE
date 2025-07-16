@@ -14,10 +14,6 @@ public class CreateToDoRequest {
   @Size(min = 1)
   private String goalId;
 
-  @NotBlank(message = "{validation.todo.plan-id.required}")
-  @Size(min = 1)
-  private String planId;
-
   @NotNull(message = "{validation.todo.date.required}")
   private LocalDate date;
 

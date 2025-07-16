@@ -1,10 +1,12 @@
 package com.growit.app.todo.usecase;
 
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
+import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.service.ToDoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,13 @@ public class CreateToDoUseCase {
   private final ToDoRepository toDoRepository;
 
   @Transactional
-  public String execute(CreateToDoCommand command) {
+  public ToDoResult execute(CreateToDoCommand command) {
     Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
-    toDoValidator.isDateInRange(command.date(), goal.getDuration().startDate());
-    toDoValidator.tooManyToDoCreated(command.date(), command.userId(), command.planId());
+    Plan plan = goal.getPlanByDate(command.date());
+    toDoValidator.tooManyToDoCreated(command.date(), command.userId(), plan.getId());
 
-    ToDo toDo = ToDo.from(command);
+    ToDo toDo = ToDo.from(command, plan.getId());
     toDoRepository.saveToDo(toDo);
-    return toDo.getId();
+    return new ToDoResult(toDo.getId(), plan);
   }
 }

@@ -22,14 +22,6 @@ public class FakeToDoValidator implements ToDoValidator {
   }
 
   @Override
-  public void isDateInRange(LocalDate date, LocalDate thisWeekStartDate)
-      throws BadRequestException {
-    if (throwOnDateRange) {
-      throw new BadRequestException("Date is out of range");
-    }
-  }
-
-  @Override
   public void tooManyToDoCreated(LocalDate date, String userId, String planId)
       throws BadRequestException {
     if (throwOnTooManyCreate) {

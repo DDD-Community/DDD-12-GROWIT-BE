@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserValidator, UserQuery {
+
   private final UserRepository userRepository;
 
   @Override

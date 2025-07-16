@@ -1,16 +1,17 @@
 package com.growit.app.todo.controller;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.common.response.IdDto;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.response.ToDoResponse;
 import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
+import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.FaceStatus;
 import com.growit.app.todo.domain.vo.ToDoStatus;
@@ -44,21 +45,23 @@ public class ToDoController {
   private final GetFaceStatusUseCase getFaceStatusUseCase;
 
   @PostMapping
-  public ResponseEntity<ApiResponse<IdDto>> createToDo(
+  public ResponseEntity<ApiResponse<ToDoResponse>> createToDo(
       @AuthenticationPrincipal User user, @Valid @RequestBody CreateToDoRequest request) {
     CreateToDoCommand command = toDoRequestMapper.toCreateCommand(user.getId(), request);
-    String toDoId = createToDoUseCase.execute(command);
-    return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(toDoId)));
+    ToDoResult result = createToDoUseCase.execute(command);
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(ApiResponse.success(toDoResponseMapper.toToDoResponse(result)));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ApiResponse<String>> updateToDo(
+  public ResponseEntity<ApiResponse<ToDoResponse>> updateToDo(
       @PathVariable String id,
       @AuthenticationPrincipal User user,
       @Valid @RequestBody UpdateToDoRequest request) {
     UpdateToDoCommand command = toDoRequestMapper.toUpdateCommand(id, user.getId(), request);
-    updateToDoUseCase.execute(command);
-    return ResponseEntity.ok(ApiResponse.success("업데이트가 완료되었습니다."));
+    ToDoResult result = updateToDoUseCase.execute(command);
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(ApiResponse.success(toDoResponseMapper.toToDoResponse(result)));
   }
 
   @PatchMapping("/{id}")
