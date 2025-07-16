@@ -1,6 +1,6 @@
 package com.growit.app.common.config.jwt;
 
-import com.growit.app.user.domain.token.service.TokenService;
+import com.growit.app.user.domain.token.service.TokenGenerator;
 import com.growit.app.user.domain.token.service.exception.ExpiredTokenException;
 import com.growit.app.user.domain.token.service.exception.TokenNotFoundException;
 import com.growit.app.user.domain.user.User;
@@ -21,7 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-  private final TokenService tokenService;
+  private final TokenGenerator tokenGenerator;
   private final UserRepository userRepository;
 
   @Override
@@ -47,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
       }
 
       String token = authHeader.substring("Bearer ".length());
-      String id = tokenService.getId(token);
+      String id = tokenGenerator.getId(token);
       User user = userRepository.findUserByuId(id).orElseThrow();
       Authentication authentication =
           new UsernamePasswordAuthenticationToken(user, null, List.of());

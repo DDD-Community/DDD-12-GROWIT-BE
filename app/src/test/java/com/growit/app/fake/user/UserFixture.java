@@ -1,7 +1,11 @@
 package com.growit.app.fake.user;
 
 import com.growit.app.user.controller.dto.request.*;
+import com.growit.app.user.domain.token.UserToken;
+import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.user.dto.ReIssueCommand;
+import com.growit.app.user.domain.user.dto.SignInCommand;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
@@ -9,6 +13,22 @@ import com.growit.app.user.domain.user.vo.Email;
 public class UserFixture {
   public static User defaultUser() {
     return new UserBuilder().build();
+  }
+
+  public static Token defaultToken() {
+    return new Token("access", "refresh");
+  }
+
+  public static UserToken defaultUserToken() {
+    return new UserToken("id", "refresh", "userId");
+  }
+
+  public static SignInCommand defaultSignInCommand() {
+    return new SignInCommand(new Email("test@example.com"), "securePass123");
+  }
+
+  public static ReIssueCommand defaultReIssueCommand() {
+    return new ReIssueCommand("refresh");
   }
 
   public static UpdateUserCommand defaultUpdateUserCommand(User user) {

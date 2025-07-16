@@ -19,7 +19,7 @@ import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
-import com.growit.app.user.domain.token.Token;
+import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;

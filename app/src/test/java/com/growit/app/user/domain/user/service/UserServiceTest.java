@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 class UserServiceTest {
 
   private final User user = UserFixture.defaultUser();
+
   private UserValidator userValidator;
 
   @BeforeEach

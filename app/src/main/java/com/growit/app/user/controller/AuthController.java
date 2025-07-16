@@ -7,7 +7,7 @@ import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
-import com.growit.app.user.domain.token.Token;
+import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.usecase.ReissueUseCase;
@@ -52,7 +52,6 @@ public class AuthController {
   public ResponseEntity<ApiResponse<TokenResponse>> reissue(
       @Valid @RequestBody ReissueRequest reissueRequest) {
     Token token = reissueUseCase.execute(requestMapper.toReIssueCommand(reissueRequest));
-
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
   }
 }
