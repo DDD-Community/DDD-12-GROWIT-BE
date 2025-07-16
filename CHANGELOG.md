@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.0...v1.15.1) (2025-07-16)
+
+
+### Bug Fixes
+
+* **user:** logout 키 겹침 수정 ([d7f7500](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d7f75005df327716cd9b3074cb7e070b4be427d8))
+
 ## [1.15.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.5...v1.15.0) (2025-07-16)
 
 
