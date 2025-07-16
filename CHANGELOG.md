@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.15.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.5...v1.15.0) (2025-07-16)
+
+
+### Features
+
+* **user:** main 병합 ([f2bd983](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f2bd983501523624b69ecac72745354af89875d6))
+* **user:** main 병합 ([00e5a68](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/00e5a68091d44c8cc606126a7b4b0b80c4431ba2))
+* **user:** swagger update 추가 ([7474662](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/74746621a17e9524ca3733bd6942e8432a1824c1)), closes [#131](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/131)
+* **user:** 로그아웃 기능 구현 ([a972ec0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a972ec07d77bb199fcc3f580ab91ae944b74aa82))
+* **user:** 충돌 해결 ([8d81751](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8d817515c3ee79b954c023e416310cd2c8688085))
+* **user:** 탈퇴 기능 구현 ([10808a0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/10808a00c1426187213fd76fdf8d31906a51191a)), closes [#130](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/130)
+* **user:** 프로필 업데이트 구현 ([822be6a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/822be6a41df274cab90a4bce7722b533596628bd)), closes [#131](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/131)
+
+
+### Bug Fixes
+
+* Contribution 조회 기능 수정 ([c4f0187](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c4f018707a6aa90186485af54ca271642e7fa99e))
+* Controller Test 양식 변경 ([662bb94](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/662bb94565006eac422167e48b9225ef0dc4c42f))
+* Controller Test 양식 변경 ([f3fa960](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f3fa960de0f1aaefca0a5d074e80833d62af1815))
+* Test 코드 버그 수정 ([28f39d7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/28f39d7613175cc8f60fe14b2f4f9ee1b0f7f10a))
+* toDoId 조건에 따른 함수 분리 병합 처리 ([4785572](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4785572fc477c62efaf67fd404776b589257d719))
+* **user:** flag 정보에 맞게 deletedAt 적용 ([241d93f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/241d93f050bd0d8b4127bf55150268083ea25070)), closes [#130](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/130)
+* **user:** flag 정보에 맞게 deletedAt 적용 ([132c003](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/132c003b89c0812bd37f219d1535c96f604b6f30)), closes [#130](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/130)
+* **user:** string -&gt; enum ([b36d44b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b36d44b5bae95af830a9faf09afbe9461d51c044)), closes [#131](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/131)
+* **user:** test mock 적용 ([7a92834](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7a928344083b5adcc2128c40395c30d0fa33fd47)), closes [#130](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/130)
+* **user:** 메세지 공용 이름 수정 ([8ebae35](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8ebae35c713b18d38585e7ff3a33b06280a2af5f)), closes [#131](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/131)
+* 구현체 =&gt; 인터페이스 주입으로 변경 ([8588158](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/858815860ab8b5d3e946df02b2370eaaaf9fa7ca))
+* 업데이트 repsonse 변경 ([5dfc2cb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5dfc2cb75713264ccc30f84fcf2c55025e8fbca6))
+* 업데이트 repsonse 변경 ([6046074](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6046074a5af17005a5633d9aa1706632fb272462))
+* 이중 체크 해결 ([1719960](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1719960faa8fdbd85859d5a25766596ad99d6c19))
+* 인터페이스, 구현체 네이밍 룰 획일화 ([1992078](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/19920780491e608e3cdf72177009620939ffb1e2))
+* 조회 조건 오류 해결 ([33be568](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/33be568ee9a22a57aec700ac5bceef3dac497849))
+
 ## [1.14.5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.14.4...v1.14.5) (2025-07-13)
 
 
