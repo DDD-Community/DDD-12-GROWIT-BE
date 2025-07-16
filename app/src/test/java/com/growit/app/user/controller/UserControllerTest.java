@@ -176,7 +176,7 @@ class UserControllerTest {
         .andExpect(status().isOk())
         .andDo(
             document(
-                "logout-user",
+                "delete-user",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(

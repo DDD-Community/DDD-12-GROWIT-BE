@@ -168,7 +168,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"gFmxOu8UrfchcM9uL-nAb\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"cCjJLVR35ZE3qO4rxNUnt\"\n  }\n}"
                   }
                 }
               }
@@ -466,11 +466,11 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/todos1279626246"
+                "$ref" : "#/components/schemas/todos881536773"
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"planId\" : \"plan-1\",\n  \"date\" : \"2025-07-16\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-07-16\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -482,11 +482,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/todos-1453646431"
+                  "$ref" : "#/components/schemas/todos-268181502"
                 },
                 "examples" : {
                   "create-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"plan\" : {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1\n    }\n  }\n}"
                   }
                 }
               }
@@ -562,11 +562,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/todos-id-1460495507"
+                  "$ref" : "#/components/schemas/todos-id1880073077"
                 },
                 "examples" : {
                   "update-todo" : {
-                    "value" : "{\n  \"data\" : \"업데이트가 완료되었습니다.\"\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"plan\" : {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1\n    }\n  }\n}"
                   }
                 }
               }
@@ -767,6 +767,74 @@ window.swaggerSpec={
             }
           }
         }
+      },
+      "delete" : {
+        "tags" : [ "User" ],
+        "summary" : "사용자 탈퇴",
+        "description" : "사용자 탈퇴",
+        "operationId" : "delete-user",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "JWT (Your Token)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Bearer mock-jwt-token"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/users-myprofile-1476599188"
+                },
+                "examples" : {
+                  "delete-user" : {
+                    "value" : "{\n  \"data\" : \"탈퇴 처리 되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/myprofile/logout" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "사용자 로그아웃",
+        "description" : "사용자 로그아웃",
+        "operationId" : "logout-user",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "JWT (Your Token)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Bearer mock-jwt-token"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/users-myprofile-logout1299858205"
+                },
+                "examples" : {
+                  "logout-user" : {
+                    "value" : "{\n  \"data\" : \"로그아웃 되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -781,24 +849,30 @@ window.swaggerSpec={
           }
         }
       },
-      "todos1279626246" : {
+      "todos-268181502" : {
         "type" : "object",
         "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "할 일 날짜 (yyyy-MM-dd)"
-          },
-          "goalId" : {
-            "type" : "string",
-            "description" : "목표 ID"
-          },
-          "planId" : {
-            "type" : "string",
-            "description" : "계획 ID"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "할 일 내용 (5자 이상 30자 미만)"
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "생성된 TODO ID"
+              },
+              "plan" : {
+                "type" : "object",
+                "properties" : {
+                  "weekOfMonth" : {
+                    "type" : "number",
+                    "description" : "플랜의 월 기준 N번째 주"
+                  },
+                  "id" : {
+                    "type" : "string",
+                    "description" : "플랜 ID"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -920,6 +994,23 @@ window.swaggerSpec={
           }
         }
       },
+      "todos881536773" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 ID"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "할 일 내용 (5자 이상 30자 미만)"
+          }
+        }
+      },
       "todos-id203621875" : {
         "type" : "object",
         "properties" : {
@@ -951,6 +1042,15 @@ window.swaggerSpec={
                 "description" : "완료 여부"
               }
             }
+          }
+        }
+      },
+      "users-myprofile-1476599188" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "탈퇴 성공 메세지"
           }
         }
       },
@@ -1073,15 +1173,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id-1460495507" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "description" : "업데이트 결과 메시지"
-          }
-        }
-      },
       "retrospects-id130578538" : {
         "type" : "object",
         "properties" : {
@@ -1135,6 +1226,15 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"
+          }
+        }
+      },
+      "users-myprofile-logout1299858205" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "로그아웃 성공 메세지"
           }
         }
       },
@@ -1309,7 +1409,7 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-1453646431" : {
+      "todos-id1880073077" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -1317,7 +1417,20 @@ window.swaggerSpec={
             "properties" : {
               "id" : {
                 "type" : "string",
-                "description" : "생성된 TODO ID"
+                "description" : "수정된 TODO ID"
+              },
+              "plan" : {
+                "type" : "object",
+                "properties" : {
+                  "weekOfMonth" : {
+                    "type" : "number",
+                    "description" : "플랜의 월 기준 N번째 주"
+                  },
+                  "id" : {
+                    "type" : "string",
+                    "description" : "플랜 ID"
+                  }
+                }
               }
             }
           }
