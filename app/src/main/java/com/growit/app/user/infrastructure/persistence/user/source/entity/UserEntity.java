@@ -4,6 +4,7 @@ import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Entity
@@ -38,5 +39,8 @@ public class UserEntity extends BaseEntity {
     this.name = user.getName();
     this.jobRoleId = user.getJobRoleId();
     this.careerYear = user.getCareerYear();
+    if(user.isDeleted()) {
+      this.setDeletedAt(LocalDateTime.now());
+    }
   }
 }
