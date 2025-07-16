@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.resource.domain.jobrole.service.JobRoleQuery;
+import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
@@ -19,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class UpdateUserUseCaseTest {
 
-  @Mock private JobRoleQuery jobRoleQuery;
+  @Mock private JobRoleValidator jobRoleValidator;
 
   @Mock private UserRepository userRepository;
 
@@ -30,7 +31,7 @@ class UpdateUserUseCaseTest {
     // given
     User user = UserFixture.defaultUser();
     UpdateUserCommand command = UserFixture.defaultUpdateUserCommand(user);
-    doNothing().when(jobRoleQuery).checkJobRoleExist(command.jobRoleId());
+    doNothing().when(jobRoleValidator).checkJobRoleExist(command.jobRoleId());
 
     // when
     useCase.execute(command);
@@ -47,9 +48,10 @@ class UpdateUserUseCaseTest {
     UpdateUserCommand command = UserFixture.defaultUpdateUserCommand(UserFixture.defaultUser());
 
     doThrow(new BadRequestException("jobRoleId not exists"))
-        .when(jobRoleQuery)
+        .when(jobRoleValidator)
         .checkJobRoleExist(command.jobRoleId());
 
+    // when & then
     assertThrows(BadRequestException.class, () -> useCase.execute(command));
   }
 }
