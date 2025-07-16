@@ -39,7 +39,7 @@ public class UserEntity extends BaseEntity {
     this.name = user.getName();
     this.jobRoleId = user.getJobRoleId();
     this.careerYear = user.getCareerYear();
-    if(user.isDeleted()) {
+    if (user.isDeleted()) {
       this.setDeletedAt(LocalDateTime.now());
     }
   }
