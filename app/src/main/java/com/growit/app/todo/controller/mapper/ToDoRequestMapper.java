@@ -12,7 +12,7 @@ public class ToDoRequestMapper {
 
   public CreateToDoCommand toCreateCommand(String userId, CreateToDoRequest request) {
     return new CreateToDoCommand(
-        userId, request.getGoalId(), request.getPlanId(), request.getContent(), request.getDate());
+        userId, request.getGoalId(), request.getContent(), request.getDate());
   }
 
   public UpdateToDoCommand toUpdateCommand(String id, String userId, UpdateToDoRequest request) {

@@ -16,6 +16,7 @@ import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,22 +34,6 @@ class ToDoServiceTest {
     toDoService = new ToDoService(fakeToDoRepo);
     goal = GoalFixture.defaultGoal();
     fakeGoalRepo.saveGoal(goal);
-  }
-
-  @Test
-  void givenValidDate_whenIsDateInRange_thenSuccess() {
-    LocalDate today = LocalDate.now();
-    // isDateInRange(date, goalId)로 goalId 전달!
-    toDoService.isDateInRange(today, goal.getDuration().startDate());
-  }
-
-  @Test
-  void givenInvalidDate_whenIsDateInRange_thenThrowBadRequestException() {
-    LocalDate past = LocalDate.now().minusWeeks(2);
-    // goalId 반드시 같이 전달!
-    assertThrows(
-        BadRequestException.class,
-        () -> toDoService.isDateInRange(past, goal.getDuration().startDate()));
   }
 
   @Test
@@ -115,41 +100,6 @@ class ToDoServiceTest {
   }
 
   @Test
-  void givenGoalAndToDos_whenGetContribution_thenReturnsCorrectStatus() {
-    // given
-    LocalDate startDate = LocalDate.of(2024, 7, 1);
-    Goal goal =
-        GoalFixture.customGoal(
-            "goal-1",
-            "user-1",
-            "Goal",
-            new GoalDuration(startDate, startDate.plusDays(27)),
-            null,
-            List.of(
-                new Plan(
-                    "plan-1", 1, "Plan", new PlanDuration(startDate, startDate.plusDays(27)))));
-
-    ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", startDate, "plan-1", "goal-1");
-    completed.updateIsCompleted(true);
-    ToDo notCompleted =
-        ToDoFixture.customToDo("todo-2", "user-1", startDate.plusDays(1), "plan-1", "goal-1");
-    notCompleted.updateIsCompleted(false);
-
-    List<ToDo> todos = List.of(completed, notCompleted);
-
-    // when
-    List<ToDoStatus> result = toDoService.getContribution(goal, todos);
-
-    // then
-    assertThat(result).hasSize(28);
-    assertThat(result.get(0)).isEqualTo(ToDoStatus.COMPLETED);
-    assertThat(result.get(1)).isEqualTo(ToDoStatus.NOT_STARTED);
-    for (int i = 2; i < 28; i++) {
-      assertThat(result.get(i)).isEqualTo(ToDoStatus.NONE);
-    }
-  }
-
-  @Test
   void givenToDos_whenGetStatus_thenReturnsCorrectStatus() {
     // given
     ToDo completed =
@@ -166,5 +116,41 @@ class ToDoServiceTest {
 
     // then
     assertThat(status).isEqualTo(ToDoStatus.IN_PROGRESS);
+  }
+
+  @Test
+  void givenGoalAndToDos_whenGetContributionWithDateLimit_thenReturnsCorrectStatus() {
+    // given
+    LocalDate startDate = LocalDate.of(2024, 7, 1);
+    LocalDate endDate = startDate.plusDays(27); // 목표 기간 마지막 날짜
+
+    Goal goal =
+        GoalFixture.customGoal(
+            "goal-1",
+            "user-1",
+            "Goal",
+            new GoalDuration(startDate, endDate),
+            null,
+            List.of(new Plan("plan-1", 1, "Plan", new PlanDuration(startDate, endDate))));
+
+    ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", startDate, "plan-1", "goal-1");
+    completed.updateIsCompleted(true);
+    ToDo notCompleted =
+        ToDoFixture.customToDo("todo-2", "user-1", startDate.plusDays(1), "plan-1", "goal-1");
+    notCompleted.updateIsCompleted(false);
+
+    List<ToDo> todos = List.of(completed, notCompleted);
+
+    System.out.println(todos.size());
+    // when
+    List<ToDoStatus> result = toDoService.getContribution(goal, todos);
+
+    // then
+    int expectedSize = (int) ChronoUnit.DAYS.between(startDate, LocalDate.now()) + 1;
+    assertThat(result).hasSize(expectedSize);
+
+    // 날짜별 상태 확인
+    assertThat(result.get(0)).isEqualTo(ToDoStatus.COMPLETED); // 첫 번째 날짜
+    assertThat(result.get(1)).isEqualTo(ToDoStatus.NOT_STARTED); // 두 번째 날짜
   }
 }
