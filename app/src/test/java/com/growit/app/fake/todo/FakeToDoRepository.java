@@ -2,6 +2,7 @@ package com.growit.app.fake.todo;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import java.time.LocalDate;
 import java.util.*;
@@ -27,23 +28,15 @@ public class FakeToDoRepository implements ToDoRepository {
   }
 
   @Override
-  public int countByToDo(LocalDate date, String userId, String planId) {
-    return (int)
-        store.getOrDefault(userId, Collections.emptyList()).stream()
-            .filter(todo -> todo.getDate().equals(date))
-            .filter(todo -> todo.getPlanId().equals(planId))
-            .count();
-  }
-
-  @Override
-  public int countByToDoWithToDoId(LocalDate date, String userId, String planId, String id) {
+  public int countByDateQuery(GetCountByDateQueryFilter filter) {
     return (int)
         store.values().stream()
             .flatMap(List::stream)
-            .filter(t -> t.getDate().equals(date))
-            .filter(t -> t.getUserId().equals(userId))
-            .filter(t -> t.getPlanId().equals(planId))
-            .filter(t -> !t.getId().equals(id))
+            .filter(todo -> !todo.isDeleted())
+            .filter(todo -> todo.getDate().equals(filter.date()))
+            .filter(todo -> todo.getUserId().equals(filter.userId()))
+            .filter(todo -> todo.getPlanId().equals(filter.planId()))
+            .filter(todo -> filter.toDoId().map(id -> !todo.getId().equals(id)).orElse(true))
             .count();
   }
 

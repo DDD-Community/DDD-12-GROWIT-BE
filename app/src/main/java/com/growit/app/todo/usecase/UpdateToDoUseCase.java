@@ -5,6 +5,7 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.service.ToDoQuery;
 import com.growit.app.todo.domain.service.ToDoValidator;
@@ -21,16 +22,17 @@ public class UpdateToDoUseCase {
   private final GoalQuery goalQuery;
 
   @Transactional
-  public void execute(UpdateToDoCommand command) {
+  public ToDoResult execute(UpdateToDoCommand command) {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
     Goal goal = goalQuery.getMyGoal(toDo.getGoalId(), command.userId());
     Plan plan = goal.getPlanByDate(command.date());
 
-    toDoValidator.isDateInRange(command.date(), goal.getDuration().startDate());
     toDoValidator.tooManyToDoUpdated(command.date(), command.userId(), plan.getId(), toDo.getId());
 
     toDo.updateBy(command, plan.getId());
 
     toDoRepository.saveToDo(toDo);
+
+    return new ToDoResult(toDo.getId(), plan);
   }
 }

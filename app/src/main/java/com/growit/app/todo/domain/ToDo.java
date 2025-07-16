@@ -23,12 +23,12 @@ public class ToDo {
   private boolean isCompleted;
   private boolean isDeleted;
 
-  public static ToDo from(CreateToDoCommand command) {
+  public static ToDo from(CreateToDoCommand command, String planId) {
     return ToDo.builder()
         .id(IDGenerator.generateId())
         .userId(command.userId())
         .goalId(command.goalId())
-        .planId(command.planId())
+        .planId(planId)
         .content(command.content())
         .date(command.date())
         .isCompleted(false)

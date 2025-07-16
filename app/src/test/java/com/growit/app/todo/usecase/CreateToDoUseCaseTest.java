@@ -10,6 +10,7 @@ import com.growit.app.fake.todo.FakeToDoValidator;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
+import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.service.ToDoValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,22 +31,19 @@ class CreateToDoUseCaseTest {
   }
 
   @Test
-  void givenValidCommand_whenExecute_thenReturnsToDoId() {
+  void givenValidCommand_whenExecute_thenReturnsToDoResultWithPlan() {
     // Given
     CreateToDoRequest request = ToDoFixture.defaultCreateToDoRequest();
-
     CreateToDoCommand command =
         new CreateToDoCommand(
-            "user-1",
-            request.getGoalId(),
-            request.getPlanId(),
-            request.getContent(),
-            request.getDate());
+            "user-1", request.getGoalId(), request.getContent(), request.getDate());
 
     // When
-    String toDoId = createToDoUseCase.execute(command);
+    ToDoResult result = createToDoUseCase.execute(command);
 
     // Then
-    assertNotNull(toDoId);
+    assertNotNull(result, "ToDoResult should not be null");
+    assertNotNull(result.getId(), "ToDo ID should not be null");
+    assertNotNull(result.getPlan(), "Plan should not be null");
   }
 }

@@ -1,6 +1,6 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.resource.domain.jobrole.service.JobRoleQuery;
+import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UpdateUserUseCase {
-  private final JobRoleQuery jobRoleQuery;
+  private final JobRoleValidator jobRoleValidator;
   private final UserRepository userRepository;
 
   @Transactional
   public void execute(UpdateUserCommand command) {
-    jobRoleQuery.checkJobRoleExist(command.jobRoleId());
+    jobRoleValidator.checkJobRoleExist(command.jobRoleId());
 
     User user = command.user();
     user.updateByCommand(command);

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JobRoleService implements JobRoleQuery {
+public class JobRoleService implements JobRoleValidator, JobRoleQuery {
 
   private final JobRoleRepository jobRoleRepository;
 
