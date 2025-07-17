@@ -11,6 +11,16 @@ public class RetrospectFixture {
     return new RetrospectBuilder().build();
   }
 
+  public static Retrospect customRetrospect(String id, String userId, String goalId, String planId, String content) {
+    return new RetrospectBuilder()
+        .id(id)
+        .userId(userId)
+        .goalId(goalId)
+        .planId(planId)
+        .content(content)
+        .build();
+  }
+
   public static CreateRetrospectRequest defaultCreateRetrospectRequest() {
     return new CreateRetrospectRequest(
         "goal-123", "plan-456", "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");

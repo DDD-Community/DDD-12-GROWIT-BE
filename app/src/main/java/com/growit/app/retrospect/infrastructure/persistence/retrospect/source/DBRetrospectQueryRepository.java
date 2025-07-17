@@ -7,4 +7,6 @@ public interface DBRetrospectQueryRepository {
   Optional<RetrospectEntity> findByUidAndUserId(String uid, String userId);
 
   Optional<RetrospectEntity> findByPlanId(String planId);
+  
+  Optional<RetrospectEntity> findByGoalIdAndPlanIdAndUserId(String goalId, String planId, String userId);
 }

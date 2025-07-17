@@ -31,4 +31,11 @@ public class RetrospectService implements RetrospectValidator, RetrospectQuery {
         .findByIdAndUserId(id, userId)
         .orElseThrow(() -> new NotFoundException(RETROSPECT_NOT_FOUND.getCode()));
   }
+
+  @Override
+  public Retrospect getMyRetrospectByGoalIdAndPlanId(String goalId, String planId, String userId) throws NotFoundException {
+    return retrospectRepository
+        .findByGoalIdAndPlanIdAndUserId(goalId, planId, userId)
+        .orElseThrow(() -> new NotFoundException(RETROSPECT_NOT_FOUND.getCode()));
+  }
 }

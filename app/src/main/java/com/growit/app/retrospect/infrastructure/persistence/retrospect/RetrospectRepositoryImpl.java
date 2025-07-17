@@ -44,4 +44,10 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
     Optional<RetrospectEntity> entity = repository.findByPlanId(planId);
     return entity.map(mapper::toDomain);
   }
+
+  @Override
+  public Optional<Retrospect> findByGoalIdAndPlanIdAndUserId(String goalId, String planId, String userId) {
+    Optional<RetrospectEntity> entity = repository.findByGoalIdAndPlanIdAndUserId(goalId, planId, userId);
+    return entity.map(mapper::toDomain);
+  }
 }

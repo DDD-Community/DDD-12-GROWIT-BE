@@ -10,4 +10,6 @@ public interface RetrospectRepository {
   Optional<Retrospect> findByIdAndUserId(String id, String userId);
 
   Optional<Retrospect> findByPlanId(String planId);
+  
+  Optional<Retrospect> findByGoalIdAndPlanIdAndUserId(String goalId, String planId, String userId);
 }

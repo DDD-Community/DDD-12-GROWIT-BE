@@ -34,4 +34,17 @@ public class DBRetrospectQueryRepositoryImpl implements DBRetrospectQueryReposit
             .where(retrospectEntity.planId.eq(planId), retrospectEntity.deletedAt.isNull())
             .fetchOne());
   }
+
+  @Override
+  public Optional<RetrospectEntity> findByGoalIdAndPlanIdAndUserId(String goalId, String planId, String userId) {
+    return Optional.ofNullable(
+        queryFactory
+            .selectFrom(retrospectEntity)
+            .where(
+                retrospectEntity.goalId.eq(goalId),
+                retrospectEntity.planId.eq(planId),
+                retrospectEntity.userId.eq(userId),
+                retrospectEntity.deletedAt.isNull())
+            .fetchOne());
+  }
 }

@@ -10,10 +10,12 @@ import com.growit.app.retrospect.controller.mapper.RetrospectRequestMapper;
 import com.growit.app.retrospect.controller.mapper.RetrospectResponseMapper;
 import com.growit.app.retrospect.domain.retrospect.dto.CheckRetrospectExistsQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectByGoalIdAndPlanIdQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 import com.growit.app.retrospect.usecase.CheckRetrospectExistsByPlanIdUseCase;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
+import com.growit.app.retrospect.usecase.GetRetrospectByGoalIdAndPlanIdUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectUseCase;
 import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
@@ -32,6 +34,7 @@ public class RetrospectController {
   private final CreateRetrospectUseCase createRetrospectUseCase;
   private final UpdateRetrospectUseCase updateRetrospectUseCase;
   private final GetRetrospectUseCase getRetrospectUseCase;
+  private final GetRetrospectByGoalIdAndPlanIdUseCase getRetrospectByGoalIdAndPlanIdUseCase;
   private final CheckRetrospectExistsByPlanIdUseCase checkRetrospectExistsByPlanIdUseCase;
 
   private final RetrospectRequestMapper retrospectRequestMapper;
@@ -65,6 +68,20 @@ public class RetrospectController {
       @AuthenticationPrincipal User user, @PathVariable String id) {
     GetRetrospectQueryFilter command = retrospectRequestMapper.toGetCommand(id, user.getId());
     RetrospectWithPlan result = getRetrospectUseCase.execute(command);
+    RetrospectResponse response =
+        retrospectResponseMapper.toResponse(result.getRetrospect(), result.getPlan());
+
+    return ResponseEntity.ok(ApiResponse.success(response));
+  }
+
+  @GetMapping(params = {"goalId", "planId"})
+  public ResponseEntity<ApiResponse<RetrospectResponse>> getRetrospectByGoalIdAndPlanId(
+      @AuthenticationPrincipal User user,
+      @RequestParam("goalId") String goalId,
+      @RequestParam("planId") String planId) {
+    GetRetrospectByGoalIdAndPlanIdQueryFilter filter =
+        retrospectRequestMapper.toGetByGoalIdAndPlanIdQuery(user.getId(), goalId, planId);
+    RetrospectWithPlan result = getRetrospectByGoalIdAndPlanIdUseCase.execute(filter);
     RetrospectResponse response =
         retrospectResponseMapper.toResponse(result.getRetrospect(), result.getPlan());
 
