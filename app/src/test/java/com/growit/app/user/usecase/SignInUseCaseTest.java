@@ -5,8 +5,8 @@ import static org.mockito.Mockito.*;
 
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.user.UserFixture;
-import com.growit.app.user.domain.token.UserTokenRepository;
 import com.growit.app.user.domain.token.service.TokenGenerator;
+import com.growit.app.user.domain.token.service.UserTokenSaver;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.SignInCommand;
@@ -27,7 +27,7 @@ class SignInUseCaseTest {
 
   @Mock private TokenGenerator tokenGenerator;
 
-  @Mock private UserTokenRepository userTokenRepository;
+  @Mock private UserTokenSaver userTokenSaver;
 
   @InjectMocks private SignInUseCase signInUseCase;
 

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class TokenService implements TokenGenerator, UserTokenQuery {
+public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSaver {
   private final JwtProperties jwtProperties;
   private final UserTokenRepository userTokenRepository;
 
@@ -103,5 +103,17 @@ public class TokenService implements TokenGenerator, UserTokenQuery {
   @Override
   public UserToken getUserTokenByUserId(String userId) throws InvalidTokenException {
     return userTokenRepository.findByUserId(userId).orElseThrow(InvalidTokenException::new);
+  }
+
+  @Override
+  public void saveUserToken(String userId, Token token) {
+    userTokenRepository
+        .findByUserId(userId)
+        .ifPresentOrElse(
+            existingToken -> {
+              existingToken.updateToken(token.refreshToken());
+              userTokenRepository.saveUserToken(existingToken);
+            },
+            () -> userTokenRepository.saveUserToken(UserToken.from(userId, token.refreshToken())));
   }
 }
