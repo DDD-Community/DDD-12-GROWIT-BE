@@ -44,7 +44,7 @@ public class DBRetrospectQueryRepositoryImpl implements DBRetrospectQueryReposit
             .where(
                 retrospectEntity.goalId.eq(filter.goalId()),
                 retrospectEntity.planId.eq(filter.planId()),
-                retrospectEntity.userId.eq(filter.planId()),
+                retrospectEntity.userId.eq(filter.userId()),
                 retrospectEntity.deletedAt.isNull())
             .fetchOne());
   }
