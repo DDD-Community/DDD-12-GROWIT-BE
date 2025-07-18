@@ -7,6 +7,7 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,9 @@ public class RetrospectService implements RetrospectValidator, RetrospectQuery {
   }
 
   @Override
-  public Retrospect getMyRetrospectByGoalIdAndPlanId(String goalId, String planId, String userId) throws NotFoundException {
+  public Retrospect getRetrospectByFilter(RetrospectQueryFilter filter) throws NotFoundException {
     return retrospectRepository
-        .findByGoalIdAndPlanIdAndUserId(goalId, planId, userId)
+        .findByFilter(filter)
         .orElseThrow(() -> new NotFoundException(RETROSPECT_NOT_FOUND.getCode()));
   }
 }

@@ -1,9 +1,9 @@
 package com.growit.app.retrospect.usecase;
 
-import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
-import com.growit.app.retrospect.domain.retrospect.dto.CheckRetrospectExistsQueryFilter;
-import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
+import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,19 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CheckRetrospectExistsByPlanIdUseCase {
   private final GoalValidator goalValidator;
-  private final RetrospectValidator validator;
+  private final RetrospectQuery retrospectQuery;
 
   @Transactional(readOnly = true)
-  public boolean execute(CheckRetrospectExistsQueryFilter filter) {
+  public boolean execute(RetrospectQueryFilter filter) {
     goalValidator.checkPlanExists(filter.userId(), filter.goalId(), filter.planId());
-    return isRetrospectExists(filter);
+    return isExists(filter);
   }
 
-  private boolean isRetrospectExists(CheckRetrospectExistsQueryFilter filter) {
+  private boolean isExists(RetrospectQueryFilter filter) {
     try {
-      validator.checkUniqueRetrospect(filter.planId());
+      retrospectQuery.getRetrospectByFilter(filter);
       return false;
-    } catch (BadRequestException e) {
+    } catch (NotFoundException e) {
       return true;
     }
   }

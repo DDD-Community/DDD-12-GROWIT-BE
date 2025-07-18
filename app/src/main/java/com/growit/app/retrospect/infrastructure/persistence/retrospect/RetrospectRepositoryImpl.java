@@ -2,6 +2,7 @@ package com.growit.app.retrospect.infrastructure.persistence.retrospect;
 
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.DBRetrospectRepository;
 import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.entity.RetrospectEntity;
 import java.util.Optional;
@@ -46,8 +47,8 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
   }
 
   @Override
-  public Optional<Retrospect> findByGoalIdAndPlanIdAndUserId(String goalId, String planId, String userId) {
-    Optional<RetrospectEntity> entity = repository.findByGoalIdAndPlanIdAndUserId(goalId, planId, userId);
+  public Optional<Retrospect> findByFilter(RetrospectQueryFilter filter) {
+    Optional<RetrospectEntity> entity = repository.findByFilter(filter);
     return entity.map(mapper::toDomain);
   }
 }
