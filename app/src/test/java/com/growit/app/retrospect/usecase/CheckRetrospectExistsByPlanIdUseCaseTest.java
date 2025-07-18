@@ -3,10 +3,11 @@ package com.growit.app.retrospect.usecase;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
-import com.growit.app.retrospect.domain.retrospect.dto.CheckRetrospectExistsQueryFilter;
-import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
+import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,22 +19,21 @@ class CheckRetrospectExistsByPlanIdUseCaseTest {
 
   @Mock private GoalValidator goalValidator;
 
-  @Mock private RetrospectValidator retrospectValidator;
+  @Mock private RetrospectQuery retrospectQuery;
 
   @InjectMocks private CheckRetrospectExistsByPlanIdUseCase useCase;
 
   @Test
   void givenValidGoalAndPlan_whenRetrospectDoesNotExist_thenReturnFalse() {
     // given
-    String userId = "user-1";
-    String goalId = "goal-123";
-    String planId = "plan-123";
-    CheckRetrospectExistsQueryFilter filter =
-        new CheckRetrospectExistsQueryFilter(userId, goalId, planId);
+    RetrospectQueryFilter filter = RetrospectFixture.defaultQueryFilter();
 
     // when
-    doNothing().when(goalValidator).checkPlanExists(userId, goalId, planId);
-    doNothing().when(retrospectValidator).checkUniqueRetrospect(planId);
+    doNothing()
+        .when(goalValidator)
+        .checkPlanExists(filter.userId(), filter.goalId(), filter.planId());
+    when(retrospectQuery.getRetrospectByFilter(filter))
+        .thenReturn(RetrospectFixture.defaultRetrospect());
 
     // then
     boolean result = useCase.execute(filter);
@@ -43,17 +43,15 @@ class CheckRetrospectExistsByPlanIdUseCaseTest {
   @Test
   void givenExistingRetrospect_whenCheck_thenReturnTrue() {
     // given
-    String userId = "user-2";
-    String goalId = "goal-456";
-    String planId = "plan-456";
-    CheckRetrospectExistsQueryFilter filter =
-        new CheckRetrospectExistsQueryFilter(userId, goalId, planId);
+    RetrospectQueryFilter filter = RetrospectFixture.defaultQueryFilter();
 
     // when
-    doNothing().when(goalValidator).checkPlanExists(userId, goalId, planId);
-    doThrow(new BadRequestException("Retrospect exists"))
-        .when(retrospectValidator)
-        .checkUniqueRetrospect(planId);
+    doNothing()
+        .when(goalValidator)
+        .checkPlanExists(filter.userId(), filter.goalId(), filter.planId());
+    doThrow(new NotFoundException("Retrospect not exists"))
+        .when(retrospectQuery)
+        .getRetrospectByFilter(filter);
 
     // then
     boolean result = useCase.execute(filter);

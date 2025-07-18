@@ -15,14 +15,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
-import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.retrospect.RetrospectFixture;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
-import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.usecase.CheckRetrospectExistsByPlanIdUseCase;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
+import com.growit.app.retrospect.usecase.GetRetrospectByFilterUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectUseCase;
 import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
@@ -53,6 +51,7 @@ class RetrospectControllerTest {
   @MockitoBean private CreateRetrospectUseCase createRetrospectUseCase;
   @MockitoBean private UpdateRetrospectUseCase updateRetrospectUseCase;
   @MockitoBean private GetRetrospectUseCase getRetrospectUseCase;
+  @MockitoBean private GetRetrospectByFilterUseCase getRetrospectByFilterUseCase;
   @MockitoBean private CheckRetrospectExistsByPlanIdUseCase checkRetrospectExistsByPlanIdUseCase;
 
   @BeforeEach
@@ -131,16 +130,12 @@ class RetrospectControllerTest {
 
   @Test
   void getRetrospect() throws Exception {
-    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    String planId = retrospect.getPlanId();
-    Plan plan = PlanFixture.customPlan(planId, null, null, null, null);
-    RetrospectWithPlan retrospectWithPlan = new RetrospectWithPlan(retrospect, plan);
-
+    RetrospectWithPlan retrospectWithPlan = RetrospectFixture.defaultRetrospectWithPlan();
     given(getRetrospectUseCase.execute(any())).willReturn(retrospectWithPlan);
 
     mockMvc
         .perform(
-            get("/retrospects/{id}", retrospect.getId())
+            get("/retrospects/{id}", retrospectWithPlan.getRetrospect().getId())
                 .header("Authorization", "Bearer mock-jwt-token")
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -154,6 +149,41 @@ class RetrospectControllerTest {
                         .tag("Retrospects")
                         .summary("회고 단건 조회")
                         .pathParameters(parameterWithName("id").description("회고 ID"))
+                        .responseFields(
+                            fieldWithPath("data.id").description("회고 ID"),
+                            fieldWithPath("data.goalId").description("목표 ID"),
+                            fieldWithPath("data.plan.id").description("계획 ID"),
+                            fieldWithPath("data.plan.weekOfMonth").description("계획 주차"),
+                            fieldWithPath("data.plan.content").description("계획 내용"),
+                            fieldWithPath("data.content").description("회고 내용"))
+                        .build())));
+  }
+
+  @Test
+  void getRetrospectByGoalIdAndPlanId() throws Exception {
+    RetrospectWithPlan retrospectWithPlan = RetrospectFixture.defaultRetrospectWithPlan();
+    given(getRetrospectByFilterUseCase.execute(any())).willReturn(retrospectWithPlan);
+
+    mockMvc
+        .perform(
+            get("/retrospects")
+                .param("goalId", retrospectWithPlan.getRetrospect().getGoalId())
+                .param("planId", retrospectWithPlan.getRetrospect().getPlanId())
+                .header("Authorization", "Bearer mock-jwt-token")
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-retrospect-by-filter",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Retrospects")
+                        .summary("회고 단건 조회 by goalId planId")
+                        .queryParameters(
+                            parameterWithName("goalId").description("목표 ID"),
+                            parameterWithName("planId").description("계획 ID"))
                         .responseFields(
                             fieldWithPath("data.id").description("회고 ID"),
                             fieldWithPath("data.goalId").description("목표 ID"),

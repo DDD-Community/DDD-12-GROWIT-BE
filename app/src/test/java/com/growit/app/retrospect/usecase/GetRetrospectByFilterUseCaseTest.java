@@ -1,14 +1,14 @@
 package com.growit.app.retrospect.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
-import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
 import org.junit.jupiter.api.Test;
@@ -18,28 +18,24 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GetRetrospectUseCaseTest {
+class GetRetrospectByFilterUseCaseTest {
 
   @Mock private RetrospectQuery retrospectQuery;
-
   @Mock private GoalQuery goalQuery;
 
-  @InjectMocks private GetRetrospectUseCase useCase;
+  @InjectMocks private GetRetrospectByFilterUseCase useCase;
 
   @Test
-  void givenValidRetrospectIdAndUserId_whenExecute_thenReturnRetrospectWithPlan() {
+  void givenValidQueryFilter_whenExecute_thenReturnRetrospectWithPlan() {
     // given
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
     Goal goal = GoalFixture.defaultGoal();
-
-    GetRetrospectQueryFilter command = RetrospectFixture.defaultGetQueryFilter();
-
-    when(retrospectQuery.getMyRetrospect(retrospect.getId(), retrospect.getUserId()))
-        .thenReturn(retrospect);
+    RetrospectQueryFilter filter = RetrospectFixture.defaultQueryFilter();
+    when(retrospectQuery.getRetrospectByFilter(filter)).thenReturn(retrospect);
     when(goalQuery.getMyGoal(retrospect.getGoalId(), retrospect.getUserId())).thenReturn(goal);
 
     // when
-    RetrospectWithPlan result = useCase.execute(command);
+    RetrospectWithPlan result = useCase.execute(filter);
 
     // then
     assertThat(result.getRetrospect()).isEqualTo(retrospect);

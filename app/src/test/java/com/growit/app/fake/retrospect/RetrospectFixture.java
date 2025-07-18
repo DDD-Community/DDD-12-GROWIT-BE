@@ -1,14 +1,50 @@
 package com.growit.app.fake.retrospect;
 
+import com.growit.app.fake.goal.PlanFixture;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
+import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
 
 public class RetrospectFixture {
   public static Retrospect defaultRetrospect() {
     return new RetrospectBuilder().build();
+  }
+
+  public static RetrospectWithPlan defaultRetrospectWithPlan() {
+    Retrospect retrospect = RetrospectFixture.defaultRetrospect();
+    String planId = retrospect.getPlanId();
+    Plan plan = PlanFixture.customPlan(planId, 1, null, null, null);
+    return new RetrospectWithPlan(retrospect, plan);
+  }
+
+  public static Retrospect customRetrospect(
+      String id, String userId, String goalId, String planId, String content) {
+    return new RetrospectBuilder()
+        .id(id)
+        .userId(userId)
+        .goalId(goalId)
+        .planId(planId)
+        .content(content)
+        .build();
+  }
+
+  public static RetrospectQueryFilter defaultQueryFilter() {
+    String userId = "user-123";
+    String goalId = "goal-123";
+    String planId = "plan-123";
+    return new RetrospectQueryFilter(goalId, planId, userId);
+  }
+
+  public static GetRetrospectQueryFilter defaultGetQueryFilter() {
+    String id = "retrospect-123";
+    String userId = "user-123";
+    return new GetRetrospectQueryFilter(id, userId);
   }
 
   public static CreateRetrospectRequest defaultCreateRetrospectRequest() {

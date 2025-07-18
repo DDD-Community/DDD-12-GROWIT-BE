@@ -2,6 +2,7 @@ package com.growit.app.retrospect.infrastructure.persistence.retrospect.source;
 
 import static com.growit.app.retrospect.infrastructure.persistence.retrospect.source.entity.QRetrospectEntity.retrospectEntity;
 
+import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.entity.RetrospectEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
@@ -32,6 +33,19 @@ public class DBRetrospectQueryRepositoryImpl implements DBRetrospectQueryReposit
         queryFactory
             .selectFrom(retrospectEntity)
             .where(retrospectEntity.planId.eq(planId), retrospectEntity.deletedAt.isNull())
+            .fetchOne());
+  }
+
+  @Override
+  public Optional<RetrospectEntity> findByFilter(RetrospectQueryFilter filter) {
+    return Optional.ofNullable(
+        queryFactory
+            .selectFrom(retrospectEntity)
+            .where(
+                retrospectEntity.goalId.eq(filter.goalId()),
+                retrospectEntity.planId.eq(filter.planId()),
+                retrospectEntity.userId.eq(filter.userId()),
+                retrospectEntity.deletedAt.isNull())
             .fetchOne());
   }
 }
