@@ -4,9 +4,8 @@ import static com.growit.app.common.util.message.ErrorCode.USER_SIGN_IN_FAILED;
 
 import com.growit.app.common.exception.BaseException;
 import com.growit.app.common.exception.NotFoundException;
-import com.growit.app.user.domain.token.UserToken;
-import com.growit.app.user.domain.token.UserTokenRepository;
 import com.growit.app.user.domain.token.service.TokenGenerator;
+import com.growit.app.user.domain.token.service.UserTokenSaver;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.SignInCommand;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class SignInUseCase {
   private final UserQuery userQuery;
-  private final UserTokenRepository userTokenRepository;
+  private final UserTokenSaver userTokenSaver;
   private final PasswordEncoder passwordEncoder;
   private final TokenGenerator tokenGenerator;
 
@@ -32,7 +31,7 @@ public class SignInUseCase {
     if (!isCorrectPassword) throw new NotFoundException(USER_SIGN_IN_FAILED.getCode());
 
     final Token token = tokenGenerator.createToken(user);
-    userTokenRepository.saveUserToken(UserToken.from(user.getId(), token.refreshToken()));
+    userTokenSaver.saveUserToken(user.getId(), token);
 
     return token;
   }

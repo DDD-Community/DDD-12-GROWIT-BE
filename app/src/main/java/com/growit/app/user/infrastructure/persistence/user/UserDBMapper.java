@@ -27,6 +27,7 @@ public class UserDBMapper {
         .name(entity.getName())
         .jobRoleId(entity.getJobRoleId())
         .careerYear(entity.getCareerYear())
+        .isDeleted(entity.getDeletedAt() != null)
         .build();
   }
 }
