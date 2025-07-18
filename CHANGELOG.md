@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.15.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.1...v1.15.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* **retrospect:** 사용되지 않는 함수 제거 ([c875a35](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c875a35c27215265cb4c68399178350b319aa92d)), closes [#146](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/146)
+* **retrospect:** 쿼리 이슈 수정 ([ddfeae7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ddfeae7109c04d8ba28797c54fd4872882e7513e)), closes [#146](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/146)
+* **user:** userId 존재여부에 userToken 저장 진행 ([cf658ff](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cf658ffd0a1297ca060fa6c4d56c087dfe017347))
+* **user:** userId 존재여부에 userToken 저장 진행 ([c3f979f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c3f979f263f947c951edd89a949b40bed12044e2)), closes [#148](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/148)
+
 ## [1.15.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.0...v1.15.1) (2025-07-16)
 
 
