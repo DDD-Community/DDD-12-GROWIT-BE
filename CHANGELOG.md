@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.15.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.2...v1.15.3) (2025-07-19)
+
+
+### Bug Fixes
+
+* **retrospect:** mapper 변경 ([cacb588](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cacb5880ab601905889a71b69c7168225ca84e77))
+* **retrospect:** mapper 변경 ([7cd4871](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7cd4871ca6c9b955e2afe5683c8a6cc1a2886120)), closes [#151](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/151)
+
 ## [1.15.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.1...v1.15.2) (2025-07-18)
 
 
