@@ -12,7 +12,7 @@ public class RetrospectResponseMapper {
         result.getRetrospect().getId(),
         result.getRetrospect().getGoalId(),
         result.getPlan(),
-        result.getPlan().getContent());
+        result.getRetrospect().getContent());
   }
 
   public RetrospectExistResponse toExistResponse(boolean isExist) {
