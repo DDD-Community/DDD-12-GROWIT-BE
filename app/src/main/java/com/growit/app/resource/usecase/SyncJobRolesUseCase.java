@@ -15,12 +15,10 @@ public class SyncJobRolesUseCase {
 
   @Transactional
   public void execute(SyncJobRolesCommand command) {
-    List<JobRole> jobRoles = command.getJobRoles().stream()
-        .map(data -> JobRole.builder()
-            .id(data.getId())
-            .name(data.getName())
-            .build())
-        .toList();
+    List<JobRole> jobRoles =
+        command.getJobRoles().stream()
+            .map(data -> JobRole.builder().id(data.getId()).name(data.getName()).build())
+            .toList();
 
     jobRoleRepository.syncAll(jobRoles);
   }

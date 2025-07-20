@@ -45,8 +45,7 @@ public class JobRepositoryImpl implements JobRoleRepository {
     // Clear existing data
     dbjobRoleRepository.deleteAll();
     // Save new data
-    List<JobRoleEntity> entities = 
-        jobRoles.stream().map(jobRoleDBMapper::toEntity).toList();
+    List<JobRoleEntity> entities = jobRoles.stream().map(jobRoleDBMapper::toEntity).toList();
     dbjobRoleRepository.saveAll(entities);
   }
 }

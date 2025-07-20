@@ -27,7 +27,7 @@ public class ResourceResponseMapper {
   }
 
   public SyncJobRolesCommand toCommand(SyncJobRolesRequest request) {
-    List<SyncJobRolesCommand.JobRoleData> jobRoleData = 
+    List<SyncJobRolesCommand.JobRoleData> jobRoleData =
         request.getJobRoles().stream()
             .map(item -> new SyncJobRolesCommand.JobRoleData(item.getId(), item.getName()))
             .toList();
@@ -37,8 +37,10 @@ public class ResourceResponseMapper {
   public SyncSayingsCommand toCommand(SyncSayingsRequest request) {
     List<SyncSayingsCommand.SayingData> sayingData =
         request.getSayings().stream()
-            .map(item -> new SyncSayingsCommand.SayingData(
-                item.getId(), item.getMessage(), item.getAuthor()))
+            .map(
+                item ->
+                    new SyncSayingsCommand.SayingData(
+                        item.getId(), item.getMessage(), item.getAuthor()))
             .toList();
     return new SyncSayingsCommand(sayingData);
   }

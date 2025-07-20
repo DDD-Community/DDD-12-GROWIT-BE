@@ -39,7 +39,8 @@ public class ResourceController {
   }
 
   @PostMapping("/jobroles/sync")
-  public ResponseEntity<ApiResponse<String>> syncJobRoles(@RequestBody SyncJobRolesRequest request) {
+  public ResponseEntity<ApiResponse<String>> syncJobRoles(
+      @RequestBody SyncJobRolesRequest request) {
     syncJobRolesUseCase.execute(responseMapper.toCommand(request));
     return ResponseEntity.ok(ApiResponse.success("Job roles synchronized successfully"));
   }

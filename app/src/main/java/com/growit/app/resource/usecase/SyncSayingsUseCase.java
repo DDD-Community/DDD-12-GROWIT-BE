@@ -15,13 +15,16 @@ public class SyncSayingsUseCase {
 
   @Transactional
   public void execute(SyncSayingsCommand command) {
-    List<Saying> sayings = command.getSayings().stream()
-        .map(data -> Saying.builder()
-            .id(data.getId())
-            .message(data.getMessage())
-            .author(data.getAuthor())
-            .build())
-        .toList();
+    List<Saying> sayings =
+        command.getSayings().stream()
+            .map(
+                data ->
+                    Saying.builder()
+                        .id(data.getId())
+                        .message(data.getMessage())
+                        .author(data.getAuthor())
+                        .build())
+            .toList();
 
     sayingRepository.syncAll(sayings);
   }

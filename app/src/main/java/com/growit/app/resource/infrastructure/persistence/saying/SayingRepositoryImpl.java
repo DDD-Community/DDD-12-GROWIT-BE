@@ -45,8 +45,7 @@ public class SayingRepositoryImpl implements SayingRepository {
     // Clear existing data
     dbSayingRepository.deleteAll();
     // Save new data
-    List<SayingEntity> entities = 
-        sayings.stream().map(sayingDBMapper::toEntity).toList();
+    List<SayingEntity> entities = sayings.stream().map(sayingDBMapper::toEntity).toList();
     dbSayingRepository.saveAll(entities);
   }
 }
