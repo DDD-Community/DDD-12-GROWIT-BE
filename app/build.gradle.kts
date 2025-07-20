@@ -36,6 +36,7 @@ dependencies {
   implementation(libs.spring.boot.starter.data.jpa)
   implementation(libs.spring.boot.starter.security)
   implementation(libs.spring.boot.starter.validation)
+  implementation(libs.spring.boot.starter.cache)
   implementation(libs.nanoid)
   // Flyway
   implementation(libs.flyway)
@@ -53,6 +54,9 @@ dependencies {
 
   // log
   implementation(libs.logstash.logback.encoder) // 또는 최신 안정 버전
+
+  // caffeine cahce
+  implementation(libs.caffeine)
 
   developmentOnly(libs.spring.boot.devtools)
 
@@ -72,7 +76,7 @@ dependencies {
   testImplementation(libs.restdocs.mockmvc)
   testImplementation(libs.restdocs.api.spec)
 
-  swaggerUI (libs.swagger.ui)
+  swaggerUI(libs.swagger.ui)
 }
 
 tasks.test {
@@ -129,8 +133,7 @@ tasks.register<Copy>("copyDocument") {
   into("src/main/resources/static/docs")
 }
 
-tasks.named<BootJar>("bootJar") {
-}
+tasks.named<BootJar>("bootJar") {}
 
 val generatedSrcDir = "src/main/generated"
 
