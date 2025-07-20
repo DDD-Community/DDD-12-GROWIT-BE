@@ -5,6 +5,7 @@ import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ public class CreateGoalUseCase {
   private final GoalValidator goalValidator;
   private final GoalRepository goalRepository;
 
+  @CacheEvict(value = "goalCache", key = "#command.userId")
   @Transactional
   public String execute(CreateGoalCommand command) {
     goalValidator.checkGoalDuration(command.duration());
