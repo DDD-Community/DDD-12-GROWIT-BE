@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.16.0...v1.17.0) (2025-07-20)
+
+
+### Features
+
+* **goal:** 목표 상태도 20자 ([57e04d2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/57e04d24765ed5f6d0a0a24e4b3144c13767a68d))
+* **goal:** 목표 상태도 20자 ([e39f361](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e39f361ef5be1c10624ba742cfa7d816e8ee61e6)), closes [#156](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/156)
+
 ## [1.16.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.3...v1.16.0) (2025-07-20)
 
 
