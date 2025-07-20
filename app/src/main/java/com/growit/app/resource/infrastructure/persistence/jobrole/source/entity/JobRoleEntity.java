@@ -17,4 +17,9 @@ public class JobRoleEntity extends BaseEntity {
 
   @Column(length = 32, nullable = false)
   private String name;
+
+  public JobRoleEntity(String uid, String name) {
+    this.uid = uid;
+    this.name = name;
+  }
 }

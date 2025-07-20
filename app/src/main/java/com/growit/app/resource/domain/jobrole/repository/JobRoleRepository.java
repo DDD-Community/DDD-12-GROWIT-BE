@@ -8,4 +8,10 @@ public interface JobRoleRepository {
   List<JobRole> findAll();
 
   Optional<JobRole> findById(String id);
+
+  void save(JobRole jobRole);
+
+  void deleteAll();
+
+  void syncAll(List<JobRole> jobRoles);
 }

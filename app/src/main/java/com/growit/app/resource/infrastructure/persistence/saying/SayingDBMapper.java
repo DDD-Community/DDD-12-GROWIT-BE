@@ -10,9 +10,14 @@ public class SayingDBMapper {
   public Saying toDomain(SayingEntity sayingEntity) {
     if (sayingEntity == null) return null;
     return Saying.builder()
-        .id(String.valueOf(sayingEntity.getId()))
+        .id(sayingEntity.getUid())
         .message(sayingEntity.getMessage())
         .author(sayingEntity.getAuthor())
         .build();
+  }
+
+  public SayingEntity toEntity(Saying saying) {
+    if (saying == null) return null;
+    return new SayingEntity(saying.getId(), saying.getMessage(), saying.getAuthor());
   }
 }

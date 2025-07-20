@@ -13,9 +13,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SayingEntity extends BaseEntity {
 
+  @Column(nullable = false, unique = true)
+  private String uid;
+
   @Column(length = 256, nullable = false)
   private String message;
 
   @Column(length = 32, nullable = false)
   private String author;
+
+  public SayingEntity(String uid, String message, String author) {
+    this.uid = uid;
+    this.message = message;
+    this.author = author;
+  }
 }
