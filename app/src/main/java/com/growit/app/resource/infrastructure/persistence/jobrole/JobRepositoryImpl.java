@@ -27,7 +27,6 @@ public class JobRepositoryImpl implements JobRoleRepository {
   }
 
   @Override
-  @Transactional
   public void save(JobRole jobRole) {
     Optional<JobRoleEntity> existing = dbJobRoleRepository.findByUid(jobRole.getId());
     JobRoleEntity entity;
