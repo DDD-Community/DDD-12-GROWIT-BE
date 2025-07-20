@@ -15,7 +15,6 @@ public class CreateGoalUseCase {
   private final GoalValidator goalValidator;
   private final GoalRepository goalRepository;
 
-
   @CacheEvict(value = "goalCache", key = "#command.userId")
   @Transactional
   public String execute(CreateGoalCommand command) {
