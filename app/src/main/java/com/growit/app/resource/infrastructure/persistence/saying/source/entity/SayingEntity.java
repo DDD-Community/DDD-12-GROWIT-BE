@@ -1,6 +1,7 @@
 package com.growit.app.resource.infrastructure.persistence.saying.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.resource.domain.saying.Saying;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -26,5 +27,10 @@ public class SayingEntity extends BaseEntity {
     this.uid = uid;
     this.message = message;
     this.author = author;
+  }
+
+  public void updateByDomain(Saying saying) {
+    this.message = saying.getMessage();
+    this.author = saying.getAuthor();
   }
 }

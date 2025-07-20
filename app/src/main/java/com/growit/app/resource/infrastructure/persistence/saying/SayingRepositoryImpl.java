@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @AllArgsConstructor
@@ -27,25 +26,15 @@ public class SayingRepositoryImpl implements SayingRepository {
   }
 
   @Override
-  @Transactional
   public void save(Saying saying) {
-    SayingEntity entity = sayingDBMapper.toEntity(saying);
+    Optional<SayingEntity> existing = dbSayingRepository.findByUid(saying.getId());
+    SayingEntity entity;
+    if (existing.isPresent()) {
+      entity = existing.get();
+      entity.updateByDomain(saying);
+    } else {
+      entity = sayingDBMapper.toEntity(saying);
+    }
     dbSayingRepository.save(entity);
-  }
-
-  @Override
-  @Transactional
-  public void deleteAll() {
-    dbSayingRepository.deleteAll();
-  }
-
-  @Override
-  @Transactional
-  public void syncAll(List<Saying> sayings) {
-    // Clear existing data
-    dbSayingRepository.deleteAll();
-    // Save new data
-    List<SayingEntity> entities = sayings.stream().map(sayingDBMapper::toEntity).toList();
-    dbSayingRepository.saveAll(entities);
   }
 }

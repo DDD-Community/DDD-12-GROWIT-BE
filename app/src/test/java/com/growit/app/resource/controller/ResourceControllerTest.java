@@ -16,10 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.fake.resource.JobRoleFixture;
 import com.growit.app.fake.resource.SayingFixture;
 import com.growit.app.resource.controller.dto.request.SyncJobRolesRequest;
+import com.growit.app.resource.controller.dto.request.SyncSayingsRequest;
 import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
 import com.growit.app.resource.usecase.GetSayingUseCase;
 import com.growit.app.resource.usecase.SyncJobRolesUseCase;
 import com.growit.app.resource.usecase.SyncSayingsUseCase;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,15 +80,13 @@ class ResourceControllerTest {
 
   @Test
   void syncJobRoles() throws Exception {
-    SyncJobRolesRequest request = new SyncJobRolesRequest();
-    // We'll mock the use case behavior since the DTO is package-private
+    SyncJobRolesRequest request = new SyncJobRolesRequest(JobRoleFixture.defaultJobRoles());
 
     mockMvc
         .perform(
             post("/resource/jobroles/sync")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                    "{\"jobRoles\":[{\"id\":\"dev\",\"name\":\"개발자\"},{\"id\":\"designer\",\"name\":\"디자이너\"}]}"))
+                .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(
             document(
@@ -128,12 +128,12 @@ class ResourceControllerTest {
 
   @Test
   void syncSayings() throws Exception {
+    SyncSayingsRequest request = new SyncSayingsRequest(List.of(SayingFixture.defaultSaying()));
     mockMvc
         .perform(
-            post("/resource/saying/sync")
+            post("/resource/sayings/sync")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                    "{\"sayings\":[{\"id\":\"saying1\",\"message\":\"테스트 격언\",\"author\":\"그로냥\"}]}"))
+                .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(
             document(

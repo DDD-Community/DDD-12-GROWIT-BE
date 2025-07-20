@@ -1,6 +1,7 @@
 package com.growit.app.resource.infrastructure.persistence.jobrole.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.resource.domain.jobrole.JobRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,5 +22,9 @@ public class JobRoleEntity extends BaseEntity {
   public JobRoleEntity(String uid, String name) {
     this.uid = uid;
     this.name = name;
+  }
+
+  public void updateByDomain(JobRole jobRole) {
+    this.name = jobRole.getName();
   }
 }

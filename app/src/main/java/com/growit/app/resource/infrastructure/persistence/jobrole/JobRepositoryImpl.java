@@ -13,39 +13,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @AllArgsConstructor
 public class JobRepositoryImpl implements JobRoleRepository {
-  private final DBJobRoleRepository dbjobRoleRepository;
+  private final DBJobRoleRepository dbJobRoleRepository;
   private final JobRoleDBMapper jobRoleDBMapper;
 
   @Override
   public List<JobRole> findAll() {
-    return dbjobRoleRepository.findAll().stream().map(jobRoleDBMapper::toDomain).toList();
+    return dbJobRoleRepository.findAll().stream().map(jobRoleDBMapper::toDomain).toList();
   }
 
   @Override
   public Optional<JobRole> findById(String uId) {
-    return dbjobRoleRepository.findByUid(uId).map(jobRoleDBMapper::toDomain);
+    return dbJobRoleRepository.findByUid(uId).map(jobRoleDBMapper::toDomain);
   }
 
   @Override
   @Transactional
   public void save(JobRole jobRole) {
-    JobRoleEntity entity = jobRoleDBMapper.toEntity(jobRole);
-    dbjobRoleRepository.save(entity);
-  }
-
-  @Override
-  @Transactional
-  public void deleteAll() {
-    dbjobRoleRepository.deleteAll();
-  }
-
-  @Override
-  @Transactional
-  public void syncAll(List<JobRole> jobRoles) {
-    // Clear existing data
-    dbjobRoleRepository.deleteAll();
-    // Save new data
-    List<JobRoleEntity> entities = jobRoles.stream().map(jobRoleDBMapper::toEntity).toList();
-    dbjobRoleRepository.saveAll(entities);
+    Optional<JobRoleEntity> existing = dbJobRoleRepository.findByUid(jobRole.getId());
+    JobRoleEntity entity;
+    if (existing.isPresent()) {
+      entity = existing.get();
+      entity.updateByDomain(jobRole);
+    } else {
+      entity = jobRoleDBMapper.toEntity(jobRole);
+    }
+    dbJobRoleRepository.save(entity);
   }
 }

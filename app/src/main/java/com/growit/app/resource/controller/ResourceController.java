@@ -4,6 +4,7 @@ import com.growit.app.common.response.ApiResponse;
 import com.growit.app.resource.controller.dto.request.SyncJobRolesRequest;
 import com.growit.app.resource.controller.dto.request.SyncSayingsRequest;
 import com.growit.app.resource.controller.dto.response.SayingResponse;
+import com.growit.app.resource.controller.mapper.ResourceRequestMapper;
 import com.growit.app.resource.controller.mapper.ResourceResponseMapper;
 import com.growit.app.resource.domain.jobrole.JobRole;
 import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
@@ -29,6 +30,8 @@ public class ResourceController {
   private final GetSayingUseCase getSayingUseCase;
   private final SyncJobRolesUseCase syncJobRolesUseCase;
   private final SyncSayingsUseCase syncSayingsUseCase;
+
+  private final ResourceRequestMapper requestMapper;
   private final ResourceResponseMapper responseMapper;
 
   @GetMapping("/jobroles")
@@ -41,8 +44,8 @@ public class ResourceController {
   @PostMapping("/jobroles/sync")
   public ResponseEntity<ApiResponse<String>> syncJobRoles(
       @RequestBody SyncJobRolesRequest request) {
-    syncJobRolesUseCase.execute(responseMapper.toCommand(request));
-    return ResponseEntity.ok(ApiResponse.success("Job roles synchronized successfully"));
+    syncJobRolesUseCase.execute(requestMapper.toJobRolesCommand(request));
+    return ResponseEntity.ok(ApiResponse.success("success"));
   }
 
   @GetMapping("/saying")
@@ -52,9 +55,9 @@ public class ResourceController {
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toSayingResponse(saying)));
   }
 
-  @PostMapping("/saying/sync")
+  @PostMapping("/sayings/sync")
   public ResponseEntity<ApiResponse<String>> syncSayings(@RequestBody SyncSayingsRequest request) {
-    syncSayingsUseCase.execute(responseMapper.toCommand(request));
-    return ResponseEntity.ok(ApiResponse.success("Sayings synchronized successfully"));
+    syncSayingsUseCase.execute(requestMapper.toSayingsCommand(request));
+    return ResponseEntity.ok(ApiResponse.success("success"));
   }
 }

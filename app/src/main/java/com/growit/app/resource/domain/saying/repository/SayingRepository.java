@@ -10,8 +10,4 @@ public interface SayingRepository {
   Optional<Saying> findById(String id);
 
   void save(Saying saying);
-
-  void deleteAll();
-
-  void syncAll(List<Saying> sayings);
 }
