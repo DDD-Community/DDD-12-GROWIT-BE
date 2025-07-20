@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.3...v1.16.0) (2025-07-20)
+
+
+### Features
+
+* **goal:** plan 길이 제한 변경 ([e7ac364](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e7ac364f5d4d8ad493d33cdbddc51961bb9b323d))
+* **goal:** plan 길이 제한 변경 ([84f454d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/84f454dd863f79d06df55d433bc5773d7f8567ec)), closes [#156](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/156)
+
 ## [1.15.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.15.2...v1.15.3) (2025-07-19)
 
 
