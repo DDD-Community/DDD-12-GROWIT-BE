@@ -5,6 +5,8 @@ import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.dto.request.GoalDurationDto;
 import com.growit.app.goal.controller.dto.request.PlanRequestDto;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.dto.PlanDto;
+import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
@@ -51,6 +53,12 @@ public class GoalFixture {
             new PlanRequestDto(2, "디자인 시안 뽑기"),
             new PlanRequestDto(3, "프론트 개발 및 백 개발 완료"),
             new PlanRequestDto(4, "배포 완료")));
+  }
+
+  public static UpdateGoalCommand defaultUpdateGoalCommand(String name, List<PlanDto> plans) {
+    Goal goal = defaultGoal();
+    return new UpdateGoalCommand(
+        goal.getId(), goal.getUserId(), name, goal.getDuration(), goal.getBeforeAfter(), plans);
   }
 }
 
