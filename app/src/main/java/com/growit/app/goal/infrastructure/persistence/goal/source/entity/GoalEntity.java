@@ -1,5 +1,7 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
+import static java.util.stream.Collectors.toMap;
+
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
 import jakarta.persistence.*;
@@ -56,7 +58,7 @@ public class GoalEntity extends BaseEntity {
     this.toBe = goal.getBeforeAfter().toBe();
     // 다르면 insert
     Map<String, PlanEntity> existingPlanMap = this.plans.stream()
-        .collect(java.util.stream.Collectors.toMap(PlanEntity::getUid, plan -> plan));
+        .collect(toMap(PlanEntity::getUid, plan -> plan));
 
     List<PlanEntity> updatedPlans = goal.getPlans().stream()
         .map(plan -> {
