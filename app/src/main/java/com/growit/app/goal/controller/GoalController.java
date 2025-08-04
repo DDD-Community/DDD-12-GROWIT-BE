@@ -2,6 +2,7 @@ package com.growit.app.goal.controller;
 
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.response.IdDto;
+import com.growit.app.common.util.message.MessageService;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.domain.goal.Goal;
@@ -30,6 +31,7 @@ public class GoalController {
   private final GetUserGoalsUseCase getUserGoalsUseCase;
   private final DeleteGoalUseCase deleteGoalUseCase;
   private final UpdateGoalUseCase updateGoalUseCase;
+  private final MessageService messageService;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(@AuthenticationPrincipal User user) {
@@ -53,7 +55,7 @@ public class GoalController {
       @Valid @RequestBody CreateGoalRequest request) {
     UpdateGoalCommand command = goalRequestMapper.toUpdateCommand(id, user.getId(), request);
     updateGoalUseCase.execute(command);
-    return ResponseEntity.ok(ApiResponse.success("목표가 수정 완료되었습니다."));
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.update")));
   }
 
   @DeleteMapping("{id}")
@@ -61,6 +63,6 @@ public class GoalController {
       @PathVariable String id, @AuthenticationPrincipal User user) {
     DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
-    return ResponseEntity.ok(ApiResponse.success("삭제가 완료 되었습니다."));
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.delete")));
   }
 }
