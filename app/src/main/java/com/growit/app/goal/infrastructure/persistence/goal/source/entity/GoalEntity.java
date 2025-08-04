@@ -48,6 +48,25 @@ public class GoalEntity extends BaseEntity {
   private List<PlanEntity> plans = new ArrayList<>();
 
   public void updateToByDomain(Goal goal) {
+    this.name = goal.getName();
+    this.startDate = goal.getDuration().startDate();
+    this.endDate = goal.getDuration().endDate();
+    this.asIs = goal.getBeforeAfter().asIs();
+    this.toBe = goal.getBeforeAfter().toBe();
+    // 기존 plan
+    this.plans =
+        goal.getPlans().stream()
+            .map(
+                plan ->
+                    new PlanEntity(
+                        plan.getId(),
+                        plan.getWeekOfMonth(),
+                        plan.getContent(),
+                        plan.getPlanDuration().startDate(),
+                        plan.getPlanDuration().endDate(),
+                        this))
+            .toList();
+
     if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }
 }

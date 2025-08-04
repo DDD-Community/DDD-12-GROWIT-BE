@@ -28,4 +28,10 @@ public class Plan {
         .planDuration(duration)
         .build();
   }
+
+  public void updateByPlan(PlanDto dto, PlanDuration duration) {
+    this.weekOfMonth = dto.weekOfMonth();
+    this.content = dto.content();
+    this.planDuration = duration;
+  }
 }
