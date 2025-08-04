@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import lombok.*;
 
 @Entity
@@ -53,20 +54,30 @@ public class GoalEntity extends BaseEntity {
     this.endDate = goal.getDuration().endDate();
     this.asIs = goal.getBeforeAfter().asIs();
     this.toBe = goal.getBeforeAfter().toBe();
-    // 기존 plan
-    this.plans =
-        goal.getPlans().stream()
-            .map(
-                plan ->
-                    new PlanEntity(
-                        plan.getId(),
-                        plan.getWeekOfMonth(),
-                        plan.getContent(),
-                        plan.getPlanDuration().startDate(),
-                        plan.getPlanDuration().endDate(),
-                        this))
-            .toList();
+    // 다르면 insert
+    Map<String, PlanEntity> existingPlanMap = this.plans.stream()
+        .collect(java.util.stream.Collectors.toMap(PlanEntity::getUid, plan -> plan));
 
+    List<PlanEntity> updatedPlans = goal.getPlans().stream()
+        .map(plan -> {
+          PlanEntity existing = existingPlanMap.get(plan.getId());
+          if (existing != null) {
+            existing.updateByDomain(plan);
+            return existing;
+          } else {
+            return new PlanEntity(
+                plan.getId(),
+                plan.getWeekOfMonth(),
+                plan.getContent(),
+                plan.getPlanDuration().startDate(),
+                plan.getPlanDuration().endDate(),
+              this
+            );
+          }
+        })
+        .toList();
+    this.plans.clear();
+    this.plans.addAll(updatedPlans);
     if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }
 }
