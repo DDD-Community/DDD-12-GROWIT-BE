@@ -74,12 +74,7 @@ class GoalBuilder {
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
   private List<Plan> plans =
-      List.of(
-          new Plan(
-              "plan-1",
-              1,
-              "그로잇 완성",
-              new PlanDuration(LocalDate.now(), LocalDate.parse("2025-07-20"))));
+      List.of(new Plan("plan-1", 1, "그로잇 완성", PlanDuration.calculateDuration(1, thisMonday)));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {

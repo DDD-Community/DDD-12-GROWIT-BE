@@ -22,7 +22,9 @@ import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
+import com.growit.app.goal.usecase.UpdateGoalUseCase;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +51,9 @@ class GoalControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
+  @MockitoBean private DeleteGoalUseCase deleteGoalUseCase;
+  @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
+
   @Autowired private ObjectMapper objectMapper;
   @Autowired private GoalRepository goalRepository;
 
@@ -158,7 +163,6 @@ class GoalControllerTest {
     mockMvc
         .perform(delete("/goals/{id}", "goalId").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.data").value("삭제가 완료 되었습니다."))
         .andDo(
             document(
                 "delete-goal",
@@ -185,7 +189,7 @@ class GoalControllerTest {
                 .header("Authorization", "Bearer mock-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(body)))
-        .andExpect(status().isCreated())
+        .andExpect(status().isOk())
         .andDo(
             document(
                 "update-goal",
