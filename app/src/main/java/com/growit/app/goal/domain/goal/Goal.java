@@ -2,16 +2,21 @@ package com.growit.app.goal.domain.goal;
 
 import static com.growit.app.common.util.message.ErrorCode.GOAL_NOT_EXISTS_DATE;
 import static com.growit.app.common.util.message.ErrorCode.GOAL_PLAN_NOT_FOUND;
+import static java.util.stream.Collectors.toMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
+import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +49,38 @@ public class Goal {
                 .toList())
         .isDelete(false)
         .build();
+  }
+
+  public void updateByCommand(UpdateGoalCommand command) {
+    this.name = command.name();
+    this.duration = command.duration();
+    this.beforeAfter = command.beforeAfter();
+    this.plans = updatePlans(command);
+  }
+
+  // 기존 존재하는 범위의 계획인 경우 업데이트 존재하지 않은경우 새로 생성
+  // 1. 기존 plans duration 을 키로 map 구성
+  // 2. command.plans loop
+  // 3. duration 구하기
+  // 4. duration 키로 존재 여부 체크
+  // 5. 존재하면 업데이트 존재하지 않으면 새로 생성
+  private List<Plan> updatePlans(UpdateGoalCommand command) {
+    Map<PlanDuration, Plan> existingPlanMap =
+        this.plans.stream().collect(toMap(Plan::getPlanDuration, plan -> plan));
+    List<Plan> updatedPlans = new ArrayList<>();
+    for (var planDto : command.plans()) {
+      PlanDuration planDuration =
+          PlanDuration.calculateDuration(planDto.weekOfMonth(), command.duration().startDate());
+      Plan existing = existingPlanMap.get(planDuration);
+      if (existing != null) {
+        existing.updateByPlan(planDto, planDuration);
+        updatedPlans.add(existing);
+      } else {
+        updatedPlans.add(Plan.from(planDto, command.duration().startDate()));
+      }
+    }
+
+    return updatedPlans;
   }
 
   public void deleted() {

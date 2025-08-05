@@ -1,6 +1,7 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -32,4 +33,11 @@ public class PlanEntity extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "goal_id")
   private GoalEntity goal;
+
+  public void updateByDomain(Plan plan) {
+    this.weekOfMonth = plan.getWeekOfMonth();
+    this.content = plan.getContent();
+    this.startDate = plan.getPlanDuration().startDate();
+    this.endDate = plan.getPlanDuration().endDate();
+  }
 }

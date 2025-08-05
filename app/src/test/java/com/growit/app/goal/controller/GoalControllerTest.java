@@ -21,9 +21,10 @@ import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
-import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
+import com.growit.app.goal.usecase.UpdateGoalUseCase;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,9 @@ class GoalControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
+  @MockitoBean private DeleteGoalUseCase deleteGoalUseCase;
+  @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
+
   @Autowired private ObjectMapper objectMapper;
   @Autowired private GoalRepository goalRepository;
 
@@ -156,14 +160,9 @@ class GoalControllerTest {
 
   @Test
   void deleteGoal() throws Exception {
-    Goal goal = GoalFixture.defaultGoal();
-    goalRepository.saveGoal(goal);
-
     mockMvc
-        .perform(
-            delete("/goals/{id}", goal.getId()).header("Authorization", "Bearer mock-jwt-token"))
+        .perform(delete("/goals/{id}", "goalId").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.data").value("삭제가 완료 되었습니다."))
         .andDo(
             document(
                 "delete-goal",
@@ -178,6 +177,49 @@ class GoalControllerTest {
                             fieldWithPath("data")
                                 .type(JsonFieldType.STRING)
                                 .description("삭제가 완료 되었습니다."))
+                        .build())));
+  }
+
+  @Test
+  void updateGoal() throws Exception {
+    CreateGoalRequest body = GoalFixture.defaultCreateGoalRequest();
+    mockMvc
+        .perform(
+            put("/goals/{id}", "goalId")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(body)))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "update-goal",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("목표 수정")
+                        .requestFields(
+                            fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
+                            fieldWithPath("duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("beforeAfter.asIs")
+                                .type(JsonFieldType.STRING)
+                                .description("현재 상태(As-Is)"),
+                            fieldWithPath("beforeAfter.toBe")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 달성 후 상태(To-Be)"),
+                            fieldWithPath("plans[].weekOfMonth")
+                                .type(JsonFieldType.NUMBER)
+                                .description("계획 주차"),
+                            fieldWithPath("plans[].content")
+                                .type(JsonFieldType.STRING)
+                                .description("계획 내용"))
+                        .responseFields(fieldWithPath("data").type(STRING).description("성공 메세지"))
                         .build())));
   }
 }

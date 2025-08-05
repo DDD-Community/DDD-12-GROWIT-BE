@@ -5,6 +5,8 @@ import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.dto.request.GoalDurationDto;
 import com.growit.app.goal.controller.dto.request.PlanRequestDto;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.dto.PlanDto;
+import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.BeforeAfter;
@@ -52,6 +54,12 @@ public class GoalFixture {
             new PlanRequestDto(3, "프론트 개발 및 백 개발 완료"),
             new PlanRequestDto(4, "배포 완료")));
   }
+
+  public static UpdateGoalCommand defaultUpdateGoalCommand(String name, List<PlanDto> plans) {
+    Goal goal = defaultGoal();
+    return new UpdateGoalCommand(
+        goal.getId(), goal.getUserId(), name, goal.getDuration(), goal.getBeforeAfter(), plans);
+  }
 }
 
 class GoalBuilder {
@@ -66,12 +74,7 @@ class GoalBuilder {
   private String name = "테스트 목표";
   private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
   private List<Plan> plans =
-      List.of(
-          new Plan(
-              "plan-1",
-              1,
-              "그로잇 완성",
-              new PlanDuration(LocalDate.now(), LocalDate.parse("2025-07-20"))));
+      List.of(new Plan("plan-1", 1, "그로잇 완성", PlanDuration.calculateDuration(1, thisMonday)));
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {
