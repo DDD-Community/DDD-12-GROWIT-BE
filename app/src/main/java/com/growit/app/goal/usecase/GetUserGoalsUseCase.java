@@ -1,5 +1,7 @@
 package com.growit.app.goal.usecase;
 
+import static com.growit.app.common.util.message.ErrorCode.GOAL_PROGRESS_NOTFOUND;
+
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
@@ -39,6 +41,6 @@ public class GetUserGoalsUseCase {
   public Goal getProgressMyGoal(User user) {
     return goalRepository
         .findByUserIdAndStartDateAndEndDate(user.getId())
-        .orElseThrow(() -> new NotFoundException("진행 중인 목표가 존재하지 않습니다."));
+        .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 }
