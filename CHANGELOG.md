@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.18.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.17.0...v1.18.0) (2025-08-06)
+
+
+### Features
+
+* **goal:** 메세지 수정 ([ca0a1d4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ca0a1d447773bc3b0dfdd788929316a5af4ff17e))
+* **goal:** 목표 수정 api 추가 ([ccb0fd7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ccb0fd720ccaa1fd1aee5f8b06d7699ae92a9752))
+* **goal:** 목표 수정 연동 완료 ([eacea80](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/eacea804d56ad55c6a3861b88e27723cf7c94575))
+* **goal:** 목표 수정 연동 완료 ([8992ab0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8992ab01e02f90d72b65ef03e5b1905713aef135))
+* **goal:** 목표 수정 테스트 코드 작성 ([ba4fa2c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ba4fa2cde8106792f899e7c970acdd9922a10bdf)), closes [#164](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/164)
+* **goal:** 목표 수정 테스트 코드 작성 ([0421dd2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0421dd2bfeb28b3f418dfa3804e58f225c47be36)), closes [#164](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/164)
+
+
+### Bug Fixes
+
+* 시작일 제약 조건 변경 ([2cf619d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2cf619d557924084169eea82aa118303ae0312dd))
+* 시작일 제약 조건 변경 ([f7b5178](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f7b517893e5b5c43926097f529c0b9d4a01676ae))
+* 시작일 제약 조건 변경 ([807a79a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/807a79aa6d3be480fc95fa762795c7633e0e814d))
+
 ## [1.17.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.16.0...v1.17.0) (2025-07-20)
 
 
