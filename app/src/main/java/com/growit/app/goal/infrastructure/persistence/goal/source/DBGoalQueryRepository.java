@@ -9,5 +9,7 @@ public interface DBGoalQueryRepository {
 
   Optional<GoalEntity> findByUidAndUserId(String uid, String userId);
 
-  List<GoalEntity> findByFinishedGoals(String userId);
+  List<GoalEntity> findByUserIdAndEndDate(String userId);
+
+  Optional<GoalEntity> findByUserIdAndStartDateAndEndDate(String userId);
 }

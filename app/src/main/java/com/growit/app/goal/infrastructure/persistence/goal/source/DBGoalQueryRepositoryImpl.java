@@ -42,7 +42,7 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   }
 
   @Override
-  public List<GoalEntity> findByFinishedGoals(String userId) {
+  public List<GoalEntity> findByUserIdAndEndDate(String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
     QPlanEntity plan = QPlanEntity.planEntity;
     LocalDate today = LocalDate.now();
@@ -53,5 +53,24 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
         .fetchJoin()
         .where(goal.userId.eq(userId), goal.deletedAt.isNull(), goal.endDate.lt(today))
         .fetch();
+  }
+
+  @Override
+  public Optional<GoalEntity> findByUserIdAndStartDateAndEndDate(String userId) {
+    QGoalEntity goal = QGoalEntity.goalEntity;
+    QPlanEntity plan = QPlanEntity.planEntity;
+    LocalDate today = LocalDate.now();
+
+    return Optional.ofNullable(
+        queryFactory
+            .selectFrom(goal)
+            .leftJoin(goal.plans, plan)
+            .fetchJoin()
+            .where(
+                goal.userId.eq(userId),
+                goal.deletedAt.isNull(),
+                goal.startDate.loe(today),
+                goal.endDate.goe(today))
+            .fetchOne());
   }
 }

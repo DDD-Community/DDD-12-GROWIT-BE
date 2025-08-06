@@ -75,4 +75,10 @@ public class GoalController {
     List<Goal> goals = getUserGoalsUseCase.getFinishMyGoal(user);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }
+
+  @GetMapping("/progress")
+  public ResponseEntity<ApiResponse<Goal>> getProgressGoal(@AuthenticationPrincipal User user) {
+    Goal goal = getUserGoalsUseCase.getProgressMyGoal(user);
+    return ResponseEntity.ok(ApiResponse.success(goal));
+  }
 }

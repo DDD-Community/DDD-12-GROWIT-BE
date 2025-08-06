@@ -46,12 +46,13 @@ public class GoalRepositoryImpl implements GoalRepository {
   }
 
   @Override
-  public List<Goal> findFinishedGoalsByUserId(String userId) {
-    return repository.findByFinishedGoals(userId).stream().map(mapper::toDomain).toList();
+  public List<Goal> findByUserIdAndEndDate(String userId) {
+    return repository.findByUserIdAndEndDate(userId).stream().map(mapper::toDomain).toList();
   }
 
-  //  @Override
-  //  public Plan getByPlanId(String planId) {
-  //    return mapper.toPlanDomain(repository.findByPlanId(planId));
-  //  }
+  @Override
+  public Optional<Goal> findByUserIdAndStartDateAndEndDate(String userId) {
+    Optional<GoalEntity> goalEntity = repository.findByUserIdAndStartDateAndEndDate(userId);
+    return goalEntity.map(mapper::toDomain);
+  }
 }
