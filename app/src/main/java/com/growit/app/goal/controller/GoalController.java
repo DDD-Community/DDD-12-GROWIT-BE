@@ -42,7 +42,7 @@ public class GoalController {
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createGoal(
-    @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
+      @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
     CreateGoalCommand command = goalRequestMapper.toCommand(user.getId(), request);
     String goalId = createGoalUseCase.execute(command);
 
@@ -51,9 +51,9 @@ public class GoalController {
 
   @PutMapping("{id}")
   public ResponseEntity<ApiResponse<String>> updateGoal(
-    @PathVariable String id,
-    @AuthenticationPrincipal User user,
-    @Valid @RequestBody CreateGoalRequest request) {
+      @PathVariable String id,
+      @AuthenticationPrincipal User user,
+      @Valid @RequestBody CreateGoalRequest request) {
     UpdateGoalCommand command = goalRequestMapper.toUpdateCommand(id, user.getId(), request);
     updateGoalUseCase.execute(command);
 
@@ -62,7 +62,7 @@ public class GoalController {
 
   @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
-    @PathVariable String id, @AuthenticationPrincipal User user) {
+      @PathVariable String id, @AuthenticationPrincipal User user) {
     DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
 
@@ -70,7 +70,8 @@ public class GoalController {
   }
 
   @GetMapping("/finish")
-  public ResponseEntity<ApiResponse<List<Goal>>> getFinishedGoals(@AuthenticationPrincipal User user) {
+  public ResponseEntity<ApiResponse<List<Goal>>> getFinishedGoals(
+      @AuthenticationPrincipal User user) {
     List<Goal> goals = getUserGoalsUseCase.getFinishMyGoal(user);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }

@@ -4,7 +4,6 @@ import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEnt
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -49,10 +48,10 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
     LocalDate today = LocalDate.now();
 
     return queryFactory
-      .selectFrom(goal)
-      .leftJoin(goal.plans, plan)
-      .fetchJoin()
-      .where(goal.userId.eq(userId), goal.deletedAt.isNull(), goal.endDate.lt(today))
-      .fetch();
+        .selectFrom(goal)
+        .leftJoin(goal.plans, plan)
+        .fetchJoin()
+        .where(goal.userId.eq(userId), goal.deletedAt.isNull(), goal.endDate.lt(today))
+        .fetch();
   }
 }
