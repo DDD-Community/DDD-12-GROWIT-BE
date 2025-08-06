@@ -27,4 +27,11 @@ public class GetUserGoalsUseCase {
 
     return goals;
   }
+
+  public List<Goal> getFinishMyGoal(User user) {
+    List<Goal> goals = goalRepository.findFinishedGoalsByUserId(user.getId());
+    if(goals.isEmpty()) return Collections.emptyList();
+
+    return goals;
+  }
 }
