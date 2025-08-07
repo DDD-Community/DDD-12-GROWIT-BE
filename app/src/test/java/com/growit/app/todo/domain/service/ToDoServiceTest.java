@@ -11,6 +11,7 @@ import com.growit.app.fake.todo.*;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
+import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.vo.ToDoStatus;
@@ -137,6 +138,7 @@ class ToDoServiceTest {
             "Goal",
             new GoalDuration(startDate, endDate),
             null,
+            GoalCategory.NETWORKING,
             List.of(new Plan("plan-1", 1, "Plan", new PlanDuration(startDate, endDate))));
 
     ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", startDate, "plan-1", "goal-1");

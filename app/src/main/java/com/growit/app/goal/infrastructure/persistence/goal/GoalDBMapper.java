@@ -23,6 +23,7 @@ public class GoalDBMapper {
             .endDate(goal.getDuration().endDate())
             .asIs(goal.getBeforeAfter().asIs())
             .toBe(goal.getBeforeAfter().toBe())
+            .category(goal.getCategory())
             .build();
     entity.setPlans(
         goal.getPlans().stream()
@@ -48,6 +49,7 @@ public class GoalDBMapper {
         .name(entity.getName())
         .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
         .beforeAfter(new BeforeAfter(entity.getAsIs(), entity.getToBe()))
+        .category(entity.getCategory())
         .plans(
             entity.getPlans().stream()
                 .map(

@@ -104,6 +104,10 @@ class GoalControllerTest {
                             fieldWithPath("data[].beforeAfter.toBe")
                                 .type(STRING)
                                 .description("목표 달성 후 상태(To-Be)"),
+                            fieldWithPath("data[].category")
+                                .type(STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
                             fieldWithPath("data[].plans").description("계획 리스트"),
                             fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plans[].weekOfMonth")
@@ -151,6 +155,10 @@ class GoalControllerTest {
                             fieldWithPath("plans[].weekOfMonth")
                                 .type(JsonFieldType.NUMBER)
                                 .description("계획 주차"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
                             fieldWithPath("plans[].content")
                                 .type(JsonFieldType.STRING)
                                 .description("계획 내용"))
@@ -213,6 +221,10 @@ class GoalControllerTest {
                             fieldWithPath("beforeAfter.toBe")
                                 .type(JsonFieldType.STRING)
                                 .description("목표 달성 후 상태(To-Be)"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
                             fieldWithPath("plans[].weekOfMonth")
                                 .type(JsonFieldType.NUMBER)
                                 .description("계획 주차"),

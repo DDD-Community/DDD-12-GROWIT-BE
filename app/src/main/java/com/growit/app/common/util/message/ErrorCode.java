@@ -17,7 +17,7 @@ public enum ErrorCode {
   GOAL_DURATION_START_END("error.goal.duration-start-end"), // "목표 종료일은 시작일보다 뒤여야 합니다."
   GOAL_DURATION_START_AFTER_TODAY(
       "error.goal.duration-start-after-today"), // "목표 시작일은 오늘 이후부터 가능합니다."
-
+  GOAL_PROGRESS_NOTFOUND("error.goal.progress-not-found"), // 진행중인 목표를 찾을 수 없습니다.
   USER_NOT_FOUND("error.user.not-found"),
   USER_INVALID_EMAIL("error.user.invalid-email"), // "유효하지 않은 이메일입니다."
   USER_ALREADY_REGISTERED("error.user.already-registered"), // ""해당 이메일로 이미 가입된 계정이 있습니다.""

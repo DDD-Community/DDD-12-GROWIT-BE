@@ -1,5 +1,6 @@
 package com.growit.app.goal.controller.dto.request;
 
+import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,10 @@ public class CreateGoalRequest {
   @NotNull(message = "{validation.goal.beforeafter.required}")
   @Valid
   private BeforeAfterDto beforeAfter;
+
+  @NotNull(message = "{validation.goal.category.required}")
+  @Valid
+  private GoalCategory category;
 
   @NotNull(message = "{validation.goal.plans.required}")
   @Valid
