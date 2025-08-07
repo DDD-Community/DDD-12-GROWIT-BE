@@ -34,6 +34,16 @@ public class FakeGoalRepository implements GoalRepository {
     return Optional.of(goal);
   }
 
+  @Override
+  public List<Goal> findByUserIdAndEndDate(String userId) {
+    return List.of();
+  }
+
+  @Override
+  public Optional<Goal> findByUserIdAndStartDateAndEndDate(String userId) {
+    return Optional.empty();
+  }
+
   public void clear() {
     store.clear();
   }
