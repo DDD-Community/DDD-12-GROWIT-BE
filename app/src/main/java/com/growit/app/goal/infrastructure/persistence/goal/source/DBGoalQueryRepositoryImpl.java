@@ -44,14 +44,11 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   @Override
   public Optional<GoalEntity> findByUserIdAndGoalDuration(String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
-    QPlanEntity plan = QPlanEntity.planEntity;
     LocalDate today = LocalDate.now();
 
     return Optional.ofNullable(
         queryFactory
             .selectFrom(goal)
-            .leftJoin(goal.plans, plan)
-            .fetchJoin()
             .where(
                 goal.userId.eq(userId),
                 goal.deletedAt.isNull(),
