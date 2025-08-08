@@ -3,7 +3,6 @@ package com.growit.app.goal.infrastructure.persistence.goal;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
-import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.PlanEntity;
@@ -21,8 +20,7 @@ public class GoalDBMapper {
             .name(goal.getName())
             .startDate(goal.getDuration().startDate())
             .endDate(goal.getDuration().endDate())
-            .asIs(goal.getBeforeAfter().asIs())
-            .toBe(goal.getBeforeAfter().toBe())
+            .toBe(goal.getToBe())
             .build();
     entity.setPlans(
         goal.getPlans().stream()
@@ -47,7 +45,7 @@ public class GoalDBMapper {
         .userId(entity.getUserId())
         .name(entity.getName())
         .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
-        .beforeAfter(new BeforeAfter(entity.getAsIs(), entity.getToBe()))
+        .toBe(entity.getToBe())
         .plans(
             entity.getPlans().stream()
                 .map(
@@ -58,6 +56,28 @@ public class GoalDBMapper {
                             .planDuration(
                                 new PlanDuration(
                                     planEntity.getStartDate(), planEntity.getEndDate()))
+                            .content(planEntity.getContent())
+                            .build())
+                .toList())
+        .isDelete(entity.getDeletedAt() != null)
+        .build();
+  }
+
+  public Goal toProgressGoal(GoalEntity entity) {
+    if (entity == null) return null;
+    return Goal.builder()
+        .id(entity.getUid())
+        .userId(entity.getUserId())
+        .name(entity.getName())
+        .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
+        .toBe(entity.getToBe())
+        .plans(
+            entity.getPlans().stream()
+                .map(
+                    planEntity ->
+                        Plan.builder()
+                            .id(planEntity.getUid())
+                            .weekOfMonth(planEntity.getWeekOfMonth())
                             .content(planEntity.getContent())
                             .build())
                 .toList())

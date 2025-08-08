@@ -18,6 +18,7 @@ public class CreateGoalUseCase {
   @CacheEvict(value = "goalCache", key = "#command.userId")
   @Transactional
   public String execute(CreateGoalCommand command) {
+    goalValidator.checkGoalExists(command.userId());
     goalValidator.checkGoalDuration(command.duration());
     goalValidator.checkPlans(command.duration(), command.plans());
     Goal goal = Goal.from(command);
