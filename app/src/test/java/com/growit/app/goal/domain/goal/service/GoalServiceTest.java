@@ -123,12 +123,12 @@ class GoalServiceTest {
 
     GoalDuration duration = new GoalDuration(goalStart, goalEnd);
 
-    List<PlanDto> plans = List.of(
-      new PlanDto(1, "주간계획 1"),
-      new PlanDto(2, "주간계획 2"),
-      new PlanDto(3, "주간계획 3"),
-      new PlanDto(4, "주간계획 4")
-    );
+    List<PlanDto> plans =
+        List.of(
+            new PlanDto(1, "주간계획 1"),
+            new PlanDto(2, "주간계획 2"),
+            new PlanDto(3, "주간계획 3"),
+            new PlanDto(4, "주간계획 4"));
 
     goalService.checkPlans(duration, plans);
 
