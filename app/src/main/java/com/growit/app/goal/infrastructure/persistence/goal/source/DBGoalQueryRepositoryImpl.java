@@ -52,6 +52,7 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
         .leftJoin(goal.plans, plan)
         .fetchJoin()
         .where(goal.userId.eq(userId), goal.deletedAt.isNull(), goal.endDate.lt(today))
+        .orderBy(goal.endDate.desc())
         .fetch();
   }
 
