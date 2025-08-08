@@ -31,6 +31,14 @@ class GoalServiceTest {
   }
 
   @Test
+  void givenGoalExists_whenCheckGoalExists_thenThrowException() {
+    // given
+    String userId = goal.getUserId();
+
+    // when & then
+    assertThrows(BadRequestException.class, () -> goalService.checkGoalExists(userId));
+  }
+  @Test
   void givenPlans_whenCheckPlans_thenSuccess() {
     LocalDate start = LocalDate.of(2025, 6, 23);
     LocalDate end = LocalDate.of(2025, 7, 6);
