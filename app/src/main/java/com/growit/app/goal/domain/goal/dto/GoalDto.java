@@ -2,7 +2,6 @@ package com.growit.app.goal.domain.goal.dto;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.util.List;
 
@@ -11,7 +10,7 @@ public record GoalDto(
     String userId,
     String name,
     GoalDuration goalDuration,
-    BeforeAfter beforeAfter,
+    String toBe,
     List<Plan> planList) {
   public static GoalDto toDto(Goal goal) {
     return new GoalDto(
@@ -19,7 +18,7 @@ public record GoalDto(
         goal.getUserId(),
         goal.getName(),
         goal.getDuration(),
-        goal.getBeforeAfter(),
+        goal.getToBe(),
         goal.getPlans());
   }
 }

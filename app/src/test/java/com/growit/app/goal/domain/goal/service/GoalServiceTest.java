@@ -1,5 +1,6 @@
 package com.growit.app.goal.domain.goal.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.growit.app.common.exception.BadRequestException;
@@ -9,6 +10,7 @@ import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
+import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -111,5 +113,35 @@ class GoalServiceTest {
       date = date.plusDays(1);
     }
     return date;
+  }
+
+  @Test
+  void givenFlexibleFirstWeek_andMondayToSundayFromSecondWeek_thenSuccess() {
+    LocalDate goalStart = LocalDate.now();
+
+    LocalDate goalEnd = goalStart.with(DayOfWeek.SUNDAY).plusWeeks(3);
+
+    GoalDuration duration = new GoalDuration(goalStart, goalEnd);
+
+    List<PlanDto> plans =
+        List.of(
+            new PlanDto(1, "주간계획 1"),
+            new PlanDto(2, "주간계획 2"),
+            new PlanDto(3, "주간계획 3"),
+            new PlanDto(4, "주간계획 4"));
+
+    goalService.checkPlans(duration, plans);
+
+    for (PlanDto plan : plans) {
+      PlanDuration planDuration = PlanDuration.calculateDuration(plan.weekOfMonth(), goalStart);
+
+      if (plan.weekOfMonth() == 1) {
+        assertEquals(goalStart, planDuration.startDate());
+        assertEquals(DayOfWeek.SUNDAY, planDuration.endDate().getDayOfWeek());
+      } else {
+        assertEquals(DayOfWeek.MONDAY, planDuration.startDate().getDayOfWeek());
+        assertEquals(DayOfWeek.SUNDAY, planDuration.endDate().getDayOfWeek());
+      }
+    }
   }
 }

@@ -37,9 +37,6 @@ public class GoalEntity extends BaseEntity {
   private LocalDate endDate;
 
   @Column(nullable = false, length = 128)
-  private String asIs;
-
-  @Column(nullable = false, length = 128)
   private String toBe;
 
   @OneToMany(
@@ -54,8 +51,7 @@ public class GoalEntity extends BaseEntity {
     this.name = goal.getName();
     this.startDate = goal.getDuration().startDate();
     this.endDate = goal.getDuration().endDate();
-    this.asIs = goal.getBeforeAfter().asIs();
-    this.toBe = goal.getBeforeAfter().toBe();
+    this.toBe = goal.getToBe();
     // 다르면 insert
     Map<String, PlanEntity> existingPlanMap =
         this.plans.stream().collect(toMap(PlanEntity::getUid, plan -> plan));

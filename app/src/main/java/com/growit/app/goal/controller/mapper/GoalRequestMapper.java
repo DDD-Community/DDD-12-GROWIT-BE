@@ -5,7 +5,6 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
-import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ public class GoalRequestMapper {
         userId,
         request.getName(),
         new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
-        new BeforeAfter(request.getBeforeAfter().getAsIs(), request.getBeforeAfter().getToBe()),
+        request.getToBe(),
         request.getPlans().stream()
             .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
             .toList());
@@ -29,7 +28,7 @@ public class GoalRequestMapper {
         userId,
         request.getName(),
         new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
-        new BeforeAfter(request.getBeforeAfter().getAsIs(), request.getBeforeAfter().getToBe()),
+        request.getToBe(),
         request.getPlans().stream()
             .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
             .toList());

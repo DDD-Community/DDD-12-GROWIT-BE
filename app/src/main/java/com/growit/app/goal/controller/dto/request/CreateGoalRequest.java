@@ -19,9 +19,9 @@ public class CreateGoalRequest {
   @Valid
   private GoalDurationDto duration;
 
-  @NotNull(message = "{validation.goal.beforeafter.required}")
-  @Valid
-  private BeforeAfterDto beforeAfter;
+  @NotBlank(message = "{validation.goal.tobe.required}")
+  @Size(min = 1, max = 30, message = "{validation.goal.tobe.size}")
+  private String toBe;
 
   @NotNull(message = "{validation.goal.plans.required}")
   @Valid
