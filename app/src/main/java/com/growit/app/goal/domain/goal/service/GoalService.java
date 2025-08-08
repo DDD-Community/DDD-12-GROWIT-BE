@@ -12,6 +12,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GoalService implements GoalValidator, GoalQuery {
   private final GoalRepository goalRepository;
+
+  @Override
+  public void checkGoalExists(String userId) {
+    Optional<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId);
+    if(goal.isPresent()){
+      throw new BadRequestException(GOAL_ALREADY_EXISTS.getCode());
+    }
+  }
 
   // 시작 일은 1주차 아무 요일 부터 설정 가능으로 변경 (종료일은 일요일, 과거는 생성 불가)
   @Override
