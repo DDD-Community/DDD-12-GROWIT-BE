@@ -1,0 +1,3 @@
+ALTER TABLE goals
+DROP
+COLUMN as_is;
