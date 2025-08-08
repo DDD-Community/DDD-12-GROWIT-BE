@@ -21,16 +21,12 @@ import org.springframework.stereotype.Service;
 public class GoalService implements GoalValidator, GoalQuery {
   private final GoalRepository goalRepository;
 
-  // 시작 일은 이번주 부터 설정 가능으로 변경 (전주는 설정 불가)
+  // 시작 일은 1주차 아무 요일 부터 설정 가능으로 변경 (종료일은 일요일, 과거는 생성 불가)
   @Override
   public void checkGoalDuration(GoalDuration duration) {
     LocalDate startDate = duration.startDate();
     LocalDate endDate = duration.endDate();
     LocalDate today = LocalDate.now().with(DayOfWeek.MONDAY);
-
-    if (startDate.getDayOfWeek() != DayOfWeek.MONDAY) {
-      throw new BadRequestException(GOAL_DURATION_MONDAY.getCode());
-    }
 
     if (endDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
       throw new BadRequestException(GOAL_DURATION_SUNDAY.getCode());
