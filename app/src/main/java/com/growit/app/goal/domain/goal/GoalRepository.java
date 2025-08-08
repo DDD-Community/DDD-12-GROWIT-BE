@@ -12,5 +12,5 @@ public interface GoalRepository {
 
   Optional<Goal> findByIdAndUserId(String id, String userId);
 
-  Optional<Goal> findByUserIdAndStartDateAndEndDate(String userId);
+  Optional<Goal> findByUserIdAndGoalDuration(String userId);
 }

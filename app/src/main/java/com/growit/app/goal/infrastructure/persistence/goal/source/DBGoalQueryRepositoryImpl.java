@@ -3,7 +3,6 @@ package com.growit.app.goal.infrastructure.persistence.goal.source;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;
-import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.entity.QRetrospectEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDate;
 import java.util.List;
@@ -43,38 +42,21 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   }
 
   @Override
-  public List<GoalEntity> findByUserIdAndEndDate(String userId) {
+  public Optional<GoalEntity> findByUserIdAndGoalDuration(String userId) {
     QGoalEntity goal = QGoalEntity.goalEntity;
     QPlanEntity plan = QPlanEntity.planEntity;
-    LocalDate today = LocalDate.now();
-
-    return queryFactory
-        .selectFrom(goal)
-        .leftJoin(goal.plans, plan)
-        .fetchJoin()
-        .where(goal.userId.eq(userId), goal.deletedAt.isNull(), goal.endDate.lt(today))
-        .orderBy(goal.endDate.desc())
-        .fetch();
-  }
-
-  @Override
-  public Optional<GoalEntity> findByUserIdAndStartDateAndEndDate(String userId) {
-    QGoalEntity goal = QGoalEntity.goalEntity;
-    QPlanEntity plan = QPlanEntity.planEntity;
-    QRetrospectEntity retrospect = QRetrospectEntity.retrospectEntity;
     LocalDate today = LocalDate.now();
 
     return Optional.ofNullable(
-      queryFactory
-        .selectFrom(goal)
-        .leftJoin(goal.plans, plan)
-//        .leftJoin(retrospect.planId, plan.uid)
-        .fetchJoin()
-        .where(
-          goal.userId.eq(userId),
-          goal.deletedAt.isNull(),
-          goal.startDate.loe(today),
-          goal.endDate.goe(today))
-        .fetchOne());
+        queryFactory
+            .selectFrom(goal)
+            .leftJoin(goal.plans, plan)
+            .fetchJoin()
+            .where(
+                goal.userId.eq(userId),
+                goal.deletedAt.isNull(),
+                goal.startDate.loe(today),
+                goal.endDate.goe(today))
+            .fetchOne());
   }
 }

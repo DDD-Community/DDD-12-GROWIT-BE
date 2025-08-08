@@ -33,7 +33,7 @@ public class GetUserGoalsUseCase {
 
   public Goal getProgressMyGoal(User user) {
     return goalRepository
-        .findByUserIdAndStartDateAndEndDate(user.getId())
+        .findByUserIdAndGoalDuration(user.getId())
         .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 }
