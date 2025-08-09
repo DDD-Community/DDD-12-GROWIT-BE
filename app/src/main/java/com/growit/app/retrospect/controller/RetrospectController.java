@@ -76,9 +76,8 @@ public class RetrospectController {
   public ResponseEntity<ApiResponse<List<RetrospectResponse>>> getRetrospectsByGoalId(
       @AuthenticationPrincipal User user, @RequestParam("goalId") String goalId) {
     List<RetrospectWithPlan> results = getRetrospectsByGoalIdUseCase.execute(goalId, user.getId());
-    List<RetrospectResponse> responses = results.stream()
-        .map(retrospectResponseMapper::toResponse)
-        .toList();
+    List<RetrospectResponse> responses =
+        results.stream().map(retrospectResponseMapper::toResponse).toList();
 
     return ResponseEntity.ok(ApiResponse.success(responses));
   }

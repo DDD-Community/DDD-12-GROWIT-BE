@@ -34,11 +34,13 @@ class GetRetrospectsByGoalIdUseCaseTest {
     String userId = "userId";
     String planId1 = "plan-1";
     String planId2 = "plan-2";
-    
-    Retrospect retrospect1 = RetrospectFixture.customRetrospect("retrospect-1", userId, goalId, planId1, "회고 내용 1");
-    Retrospect retrospect2 = RetrospectFixture.customRetrospect("retrospect-2", userId, goalId, planId2, "회고 내용 2");
+
+    Retrospect retrospect1 =
+        RetrospectFixture.customRetrospect("retrospect-1", userId, goalId, planId1, "회고 내용 1");
+    Retrospect retrospect2 =
+        RetrospectFixture.customRetrospect("retrospect-2", userId, goalId, planId2, "회고 내용 2");
     List<Retrospect> retrospects = List.of(retrospect1, retrospect2);
-    
+
     Plan plan1 = PlanFixture.customPlan(planId1, 1, null, null, null);
     Plan plan2 = PlanFixture.customPlan(planId2, 2, null, null, null);
     Goal goal = GoalFixture.customGoal(goalId, userId, null, null, null, List.of(plan1, plan2));
