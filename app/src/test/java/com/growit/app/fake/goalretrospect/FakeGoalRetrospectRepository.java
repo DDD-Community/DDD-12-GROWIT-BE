@@ -22,16 +22,12 @@ public class FakeGoalRetrospectRepository implements GoalRetrospectRepository {
 
   @Override
   public Optional<GoalRetrospect> findByGoalId(String goalId) {
-    return storage.values().stream()
-        .filter(gr -> gr.getGoalId().equals(goalId))
-        .findFirst();
+    return storage.values().stream().filter(gr -> gr.getGoalId().equals(goalId)).findFirst();
   }
 
   @Override
   public List<GoalRetrospect> findAllByGoalId(String goalId) {
-    return storage.values().stream()
-        .filter(gr -> gr.getGoalId().equals(goalId))
-        .toList();
+    return storage.values().stream().filter(gr -> gr.getGoalId().equals(goalId)).toList();
   }
 
   public void clear() {

@@ -17,7 +17,8 @@ class GoalRetrospectTest {
     String content = "이번 주 회고 내용";
 
     // when
-    GoalRetrospect goalRetrospect = GoalRetrospect.create(goalId, todoCompletedRate, analysis, content);
+    GoalRetrospect goalRetrospect =
+        GoalRetrospect.create(goalId, todoCompletedRate, analysis, content);
 
     // then
     assertThat(goalRetrospect.getId()).isNotNull();
