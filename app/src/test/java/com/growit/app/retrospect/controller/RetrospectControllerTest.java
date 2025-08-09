@@ -22,8 +22,10 @@ import com.growit.app.retrospect.usecase.CheckRetrospectExistsByPlanIdUseCase;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectByFilterUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectUseCase;
+import com.growit.app.retrospect.usecase.GetRetrospectsByGoalIdUseCase;
 import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,6 +54,7 @@ class RetrospectControllerTest {
   @MockitoBean private UpdateRetrospectUseCase updateRetrospectUseCase;
   @MockitoBean private GetRetrospectUseCase getRetrospectUseCase;
   @MockitoBean private GetRetrospectByFilterUseCase getRetrospectByFilterUseCase;
+  @MockitoBean private GetRetrospectsByGoalIdUseCase getRetrospectsByGoalIdUseCase;
   @MockitoBean private CheckRetrospectExistsByPlanIdUseCase checkRetrospectExistsByPlanIdUseCase;
 
   @BeforeEach
@@ -219,6 +222,42 @@ class RetrospectControllerTest {
                             parameterWithName("planId").description("계획 ID"))
                         .responseFields(
                             fieldWithPath("data.isExist").description("회고 존재 여부 (true/false)"))
+                        .build())));
+  }
+
+  @Test
+  void getRetrospectsByGoalId() throws Exception {
+    RetrospectWithPlan retrospectWithPlan1 = RetrospectFixture.defaultRetrospectWithPlan();
+    RetrospectWithPlan retrospectWithPlan2 = RetrospectFixture.defaultRetrospectWithPlan();
+    given(getRetrospectsByGoalIdUseCase.execute(any(), any()))
+        .willReturn(List.of(retrospectWithPlan1, retrospectWithPlan2));
+
+    mockMvc
+        .perform(
+            get("/retrospects")
+                .param("goalId", "goal-123")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-retrospects-by-goal-id",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Retrospects")
+                        .summary("목표별 회고 목록 조회")
+                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data[]").description("회고 목록"),
+                            fieldWithPath("data[].id").type(STRING).description("회고 ID"),
+                            fieldWithPath("data[].goalId").type(STRING).description("목표 ID"),
+                            fieldWithPath("data[].plan").description("계획 정보"),
+                            fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data[].plan.weekOfMonth").description("주차"),
+                            fieldWithPath("data[].plan.content").type(STRING).description("계획 내용"),
+                            fieldWithPath("data[].content").type(STRING).description("회고 내용"))
                         .build())));
   }
 }
