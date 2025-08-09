@@ -2,6 +2,7 @@ package com.growit.app.fake.goal;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,6 +33,22 @@ public class FakeGoalRepository implements GoalRepository {
       return Optional.empty();
     }
     return Optional.of(goal);
+  }
+
+  @Override
+  public Optional<Goal> findByUserIdAndGoalDuration(String userId) {
+    LocalDate today = LocalDate.now();
+
+    return store.values().stream()
+        .filter(goal -> goal.getUserId().equals(userId) && !goal.getDeleted())
+        .filter(
+            goal -> {
+              LocalDate start = goal.getDuration().startDate();
+              LocalDate end = goal.getDuration().endDate();
+              return (start.isBefore(today) || start.isEqual(today))
+                  && (end.isAfter(today) || end.isEqual(today));
+            })
+        .findFirst();
   }
 
   public void clear() {

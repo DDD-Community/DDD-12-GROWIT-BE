@@ -4,6 +4,7 @@ import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEnt
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,22 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
             .leftJoin(goal.plans, plan)
             .fetchJoin()
             .where(goal.uid.eq(uid), goal.userId.eq(userId), goal.deletedAt.isNull())
+            .fetchOne());
+  }
+
+  @Override
+  public Optional<GoalEntity> findByUserIdAndGoalDuration(String userId) {
+    QGoalEntity goal = QGoalEntity.goalEntity;
+    LocalDate today = LocalDate.now();
+
+    return Optional.ofNullable(
+        queryFactory
+            .selectFrom(goal)
+            .where(
+                goal.userId.eq(userId),
+                goal.deletedAt.isNull(),
+                goal.startDate.loe(today),
+                goal.endDate.goe(today))
             .fetchOne());
   }
 }
