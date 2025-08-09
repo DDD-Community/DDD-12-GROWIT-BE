@@ -1,4 +1,4 @@
-package com.growit.app.goal.infrastructure.persistence.goalretrospect.source.entity;
+package com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import jakarta.persistence.*;

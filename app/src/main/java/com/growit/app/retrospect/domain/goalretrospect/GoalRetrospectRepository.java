@@ -1,4 +1,4 @@
-package com.growit.app.goal.domain.goalretrospect;
+package com.growit.app.retrospect.domain.goalretrospect;
 
 import java.util.List;
 import java.util.Optional;

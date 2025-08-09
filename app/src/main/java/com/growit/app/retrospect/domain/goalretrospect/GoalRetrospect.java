@@ -1,7 +1,7 @@
-package com.growit.app.goal.domain.goalretrospect;
+package com.growit.app.retrospect.domain.goalretrospect;
 
 import com.growit.app.common.util.IDGenerator;
-import com.growit.app.goal.domain.goalretrospect.vo.Analysis;
+import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

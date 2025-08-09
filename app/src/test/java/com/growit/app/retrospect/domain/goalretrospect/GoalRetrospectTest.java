@@ -1,9 +1,9 @@
-package com.growit.app.goal.domain.goalretrospect;
+package com.growit.app.retrospect.domain.goalretrospect;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.growit.app.fake.goalretrospect.GoalRetrospectFixture;
-import com.growit.app.goal.domain.goalretrospect.vo.Analysis;
+import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import org.junit.jupiter.api.Test;
 
 class GoalRetrospectTest {

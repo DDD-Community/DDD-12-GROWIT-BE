@@ -1,7 +1,7 @@
 package com.growit.app.fake.goalretrospect;
 
-import com.growit.app.goal.domain.goalretrospect.GoalRetrospect;
-import com.growit.app.goal.domain.goalretrospect.vo.Analysis;
+import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
+import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 
 public class GoalRetrospectFixture {
 

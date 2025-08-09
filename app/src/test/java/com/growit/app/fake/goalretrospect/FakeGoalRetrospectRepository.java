@@ -1,7 +1,7 @@
 package com.growit.app.fake.goalretrospect;
 
-import com.growit.app.goal.domain.goalretrospect.GoalRetrospect;
-import com.growit.app.goal.domain.goalretrospect.GoalRetrospectRepository;
+import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
+import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

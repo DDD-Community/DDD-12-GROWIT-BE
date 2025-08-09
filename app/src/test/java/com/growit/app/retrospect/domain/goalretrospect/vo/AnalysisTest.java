@@ -1,4 +1,4 @@
-package com.growit.app.goal.domain.goalretrospect.vo;
+package com.growit.app.retrospect.domain.goalretrospect.vo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
