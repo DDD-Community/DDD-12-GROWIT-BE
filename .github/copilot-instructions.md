@@ -1,5 +1,3 @@
-# COPILOT.md
-
 이 파일은 이 저장소의 코드 작업 시 COPILOT Code(copilot.ai/code)에 대한 지침을 제공합니다.
 
 # 답변 규칙
