@@ -43,9 +43,4 @@ public class GoalRetrospectRepositoryImpl implements GoalRetrospectRepository {
     Optional<GoalRetrospectEntity> entity = repository.findByGoalId(goalId);
     return entity.map(mapper::toDomain);
   }
-
-  @Override
-  public List<GoalRetrospect> findAllByGoalId(String goalId) {
-    return repository.findAllByGoalId(goalId).stream().map(mapper::toDomain).toList();
-  }
 }

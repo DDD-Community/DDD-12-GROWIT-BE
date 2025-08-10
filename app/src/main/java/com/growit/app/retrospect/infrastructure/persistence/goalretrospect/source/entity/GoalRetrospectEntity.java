@@ -16,7 +16,7 @@ public class GoalRetrospectEntity extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String uid;
 
-  @Column(nullable = false, length = 255)
+  @Column(nullable = false)
   private String goalId;
 
   @Column(nullable = false)

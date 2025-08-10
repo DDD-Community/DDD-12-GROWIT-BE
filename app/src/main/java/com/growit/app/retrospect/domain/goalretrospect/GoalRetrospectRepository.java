@@ -9,6 +9,4 @@ public interface GoalRetrospectRepository {
   Optional<GoalRetrospect> findById(String id);
 
   Optional<GoalRetrospect> findByGoalId(String goalId);
-
-  List<GoalRetrospect> findAllByGoalId(String goalId);
 }

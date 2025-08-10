@@ -9,6 +9,4 @@ public interface DBGoalRetrospectRepository extends JpaRepository<GoalRetrospect
   Optional<GoalRetrospectEntity> findByUid(String uid);
 
   Optional<GoalRetrospectEntity> findByGoalId(String goalId);
-
-  List<GoalRetrospectEntity> findAllByGoalId(String goalId);
 }
