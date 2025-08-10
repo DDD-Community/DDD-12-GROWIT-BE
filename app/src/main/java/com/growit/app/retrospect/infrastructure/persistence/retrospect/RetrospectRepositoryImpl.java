@@ -5,6 +5,7 @@ import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.DBRetrospectRepository;
 import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.entity.RetrospectEntity;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -50,5 +51,11 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
   public Optional<Retrospect> findByFilter(RetrospectQueryFilter filter) {
     Optional<RetrospectEntity> entity = repository.findByFilter(filter);
     return entity.map(mapper::toDomain);
+  }
+
+  @Override
+  public List<Retrospect> findByGoalIdAndUserId(String goalId, String userId) {
+    List<RetrospectEntity> entities = repository.findByGoalIdAndUserId(goalId, userId);
+    return entities.stream().map(mapper::toDomain).toList();
   }
 }
