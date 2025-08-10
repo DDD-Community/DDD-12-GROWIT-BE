@@ -1,6 +1,7 @@
 package com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,4 +31,10 @@ public class GoalRetrospectEntity extends BaseEntity {
 
   @Column(nullable = false, length = 1000)
   private String content;
+
+  public void updateByDomain(GoalRetrospect goalRetrospect) {
+    this.analysisSummary = goalRetrospect.getAnalysis().summary();
+    this.analysisAdvice = goalRetrospect.getAnalysis().advice();
+    this.content = goalRetrospect.getContent();
+  }
 }

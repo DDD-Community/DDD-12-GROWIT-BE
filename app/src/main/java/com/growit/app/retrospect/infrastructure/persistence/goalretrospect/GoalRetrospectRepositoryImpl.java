@@ -20,11 +20,7 @@ public class GoalRetrospectRepositoryImpl implements GoalRetrospectRepository {
     Optional<GoalRetrospectEntity> existing = repository.findByUid(goalRetrospect.getId());
     if (existing.isPresent()) {
       GoalRetrospectEntity existingEntity = existing.get();
-      existingEntity.setGoalId(goalRetrospect.getGoalId());
-      existingEntity.setTodoCompletedRate(goalRetrospect.getTodoCompletedRate());
-      existingEntity.setAnalysisSummary(goalRetrospect.getAnalysis().summary());
-      existingEntity.setAnalysisAdvice(goalRetrospect.getAnalysis().advice());
-      existingEntity.setContent(goalRetrospect.getContent());
+      existingEntity.updateByDomain(goalRetrospect);
       repository.save(existingEntity);
     } else {
       GoalRetrospectEntity entity = mapper.toEntity(goalRetrospect);
