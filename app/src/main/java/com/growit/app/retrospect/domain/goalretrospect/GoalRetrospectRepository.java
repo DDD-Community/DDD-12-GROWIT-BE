@@ -1,6 +1,5 @@
 package com.growit.app.retrospect.domain.goalretrospect;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface GoalRetrospectRepository {

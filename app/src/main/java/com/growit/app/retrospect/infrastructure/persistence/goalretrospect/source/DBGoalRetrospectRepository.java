@@ -1,7 +1,6 @@
 package com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source;
 
 import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity.GoalRetrospectEntity;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
