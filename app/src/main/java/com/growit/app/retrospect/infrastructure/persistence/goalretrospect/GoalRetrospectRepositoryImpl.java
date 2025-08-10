@@ -4,7 +4,6 @@ import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.DBGoalRetrospectRepository;
 import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity.GoalRetrospectEntity;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
