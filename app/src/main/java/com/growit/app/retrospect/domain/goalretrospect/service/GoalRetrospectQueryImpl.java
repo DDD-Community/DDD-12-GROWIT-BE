@@ -17,13 +17,17 @@ public class GoalRetrospectQueryImpl implements GoalRetrospectQuery {
 
   @Override
   public GoalRetrospect getMyGoalRetrospect(String id, String userId) throws NotFoundException {
-    GoalRetrospect goalRetrospect = goalRetrospectRepository.findById(id)
-        .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
-    
+    GoalRetrospect goalRetrospect =
+        goalRetrospectRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
+
     // goalId를 통해 사용자 권한 확인
-    Goal goal = goalRepository.findByIdAndUserId(goalRetrospect.getGoalId(), userId)
-        .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
-    
+    Goal goal =
+        goalRepository
+            .findByIdAndUserId(goalRetrospect.getGoalId(), userId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
+
     return goalRetrospect;
   }
 }

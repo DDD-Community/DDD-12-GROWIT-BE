@@ -16,7 +16,8 @@ public class UpdateGoalRetrospectUseCase {
 
   @Transactional
   public void execute(UpdateGoalRetrospectCommand command) {
-    GoalRetrospect goalRetrospect = goalRetrospectQuery.getMyGoalRetrospect(command.id(), command.userId());
+    GoalRetrospect goalRetrospect =
+        goalRetrospectQuery.getMyGoalRetrospect(command.id(), command.userId());
     goalRetrospect.updateContent(command.content());
     goalRetrospectRepository.save(goalRetrospect);
   }

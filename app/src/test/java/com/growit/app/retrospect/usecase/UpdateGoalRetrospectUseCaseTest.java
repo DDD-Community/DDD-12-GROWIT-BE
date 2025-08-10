@@ -31,7 +31,7 @@ class UpdateGoalRetrospectUseCaseTest {
     when(goalRetrospectQuery.getMyGoalRetrospect(id, userId)).thenThrow(NotFoundException.class);
 
     UpdateGoalRetrospectCommand command = new UpdateGoalRetrospectCommand(id, userId, content);
-    
+
     // When & Then
     assertThrows(NotFoundException.class, () -> useCase.execute(command));
   }

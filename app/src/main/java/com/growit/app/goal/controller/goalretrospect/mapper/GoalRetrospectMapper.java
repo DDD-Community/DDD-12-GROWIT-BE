@@ -6,8 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GoalRetrospectMapper {
-  
-  public UpdateGoalRetrospectCommand toUpdateCommand(String id, String userId, UpdateGoalRetrospectRequest request) {
+
+  public UpdateGoalRetrospectCommand toUpdateCommand(
+      String id, String userId, UpdateGoalRetrospectRequest request) {
     return new UpdateGoalRetrospectCommand(id, userId, request.getContent());
   }
 }
