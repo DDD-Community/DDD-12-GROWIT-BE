@@ -26,4 +26,8 @@ public class GoalRetrospect {
         .content(content)
         .build();
   }
+
+  public void updateContent(String newContent) {
+    this.content = newContent;
+  }
 }
