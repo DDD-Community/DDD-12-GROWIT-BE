@@ -1,4 +1,4 @@
-package com.growit.app.goal.controller.goalretrospect;
+package com.growit.app.retrospect.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
