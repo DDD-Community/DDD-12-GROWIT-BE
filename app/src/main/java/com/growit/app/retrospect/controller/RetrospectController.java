@@ -13,10 +13,12 @@ import com.growit.app.retrospect.usecase.CheckRetrospectExistsByPlanIdUseCase;
 import com.growit.app.retrospect.usecase.CreateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectByFilterUseCase;
 import com.growit.app.retrospect.usecase.GetRetrospectUseCase;
+import com.growit.app.retrospect.usecase.GetRetrospectsByGoalIdUseCase;
 import com.growit.app.retrospect.usecase.UpdateRetrospectUseCase;
 import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,7 @@ public class RetrospectController {
   private final UpdateRetrospectUseCase updateRetrospectUseCase;
   private final GetRetrospectUseCase getRetrospectUseCase;
   private final GetRetrospectByFilterUseCase getRetrospectByFilterUseCase;
+  private final GetRetrospectsByGoalIdUseCase getRetrospectsByGoalIdUseCase;
   private final CheckRetrospectExistsByPlanIdUseCase checkRetrospectExistsByPlanIdUseCase;
 
   private final RetrospectRequestMapper retrospectRequestMapper;
@@ -67,6 +70,16 @@ public class RetrospectController {
     RetrospectResponse response = retrospectResponseMapper.toResponse(result);
 
     return ResponseEntity.ok(ApiResponse.success(response));
+  }
+
+  @GetMapping(params = {"goalId"})
+  public ResponseEntity<ApiResponse<List<RetrospectResponse>>> getRetrospectsByGoalId(
+      @AuthenticationPrincipal User user, @RequestParam("goalId") String goalId) {
+    List<RetrospectWithPlan> results = getRetrospectsByGoalIdUseCase.execute(goalId, user.getId());
+    List<RetrospectResponse> responses =
+        results.stream().map(retrospectResponseMapper::toResponse).toList();
+
+    return ResponseEntity.ok(ApiResponse.success(responses));
   }
 
   @GetMapping(params = {"goalId", "planId"})

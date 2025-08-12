@@ -1,6 +1,5 @@
 package com.growit.app.fake.goal;
 
-import com.growit.app.goal.controller.dto.request.BeforeAfterDto;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.dto.request.GoalDurationDto;
 import com.growit.app.goal.controller.dto.request.PlanRequestDto;
@@ -9,7 +8,6 @@ import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
-import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
@@ -27,7 +25,7 @@ public class GoalFixture {
       String userId,
       String name,
       GoalDuration duration,
-      BeforeAfter beforeAfter,
+      String toBe,
       GoalCategory category,
       List<Plan> plans) {
     GoalBuilder builder = new GoalBuilder();
@@ -35,7 +33,7 @@ public class GoalFixture {
     if (userId != null) builder.userId(userId);
     if (name != null) builder.name(name);
     if (duration != null) builder.duration(duration);
-    if (beforeAfter != null) builder.beforeAfter(beforeAfter);
+    if (toBe != null) builder.toBe(toBe);
     if (category != null) builder.category(category);
     if (plans != null) builder.plans(plans);
 
@@ -50,7 +48,7 @@ public class GoalFixture {
     return new CreateGoalRequest(
         "내 목표는 그로잇 완성",
         new GoalDurationDto(startDate, endDate),
-        new BeforeAfterDto("기획 정의", "배포 완료"),
+        "배포 완료",
         GoalCategory.NETWORKING,
         List.of(
             new PlanRequestDto(1, "기획 및 설계 회의"),
@@ -66,7 +64,7 @@ public class GoalFixture {
         goal.getUserId(),
         name,
         goal.getDuration(),
-        goal.getBeforeAfter(),
+        goal.getToBe(),
         goal.getCategory(),
         plans);
   }
@@ -75,16 +73,14 @@ public class GoalFixture {
 class GoalBuilder {
   LocalDate today = LocalDate.now();
   LocalDate thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+  LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
   private List<Plan> plans =
       List.of(new Plan("plan-1", 1, "그로잇 완성", PlanDuration.calculateDuration(1, thisMonday)));
-  LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
   private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
-  String asIs = "ASIS";
-  String toBe = "TOBE";
   private String id = "goal-1";
   private String userId = "user-1";
   private String name = "테스트 목표";
-  private BeforeAfter beforeAfter = new BeforeAfter(asIs, toBe);
+  private String toBe = "TOBE";
   private GoalCategory category = GoalCategory.NETWORKING;
   private boolean isDelete = false;
 
@@ -108,8 +104,8 @@ class GoalBuilder {
     return this;
   }
 
-  public GoalBuilder beforeAfter(BeforeAfter beforeAfter) {
-    this.beforeAfter = beforeAfter;
+  public GoalBuilder toBe(String toBe) {
+    this.toBe = toBe;
     return this;
   }
 
@@ -129,7 +125,7 @@ class GoalBuilder {
         .userId(userId)
         .name(name)
         .duration(duration)
-        .beforeAfter(beforeAfter)
+        .toBe(toBe)
         .category(category)
         .plans(plans)
         .isDelete(isDelete)

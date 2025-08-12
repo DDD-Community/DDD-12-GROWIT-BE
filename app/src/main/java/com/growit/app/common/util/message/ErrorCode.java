@@ -6,6 +6,7 @@ import lombok.Getter;
 // error.domain.description (- 를 활용)
 @Getter
 public enum ErrorCode {
+  GOAL_ALREADY_EXISTS("error.goal.already-exists"),
   GOAL_NOT_FOUND("error.goal.not-found"),
   GOAL_NOT_EXISTS_DATE("error.goal.not-exists-date"),
   GOAL_PLAN_NOT_FOUND("error.goal.plan-not-found"),

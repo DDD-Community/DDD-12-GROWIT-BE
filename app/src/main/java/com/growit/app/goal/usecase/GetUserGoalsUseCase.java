@@ -31,16 +31,10 @@ public class GetUserGoalsUseCase {
     return goals;
   }
 
-  public List<Goal> getFinishMyGoal(User user) {
-    List<Goal> goals = goalRepository.findByUserIdAndEndDate(user.getId());
-    if (goals.isEmpty()) return Collections.emptyList();
-
-    return goals;
-  }
-
+  @Transactional(readOnly = true)
   public Goal getProgressMyGoal(User user) {
     return goalRepository
-        .findByUserIdAndStartDateAndEndDate(user.getId())
+        .findByUserIdAndGoalDuration(user.getId())
         .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 }

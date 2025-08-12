@@ -43,4 +43,11 @@ public class FakeRetrospectRepository implements RetrospectRepository {
                     && r.getGoalId().equals(filter.goalId()))
         .findFirst();
   }
+
+  @Override
+  public List<Retrospect> findByGoalIdAndUserId(String goalId, String userId) {
+    return store.values().stream()
+        .filter(r -> r.getGoalId().equals(goalId) && r.getUserId().equals(userId))
+        .toList();
+  }
 }

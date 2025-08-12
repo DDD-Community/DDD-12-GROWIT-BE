@@ -97,13 +97,7 @@ class GoalControllerTest {
                             fieldWithPath("data[].duration.endDate")
                                 .type(STRING)
                                 .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data[].beforeAfter").description("전/후 상태 정보 객체"),
-                            fieldWithPath("data[].beforeAfter.asIs")
-                                .type(STRING)
-                                .description("현재 상태(As-Is)"),
-                            fieldWithPath("data[].beforeAfter.toBe")
-                                .type(STRING)
-                                .description("목표 달성 후 상태(To-Be)"),
+                            fieldWithPath("data[].toBe").type(STRING).description("목표 달성 후 상태"),
                             fieldWithPath("data[].category")
                                 .type(STRING)
                                 .description(
@@ -146,19 +140,16 @@ class GoalControllerTest {
                             fieldWithPath("duration.endDate")
                                 .type(JsonFieldType.STRING)
                                 .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("beforeAfter.asIs")
+                            fieldWithPath("toBe")
                                 .type(JsonFieldType.STRING)
-                                .description("현재 상태(As-Is)"),
-                            fieldWithPath("beforeAfter.toBe")
-                                .type(JsonFieldType.STRING)
-                                .description("목표 달성 후 상태(To-Be)"),
-                            fieldWithPath("plans[].weekOfMonth")
-                                .type(JsonFieldType.NUMBER)
-                                .description("계획 주차"),
+                                .description("목표 달성 후 상태"),
                             fieldWithPath("category")
                                 .type(JsonFieldType.STRING)
                                 .description(
                                     "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("plans[].weekOfMonth")
+                                .type(JsonFieldType.NUMBER)
+                                .description("계획 주차"),
                             fieldWithPath("plans[].content")
                                 .type(JsonFieldType.STRING)
                                 .description("계획 내용"))
@@ -215,12 +206,9 @@ class GoalControllerTest {
                             fieldWithPath("duration.endDate")
                                 .type(JsonFieldType.STRING)
                                 .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("beforeAfter.asIs")
+                            fieldWithPath("toBe")
                                 .type(JsonFieldType.STRING)
-                                .description("현재 상태(As-Is)"),
-                            fieldWithPath("beforeAfter.toBe")
-                                .type(JsonFieldType.STRING)
-                                .description("목표 달성 후 상태(To-Be)"),
+                                .description("목표 달성 후 상태"),
                             fieldWithPath("category")
                                 .type(JsonFieldType.STRING)
                                 .description(

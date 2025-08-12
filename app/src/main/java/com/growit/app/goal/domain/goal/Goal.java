@@ -11,7 +11,6 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
-import com.growit.app.goal.domain.goal.vo.BeforeAfter;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.LocalDate;
@@ -31,7 +30,7 @@ public class Goal {
   @JsonIgnore private String userId;
   private String name;
   private GoalDuration duration;
-  private BeforeAfter beforeAfter;
+  private String toBe;
   private GoalCategory category;
   private List<Plan> plans;
 
@@ -44,7 +43,7 @@ public class Goal {
         .userId(command.userId())
         .name(command.name())
         .duration(command.duration())
-        .beforeAfter(command.beforeAfter())
+        .toBe(command.toBe())
         .category(command.category())
         .plans(
             command.plans().stream()
@@ -57,7 +56,7 @@ public class Goal {
   public void updateByCommand(UpdateGoalCommand command) {
     this.name = command.name();
     this.duration = command.duration();
-    this.beforeAfter = command.beforeAfter();
+    this.toBe = command.toBe();
     this.category = command.category();
     this.plans = updatePlans(command);
   }

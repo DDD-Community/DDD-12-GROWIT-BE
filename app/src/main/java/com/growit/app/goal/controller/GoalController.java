@@ -69,13 +69,6 @@ public class GoalController {
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.delete")));
   }
 
-  @GetMapping("/finish")
-  public ResponseEntity<ApiResponse<List<Goal>>> getFinishedGoals(
-      @AuthenticationPrincipal User user) {
-    List<Goal> goals = getUserGoalsUseCase.getFinishMyGoal(user);
-    return ResponseEntity.ok(ApiResponse.success(goals));
-  }
-
   @GetMapping("/progress")
   public ResponseEntity<ApiResponse<Goal>> getProgressGoal(@AuthenticationPrincipal User user) {
     Goal goal = getUserGoalsUseCase.getProgressMyGoal(user);

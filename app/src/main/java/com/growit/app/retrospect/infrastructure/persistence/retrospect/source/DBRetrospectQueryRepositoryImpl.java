@@ -5,6 +5,7 @@ import static com.growit.app.retrospect.infrastructure.persistence.retrospect.so
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.infrastructure.persistence.retrospect.source.entity.RetrospectEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -47,5 +48,16 @@ public class DBRetrospectQueryRepositoryImpl implements DBRetrospectQueryReposit
                 retrospectEntity.userId.eq(filter.userId()),
                 retrospectEntity.deletedAt.isNull())
             .fetchOne());
+  }
+
+  @Override
+  public List<RetrospectEntity> findByGoalIdAndUserId(String goalId, String userId) {
+    return queryFactory
+        .selectFrom(retrospectEntity)
+        .where(
+            retrospectEntity.goalId.eq(goalId),
+            retrospectEntity.userId.eq(userId),
+            retrospectEntity.deletedAt.isNull())
+        .fetch();
   }
 }

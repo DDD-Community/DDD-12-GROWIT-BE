@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum GoalCategory {
+  UNCATEGORIZED("정의되지 않은 카테고리"),
   PROFESSIONAL_GROWTH("전문성 & 기술 성장"),
   CAREER_TRANSITION("취업 & 커리어 전환"),
   LIFESTYLE_ROUTINE("루틴 & 생활 습관"),
