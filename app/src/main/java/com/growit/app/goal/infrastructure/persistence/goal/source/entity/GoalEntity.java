@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toMap;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +40,11 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false, length = 128)
   private String toBe;
 
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  @Builder.Default
+  private GoalCategory category = GoalCategory.UNCATEGORIZED;
+
   @OneToMany(
       mappedBy = "goal",
       cascade = CascadeType.ALL,
@@ -52,6 +58,7 @@ public class GoalEntity extends BaseEntity {
     this.startDate = goal.getDuration().startDate();
     this.endDate = goal.getDuration().endDate();
     this.toBe = goal.getToBe();
+    this.category = goal.getCategory();
     // 다르면 insert
     Map<String, PlanEntity> existingPlanMap =
         this.plans.stream().collect(toMap(PlanEntity::getUid, plan -> plan));

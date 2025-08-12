@@ -31,6 +31,7 @@ public class GetUserGoalsUseCase {
     return goals;
   }
 
+  @Transactional(readOnly = true)
   public Goal getProgressMyGoal(User user) {
     return goalRepository
         .findByUserIdAndGoalDuration(user.getId())

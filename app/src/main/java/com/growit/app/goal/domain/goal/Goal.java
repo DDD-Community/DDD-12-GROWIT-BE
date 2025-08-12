@@ -11,6 +11,7 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
+import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Goal {
   private String name;
   private GoalDuration duration;
   private String toBe;
+  private GoalCategory category;
   private List<Plan> plans;
 
   @Getter(AccessLevel.NONE)
@@ -42,6 +44,7 @@ public class Goal {
         .name(command.name())
         .duration(command.duration())
         .toBe(command.toBe())
+        .category(command.category())
         .plans(
             command.plans().stream()
                 .map(planDto -> Plan.from(planDto, command.duration().startDate()))
@@ -54,6 +57,7 @@ public class Goal {
     this.name = command.name();
     this.duration = command.duration();
     this.toBe = command.toBe();
+    this.category = command.category();
     this.plans = updatePlans(command);
   }
 
