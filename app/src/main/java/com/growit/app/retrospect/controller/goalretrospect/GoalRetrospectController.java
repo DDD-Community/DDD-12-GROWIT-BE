@@ -1,13 +1,13 @@
-package com.growit.app.goal.controller.goalretrospect;
+package com.growit.app.retrospect.controller.goalretrospect;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.goal.controller.goalretrospect.dto.GoalRetrospectResponse;
-import com.growit.app.goal.controller.goalretrospect.dto.UpdateGoalRetrospectRequest;
-import com.growit.app.goal.controller.goalretrospect.mapper.GoalRetrospectMapper;
+import com.growit.app.retrospect.controller.goalretrospect.dto.GoalRetrospectResponse;
+import com.growit.app.retrospect.controller.goalretrospect.dto.UpdateGoalRetrospectRequest;
+import com.growit.app.retrospect.controller.goalretrospect.mapper.GoalRetrospectMapper;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.dto.UpdateGoalRetrospectCommand;
-import com.growit.app.retrospect.usecase.GetGoalRetrospectUseCase;
-import com.growit.app.retrospect.usecase.UpdateGoalRetrospectUseCase;
+import com.growit.app.retrospect.usecase.goalretrospect.GetGoalRetrospectUseCase;
+import com.growit.app.retrospect.usecase.goalretrospect.UpdateGoalRetrospectUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

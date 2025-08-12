@@ -1,4 +1,4 @@
-package com.growit.app.retrospect.controller.dto.response;
+package com.growit.app.retrospect.controller.retrospect.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -8,6 +8,7 @@ import com.growit.app.goal.domain.goal.service.GoalValidator;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectValidator;
+import com.growit.app.retrospect.usecase.retrospect.CreateRetrospectUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,4 +1,4 @@
-package com.growit.app.retrospect.usecase;
+package com.growit.app.retrospect.usecase.retrospect;
 
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.service.GoalValidator;

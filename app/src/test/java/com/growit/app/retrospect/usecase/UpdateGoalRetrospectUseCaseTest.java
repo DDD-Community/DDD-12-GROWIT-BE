@@ -7,6 +7,7 @@ import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.UpdateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.GoalRetrospectQuery;
+import com.growit.app.retrospect.usecase.goalretrospect.UpdateGoalRetrospectUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

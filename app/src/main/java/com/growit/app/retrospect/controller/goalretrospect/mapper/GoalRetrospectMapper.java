@@ -1,7 +1,7 @@
-package com.growit.app.goal.controller.goalretrospect.mapper;
+package com.growit.app.retrospect.controller.goalretrospect.mapper;
 
-import com.growit.app.goal.controller.goalretrospect.dto.GoalRetrospectResponse;
-import com.growit.app.goal.controller.goalretrospect.dto.UpdateGoalRetrospectRequest;
+import com.growit.app.retrospect.controller.goalretrospect.dto.GoalRetrospectResponse;
+import com.growit.app.retrospect.controller.goalretrospect.dto.UpdateGoalRetrospectRequest;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.dto.UpdateGoalRetrospectCommand;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.growit.app.retrospect.usecase;
+package com.growit.app.retrospect.usecase.goalretrospect;
 
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;

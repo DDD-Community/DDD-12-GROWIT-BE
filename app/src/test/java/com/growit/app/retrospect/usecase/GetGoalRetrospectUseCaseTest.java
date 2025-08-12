@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import com.growit.app.fake.goalretrospect.GoalRetrospectFixture;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.service.GoalRetrospectQuery;
+import com.growit.app.retrospect.usecase.goalretrospect.GetGoalRetrospectUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

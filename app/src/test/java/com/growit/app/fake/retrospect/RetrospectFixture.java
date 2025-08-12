@@ -2,14 +2,14 @@ package com.growit.app.fake.retrospect;
 
 import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.retrospect.controller.dto.request.CreateRetrospectRequest;
-import com.growit.app.retrospect.controller.dto.request.UpdateRetrospectRequest;
+import com.growit.app.retrospect.controller.retrospect.dto.request.CreateRetrospectRequest;
+import com.growit.app.retrospect.controller.retrospect.dto.request.UpdateRetrospectRequest;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
-import com.growit.app.retrospect.usecase.dto.RetrospectWithPlan;
+import com.growit.app.retrospect.usecase.retrospect.dto.RetrospectWithPlan;
 
 public class RetrospectFixture {
   public static Retrospect defaultRetrospect() {
