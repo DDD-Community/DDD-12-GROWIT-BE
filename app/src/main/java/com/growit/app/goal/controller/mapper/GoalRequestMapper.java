@@ -17,6 +17,7 @@ public class GoalRequestMapper {
         request.getName(),
         new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
         request.getToBe(),
+        request.getCategory(),
         request.getPlans().stream()
             .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
             .toList());
@@ -29,6 +30,7 @@ public class GoalRequestMapper {
         request.getName(),
         new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
         request.getToBe(),
+        request.getCategory(),
         request.getPlans().stream()
             .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
             .toList());

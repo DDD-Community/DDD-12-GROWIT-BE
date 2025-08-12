@@ -97,8 +97,12 @@ class GoalRetrospectControllerTest {
                         .pathParameters(parameterWithName("id").description("목표회고 ID"))
                         .responseFields(
                             fieldWithPath("data").type(JsonFieldType.OBJECT).description("응답 데이터"),
-                            fieldWithPath("data.id").type(JsonFieldType.STRING).description("목표회고 ID"),
-                            fieldWithPath("data.goalId").type(JsonFieldType.STRING).description("목표 ID"),
+                            fieldWithPath("data.id")
+                                .type(JsonFieldType.STRING)
+                                .description("목표회고 ID"),
+                            fieldWithPath("data.goalId")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 ID"),
                             fieldWithPath("data.todoCompletedRate")
                                 .type(JsonFieldType.NUMBER)
                                 .description("할일 완료율"),

@@ -97,9 +97,11 @@ class GoalControllerTest {
                             fieldWithPath("data[].duration.endDate")
                                 .type(STRING)
                                 .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data[].toBe")
-                                .type(JsonFieldType.STRING)
-                                .description("목표 달성 후 상태"),
+                            fieldWithPath("data[].toBe").type(STRING).description("목표 달성 후 상태"),
+                            fieldWithPath("data[].category")
+                                .type(STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
                             fieldWithPath("data[].plans").description("계획 리스트"),
                             fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plans[].weekOfMonth")
@@ -141,6 +143,10 @@ class GoalControllerTest {
                             fieldWithPath("toBe")
                                 .type(JsonFieldType.STRING)
                                 .description("목표 달성 후 상태"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
                             fieldWithPath("plans[].weekOfMonth")
                                 .type(JsonFieldType.NUMBER)
                                 .description("계획 주차"),
@@ -203,6 +209,10 @@ class GoalControllerTest {
                             fieldWithPath("toBe")
                                 .type(JsonFieldType.STRING)
                                 .description("목표 달성 후 상태"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
                             fieldWithPath("plans[].weekOfMonth")
                                 .type(JsonFieldType.NUMBER)
                                 .description("계획 주차"),
