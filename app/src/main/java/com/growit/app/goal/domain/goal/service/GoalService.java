@@ -8,6 +8,8 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.ToDoRepository;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -21,10 +23,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GoalService implements GoalValidator, GoalQuery {
   private final GoalRepository goalRepository;
+  private final ToDoRepository toDoRepository;
 
   @Override
   public void checkGoalExists(String userId) {
-    Optional<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId);
+    LocalDate today = LocalDate.now();
+    Optional<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId, today);
     if (goal.isPresent()) {
       throw new BadRequestException(GOAL_ALREADY_EXISTS.getCode());
     }
@@ -73,6 +77,14 @@ public class GoalService implements GoalValidator, GoalQuery {
 
     if (!planExists) {
       throw new NotFoundException(GOAL_PLAN_NOT_FOUND.getCode());
+    }
+  }
+
+  @Override
+  public void isToDoExist(String goalId) {
+    List<ToDo> toDoList = toDoRepository.findByGoalId(goalId);
+    if (!toDoList.isEmpty()) {
+      throw new BadRequestException(TODO_IS_EXIST.getCode());
     }
   }
 

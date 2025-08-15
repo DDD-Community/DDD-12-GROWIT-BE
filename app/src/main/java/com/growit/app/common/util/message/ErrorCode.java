@@ -30,8 +30,8 @@ public enum ErrorCode {
   USER_SIGN_IN_FAILED("error.user.sign-in-failed"), // "로그인 정보를 확인해주세요"
   RETROSPECT_ALREADY_EXISTS_BY_PLAN(
       "error.retrospect-already-exists-by-plan"), // "해당 주간 계획에 대한 회고가 이미 존재합니다."
+  TODO_IS_EXIST("error.todo.is-exist"), // "ToDo가 존재합니다."
   RETROSPECT_NOT_FOUND("error.retrospect-not-found"); // "회고 정보가 존재하지 않습니다."
-
   private final String code;
 
   ErrorCode(String code) {
