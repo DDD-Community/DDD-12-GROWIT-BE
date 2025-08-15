@@ -148,7 +148,7 @@ class GoalRetrospectControllerTest {
                         .requestFields(
                             fieldWithPath("goalId")
                                 .type(JsonFieldType.STRING)
-                                .description("회고 아이디"))
+                                .description("목표 아이디"))
                         .responseFields(
                             fieldWithPath("data.id")
                                 .type(JsonFieldType.STRING)
