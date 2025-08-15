@@ -62,7 +62,7 @@ jobs:
         run: |
           aws ecs describe-task-definition \
             --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-            --region $AWS_REGION \
+            --region ${{ env.AWS_REGION }} \
             --output json \
             --query 'taskDefinition' > task-def.json
 
