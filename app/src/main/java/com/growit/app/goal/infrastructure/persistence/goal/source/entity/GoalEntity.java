@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toMap;
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,6 +45,11 @@ public class GoalEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Builder.Default
   private GoalCategory category = GoalCategory.UNCATEGORIZED;
+
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  @Builder.Default
+  private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
 
   @OneToMany(
       mappedBy = "goal",
