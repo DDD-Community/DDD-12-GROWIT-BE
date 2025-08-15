@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoalRetrospectQueryImpl implements GoalRetrospectQuery, AIAnalysis {
+public class GoalRetrospectService implements GoalRetrospectQuery, AIAnalysis {
   private final GoalRetrospectRepository goalRetrospectRepository;
 
   @Override
