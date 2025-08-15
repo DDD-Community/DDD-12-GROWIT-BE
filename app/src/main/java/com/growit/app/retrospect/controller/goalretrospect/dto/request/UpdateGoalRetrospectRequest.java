@@ -1,4 +1,4 @@
-package com.growit.app.retrospect.controller.goalretrospect.dto;
+package com.growit.app.retrospect.controller.goalretrospect.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

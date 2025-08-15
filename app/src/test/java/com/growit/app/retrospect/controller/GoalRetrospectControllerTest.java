@@ -15,9 +15,11 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.fake.goalretrospect.GoalRetrospectFixture;
-import com.growit.app.retrospect.controller.goalretrospect.dto.UpdateGoalRetrospectRequest;
+import com.growit.app.retrospect.controller.goalretrospect.dto.request.CreateGoalRetrospectRequest;
+import com.growit.app.retrospect.controller.goalretrospect.dto.request.UpdateGoalRetrospectRequest;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
+import com.growit.app.retrospect.usecase.goalretrospect.CreateGoalRetrospectUseCase;
 import com.growit.app.retrospect.usecase.goalretrospect.GetGoalRetrospectUseCase;
 import com.growit.app.retrospect.usecase.goalretrospect.UpdateGoalRetrospectUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +46,7 @@ class GoalRetrospectControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
 
+  @MockitoBean private CreateGoalRetrospectUseCase createGoalRetrospectUseCase;
   @MockitoBean private UpdateGoalRetrospectUseCase updateGoalRetrospectUseCase;
   @MockitoBean private GetGoalRetrospectUseCase getGoalRetrospectUseCase;
 
@@ -118,6 +121,38 @@ class GoalRetrospectControllerTest {
                             fieldWithPath("data.content")
                                 .type(JsonFieldType.STRING)
                                 .description("회고 내용"))
+                        .build())));
+  }
+
+  @Test
+  void createGoalRetrospect() throws Exception {
+    CreateGoalRetrospectRequest body = new CreateGoalRetrospectRequest("goalId");
+    given(createGoalRetrospectUseCase.execute(any())).willReturn("id");
+
+    mockMvc
+        .perform(
+            post("/goal-retrospects")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(body)))
+        .andExpect(status().isCreated())
+        .andDo(
+            document(
+                "create-goal-retrospect",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goal Retrospects")
+                        .summary("목표 회고 생성")
+                        .requestFields(
+                            fieldWithPath("goalId")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 아이디"))
+                        .responseFields(
+                            fieldWithPath("data.id")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 회고 아이디"))
                         .build())));
   }
 

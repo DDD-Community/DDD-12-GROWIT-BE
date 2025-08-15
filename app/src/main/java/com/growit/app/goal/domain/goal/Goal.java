@@ -108,4 +108,8 @@ public class Goal {
         .findFirst()
         .orElseThrow(() -> new NotFoundException(GOAL_PLAN_NOT_FOUND.getCode()));
   }
+
+  public boolean finished() {
+    return true; // updateStatus 로직 반영 필요
+  }
 }

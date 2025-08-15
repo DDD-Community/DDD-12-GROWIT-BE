@@ -4,6 +4,7 @@ import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.service.ToDoQuery;
+import java.util.List;
 
 public class FakeToDoQuery implements ToDoQuery {
   private final ToDoRepository repository;
@@ -22,5 +23,10 @@ public class FakeToDoQuery implements ToDoQuery {
     }
 
     return todo;
+  }
+
+  @Override
+  public List<ToDo> getToDosByGoalId(String goalId) {
+    return repository.findByGoalId(goalId);
   }
 }
