@@ -77,4 +77,58 @@ class ToDoUtilsTest {
 
     assertThat(result.keySet()).containsExactlyElementsOf(Arrays.asList(DayOfWeek.values()));
   }
+
+  private ToDo createToDo(boolean completed) {
+    ToDo todo = ToDoFixture.defaultToDo();
+    todo.updateIsCompleted(completed);
+    return todo;
+  }
+
+  @Test
+  void givenEmptyList_whenCalculateToDoCompletedRate_thenReturnsZero() {
+    // given
+    List<ToDo> todos = List.of();
+
+    // when
+    int rate = ToDoUtils.calculateToDoCompletedRate(todos);
+
+    // then
+    assertThat(rate).isZero();
+  }
+
+  @Test
+  void givenNoCompletedToDos_whenCalculateToDoCompletedRate_thenReturnsZero() {
+    // given
+    List<ToDo> todos = List.of(createToDo(false), createToDo(false));
+
+    // when
+    int rate = ToDoUtils.calculateToDoCompletedRate(todos);
+
+    // then
+    assertThat(rate).isZero();
+  }
+
+  @Test
+  void givenTwoOfThreeCompleted_whenCalculateToDoCompletedRate_thenReturnsSixtySix() {
+    // given (2 / 3 -> 66.666... -> 66)
+    List<ToDo> todos = List.of(createToDo(true), createToDo(true), createToDo(false));
+
+    // when
+    int rate = ToDoUtils.calculateToDoCompletedRate(todos);
+
+    // then
+    assertThat(rate).isEqualTo(66);
+  }
+
+  @Test
+  void givenAllCompleted_whenCalculateToDoCompletedRate_thenReturnsHundred() {
+    // given
+    List<ToDo> todos = List.of(createToDo(true), createToDo(true));
+
+    // when
+    int rate = ToDoUtils.calculateToDoCompletedRate(todos);
+
+    // then
+    assertThat(rate).isEqualTo(100);
+  }
 }

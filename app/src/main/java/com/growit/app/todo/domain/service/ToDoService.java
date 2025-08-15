@@ -60,6 +60,11 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculat
   }
 
   @Override
+  public List<ToDo> getToDosByGoalId(String goalId) {
+    return toDoRepository.findByGoalId(goalId);
+  }
+
+  @Override
   public List<ToDoStatus> getContribution(Goal goal, List<ToDo> toDoList) {
     LocalDate start = goal.getDuration().startDate();
     LocalDate today = LocalDate.now();

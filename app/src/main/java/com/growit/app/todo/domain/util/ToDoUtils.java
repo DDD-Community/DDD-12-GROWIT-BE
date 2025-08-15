@@ -29,4 +29,10 @@ public class ToDoUtils {
   public static List<ToDo> getCompletedToDos(List<ToDo> toDos) {
     return toDos.stream().filter(ToDo::isCompleted).toList();
   }
+
+  public static int calculateToDoCompletedRate(List<ToDo> toDos) {
+    if (toDos.isEmpty()) return 0;
+    long completedCount = getCompletedToDos(toDos).size();
+    return (int) ((completedCount / (double) toDos.size()) * 100);
+  }
 }
