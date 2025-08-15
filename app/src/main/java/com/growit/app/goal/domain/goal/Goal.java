@@ -33,7 +33,7 @@ public class Goal {
   private GoalDuration duration;
   private String toBe;
   private GoalCategory category;
-  private GoalUpdateStatus updateStatus;
+  @JsonIgnore private GoalUpdateStatus updateStatus;
   private List<Plan> plans;
 
   @Getter(AccessLevel.NONE)
