@@ -65,6 +65,7 @@ public class GoalEntity extends BaseEntity {
     this.endDate = goal.getDuration().endDate();
     this.toBe = goal.getToBe();
     this.category = goal.getCategory();
+    this.updateStatus = goal.getUpdateStatus();
     // 다르면 insert
     Map<String, PlanEntity> existingPlanMap =
         this.plans.stream().collect(toMap(PlanEntity::getUid, plan -> plan));

@@ -3,6 +3,7 @@ package com.growit.app.todo.usecase;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
+import com.growit.app.goal.domain.goal.service.GoalStatusUpdater;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CreateToDoUseCase {
   private final GoalQuery goalQuery;
+  private final GoalStatusUpdater goalStatusUpdater;
   private final ToDoValidator toDoValidator;
   private final ToDoRepository toDoRepository;
 
@@ -24,9 +26,9 @@ public class CreateToDoUseCase {
     Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
     Plan plan = goal.getPlanByDate(command.date());
     toDoValidator.tooManyToDoCreated(command.date(), command.userId(), plan.getId());
-
     ToDo toDo = ToDo.from(command, plan.getId());
     toDoRepository.saveToDo(toDo);
+    goalStatusUpdater.refreshByToDo(goal.getId());
     return new ToDoResult(toDo.getId(), plan);
   }
 }

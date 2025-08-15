@@ -7,11 +7,13 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
+import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.todo.domain.ToDoRepository;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
@@ -21,9 +23,10 @@ import org.junit.jupiter.api.Test;
 class GoalServiceTest {
 
   private final GoalRepository goalRepository = new FakeGoalRepository();
+  private final ToDoRepository toDoRepository = new FakeToDoRepository();
   private final Goal goal = GoalFixture.defaultGoal();
 
-  private final GoalService goalService = new GoalService(goalRepository);
+  private final GoalService goalService = new GoalService(goalRepository, toDoRepository);
 
   @BeforeEach
   void setUp() {

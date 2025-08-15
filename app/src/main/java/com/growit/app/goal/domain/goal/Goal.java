@@ -64,6 +64,10 @@ public class Goal {
     this.plans = updatePlans(command);
   }
 
+  public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
+    this.updateStatus = updateStatus;
+  }
+
   // 기존 존재하는 범위의 계획인 경우 업데이트 존재하지 않은경우 새로 생성
   // 1. 기존 plans duration 을 키로 map 구성
   // 2. command.plans loop

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.growit.app.fake.goal.FakeGoalQuery;
 import com.growit.app.fake.goal.FakeGoalRepository;
+import com.growit.app.fake.goal.FakeGoalStatusUpdater;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoValidator;
@@ -24,10 +25,11 @@ class CreateToDoUseCaseTest {
     FakeToDoRepository fakeToDoRepository = new FakeToDoRepository();
     FakeGoalRepository fakeGoalRepository = new FakeGoalRepository();
     fakeGoalRepository.saveGoal(GoalFixture.defaultGoal());
-
+    FakeGoalStatusUpdater goalStatusUpdater = new FakeGoalStatusUpdater();
     FakeGoalQuery goalQuery = new FakeGoalQuery(fakeGoalRepository);
     ToDoValidator toDoValidator = new FakeToDoValidator();
-    createToDoUseCase = new CreateToDoUseCase(goalQuery, toDoValidator, fakeToDoRepository);
+    createToDoUseCase =
+        new CreateToDoUseCase(goalQuery, goalStatusUpdater, toDoValidator, fakeToDoRepository);
   }
 
   @Test
@@ -40,7 +42,6 @@ class CreateToDoUseCaseTest {
 
     // When
     ToDoResult result = createToDoUseCase.execute(command);
-
     // Then
     assertNotNull(result, "ToDoResult should not be null");
     assertNotNull(result.getId(), "ToDo ID should not be null");

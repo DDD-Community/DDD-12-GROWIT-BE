@@ -8,6 +8,9 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.ToDoRepository;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,8 +22,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoalService implements GoalValidator, GoalQuery {
+public class GoalService implements GoalValidator, GoalQuery, GoalStatusUpdater {
   private final GoalRepository goalRepository;
+  private final ToDoRepository toDoRepository;
 
   @Override
   public void checkGoalExists(String userId) {
@@ -82,5 +86,21 @@ public class GoalService implements GoalValidator, GoalQuery {
     return goalRepository
         .findByIdAndUserId(id, userId)
         .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
+  }
+
+  @Override
+  public void refreshByToDo(String id) {
+    Goal goal =
+        goalRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
+
+    List<ToDo> toDoList = toDoRepository.findByGoalId(goal.getId());
+    if (toDoList.isEmpty()) {
+      goal.updateByGoalUpdateStatus(GoalUpdateStatus.UPDATABLE);
+    } else {
+      goal.updateByGoalUpdateStatus(GoalUpdateStatus.PARTIALLY_UPDATABLE);
+    }
+    goalRepository.saveGoal(goal);
   }
 }
