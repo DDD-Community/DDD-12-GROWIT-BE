@@ -14,6 +14,4 @@ public interface GoalValidator {
   void checkPlans(GoalDuration duration, List<PlanDto> plans) throws BadRequestException;
 
   void checkPlanExists(String userId, String goalId, String planId) throws NotFoundException;
-
-  void isToDoExist(String goalId);
 }

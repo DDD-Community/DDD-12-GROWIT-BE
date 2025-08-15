@@ -8,7 +8,6 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
-import com.growit.app.goal.domain.goal.service.GoalValidator;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class UpdateGoalUseCaseTest {
   @Mock private GoalQuery goalQuery;
   @Mock private GoalRepository goalRepository;
-  @Mock private GoalValidator goalValidator;
 
   @InjectMocks private UpdateGoalUseCase useCase;
 
@@ -37,7 +35,6 @@ class UpdateGoalUseCaseTest {
 
     // then
     verify(goalQuery).getMyGoal(goal.getId(), goal.getUserId());
-    verify(goalValidator).isToDoExist(goal.getId());
     verify(goalRepository).saveGoal(goal);
   }
 }
