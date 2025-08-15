@@ -4,17 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.service.ConventionCalculator;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class ToDoUtilsTest {
-  @Mock private ConventionCalculator conventionCalculator;
 
   @BeforeEach
   void setUp() {

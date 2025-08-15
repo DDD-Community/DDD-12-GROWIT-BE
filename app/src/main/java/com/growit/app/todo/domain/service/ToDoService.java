@@ -1,23 +1,18 @@
 package com.growit.app.todo.domain.service;
 
-import static com.growit.app.todo.domain.vo.ToDoStatus.getStatus;
-
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
-import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
-import com.growit.app.todo.domain.vo.ToDoStatus;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculator {
+public class ToDoService implements ToDoValidator, ToDoQuery {
   private final ToDoRepository toDoRepository;
   private static final int MAX_TO_COUNT = 10;
 
@@ -57,28 +52,5 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ConventionCalculat
     }
 
     return todo;
-  }
-
-  @Override
-  public List<ToDoStatus> getContribution(Goal goal, List<ToDo> toDoList) {
-    LocalDate start = goal.getDuration().startDate();
-    LocalDate today = LocalDate.now();
-
-    Map<LocalDate, List<ToDo>> toDoByDate =
-        toDoList.stream().collect(Collectors.groupingBy(ToDo::getDate));
-
-    List<ToDoStatus> statusList = new ArrayList<>();
-
-    for (LocalDate date = start; !date.isAfter(today); date = date.plusDays(1)) {
-      statusList.add(getStatusForDate(date, toDoByDate));
-    }
-
-    return statusList;
-  }
-
-  private static ToDoStatus getStatusForDate(
-      LocalDate date, Map<LocalDate, List<ToDo>> toDoByDate) {
-    List<ToDo> todos = toDoByDate.getOrDefault(date, Collections.emptyList());
-    return getStatus(todos);
   }
 }
