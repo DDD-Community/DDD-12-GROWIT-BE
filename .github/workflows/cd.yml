@@ -15,6 +15,7 @@ jobs:
       ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       CLUSTER_NAME: ${{ secrets.ECS_CLUSTER }}
       SERVICE_NAME: ${{ secrets.ECS_SERVICE }}
+      ECS_TASK_DEFINITION: ${{ secrets.ECS_TASK_DEFINITION }}
 
     steps:
       - name: Checkout code
@@ -56,15 +57,23 @@ jobs:
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION
 
+      - name: Download ECS task definition
+        id: download-task-def
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --region $AWS_REGION \
+            --output json \
+            --query 'taskDefinition' > task-def.json
+
       - name: Render ECS task definition with secrets
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ./app/growit-app-task-def.json
+          task-definition: task-def.json
           container-name: growit-app-service
           image: "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.VERSION }}"
           environment-variables: |
-            EXECUTION_ROLE_ARN=${{ secrets.EXECUTION_ROLE_ARN }}
             SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}
             JAVA_OPTS=${{ secrets.JAVA_OPTS }}
             SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
