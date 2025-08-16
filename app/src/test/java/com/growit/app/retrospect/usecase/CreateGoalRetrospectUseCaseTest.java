@@ -1,11 +1,14 @@
 package com.growit.app.retrospect.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.AIAnalysis;
@@ -32,6 +35,8 @@ class CreateGoalRetrospectUseCaseTest {
   void givenCommand_whenExecute_thenReturnsId() {
     // given
     Goal goal = GoalFixture.defaultGoal();
+    goal.updateByGoalUpdateStatus(GoalUpdateStatus.ENDED);
+
     when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
     CreateGoalRetrospectCommand command =
         new CreateGoalRetrospectCommand(goal.getUserId(), goal.getId());
@@ -40,5 +45,18 @@ class CreateGoalRetrospectUseCaseTest {
     when(aiAnalysis.generate(goal, List.of())).thenReturn(new Analysis("", ""));
     final String id = useCase.execute(command);
     assertNotNull(id);
+  }
+
+  @Test
+  void givenInvalidCommand_whenExecute_thenReturnsBadRequestException() {
+    // given
+    Goal goal = GoalFixture.defaultGoal();
+    goal.updateByGoalUpdateStatus(GoalUpdateStatus.UPDATABLE);
+
+    when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
+    CreateGoalRetrospectCommand command =
+        new CreateGoalRetrospectCommand(goal.getUserId(), goal.getId());
+
+    assertThrows(BadRequestException.class, () -> useCase.execute(command));
   }
 }

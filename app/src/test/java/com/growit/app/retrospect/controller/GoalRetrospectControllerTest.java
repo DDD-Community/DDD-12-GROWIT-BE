@@ -14,14 +14,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.goalretrospect.GoalRetrospectFixture;
+import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.retrospect.controller.goalretrospect.dto.request.CreateGoalRetrospectRequest;
 import com.growit.app.retrospect.controller.goalretrospect.dto.request.UpdateGoalRetrospectRequest;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import com.growit.app.retrospect.usecase.goalretrospect.CreateGoalRetrospectUseCase;
+import com.growit.app.retrospect.usecase.goalretrospect.GetFinishedGoalsWithGoalRetrospectUseCase;
 import com.growit.app.retrospect.usecase.goalretrospect.GetGoalRetrospectUseCase;
 import com.growit.app.retrospect.usecase.goalretrospect.UpdateGoalRetrospectUseCase;
+import com.growit.app.retrospect.usecase.goalretrospect.dto.GoalWithGoalRetrospectDto;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +54,9 @@ class GoalRetrospectControllerTest {
   @MockitoBean private CreateGoalRetrospectUseCase createGoalRetrospectUseCase;
   @MockitoBean private UpdateGoalRetrospectUseCase updateGoalRetrospectUseCase;
   @MockitoBean private GetGoalRetrospectUseCase getGoalRetrospectUseCase;
+
+  @MockitoBean
+  private GetFinishedGoalsWithGoalRetrospectUseCase getFinishedGoalsWithGoalRetrospectUseCase;
 
   @BeforeEach
   void setUp(
@@ -187,6 +195,10 @@ class GoalRetrospectControllerTest {
   void getGoalRetrospectsByYear() throws Exception {
     // given
     int year = 2025;
+    Goal goal = GoalFixture.defaultGoal();
+    GoalRetrospect goalRetrospect = GoalRetrospectFixture.defaultGoalRetrospect();
+    given(getFinishedGoalsWithGoalRetrospectUseCase.execute("user-1", year))
+        .willReturn(List.of(new GoalWithGoalRetrospectDto(goal, goalRetrospect)));
 
     // when & then
     mockMvc
@@ -198,19 +210,48 @@ class GoalRetrospectControllerTest {
         .andExpect(status().isOk())
         .andDo(
             document(
-                "list-goal-retrospects-by-year",
+                "get-goal-retrospects-by-year",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
                         .tag("Goal Retrospects")
                         .summary("연도별 목표+회고 목록 조회")
-                        .queryParameters(
-                            parameterWithName("year").description("조회 연도 (예: 2025)")
-                        )
+                        .queryParameters(parameterWithName("year").description("조회 연도 (예: 2025)"))
                         .responseFields(
-                            fieldWithPath("data").type(JsonFieldType.ARRAY).description("목록 데이터 배열")
-                        )
+                            fieldWithPath("data")
+                                .type(JsonFieldType.ARRAY)
+                                .description("목록 데이터 배열"),
+                            fieldWithPath("data[].goal")
+                                .type(JsonFieldType.OBJECT)
+                                .description("목표 정보"),
+                            fieldWithPath("data[].goal.id")
+                                .type(JsonFieldType.STRING)
+                                .description("목표 ID"),
+                            fieldWithPath("data[].goal.name")
+                                .type(JsonFieldType.STRING)
+                                .description("목표명"),
+                            fieldWithPath("data[].goal.duration")
+                                .type(JsonFieldType.OBJECT)
+                                .description("목표 기간"),
+                            fieldWithPath("data[].goal.duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].goal.duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].goalRetrospect")
+                                .type(JsonFieldType.OBJECT)
+                                .optional()
+                                .description("목표 회고 정보 (null 가능)"),
+                            fieldWithPath("data[].goalRetrospect.id")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("목표 회고 ID"),
+                            fieldWithPath("data[].goalRetrospect.isCompleted")
+                                .type(JsonFieldType.BOOLEAN)
+                                .optional()
+                                .description("회고 작성 완료 여부 (내용 미작성 포함)"))
                         .build())));
   }
 }

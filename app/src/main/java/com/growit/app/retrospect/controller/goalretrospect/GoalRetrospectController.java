@@ -35,10 +35,11 @@ public class GoalRetrospectController {
   private final GoalRetrospectMapper goalRetrospectMapper;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<GoalWithGoalRetrospectResponse>>> getGoalWithGoalRetrospects(
-      @AuthenticationPrincipal User user,
-      @RequestParam(name = "year") int year) {
-    final List<GoalWithGoalRetrospectDto> results = getFinishedGoalsWithGoalRetrospectUseCase.execute(user.getId(), year);
+  public ResponseEntity<ApiResponse<List<GoalWithGoalRetrospectResponse>>>
+      getGoalWithGoalRetrospects(
+          @AuthenticationPrincipal User user, @RequestParam(name = "year") int year) {
+    final List<GoalWithGoalRetrospectDto> results =
+        getFinishedGoalsWithGoalRetrospectUseCase.execute(user.getId(), year);
 
     return ResponseEntity.ok(ApiResponse.success(goalRetrospectMapper.toResponse(results)));
   }

@@ -37,25 +37,19 @@ public class GoalRetrospectMapper {
     if (results == null || results.isEmpty()) {
       return List.of();
     }
-    return results.stream()
-        .map(GoalRetrospectMapper::from)
-        .toList();
+    return results.stream().map(GoalRetrospectMapper::from).toList();
   }
 
   public static GoalWithGoalRetrospectResponse from(GoalWithGoalRetrospectDto dto) {
     return new GoalWithGoalRetrospectResponse(
-      new GoalWithGoalRetrospectResponse.GoalDto(
-        dto.goal().getId(),
-        dto.goal().getName(),
-        new GoalWithGoalRetrospectResponse.GoalDto.DurationDto(
-          dto.goal().getDuration().startDate(), dto.goal().getDuration().endDate()
-        )
-      ),
-      dto.goalRetrospect() == null ? null :
-        new GoalWithGoalRetrospectResponse.GoalRetrospectDto(
-          dto.goalRetrospect().getId(),
-          !dto.goalRetrospect().getContent().isEmpty()
-        )
-    );
+        new GoalWithGoalRetrospectResponse.GoalDto(
+            dto.goal().getId(),
+            dto.goal().getName(),
+            new GoalWithGoalRetrospectResponse.GoalDto.DurationDto(
+                dto.goal().getDuration().startDate(), dto.goal().getDuration().endDate())),
+        dto.goalRetrospect() == null
+            ? null
+            : new GoalWithGoalRetrospectResponse.GoalRetrospectDto(
+                dto.goalRetrospect().getId(), !dto.goalRetrospect().getContent().isEmpty()));
   }
 }

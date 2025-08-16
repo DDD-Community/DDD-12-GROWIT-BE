@@ -19,10 +19,11 @@ public class GetFinishedGoalsWithGoalRetrospectUseCase {
     var goals = goalQuery.getFinishedGoalsByYear(userId, year);
 
     return goals.stream()
-        .map(goal -> {
-          var retrospectOpt = goalRetrospectRepository.findByGoalId(goal.getId());
-          return new GoalWithGoalRetrospectDto(goal, retrospectOpt.orElse(null));
-        })
+        .map(
+            goal -> {
+              var retrospectOpt = goalRetrospectRepository.findByGoalId(goal.getId());
+              return new GoalWithGoalRetrospectDto(goal, retrospectOpt.orElse(null));
+            })
         .toList();
   }
 }

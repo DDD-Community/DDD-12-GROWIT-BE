@@ -116,6 +116,41 @@ window.swaggerSpec={
       }
     },
     "/goal-retrospects" : {
+      "get" : {
+        "tags" : [ "Goal Retrospects" ],
+        "summary" : "연도별 목표+회고 목록 조회",
+        "description" : "연도별 목표+회고 목록 조회",
+        "operationId" : "get-goal-retrospects-by-yearlist-goal-retrospects-by-year",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "query",
+          "description" : "조회 연도 (예: 2025)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goal-retrospects1943232045"
+                },
+                "examples" : {
+                  "get-goal-retrospects-by-year" : {
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-08-11\",\n        \"endDate\" : \"2025-08-17\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"UXsQIc1ZoAwOML_Qbl91f\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                  },
+                  "list-goal-retrospects-by-year" : {
+                    "value" : "{\n  \"data\" : [ ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post" : {
         "tags" : [ "Goal Retrospects" ],
         "summary" : "목표 회고 생성",
@@ -179,7 +214,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"rPGcAsdeZm8edmR97IVM0\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"5tFna_u-IxCZ6FMhtdefQ\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -275,7 +310,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"voCrdOX-cTvkAinfH4n0a\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"fHP-oDs4P2HPqIKM4C_K4\"\n  }\n}"
                   }
                 }
               }
@@ -1769,6 +1804,62 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "성공 메세지"
+          }
+        }
+      },
+      "goal-retrospects1943232045" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "description" : "목록 데이터 배열",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "goalRetrospect" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "string",
+                      "description" : "목표 회고 ID"
+                    },
+                    "isCompleted" : {
+                      "type" : "boolean",
+                      "description" : "회고 작성 완료 여부 (내용 미작성 포함)"
+                    }
+                  },
+                  "description" : "목표 회고 정보 (null 가능)"
+                },
+                "goal" : {
+                  "type" : "object",
+                  "properties" : {
+                    "duration" : {
+                      "type" : "object",
+                      "properties" : {
+                        "endDate" : {
+                          "type" : "string",
+                          "description" : "종료일 (yyyy-MM-dd)"
+                        },
+                        "startDate" : {
+                          "type" : "string",
+                          "description" : "시작일 (yyyy-MM-dd)"
+                        }
+                      },
+                      "description" : "목표 기간"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "목표명"
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "목표 ID"
+                    }
+                  },
+                  "description" : "목표 정보"
+                }
+              }
+            }
           }
         }
       },

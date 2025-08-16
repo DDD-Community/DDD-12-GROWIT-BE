@@ -1,5 +1,6 @@
 package com.growit.app.retrospect.controller.goalretrospect.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,8 @@ public class GoalWithGoalRetrospectResponse {
   @AllArgsConstructor
   public static class GoalRetrospectDto {
     private String id;
-    private boolean isCompleted;
+
+    @JsonProperty("isCompleted")
+    private boolean completed;
   }
 }

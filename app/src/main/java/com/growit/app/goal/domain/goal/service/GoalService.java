@@ -88,10 +88,12 @@ public class GoalService implements GoalValidator, GoalQuery {
   @Override
   public List<Goal> getFinishedGoalsByYear(String userId, int year) {
     return goalRepository.findAllByUserId(userId).stream()
-        .filter(goal -> {
-          LocalDate start = goal.getDuration().startDate();
-          return start.getYear() == year; // 종료일의 연도로 필터
-        })
+        .filter(Goal::finished)
+        .filter(
+            goal -> {
+              LocalDate start = goal.getDuration().startDate();
+              return start.getYear() == year; // 종료일의 연도로 필터
+            })
         .sorted(Comparator.comparing((Goal goal) -> goal.getDuration().startDate()).reversed())
         .toList();
   }

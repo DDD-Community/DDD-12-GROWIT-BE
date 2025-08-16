@@ -117,6 +117,6 @@ public class Goal {
   }
 
   public boolean finished() {
-    return true; // updateStatus 로직 반영 필요
+    return updateStatus == GoalUpdateStatus.ENDED;
   }
 }
