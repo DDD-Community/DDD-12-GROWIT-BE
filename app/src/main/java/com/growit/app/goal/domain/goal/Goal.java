@@ -67,10 +67,7 @@ public class Goal {
     this.name = command.name();
     this.toBe = command.toBe();
     this.category = command.category();
-
-    if (status == GoalUpdateStatus.UPDATABLE) {
-      this.duration = command.duration();
-    }
+    this.duration = command.duration();
   }
 
   public boolean checkProgress(GoalStatus status) {
