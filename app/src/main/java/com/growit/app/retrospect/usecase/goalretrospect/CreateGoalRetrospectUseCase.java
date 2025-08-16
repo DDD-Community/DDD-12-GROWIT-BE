@@ -37,7 +37,8 @@ public class CreateGoalRetrospectUseCase {
     }
     final List<ToDo> todos = toDoQuery.getToDosByGoalId(command.goalId());
     final int todoCompletedRate = ToDoUtils.calculateToDoCompletedRate(todos);
-    final List<Retrospect> retrospects = retrospectQuery.getRetrospectsByGoalId(command.goalId(), command.userId());
+    final List<Retrospect> retrospects =
+        retrospectQuery.getRetrospectsByGoalId(command.goalId(), command.userId());
 
     final Analysis analysis = aiAnalysis.generate(new AnalysisDto(goal, retrospects, todos));
 
