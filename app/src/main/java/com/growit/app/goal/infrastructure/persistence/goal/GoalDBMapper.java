@@ -22,6 +22,7 @@ public class GoalDBMapper {
             .endDate(goal.getDuration().endDate())
             .toBe(goal.getToBe())
             .category(goal.getCategory())
+            .updateStatus(goal.getUpdateStatus())
             .build();
     entity.setPlans(
         goal.getPlans().stream()
@@ -61,29 +62,7 @@ public class GoalDBMapper {
                             .content(planEntity.getContent())
                             .build())
                 .toList())
-        .isDelete(entity.getDeletedAt() != null)
-        .build();
-  }
-
-  public Goal toProgressGoal(GoalEntity entity) {
-    if (entity == null) return null;
-    return Goal.builder()
-        .id(entity.getUid())
-        .userId(entity.getUserId())
-        .name(entity.getName())
-        .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
-        .toBe(entity.getToBe())
-        .category(entity.getCategory())
-        .plans(
-            entity.getPlans().stream()
-                .map(
-                    planEntity ->
-                        Plan.builder()
-                            .id(planEntity.getUid())
-                            .weekOfMonth(planEntity.getWeekOfMonth())
-                            .content(planEntity.getContent())
-                            .build())
-                .toList())
+        .updateStatus(entity.getUpdateStatus())
         .isDelete(entity.getDeletedAt() != null)
         .build();
   }

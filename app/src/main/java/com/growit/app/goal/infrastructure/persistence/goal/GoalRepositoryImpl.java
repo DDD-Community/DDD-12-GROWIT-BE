@@ -51,7 +51,7 @@ public class GoalRepositoryImpl implements GoalRepository {
   @Override
   public Optional<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
     Optional<GoalEntity> goalEntity = repository.findByUserIdAndGoalDuration(userId, today);
-    return goalEntity.map(mapper::toProgressGoal);
+    return goalEntity.map(mapper::toDomain);
   }
 
   @Override
