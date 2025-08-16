@@ -2,7 +2,7 @@ package com.growit.app.retrospect.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
+import static com.epages.restdocs.apispec.SimpleType.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -153,12 +153,21 @@ class RetrospectControllerTest {
                         .summary("회고 단건 조회")
                         .pathParameters(parameterWithName("id").description("회고 ID"))
                         .responseFields(
-                            fieldWithPath("data.retrospect.id").description("회고 ID"),
-                            fieldWithPath("data.retrospect.content").description("회고 내용"),
-                            fieldWithPath("data.plan.id").description("계획 ID"),
-                            fieldWithPath("data.plan.weekOfMonth").description("계획 주차"),
-                            fieldWithPath("data.plan.isCurrentWeek").description("현재 주차 여부"),
-                            fieldWithPath("data.plan.content").description("계획 내용"))
+                            fieldWithPath("data").description("회고 목록"),
+                            fieldWithPath("data.retrospect").description("회고"),
+                            fieldWithPath("data.retrospect.id").type(STRING).description("회고 ID"),
+                            fieldWithPath("data.retrospect.content")
+                                .type(STRING)
+                                .description("회고 내용"),
+                            fieldWithPath("data.plan").description("계획"),
+                            fieldWithPath("data.plan.id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data.plan.weekOfMonth")
+                                .type(STRING)
+                                .description("계획 주차"),
+                            fieldWithPath("data.plan.isCurrentWeek")
+                                .type(BOOLEAN)
+                                .description("현재 주차 여부"),
+                            fieldWithPath("data.plan.content").type(STRING).description("계획 내용"))
                         .build())));
   }
 
@@ -189,12 +198,20 @@ class RetrospectControllerTest {
                             parameterWithName("planId").description("계획 ID"))
                         .responseFields(
                             fieldWithPath("data[]").description("회고 목록"),
-                            fieldWithPath("data[].retrospect.id").description("회고 ID"),
-                            fieldWithPath("data[].retrospect.content").description("회고 내용"),
-                            fieldWithPath("data[].plan.id").description("계획 ID"),
-                            fieldWithPath("data[].plan.weekOfMonth").description("계획 주차"),
-                            fieldWithPath("data[].plan.isCurrentWeek").description("현재 주차 여부"),
-                            fieldWithPath("data[].plan.content").description("계획 내용"))
+                            fieldWithPath("data[].retrospect").description("회고"),
+                            fieldWithPath("data[].retrospect.id").type(STRING).description("회고 ID"),
+                            fieldWithPath("data[].retrospect.content")
+                                .type(STRING)
+                                .description("회고 내용"),
+                            fieldWithPath("data[].plan").description("계획"),
+                            fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data[].plan.weekOfMonth")
+                                .type(STRING)
+                                .description("계획 주차"),
+                            fieldWithPath("data[].plan.isCurrentWeek")
+                                .type(BOOLEAN)
+                                .description("현재 주차 여부"),
+                            fieldWithPath("data[].plan.content").type(STRING).description("계획 내용"))
                         .build())));
   }
 
@@ -252,12 +269,20 @@ class RetrospectControllerTest {
                         .queryParameters(parameterWithName("goalId").description("목표 ID"))
                         .responseFields(
                             fieldWithPath("data[]").description("회고 목록"),
-                            fieldWithPath("data[].retrospect.id").description("회고 ID"),
-                            fieldWithPath("data[].retrospect.content").description("회고 내용"),
-                            fieldWithPath("data[].plan.id").description("계획 ID"),
-                            fieldWithPath("data[].plan.weekOfMonth").description("계획 주차"),
-                            fieldWithPath("data[].plan.isCurrentWeek").description("현재 주차 여부"),
-                            fieldWithPath("data[].plan.content").description("계획 내용"))
+                            fieldWithPath("data[].retrospect").description("회고"),
+                            fieldWithPath("data[].retrospect.id").type(STRING).description("회고 ID"),
+                            fieldWithPath("data[].retrospect.content")
+                                .type(STRING)
+                                .description("회고 내용"),
+                            fieldWithPath("data[].plan").description("계획"),
+                            fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data[].plan.weekOfMonth")
+                                .type(STRING)
+                                .description("계획 주차"),
+                            fieldWithPath("data[].plan.isCurrentWeek")
+                                .type(BOOLEAN)
+                                .description("현재 주차 여부"),
+                            fieldWithPath("data[].plan.content").type(STRING).description("계획 내용"))
                         .build())));
   }
 }

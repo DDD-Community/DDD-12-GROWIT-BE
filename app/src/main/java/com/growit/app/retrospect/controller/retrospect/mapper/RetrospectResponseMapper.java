@@ -19,7 +19,9 @@ public class RetrospectResponseMapper {
   }
 
   public RetrospectResponse.RetrospectDto toDto(Retrospect retrospect) {
-    return new RetrospectResponse.RetrospectDto(retrospect.getId(), retrospect.getContent());
+    return retrospect == null
+        ? null
+        : new RetrospectResponse.RetrospectDto(retrospect.getId(), retrospect.getContent());
   }
 
   public RetrospectExistResponse toExistResponse(boolean isExist) {
