@@ -9,6 +9,9 @@ import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.AIAnalysis;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
+import com.growit.app.retrospect.domain.retrospect.Retrospect;
+import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
+import com.growit.app.retrospect.infrastructure.engine.dto.AnalysisDto;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.service.ToDoQuery;
 import com.growit.app.todo.domain.util.ToDoUtils;
@@ -24,6 +27,7 @@ public class CreateGoalRetrospectUseCase {
   private final ToDoQuery toDoQuery;
   private final AIAnalysis aiAnalysis;
   private final GoalRetrospectRepository goalRetrospectRepository;
+  private final RetrospectQuery retrospectQuery;
 
   @Transactional
   public String execute(CreateGoalRetrospectCommand command) {
@@ -33,7 +37,9 @@ public class CreateGoalRetrospectUseCase {
     }
     final List<ToDo> todos = toDoQuery.getToDosByGoalId(command.goalId());
     final int todoCompletedRate = ToDoUtils.calculateToDoCompletedRate(todos);
-    final Analysis analysis = aiAnalysis.generate(goal, todos);
+    final List<Retrospect> retrospects = retrospectQuery.getRetrospectsByGoalId(command.goalId(), command.userId());
+
+    final Analysis analysis = aiAnalysis.generate(new AnalysisDto(goal, retrospects, todos));
 
     final GoalRetrospect goalRetrospect =
         GoalRetrospect.create(goal.getId(), todoCompletedRate, analysis, "");

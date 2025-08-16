@@ -1,10 +1,8 @@
 package com.growit.app.retrospect.domain.goalretrospect.service;
 
-import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
-import com.growit.app.todo.domain.ToDo;
-import java.util.List;
+import com.growit.app.retrospect.infrastructure.engine.dto.AnalysisDto;
 
 public interface AIAnalysis {
-  Analysis generate(Goal goal, List<ToDo> todos);
+  Analysis generate(AnalysisDto request);
 }

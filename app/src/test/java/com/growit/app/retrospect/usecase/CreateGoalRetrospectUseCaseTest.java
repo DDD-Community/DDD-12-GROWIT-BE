@@ -2,6 +2,7 @@ package com.growit.app.retrospect.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.common.exception.BadRequestException;
@@ -13,6 +14,7 @@ import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.AIAnalysis;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
+import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import com.growit.app.retrospect.usecase.goalretrospect.CreateGoalRetrospectUseCase;
 import com.growit.app.todo.domain.service.ToDoQuery;
 import java.util.List;
@@ -28,6 +30,7 @@ class CreateGoalRetrospectUseCaseTest {
   @Mock private ToDoQuery toDoQuery;
   @Mock private AIAnalysis aiAnalysis;
   @Mock private GoalRetrospectRepository goalRetrospectRepository;
+  @Mock private RetrospectQuery retrospectQuery;
 
   @InjectMocks private CreateGoalRetrospectUseCase useCase;
 
@@ -42,7 +45,7 @@ class CreateGoalRetrospectUseCaseTest {
         new CreateGoalRetrospectCommand(goal.getUserId(), goal.getId());
 
     when(toDoQuery.getToDosByGoalId(command.goalId())).thenReturn(List.of());
-    when(aiAnalysis.generate(goal, List.of())).thenReturn(new Analysis("", ""));
+    when(aiAnalysis.generate(any())).thenReturn(new Analysis("", ""));
     final String id = useCase.execute(command);
     assertNotNull(id);
   }
