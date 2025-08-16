@@ -6,6 +6,7 @@ import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.user.domain.user.User;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,9 @@ public class GetUserGoalsUseCase {
 
   @Transactional(readOnly = true)
   public Goal getProgressMyGoal(User user) {
+    LocalDate today = LocalDate.now();
     return goalRepository
-        .findByUserIdAndGoalDuration(user.getId())
+        .findByUserIdAndGoalDuration(user.getId(), today)
         .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 }

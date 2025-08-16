@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.19.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.0...v1.19.1) (2025-08-16)
+
+
+### Bug Fixes
+
+* 모듈간 의존 수정 ([e5027dc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e5027dc8c058dd022ab60b0a0a6f8ca42d9d9cac))
+* 모듈간 의존 수정 ([7f1105d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7f1105da75a81eae6b2a7d6cfa49c42970a113d4))
+
+## [1.19.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.18.0...v1.19.0) (2025-08-15)
+
+
+### Features
+
+* **goalretrospect:** 생성 로직 적용 ([8c3131a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8c3131ab0b22e05fb20d8269fda683abb39bc77b)), closes [#188](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/188)
+
+
+### Bug Fixes
+
+* **goalretrospect:** AWS_REGION ([c80e1ee](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c80e1eef27e2609b2d6814dd6fa4b535c62c1975))
+* **goalretrospect:** Service 구현체로 변경 ([66cba5f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/66cba5fdc3e494256ea90bf0c8eb06516e1693cb))
+* **goalretrospect:** 이름 변경 ([51435e5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/51435e5378745b3d869ea3da347469efd120d3ff))
+
 ## [1.18.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.17.0...v1.18.0) (2025-08-11)
 
 

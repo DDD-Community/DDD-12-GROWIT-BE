@@ -13,6 +13,7 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class Goal {
   private GoalDuration duration;
   private String toBe;
   private GoalCategory category;
+  @JsonIgnore private GoalUpdateStatus updateStatus;
   private List<Plan> plans;
 
   @Getter(AccessLevel.NONE)
@@ -45,6 +47,7 @@ public class Goal {
         .duration(command.duration())
         .toBe(command.toBe())
         .category(command.category())
+        .updateStatus(GoalUpdateStatus.UPDATABLE)
         .plans(
             command.plans().stream()
                 .map(planDto -> Plan.from(planDto, command.duration().startDate()))
@@ -59,6 +62,10 @@ public class Goal {
     this.toBe = command.toBe();
     this.category = command.category();
     this.plans = updatePlans(command);
+  }
+
+  public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
+    this.updateStatus = updateStatus;
   }
 
   // 기존 존재하는 범위의 계획인 경우 업데이트 존재하지 않은경우 새로 생성

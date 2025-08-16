@@ -31,7 +31,6 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.vo.FaceStatus;
-import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -71,7 +70,6 @@ class ToDoControllerTest {
   @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
   @MockitoBean private GetFaceStatusUseCase getFaceStatusUseCase;
 
-  @MockitoBean private GetContributionUseCase getContributionUseCase;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ToDoRepository toDoRepository;
 
@@ -369,42 +367,6 @@ class ToDoControllerTest {
                             fieldWithPath("data[].isCompleted")
                                 .type("Boolean")
                                 .description("완료 여부"))
-                        .build())));
-  }
-
-  @Test
-  void getContribution() throws Exception {
-    // given
-    String goalId = "goal-123";
-    List<ToDoStatus> statusList =
-        List.of(
-            ToDoStatus.COMPLETED, ToDoStatus.NOT_STARTED, ToDoStatus.IN_PROGRESS, ToDoStatus.NONE);
-    given(getContributionUseCase.execute(anyString(), eq(goalId))).willReturn(statusList);
-
-    // when & then
-    mockMvc
-        .perform(
-            get("/todos")
-                .header("Authorization", "Bearer mock-jwt-token")
-                .param("goalId", goalId)
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-contribution",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("목표별 28일 기여도 리스트 조회")
-                        .description("특정 목표(goalId)에 대한 28일간의 기여도(상태) 리스트를 반환합니다.")
-                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
-                        .responseFields(
-                            fieldWithPath("data[]")
-                                .type("String")
-                                .description(
-                                    "28일간 각 날짜별 ToDoStatus(예: COMPLETED, NOT_STARTED, IN_PROGRESS, NONE)"))
                         .build())));
   }
 
