@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.0...v1.19.1) (2025-08-16)
+
+
+### Bug Fixes
+
+* 모듈간 의존 수정 ([e5027dc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e5027dc8c058dd022ab60b0a0a6f8ca42d9d9cac))
+* 모듈간 의존 수정 ([7f1105d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7f1105da75a81eae6b2a7d6cfa49c42970a113d4))
+
 ## [1.19.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.18.0...v1.19.0) (2025-08-15)
 
 
