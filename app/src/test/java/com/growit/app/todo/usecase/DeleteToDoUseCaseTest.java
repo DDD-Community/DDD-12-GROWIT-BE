@@ -2,7 +2,7 @@ package com.growit.app.todo.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.growit.app.fake.goal.FakeGoalStatusUpdater;
+import com.growit.app.fake.todo.FakeToDoHandler;
 import com.growit.app.fake.todo.FakeToDoQuery;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
@@ -20,10 +20,10 @@ class DeleteToDoUseCaseTest {
   @BeforeEach
   void setUp() {
     fakeToDoRepository = new FakeToDoRepository();
-    FakeGoalStatusUpdater goalStatusUpdater = new FakeGoalStatusUpdater();
+    FakeToDoHandler toDoHandler = new FakeToDoHandler();
     useCase =
         new DeleteToDoUseCase(
-            fakeToDoRepository, goalStatusUpdater, new FakeToDoQuery(fakeToDoRepository));
+            fakeToDoRepository, toDoHandler, new FakeToDoQuery(fakeToDoRepository));
 
     fakeToDoRepository.saveToDo(todo);
   }

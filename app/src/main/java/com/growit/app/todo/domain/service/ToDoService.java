@@ -1,7 +1,12 @@
 package com.growit.app.todo.domain.service;
 
+import static com.growit.app.common.util.message.ErrorCode.GOAL_NOT_FOUND;
+
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
@@ -12,8 +17,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ToDoService implements ToDoValidator, ToDoQuery {
+public class ToDoService implements ToDoValidator, ToDoQuery, ToDoHandler {
   private final ToDoRepository toDoRepository;
+  private final GoalRepository goalRepository;
   private static final int MAX_TO_COUNT = 10;
 
   private void validateMaxToDoCount(
@@ -52,5 +58,21 @@ public class ToDoService implements ToDoValidator, ToDoQuery {
     }
 
     return todo;
+  }
+
+  @Override
+  public void handle(String id) {
+    Goal goal =
+        goalRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
+
+    List<ToDo> toDoList = toDoRepository.findByGoalId(goal.getId());
+    if (toDoList.isEmpty()) {
+      goal.updateByGoalUpdateStatus(GoalUpdateStatus.UPDATABLE);
+    } else {
+      goal.updateByGoalUpdateStatus(GoalUpdateStatus.PARTIALLY_UPDATABLE);
+    }
+    goalRepository.saveGoal(goal);
   }
 }
