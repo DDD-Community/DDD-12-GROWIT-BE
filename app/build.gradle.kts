@@ -38,6 +38,8 @@ dependencies {
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.spring.boot.starter.cache)
   implementation(libs.nanoid)
+
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
   // Flyway
   implementation(libs.flyway)
   implementation(libs.flyway.postgresql)

@@ -41,3 +41,7 @@ app:
   security:
     api-keys:
       - ${GOAL_API_KEY_PRIMARY:}
+
+openai:
+  api:
+    key: ${OPEN_API_KEY}
