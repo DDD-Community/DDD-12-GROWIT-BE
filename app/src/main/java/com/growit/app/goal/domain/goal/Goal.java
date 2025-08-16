@@ -62,11 +62,9 @@ public class Goal {
     this.duration = command.duration();
     this.toBe = command.toBe();
     this.category = command.category();
-    this.plans = updatePlans(command);
   }
 
   public boolean checkProgress(GoalStatus status) {
-
     if (status == GoalStatus.NONE) {
       return true;
     } else if (status == GoalStatus.PROGRESS) {
@@ -78,31 +76,6 @@ public class Goal {
 
   public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
     this.updateStatus = updateStatus;
-  }
-
-  // 기존 존재하는 범위의 계획인 경우 업데이트 존재하지 않은경우 새로 생성
-  // 1. 기존 plans duration 을 키로 map 구성
-  // 2. command.plans loop
-  // 3. duration 구하기
-  // 4. duration 키로 존재 여부 체크
-  // 5. 존재하면 업데이트 존재하지 않으면 새로 생성
-  private List<Plan> updatePlans(UpdateGoalCommand command) {
-    Map<PlanDuration, Plan> existingPlanMap =
-        this.plans.stream().collect(toMap(Plan::getPlanDuration, plan -> plan));
-    List<Plan> updatedPlans = new ArrayList<>();
-    for (var planDto : command.plans()) {
-      PlanDuration planDuration =
-          PlanDuration.calculateDuration(planDto.weekOfMonth(), command.duration().startDate());
-      Plan existing = existingPlanMap.get(planDuration);
-      if (existing != null) {
-        existing.updateByPlan(planDto, planDuration);
-        updatedPlans.add(existing);
-      } else {
-        updatedPlans.add(Plan.from(planDto, command.duration().startDate()));
-      }
-    }
-
-    return updatedPlans;
   }
 
   public void deleted() {

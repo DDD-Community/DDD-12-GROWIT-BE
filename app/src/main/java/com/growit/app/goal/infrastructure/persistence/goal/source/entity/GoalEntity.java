@@ -66,31 +66,6 @@ public class GoalEntity extends BaseEntity {
     this.toBe = goal.getToBe();
     this.category = goal.getCategory();
     this.updateStatus = goal.getUpdateStatus();
-    // 다르면 insert
-    Map<String, PlanEntity> existingPlanMap =
-        this.plans.stream().collect(toMap(PlanEntity::getUid, plan -> plan));
-
-    List<PlanEntity> updatedPlans =
-        goal.getPlans().stream()
-            .map(
-                plan -> {
-                  PlanEntity existing = existingPlanMap.get(plan.getId());
-                  if (existing != null) {
-                    existing.updateByDomain(plan);
-                    return existing;
-                  } else {
-                    return new PlanEntity(
-                        plan.getId(),
-                        plan.getWeekOfMonth(),
-                        plan.getContent(),
-                        plan.getPlanDuration().startDate(),
-                        plan.getPlanDuration().endDate(),
-                        this);
-                  }
-                })
-            .toList();
-    this.plans.clear();
-    this.plans.addAll(updatedPlans);
     if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }
 }
