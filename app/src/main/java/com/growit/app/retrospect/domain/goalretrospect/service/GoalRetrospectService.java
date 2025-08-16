@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoalRetrospectService implements GoalRetrospectQuery, AIAnalysis {
+public class GoalRetrospectService implements GoalRetrospectQuery {
   private final GoalRetrospectRepository goalRetrospectRepository;
 
   @Override
@@ -21,10 +21,5 @@ public class GoalRetrospectService implements GoalRetrospectQuery, AIAnalysis {
     return goalRetrospectRepository
         .findById(id)
         .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
-  }
-
-  @Override
-  public Analysis generate(Goal goal, List<ToDo> todos) {
-    return new Analysis("summary", "advice");
   }
 }
