@@ -2,8 +2,6 @@ package com.growit.app.retrospect.infrastructure.engine;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.retrospect.domain.goalretrospect.ai.AIAnalysis;
 import com.growit.app.retrospect.domain.goalretrospect.dto.AnalysisDto;
@@ -26,10 +24,9 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class ChatGptAIAnalysis implements AIAnalysis {
 
-  private final ObjectMapper objectMapper =
-      new ObjectMapper()
-          .registerModule(new JavaTimeModule())
-          .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  private final ObjectMapper objectMapper;
+
+  private final RestTemplate restTemplate;
 
   @Value("${openai.api.key}")
   private String apiKey;
@@ -43,9 +40,8 @@ public class ChatGptAIAnalysis implements AIAnalysis {
   @Value("${openai.temperature:0.3}")
   private double temperature;
 
-  private final RestTemplate restTemplate = new RestTemplate();
 
-  private static final String systemMessage =
+  private static final String SYSTEM_MESSAGE =
       """
       당신은 목표 달성을 위해 미루지 않고 끝까지 달성할 수 있도록 돕는 전문가입니다.
       사용자가 제공한 JSON 데이터(goal, retrospects, todos)를 바탕으로 아래 기준에 맞추어 분석하고 요약하세요.
@@ -98,7 +94,7 @@ public class ChatGptAIAnalysis implements AIAnalysis {
               + "위 데이터를 기반으로 summary와 advice를 작성해주세요.";
 
       // 2) Chat Completions 요청 바디 구성
-      Map<String, Object> sysMsg = Map.of("role", "system", "content", systemMessage);
+      Map<String, Object> sysMsg = Map.of("role", "system", "content", SYSTEM_MESSAGE);
       Map<String, Object> usrMsg = Map.of("role", "user", "content", userInput);
       Map<String, Object> body = new HashMap<>();
       body.put("model", model);
