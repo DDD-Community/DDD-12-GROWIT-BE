@@ -13,6 +13,7 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,6 +63,17 @@ public class Goal {
     this.toBe = command.toBe();
     this.category = command.category();
     this.plans = updatePlans(command);
+  }
+
+  public boolean checkProgress(GoalStatus status) {
+
+    if (status == GoalStatus.NONE) {
+      return true;
+    } else if (status == GoalStatus.PROGRESS) {
+      return updateStatus != GoalUpdateStatus.ENDED;
+    } else {
+      return updateStatus == GoalUpdateStatus.ENDED;
+    }
   }
 
   public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {

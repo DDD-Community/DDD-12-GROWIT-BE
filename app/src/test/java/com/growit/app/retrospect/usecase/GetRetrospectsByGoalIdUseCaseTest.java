@@ -45,7 +45,7 @@ class GetRetrospectsByGoalIdUseCaseTest {
     Plan plan1 = PlanFixture.customPlan(planId1, 1, null, null, null);
     Plan plan2 = PlanFixture.customPlan(planId2, 2, null, null, null);
     Goal goal =
-        GoalFixture.customGoal(goalId, userId, null, null, null, null, List.of(plan1, plan2));
+        GoalFixture.customGoal(goalId, userId, null, null, null, null, null, List.of(plan1, plan2));
 
     when(retrospectQuery.getRetrospectsByGoalId(goalId, userId)).thenReturn(retrospects);
     when(goalQuery.getMyGoal(goalId, userId)).thenReturn(goal);

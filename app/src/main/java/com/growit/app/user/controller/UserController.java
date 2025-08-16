@@ -55,4 +55,15 @@ public class UserController {
     deleteUseCase.execute(user);
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.delete")));
   }
+
+  @GetMapping("/myprofile/onboarding")
+  public ResponseEntity<ApiResponse<Boolean>> getOnboarding(@AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(ApiResponse.success(user.isOnboarding()));
+  }
+
+  @PutMapping("/myprofile/onboarding")
+  public ResponseEntity<ApiResponse<String>> onboarding(@AuthenticationPrincipal User user) {
+    updateUserUseCase.isOnboarding(user);
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.onboarding")));
+  }
 }

@@ -15,6 +15,7 @@ public class UserDBMapper {
         .name(user.getName())
         .jobRoleId(user.getJobRoleId())
         .careerYear(user.getCareerYear())
+        .isOnboarding(user.isOnboarding())
         .build();
   }
 
@@ -28,6 +29,7 @@ public class UserDBMapper {
         .jobRoleId(entity.getJobRoleId())
         .careerYear(entity.getCareerYear())
         .isDeleted(entity.getDeletedAt() != null)
+        .isOnboarding(entity.getIsOnboarding())
         .build();
   }
 }
