@@ -83,7 +83,7 @@ jobs:
             SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
             SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
-            OTHER_API_KEY=${{ secrets.OTHER_API_KEY }}
+            OPEN_API_KEY=${{ secrets.OPEN_API_KEY }}
 
 
       - name: Deploy to Amazon ECS
