@@ -92,7 +92,7 @@ public class GoalService implements GoalValidator, GoalQuery {
         .filter(
             goal -> {
               LocalDate start = goal.getDuration().startDate();
-              return start.getYear() == year; // 종료일의 연도로 필터
+              return start.getYear() == year;
             })
         .sorted(Comparator.comparing((Goal goal) -> goal.getDuration().startDate()).reversed())
         .toList();
