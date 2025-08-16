@@ -1,14 +1,31 @@
 package com.growit.app.retrospect.controller.retrospect.dto.response;
 
-import com.growit.app.goal.domain.goal.plan.Plan;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class RetrospectResponse {
-  private String id;
-  private String goalId;
-  private Plan plan;
-  private String content;
+  private PlanDto plan;
+  private RetrospectDto retrospect;
+
+  @Getter
+  @AllArgsConstructor
+  public static class RetrospectDto {
+    private String id;
+    private String content;
+  }
+
+  @Getter
+  @AllArgsConstructor
+  public static class PlanDto {
+    private String id;
+    private int weekOfMonth;
+
+    @JsonProperty("isCurrentWeek")
+    private boolean currentWeek;
+
+    private String content;
+  }
 }

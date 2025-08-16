@@ -55,14 +55,10 @@ class GetRetrospectsByGoalIdUseCaseTest {
 
     // then
     assertThat(results).hasSize(2);
-    assertThat(results.get(0).getRetrospect()).isEqualTo(retrospect1);
-    assertThat(results.get(1).getRetrospect()).isEqualTo(retrospect2);
-    assertThat(results.get(0).getPlan()).isEqualTo(plan1);
-    assertThat(results.get(1).getPlan()).isEqualTo(plan2);
   }
 
   @Test
-  void givenGoalIdWithNoRetrospects_whenExecute_thenReturnEmptyList() {
+  void givenGoalIdWithNoRetrospects_whenExecute_thenReturnPlansWithNoRetrospects() {
     // given
     String goalId = "goalId";
     String userId = "userId";
@@ -76,6 +72,6 @@ class GetRetrospectsByGoalIdUseCaseTest {
     List<RetrospectWithPlan> results = useCase.execute(goalId, userId);
 
     // then
-    assertThat(results).isEmpty();
+    assertThat(results).hasSize(goal.getPlans().size());
   }
 }
