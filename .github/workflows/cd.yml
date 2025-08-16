@@ -1,9 +1,9 @@
 name: Full CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
   release:
     types: [published]
   workflow_dispatch:
