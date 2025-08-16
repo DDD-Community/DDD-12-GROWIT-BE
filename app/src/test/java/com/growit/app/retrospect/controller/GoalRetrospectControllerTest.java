@@ -182,4 +182,35 @@ class GoalRetrospectControllerTest {
                                 .description("회고 내용"))
                         .build())));
   }
+
+  @Test
+  void getGoalRetrospectsByYear() throws Exception {
+    // given
+    int year = 2025;
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/goal-retrospects")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("year", String.valueOf(year))
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "list-goal-retrospects-by-year",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goal Retrospects")
+                        .summary("연도별 목표+회고 목록 조회")
+                        .queryParameters(
+                            parameterWithName("year").description("조회 연도 (예: 2025)")
+                        )
+                        .responseFields(
+                            fieldWithPath("data").type(JsonFieldType.ARRAY).description("목록 데이터 배열")
+                        )
+                        .build())));
+  }
 }

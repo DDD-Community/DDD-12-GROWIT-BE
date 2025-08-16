@@ -5,15 +5,19 @@ import com.growit.app.common.response.IdDto;
 import com.growit.app.retrospect.controller.goalretrospect.dto.request.CreateGoalRetrospectRequest;
 import com.growit.app.retrospect.controller.goalretrospect.dto.request.UpdateGoalRetrospectRequest;
 import com.growit.app.retrospect.controller.goalretrospect.dto.response.GoalRetrospectResponse;
+import com.growit.app.retrospect.controller.goalretrospect.dto.response.GoalWithGoalRetrospectResponse;
 import com.growit.app.retrospect.controller.goalretrospect.mapper.GoalRetrospectMapper;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.dto.UpdateGoalRetrospectCommand;
 import com.growit.app.retrospect.usecase.goalretrospect.CreateGoalRetrospectUseCase;
+import com.growit.app.retrospect.usecase.goalretrospect.GetFinishedGoalsWithGoalRetrospectUseCase;
 import com.growit.app.retrospect.usecase.goalretrospect.GetGoalRetrospectUseCase;
 import com.growit.app.retrospect.usecase.goalretrospect.UpdateGoalRetrospectUseCase;
+import com.growit.app.retrospect.usecase.goalretrospect.dto.GoalWithGoalRetrospectDto;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +31,17 @@ public class GoalRetrospectController {
   private final CreateGoalRetrospectUseCase createGoalRetrospectUseCase;
   private final UpdateGoalRetrospectUseCase updateGoalRetrospectUseCase;
   private final GetGoalRetrospectUseCase getGoalRetrospectUseCase;
+  private final GetFinishedGoalsWithGoalRetrospectUseCase getFinishedGoalsWithGoalRetrospectUseCase;
   private final GoalRetrospectMapper goalRetrospectMapper;
+
+  @GetMapping
+  public ResponseEntity<ApiResponse<List<GoalWithGoalRetrospectResponse>>> getGoalWithGoalRetrospects(
+      @AuthenticationPrincipal User user,
+      @RequestParam(name = "year") int year) {
+    final List<GoalWithGoalRetrospectDto> results = getFinishedGoalsWithGoalRetrospectUseCase.execute(user.getId(), year);
+
+    return ResponseEntity.ok(ApiResponse.success(goalRetrospectMapper.toResponse(results)));
+  }
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<GoalRetrospectResponse>> getGoalRetrospect(
