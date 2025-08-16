@@ -61,6 +61,11 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ToDoHandler {
   }
 
   @Override
+  public List<ToDo> getToDosByGoalId(String goalId) {
+    return toDoRepository.findByGoalId(goalId);
+  }
+
+  @Override
   public void handle(String id) {
     Goal goal =
         goalRepository

@@ -1,4 +1,4 @@
-package com.growit.app.retrospect.controller.goalretrospect.dto;
+package com.growit.app.retrospect.controller.goalretrospect.dto.response;
 
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import lombok.AllArgsConstructor;
