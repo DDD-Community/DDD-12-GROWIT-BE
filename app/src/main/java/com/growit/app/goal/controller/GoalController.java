@@ -16,14 +16,13 @@ import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.goal.usecase.UpdateGoalUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/goals")
@@ -38,7 +37,7 @@ public class GoalController {
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
-    @AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
+      @AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
     GoalStatus goalStatus;
     goalStatus = status == null ? GoalStatus.NONE : GoalStatus.valueOf(status);
     List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, goalStatus);
@@ -47,7 +46,7 @@ public class GoalController {
 
   @PostMapping
   public ResponseEntity<ApiResponse<IdDto>> createGoal(
-    @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
+      @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
     CreateGoalCommand command = goalRequestMapper.toCommand(user.getId(), request);
     String goalId = createGoalUseCase.execute(command);
 
@@ -56,9 +55,9 @@ public class GoalController {
 
   @PutMapping("{id}")
   public ResponseEntity<ApiResponse<String>> updateGoal(
-    @PathVariable String id,
-    @AuthenticationPrincipal User user,
-    @Valid @RequestBody CreateGoalRequest request) {
+      @PathVariable String id,
+      @AuthenticationPrincipal User user,
+      @Valid @RequestBody CreateGoalRequest request) {
     UpdateGoalCommand command = goalRequestMapper.toUpdateCommand(id, user.getId(), request);
     updateGoalUseCase.execute(command);
 
@@ -67,7 +66,7 @@ public class GoalController {
 
   @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
-    @PathVariable String id, @AuthenticationPrincipal User user) {
+      @PathVariable String id, @AuthenticationPrincipal User user) {
     DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
 
@@ -84,7 +83,7 @@ public class GoalController {
   @GetMapping("/me/exists")
   public ResponseEntity<ApiResponse<Boolean>> getGoalIsExist(@AuthenticationPrincipal User user) {
     return ResponseEntity.ok(
-      ApiResponse.success(!getUserGoalsUseCase.getMyGoals(user, GoalStatus.NONE).isEmpty()));
+        ApiResponse.success(!getUserGoalsUseCase.getMyGoals(user, GoalStatus.NONE).isEmpty()));
   }
 
   @PutMapping("/")
