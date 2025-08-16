@@ -19,6 +19,8 @@ public enum ErrorCode {
   GOAL_DURATION_START_AFTER_TODAY(
       "error.goal.duration-start-after-today"), // "목표 시작일은 오늘 이후부터 가능합니다."
   GOAL_PROGRESS_NOTFOUND("error.goal.progress-not-found"), // 진행중인 목표를 찾을 수 없습니다.
+  GOAL_ENDED_DO_NOT_CHANGE("error.goal.ended-goal-do-not-change"),
+  GOAL_PARTIALLY_DO_NOT_CHANGE_DURATION("error.goal.partially-goal-do-not-change-duration"),
   USER_NOT_FOUND("error.user.not-found"),
   USER_INVALID_EMAIL("error.user.invalid-email"), // "유효하지 않은 이메일입니다."
   USER_ALREADY_REGISTERED("error.user.already-registered"), // ""해당 이메일로 이미 가입된 계정이 있습니다.""
@@ -32,8 +34,8 @@ public enum ErrorCode {
       "error.retrospect-already-exists-by-plan"), // "해당 주간 계획에 대한 회고가 이미 존재합니다."
   TODO_IS_EXIST("error.todo.is-exist"), // "ToDo가 존재합니다."
   GOAL_RETROSPECT_GOAL_NOT_COMPLETED("error.goal-retrospect-not-completed"), // "목표가 완료되지 않았습니다."
-  RETROSPECT_NOT_FOUND("error.retrospect-not-found"); // "회고 정보가 존재하지 않습니다."
 
+  RETROSPECT_NOT_FOUND("error.retrospect-not-found"); // "회고 정보가 존재하지 않습니다."
   private final String code;
 
   ErrorCode(String code) {

@@ -4,6 +4,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
+import com.growit.app.goal.domain.goal.service.GoalValidator;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,12 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UpdateGoalUseCase {
   private static final int BATCH_SIZE = 1000;
   private final GoalRepository goalRepository;
+  private final GoalValidator goalValidator;
   private final GoalQuery goalQuery;
 
   @Transactional
   public void execute(UpdateGoalCommand command) {
     final Goal goal = goalQuery.getMyGoal(command.id(), command.userId());
-    goal.updateByCommand(command);
+    goalValidator.checkGoalDuration(command.duration());
+    goalValidator.checkPlans(command.duration(), command.plans());
+    goal.updateByCommand(command, goal.getUpdateStatus());
 
     goalRepository.saveGoal(goal);
   }

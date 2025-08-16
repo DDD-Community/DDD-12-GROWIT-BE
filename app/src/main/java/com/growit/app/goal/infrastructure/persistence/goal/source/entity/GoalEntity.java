@@ -1,7 +1,5 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
-import static java.util.stream.Collectors.toMap;
-
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
@@ -11,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import lombok.*;
 
 @Entity
