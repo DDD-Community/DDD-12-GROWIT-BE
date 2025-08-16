@@ -49,6 +49,19 @@ public class FakeGoalRepository implements GoalRepository {
         .findFirst();
   }
 
+  @Override
+  public List<String> findEndedCandidateIds(LocalDate today, int page, int size) {
+    return List.of();
+  }
+
+  @Override
+  public List<Goal> findAllByIds(List<String> ids) {
+    return List.of();
+  }
+
+  @Override
+  public void flushAndClear() {}
+
   public void clear() {
     store.clear();
   }

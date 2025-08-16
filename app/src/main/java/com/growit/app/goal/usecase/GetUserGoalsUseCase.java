@@ -1,12 +1,9 @@
 package com.growit.app.goal.usecase;
 
-import static com.growit.app.common.util.message.ErrorCode.GOAL_PROGRESS_NOTFOUND;
-
-import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.user.domain.user.User;
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +20,13 @@ public class GetUserGoalsUseCase {
 
   @Cacheable(cacheNames = "goalCache", value = "goalCache", key = "#user.id")
   @Transactional(readOnly = true)
-  public List<Goal> getMyGoals(User user) {
+  public List<Goal> getMyGoals(User user, GoalStatus status) {
     log.info("Cache Miss!");
-
-    List<Goal> goals = goalRepository.findAllByUserId(user.getId());
+    List<Goal> goals =
+        goalRepository.findAllByUserId(user.getId()).stream()
+            .filter(goal -> goal.checkProgress(status))
+            .toList();
     if (goals.isEmpty()) return Collections.emptyList();
-
     return goals;
-  }
-
-  @Transactional(readOnly = true)
-  public Goal getProgressMyGoal(User user) {
-    LocalDate today = LocalDate.now();
-    return goalRepository
-        .findByUserIdAndGoalDuration(user.getId(), today)
-        .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 }

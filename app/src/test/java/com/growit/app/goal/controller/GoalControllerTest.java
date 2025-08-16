@@ -5,9 +5,9 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.NUMBER;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,6 +22,7 @@ import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.goal.usecase.UpdateGoalUseCase;
@@ -71,11 +72,15 @@ class GoalControllerTest {
 
   @Test
   void getMyGoal() throws Exception {
-    given(getUserGoalsUseCase.getMyGoals(any())).willReturn(List.of(GoalFixture.defaultGoal()));
+    given(getUserGoalsUseCase.getMyGoals(any(), eq(GoalStatus.NONE)))
+        .willReturn(List.of(GoalFixture.defaultGoal()));
 
     // when & then
     mockMvc
-        .perform(get("/goals").header("Authorization", "Bearer mock-jwt-token"))
+        .perform(
+            get("/goals")
+                .param("status", String.valueOf(GoalStatus.NONE))
+                .header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
         .andDo(
@@ -87,6 +92,9 @@ class GoalControllerTest {
                     new ResourceSnippetParametersBuilder()
                         .tag("Goals")
                         .summary("내 목표 조회")
+                        .queryParameters(
+                            parameterWithName("status")
+                                .description("목표 상태 필터 | Enum: NONE, ENDED, PROGRESS"))
                         .responseFields(
                             fieldWithPath("data[].id").type(STRING).description("목표 ID"),
                             fieldWithPath("data[].name").type(STRING).description("목표 이름"),

@@ -9,12 +9,14 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.goal.usecase.UpdateGoalUseCase;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,9 +36,10 @@ public class GoalController {
   private final MessageService messageService;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(@AuthenticationPrincipal User user) {
-    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user);
-
+  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
+      @AuthenticationPrincipal User user, @RequestParam() GoalStatus status) {
+    status = status == null ? GoalStatus.NONE : status;
+    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, status);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }
 
@@ -69,9 +72,19 @@ public class GoalController {
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.delete")));
   }
 
-  @GetMapping("/progress")
-  public ResponseEntity<ApiResponse<Goal>> getProgressGoal(@AuthenticationPrincipal User user) {
-    Goal goal = getUserGoalsUseCase.getProgressMyGoal(user);
-    return ResponseEntity.ok(ApiResponse.success(goal));
+  @GetMapping("/utils/ended")
+  public ResponseEntity<ApiResponse<String>> getEndedGoals() {
+    LocalDate today = LocalDate.now();
+    updateGoalUseCase.updateEndedGoals(today);
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.status.update")));
+  }
+
+  // TODO :: return boolean 최초 골인가.
+  //  1. /goals/me/exists return true or false (false : 처음)
+
+  @GetMapping("/me/exists")
+  public ResponseEntity<ApiResponse<Boolean>> getMyGoals(@AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(
+        ApiResponse.success(!getUserGoalsUseCase.getMyGoals(user, GoalStatus.NONE).isEmpty()));
   }
 }

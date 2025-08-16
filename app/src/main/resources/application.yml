@@ -36,3 +36,8 @@ management:
     web:
       exposure:
         include: health,info,metrics,caches
+
+app:
+  security:
+    api-keys:
+      - ${GOAL_API_KEY_PRIMARY:}

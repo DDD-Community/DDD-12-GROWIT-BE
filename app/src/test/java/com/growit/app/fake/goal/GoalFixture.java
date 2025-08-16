@@ -10,6 +10,7 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -27,6 +28,7 @@ public class GoalFixture {
       GoalDuration duration,
       String toBe,
       GoalCategory category,
+      GoalUpdateStatus updateStatus,
       List<Plan> plans) {
     GoalBuilder builder = new GoalBuilder();
     if (id != null) builder.id(id);
@@ -35,6 +37,7 @@ public class GoalFixture {
     if (duration != null) builder.duration(duration);
     if (toBe != null) builder.toBe(toBe);
     if (category != null) builder.category(category);
+    if (updateStatus != null) builder.updateStatus(updateStatus);
     if (plans != null) builder.plans(plans);
 
     return builder.build();
@@ -73,15 +76,16 @@ public class GoalFixture {
 class GoalBuilder {
   LocalDate today = LocalDate.now();
   LocalDate thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-  LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
   private List<Plan> plans =
       List.of(new Plan("plan-1", 1, "그로잇 완성", PlanDuration.calculateDuration(1, thisMonday)));
+  LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
   private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
   private String id = "goal-1";
   private String userId = "user-1";
   private String name = "테스트 목표";
   private String toBe = "TOBE";
   private GoalCategory category = GoalCategory.NETWORKING;
+  private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {
@@ -111,6 +115,11 @@ class GoalBuilder {
 
   public GoalBuilder category(GoalCategory category) {
     this.category = category;
+    return this;
+  }
+
+  public GoalBuilder updateStatus(GoalUpdateStatus updateStatus) {
+    this.updateStatus = updateStatus;
     return this;
   }
 

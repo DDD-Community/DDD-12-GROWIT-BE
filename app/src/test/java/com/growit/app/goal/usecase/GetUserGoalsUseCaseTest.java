@@ -6,6 +6,7 @@ import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.user.domain.user.User;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,7 @@ class GetUserGoalsUseCaseTest {
     fakeGoalRepository.saveGoal(fakeGoal);
 
     // when
-    List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser);
+    List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.NONE);
 
     // then
     assertThat(result).containsExactly(fakeGoal);
@@ -40,7 +41,7 @@ class GetUserGoalsUseCaseTest {
   @Test
   void givenUserWithoutGoals_whenGetMyGoals_thenReturnEmptyList() {
     // when
-    List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser);
+    List<Goal> result = getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.NONE);
 
     // then
     assertThat(result).isEmpty();
