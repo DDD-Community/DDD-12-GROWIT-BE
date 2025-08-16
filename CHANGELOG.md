@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.1...v1.19.2) (2025-08-16)
+
+
+### Bug Fixes
+
+* 파일 위치 변경 ([9bd5f8e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9bd5f8e90edb08ff27aa5eb3aca49d9a27cd9019))
+* 파일 위치 변경 ([d39ab31](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d39ab3151cd274d6b7c9286256349bdfff03c41a))
+
 ## [1.19.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.0...v1.19.1) (2025-08-16)
 
 
