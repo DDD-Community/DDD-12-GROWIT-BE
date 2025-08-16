@@ -19,6 +19,11 @@ public class Plan {
 
   @JsonIgnore private PlanDuration planDuration;
 
+  @JsonIgnore
+  public boolean isCurrentWeek() {
+    return planDuration.includes(LocalDate.now());
+  }
+
   public static Plan from(PlanDto dto, LocalDate goalStart) {
     PlanDuration duration = PlanDuration.calculateDuration(dto.weekOfMonth(), goalStart);
     return Plan.builder()

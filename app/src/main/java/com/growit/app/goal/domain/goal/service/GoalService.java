@@ -10,6 +10,7 @@ import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -82,5 +83,18 @@ public class GoalService implements GoalValidator, GoalQuery {
     return goalRepository
         .findByIdAndUserId(id, userId)
         .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
+  }
+
+  @Override
+  public List<Goal> getFinishedGoalsByYear(String userId, int year) {
+    return goalRepository.findAllByUserId(userId).stream()
+        .filter(Goal::finished)
+        .filter(
+            goal -> {
+              LocalDate start = goal.getDuration().startDate();
+              return start.getYear() == year;
+            })
+        .sorted(Comparator.comparing((Goal goal) -> goal.getDuration().startDate()).reversed())
+        .toList();
   }
 }
