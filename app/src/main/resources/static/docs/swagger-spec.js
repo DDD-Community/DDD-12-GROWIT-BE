@@ -140,7 +140,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"goal\" : {\r\n      \"id\" : \"goal-1\",\r\n      \"name\" : \"테스트 목표\",\r\n      \"duration\" : {\r\n        \"startDate\" : \"2025-08-11\",\r\n        \"endDate\" : \"2025-08-17\"\r\n      }\r\n    },\r\n    \"goalRetrospect\" : {\r\n      \"id\" : \"fR7IixXKQ2P1CUBpMUakr\",\r\n      \"isCompleted\" : true\r\n    }\r\n  } ]\r\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"goal\" : {\r\n      \"id\" : \"goal-1\",\r\n      \"name\" : \"테스트 목표\",\r\n      \"duration\" : {\r\n        \"startDate\" : \"2025-08-11\",\r\n        \"endDate\" : \"2025-08-17\"\r\n      }\r\n    },\r\n    \"goalRetrospect\" : {\r\n      \"id\" : \"zDFs_5OktOpaLiwQn61AI\",\r\n      \"isCompleted\" : true\r\n    }\r\n  } ]\r\n}"
                   }
                 }
               }
@@ -211,7 +211,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\r\n  \"data\" : {\r\n    \"id\" : \"D0cd7BmYX5niCDNYm41Gh\",\r\n    \"goalId\" : \"goalId\",\r\n    \"todoCompletedRate\" : 25,\r\n    \"analysis\" : {\r\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\r\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\r\n    },\r\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\r\n  }\r\n}"
+                    "value" : "{\r\n  \"data\" : {\r\n    \"id\" : \"JeB5Rgc_u4vFa11GPrSsa\",\r\n    \"goalId\" : \"goalId\",\r\n    \"todoCompletedRate\" : 25,\r\n    \"analysis\" : {\r\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\r\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\r\n    },\r\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\r\n  }\r\n}"
                   }
                 }
               }
@@ -316,7 +316,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\r\n  \"data\" : {\r\n    \"id\" : \"VBeCysaBt4dhsmPbBq2mU\"\r\n  }\r\n}"
+                    "value" : "{\r\n  \"data\" : {\r\n    \"id\" : \"l7P6QBBXaNKZRvairxtlR\"\r\n  }\r\n}"
                   }
                 }
               }
@@ -484,7 +484,7 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/retrospects-1096179739"
+                  "$ref" : "#/components/schemas/retrospects-1476343800"
                 },
                 "examples" : {
                   "get-retrospect-by-filter" : {
@@ -600,7 +600,7 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/retrospects-id1605945282"
+                  "$ref" : "#/components/schemas/retrospects-id-950866177"
                 },
                 "examples" : {
                   "get-retrospect" : {
@@ -1248,16 +1248,7 @@ window.swaggerSpec={
           }
         }
       },
-      "users-myprofile-onboarding1739902847" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "boolean",
-            "description" : "온보딩 진행 여부"
-          }
-        }
-      },
-      "retrospects-1096179739" : {
+      "retrospects-1476343800" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -1270,7 +1261,7 @@ window.swaggerSpec={
                   "type" : "object",
                   "properties" : {
                     "weekOfMonth" : {
-                      "type" : "number",
+                      "type" : "string",
                       "description" : "계획 주차"
                     },
                     "id" : {
@@ -1285,7 +1276,8 @@ window.swaggerSpec={
                       "type" : "boolean",
                       "description" : "현재 주차 여부"
                     }
-                  }
+                  },
+                  "description" : "계획"
                 },
                 "retrospect" : {
                   "type" : "object",
@@ -1298,10 +1290,20 @@ window.swaggerSpec={
                       "type" : "string",
                       "description" : "회고 내용"
                     }
-                  }
+                  },
+                  "description" : "회고"
                 }
               }
             }
+          }
+        }
+      },
+      "users-myprofile-onboarding1739902847" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "boolean",
+            "description" : "온보딩 진행 여부"
           }
         }
       },
@@ -1678,6 +1680,53 @@ window.swaggerSpec={
           }
         }
       },
+      "retrospects-id-950866177" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "plan" : {
+                "type" : "object",
+                "properties" : {
+                  "weekOfMonth" : {
+                    "type" : "string",
+                    "description" : "계획 주차"
+                  },
+                  "id" : {
+                    "type" : "string",
+                    "description" : "계획 ID"
+                  },
+                  "content" : {
+                    "type" : "string",
+                    "description" : "계획 내용"
+                  },
+                  "isCurrentWeek" : {
+                    "type" : "boolean",
+                    "description" : "현재 주차 여부"
+                  }
+                },
+                "description" : "계획"
+              },
+              "retrospect" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "회고 ID"
+                  },
+                  "content" : {
+                    "type" : "string",
+                    "description" : "회고 내용"
+                  }
+                },
+                "description" : "회고"
+              }
+            },
+            "description" : "회고 목록"
+          }
+        }
+      },
       "todos-id176249715" : {
         "type" : "object",
         "properties" : {
@@ -1775,50 +1824,6 @@ window.swaggerSpec={
               "email" : {
                 "type" : "string",
                 "description" : "이메일"
-              }
-            }
-          }
-        }
-      },
-      "retrospects-id1605945282" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "plan" : {
-                "type" : "object",
-                "properties" : {
-                  "weekOfMonth" : {
-                    "type" : "number",
-                    "description" : "계획 주차"
-                  },
-                  "id" : {
-                    "type" : "string",
-                    "description" : "계획 ID"
-                  },
-                  "content" : {
-                    "type" : "string",
-                    "description" : "계획 내용"
-                  },
-                  "isCurrentWeek" : {
-                    "type" : "boolean",
-                    "description" : "현재 주차 여부"
-                  }
-                }
-              },
-              "retrospect" : {
-                "type" : "object",
-                "properties" : {
-                  "id" : {
-                    "type" : "string",
-                    "description" : "회고 ID"
-                  },
-                  "content" : {
-                    "type" : "string",
-                    "description" : "회고 내용"
-                  }
-                }
               }
             }
           }
