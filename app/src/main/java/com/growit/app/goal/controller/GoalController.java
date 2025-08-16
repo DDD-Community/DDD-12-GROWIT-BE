@@ -38,9 +38,10 @@ public class GoalController {
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
-    @AuthenticationPrincipal User user, @RequestParam(required = false) GoalStatus status) {
-    status = status == null ? GoalStatus.NONE : status;
-    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, status);
+    @AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
+    GoalStatus goalStatus;
+    goalStatus = status == null ? GoalStatus.NONE : GoalStatus.valueOf(status);
+    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, goalStatus);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }
 
