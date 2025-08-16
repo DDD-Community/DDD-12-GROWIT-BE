@@ -2,9 +2,11 @@ package com.growit.app.user.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.epages.restdocs.apispec.SimpleType.BOOLEAN;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -189,5 +191,54 @@ class UserControllerTest {
                                 .description("JWT (Your Token)"))
                         .responseFields(fieldWithPath("data").type(STRING).description("탈퇴 성공 메세지"))
                         .build())));
+  }
+
+  @Test
+  void getOnboarding() throws Exception {
+    mockMvc
+        .perform(
+            get("/users/myprofile/onboarding").header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "get-user-onboarding",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("User")
+                        .summary("온보딩 여부 조회")
+                        .requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION)
+                                .attributes(key("type").value("String"))
+                                .description("JWT (Your Token)"))
+                        .responseFields(
+                            fieldWithPath("data").type(BOOLEAN).description("온보딩 진행 여부"))
+                        .build())));
+  }
+
+  @Test
+  void completeOnboarding() throws Exception {
+    mockMvc
+        .perform(
+            put("/users/myprofile/onboarding").header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "complete-user-onboarding",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("User")
+                        .summary("온보딩 완료 처리")
+                        .requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION)
+                                .attributes(key("type").value("String"))
+                                .description("JWT (Your Token)"))
+                        .responseFields(
+                            fieldWithPath("data").type(STRING).description("온보딩 완료 성공 메세지"))
+                        .build())));
+    verify(updateUserUseCase).isOnboarding(any(User.class));
   }
 }

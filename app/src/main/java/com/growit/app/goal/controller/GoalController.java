@@ -81,4 +81,10 @@ public class GoalController {
 
   // TODO :: return boolean 최초 골인가.
   //  1. /goals/me/exists return true or false (false : 처음)
+
+  @GetMapping("/me/exists")
+  public ResponseEntity<ApiResponse<Boolean>> getMyGoals(@AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(
+        ApiResponse.success(!getUserGoalsUseCase.getMyGoals(user, GoalStatus.NONE).isEmpty()));
+  }
 }

@@ -30,6 +30,8 @@ public class User {
 
   private boolean isDeleted;
 
+  private boolean isOnboarding;
+
   public static User from(SignUpCommand command) {
     return User.builder()
         .id(IDGenerator.generateId())
@@ -38,6 +40,7 @@ public class User {
         .name(command.name())
         .jobRoleId(command.jobRoleId())
         .careerYear(command.careerYear())
+        .isOnboarding(false)
         .isDeleted(false)
         .build();
   }
@@ -50,5 +53,9 @@ public class User {
 
   public void deleted() {
     this.isDeleted = true;
+  }
+
+  public void onboarding() {
+    this.isOnboarding = true;
   }
 }

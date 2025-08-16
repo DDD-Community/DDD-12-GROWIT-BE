@@ -35,10 +35,14 @@ public class UserEntity extends BaseEntity {
   @Column(name = "career_year", nullable = false)
   private CareerYear careerYear;
 
+  @Column(nullable = false)
+  private Boolean isOnboarding;
+
   public void updateByDomain(User user) {
     this.name = user.getName();
     this.jobRoleId = user.getJobRoleId();
     this.careerYear = user.getCareerYear();
+    this.isOnboarding = user.isOnboarding();
     if (user.isDeleted()) {
       this.setDeletedAt(LocalDateTime.now());
     }
