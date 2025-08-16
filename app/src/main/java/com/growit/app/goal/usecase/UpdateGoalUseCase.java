@@ -18,6 +18,7 @@ public class UpdateGoalUseCase {
   public void execute(UpdateGoalCommand command) {
     final Goal goal = goalQuery.getMyGoal(command.id(), command.userId());
     goal.updateByCommand(command);
+
     goalRepository.saveGoal(goal);
   }
 }

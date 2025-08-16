@@ -1,5 +1,6 @@
 package com.growit.app.goal.domain.goal;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,5 +13,5 @@ public interface GoalRepository {
 
   Optional<Goal> findByIdAndUserId(String id, String userId);
 
-  Optional<Goal> findByUserIdAndGoalDuration(String userId);
+  Optional<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today);
 }

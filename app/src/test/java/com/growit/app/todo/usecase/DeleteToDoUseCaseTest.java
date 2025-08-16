@@ -2,6 +2,7 @@ package com.growit.app.todo.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.growit.app.fake.todo.FakeToDoHandler;
 import com.growit.app.fake.todo.FakeToDoQuery;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
@@ -19,7 +20,10 @@ class DeleteToDoUseCaseTest {
   @BeforeEach
   void setUp() {
     fakeToDoRepository = new FakeToDoRepository();
-    useCase = new DeleteToDoUseCase(fakeToDoRepository, new FakeToDoQuery(fakeToDoRepository));
+    FakeToDoHandler toDoHandler = new FakeToDoHandler();
+    useCase =
+        new DeleteToDoUseCase(
+            fakeToDoRepository, toDoHandler, new FakeToDoQuery(fakeToDoRepository));
 
     fakeToDoRepository.saveToDo(todo);
   }

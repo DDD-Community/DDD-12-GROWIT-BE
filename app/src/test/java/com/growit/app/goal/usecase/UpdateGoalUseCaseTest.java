@@ -30,7 +30,6 @@ class UpdateGoalUseCaseTest {
         GoalFixture.defaultUpdateGoalCommand(goal.getName(), Collections.emptyList());
 
     when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
-
     // when
     useCase.execute(command);
 

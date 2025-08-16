@@ -73,6 +73,7 @@ public class GoalDBMapper {
         .name(entity.getName())
         .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
         .toBe(entity.getToBe())
+        .category(entity.getCategory())
         .plans(
             entity.getPlans().stream()
                 .map(

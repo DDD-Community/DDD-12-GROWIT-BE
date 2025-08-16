@@ -14,7 +14,6 @@ import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.FaceStatus;
-import com.growit.app.todo.domain.vo.ToDoStatus;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
@@ -41,7 +40,6 @@ public class ToDoController {
   private final DeleteToDoUseCase deleteToDoUseCase;
   private final GetWeeklyTodoUseCase getWeeklyTodoUseCase;
   private final GetTodayMissionUseCase getTodayMissionUseCase;
-  private final GetContributionUseCase getContributionUseCase;
   private final GetFaceStatusUseCase getFaceStatusUseCase;
 
   @PostMapping
@@ -106,13 +104,6 @@ public class ToDoController {
     Map<String, List<WeeklyTodosResponse>> response =
         toDoResponseMapper.toWeeklyPlanResponse(grouped);
     return ResponseEntity.ok(new ApiResponse<>(response));
-  }
-
-  @GetMapping(params = "goalId")
-  public ResponseEntity<ApiResponse<List<ToDoStatus>>> getContribution(
-      @AuthenticationPrincipal User user, @RequestParam String goalId) {
-    List<ToDoStatus> statusList = getContributionUseCase.execute(user.getId(), goalId);
-    return ResponseEntity.ok(new ApiResponse<>(statusList));
   }
 
   @GetMapping("/face/status")

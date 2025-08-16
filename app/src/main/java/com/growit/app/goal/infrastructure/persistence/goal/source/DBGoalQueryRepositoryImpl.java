@@ -42,9 +42,8 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   }
 
   @Override
-  public Optional<GoalEntity> findByUserIdAndGoalDuration(String userId) {
+  public Optional<GoalEntity> findByUserIdAndGoalDuration(String userId, LocalDate today) {
     QGoalEntity goal = QGoalEntity.goalEntity;
-    LocalDate today = LocalDate.now();
 
     return Optional.ofNullable(
         queryFactory

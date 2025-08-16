@@ -24,7 +24,8 @@ public class GoalService implements GoalValidator, GoalQuery {
 
   @Override
   public void checkGoalExists(String userId) {
-    Optional<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId);
+    LocalDate today = LocalDate.now();
+    Optional<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId, today);
     if (goal.isPresent()) {
       throw new BadRequestException(GOAL_ALREADY_EXISTS.getCode());
     }

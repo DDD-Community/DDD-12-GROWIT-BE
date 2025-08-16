@@ -36,9 +36,7 @@ public class FakeGoalRepository implements GoalRepository {
   }
 
   @Override
-  public Optional<Goal> findByUserIdAndGoalDuration(String userId) {
-    LocalDate today = LocalDate.now();
-
+  public Optional<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
     return store.values().stream()
         .filter(goal -> goal.getUserId().equals(userId) && !goal.getDeleted())
         .filter(
