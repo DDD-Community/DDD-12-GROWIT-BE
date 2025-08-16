@@ -83,7 +83,7 @@ public class RetrospectController {
   }
 
   @GetMapping(params = {"goalId", "planId"})
-  public ResponseEntity<ApiResponse<RetrospectResponse>> getRetrospectByGoalIdAndPlanId(
+  public ResponseEntity<ApiResponse<List<RetrospectResponse>>> getRetrospectByGoalIdAndPlanId(
       @AuthenticationPrincipal User user,
       @RequestParam("goalId") String goalId,
       @RequestParam("planId") String planId) {
@@ -92,7 +92,7 @@ public class RetrospectController {
     RetrospectWithPlan result = getRetrospectByFilterUseCase.execute(filter);
     RetrospectResponse response = retrospectResponseMapper.toResponse(result);
 
-    return ResponseEntity.ok(ApiResponse.success(response));
+    return ResponseEntity.ok(ApiResponse.success(List.of(response)));
   }
 
   @GetMapping(
