@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.20.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.2...v1.20.0) (2025-08-16)
+
+
+### Features
+
+* **goalretrospect:** 완료된 목표회고 조회 api 구현 ([7fc45de](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7fc45ded5f7583504da60fb9be22a42665791d3c)), closes [#178](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/178)
+* **goal:** updateStatus Mapper ([813732f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/813732f02630d18d6489cc0e778be7f3d3766ed2)), closes [#197](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/197)
+* **retrospect:** api docs 적용 ([e58feb2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e58feb24a77f999d71aa38083c1b59b4c521050c)), closes [#197](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/197)
+* **retrospect:** 현재 주차 로직 반영 및 dto 수정 ([c820f4e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c820f4e0d8139cce6c645a18ee9457a64bbd50a0)), closes [#197](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/197)
+* **retrospect:** 현재 주차 로직 반영 및 dto 수정 ([9b34ac7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9b34ac798e85a8ec827f8520ecffe6a6f4fbaa7a)), closes [#197](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/197)
+* validate 수정 ([0dc04f7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0dc04f74b85acb6cd9022b5bcf48793198ae617a))
+* 온보딩 조회, 수정 기능 구현 ([8551a2a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8551a2aa815813559d7683dfaa2861c33dab95bf))
+* 조건에 따른 목표 업데이트 분기 기능 구현 ([21c8590](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/21c8590e751e5d4b940cecc99d5c346d8d559afc))
+
+
+### Bug Fixes
+
+* **goal:** plan content validation 수정 ([35d2b5a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/35d2b5a82b21bc7801da10e792c55e9d4e487034))
+* **goal:** plans 업데이트 제거 ([0b6a84c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0b6a84c35edee468999c7d34ed103424c9cb0059))
+* **goalretrospect:** ai 연동 완료 ([f9ecb0b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f9ecb0bbf54eaf31917d5cd2ff88addf28cab976))
+* **goalretrospect:** ai 연동 완료 ([c127163](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c127163e2c1d7b05f591b8bc655590fb61f1afdb)), closes [#200](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/200)
+* **goal:** 주석 수정 ([ef69a91](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ef69a9169b6aca97d376dc6f5547b726d2a771cc))
+* requestparam optional ([703afa1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/703afa15f165bf8581b1ce5fa77b2cdca711412a))
+* requestparam optional ([9d0d566](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9d0d56611b18690b7de1b7ea270d8cdc05eaac5e))
+* test build error fixed ([b8ca6ec](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b8ca6ec2a1ede1d72973289ca9639839da25ec61))
+
 ## [1.19.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.1...v1.19.2) (2025-08-16)
 
 
