@@ -7,6 +7,7 @@ import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -22,10 +23,12 @@ import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.goal.usecase.UpdateGoalUseCase;
+import com.growit.app.goal.usecase.UpdatePlanUseCase;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,6 +57,7 @@ class GoalControllerTest {
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
   @MockitoBean private DeleteGoalUseCase deleteGoalUseCase;
   @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
+  @MockitoBean private UpdatePlanUseCase updatePlanUseCase;
 
   @Autowired private ObjectMapper objectMapper;
   @Autowired private GoalRepository goalRepository;
@@ -229,5 +233,49 @@ class GoalControllerTest {
                                 .description("계획 내용"))
                         .responseFields(fieldWithPath("data").type(STRING).description("성공 메세지"))
                         .build())));
+  }
+
+  @Test
+  void updatePlanContent() throws Exception {
+    String goalId = "goal-123";
+    String planId = "plan-456";
+
+    String bodyJson =
+        """
+      {
+        "content": "주 3회 운동으로 계획 수정"
+      }
+      """;
+
+    mockMvc
+        .perform(
+            put("/goals/me/updatePlan")
+                .param("goalId", goalId)
+                .param("planId", planId)
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(bodyJson))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").exists())
+        .andDo(
+            document(
+                "update-plan-content",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("계획 내용 수정")
+                        .queryParameters(
+                            parameterWithName("goalId").description("목표 ID"),
+                            parameterWithName("planId").description("계획 ID"))
+                        .requestFields(
+                            fieldWithPath("content")
+                                .type(JsonFieldType.STRING)
+                                .description("수정할 계획 내용"))
+                        .responseFields(fieldWithPath("data").type(STRING).description("성공 메세지"))
+                        .build())));
+
+    verify(updatePlanUseCase).execute(any(UpdatePlanCommand.class));
   }
 }

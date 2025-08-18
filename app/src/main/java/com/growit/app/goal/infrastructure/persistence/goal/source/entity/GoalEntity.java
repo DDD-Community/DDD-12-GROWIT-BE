@@ -2,6 +2,7 @@ package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import jakarta.persistence.*;
@@ -9,6 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.*;
 
 @Entity
@@ -63,6 +67,20 @@ public class GoalEntity extends BaseEntity {
     this.toBe = goal.getToBe();
     this.category = goal.getCategory();
     this.updateStatus = goal.getUpdateStatus();
+
+    if (goal.getPlans() != null && !goal.getPlans().isEmpty()) {
+      Map<String, String> contentById =
+          goal.getPlans().stream()
+              .filter(p -> p.getId() != null)
+              .collect(Collectors.toMap(Plan::getId, Plan::getContent, (a, b) -> b));
+      for (PlanEntity pe : this.plans) {
+        String newContent = contentById.get(pe.getUid());
+        if (newContent != null && !Objects.equals(pe.getContent(), newContent)) {
+          pe.setContent(newContent);
+        }
+      }
+    }
+
     if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }
 }

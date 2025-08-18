@@ -4,16 +4,15 @@ import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.response.IdDto;
 import com.growit.app.common.util.message.MessageService;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
+import com.growit.app.goal.controller.dto.request.UpdatePlanRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
+import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.usecase.CreateGoalUseCase;
-import com.growit.app.goal.usecase.DeleteGoalUseCase;
-import com.growit.app.goal.usecase.GetUserGoalsUseCase;
-import com.growit.app.goal.usecase.UpdateGoalUseCase;
+import com.growit.app.goal.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
@@ -33,6 +32,7 @@ public class GoalController {
   private final GetUserGoalsUseCase getUserGoalsUseCase;
   private final DeleteGoalUseCase deleteGoalUseCase;
   private final UpdateGoalUseCase updateGoalUseCase;
+  private final UpdatePlanUseCase updatePlanUseCase;
   private final MessageService messageService;
 
   @GetMapping
@@ -86,9 +86,17 @@ public class GoalController {
         ApiResponse.success(!getUserGoalsUseCase.getMyGoals(user, GoalStatus.NONE).isEmpty()));
   }
 
-  @PutMapping("/")
-  public ResponseEntity<ApiResponse<String>> updatePlanContent(@AuthenticationPrincipal User user) {
+  @PutMapping("/me/updatePlan")
+  public ResponseEntity<ApiResponse<String>> updatePlanContent(
+      @RequestParam() String goalId,
+      @RequestParam() String planId,
+      @AuthenticationPrincipal User user,
+      @Valid @RequestBody UpdatePlanRequest request) {
+    UpdatePlanCommand command =
+        goalRequestMapper.toUpdatePlanCommand(goalId, planId, user.getId(), request);
 
-    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.status.update")));
+    updatePlanUseCase.execute(command);
+    return ResponseEntity.ok(
+        ApiResponse.success(messageService.msg("success.plan.content.update")));
   }
 }

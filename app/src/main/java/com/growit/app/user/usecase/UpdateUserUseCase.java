@@ -27,9 +27,6 @@ public class UpdateUserUseCase {
   @Transactional
   public void isOnboarding(User user) {
     user.onboarding();
-    System.out.println("user.isOnboarding() :: " + user.isOnboarding());
-
     userRepository.saveUser(user);
-    System.out.println("saveUser :: " + user.isOnboarding());
   }
 }

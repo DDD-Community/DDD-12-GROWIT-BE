@@ -34,9 +34,7 @@ public class Plan {
         .build();
   }
 
-  public void updateByPlan(PlanDto dto, PlanDuration duration) {
-    this.weekOfMonth = dto.weekOfMonth();
-    this.content = dto.content();
-    this.planDuration = duration;
+  public void updateByPlan(String content) {
+    this.content = content;
   }
 }
