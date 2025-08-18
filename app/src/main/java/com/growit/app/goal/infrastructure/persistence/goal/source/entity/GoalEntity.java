@@ -73,7 +73,7 @@ public class GoalEntity extends BaseEntity {
           goal.getPlans().stream()
               .filter(p -> p.getId() != null)
               .collect(Collectors.toMap(Plan::getId, Plan::getContent, (a, b) -> b));
-
+      // 리팩터링 필요
       for (PlanEntity pe : this.plans) {
         String newContent = contentById.get(pe.getUid());
         if (newContent != null && !Objects.equals(pe.getContent(), newContent)) {
