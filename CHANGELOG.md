@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.20.0...v1.21.0) (2025-08-18)
+
+
+### Features
+
+* 주간 목표 수정 기능 구현 ([b0fc1d1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b0fc1d1cc7a452c3e2bb363a203072249ae7c354))
+
 ## [1.20.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.19.2...v1.20.0) (2025-08-16)
 
 
