@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.22.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.21.0...v1.22.0) (2025-08-18)
+
+
+### Features
+
+* merge fix ([26fedd8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/26fedd8d6e7be9c0d7682dfeac7741c2f4025eed))
+
+
+### Bug Fixes
+
+* merge test ([44f2319](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/44f2319e92ab89f5515f315a0626d99ae8bf83f4))
+* merge test ([54bd7af](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/54bd7af2fc689de70e9808c034dae1f20d5dcc73))
+
 ## [1.21.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.20.0...v1.21.0) (2025-08-18)
 
 
