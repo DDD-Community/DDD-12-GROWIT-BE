@@ -22,7 +22,8 @@ public class GetMissionUseCase {
     LocalDateTime startOfDay = today.atStartOfDay();
     LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
 
-    List<Mission> missions = missionRepository.findAllByUserIdAndToday(userId, startOfDay, endOfDay);
+    List<Mission> missions =
+        missionRepository.findAllByUserIdAndToday(userId, startOfDay, endOfDay);
     if (missions.isEmpty()) return Collections.emptyList();
     return missions;
   }

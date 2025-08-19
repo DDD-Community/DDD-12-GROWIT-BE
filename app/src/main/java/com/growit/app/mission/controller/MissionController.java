@@ -1,27 +1,41 @@
 package com.growit.app.mission.controller;
 
 import com.growit.app.common.response.ApiResponse;
+import com.growit.app.common.util.message.MessageService;
+import com.growit.app.mission.controller.dto.CreateMissionRequest;
+import com.growit.app.mission.controller.mapper.MissionRequestMapper;
 import com.growit.app.mission.domain.Mission;
+import com.growit.app.mission.domain.dto.CreateMissionCommand;
+import com.growit.app.mission.usecase.CreateMissionUseCase;
 import com.growit.app.mission.usecase.GetMissionUseCase;
 import com.growit.app.user.domain.user.User;
-import java.time.LocalDate;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/mission")
 @RequiredArgsConstructor
 public class MissionController {
+  private final CreateMissionUseCase createMissionUseCase;
+  private final MissionRequestMapper missionRequestMapper;
   private final GetMissionUseCase getMissionUseCase;
+  private final MessageService messageService;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Mission>>> getMission(@AuthenticationPrincipal User user) {
     List<Mission> mission = getMissionUseCase.execute(user.getId());
     return ResponseEntity.ok(ApiResponse.success(mission));
+  }
+
+  @PostMapping
+  public ResponseEntity<ApiResponse<String>> createMission(
+      @AuthenticationPrincipal User user, @Valid @RequestBody CreateMissionRequest request) {
+    CreateMissionCommand command = missionRequestMapper.toCommand(user.getId(), request);
+    createMissionUseCase.execute(command);
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.mission.created")));
   }
 }

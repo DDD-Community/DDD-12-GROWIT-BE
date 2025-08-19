@@ -1,6 +1,7 @@
 package com.growit.app.mission.infrastructure.persistence.mission.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
+import com.growit.app.mission.domain.Mission;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -25,4 +26,9 @@ public class MissionEntity extends BaseEntity {
 
   @Column(nullable = false, length = 128)
   private String userId;
+
+  public void updateByDomain(Mission mission) {
+    this.content = mission.getContent();
+    this.finished = mission.isFinished();
+  }
 }
