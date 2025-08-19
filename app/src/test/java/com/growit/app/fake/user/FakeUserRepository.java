@@ -3,12 +3,11 @@ package com.growit.app.fake.user;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public class FakeUserRepository implements UserRepository {
   private final Map<String, User> store = new ConcurrentHashMap<>();
