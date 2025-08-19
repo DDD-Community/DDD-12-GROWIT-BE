@@ -3,9 +3,11 @@ package com.growit.app.mission.controller;
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.util.message.MessageService;
 import com.growit.app.mission.controller.dto.CreateMissionRequest;
+import com.growit.app.mission.controller.dto.UpdateMissionRequest;
 import com.growit.app.mission.controller.mapper.MissionRequestMapper;
 import com.growit.app.mission.domain.Mission;
 import com.growit.app.mission.domain.dto.CreateMissionCommand;
+import com.growit.app.mission.domain.dto.UpdateMissionCommand;
 import com.growit.app.mission.usecase.CreateMissionUseCase;
 import com.growit.app.mission.usecase.GetMissionUseCase;
 import com.growit.app.mission.usecase.UpdateMissionUseCase;
@@ -36,15 +38,18 @@ public class MissionController {
   @PostMapping
   public ResponseEntity<ApiResponse<String>> createMission(
       @Valid @RequestBody CreateMissionRequest request) {
-    CreateMissionCommand command = missionRequestMapper.toCommand(request);
+    CreateMissionCommand command = missionRequestMapper.toCreateCommand(request);
     createMissionUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.mission.created")));
   }
 
   @PutMapping("{id}")
   public ResponseEntity<ApiResponse<String>> finishedMission(
-      @AuthenticationPrincipal User user, @PathVariable String id) {
-    updateMissionUseCase.execute(id, user.getId());
+      @AuthenticationPrincipal User user,
+      @Valid @PathVariable String id,
+      @RequestBody UpdateMissionRequest request) {
+    UpdateMissionCommand command = missionRequestMapper.toUpdateCommand(id, user.getId(), request);
+    updateMissionUseCase.execute(command);
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.mission.finished")));
   }
 }

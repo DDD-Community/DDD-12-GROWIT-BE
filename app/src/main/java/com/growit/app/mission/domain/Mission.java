@@ -25,7 +25,7 @@ public class Mission {
         .build();
   }
 
-  public void finished() {
-    this.finished = true;
+  public void finished(boolean finished) {
+    this.finished = finished;
   }
 }
