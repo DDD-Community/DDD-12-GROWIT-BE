@@ -1,3 +1,3 @@
 package com.growit.app.mission.domain.dto;
 
-public record CreateMissionCommand(String userId, boolean finished, String content) {}
+public record CreateMissionCommand(boolean finished, String content) {}

@@ -16,12 +16,16 @@ public class Mission {
   private String content;
   @JsonIgnore private String userId;
 
-  public static Mission from(CreateMissionCommand command) {
+  public static Mission from(CreateMissionCommand command, String userId) {
     return Mission.builder()
         .id(IDGenerator.generateId())
         .content(command.content())
         .finished(command.finished())
-        .userId(command.userId())
+        .userId(userId)
         .build();
+  }
+
+  public void finished() {
+    this.finished = true;
   }
 }

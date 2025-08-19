@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MissionRequestMapper {
-  public CreateMissionCommand toCommand(String userId, CreateMissionRequest request) {
-    return new CreateMissionCommand(userId, request.getFinished(), request.getContent());
+  public CreateMissionCommand toCommand(CreateMissionRequest request) {
+    return new CreateMissionCommand(request.getFinished(), request.getContent());
   }
 }

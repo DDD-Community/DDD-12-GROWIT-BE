@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -35,5 +36,18 @@ public class MissionRepositoryImpl implements MissionRepository {
       MissionEntity entity = mapper.toEntity(mission);
       repository.save(entity);
     }
+  }
+
+  @Override
+  public Optional<Mission> findByIdAndUserId(String id, String userId) {
+    Optional<MissionEntity> missionEntity = repository.findByUidAndUserId(id, userId);
+    return missionEntity.map(mapper::toDomain);
+  }
+
+  @Override
+  @Transactional
+  public void saveAll(List<Mission> missions) {
+    List<MissionEntity> entities = missions.stream().map(mapper::toEntity).toList();
+    repository.saveAll(entities);
   }
 }

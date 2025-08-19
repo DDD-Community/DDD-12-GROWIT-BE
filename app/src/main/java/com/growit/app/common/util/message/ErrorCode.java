@@ -35,7 +35,9 @@ public enum ErrorCode {
   TODO_IS_EXIST("error.todo.is-exist"), // "ToDo가 존재합니다."
   GOAL_RETROSPECT_GOAL_NOT_COMPLETED("error.goal-retrospect-not-completed"), // "목표가 완료되지 않았습니다."
 
-  RETROSPECT_NOT_FOUND("error.retrospect-not-found"); // "회고 정보가 존재하지 않습니다."
+  RETROSPECT_NOT_FOUND("error.retrospect-not-found"), // "회고 정보가 존재하지 않습니다."
+  MISSION_NOT_FOUND("error.mission-not-found"); // 미션을 찾을 수 없습니다.
+
   private final String code;
 
   ErrorCode(String code) {

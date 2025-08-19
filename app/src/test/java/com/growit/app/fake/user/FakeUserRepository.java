@@ -3,6 +3,9 @@ package com.growit.app.fake.user;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,5 +26,10 @@ public class FakeUserRepository implements UserRepository {
   @Override
   public void saveUser(User user) {
     store.put(user.getId(), user);
+  }
+
+  @Override
+  public Page<User> findAll(Pageable pageable) {
+    return null;
   }
 }
