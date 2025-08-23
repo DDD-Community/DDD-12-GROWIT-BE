@@ -22,13 +22,11 @@ import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
+import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.usecase.DeleteGoalUseCase;
-import com.growit.app.goal.usecase.GetUserGoalsUseCase;
-import com.growit.app.goal.usecase.UpdateGoalUseCase;
-import com.growit.app.goal.usecase.UpdatePlanUseCase;
+import com.growit.app.goal.usecase.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,6 +53,7 @@ class GoalControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
+  @MockitoBean private GetGoalUseCase getGoalUseCase;
   @MockitoBean private DeleteGoalUseCase deleteGoalUseCase;
   @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
   @MockitoBean private UpdatePlanUseCase updatePlanUseCase;
@@ -75,7 +74,7 @@ class GoalControllerTest {
   }
 
   @Test
-  void getMyGoal() throws Exception {
+  void getMyGoals() throws Exception {
     given(getUserGoalsUseCase.getMyGoals(any(), eq(GoalStatus.NONE)))
         .willReturn(List.of(GoalFixture.defaultGoal()));
 
@@ -89,13 +88,13 @@ class GoalControllerTest {
         .andExpect(jsonPath("$.data").exists())
         .andDo(
             document(
-                "get-my-goal",
+                "get-my-goals",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
                         .tag("Goals")
-                        .summary("내 목표 조회")
+                        .summary("내 목표 목록 조회")
                         .queryParameters(
                             parameterWithName("status")
                                 .description("목표 상태 필터 | Enum: NONE, ENDED, PROGRESS"))
@@ -122,6 +121,50 @@ class GoalControllerTest {
                             fieldWithPath("data[].plans[].content")
                                 .type(STRING)
                                 .description("계획 내용"))
+                        .build())));
+  }
+
+  @Test
+  void getMyGoal() throws Exception {
+    final Goal goal = GoalFixture.defaultGoal();
+    given(getGoalUseCase.getGoal(eq(goal.getId()), any())).willReturn(goal);
+
+    // when & then
+    mockMvc
+        .perform(get("/goals/{id}", goal.getId()).header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").exists())
+        .andDo(
+            document(
+                "get-my-goal",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("내 목표 조회")
+                        .pathParameters(parameterWithName("id").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data.id").type(STRING).description("목표 ID"),
+                            fieldWithPath("data.name").type(STRING).description("목표 이름"),
+                            fieldWithPath("data.duration").description("기간 정보 객체"),
+                            fieldWithPath("data.duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data.duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("data.toBe").type(STRING).description("목표 달성 후 상태"),
+                            fieldWithPath("data.category")
+                                .type(STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data.plans").description("계획 리스트"),
+                            fieldWithPath("data.plans[].id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data.plans[].weekOfMonth")
+                                .type(NUMBER)
+                                .description("주차"),
+                            fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"))
                         .build())));
   }
 
