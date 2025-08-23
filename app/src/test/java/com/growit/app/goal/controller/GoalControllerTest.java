@@ -127,50 +127,45 @@ class GoalControllerTest {
   @Test
   void getMyGoal() throws Exception {
     final Goal goal = GoalFixture.defaultGoal();
-    given(getGoalUseCase.getGoal(eq(goal.getId()), any()))
-      .willReturn(goal);
+    given(getGoalUseCase.getGoal(eq(goal.getId()), any())).willReturn(goal);
 
     // when & then
     mockMvc
-      .perform(
-        get("/goals/{id}", goal.getId())
-          .header("Authorization", "Bearer mock-jwt-token"))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.data").exists())
-      .andDo(
-        document(
-          "get-my-goal",
-          preprocessRequest(prettyPrint()),
-          preprocessResponse(prettyPrint()),
-          resource(
-            new ResourceSnippetParametersBuilder()
-              .tag("Goals")
-              .summary("내 목표 조회")
-              .pathParameters(parameterWithName("id").description("목표 ID"))
-              .responseFields(
-                fieldWithPath("data.id").type(STRING).description("목표 ID"),
-                fieldWithPath("data.name").type(STRING).description("목표 이름"),
-                fieldWithPath("data.duration").description("기간 정보 객체"),
-                fieldWithPath("data.duration.startDate")
-                  .type(STRING)
-                  .description("시작일 (yyyy-MM-dd)"),
-                fieldWithPath("data.duration.endDate")
-                  .type(STRING)
-                  .description("종료일 (yyyy-MM-dd)"),
-                fieldWithPath("data.toBe").type(STRING).description("목표 달성 후 상태"),
-                fieldWithPath("data.category")
-                  .type(STRING)
-                  .description(
-                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
-                fieldWithPath("data.plans").description("계획 리스트"),
-                fieldWithPath("data.plans[].id").type(STRING).description("계획 ID"),
-                fieldWithPath("data.plans[].weekOfMonth")
-                  .type(NUMBER)
-                  .description("주차"),
-                fieldWithPath("data.plans[].content")
-                  .type(STRING)
-                  .description("계획 내용"))
-              .build())));
+        .perform(get("/goals/{id}", goal.getId()).header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").exists())
+        .andDo(
+            document(
+                "get-my-goal",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("내 목표 조회")
+                        .pathParameters(parameterWithName("id").description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data.id").type(STRING).description("목표 ID"),
+                            fieldWithPath("data.name").type(STRING).description("목표 이름"),
+                            fieldWithPath("data.duration").description("기간 정보 객체"),
+                            fieldWithPath("data.duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data.duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("data.toBe").type(STRING).description("목표 달성 후 상태"),
+                            fieldWithPath("data.category")
+                                .type(STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data.plans").description("계획 리스트"),
+                            fieldWithPath("data.plans[].id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data.plans[].weekOfMonth")
+                                .type(NUMBER)
+                                .description("주차"),
+                            fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"))
+                        .build())));
   }
 
   @Test
