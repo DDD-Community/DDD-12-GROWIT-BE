@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.23.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.22.0...v1.23.0) (2025-08-23)
+
+
+### Features
+
+* **goal:** 단건 조회 개발 ([c257d89](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c257d8983bf8677ade4ffa869d69149f6b4f6d2a)), closes [#211](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/211)
+* **goal:** 단건 조회 개발 ([919e7f1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/919e7f18e82d91fe34d2764bb11ebf9232a4d10f)), closes [#211](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/211)
+* **goal:** 단건 조회 개발 ([efccfdc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/efccfdcb0f357ebdea66582cfd75099af3d5f9f8)), closes [#211](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/211)
+
 ## [1.22.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.21.0...v1.22.0) (2025-08-18)
 
 
