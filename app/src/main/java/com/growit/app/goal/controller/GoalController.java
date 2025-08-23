@@ -34,6 +34,7 @@ public class GoalController {
   private final UpdateGoalUseCase updateGoalUseCase;
   private final UpdatePlanUseCase updatePlanUseCase;
   private final MessageService messageService;
+  private final GetGoalUseCase getGoalUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
@@ -42,6 +43,12 @@ public class GoalController {
     goalStatus = status == null ? GoalStatus.NONE : GoalStatus.valueOf(status);
     List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, goalStatus);
     return ResponseEntity.ok(ApiResponse.success(goals));
+  }
+
+  @GetMapping("{id}")
+  public ResponseEntity<ApiResponse<Goal>> getGoalById(
+      @PathVariable String id, @AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(ApiResponse.success(getGoalUseCase.getGoal(id, user)));
   }
 
   @PostMapping
