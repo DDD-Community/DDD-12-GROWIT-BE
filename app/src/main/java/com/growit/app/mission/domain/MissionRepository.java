@@ -13,4 +13,7 @@ public interface MissionRepository {
   Optional<Mission> findByIdAndUserId(String id, String userId);
 
   void saveAll(List<Mission> missions);
+
+  List<String> findUserIdsHavingContentToday(
+      List<String> userIds, String content, LocalDateTime startOfDay, LocalDateTime endOfDay);
 }

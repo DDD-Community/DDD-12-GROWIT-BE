@@ -26,4 +26,22 @@ public class DBMissionQueryRepositoryImpl implements DBMissionQueryRepository {
             mission.createdAt.between(startOfDay, endOfDay))
         .fetch();
   }
+
+  @Override
+  public List<String> findUserIdsHavingContentBetween(
+      List<String> userIds, String content, LocalDateTime start, LocalDateTime end) {
+    QMissionEntity m = QMissionEntity.missionEntity;
+
+    return queryFactory
+        .select(m.userId)
+        .distinct()
+        .from(m)
+        .where(
+            m.userId.in(userIds),
+            m.content.eq(content),
+            m.createdAt.goe(start),
+            m.createdAt.lt(end),
+            m.deletedAt.isNull())
+        .fetch();
+  }
 }

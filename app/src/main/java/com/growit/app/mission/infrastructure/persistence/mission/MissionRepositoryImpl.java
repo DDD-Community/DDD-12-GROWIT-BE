@@ -50,4 +50,12 @@ public class MissionRepositoryImpl implements MissionRepository {
     List<MissionEntity> entities = missions.stream().map(mapper::toEntity).toList();
     repository.saveAll(entities);
   }
+
+  @Override
+  public List<String> findUserIdsHavingContentToday(
+      List<String> userIds, String content, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+
+    if (userIds == null || userIds.isEmpty()) return List.of();
+    return repository.findUserIdsHavingContentBetween(userIds, content, startOfDay, endOfDay);
+  }
 }

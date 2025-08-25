@@ -5,7 +5,11 @@ import com.growit.app.mission.domain.MissionRepository;
 import com.growit.app.mission.domain.dto.CreateMissionCommand;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,14 +27,32 @@ public class CreateMissionUseCase {
     final int pageSize = 1000;
     int page = 0;
     Page<User> chunk;
+
     do {
       chunk = userRepository.findAll(PageRequest.of(page, pageSize));
       if (chunk.isEmpty()) break;
 
-      List<Mission> missions =
-          chunk.getContent().stream().map(u -> Mission.from(command, u.getId())).toList();
+      List<String> userIds = chunk.getContent().stream().map(User::getId).toList();
 
-      missionRepository.saveAll(missions);
+      LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+      LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+      List<String> alreadyHasToday =
+          missionRepository.findUserIdsHavingContentToday(
+              userIds, command.content(), startOfDay, endOfDay);
+
+      Set<String> skip = new HashSet<>(alreadyHasToday);
+
+      List<Mission> missionsToCreate =
+          userIds.stream()
+              .filter(uid -> !skip.contains(uid))
+              .map(uid -> Mission.from(command, uid))
+              .toList();
+
+      if (!missionsToCreate.isEmpty()) {
+        missionRepository.saveAll(missionsToCreate);
+      }
+
       page++;
     } while (!chunk.isLast());
   }

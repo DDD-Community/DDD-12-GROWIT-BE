@@ -7,4 +7,7 @@ import java.util.List;
 public interface DBMissionQueryRepository {
   List<MissionEntity> findAllByUserIdAndToday(
       String userId, LocalDateTime startOfDay, LocalDateTime endOfDay);
+
+  List<String> findUserIdsHavingContentBetween(
+      List<String> userIds, String content, LocalDateTime start, LocalDateTime end);
 }
