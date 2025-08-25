@@ -32,8 +32,8 @@ public class GoalDBMapper {
                         plan.getId(),
                         plan.getWeekOfMonth(),
                         plan.getContent(),
-                        plan.getPlanDuration().startDate(),
-                        plan.getPlanDuration().endDate(),
+                        plan.getDuration().startDate(),
+                        plan.getDuration().endDate(),
                         entity))
             .toList());
     entity.setDeletedAt(goal.getDeleted() ? LocalDateTime.now() : null);
@@ -56,7 +56,7 @@ public class GoalDBMapper {
                         Plan.builder()
                             .id(planEntity.getUid())
                             .weekOfMonth(planEntity.getWeekOfMonth())
-                            .planDuration(
+                            .duration(
                                 new PlanDuration(
                                     planEntity.getStartDate(), planEntity.getEndDate()))
                             .content(planEntity.getContent())

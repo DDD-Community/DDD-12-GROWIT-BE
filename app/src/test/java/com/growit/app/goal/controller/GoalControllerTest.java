@@ -118,6 +118,13 @@ class GoalControllerTest {
                             fieldWithPath("data[].plans[].weekOfMonth")
                                 .type(NUMBER)
                                 .description("주차"),
+                            fieldWithPath("data[].plans[].duration").description("기간 정보 객체"),
+                            fieldWithPath("data[].plans[].duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].plans[].duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
                             fieldWithPath("data[].plans[].content")
                                 .type(STRING)
                                 .description("계획 내용"))
@@ -164,6 +171,13 @@ class GoalControllerTest {
                             fieldWithPath("data.plans[].weekOfMonth")
                                 .type(NUMBER)
                                 .description("주차"),
+                            fieldWithPath("data.plans[].duration").description("기간 정보 객체"),
+                            fieldWithPath("data.plans[].duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data.plans[].duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
                             fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"))
                         .build())));
   }
