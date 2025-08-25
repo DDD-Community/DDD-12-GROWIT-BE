@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.24.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.23.0...v1.24.0) (2025-08-25)
+
+
+### Features
+
+* **goal:** 목표 dto 수정 ([400dd48](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/400dd482eac049845ac041110b058cc93a24059b))
+* **goal:** 목표 dto 수정 ([e6b44f9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e6b44f97744248b617a08fa9cd2040f451d014b1)), closes [#214](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/214)
+
 ## [1.23.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.22.0...v1.23.0) (2025-08-23)
 
 
