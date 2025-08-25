@@ -17,11 +17,11 @@ public class Plan {
   private int weekOfMonth;
   private String content;
 
-  @JsonIgnore private PlanDuration planDuration;
+  private PlanDuration duration;
 
   @JsonIgnore
   public boolean isCurrentWeek() {
-    return planDuration.includes(LocalDate.now());
+    return duration.includes(LocalDate.now());
   }
 
   public static Plan from(PlanDto dto, LocalDate goalStart) {
@@ -30,7 +30,7 @@ public class Plan {
         .id(IDGenerator.generateId())
         .weekOfMonth(dto.weekOfMonth())
         .content(dto.content())
-        .planDuration(duration)
+        .duration(duration)
         .build();
   }
 

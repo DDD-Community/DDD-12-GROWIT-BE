@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.23.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.22.0...v1.23.0) (2025-08-23)
+
+
+### Features
+
+* **goal:** 단건 조회 개발 ([c257d89](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c257d8983bf8677ade4ffa869d69149f6b4f6d2a)), closes [#211](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/211)
+* **goal:** 단건 조회 개발 ([919e7f1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/919e7f18e82d91fe34d2764bb11ebf9232a4d10f)), closes [#211](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/211)
+* **goal:** 단건 조회 개발 ([efccfdc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/efccfdcb0f357ebdea66582cfd75099af3d5f9f8)), closes [#211](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/211)
+
+## [1.22.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.21.0...v1.22.0) (2025-08-18)
+
+
+### Features
+
+* merge fix ([26fedd8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/26fedd8d6e7be9c0d7682dfeac7741c2f4025eed))
+
+
+### Bug Fixes
+
+* merge test ([44f2319](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/44f2319e92ab89f5515f315a0626d99ae8bf83f4))
+* merge test ([54bd7af](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/54bd7af2fc689de70e9808c034dae1f20d5dcc73))
+
 ## [1.21.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.20.0...v1.21.0) (2025-08-18)
 
 

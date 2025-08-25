@@ -95,7 +95,7 @@ public class Goal {
 
   public Plan getPlanByDate(LocalDate date) {
     return plans.stream()
-        .filter(plan -> plan.getPlanDuration().includes(date))
+        .filter(plan -> plan.getDuration().includes(date))
         .findFirst()
         .orElseThrow(() -> new NotFoundException(GOAL_NOT_EXISTS_DATE.getCode()));
   }
