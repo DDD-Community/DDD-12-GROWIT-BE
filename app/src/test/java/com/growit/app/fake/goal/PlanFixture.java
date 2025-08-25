@@ -71,7 +71,7 @@ class PlanBuilder {
         .id(id)
         .weekOfMonth(weekOfMonth)
         .content(content)
-        .planDuration(planDuration)
+        .duration(planDuration)
         .build();
   }
 }
