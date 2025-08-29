@@ -8,6 +8,7 @@ import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.AIAnalysis;
+import com.growit.app.retrospect.domain.goalretrospect.service.GoalRetrospectQuery;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
@@ -27,10 +28,14 @@ public class CreateGoalRetrospectUseCase {
   private final ToDoQuery toDoQuery;
   private final AIAnalysis aiAnalysis;
   private final GoalRetrospectRepository goalRetrospectRepository;
+  private final GoalRetrospectQuery goalRetrospectQuery;
   private final RetrospectQuery retrospectQuery;
 
   @Transactional
   public String execute(CreateGoalRetrospectCommand command) {
+    if (goalRetrospectQuery.isExistsByGoalId(command.goalId())) {
+      throw new BadRequestException("이미 목표 회고가 존재합니다"); // message unicode 변경으로 인한 메세지 지정
+    }
     final Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
     if (!goal.finished()) {
       throw new BadRequestException(ErrorCode.GOAL_RETROSPECT_GOAL_NOT_COMPLETED.getCode());
