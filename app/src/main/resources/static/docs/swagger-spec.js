@@ -140,7 +140,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-08-25\",\n        \"endDate\" : \"2025-08-31\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"H-OfiH8pOxXa4VqmktFbr\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-08-25\",\n        \"endDate\" : \"2025-08-31\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"_ST4yR_2KnxeHsfccLMSa\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -211,7 +211,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"CwCg4VGp3rJjLEjf16XO_\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"lUVa8rp-a_9IjFwKnv3Dj\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -296,7 +296,7 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/goals-id70548334"
+                "$ref" : "#/components/schemas/goals70548334"
               },
               "examples" : {
                 "create-goal" : {
@@ -316,7 +316,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"zSeEWWLERWRVYVFyWgoTi\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"dXgvS_X71JKGnaq5LeO_z\"\n  }\n}"
                   }
                 }
               }
@@ -376,7 +376,7 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/goals-id70548334"
+                "$ref" : "#/components/schemas/goals70548334"
               },
               "examples" : {
                 "update-goal" : {
@@ -768,10 +768,10 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-today-mission" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-25\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-25\",\n    \"isCompleted\" : false\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-29\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-29\",\n    \"isCompleted\" : false\n  } ]\n}"
                   },
                   "get-weekly-plan" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-08-25\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-08-29\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
                   }
                 }
               }
@@ -792,7 +792,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-08-25\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-08-29\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -842,7 +842,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-25\",\n    \"isCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-29\",\n    \"isCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -872,7 +872,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-08-25\",\n  \"content\" : \"수정된 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-08-29\",\n  \"content\" : \"수정된 내용\"\n}"
                 }
               }
             }
@@ -1487,6 +1487,20 @@ window.swaggerSpec={
           }
         }
       },
+      "goals574842772" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              }
+            }
+          }
+        }
+      },
       "todos1427672143" : {
         "type" : "object",
         "properties" : {
@@ -1648,20 +1662,6 @@ window.swaggerSpec={
           }
         }
       },
-      "goals574842772" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "id" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              }
-            }
-          }
-        }
-      },
       "goal-retrospects-1650437255" : {
         "type" : "object",
         "properties" : {
@@ -1676,7 +1676,7 @@ window.swaggerSpec={
           }
         }
       },
-      "goals-id70548334" : {
+      "goals70548334" : {
         "type" : "object",
         "properties" : {
           "duration" : {
