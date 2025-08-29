@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.24.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.24.0...v1.24.1) (2025-08-29)
+
+
+### Bug Fixes
+
+* **goalretrospect:** 목표 회고 생성시 이미 존재 여부 확인 로직 추가 ([9187a33](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9187a333e82f4c51c20abf37bab2f3f828822830))
+* **goalretrospect:** 목표 회고 생성시 이미 존재 여부 확인 로직 추가 ([4c184ef](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4c184ef584c0f6731f733d272e8218cd39c4e424)), closes [#218](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/218)
+
 ## [1.24.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.23.0...v1.24.0) (2025-08-25)
 
 
