@@ -1,6 +1,8 @@
 package com.growit.app.fake.mission;
 
 import com.growit.app.mission.domain.Mission;
+import com.growit.app.mission.domain.vo.MissionType;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 public class MissionFixture {
@@ -40,14 +42,24 @@ public class MissionFixture {
   public static Mission missionWithCreatedAt(LocalDateTime createdAt) {
     return new MissionBuilder().createdAt(createdAt).build();
   }
+
+  public static Mission missionWithType(MissionType type) {
+    return new MissionBuilder().type(type).build();
+  }
+
+  public static Mission missionWithDayOfWeek(DayOfWeek dayOfWeek) {
+    return new MissionBuilder().dayOfWeek(dayOfWeek).build();
+  }
 }
 
 class MissionBuilder {
   private String id = "mission-1";
   private String userId = "user-1";
-  private String content = "finished ToDo";
+  private String content = "오늘의 투두 작성하기";
   private boolean finished = false;
   private LocalDateTime createdAt = LocalDateTime.now();
+  private DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
+  private MissionType type = MissionType.DAILY_TODO_WRITE;
 
   public MissionBuilder id(String id) {
     this.id = id;
@@ -74,7 +86,23 @@ class MissionBuilder {
     return this;
   }
 
+  public MissionBuilder dayOfWeek(DayOfWeek dayOfWeek) {
+    this.dayOfWeek = dayOfWeek;
+    return this;
+  }
+
+  public MissionBuilder type(MissionType type) {
+    this.type = type;
+    return this;
+  }
+
   public Mission build() {
-    return Mission.builder().id(id).userId(userId).content(content).finished(finished).build();
+    return Mission.builder()
+        .id(id)
+        .content(content)
+        .finished(finished)
+        .dayOfWeek(dayOfWeek)
+        .type(type)
+        .build();
   }
 }
