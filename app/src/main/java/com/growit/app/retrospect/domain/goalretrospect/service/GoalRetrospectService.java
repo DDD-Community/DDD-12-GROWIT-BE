@@ -18,4 +18,16 @@ public class GoalRetrospectService implements GoalRetrospectQuery {
         .findById(id)
         .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
   }
+
+  @Override
+  public boolean isExistsByGoalId(String goalId) {
+    try {
+      goalRetrospectRepository
+          .findByGoalId(goalId)
+          .orElseThrow(() -> new NotFoundException(ErrorCode.RETROSPECT_NOT_FOUND.getCode()));
+      return true;
+    } catch (NotFoundException e) {
+      return false;
+    }
+  }
 }

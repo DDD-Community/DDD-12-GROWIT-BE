@@ -13,6 +13,7 @@ import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.AIAnalysis;
+import com.growit.app.retrospect.domain.goalretrospect.service.GoalRetrospectQuery;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
 import com.growit.app.retrospect.usecase.goalretrospect.CreateGoalRetrospectUseCase;
@@ -30,6 +31,7 @@ class CreateGoalRetrospectUseCaseTest {
   @Mock private ToDoQuery toDoQuery;
   @Mock private AIAnalysis aiAnalysis;
   @Mock private GoalRetrospectRepository goalRetrospectRepository;
+  @Mock private GoalRetrospectQuery goalRetrospectQuery;
   @Mock private RetrospectQuery retrospectQuery;
 
   @InjectMocks private CreateGoalRetrospectUseCase useCase;
@@ -39,7 +41,7 @@ class CreateGoalRetrospectUseCaseTest {
     // given
     Goal goal = GoalFixture.defaultGoal();
     goal.updateByGoalUpdateStatus(GoalUpdateStatus.ENDED);
-
+    when(goalRetrospectQuery.isExistsByGoalId(goal.getId())).thenReturn(false);
     when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
     CreateGoalRetrospectCommand command =
         new CreateGoalRetrospectCommand(goal.getUserId(), goal.getId());
@@ -55,7 +57,7 @@ class CreateGoalRetrospectUseCaseTest {
     // given
     Goal goal = GoalFixture.defaultGoal();
     goal.updateByGoalUpdateStatus(GoalUpdateStatus.UPDATABLE);
-
+    when(goalRetrospectQuery.isExistsByGoalId(goal.getId())).thenReturn(false);
     when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
     CreateGoalRetrospectCommand command =
         new CreateGoalRetrospectCommand(goal.getUserId(), goal.getId());
