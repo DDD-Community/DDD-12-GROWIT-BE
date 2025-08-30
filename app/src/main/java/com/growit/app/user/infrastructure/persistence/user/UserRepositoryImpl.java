@@ -5,8 +5,12 @@ import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
 import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -34,5 +38,12 @@ public class UserRepositoryImpl implements UserRepository {
     } else {
       dbUserRepository.save(userDBMapper.toEntity(user));
     }
+  }
+
+  @Override
+  public Page<User> findAll(Pageable pageable) {
+    Page<UserEntity> page = dbUserRepository.findAll(pageable);
+    List<User> content = page.getContent().stream().map(userDBMapper::toDomain).toList();
+    return new PageImpl<>(content, pageable, page.getTotalElements());
   }
 }

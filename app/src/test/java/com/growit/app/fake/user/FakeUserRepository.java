@@ -6,6 +6,8 @@ import com.growit.app.user.domain.user.vo.Email;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public class FakeUserRepository implements UserRepository {
   private final Map<String, User> store = new ConcurrentHashMap<>();
@@ -23,5 +25,10 @@ public class FakeUserRepository implements UserRepository {
   @Override
   public void saveUser(User user) {
     store.put(user.getId(), user);
+  }
+
+  @Override
+  public Page<User> findAll(Pageable pageable) {
+    return null;
   }
 }
