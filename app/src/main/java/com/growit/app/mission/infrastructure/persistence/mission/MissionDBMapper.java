@@ -11,7 +11,6 @@ public class MissionDBMapper {
     if (mission == null) return null;
     return MissionEntity.builder()
         .uid(mission.getId())
-        .userId(mission.getUserId())
         .content(mission.getContent())
         .finished(mission.isFinished())
         .build();

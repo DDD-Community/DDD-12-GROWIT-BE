@@ -1,8 +1,11 @@
 package com.growit.app.mission.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.growit.app.common.util.IDGenerator;
-import com.growit.app.mission.domain.dto.CreateMissionCommand;
+import com.growit.app.goal.domain.goal.plan.Plan;
+import com.growit.app.mission.domain.vo.MissionType;
+import com.growit.app.retrospect.domain.retrospect.Retrospect;
+import com.growit.app.todo.domain.ToDo;
+import java.time.DayOfWeek;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,20 +15,40 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Mission {
   private String id;
-  private boolean finished;
+  private DayOfWeek dayOfWeek;
   private String content;
-  @JsonIgnore private String userId;
-
-  public static Mission from(CreateMissionCommand command, String userId) {
-    return Mission.builder()
-        .id(IDGenerator.generateId())
-        .content(command.content())
-        .finished(command.finished())
-        .userId(userId)
-        .build();
-  }
+  private MissionType type;
+  private boolean finished;
 
   public void finished(boolean finished) {
     this.finished = finished;
+  }
+
+  public static Mission missionStatus(
+      MissionType type, DayOfWeek day, List<ToDo> toDoList, Retrospect retrospect, Plan plan) {
+    boolean isFinished =
+        switch (type) {
+          case DAILY_TODO_WRITE ->
+              // 투두가 하나라도 작성되어 있으면 완료
+              !toDoList.isEmpty();
+          case DAILY_TODO_COMPLETE ->
+              // 모든 투두가 완료되었으면 완료
+              !toDoList.isEmpty() && toDoList.stream().allMatch(ToDo::isCompleted);
+          case WEEKLY_GOAL_WRITE ->
+              // 주간 목표가 설정되어 있으면 완료
+              plan != null && plan.getContent() != null && !plan.getContent().trim().isEmpty();
+          case WEEKLY_RETROSPECT_WRITE ->
+              // 회고가 작성되어 있으면 완료
+              retrospect != null
+                  && retrospect.getContent() != null
+                  && !retrospect.getContent().trim().isEmpty();
+        };
+
+    return Mission.builder()
+        .dayOfWeek(day)
+        .content(type.getLabel())
+        .type(type)
+        .finished(isFinished)
+        .build();
   }
 }
