@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.24.1...v1.25.0) (2025-08-30)
+
+
+### Features
+
+* Mission 로직 수정 ([f936d8a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f936d8abb55790b5f335f9d6414d75483c8156c7))
+
+
+### Bug Fixes
+
+* 충돌해결 ([8c853c7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8c853c73d3202762eb9ef3b810fb87fd665693aa))
+
 ## [1.24.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.24.0...v1.24.1) (2025-08-29)
 
 
