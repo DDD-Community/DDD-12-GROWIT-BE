@@ -13,4 +13,6 @@ public interface UserRepository {
   void saveUser(User user);
 
   Page<User> findAll(Pageable pageable);
+
+  Optional<User> findByProviderAndProviderId(String provider, String providerId);
 }

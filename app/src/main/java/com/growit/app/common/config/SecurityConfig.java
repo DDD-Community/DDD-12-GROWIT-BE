@@ -1,6 +1,7 @@
 package com.growit.app.common.config;
 
 import com.growit.app.common.config.jwt.JwtFilter;
+import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
 import com.growit.app.user.domain.token.service.TokenGenerator;
 import com.growit.app.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ public class SecurityConfig {
   private final TokenGenerator tokenGenerator;
   private final UserRepository userRepository;
 
+  private final KakaoOAuth2UserService kakaoOAuth2UserService;
+
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -41,6 +45,7 @@ public class SecurityConfig {
             auth ->
                 auth.requestMatchers(
                         "/actuator/**",
+                        "/oauth2/**",
                         "/auth/**",
                         "/h2-console/**",
                         "/resource/**",
@@ -49,6 +54,10 @@ public class SecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
+      .oauth2Login(oauth -> oauth
+        .loginPage("/login")  // 커스텀 로그인 페이지가 없으면 생략 가능
+        .userInfoEndpoint(u -> u.userService(kakaoOAuth2UserService))
+      )
         .addFilterBefore(new JwtFilter(tokenGenerator, userRepository), AuthorizationFilter.class)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

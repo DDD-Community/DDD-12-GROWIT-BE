@@ -17,10 +17,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/auth")
@@ -39,6 +37,11 @@ public class AuthController {
         requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
     signUpUseCase.execute(signUpCommand, requiredConsentCommand);
     return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  @GetMapping("/signin/kakao")
+  public RedirectView loginWithKakao() {
+    return new RedirectView("/oauth2/authorization/kakao");
   }
 
   @PostMapping("/signin")
