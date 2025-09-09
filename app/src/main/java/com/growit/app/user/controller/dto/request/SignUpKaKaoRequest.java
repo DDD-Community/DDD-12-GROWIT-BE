@@ -1,21 +1,19 @@
 package com.growit.app.user.controller.dto.request;
 
 import com.growit.app.user.domain.user.vo.CareerYear;
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class SignUpRequest {
+public class SignUpKaKaoRequest {
   @NotBlank(message = "{validation.signup.email.required}")
   @Email(message = "{validation.signup.email.invalid}")
   private String email;
-
-  @NotBlank(message = "{validation.signup.password.required}")
-  @Size(min = 8, message = "{validation.signup.password.size}")
-  private String password;
 
   @NotBlank(message = "{validation.user.name.required}")
   @Size(min = 2, message = "{validation.user.name.size}")
@@ -30,4 +28,6 @@ public class SignUpRequest {
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
 
+  @NotNull
+  private OAuthDto oauth;
 }

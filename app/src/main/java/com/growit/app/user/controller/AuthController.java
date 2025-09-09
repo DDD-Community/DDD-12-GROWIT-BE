@@ -3,6 +3,7 @@ package com.growit.app.user.controller;
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInRequest;
+import com.growit.app.user.controller.dto.request.SignUpKaKaoRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
@@ -10,6 +11,7 @@ import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
+import com.growit.app.user.usecase.OAuthSignUpUseCase;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+  private final OAuthSignUpUseCase oAuthSignUpUseCase;
   private final SignUpUseCase signUpUseCase;
   private final SignInUseCase signInUseCase;
   private final ReissueUseCase reissueUseCase;
@@ -39,16 +42,25 @@ public class AuthController {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  @GetMapping("/signin/kakao")
-  public RedirectView loginWithKakao() {
-    return new RedirectView("/oauth2/authorization/kakao");
-  }
-
   @PostMapping("/signin")
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
       @Valid @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(requestMapper.toSignInCommand(signInRequest));
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
+  }
+
+  @PostMapping("/signup/kakao")
+  public ResponseEntity<Void> signupWithKaKao(@Valid @RequestBody SignUpKaKaoRequest signUpRequest) {
+    SignUpCommand signUpCommand = requestMapper.toSignUpCommand(signUpRequest);
+    RequiredConsentCommand requiredConsentCommand =
+      requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
+    oAuthSignUpUseCase.execute(signUpCommand, requiredConsentCommand);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  @GetMapping("/signin/kakao")
+  public RedirectView signInWithKakao() {
+    return new RedirectView("/oauth2/authorization/kakao");
   }
 
   @PostMapping("/reissue")

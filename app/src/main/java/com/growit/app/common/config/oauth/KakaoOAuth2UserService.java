@@ -1,6 +1,12 @@
 package com.growit.app.common.config.oauth;
 
+import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.user.UserRepository;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,24 +24,37 @@ import org.springframework.stereotype.Component;
 public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
-    private final OAuth2UserRegistrar oAuth2UserRegistrar;
+    private final OAuth2UserRegistrar userRegistrar;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest req) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = delegate.loadUser(req);
         String registrationId = req.getClientRegistration().getRegistrationId(); // "kakao"
 
-        Map<String, Object> attributes = oAuth2User.getAttributes();
+        Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
         KakaoProfile profile = KakaoProfile.from(attributes);
 
-        // 가입 or 로그인 처리 (도메인 User 생성/조회)
-        UserDomainPrincipal principal = oAuth2UserRegistrar.registerOrLoad(registrationId, profile);
-
-        return new DefaultOAuth2User(
-            principal.getAuthorities(),
-            attributes,
-            "id" // user-name-attribute (provider에 맞춤)
-        );
+        // 가입 지연(Deferred Signup) 처리: 기존 사용자만 주입, 없으면 pendingSignup 플래그로 반환
+        Optional<User> existing = userRegistrar.findExistingUser(registrationId, profile);
+        if (existing.isPresent()) {
+            User user = existing.get();
+            attributes.put("user", user);
+            return new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("USER")),
+                attributes,
+                "id"
+            );
+        } else {
+            attributes.put("pendingSignup", true);
+            attributes.put("provider", "kakao");
+            attributes.put("providerId", profile.getProviderId());
+            attributes.put("email", profile.getEmail());
+            return new DefaultOAuth2User(
+                List.of(),
+                attributes,
+                "id"
+            );
+        }
     }
 
     @Getter

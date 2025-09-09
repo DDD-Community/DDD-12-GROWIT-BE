@@ -14,5 +14,5 @@ public interface UserRepository {
 
   Page<User> findAll(Pageable pageable);
 
-  Optional<User> findByProviderAndProviderId(String provider, String providerId);
+  Optional<User> findExistingUser(String provider, String providerId);
 }

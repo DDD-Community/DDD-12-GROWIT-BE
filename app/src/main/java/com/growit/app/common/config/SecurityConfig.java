@@ -2,6 +2,8 @@ package com.growit.app.common.config;
 
 import com.growit.app.common.config.jwt.JwtFilter;
 import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
+import com.growit.app.common.config.oauth.OAuth2LoginFailureHandler;
+import com.growit.app.common.config.oauth.OAuth2LoginSuccessHandler;
 import com.growit.app.user.domain.token.service.TokenGenerator;
 import com.growit.app.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.RequestCac
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
@@ -25,6 +28,8 @@ public class SecurityConfig {
   private final UserRepository userRepository;
 
   private final KakaoOAuth2UserService kakaoOAuth2UserService;
+  private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+  private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 
 
   @Bean
@@ -55,8 +60,9 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated())
       .oauth2Login(oauth -> oauth
-        .loginPage("/login")  // 커스텀 로그인 페이지가 없으면 생략 가능
         .userInfoEndpoint(u -> u.userService(kakaoOAuth2UserService))
+        .successHandler(oAuth2LoginSuccessHandler)
+        .failureHandler(oAuth2LoginFailureHandler)
       )
         .addFilterBefore(new JwtFilter(tokenGenerator, userRepository), AuthorizationFilter.class)
         .sessionManagement(

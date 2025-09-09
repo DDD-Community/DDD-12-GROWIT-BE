@@ -8,22 +8,61 @@ import com.growit.app.user.domain.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import org.springframework.stereotype.Component;
+import java.util.Map;
 
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-  private TokenService tokenService;
+  private final TokenService tokenService;
+
+  public OAuth2LoginSuccessHandler(TokenService tokenService) {
+    this.tokenService = tokenService;
+  }
+
   @Override
   public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException {
-    Token token = tokenService.createToken((User)authentication.getPrincipal());
+    if (authentication.getPrincipal() instanceof OAuth2User oAuth2User) {
+      Object pending = oAuth2User.getAttributes().get("pendingSignup");
+      if (Boolean.TRUE.equals(pending)) {
+        // 아직 가입 전: 토큰 발급하지 않고 needsSignup 응답 반환
+        res.setStatus(HttpServletResponse.SC_OK);
+        res.setContentType("application/json;charset=UTF-8");
+        new ObjectMapper().writeValue(res.getWriter(), Map.of(
+            "result", "needsSignup",
+            "provider", oAuth2User.getAttributes().get("provider"),
+            "providerId", oAuth2User.getAttributes().get("providerId"),
+            "email", oAuth2User.getAttributes().get("email")
+        ));
+        return;
+      }
+    }
+
+    // 정상 가입된 사용자일 경우 토큰 발급
+    Object principal = authentication.getPrincipal();
+    User user;
+    if (principal instanceof OAuth2User oAuth2User) {
+      Object attrUser = oAuth2User.getAttributes().get("user");
+      if (attrUser instanceof User u) {
+        user = u;
+      } else {
+        throw new IllegalStateException("OAuth2User does not contain domain User");
+      }
+    } else if (principal instanceof User u) {
+      user = u;
+    } else {
+      throw new IllegalStateException("Unsupported principal: " + principal);
+    }
+
+    Token token = tokenService.createToken(user);
     TokenResponse tokenResponse = TokenResponse.builder()
-      .accessToken(token.accessToken())
-      .refreshToken(token.refreshToken())
-      .build();
+        .accessToken(token.accessToken())
+        .refreshToken(token.refreshToken())
+        .build();
 
     res.setStatus(HttpServletResponse.SC_OK);
     res.setContentType("application/json;charset=UTF-8");

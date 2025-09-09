@@ -1,5 +1,6 @@
 package com.growit.app.common.config.oauth;
 
+import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.Email;
@@ -16,32 +17,20 @@ public class OAuth2UserRegistrar {
   public OAuth2UserRegistrar(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
+  /**
+   * 기존 사용자 조회 전용 메서드 (지연 가입 플로우)
+   * provider+providerId 또는 email 기준으로 기존 User를 찾는다. 저장하지 않는다.
+   */
+  @Transactional(readOnly = true)
+  public Optional<User> findExistingUser(String provider, KakaoOAuth2UserService.KakaoProfile profile) {
+    // 1) provider + providerId 로 조회
+    Optional<User> byAccount = userRepository.findExistingUser(provider, profile.getProviderId());
+    if (byAccount.isPresent()) return byAccount;
 
-  @Transactional
-  public UserDomainPrincipal registerOrLoad(String provider, KakaoOAuth2UserService.KakaoProfile profile) {
-    // 1) 소셜 계정 존재 여부 확인 (provider + providerId)
-    Optional<User> foundAccount = userRepository.findByProviderAndProviderId(provider, profile.getProviderId());
-    User user = null;
-    if (foundAccount.isPresent()) {
-      // 기존 연결된 사용자 반환
-      user = foundAccount.get();
-    } else {
-      // 2) 이메일 제공 시 기존 사용자와 병합 (보수적으로 이메일이 존재하는 경우에만)
-        Optional<User> byEmail = userRepository.findByEmail(new Email(profile.getEmail()));
-        if (byEmail.isPresent()) {
-          user = byEmail.get();
-        }
-//        else {
-//          // 3) 신규 사용자 생성
-//          user = new User();
-//          user.setEmail(profile.getEmail()); // null 가능성 고려
-//          user.setName(profile.getNickname());
-//          user.setProfileImageUrl(profile.getProfileImage());
-//          user.setRole(Role.USER);
-//          user = userRepository.save(user);
-//        }
+    // 2) 이메일이 있는 경우 이메일로 조회 (보수적으로)
+    if (profile.getEmail() != null && !profile.getEmail().isBlank()) {
+      return userRepository.findByEmail(new Email(profile.getEmail()));
     }
-
-    return UserDomainPrincipal.from(user);
+    return Optional.empty();
   }
 }
