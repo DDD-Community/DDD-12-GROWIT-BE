@@ -49,7 +49,9 @@ public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserReque
             attributes.put("provider", "kakao");
             attributes.put("providerId", profile.getProviderId());
             attributes.put("email", profile.getEmail());
-            return new DefaultOAuth2User(
+          attributes.put("nickName", profile.getNickname());
+
+          return new DefaultOAuth2User(
                 List.of(),
                 attributes,
                 "id"

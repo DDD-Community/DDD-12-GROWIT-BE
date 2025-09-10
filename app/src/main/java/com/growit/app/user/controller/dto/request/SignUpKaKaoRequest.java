@@ -11,10 +11,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class SignUpKaKaoRequest {
-  @NotBlank(message = "{validation.signup.email.required}")
-  @Email(message = "{validation.signup.email.invalid}")
-  private String email;
-
   @NotBlank(message = "{validation.user.name.required}")
   @Size(min = 2, message = "{validation.user.name.size}")
   private String name;
@@ -29,5 +25,5 @@ public class SignUpKaKaoRequest {
   private RequiredConsentRequest requiredConsent;
 
   @NotNull
-  private OAuthDto oauth;
+  private String registrationToken;
 }

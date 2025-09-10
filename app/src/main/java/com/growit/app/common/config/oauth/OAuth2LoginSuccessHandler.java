@@ -32,11 +32,14 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         // 아직 가입 전: 토큰 발급하지 않고 needsSignup 응답 반환
         res.setStatus(HttpServletResponse.SC_OK);
         res.setContentType("application/json;charset=UTF-8");
+        String provider = (String)oAuth2User.getAttributes().get("provider");
+        String providerId = (String)oAuth2User.getAttributes().get("providerId");
+        String email = (String)oAuth2User.getAttributes().get("email");
+        String regToken = tokenService.createRegistrationToken(provider, providerId, email);
         new ObjectMapper().writeValue(res.getWriter(), Map.of(
-            "result", "needsSignup",
-            "provider", oAuth2User.getAttributes().get("provider"),
-            "providerId", oAuth2User.getAttributes().get("providerId"),
-            "email", oAuth2User.getAttributes().get("email")
+            "registrationToken", regToken,
+          "name", oAuth2User.getAttributes().get("nickName"),
+          "email", email
         ));
         return;
       }

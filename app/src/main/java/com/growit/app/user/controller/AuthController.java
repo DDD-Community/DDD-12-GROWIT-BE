@@ -11,6 +11,7 @@ import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
+import com.growit.app.user.domain.user.dto.SignUpKaKaoCommand;
 import com.growit.app.user.usecase.OAuthSignUpUseCase;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
@@ -51,7 +52,7 @@ public class AuthController {
 
   @PostMapping("/signup/kakao")
   public ResponseEntity<Void> signupWithKaKao(@Valid @RequestBody SignUpKaKaoRequest signUpRequest) {
-    SignUpCommand signUpCommand = requestMapper.toSignUpCommand(signUpRequest);
+    SignUpKaKaoCommand signUpCommand = requestMapper.toSignUpKaKaoCommand(signUpRequest);
     RequiredConsentCommand requiredConsentCommand =
       requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
     oAuthSignUpUseCase.execute(signUpCommand, requiredConsentCommand);

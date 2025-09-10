@@ -19,14 +19,12 @@ public class RequestMapper {
       null);
   }
 
-  public SignUpCommand toSignUpCommand(SignUpKaKaoRequest request) {
-    return new SignUpCommand(
-      new Email(request.getEmail()),
-      "",
+  public SignUpKaKaoCommand toSignUpKaKaoCommand(SignUpKaKaoRequest request) {
+    return new SignUpKaKaoCommand(
       request.getName(),
       request.getJobRoleId(),
       request.getCareerYear(),
-      new OAuth(request.getOauth().getProvider(), request.getOauth().getProviderId()));
+      request.getRegistrationToken());
   }
 
   public SignInCommand toSignInCommand(SignInRequest request) {

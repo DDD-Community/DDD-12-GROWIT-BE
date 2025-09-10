@@ -3,7 +3,9 @@ package com.growit.app.user.infrastructure.persistence.user;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
+import com.growit.app.user.infrastructure.persistence.user.source.DBOAuthAccountRepository;
 import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
+import com.growit.app.user.infrastructure.persistence.user.source.entity.OAuthAccountEntity;
 import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Repository;
 public class UserRepositoryImpl implements UserRepository {
   private final UserDBMapper userDBMapper;
   private final DBUserRepository dbUserRepository;
+  private final DBOAuthAccountRepository dboAuthAccountRepository;
 
   @Override
   public Optional<User> findByEmail(Email email) {
@@ -45,5 +48,12 @@ public class UserRepositoryImpl implements UserRepository {
     Page<UserEntity> page = dbUserRepository.findAll(pageable);
     List<User> content = page.getContent().stream().map(userDBMapper::toDomain).toList();
     return new PageImpl<>(content, pageable, page.getTotalElements());
+  }
+
+  @Override
+  public Optional<User> findExistingUser(String provider, String providerId) {
+    Optional<OAuthAccountEntity> oAuthAccount = dboAuthAccountRepository.findByProviderAndProviderId(provider, providerId);
+
+    return oAuthAccount.flatMap(oAuthAccountEntity -> dbUserRepository.findByUid(oAuthAccountEntity.getUserId()).map(userDBMapper::toDomain));
   }
 }

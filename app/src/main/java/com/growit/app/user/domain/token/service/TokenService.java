@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
     return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
   }
 
-  private Claims parseClaims(String token) {
+  public Claims parseClaims(String token) {
     try {
       return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
 
@@ -41,6 +42,16 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
     final Claims claims = Jwts.claims();
     claims.put("id", id);
 
+    return claims;
+  }
+
+  private Claims createRegistrationClaims(String provider, String providerId, String email) {
+    final Claims claims = Jwts.claims();
+    claims.put("type", "registration");
+    claims.put("provider", provider);
+    claims.put("providerId", providerId);
+    if (email != null) claims.put("email", email);
+    claims.put("jti", UUID.randomUUID().toString());
     return claims;
   }
 
@@ -116,4 +127,15 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
             },
             () -> userTokenRepository.saveUserToken(UserToken.from(userId, token.refreshToken())));
   }
+
+  /**
+   * Create short-lived registration token used for deferred signup flow.
+   * Encodes provider/providerId/email and a type="registration" claim.
+   */
+  public String createRegistrationToken(String provider, String providerId, String email) {
+    final Claims claims = createRegistrationClaims(provider, providerId, email);
+    // 5 minutes TTL for registration token
+    return createToken(claims, 300);
+  }
+
 }
