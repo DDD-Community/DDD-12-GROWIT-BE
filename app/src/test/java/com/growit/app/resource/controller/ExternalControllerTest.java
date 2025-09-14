@@ -3,23 +3,19 @@ package com.growit.app.resource.controller;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.fake.resource.JobRoleFixture;
-import com.growit.app.fake.resource.SayingFixture;
-import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.fake.resource.InvitationFixture;
 import com.growit.app.resource.usecase.CreateInvitationUseCase;
-import com.growit.app.resource.usecase.GetSayingUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -31,12 +27,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-class ResourceControllerTest {
+class ExternalControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockitoBean private JobRoleRepository jobRoleRepository;
-  @MockitoBean private GetSayingUseCase getSayingUseCase;
   @MockitoBean private CreateInvitationUseCase createInvitationUseCase;
 
   @BeforeEach
@@ -48,46 +42,30 @@ class ResourceControllerTest {
   }
 
   @Test
-  void getJobRoles() throws Exception {
-    given(jobRoleRepository.findAll()).willReturn(JobRoleFixture.defaultJobRoles());
+  void createInvitation() throws Exception {
+    String requestBody = InvitationFixture.validInvitationRequestBody();
 
     mockMvc
-        .perform(get("/resource/jobroles"))
+        .perform(
+            post("/externals/invitations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
         .andExpect(status().isOk())
         .andDo(
             document(
-                "get-job-roles",
+                "create-invitation",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("JobRole")
-                        .summary("전체 직무 목록 조회")
+                        .tag("Invitation")
+                        .summary("초대장 요청 생성")
+                        .requestFields(
+                            fieldWithPath("phone")
+                                .type(STRING)
+                                .description("전화번호 (010-1234-5678 형식)"))
                         .responseFields(
-                            fieldWithPath("data.jobRoles[].id").type(STRING).description("직무 ID"),
-                            fieldWithPath("data.jobRoles[].name").type(STRING).description("직무 이름"))
-                        .build())));
-  }
-
-  @Test
-  void getSaying() throws Exception {
-    given(getSayingUseCase.execute()).willReturn(SayingFixture.defaultSaying());
-
-    mockMvc
-        .perform(get("/resource/saying"))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-saying",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Saying")
-                        .summary("격언 조회")
-                        .responseFields(
-                            fieldWithPath("data.message").type(STRING).description("격언 내용"),
-                            fieldWithPath("data.from").type(STRING).description("격언 출처"))
+                            fieldWithPath("data.message").type(STRING).description("응답 메시지"))
                         .build())));
   }
 }
