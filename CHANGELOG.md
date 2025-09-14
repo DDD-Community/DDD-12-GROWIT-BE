@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.26.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.25.0...v1.26.0) (2025-09-14)
+
+
+### Features
+
+* **224/invitation:** DTO 및 컨트롤러 응답 구조 개선 ([9fab36d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9fab36d30275e0991398e4054d534e849a4bba42))
+* **224/invitation:** 초대장 생성 API 및 디스코드 알림 기능 추가 ([2d01458](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2d01458100287ccbb04348197649d085255408f5))
+* **224/invitation:** 초대장 생성 API 및 디스코드 알림 기능 추가 ([b1517bf](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b1517bf02572b1bf8a5362a322437a7d97ed222e))
+* 오늘의 미션(퀘스트) 기능 구현 ([8719c5f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8719c5f98ddc24e45af99c8694d0993e9429bc2b))
+* 오늘의 미션(퀘스트) 기능 구현 ([7a68a56](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7a68a568cb5fd7b5f2eeb4c4694992c5defd480e))
+
+
+### Bug Fixes
+
+* InvitationRequest에서 휴대폰 번호 패턴 검증 제거 ([#224](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/224)) ([aba0273](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/aba0273a8b0dd0124965422673712ece2a319e20))
+* InvitationRequest에서 휴대폰 번호 패턴 검증 제거 ([#224](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/224)) ([a9463ea](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a9463ea56c90f925703e345eb422142037ae5945))
+
 ## [1.25.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.24.1...v1.25.0) (2025-08-30)
 
 
