@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.goalretrospect.GoalRetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -48,6 +50,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
 @ActiveProfiles("test")
+@Import({TestSecurityConfig.class})
 class GoalRetrospectControllerTest {
   private MockMvc mockMvc;
 

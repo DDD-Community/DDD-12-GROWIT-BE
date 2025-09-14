@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.mission.MissionFixture;
 import com.growit.app.mission.domain.Mission;
 import com.growit.app.mission.domain.vo.MissionType;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -36,6 +38,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
 @ActiveProfiles("test")
+@Import({TestSecurityConfig.class})
 class MissionControllerTest {
 
   private MockMvc mockMvc;

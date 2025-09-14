@@ -5,25 +5,22 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
-import com.growit.app.fake.resource.InvitationFixture;
+import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.resource.JobRoleFixture;
 import com.growit.app.fake.resource.SayingFixture;
 import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
-import com.growit.app.resource.usecase.CreateInvitationUseCase;
 import com.growit.app.resource.usecase.GetSayingUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -37,6 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
 @ActiveProfiles("test")
+@Import(TestSecurityConfig.class)
 class ResourceControllerTest {
 
   private MockMvc mockMvc;

@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.resource.domain.jobrole.JobRole;
 import com.growit.app.user.controller.dto.request.UpdateUserRequest;
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -47,6 +49,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
 @ActiveProfiles("test")
+@Import(TestSecurityConfig.class)
 class UserControllerTest {
 
   private MockMvc mockMvc;

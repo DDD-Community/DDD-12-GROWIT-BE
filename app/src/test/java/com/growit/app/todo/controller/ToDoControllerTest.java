@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
+import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoRepositoryConfig;
@@ -58,7 +59,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
 @ActiveProfiles("test")
-@Import({FakeToDoRepositoryConfig.class})
+@Import({FakeToDoRepositoryConfig.class, TestSecurityConfig.class})
 class ToDoControllerTest {
   private MockMvc mockMvc;
 
