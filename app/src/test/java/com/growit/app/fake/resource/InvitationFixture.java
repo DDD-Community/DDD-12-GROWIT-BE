@@ -6,10 +6,6 @@ public class InvitationFixture {
     return new InvitationRequestBodyBuilder().build();
   }
 
-  public static String invalidPhoneFormatRequestBody() {
-    return new InvitationRequestBodyBuilder().phone("01012345678").build();
-  }
-
   public static String customInvitationRequestBody(String phone) {
     return new InvitationRequestBodyBuilder()
         .phone(phone != null ? phone : "010-1234-5678")

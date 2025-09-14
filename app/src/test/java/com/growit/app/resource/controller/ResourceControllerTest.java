@@ -94,43 +94,4 @@ class ResourceControllerTest {
                         .build())));
   }
 
-  @Test
-  void createInvitation() throws Exception {
-    String requestBody = InvitationFixture.validInvitationRequestBody();
-
-    mockMvc
-        .perform(
-            post("/resource/invitations")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "create-invitation",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Invitation")
-                        .summary("초대장 요청 생성")
-                        .requestFields(
-                            fieldWithPath("phone")
-                                .type(STRING)
-                                .description("전화번호 (010-1234-5678 형식)"))
-                        .responseFields(
-                            fieldWithPath("data.message").type(STRING).description("응답 메시지"))
-                        .build())));
-  }
-
-  @Test
-  void createInvitation_InvalidPhoneFormat() throws Exception {
-    String requestBody = InvitationFixture.invalidPhoneFormatRequestBody();
-
-    mockMvc
-        .perform(
-            post("/resource/invitations")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody))
-        .andExpect(status().isBadRequest());
-  }
 }

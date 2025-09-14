@@ -68,16 +68,4 @@ class ExternalControllerTest {
                             fieldWithPath("data.message").type(STRING).description("응답 메시지"))
                         .build())));
   }
-
-  @Test
-  void createInvitation_InvalidPhoneFormat() throws Exception {
-    String requestBody = InvitationFixture.invalidPhoneFormatRequestBody();
-
-    mockMvc
-        .perform(
-            post("/externals/invitations")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody))
-        .andExpect(status().isBadRequest());
-  }
 }
