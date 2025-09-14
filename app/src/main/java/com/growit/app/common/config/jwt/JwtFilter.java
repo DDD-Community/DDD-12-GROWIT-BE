@@ -37,6 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
           || uri.startsWith("/h2-console")
           || uri.startsWith("/swagger-ui")
           || uri.startsWith("/static")
+          || uri.startsWith("/externals")
           || uri.startsWith("/resource")) {
         filterChain.doFilter(request, response);
         return;
