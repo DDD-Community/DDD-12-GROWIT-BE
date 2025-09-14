@@ -3,6 +3,7 @@ package com.growit.app.resource.controller;
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.util.message.MessageService;
 import com.growit.app.resource.controller.dto.request.InvitationRequest;
+import com.growit.app.resource.controller.dto.response.InvitationResponse;
 import com.growit.app.resource.controller.dto.response.SayingResponse;
 import com.growit.app.resource.controller.mapper.ResourceResponseMapper;
 import com.growit.app.resource.domain.jobrole.JobRole;
@@ -46,9 +47,10 @@ public class ResourceController {
   }
 
   @PostMapping("/invitations")
-  public ResponseEntity<ApiResponse<String>> createInvitation(
+  public ResponseEntity<ApiResponse<InvitationResponse>> createInvitation(
       @Valid @RequestBody InvitationRequest request) {
     createInvitationUseCase.execute(request.phone());
-    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.invitation.sent")));
+    String message = messageService.msg("success.invitation.sent");
+    return ResponseEntity.ok(ApiResponse.success(InvitationResponse.of(message)));
   }
 }

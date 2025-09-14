@@ -44,6 +44,7 @@ public class SecurityConfig {
                         "/auth/**",
                         "/h2-console/**",
                         "/resource/**",
+                        "/externals/**",
                         "/docs/**",
                         "/static/**")
                     .permitAll()
