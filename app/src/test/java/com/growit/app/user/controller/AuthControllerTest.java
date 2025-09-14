@@ -15,6 +15,7 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.fake.user.UserFixture;
+import com.growit.app.user.controller.dto.request.SignUpKaKaoRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
@@ -22,6 +23,7 @@ import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
+import com.growit.app.user.usecase.SignUpKaKaoUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,10 +47,12 @@ class AuthControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   @MockitoBean private SignUpUseCase signUpUseCase;
+  @MockitoBean private SignUpKaKaoUseCase signUpKaKaoUseCase;
   @MockitoBean private SignInUseCase signInUseCase;
   @MockitoBean private ReissueUseCase reissueUseCase;
   @MockitoBean private RequestMapper requestMapper;
   @MockitoBean private ResponseMapper responseMapper;
+
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -149,6 +153,43 @@ class AuthControllerTest {
                         .responseFields(
                             fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
                             fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))
+                        .build())));
+  }
+
+  @Test
+  void signupKakaoTest() throws Exception {
+    SignUpKaKaoRequest signUpKaKaoRequest = UserFixture.defaultSignUpKaKaoRequest();
+
+    mockMvc
+        .perform(
+            post("/auth/signup/kakao")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(signUpKaKaoRequest)))
+        .andExpect(status().isCreated())
+        .andDo(
+            MockMvcRestDocumentationWrapper.document(
+                "auth-signup-kakao",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Auth")
+                        .summary("카카오 회원가입")
+                        .requestFields(
+                            fieldWithPath("name").type(STRING).description("사용자 이름"),
+                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("경력 연차 (예: JUNIOR, MID, SENIOR)"),
+                            fieldWithPath("requiredConsent.privacyPolicyAgreed")
+                                .type(BOOLEAN)
+                                .description("개인정보 동의"),
+                            fieldWithPath("requiredConsent.serviceTermsAgreed")
+                                .type(BOOLEAN)
+                                .description("서비스 약관 동의"),
+                            fieldWithPath("registrationToken")
+                                .type(STRING)
+                                .description("카카오 등록 토큰"))
                         .build())));
   }
 }

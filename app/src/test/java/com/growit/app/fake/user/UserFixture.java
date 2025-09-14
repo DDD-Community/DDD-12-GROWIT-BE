@@ -56,6 +56,15 @@ public class UserFixture {
   public static ReissueRequest defaultReissueRequest() {
     return new ReissueRequest("dummy-refresh-token");
   }
+
+  public static SignUpKaKaoRequest defaultSignUpKaKaoRequest() {
+    return new SignUpKaKaoRequest(
+        "홍길동",
+        "6rOg7Zmp7IOd",
+        CareerYear.JUNIOR,
+        new RequiredConsentRequest(true, true),
+        "dummy-registration-token");
+  }
 }
 
 class UserBuilder {

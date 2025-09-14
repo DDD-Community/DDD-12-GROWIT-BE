@@ -12,7 +12,7 @@ import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.dto.SignUpKaKaoCommand;
-import com.growit.app.user.usecase.OAuthSignUpUseCase;
+import com.growit.app.user.usecase.SignUpKaKaoUseCase;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-  private final OAuthSignUpUseCase oAuthSignUpUseCase;
+  private final SignUpKaKaoUseCase signUpKaKaoUseCase;
   private final SignUpUseCase signUpUseCase;
   private final SignInUseCase signInUseCase;
   private final ReissueUseCase reissueUseCase;
@@ -55,7 +55,7 @@ public class AuthController {
     SignUpKaKaoCommand signUpCommand = requestMapper.toSignUpKaKaoCommand(signUpRequest);
     RequiredConsentCommand requiredConsentCommand =
       requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
-    oAuthSignUpUseCase.execute(signUpCommand, requiredConsentCommand);
+    signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 

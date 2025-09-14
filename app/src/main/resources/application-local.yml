@@ -32,7 +32,6 @@ spring:
         registration:
           kakao:
             client-id: ${KAKAO_CLIENT_ID}
-            client-secret: ${KAKAO_CLIENT_SECRET}     # 환경변수/Secret으로 관리 권장
             client-name: Kakao
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
