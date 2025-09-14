@@ -42,6 +42,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({
     TokenNotFoundException.class,
     InvalidTokenException.class,
+    ForbiddenException.class,
   })
   public ResponseEntity<BaseErrorResponse> handleForbiddenException(BaseException e) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN)

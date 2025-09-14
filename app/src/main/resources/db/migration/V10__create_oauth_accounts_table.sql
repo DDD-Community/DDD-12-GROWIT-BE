@@ -13,3 +13,6 @@ CREATE TABLE oauth_accounts
 
 ALTER TABLE oauth_accounts
   ADD CONSTRAINT uc_oauth_accounts_uid UNIQUE (uid);
+
+alter table users
+  alter column password drop not null;

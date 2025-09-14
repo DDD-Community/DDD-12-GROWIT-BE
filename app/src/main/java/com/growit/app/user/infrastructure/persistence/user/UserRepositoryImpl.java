@@ -56,4 +56,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     return oAuthAccount.flatMap(oAuthAccountEntity -> dbUserRepository.findByUid(oAuthAccountEntity.getUserId()).map(userDBMapper::toDomain));
   }
+
+  @Override
+  public boolean existsByUserIdAndProvider(String userId, String provider) {
+    return dboAuthAccountRepository.existsByUserIdAndProvider(userId, provider);
+  }
+
+  @Override
+  public boolean hasAnyOAuthAccount(String userId) {
+    return dboAuthAccountRepository.existsByUserId(userId);
+  }
 }

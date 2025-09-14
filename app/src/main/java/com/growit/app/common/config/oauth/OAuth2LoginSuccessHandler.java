@@ -1,10 +1,16 @@
 package com.growit.app.common.config.oauth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.growit.app.common.exception.ForbiddenException;
+import com.growit.app.common.response.ApiResponse;
+import com.growit.app.common.response.BaseErrorResponse;
+import com.growit.app.user.controller.dto.response.OAuthResponse;
 import com.growit.app.user.controller.dto.response.TokenResponse;
+import com.growit.app.user.domain.token.service.JwtClaimKeys;
 import com.growit.app.user.domain.token.service.TokenService;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
+import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -13,8 +19,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Map;
 
+@Slf4j
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -26,51 +32,75 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException {
-    if (authentication.getPrincipal() instanceof OAuth2User oAuth2User) {
-      Object pending = oAuth2User.getAttributes().get("pendingSignup");
-      if (Boolean.TRUE.equals(pending)) {
-        // 아직 가입 전: 토큰 발급하지 않고 needsSignup 응답 반환
-        res.setStatus(HttpServletResponse.SC_OK);
-        res.setContentType("application/json;charset=UTF-8");
-        String provider = (String)oAuth2User.getAttributes().get("provider");
-        String providerId = (String)oAuth2User.getAttributes().get("providerId");
-        String email = (String)oAuth2User.getAttributes().get("email");
-        String regToken = tokenService.createRegistrationToken(provider, providerId, email);
-        new ObjectMapper().writeValue(res.getWriter(), Map.of(
-            "registrationToken", regToken,
-          "name", oAuth2User.getAttributes().get("nickName"),
-          "email", email
-        ));
-        return;
+    try {
+      res.setContentType("application/json;charset=UTF-8");
+
+      if (authentication.getPrincipal() instanceof OAuth2User oAuth2User) {
+        if (isPendingSignup(oAuth2User)) {
+          handlePendingSignup(res, oAuth2User);
+          return;
+        }
+      }
+
+      User user = extractUser(authentication);
+      issueTokenResponse(res, user);
+    } catch (Exception e) {
+      handleError(res, e);
+    }
+  }
+
+  private boolean isPendingSignup(OAuth2User oAuth2User) {
+    Object pending = oAuth2User.getAttributes().get(JwtClaimKeys.PENDING_SIGNUP);
+    return Boolean.TRUE.equals(pending);
+  }
+
+  private void handlePendingSignup(HttpServletResponse res, OAuth2User oAuth2User) throws IOException {
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    String provider = (String) oAuth2User.getAttributes().get(JwtClaimKeys.PROVIDER);
+    String providerId = (String) oAuth2User.getAttributes().get(JwtClaimKeys.PROVIDER_ID);
+    String email = (String) oAuth2User.getAttributes().get(JwtClaimKeys.EMAIL);
+    String nickName = (String) oAuth2User.getAttributes().get(JwtClaimKeys.NICK_NAME);
+
+    String regToken = tokenService.createRegistrationToken(provider, providerId, email);
+    OAuthResponse response = OAuthResponse.builder()
+      .name(nickName)
+      .registrationToken(regToken)
+      .build();
+    new ObjectMapper().writeValue(res.getWriter(), ApiResponse.success(response));
+  }
+
+  private User extractUser(Authentication authentication) {
+    Object principal = authentication.getPrincipal();
+
+    if (principal instanceof OAuth2User oAuth2User) {
+      Object attrUser = oAuth2User.getAttributes().get(JwtClaimKeys.USER);
+      if (attrUser instanceof User user) {
+        return user;
       }
     }
 
-    // 정상 가입된 사용자일 경우 토큰 발급
-    Object principal = authentication.getPrincipal();
-    User user;
-    if (principal instanceof OAuth2User oAuth2User) {
-      Object attrUser = oAuth2User.getAttributes().get("user");
-      if (attrUser instanceof User u) {
-        user = u;
-      } else {
-        throw new IllegalStateException("OAuth2User does not contain domain User");
-      }
-    } else if (principal instanceof User u) {
-      user = u;
-    } else {
-      throw new IllegalStateException("Unsupported principal: " + principal);
-    }
+    throw new ForbiddenException("Unsupported authentication principal");
+  }
+
+  private void issueTokenResponse(HttpServletResponse res, User user) throws IOException {
+    res.setStatus(HttpServletResponse.SC_OK);
 
     Token token = tokenService.createToken(user);
-    TokenResponse tokenResponse = TokenResponse.builder()
+    TokenResponse response = TokenResponse.builder()
         .accessToken(token.accessToken())
         .refreshToken(token.refreshToken())
         .build();
 
-    res.setStatus(HttpServletResponse.SC_OK);
-    res.setContentType("application/json;charset=UTF-8");
+    new ObjectMapper().writeValue(res.getWriter(), ApiResponse.success(response));
+  }
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.writeValue(res.getWriter(), tokenResponse);
+  private void handleError(HttpServletResponse res, Exception e) throws IOException {
+    res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    BaseErrorResponse response = BaseErrorResponse.builder()
+      .message("OAuth2 authentication processing failed")
+      .build();
+
+    new ObjectMapper().writeValue(res.getWriter(), response);
   }
 }

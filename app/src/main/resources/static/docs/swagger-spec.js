@@ -115,6 +115,33 @@ window.swaggerSpec={
         }
       }
     },
+    "/auth/signup/kakao" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "카카오 회원가입",
+        "description" : "카카오 회원가입",
+        "operationId" : "auth-signup-kakao",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/auth-signup-kakao-290542722"
+              },
+              "examples" : {
+                "auth-signup-kakao" : {
+                  "value" : "{\n  \"name\" : \"홍길동\",\n  \"jobRoleId\" : \"6rOg7Zmp7IOd\",\n  \"careerYear\" : \"JUNIOR\",\n  \"requiredConsent\" : {\n    \"privacyPolicyAgreed\" : true,\n    \"serviceTermsAgreed\" : true\n  },\n  \"registrationToken\" : \"dummy-registration-token\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201"
+          }
+        }
+      }
+    },
     "/goal-retrospects" : {
       "get" : {
         "tags" : [ "Goal Retrospects" ],
@@ -140,7 +167,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-08-25\",\n        \"endDate\" : \"2025-08-31\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"_ST4yR_2KnxeHsfccLMSa\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-08\",\n        \"endDate\" : \"2025-09-14\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"bdoANsTZXjUzSFnDYFDRC\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -211,7 +238,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"lUVa8rp-a_9IjFwKnv3Dj\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"HPIZ9GlaSkLFf0fW3KfD2\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -279,7 +306,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goals" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-08-25\",\n      \"endDate\" : \"2025-08-31\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"NETWORKING\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-08-25\",\n        \"endDate\" : \"2025-08-31\"\n      }\n    } ]\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-08\",\n      \"endDate\" : \"2025-09-14\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"NETWORKING\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-08\",\n        \"endDate\" : \"2025-09-14\"\n      }\n    } ]\n  } ]\n}"
                   }
                 }
               }
@@ -296,11 +323,11 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/goals70548334"
+                "$ref" : "#/components/schemas/goals-id70548334"
               },
               "examples" : {
                 "create-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-01\",\n    \"endDate\" : \"2025-09-28\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"NETWORKING\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-15\",\n    \"endDate\" : \"2025-10-12\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"NETWORKING\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -316,7 +343,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"dXgvS_X71JKGnaq5LeO_z\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"dbevPbZ_5APruwvc_WYp9\"\n  }\n}"
                   }
                 }
               }
@@ -350,7 +377,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-08-25\",\n      \"endDate\" : \"2025-08-31\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"NETWORKING\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-08-25\",\n        \"endDate\" : \"2025-08-31\"\n      }\n    } ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-08\",\n      \"endDate\" : \"2025-09-14\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"NETWORKING\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-08\",\n        \"endDate\" : \"2025-09-14\"\n      }\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -376,11 +403,11 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/goals70548334"
+                "$ref" : "#/components/schemas/goals-id70548334"
               },
               "examples" : {
                 "update-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-01\",\n    \"endDate\" : \"2025-09-28\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"NETWORKING\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-15\",\n    \"endDate\" : \"2025-10-12\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"NETWORKING\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -485,6 +512,31 @@ window.swaggerSpec={
                 "examples" : {
                   "update-plan-content" : {
                     "value" : "{\n  \"data\" : \"주간 목표 수정이 완료되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mission" : {
+      "get" : {
+        "tags" : [ "Mission" ],
+        "summary" : "오늘자 미션 조회",
+        "description" : "현재 날짜의 요일에 해당하는 미션 목록을 조회합니다.",
+        "operationId" : "get-mission",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/mission-1227183429"
+                },
+                "examples" : {
+                  "get-mission" : {
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"mission-1\",\n    \"dayOfWeek\" : \"MONDAY\",\n    \"content\" : \"오늘의 투두 작성하기\",\n    \"type\" : \"DAILY_TODO_WRITE\",\n    \"finished\" : false\n  }, {\n    \"id\" : \"mission-1\",\n    \"dayOfWeek\" : \"MONDAY\",\n    \"content\" : \"오늘의 투두 작성하기\",\n    \"type\" : \"DAILY_TODO_COMPLETE\",\n    \"finished\" : false\n  } ]\n}"
                   }
                 }
               }
@@ -768,10 +820,10 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-today-mission" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-29\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-29\",\n    \"isCompleted\" : false\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-14\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-14\",\n    \"isCompleted\" : false\n  } ]\n}"
                   },
                   "get-weekly-plan" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-08-29\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-09-14\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
                   }
                 }
               }
@@ -792,7 +844,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-08-29\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-09-14\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -842,7 +894,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-08-29\",\n    \"isCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-14\",\n    \"isCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -872,7 +924,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-08-29\",\n  \"content\" : \"수정된 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-09-14\",\n  \"content\" : \"수정된 내용\"\n}"
                 }
               }
             }
@@ -1443,6 +1495,40 @@ window.swaggerSpec={
           }
         }
       },
+      "auth-signup-kakao-290542722" : {
+        "type" : "object",
+        "properties" : {
+          "registrationToken" : {
+            "type" : "string",
+            "description" : "카카오 등록 토큰"
+          },
+          "careerYear" : {
+            "type" : "string",
+            "description" : "경력 연차 (예: JUNIOR, MID, SENIOR)"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "사용자 이름"
+          },
+          "requiredConsent" : {
+            "type" : "object",
+            "properties" : {
+              "serviceTermsAgreed" : {
+                "type" : "boolean",
+                "description" : "서비스 약관 동의"
+              },
+              "privacyPolicyAgreed" : {
+                "type" : "boolean",
+                "description" : "개인정보 동의"
+              }
+            }
+          },
+          "jobRoleId" : {
+            "type" : "string",
+            "description" : "직무 ID"
+          }
+        }
+      },
       "users-myprofile-1476599188" : {
         "type" : "object",
         "properties" : {
@@ -1676,7 +1762,7 @@ window.swaggerSpec={
           }
         }
       },
-      "goals70548334" : {
+      "goals-id70548334" : {
         "type" : "object",
         "properties" : {
           "duration" : {
@@ -1843,6 +1929,40 @@ window.swaggerSpec={
           "content" : {
             "type" : "string",
             "description" : "수정할 계획 내용"
+          }
+        }
+      },
+      "mission-1227183429" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "description" : "미션 목록 배열",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "dayOfWeek" : {
+                  "type" : "string",
+                  "description" : "요일"
+                },
+                "finished" : {
+                  "type" : "boolean",
+                  "description" : "완료 여부"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "미션 ID"
+                },
+                "type" : {
+                  "type" : "string",
+                  "description" : "미션 타입"
+                },
+                "content" : {
+                  "type" : "string",
+                  "description" : "미션 내용"
+                }
+              }
+            }
           }
         }
       },

@@ -61,7 +61,7 @@ public class AuthController {
 
   @GetMapping("/signin/kakao")
   public RedirectView signInWithKakao() {
-    return new RedirectView("/oauth2/authorization/kakao");
+    return new RedirectView("https://kauth.kakao.com/oauth/authorize");
   }
 
   @PostMapping("/reissue")

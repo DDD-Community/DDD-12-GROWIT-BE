@@ -1,7 +1,9 @@
 package com.growit.app.common.config.oauth;
 
+import com.growit.app.user.domain.token.service.JwtClaimKeys;
 import com.growit.app.user.domain.user.User;
-import com.growit.app.user.domain.user.UserRepository;
+import com.growit.app.user.domain.user.dto.OAuthCommand;
+import com.growit.app.user.usecase.OAuthLinkUseCase;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
@@ -18,43 +20,45 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
-// KakaoOAuth2UserService.java
 @Component
 @RequiredArgsConstructor
 public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
-    private final OAuth2UserRegistrar userRegistrar;
+    private final OAuthLinkUseCase oAuthLinkUseCase;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest req) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = delegate.loadUser(req);
-        String registrationId = req.getClientRegistration().getRegistrationId(); // "kakao"
 
         Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
         KakaoProfile profile = KakaoProfile.from(attributes);
 
-        // 가입 지연(Deferred Signup) 처리: 기존 사용자만 주입, 없으면 pendingSignup 플래그로 반환
-        Optional<User> existing = userRegistrar.findExistingUser(registrationId, profile);
+        Optional<User> existing = oAuthLinkUseCase.execute(new OAuthCommand(
+          profile.getEmail(),
+          profile.getProvider(),
+          profile.getProviderId()
+        ));
+
         if (existing.isPresent()) {
             User user = existing.get();
-            attributes.put("user", user);
+            attributes.put(JwtClaimKeys.USER, user);
             return new DefaultOAuth2User(
                 List.of(new SimpleGrantedAuthority("USER")),
                 attributes,
-                "id"
+                JwtClaimKeys.ID
             );
         } else {
-            attributes.put("pendingSignup", true);
-            attributes.put("provider", "kakao");
-            attributes.put("providerId", profile.getProviderId());
-            attributes.put("email", profile.getEmail());
-          attributes.put("nickName", profile.getNickname());
+            attributes.put(JwtClaimKeys.PENDING_SIGNUP, true);
+            attributes.put(JwtClaimKeys.PROVIDER, KakaoKeys.PROVIDER_NAME);
+            attributes.put(JwtClaimKeys.PROVIDER_ID, profile.getProviderId());
+            attributes.put(JwtClaimKeys.EMAIL, profile.getEmail());
+            attributes.put(JwtClaimKeys.NICK_NAME, profile.getNickname());
 
           return new DefaultOAuth2User(
                 List.of(),
                 attributes,
-                "id"
+                JwtClaimKeys.ID
             );
         }
     }
@@ -70,15 +74,15 @@ public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserReque
 
         @SuppressWarnings("unchecked")
         public static KakaoProfile from(Map<String, Object> attrs) {
-            Map<String, Object> account = (Map<String, Object>) attrs.getOrDefault("kakao_account", Map.of());
-            Map<String, Object> profile = (Map<String, Object>) account.getOrDefault("profile", Map.of());
+            Map<String, Object> account = (Map<String, Object>) attrs.getOrDefault(KakaoKeys.KAKAO_ACCOUNT, Map.of());
+            Map<String, Object> profile = (Map<String, Object>) account.getOrDefault(KakaoKeys.PROFILE, Map.of());
 
             return KakaoProfile.builder()
-                .provider("kakao")
-                .providerId(String.valueOf(attrs.get("id")))
-                .email((String) account.get("email"))
-                .nickname((String) profile.get("nickname"))
-                .profileImage((String) profile.get("profile_image_url"))
+                .provider(KakaoKeys.PROVIDER_NAME)
+                .providerId(String.valueOf(attrs.get(KakaoKeys.ID)))
+                .email((String) account.get(KakaoKeys.EMAIL))
+                .nickname((String) profile.get(KakaoKeys.NICKNAME))
+                .profileImage((String) profile.get(KakaoKeys.PROFILE_IMAGE_URL))
                 .build();
         }
     }
