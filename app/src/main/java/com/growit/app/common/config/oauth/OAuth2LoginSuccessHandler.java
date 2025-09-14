@@ -29,8 +29,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private final TokenService tokenService;
   private final OAuth2AuthorizedClientService authorizedClientService;
 
-  public OAuth2LoginSuccessHandler(TokenService tokenService,
-                                   OAuth2AuthorizedClientService authorizedClientService) {
+  public OAuth2LoginSuccessHandler(
+      TokenService tokenService, OAuth2AuthorizedClientService authorizedClientService) {
     this.tokenService = tokenService;
     this.authorizedClientService = authorizedClientService;
   }
@@ -112,11 +112,14 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     new ObjectMapper().writeValue(res.getWriter(), response);
   }
 
-  private void clearSessionAndAuthorizedClient(HttpServletRequest req, HttpServletResponse res, Authentication authentication) {
+  private void clearSessionAndAuthorizedClient(
+      HttpServletRequest req, HttpServletResponse res, Authentication authentication) {
     try {
       if (authentication instanceof OAuth2AuthenticationToken token) {
-        // Remove cached authorized client (access/refresh tokens, etc.) so subsequent requests don't use session cache
-        authorizedClientService.removeAuthorizedClient(token.getAuthorizedClientRegistrationId(), token.getName());
+        // Remove cached authorized client (access/refresh tokens, etc.) so subsequent requests
+        // don't use session cache
+        authorizedClientService.removeAuthorizedClient(
+            token.getAuthorizedClientRegistrationId(), token.getName());
       }
       // Invalidate session if exists
       var session = req.getSession(false);
