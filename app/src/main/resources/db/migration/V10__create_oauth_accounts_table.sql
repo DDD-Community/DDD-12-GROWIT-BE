@@ -4,15 +4,18 @@ CREATE TABLE oauth_accounts
   created_at TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
   updated_at TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
   deleted_at TIMESTAMP WITHOUT TIME ZONE,
-  uid        VARCHAR(255)                            NOT NULL,
-  provider VARCHAR(100) NOT NULL,
-  provider_id VARCHAR(255) NOT NULL,
-  user_id    VARCHAR(128)                            NOT NULL,
+  provider   VARCHAR(100)                            NOT NULL,
+  provider_id VARCHAR(255)                           NOT NULL,
+  user_id    BIGINT                            NOT NULL,
   CONSTRAINT pk_oauth_accounts PRIMARY KEY (id)
 );
 
-ALTER TABLE oauth_accounts
-  ADD CONSTRAINT uc_oauth_accounts_uid UNIQUE (uid);
 
-alter table users
-  alter column password drop not null;
+ALTER TABLE oauth_accounts
+  ADD CONSTRAINT uk_provider_pid UNIQUE (provider, provider_id);
+
+ALTER TABLE oauth_accounts
+  ADD CONSTRAINT uk_user_provider UNIQUE (user_id, provider);
+
+ALTER TABLE users
+  ALTER COLUMN password DROP NOT NULL;

@@ -18,35 +18,17 @@ public class OAuthLinkUseCase {
 
   @Transactional
   public Optional<User> execute(OAuthCommand command) {
-    Optional<User> existingOAuthUser = userRepository.findExistingUser(
-        command.provider(),
-        command.providerId()
-    );
+    Optional<User> existingUser = userRepository.findByEmail(new Email(command.email()));
+    if (existingUser.isPresent()) {
+      User user = existingUser.get();
+      if(!existingUser.get().hasAnyOAuth()) {
+        user.linkOAuth(command.provider(), command.providerId());
+        userRepository.saveUser(user);
+      }
 
-    if (existingOAuthUser.isPresent()) {
-      return existingOAuthUser;
-    }
-
-    if (command.email() != null) {
-      return linkExistingUserIfPresent(command);
+      return existingUser;
     }
 
     return Optional.empty();
-  }
-
-  private Optional<User> linkExistingUserIfPresent(OAuthCommand command) {
-    Optional<User> existingUser = userRepository.findByEmail(new Email(command.email()));
-    
-    if (existingUser.isEmpty()) {
-      return Optional.empty();
-    }
-    
-    User user = existingUser.get();
-    if (!user.hasAnyOAuth()) {
-      user.linkOAuth(command.provider(), command.providerId());
-      userRepository.saveUser(user);
-    }
-    
-    return Optional.of(user);
   }
 }

@@ -32,20 +32,4 @@ public class FakeUserRepository implements UserRepository {
     return null;
   }
 
-  @Override
-  public Optional<User> findExistingUser(String provider, String providerId) {
-    return Optional.empty();
-  }
-
-  @Override
-  public boolean existsByUserIdAndProvider(String userId, String provider) {
-    // 테스트 환경에서는 간단하게 false 리턴
-    return false;
-  }
-
-  @Override
-  public boolean hasAnyOAuthAccount(String userId) {
-    // 테스트 환경에서는 간단하게 false 리턴 (순수 이메일 가입자로 가정)
-    return false;
-  }
 }

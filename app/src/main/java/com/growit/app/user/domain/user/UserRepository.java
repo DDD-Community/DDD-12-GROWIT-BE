@@ -13,10 +13,4 @@ public interface UserRepository {
   void saveUser(User user);
 
   Page<User> findAll(Pageable pageable);
-
-  Optional<User> findExistingUser(String provider, String providerId);
-
-  boolean existsByUserIdAndProvider(String userId, String provider);
-
-  boolean hasAnyOAuthAccount(String userId);
 }

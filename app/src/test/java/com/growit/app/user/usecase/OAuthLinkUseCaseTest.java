@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -70,31 +71,11 @@ class OAuthLinkUseCaseTest {
         .build();
   }
 
-  @Test
-  @DisplayName("기존 OAuth 사용자가 있으면 해당 사용자를 반환한다")
-  void should_ReturnExistingUser_When_OAuthUserExists() {
-    // given
-    given(userRepository.findExistingUser(command.provider(), command.providerId()))
-        .willReturn(Optional.of(existingOAuthUser));
-
-    // when
-    Optional<User> result = oAuthLinkUseCase.execute(command);
-
-    // then
-    assertThat(result).isPresent();
-    assertThat(result.get()).isEqualTo(existingOAuthUser);
-    
-    // 이메일 조회 및 저장은 하지 않음
-    then(userRepository).should(never()).findByEmail(any(Email.class));
-    then(userRepository).should(never()).saveUser(any(User.class));
-  }
 
   @Test
   @DisplayName("순수 이메일 가입자가 있으면 OAuth 계정을 연결하고 사용자를 반환한다")
   void should_LinkOAuthAndReturnUser_When_PureEmailUserExists() {
     // given
-    given(userRepository.findExistingUser(command.provider(), command.providerId()))
-        .willReturn(Optional.empty());
     given(userRepository.findByEmail(new Email(command.email())))
         .willReturn(Optional.of(pureEmailUser));
 
@@ -127,8 +108,6 @@ class OAuthLinkUseCaseTest {
         .oauthAccounts(List.of(new OAuth("google", "google123"))) // 다른 OAuth 계정 보유
         .build();
 
-    given(userRepository.findExistingUser(command.provider(), command.providerId()))
-        .willReturn(Optional.empty());
     given(userRepository.findByEmail(new Email(command.email())))
         .willReturn(Optional.of(userWithOAuth));
 
@@ -146,31 +125,11 @@ class OAuthLinkUseCaseTest {
     then(userRepository).should(never()).saveUser(any(User.class));
   }
 
-  @Test
-  @DisplayName("이메일이 null인 경우 신규 사용자로 처리한다")
-  void should_ReturnEmpty_When_EmailIsNull() {
-    // given
-    OAuthCommand commandWithNullEmail = new OAuthCommand(null, "kakao", "kakao123");
-    given(userRepository.findExistingUser(commandWithNullEmail.provider(), commandWithNullEmail.providerId()))
-        .willReturn(Optional.empty());
-
-    // when
-    Optional<User> result = oAuthLinkUseCase.execute(commandWithNullEmail);
-
-    // then
-    assertThat(result).isEmpty();
-    
-    // 이메일 조회는 하지 않음
-    then(userRepository).should(never()).findByEmail(any(Email.class));
-    then(userRepository).should(never()).saveUser(any(User.class));
-  }
 
   @Test
   @DisplayName("해당 이메일의 사용자가 없으면 신규 사용자로 처리한다")
   void should_ReturnEmpty_When_NoUserWithEmail() {
     // given
-    given(userRepository.findExistingUser(command.provider(), command.providerId()))
-        .willReturn(Optional.empty());
     given(userRepository.findByEmail(new Email(command.email())))
         .willReturn(Optional.empty());
 
@@ -185,30 +144,25 @@ class OAuthLinkUseCaseTest {
   }
 
   @Test
-  @DisplayName("OAuth 계정과 이메일 사용자가 모두 없으면 신규 사용자로 처리한다")
-  void should_ReturnEmpty_When_BothOAuthAndEmailUserNotExist() {
+  @DisplayName("이메일이 null인 경우 예외가 발생한다")
+  void should_ThrowException_When_EmailIsNull() {
     // given
-    given(userRepository.findExistingUser(command.provider(), command.providerId()))
-        .willReturn(Optional.empty());
-    given(userRepository.findByEmail(new Email(command.email())))
-        .willReturn(Optional.empty());
+    OAuthCommand commandWithNullEmail = new OAuthCommand(null, "kakao", "kakao123");
 
-    // when
-    Optional<User> result = oAuthLinkUseCase.execute(command);
-
-    // then
-    assertThat(result).isEmpty();
-    then(userRepository).should().findExistingUser(command.provider(), command.providerId());
-    then(userRepository).should().findByEmail(new Email(command.email()));
+    // when & then
+    assertThatThrownBy(() -> oAuthLinkUseCase.execute(commandWithNullEmail))
+        .isInstanceOf(NullPointerException.class);
+    
+    // repository 호출은 하지 않음
+    then(userRepository).should(never()).findByEmail(any(Email.class));
     then(userRepository).should(never()).saveUser(any(User.class));
   }
+
 
   @Test
   @DisplayName("순수 이메일 사용자에게 OAuth 연결 후 올바른 상태가 되는지 확인")
   void should_HaveCorrectState_After_OAuthLinking() {
     // given
-    given(userRepository.findExistingUser(command.provider(), command.providerId()))
-        .willReturn(Optional.empty());
     given(userRepository.findByEmail(new Email(command.email())))
         .willReturn(Optional.of(pureEmailUser));
 

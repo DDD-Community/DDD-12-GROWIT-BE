@@ -1,25 +1,30 @@
 package com.growit.app.user.infrastructure.persistence.user.source.entity;
 
+import com.growit.app.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Table(name = "oauth_accounts",
-       uniqueConstraints = @UniqueConstraint(name = "uq_oauth_provider", columnNames = {"provider","provider_id"}))
+@Table(
+  name = "oauth_accounts",
+  uniqueConstraints = {
+    @UniqueConstraint(name="uk_provider_pid", columnNames = {"provider", "provider_id"}),
+    @UniqueConstraint(name="uk_user_provider", columnNames = {"user_id", "provider"})
+  }
+)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@Setter
-public class OAuthAccountEntity {
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  private String uid;
-
-  @Column(nullable = false)
-  private String userId;
+public class OAuthAccountEntity extends BaseEntity {
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name="user_id")
+  private UserEntity user;
 
   @Column(nullable = false)
   private String provider;
+
   @Column(name = "provider_id", nullable = false)
   private String providerId;
 }
+

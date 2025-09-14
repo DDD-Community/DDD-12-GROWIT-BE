@@ -5,12 +5,13 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
 
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -37,6 +38,14 @@ public class UserEntity extends BaseEntity {
 
   @Column(nullable = false)
   private Boolean isOnboarding;
+
+  @OneToMany(
+    mappedBy = "user",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    fetch = FetchType.EAGER  // 이렇게 추가
+  )
+  private Set<OAuthAccountEntity> oauthAccounts = new HashSet<>();
 
   public void updateByDomain(User user) {
     this.name = user.getName();
