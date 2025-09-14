@@ -5,20 +5,25 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
+import com.growit.app.fake.resource.InvitationFixture;
 import com.growit.app.fake.resource.JobRoleFixture;
 import com.growit.app.fake.resource.SayingFixture;
 import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
+import com.growit.app.resource.usecase.CreateInvitationUseCase;
 import com.growit.app.resource.usecase.GetSayingUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -38,6 +43,7 @@ class ResourceControllerTest {
 
   @MockitoBean private JobRoleRepository jobRoleRepository;
   @MockitoBean private GetSayingUseCase getSayingUseCase;
+  @MockitoBean private CreateInvitationUseCase createInvitationUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -89,5 +95,41 @@ class ResourceControllerTest {
                             fieldWithPath("data.message").type(STRING).description("격언 내용"),
                             fieldWithPath("data.from").type(STRING).description("격언 출처"))
                         .build())));
+  }
+
+  @Test
+  void createInvitation() throws Exception {
+    String requestBody = InvitationFixture.validInvitationRequestBody();
+
+    mockMvc
+        .perform(post("/resource/invitations")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "create-invitation",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Invitation")
+                        .summary("초대장 요청 생성")
+                        .requestFields(
+                            fieldWithPath("phone").type(STRING).description("전화번호 (010-1234-5678 형식)"))
+                        .responseFields(
+                            fieldWithPath("data.message").type(STRING).description("응답 메시지"))
+                        .build())));
+  }
+
+  @Test
+  void createInvitation_InvalidPhoneFormat() throws Exception {
+    String requestBody = InvitationFixture.invalidPhoneFormatRequestBody();
+
+    mockMvc
+        .perform(post("/resource/invitations")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+        .andExpect(status().isBadRequest());
   }
 }
