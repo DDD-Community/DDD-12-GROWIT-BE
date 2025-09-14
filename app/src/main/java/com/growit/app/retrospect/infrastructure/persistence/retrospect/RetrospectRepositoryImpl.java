@@ -58,4 +58,9 @@ public class RetrospectRepositoryImpl implements RetrospectRepository {
     List<RetrospectEntity> entities = repository.findByGoalIdAndUserId(goalId, userId);
     return entities.stream().map(mapper::toDomain).toList();
   }
+
+  @Override
+  public int countWeeklyRetrospectsByUserId(String userId) {
+    return repository.countWeeklyRetrospectsByUserId(userId);
+  }
 }

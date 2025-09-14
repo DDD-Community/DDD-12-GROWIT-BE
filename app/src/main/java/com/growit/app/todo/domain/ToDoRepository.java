@@ -20,4 +20,6 @@ public interface ToDoRepository {
   List<ToDo> findByGoalId(String goalId);
 
   List<ToDo> findByDateFilter(GetToDoDateQueryFilter filter);
+
+  int countByUserId(String userId);
 }

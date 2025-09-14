@@ -65,4 +65,9 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     List<ToDoEntity> entities = repository.findByDateFilter(filter);
     return mapper.toDomainList(entities);
   }
+
+  @Override
+  public int countByUserId(String userId) {
+    return repository.countByUserId(userId);
+  }
 }

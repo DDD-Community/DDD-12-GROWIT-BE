@@ -60,4 +60,16 @@ public class DBRetrospectQueryRepositoryImpl implements DBRetrospectQueryReposit
             retrospectEntity.deletedAt.isNull())
         .fetch();
   }
+
+  @Override
+  public int countWeeklyRetrospectsByUserId(String userId) {
+    Long count =
+        queryFactory
+            .select(retrospectEntity.count())
+            .from(retrospectEntity)
+            .where(retrospectEntity.userId.eq(userId), retrospectEntity.deletedAt.isNull())
+            .fetchOne();
+
+    return count != null ? count.intValue() : 0;
+  }
 }

@@ -19,4 +19,6 @@ public interface DBToDoQueryRepository {
   List<ToDoEntity> findByGoalId(String goalId);
 
   int countByDateQuery(GetCountByDateQueryFilter countByDateQueryFilter);
+
+  int countByUserId(String userId);
 }
