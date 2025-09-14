@@ -12,9 +12,9 @@ import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.dto.SignUpKaKaoCommand;
-import com.growit.app.user.usecase.SignUpKaKaoUseCase;
 import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
+import com.growit.app.user.usecase.SignUpKaKaoUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -51,17 +51,18 @@ public class AuthController {
   }
 
   @PostMapping("/signup/kakao")
-  public ResponseEntity<Void> signupWithKaKao(@Valid @RequestBody SignUpKaKaoRequest signUpRequest) {
+  public ResponseEntity<Void> signupWithKaKao(
+      @Valid @RequestBody SignUpKaKaoRequest signUpRequest) {
     SignUpKaKaoCommand signUpCommand = requestMapper.toSignUpKaKaoCommand(signUpRequest);
     RequiredConsentCommand requiredConsentCommand =
-      requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
+        requestMapper.toRequiredConsentCommand(signUpRequest.getRequiredConsent());
     signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @GetMapping("/signin/kakao")
   public RedirectView signInWithKakao() {
-    return new RedirectView("https://kauth.kakao.com/oauth/authorize");
+    return new RedirectView("/oauth2/authorization/kakao");
   }
 
   @PostMapping("/reissue")

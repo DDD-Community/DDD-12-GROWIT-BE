@@ -1,7 +1,6 @@
 package com.growit.app.user.controller.dto.request;
 
 import com.growit.app.user.domain.user.vo.CareerYear;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +28,4 @@ public class SignUpRequest {
 
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
-
 }

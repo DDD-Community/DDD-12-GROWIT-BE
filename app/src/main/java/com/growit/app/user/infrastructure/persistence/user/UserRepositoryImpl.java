@@ -4,7 +4,6 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
-import com.growit.app.user.infrastructure.persistence.user.source.entity.OAuthAccountEntity;
 import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
@@ -47,5 +46,4 @@ public class UserRepositoryImpl implements UserRepository {
     List<User> content = page.getContent().stream().map(userDBMapper::toDomain).toList();
     return new PageImpl<>(content, pageable, page.getTotalElements());
   }
-
 }

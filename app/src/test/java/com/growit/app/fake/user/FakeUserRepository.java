@@ -31,5 +31,4 @@ public class FakeUserRepository implements UserRepository {
   public Page<User> findAll(Pageable pageable) {
     return null;
   }
-
 }

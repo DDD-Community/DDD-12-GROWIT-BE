@@ -13,4 +13,3 @@ public class OAuthResponse {
   private String registrationToken;
   private String name;
 }
-

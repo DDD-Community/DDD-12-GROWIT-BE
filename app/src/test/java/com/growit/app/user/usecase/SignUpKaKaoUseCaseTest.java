@@ -37,11 +37,8 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenValidKakaoSignUpCommand_whenExecute_thenSaveUser() {
     // given
-    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand(
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand =
+        new SignUpKaKaoCommand("홍길동", "jobRoleId-1", CareerYear.JUNIOR, "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     Claims claims = mock(Claims.class);
@@ -77,18 +74,16 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenInvalidRegistrationToken_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand(
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        "invalid-token");
+    SignUpKaKaoCommand signUpCommand =
+        new SignUpKaKaoCommand("홍길동", "jobRoleId-1", CareerYear.JUNIOR, "invalid-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     when(tokenService.parseClaims("invalid-token"))
         .thenThrow(new RuntimeException("Invalid token"));
 
     // when & then
-    assertThrows(RuntimeException.class,
+    assertThrows(
+        RuntimeException.class,
         () -> signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
@@ -99,11 +94,8 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenExistingEmail_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand(
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand =
+        new SignUpKaKaoCommand("홍길동", "jobRoleId-1", CareerYear.JUNIOR, "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     Claims claims = mock(Claims.class);
@@ -112,11 +104,13 @@ class SignUpKaKaoUseCaseTest {
     when(claims.get(JwtClaimKeys.PROVIDER_ID, String.class)).thenReturn("12345");
     when(claims.get(JwtClaimKeys.EMAIL, String.class)).thenReturn("existing@kakao.com");
 
-    doThrow(new RuntimeException("Email already exists")).when(userValidator)
+    doThrow(new RuntimeException("Email already exists"))
+        .when(userValidator)
         .checkEmailExists(new Email("existing@kakao.com"));
 
     // when & then
-    assertThrows(RuntimeException.class,
+    assertThrows(
+        RuntimeException.class,
         () -> signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
@@ -129,11 +123,8 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenExistingOAuth_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand(
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand =
+        new SignUpKaKaoCommand("홍길동", "jobRoleId-1", CareerYear.JUNIOR, "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     Claims claims = mock(Claims.class);
@@ -142,11 +133,13 @@ class SignUpKaKaoUseCaseTest {
     when(claims.get(JwtClaimKeys.PROVIDER_ID, String.class)).thenReturn("12345");
     when(claims.get(JwtClaimKeys.EMAIL, String.class)).thenReturn("test@kakao.com");
 
-    doThrow(new RuntimeException("OAuth account already exists")).when(userValidator)
+    doThrow(new RuntimeException("OAuth account already exists"))
+        .when(userValidator)
         .checkOAuthExists(new OAuth("kakao", "12345"));
 
     // when & then
-    assertThrows(RuntimeException.class,
+    assertThrows(
+        RuntimeException.class,
         () -> signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
@@ -160,11 +153,9 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenInvalidJobRole_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand(
-        "홍길동",
-        "invalidJobRole",
-        CareerYear.JUNIOR,
-        "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand =
+        new SignUpKaKaoCommand(
+            "홍길동", "invalidJobRole", CareerYear.JUNIOR, "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     Claims claims = mock(Claims.class);
@@ -173,11 +164,13 @@ class SignUpKaKaoUseCaseTest {
     when(claims.get(JwtClaimKeys.PROVIDER_ID, String.class)).thenReturn("12345");
     when(claims.get(JwtClaimKeys.EMAIL, String.class)).thenReturn("test@kakao.com");
 
-    doThrow(new RuntimeException("Invalid job role")).when(jobRoleValidator)
+    doThrow(new RuntimeException("Invalid job role"))
+        .when(jobRoleValidator)
         .checkJobRoleExist("invalidJobRole");
 
     // when & then
-    assertThrows(RuntimeException.class,
+    assertThrows(
+        RuntimeException.class,
         () -> signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
@@ -189,18 +182,17 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenInvalidConsent_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand(
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand =
+        new SignUpKaKaoCommand("홍길동", "jobRoleId-1", CareerYear.JUNIOR, "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
-    doThrow(new RuntimeException("Required consent not provided")).when(requiredConsentCommand)
+    doThrow(new RuntimeException("Required consent not provided"))
+        .when(requiredConsentCommand)
         .checkRequiredConsent();
 
     // when & then
-    assertThrows(RuntimeException.class,
+    assertThrows(
+        RuntimeException.class,
         () -> signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();

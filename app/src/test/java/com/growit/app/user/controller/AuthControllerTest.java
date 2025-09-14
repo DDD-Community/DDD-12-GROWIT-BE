@@ -15,7 +15,6 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.fake.user.UserFixture;
-import com.growit.app.config.TestOAuthConfig;
 import com.growit.app.user.controller.dto.request.SignUpKaKaoRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
@@ -29,23 +28,23 @@ import com.growit.app.user.usecase.SignUpUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
-@Import(TestOAuthConfig.class)
+@ActiveProfiles("test")
 class AuthControllerTest {
   private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
@@ -56,7 +55,6 @@ class AuthControllerTest {
   @MockitoBean private ReissueUseCase reissueUseCase;
   @MockitoBean private RequestMapper requestMapper;
   @MockitoBean private ResponseMapper responseMapper;
-
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {

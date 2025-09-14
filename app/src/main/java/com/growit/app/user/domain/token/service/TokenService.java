@@ -129,13 +129,12 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
   }
 
   /**
-   * Create short-lived registration token used for deferred signup flow.
-   * Encodes provider/providerId/email and a type="registration" claim.
+   * Create short-lived registration token used for deferred signup flow. Encodes
+   * provider/providerId/email and a type="registration" claim.
    */
   public String createRegistrationToken(String provider, String providerId, String email) {
     final Claims claims = createRegistrationClaims(provider, providerId, email);
     // 5 minutes TTL for registration token
     return createToken(claims, 300);
   }
-
 }

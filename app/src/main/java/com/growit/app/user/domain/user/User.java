@@ -9,7 +9,6 @@ import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.OAuth;
 import com.growit.app.user.domain.user.vo.RequiredConsent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,10 +35,10 @@ public class User {
   private boolean isDeleted;
 
   private boolean isOnboarding;
-  private List<OAuth> oauthAccounts;
-
+  private ArrayList<OAuth> oauthAccounts;
 
   public static User from(SignUpCommand command) {
+
     return User.builder()
         .id(IDGenerator.generateId())
         .email(command.email())
@@ -49,7 +48,8 @@ public class User {
         .careerYear(command.careerYear())
         .isOnboarding(false)
         .isDeleted(false)
-        .oauthAccounts(command.oAuth() == null ? Collections.emptyList() : (List.of(command.oAuth())))
+        .oauthAccounts(
+            command.oAuth() == null ? new ArrayList<>() : new ArrayList<>(List.of(command.oAuth())))
         .build();
   }
 
@@ -59,17 +59,19 @@ public class User {
     this.careerYear = command.careerYear();
   }
 
-  public boolean hasAnyOAuth() { return oauthAccounts != null && !oauthAccounts.isEmpty(); }
+  public boolean hasAnyOAuth() {
+    return oauthAccounts != null && !oauthAccounts.isEmpty();
+  }
 
   public boolean hasProvider(String provider) {
-    return oauthAccounts != null && oauthAccounts.stream().anyMatch(o -> o.provider().equals(provider));
+    return oauthAccounts != null
+        && oauthAccounts.stream().anyMatch(o -> o.provider().equals(provider));
   }
 
   public void linkOAuth(String provider, String providerId) {
     if (hasProvider(provider)) {
       throw new BadRequestException("해당 provider가 이미 연결되어 있습니다.");
     }
-    // oauthAccounts가 null일 경우를 대비하여 초기화
     if (oauthAccounts == null) {
       oauthAccounts = new ArrayList<>();
     }

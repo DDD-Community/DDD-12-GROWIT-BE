@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-import com.growit.app.fake.user.UserFixture;
 import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
@@ -35,13 +34,14 @@ class SignUpUseCaseTest {
   @Test
   void givenValidSignUpCommand_whenExecute_thenSaveUser() {
     // given
-    SignUpCommand signUpCommand = new SignUpCommand(
-        new Email("test@example.com"),
-        "password123",
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        null);
+    SignUpCommand signUpCommand =
+        new SignUpCommand(
+            new Email("test@example.com"),
+            "password123",
+            "홍길동",
+            "jobRoleId-1",
+            CareerYear.JUNIOR,
+            null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     when(passwordEncoder.encode("password123")).thenReturn("encodedPassword");
@@ -68,21 +68,23 @@ class SignUpUseCaseTest {
   @Test
   void givenInvalidJobRole_whenExecute_thenThrowException() {
     // given
-    SignUpCommand signUpCommand = new SignUpCommand(
-        new Email("test@example.com"),
-        "password123",
-        "홍길동",
-        "invalidJobRole",
-        CareerYear.JUNIOR,
-        null);
+    SignUpCommand signUpCommand =
+        new SignUpCommand(
+            new Email("test@example.com"),
+            "password123",
+            "홍길동",
+            "invalidJobRole",
+            CareerYear.JUNIOR,
+            null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
-    doThrow(new RuntimeException("Invalid job role")).when(jobRoleValidator)
+    doThrow(new RuntimeException("Invalid job role"))
+        .when(jobRoleValidator)
         .checkJobRoleExist("invalidJobRole");
 
     // when & then
-    assertThrows(RuntimeException.class,
-        () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
+    assertThrows(
+        RuntimeException.class, () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
     verify(jobRoleValidator).checkJobRoleExist("invalidJobRole");
@@ -92,21 +94,23 @@ class SignUpUseCaseTest {
   @Test
   void givenExistingEmail_whenExecute_thenThrowException() {
     // given
-    SignUpCommand signUpCommand = new SignUpCommand(
-        new Email("existing@example.com"),
-        "password123",
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        null);
+    SignUpCommand signUpCommand =
+        new SignUpCommand(
+            new Email("existing@example.com"),
+            "password123",
+            "홍길동",
+            "jobRoleId-1",
+            CareerYear.JUNIOR,
+            null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
-    doThrow(new RuntimeException("Email already exists")).when(userValidator)
+    doThrow(new RuntimeException("Email already exists"))
+        .when(userValidator)
         .checkEmailExists(new Email("existing@example.com"));
 
     // when & then
-    assertThrows(RuntimeException.class,
-        () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
+    assertThrows(
+        RuntimeException.class, () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
     verify(jobRoleValidator).checkJobRoleExist("jobRoleId-1");
@@ -117,21 +121,23 @@ class SignUpUseCaseTest {
   @Test
   void givenInvalidConsent_whenExecute_thenThrowException() {
     // given
-    SignUpCommand signUpCommand = new SignUpCommand(
-        new Email("test@example.com"),
-        "password123",
-        "홍길동",
-        "jobRoleId-1",
-        CareerYear.JUNIOR,
-        null);
+    SignUpCommand signUpCommand =
+        new SignUpCommand(
+            new Email("test@example.com"),
+            "password123",
+            "홍길동",
+            "jobRoleId-1",
+            CareerYear.JUNIOR,
+            null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
-    doThrow(new RuntimeException("Required consent not provided")).when(requiredConsentCommand)
+    doThrow(new RuntimeException("Required consent not provided"))
+        .when(requiredConsentCommand)
         .checkRequiredConsent();
 
     // when & then
-    assertThrows(RuntimeException.class,
-        () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
+    assertThrows(
+        RuntimeException.class, () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
     verify(jobRoleValidator, never()).checkJobRoleExist(anyString());

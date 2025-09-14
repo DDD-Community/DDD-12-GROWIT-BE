@@ -4,7 +4,6 @@ import com.growit.app.user.controller.dto.request.*;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.*;
 import com.growit.app.user.domain.user.vo.Email;
-import com.growit.app.user.domain.user.vo.OAuth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,15 +15,15 @@ public class RequestMapper {
         request.getName(),
         request.getJobRoleId(),
         request.getCareerYear(),
-      null);
+        null);
   }
 
   public SignUpKaKaoCommand toSignUpKaKaoCommand(SignUpKaKaoRequest request) {
     return new SignUpKaKaoCommand(
-      request.getName(),
-      request.getJobRoleId(),
-      request.getCareerYear(),
-      request.getRegistrationToken());
+        request.getName(),
+        request.getJobRoleId(),
+        request.getCareerYear(),
+        request.getRegistrationToken());
   }
 
   public SignInCommand toSignInCommand(SignInRequest request) {

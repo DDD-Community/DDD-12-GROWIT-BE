@@ -9,6 +9,7 @@ import lombok.Getter;
 public class OAuthDto {
   @NotBlank(message = "{validation.signin.provider.required}")
   private String provider;
+
   @NotBlank(message = "{validation.signin.provider-id.required}")
   private String providerId;
 }

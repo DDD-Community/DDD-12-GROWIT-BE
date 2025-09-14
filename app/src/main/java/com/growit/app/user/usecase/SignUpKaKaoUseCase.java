@@ -9,9 +9,9 @@ import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.dto.SignUpKaKaoCommand;
 import com.growit.app.user.domain.user.service.UserValidator;
-import io.jsonwebtoken.Claims;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.OAuth;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,8 @@ public class SignUpKaKaoUseCase {
   private final TokenService tokenService;
 
   @Transactional
-  public void execute(SignUpKaKaoCommand signUpCommand, RequiredConsentCommand requiredConsentCommand) {
+  public void execute(
+      SignUpKaKaoCommand signUpCommand, RequiredConsentCommand requiredConsentCommand) {
     requiredConsentCommand.checkRequiredConsent();
     // 1) registrationToken 검증 및 클레임 추출 (provider, providerId, email)
     Claims claims = tokenService.parseClaims(signUpCommand.registrationToken());
@@ -37,14 +38,14 @@ public class SignUpKaKaoUseCase {
     OAuth oAuth = new OAuth(provider, providerId);
 
     // 4) 최종 SignUpCommand 조립 (소셜 가입은 비밀번호가 없으므로 빈 문자열로 처리)
-    SignUpCommand command = new SignUpCommand(
-        new Email(emailFromToken),
-        null,
-        signUpCommand.name(),
-        signUpCommand.jobRoleId(),
-        signUpCommand.careerYear(),
-        oAuth
-    );
+    SignUpCommand command =
+        new SignUpCommand(
+            new Email(emailFromToken),
+            null,
+            signUpCommand.name(),
+            signUpCommand.jobRoleId(),
+            signUpCommand.careerYear(),
+            oAuth);
 
     jobRoleValidator.checkJobRoleExist(command.jobRoleId());
     userValidator.checkEmailExists(command.email());

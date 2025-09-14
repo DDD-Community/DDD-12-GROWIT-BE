@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OAuth2LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res,
-                                        AuthenticationException exception) throws IOException, ServletException {
-        getRedirectStrategy().sendRedirect(req, res, "/login?error=oauth");
-    }
+  @Override
+  public void onAuthenticationFailure(
+      HttpServletRequest req, HttpServletResponse res, AuthenticationException exception)
+      throws IOException, ServletException {
+    getRedirectStrategy().sendRedirect(req, res, "/login?error=oauth");
+  }
 }

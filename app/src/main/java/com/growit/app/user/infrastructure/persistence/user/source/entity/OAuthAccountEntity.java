@@ -6,19 +6,22 @@ import lombok.*;
 
 @Entity
 @Table(
-  name = "oauth_accounts",
-  uniqueConstraints = {
-    @UniqueConstraint(name="uk_provider_pid", columnNames = {"provider", "provider_id"}),
-    @UniqueConstraint(name="uk_user_provider", columnNames = {"user_id", "provider"})
-  }
-)
+    name = "oauth_accounts",
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "uk_provider_pid",
+          columnNames = {"provider", "provider_id"}),
+      @UniqueConstraint(
+          name = "uk_user_provider",
+          columnNames = {"user_id", "provider"})
+    })
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class OAuthAccountEntity extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name="user_id")
+  @JoinColumn(name = "user_id")
   private UserEntity user;
 
   @Column(nullable = false)
@@ -27,4 +30,3 @@ public class OAuthAccountEntity extends BaseEntity {
   @Column(name = "provider_id", nullable = false)
   private String providerId;
 }
-

@@ -1,7 +1,6 @@
 package com.growit.app.user.controller.dto.request;
 
 import com.growit.app.user.domain.user.vo.CareerYear;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,6 +23,5 @@ public class SignUpKaKaoRequest {
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
 
-  @NotNull
-  private String registrationToken;
+  @NotNull private String registrationToken;
 }
