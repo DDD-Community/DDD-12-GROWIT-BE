@@ -5,12 +5,13 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.*;
 
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,7 +23,7 @@ public class UserEntity extends BaseEntity {
   @Column(nullable = false)
   private String email;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private String password;
 
   @Column(nullable = false)
@@ -38,11 +39,41 @@ public class UserEntity extends BaseEntity {
   @Column(nullable = false)
   private Boolean isOnboarding;
 
+  @OneToMany(
+      mappedBy = "user",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.EAGER // 이렇게 추가
+      )
+  private Set<OAuthAccountEntity> oauthAccounts;
+
   public void updateByDomain(User user) {
     this.name = user.getName();
     this.jobRoleId = user.getJobRoleId();
     this.careerYear = user.getCareerYear();
     this.isOnboarding = user.isOnboarding();
+
+    Set<String> existingKeys =
+        this.oauthAccounts.stream()
+            .map(e -> e.getProvider() + e.getProviderId())
+            .collect(Collectors.toSet());
+
+    // 도메인에서 넘어온 계정 중 아직 없는 것만 추가
+    user.getOauthAccounts()
+        .forEach(
+            o -> {
+              String key = o.provider() + o.providerId();
+              if (!existingKeys.contains(key)) {
+                OAuthAccountEntity newEntity =
+                    OAuthAccountEntity.builder()
+                        .user(this)
+                        .provider(o.provider())
+                        .providerId(o.providerId())
+                        .build();
+                this.oauthAccounts.add(newEntity);
+              }
+            });
+
     if (user.isDeleted()) {
       this.setDeletedAt(LocalDateTime.now());
     }

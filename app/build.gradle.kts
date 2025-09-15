@@ -38,6 +38,8 @@ dependencies {
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.spring.boot.starter.cache)
   implementation(libs.nanoid)
+  // oauth
+  implementation (libs.spring.boot.starter.security.oauth2)
   // Flyway
   implementation(libs.flyway)
   implementation(libs.flyway.postgresql)

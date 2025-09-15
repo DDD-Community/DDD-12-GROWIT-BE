@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
     return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
   }
 
-  private Claims parseClaims(String token) {
+  public Claims parseClaims(String token) {
     try {
       return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
 
@@ -39,8 +40,18 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
 
   private Claims createClaim(String id) {
     final Claims claims = Jwts.claims();
-    claims.put("id", id);
+    claims.put(JwtClaimKeys.ID, id);
 
+    return claims;
+  }
+
+  private Claims createRegistrationClaims(String provider, String providerId, String email) {
+    final Claims claims = Jwts.claims();
+    claims.put(JwtClaimKeys.TYPE, "registration");
+    claims.put(JwtClaimKeys.PROVIDER, provider);
+    claims.put(JwtClaimKeys.PROVIDER_ID, providerId);
+    if (email != null) claims.put(JwtClaimKeys.EMAIL, email);
+    claims.put(JwtClaimKeys.JTI, UUID.randomUUID().toString());
     return claims;
   }
 
@@ -78,7 +89,7 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
 
   public String getId(String token) {
     final Claims claims = parseClaims(token);
-    return claims.get("id", String.class);
+    return claims.get(JwtClaimKeys.ID, String.class);
   }
 
   @Override
@@ -115,5 +126,15 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
               userTokenRepository.saveUserToken(existingToken);
             },
             () -> userTokenRepository.saveUserToken(UserToken.from(userId, token.refreshToken())));
+  }
+
+  /**
+   * Create short-lived registration token used for deferred signup flow. Encodes
+   * provider/providerId/email and a type="registration" claim.
+   */
+  public String createRegistrationToken(String provider, String providerId, String email) {
+    final Claims claims = createRegistrationClaims(provider, providerId, email);
+    // 5 minutes TTL for registration token
+    return createToken(claims, 300);
   }
 }
