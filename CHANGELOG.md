@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.28.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.27.0...v1.28.0) (2025-09-15)
+
+
+### Features
+
+* **kakao:** OAuth2 인증 흐름 개선 및 리다이렉션 처리 ([#222](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/222)) ([e7c46d1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e7c46d11f5bfa5f3f350aa644fbc6d540b63d60b))
+* **kakao:** OAuth2 인증 흐름 개선 및 리다이렉션 처리 ([#222](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/222)) ([b7ab342](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b7ab342adab5892b65cf00760d25189bffa0d61b))
+* 외부 초대장 요청 API 추가 (이슈 [#222](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/222)) ([7538718](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7538718bb9b7dacb7e3b98af9f404729f65db506))
+
 ## [1.27.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.26.0...v1.27.0) (2025-09-15)
 
 
