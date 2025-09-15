@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.27.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.26.0...v1.27.0) (2025-09-15)
+
+
+### Features
+
+* **222/kakao:** 외부 초대장 요청 API 및 디스코드 알림 기능 추가 ([fdbacac](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fdbacacb63626be21e4b24bb7d6828d16080b83a))
+* **222/kakao:** 테스트 환경에서 보안 설정 재정의 및 의존성 주입 추가 ([fea0b58](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fea0b585e1374cabb366124ac8a789e7f9612a96))
+* **222:** 초대장 생성 API 테스트 및 컨트롤러 구현 ([8e4a1b6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8e4a1b61e2e8af413998b07c8714d7de3d26af58))
+
 ## [1.26.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.25.0...v1.26.0) (2025-09-14)
 
 
