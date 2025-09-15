@@ -61,8 +61,13 @@ public class AuthController {
   }
 
   @GetMapping("/signin/kakao")
-  public RedirectView signInWithKakao() {
-    return new RedirectView("/oauth2/authorization/kakao");
+  public RedirectView signInWithKakao(
+      @RequestParam(required = false, name = "redirect-uri") String redirectUri) {
+    String oauth2Url = "/oauth2/authorization/kakao";
+    if (redirectUri != null && !redirectUri.isBlank()) {
+      oauth2Url += "?redirect-uri=" + redirectUri;
+    }
+    return new RedirectView(oauth2Url);
   }
 
   @PostMapping("/reissue")
