@@ -2,11 +2,9 @@ package com.growit.app.mentor.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.fake.mentor.MentorFixture;
-import com.growit.app.mentor.domain.service.MentorIntimacyService;
 import com.growit.app.mentor.domain.vo.IntimacyLevel;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.todo.domain.ToDoRepository;
@@ -21,14 +19,12 @@ class GetMentorIntimacyUseCaseTest {
 
   private GetMentorIntimacyUseCase getMentorIntimacyUseCase;
 
-  @Mock private MentorIntimacyService mentorIntimacyService;
   @Mock private ToDoRepository toDoRepository;
   @Mock private RetrospectRepository retrospectRepository;
 
   @BeforeEach
   void setUp() {
-    getMentorIntimacyUseCase =
-        new GetMentorIntimacyUseCase(mentorIntimacyService, toDoRepository, retrospectRepository);
+    getMentorIntimacyUseCase = new GetMentorIntimacyUseCase(toDoRepository, retrospectRepository);
   }
 
   @Test
@@ -77,9 +73,6 @@ class GetMentorIntimacyUseCaseTest {
   void givenNullUserId_whenExecute_thenThrowsIllegalArgumentException() {
     // Given
     String userId = null;
-    doThrow(new IllegalArgumentException("사용자 ID는 필수입니다."))
-        .when(mentorIntimacyService)
-        .validateUserId(userId);
 
     // When & Then
     assertThrows(IllegalArgumentException.class, () -> getMentorIntimacyUseCase.execute(userId));
@@ -89,9 +82,6 @@ class GetMentorIntimacyUseCaseTest {
   void givenEmptyUserId_whenExecute_thenThrowsIllegalArgumentException() {
     // Given
     String userId = "";
-    doThrow(new IllegalArgumentException("사용자 ID는 필수입니다."))
-        .when(mentorIntimacyService)
-        .validateUserId(userId);
 
     // When & Then
     assertThrows(IllegalArgumentException.class, () -> getMentorIntimacyUseCase.execute(userId));
@@ -101,9 +91,6 @@ class GetMentorIntimacyUseCaseTest {
   void givenBlankUserId_whenExecute_thenThrowsIllegalArgumentException() {
     // Given
     String userId = "   ";
-    doThrow(new IllegalArgumentException("사용자 ID는 필수입니다."))
-        .when(mentorIntimacyService)
-        .validateUserId(userId);
 
     // When & Then
     assertThrows(IllegalArgumentException.class, () -> getMentorIntimacyUseCase.execute(userId));

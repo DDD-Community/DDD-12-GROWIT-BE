@@ -58,7 +58,7 @@ class MentorControllerTest {
         .perform(get("/mentor/intimacy").header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
-        .andExpect(jsonPath("$.data").value("상"))
+        .andExpect(jsonPath("$.data.level").value("상"))
         .andDo(
             document(
                 "get-mentor-intimacy",
@@ -71,7 +71,10 @@ class MentorControllerTest {
                         .description("사용자의 투두 개수와 주간 회고 개수를 기반으로 멘토 친밀도를 조회합니다.")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰"))
-                        .responseFields(subsectionWithPath("data").description("친밀도 레벨 (상, 중, 하)"))
+                        .responseFields(
+                            subsectionWithPath("data").description("멘토 친밀도 정보"),
+                            subsectionWithPath("data.level")
+                                .description("친밀도 레벨 (HIGH, MEDIUM, LOW)"))
                         .build())));
   }
 }

@@ -19,7 +19,6 @@ public class MentorController {
 
   @GetMapping("/intimacy")
   public ResponseEntity<ApiResponse<String>> getMentorIntimacy(@AuthenticationPrincipal User user) {
-    System.out.println(user);
     IntimacyLevel level = getMentorIntimacyUseCase.execute(user.getId());
     return ResponseEntity.ok(ApiResponse.success(level.getLabel()));
   }
