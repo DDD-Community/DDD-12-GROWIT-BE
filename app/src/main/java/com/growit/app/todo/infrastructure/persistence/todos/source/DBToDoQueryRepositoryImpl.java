@@ -85,4 +85,17 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
             toDo.deletedAt.isNull())
         .fetch();
   }
+
+  @Override
+  public int countByUserId(String userId) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    Long count =
+        queryFactory
+            .select(toDo.count())
+            .from(toDo)
+            .where(toDo.userId.eq(userId), toDo.deletedAt.isNull())
+            .fetchOne();
+
+    return count != null ? count.intValue() : 0;
+  }
 }

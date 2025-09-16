@@ -50,4 +50,9 @@ public class FakeRetrospectRepository implements RetrospectRepository {
         .filter(r -> r.getGoalId().equals(goalId) && r.getUserId().equals(userId))
         .toList();
   }
+
+  @Override
+  public int countWeeklyRetrospectsByUserId(String userId) {
+    return (int) store.values().stream().filter(r -> r.getUserId().equals(userId)).count();
+  }
 }

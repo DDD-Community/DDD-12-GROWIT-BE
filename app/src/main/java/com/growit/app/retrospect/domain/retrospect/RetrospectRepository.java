@@ -16,4 +16,6 @@ public interface RetrospectRepository {
   Optional<Retrospect> findByFilter(RetrospectQueryFilter filter);
 
   List<Retrospect> findByGoalIdAndUserId(String goalId, String userId);
+
+  int countWeeklyRetrospectsByUserId(String userId);
 }

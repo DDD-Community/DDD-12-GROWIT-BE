@@ -73,7 +73,17 @@ public class FakeToDoRepository implements ToDoRepository {
     return List.of();
   }
 
+  @Override
+  public int countByUserId(String userId) {
+    return (int)
+        store.getOrDefault(userId, Collections.emptyList()).stream()
+            .filter(todo -> !todo.isDeleted())
+            .count();
+  }
+
   public void clear() {
     store.clear();
   }
+
+  public void setUserTodoCount(String userId, int count) {}
 }
