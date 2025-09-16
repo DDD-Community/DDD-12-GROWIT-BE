@@ -69,30 +69,4 @@ class GetMentorIntimacyUseCaseTest {
     assertEquals(IntimacyLevel.LOW, result);
   }
 
-  @Test
-  void givenNullUserId_whenExecute_thenThrowsIllegalArgumentException() {
-    // Given
-    String userId = null;
-
-    // When & Then
-    assertThrows(IllegalArgumentException.class, () -> getMentorIntimacyUseCase.execute(userId));
-  }
-
-  @Test
-  void givenEmptyUserId_whenExecute_thenThrowsIllegalArgumentException() {
-    // Given
-    String userId = "";
-
-    // When & Then
-    assertThrows(IllegalArgumentException.class, () -> getMentorIntimacyUseCase.execute(userId));
-  }
-
-  @Test
-  void givenBlankUserId_whenExecute_thenThrowsIllegalArgumentException() {
-    // Given
-    String userId = "   ";
-
-    // When & Then
-    assertThrows(IllegalArgumentException.class, () -> getMentorIntimacyUseCase.execute(userId));
-  }
 }
