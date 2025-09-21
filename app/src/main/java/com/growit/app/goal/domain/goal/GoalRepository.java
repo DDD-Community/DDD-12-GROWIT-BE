@@ -19,5 +19,7 @@ public interface GoalRepository {
 
   List<Goal> findAllByIds(List<String> ids);
 
+  List<Goal> findActiveGoals();
+
   void flushAndClear();
 }

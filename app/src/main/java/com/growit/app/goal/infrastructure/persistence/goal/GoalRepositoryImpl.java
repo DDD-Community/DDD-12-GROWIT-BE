@@ -66,6 +66,13 @@ public class GoalRepositoryImpl implements GoalRepository {
   }
 
   @Override
+  public List<Goal> findActiveGoals() {
+    return repository.findAll().stream()
+        .map(mapper::toDomain)
+        .toList();
+  }
+
+  @Override
   public void flushAndClear() {
     repository.flushAndClear();
   }

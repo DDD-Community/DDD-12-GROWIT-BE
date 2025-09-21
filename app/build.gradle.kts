@@ -60,6 +60,11 @@ dependencies {
   // caffeine cahce
   implementation(libs.caffeine)
 
+  // AWS SDK - 람다 + 이벤트 브릿지
+  implementation("software.amazon.awssdk:eventbridge:2.20.0")
+  implementation("software.amazon.awssdk:sts:2.20.0")
+  implementation("org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE")
+
   developmentOnly(libs.spring.boot.devtools)
 
   compileOnly(libs.lombok)

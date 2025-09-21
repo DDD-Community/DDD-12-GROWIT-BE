@@ -46,4 +46,13 @@ public class UserRepositoryImpl implements UserRepository {
     List<User> content = page.getContent().stream().map(userDBMapper::toDomain).toList();
     return new PageImpl<>(content, pageable, page.getTotalElements());
   }
+
+  @Override
+  // TODO :: 차후 프로모션 코드가 있는 유저만 조회
+  public List<User> findActiveUsers() {
+    return dbUserRepository.findAll().stream()
+        .filter(user -> user.getDeletedAt() == null)
+        .map(userDBMapper::toDomain)
+        .toList();
+  }
 }
