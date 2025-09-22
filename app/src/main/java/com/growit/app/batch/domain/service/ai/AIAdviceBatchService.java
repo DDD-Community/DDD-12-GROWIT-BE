@@ -2,6 +2,7 @@ package com.growit.app.batch.domain.service.ai;
 
 import com.growit.app.ai.domain.event.AIAdviceRequestEvent;
 import com.growit.app.ai.domain.event.AIAdviceResponseEvent;
+import com.growit.app.ai.domain.service.AIAdviceService;
 import com.growit.app.ai.infrastructure.client.AIServiceClient;
 import com.growit.app.ai.infrastructure.event.EventPublisher;
 import com.growit.app.batch.domain.batchjob.BatchJob;
@@ -27,6 +28,7 @@ public class AIAdviceBatchService {
   
   private final EventPublisher eventPublisher;
   private final AIServiceClient aiServiceClient;
+  private final AIAdviceService aiAdviceService;
   private final UserRepository userRepository;
   private final GoalRepository goalRepository;
   private final ToDoRepository toDoRepository;
@@ -63,12 +65,13 @@ public class AIAdviceBatchService {
             AIAdviceResponseEvent responseEvent = aiServiceClient.generateAdvice(requestEvent);
             
             if (responseEvent.isSuccess()) {
-              // 성공 시 이벤트 발행
-              eventPublisher.publishAdviceRequest(requestEvent);
+              // 성공 시 AIAdviceService를 통해 저장 및 이벤트 발행
+              aiAdviceService.saveAIAdvice(responseEvent);
               success++;
             } else {
-              log.error("AI advice generation failed for user: {}, error: {}", 
-                       user.getId(), responseEvent.getError());
+              // 실패 시 로그만 기록
+              log.error("AI advice generation failed for user: {}, goalMentor: {}, error: {}", 
+                       user.getId(), goalMentorId, responseEvent.getError());
               failure++;
             }
             processed++;
