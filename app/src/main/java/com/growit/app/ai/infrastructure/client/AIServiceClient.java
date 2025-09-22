@@ -32,15 +32,11 @@ public class AIServiceClient {
     private String aiServiceBaseUrl;
 
 
-    /**
-     * 오늘의 조언 생성 API 호출
-     */
     public AIAdviceResponseEvent generateAdvice(AIAdviceRequestEvent requestEvent) {
 
         try {
             String url = aiServiceBaseUrl + "/api/daily-advice";
 
-            // NestJS API 요청 형식으로 변환
             GenerateAdviceRequest request = GenerateAdviceRequest.builder()
                     .userId(requestEvent.getUserId())
                     .promptId(requestEvent.getPromptId())
@@ -65,17 +61,7 @@ public class AIServiceClient {
                 throw new RuntimeException("AI service returned null response");
             }
 
-            log.info("=== Nest 서버 응답 수신 ===");
-            log.info("Response Status: {}", response.getStatusCode());
-            log.info("Response Body: {}", objectMapper.writeValueAsString(responseBody));
-            
-            if (responseBody.getOutput() != null) {
-                log.info("Nest 서버 원본 Keeps: [{}]", responseBody.getOutput().getKeeps());
-                log.info("Nest 서버 원본 Problems: [{}]", responseBody.getOutput().getProblems());
-                log.info("Nest 서버 원본 Trys: [{}]", responseBody.getOutput().getTrys());
-            }
 
-            // 응답을 AIAdviceResponseEvent로 변환
             return AIAdviceResponseEvent.builder()
                     .success(responseBody.isSuccess())
                     .userId(responseBody.getUserId())
@@ -105,27 +91,22 @@ public class AIServiceClient {
         }
     }
 
-    /**
-     * 목표 추천 생성 API 호출
-     */
     public AIPlanRecommendationResponseEvent generatePlanRecommendation(AIPlanRecommendationRequestEvent requestEvent) {
 
         try {
             String url = aiServiceBaseUrl + "/api/goal-recommendation";
 
-            // NestJS API 요청 형식으로 변환
             GenerateGoalRecommendationRequest request = GenerateGoalRecommendationRequest.builder()
                     .userId(requestEvent.getUserId())
                     .promptId(requestEvent.getPromptId())
                     .templateUid(requestEvent.getTemplateUid())
                     .input(GenerateGoalRecommendationInput.builder()
-                            .pastTodos(requestEvent.getRecentProgress().isEmpty() ? 
-                                List.of("테스트 투두 1", "테스트 투두 2") : requestEvent.getRecentProgress())
-                            .pastRetrospects(List.of("테스트 회고 1", "테스트 회고 2")) // TODO: 실제 회고 데이터 조회
+                            .pastTodos(requestEvent.getRecentProgress())
+                            .pastRetrospects(List.of())
                             .overallGoal(requestEvent.getGoalName())
-                            .completedTodos(List.of("완료된 투두 1")) // TODO: 완료된 투두 조회
-                            .pastWeeklyGoals(List.of("과거 주간 목표 1")) // TODO: 과거 주간 목표 조회
-                            .remainingTime("1주") // TODO: 실제 남은 시간 계산
+                            .completedTodos(List.of())
+                            .pastWeeklyGoals(List.of())
+                            .remainingTime("1주")
                             .build())
                     .build();
 
@@ -133,7 +114,6 @@ public class AIServiceClient {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<GenerateGoalRecommendationRequest> entity = new HttpEntity<>(request, headers);
 
-            log.info("Calling AI service for plan recommendation: {}", url);
             ResponseEntity<GenerateGoalRecommendationResponse> response = restTemplate.exchange(
                     url, HttpMethod.POST, entity, GenerateGoalRecommendationResponse.class);
 
@@ -142,7 +122,6 @@ public class AIServiceClient {
                 throw new RuntimeException("AI service returned null response");
             }
 
-            // 응답을 AIPlanRecommendationResponseEvent로 변환
             return AIPlanRecommendationResponseEvent.builder()
                     .success(responseBody.isSuccess())
                     .userId(responseBody.getUserId())
@@ -169,7 +148,6 @@ public class AIServiceClient {
     }
 
 
-    // NestJS API 요청/응답 DTO들
     @Data
     @Builder
     @NoArgsConstructor
