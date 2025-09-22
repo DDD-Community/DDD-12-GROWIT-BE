@@ -6,6 +6,7 @@ import com.growit.app.ai.domain.event.AIAdviceRequestEvent;
 import com.growit.app.ai.domain.event.AIAdviceResponseEvent;
 import com.growit.app.ai.domain.event.AIPlanRecommendationRequestEvent;
 import com.growit.app.ai.domain.event.AIPlanRecommendationResponseEvent;
+import com.growit.app.ai.domain.service.AIDataService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class AIServiceClient {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final AIDataService aiDataService;
 
     @Value("${ai.service.base-url:http://localhost:8001}")
     private String aiServiceBaseUrl;
@@ -37,15 +39,19 @@ public class AIServiceClient {
         try {
             String url = aiServiceBaseUrl + "/api/daily-advice";
 
+            AIDataService.AIDataResponse data = aiDataService.getDataForAdvice(requestEvent.getUserId());
+
             GenerateAdviceRequest request = GenerateAdviceRequest.builder()
                     .userId(requestEvent.getUserId())
                     .promptId(requestEvent.getPromptId())
                     .templateUid(requestEvent.getTemplateUid())
                     .input(GenerateAdviceInput.builder()
-                            .mentorType(requestEvent.getMentorType())
-                            .recentTodos(requestEvent.getRecentTodos())
-                            .weeklyRetrospects(requestEvent.getWeeklyRetrospects())
-                            .overallGoal(requestEvent.getOverallGoal())
+                            .recentTodos(data.getRecentTodos())
+                            .weeklyRetrospects(data.getWeeklyRetrospects())
+                            .overallGoal(data.getOverallGoal())
+                            .completedTodos(data.getCompletedTodos())
+                            .incompleteTodos(data.getIncompleteTodos())
+                            .pastWeeklyGoals(data.getPastWeeklyGoals())
                             .build())
                     .build();
 
@@ -96,17 +102,19 @@ public class AIServiceClient {
         try {
             String url = aiServiceBaseUrl + "/api/goal-recommendation";
 
+            AIDataService.AIDataResponse data = aiDataService.getDataForPlanRecommendation(requestEvent.getUserId(), requestEvent.getGoalId());
+
             GenerateGoalRecommendationRequest request = GenerateGoalRecommendationRequest.builder()
                     .userId(requestEvent.getUserId())
                     .promptId(requestEvent.getPromptId())
                     .templateUid(requestEvent.getTemplateUid())
                     .input(GenerateGoalRecommendationInput.builder()
-                            .pastTodos(requestEvent.getRecentProgress())
-                            .pastRetrospects(List.of())
-                            .overallGoal(requestEvent.getGoalName())
-                            .completedTodos(List.of())
-                            .pastWeeklyGoals(List.of())
-                            .remainingTime("1주")
+                            .pastTodos(data.getRecentTodos())
+                            .pastRetrospects(data.getWeeklyRetrospects())
+                            .overallGoal(data.getOverallGoal())
+                            .completedTodos(data.getCompletedTodos())
+                            .pastWeeklyGoals(data.getPastWeeklyGoals())
+                            .remainingTime(data.getRemainingTime())
                             .build())
                     .build();
 
@@ -164,10 +172,12 @@ public class AIServiceClient {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GenerateAdviceInput {
-        private String mentorType;
         private List<String> recentTodos;
         private List<String> weeklyRetrospects;
         private String overallGoal;
+        private List<String> completedTodos;
+        private List<String> incompleteTodos;
+        private List<String> pastWeeklyGoals;
     }
 
     @Data

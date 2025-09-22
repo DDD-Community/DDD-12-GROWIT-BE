@@ -2,6 +2,7 @@ package com.growit.app.batch.domain.service.ai;
 
 import com.growit.app.ai.domain.event.AIPlanRecommendationRequestEvent;
 import com.growit.app.ai.domain.event.AIPlanRecommendationResponseEvent;
+import com.growit.app.ai.domain.service.AIDataService;
 import com.growit.app.ai.infrastructure.client.AIServiceClient;
 import com.growit.app.ai.infrastructure.event.EventPublisher;
 import com.growit.app.batch.domain.batchjob.BatchJob;
@@ -22,6 +23,7 @@ public class AIPlanRecommendationBatchService {
   
   private final EventPublisher eventPublisher;
   private final AIServiceClient aiServiceClient;
+  private final AIDataService aiDataService;
   private final GoalRepository goalRepository;
 
   public BatchJob executeWeeklyPlanRecommendation() {
@@ -45,14 +47,11 @@ public class AIPlanRecommendationBatchService {
       
       for (Goal goal : activeGoals) {
         try {
-          // 주간 목표 추천 요청 이벤트 생성
           AIPlanRecommendationRequestEvent requestEvent = createPlanRecommendationEvent(goal);
           
-          // AI 서비스 호출
           AIPlanRecommendationResponseEvent responseEvent = aiServiceClient.generatePlanRecommendation(requestEvent);
           
           if (responseEvent.isSuccess()) {
-            // 성공 시 이벤트 발행
             eventPublisher.publishPlanRecommendationRequest(requestEvent);
             success++;
           } else {
@@ -81,16 +80,17 @@ public class AIPlanRecommendationBatchService {
   }
 
   private AIPlanRecommendationRequestEvent createPlanRecommendationEvent(Goal goal) {
+    AIDataService.AIDataResponse data = aiDataService.getDataForPlanRecommendation(goal.getUserId(), goal.getId());
+    
     return AIPlanRecommendationRequestEvent.builder()
         .userId(goal.getUserId())
         .goalId(goal.getId())
-        .planId("") // TODO: 현재 주간 계획 ID 조회
+        .planId("")
         .date(LocalDate.now())
-        .mentorType("피터 레벨스") // TODO: 실제 멘토 타입 조회
         .goalCategory(goal.getCategory().name())
         .goalName(goal.getName())
         .toBe(goal.getToBe())
-        .recentProgress(List.of()) // TODO: 최근 진행상황 조회
+        .recentProgress(data.getRecentTodos())
         .promptId("teamcook-goal-001")
         .templateUid("default-template")
         .build();

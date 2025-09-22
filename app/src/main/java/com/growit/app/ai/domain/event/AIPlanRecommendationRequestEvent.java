@@ -31,8 +31,6 @@ public class AIPlanRecommendationRequestEvent {
   @JsonProperty("date")
   private LocalDate date;
   
-  @JsonProperty("mentorType")
-  private String mentorType;
   
   @JsonProperty("goalCategory")
   private String goalCategory;

@@ -28,8 +28,6 @@ public class AIAdviceRequestEvent {
   @JsonProperty("date")
   private LocalDate date;
   
-  @JsonProperty("mentorType")
-  private String mentorType;
   
   @JsonProperty("recentTodos")
   private List<String> recentTodos;
