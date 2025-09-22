@@ -14,7 +14,15 @@ public class RetrospectResponse {
   @AllArgsConstructor
   public static class RetrospectDto {
     private String id;
-    private String content;
+    private KptDto kpt;
+  }
+
+  @Getter
+  @AllArgsConstructor
+  public static class KptDto {
+    private String keep;
+    private String problem;
+    private String tryNext;
   }
 
   @Getter

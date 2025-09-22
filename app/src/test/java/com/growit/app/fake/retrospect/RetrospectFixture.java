@@ -3,12 +3,14 @@ package com.growit.app.fake.retrospect;
 import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.controller.retrospect.dto.request.CreateRetrospectRequest;
+import com.growit.app.retrospect.controller.retrospect.dto.request.KPTDto;
 import com.growit.app.retrospect.controller.retrospect.dto.request.UpdateRetrospectRequest;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.dto.GetRetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.vo.KPT;
 import com.growit.app.retrospect.usecase.retrospect.dto.RetrospectWithPlan;
 
 public class RetrospectFixture {
@@ -24,13 +26,13 @@ public class RetrospectFixture {
   }
 
   public static Retrospect customRetrospect(
-      String id, String userId, String goalId, String planId, String content) {
+      String id, String userId, String goalId, String planId, KPT kpt) {
     return new RetrospectBuilder()
         .id(id)
         .userId(userId)
         .goalId(goalId)
         .planId(planId)
-        .content(content)
+        .kpt(kpt)
         .build();
   }
 
@@ -48,36 +50,32 @@ public class RetrospectFixture {
   }
 
   public static CreateRetrospectRequest defaultCreateRetrospectRequest() {
-    return new CreateRetrospectRequest(
-        "goal-123", "plan-456", "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+    KPTDto kptDto = new KPTDto("계획대로 진행했던 부분을 작성합니다.", "어려웠던 문제점들을 작성합니다.", "다음에 시도해볼 방법들을 작성합니다.");
+    return new CreateRetrospectRequest("goal-123", "plan-456", kptDto);
   }
 
   public static CreateRetrospectCommand defaultCreateRetrospectCommand() {
-    return new CreateRetrospectCommand(
-        "goal-123",
-        "plan-456",
-        "user-789",
-        "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+    KPT kpt = new KPT("계획대로 진행했던 부분", "어려웠던 문제점들", "다음에 시도해볼 방법들");
+    return new CreateRetrospectCommand("goal-123", "plan-456", "user-789", kpt);
   }
 
-  public static CreateRetrospectCommand createRetrospectCommandWithContent(
-      String goalId, String userId, String planId, String content) {
-    return new CreateRetrospectCommand(goalId, planId, userId, content);
+  public static CreateRetrospectCommand createRetrospectCommandWithKPT(
+      String goalId, String userId, String planId, KPT kpt) {
+    return new CreateRetrospectCommand(goalId, planId, userId, kpt);
   }
 
   public static UpdateRetrospectRequest defaultUpdateRetrospectRequest() {
-    return new UpdateRetrospectRequest(
-        "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+    KPTDto kptDto = new KPTDto("수정된 Keep 내용", "수정된 Problem 내용", "수정된 Try 내용");
+    return new UpdateRetrospectRequest(kptDto);
   }
 
   public static UpdateRetrospectCommand defaultUpdateRetrospectCommand() {
-    return new UpdateRetrospectCommand(
-        "id", "userId", "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.");
+    KPT kpt = new KPT("수정된 Keep 내용", "수정된 Problem 내용", "수정된 Try 내용");
+    return new UpdateRetrospectCommand("id", "userId", kpt);
   }
 
-  public static UpdateRetrospectCommand updateRetrospectCommand(
-      String id, String userId, String content) {
-    return new UpdateRetrospectCommand(id, userId, content);
+  public static UpdateRetrospectCommand updateRetrospectCommand(String id, String userId, KPT kpt) {
+    return new UpdateRetrospectCommand(id, userId, kpt);
   }
 }
 
@@ -86,7 +84,7 @@ class RetrospectBuilder {
   private String userId = "user-123";
   private String goalId = "goal-123";
   private String planId = "plan-1";
-  private String content = "이번 주에는 계획한 목표를 달성하기 위해 열심히 노력했습니다. 특히 새로운 기술을 배우는 것에 집중했습니다.";
+  private KPT kpt = new KPT("계획대로 진행했던 부분", "어려웠던 문제점들", "다음에 시도해볼 방법들");
 
   public RetrospectBuilder id(String id) {
     this.id = id;
@@ -108,8 +106,8 @@ class RetrospectBuilder {
     return this;
   }
 
-  public RetrospectBuilder content(String content) {
-    this.content = content;
+  public RetrospectBuilder kpt(KPT kpt) {
+    this.kpt = kpt;
     return this;
   }
 
@@ -119,7 +117,7 @@ class RetrospectBuilder {
         .userId(userId)
         .goalId(goalId)
         .planId(planId)
-        .content(content)
+        .kpt(kpt)
         .build();
   }
 }

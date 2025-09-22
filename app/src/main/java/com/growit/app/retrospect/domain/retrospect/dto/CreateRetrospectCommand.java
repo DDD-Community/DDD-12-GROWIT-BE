@@ -1,4 +1,5 @@
 package com.growit.app.retrospect.domain.retrospect.dto;
 
-public record CreateRetrospectCommand(
-    String goalId, String planId, String userId, String content) {}
+import com.growit.app.retrospect.domain.retrospect.vo.KPT;
+
+public record CreateRetrospectCommand(String goalId, String planId, String userId, KPT kpt) {}

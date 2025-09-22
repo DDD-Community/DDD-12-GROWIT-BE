@@ -25,10 +25,18 @@ public class RetrospectEntity extends BaseEntity {
   @Column(nullable = false, length = 128, unique = true)
   private String planId;
 
-  @Column(nullable = false, length = 500)
+  @Column(nullable = false, length = 512)
   private String content;
 
+  @OneToOne(mappedBy = "retrospect", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @Setter
+  private RetrospectKPTEntity kpt;
+
   public void updateByDomain(Retrospect retrospect) {
-    this.content = retrospect.getContent();
+    if (this.kpt == null) {
+      this.kpt = new RetrospectKPTEntity();
+      this.kpt.setRetrospect(this);
+    }
+    this.kpt.updateByDomain(retrospect.getKpt());
   }
 }
