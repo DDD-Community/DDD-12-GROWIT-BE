@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/batch")
 @RequiredArgsConstructor
 @Slf4j
-public class LambdaBatchController {
+public class BatchController {
   
   private final AIBatchService aiBatchService;
 

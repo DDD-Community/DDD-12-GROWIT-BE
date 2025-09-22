@@ -66,8 +66,7 @@ ai:
 
   service:
     base-url: ${AI_SERVICE_BASE_URL:http://localhost:8001}
-    mock-enabled: ${AI_SERVICE_MOCK_ENABLED:false}
 
 batch:
   scheduler:
-    enabled: false  # Lambda 사용으로 비활성화
+    enabled: true  # 스케줄러 활성화

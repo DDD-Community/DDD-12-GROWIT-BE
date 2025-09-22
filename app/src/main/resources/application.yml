@@ -68,4 +68,4 @@ ai:
 
 batch:
   scheduler:
-    enabled: false  # Lambda 사용으로 비활성화
+    enabled: true  # 스케줄러 활성화
