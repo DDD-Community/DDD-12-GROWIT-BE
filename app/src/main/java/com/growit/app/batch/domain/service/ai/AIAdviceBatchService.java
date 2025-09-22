@@ -113,7 +113,7 @@ public class AIAdviceBatchService {
         .recentTodos(recentTodos)
         .weeklyRetrospects(weeklyRetrospects)
         .overallGoal(overallGoal)
-        .promptId("RX2NiGJ2uPxBG9PTHkdlT")
+        .promptId("teamcook-advice-001")
         .templateUid("default-template")
         .build();
   }

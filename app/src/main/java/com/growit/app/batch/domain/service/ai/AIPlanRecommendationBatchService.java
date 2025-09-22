@@ -91,7 +91,7 @@ public class AIPlanRecommendationBatchService {
         .goalName(goal.getName())
         .toBe(goal.getToBe())
         .recentProgress(List.of()) // TODO: 최근 진행상황 조회
-        .promptId("93tGHKO6nQgugnF3ts-D1")
+        .promptId("teamcook-goal-001")
         .templateUid("default-template")
         .build();
   }

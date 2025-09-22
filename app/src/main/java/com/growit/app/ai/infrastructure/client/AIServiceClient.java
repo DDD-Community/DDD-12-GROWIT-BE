@@ -31,17 +31,11 @@ public class AIServiceClient {
     @Value("${ai.service.base-url:http://localhost:8001}")
     private String aiServiceBaseUrl;
 
-    @Value("${ai.service.mock-enabled:true}")
-    private boolean mockEnabled;
 
     /**
      * 오늘의 조언 생성 API 호출
      */
     public AIAdviceResponseEvent generateAdvice(AIAdviceRequestEvent requestEvent) {
-        // Mock 모드인 경우 Mock 응답 반환
-        if (mockEnabled) {
-            return createMockAdviceResponse(requestEvent);
-        }
 
         try {
             String url = aiServiceBaseUrl + "/api/daily-advice";
@@ -63,13 +57,22 @@ public class AIServiceClient {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<GenerateAdviceRequest> entity = new HttpEntity<>(request, headers);
 
-            log.info("Calling AI service for advice generation: {}", url);
             ResponseEntity<GenerateAdviceResponse> response = restTemplate.exchange(
                     url, HttpMethod.POST, entity, GenerateAdviceResponse.class);
 
             GenerateAdviceResponse responseBody = response.getBody();
             if (responseBody == null) {
                 throw new RuntimeException("AI service returned null response");
+            }
+
+            log.info("=== Nest 서버 응답 수신 ===");
+            log.info("Response Status: {}", response.getStatusCode());
+            log.info("Response Body: {}", objectMapper.writeValueAsString(responseBody));
+            
+            if (responseBody.getOutput() != null) {
+                log.info("Nest 서버 원본 Keeps: [{}]", responseBody.getOutput().getKeeps());
+                log.info("Nest 서버 원본 Problems: [{}]", responseBody.getOutput().getProblems());
+                log.info("Nest 서버 원본 Trys: [{}]", responseBody.getOutput().getTrys());
             }
 
             // 응답을 AIAdviceResponseEvent로 변환
@@ -106,10 +109,6 @@ public class AIServiceClient {
      * 목표 추천 생성 API 호출
      */
     public AIPlanRecommendationResponseEvent generatePlanRecommendation(AIPlanRecommendationRequestEvent requestEvent) {
-        // Mock 모드인 경우 Mock 응답 반환
-        if (mockEnabled) {
-            return createMockPlanRecommendationResponse(requestEvent);
-        }
 
         try {
             String url = aiServiceBaseUrl + "/api/goal-recommendation";
@@ -169,38 +168,6 @@ public class AIServiceClient {
         }
     }
 
-    /**
-     * Mock 응답 생성 (AI 서비스 없이 테스트용)
-     */
-    private AIAdviceResponseEvent createMockAdviceResponse(AIAdviceRequestEvent requestEvent) {
-        log.info("Using mock response for AI advice generation");
-
-        return AIAdviceResponseEvent.builder()
-                .success(true)
-                .userId(requestEvent.getUserId())
-                .goalMentorId(requestEvent.getGoalMentorId())
-                .adviceId("mock-advice-" + System.currentTimeMillis())
-                .output(AIAdviceResponseEvent.AdviceOutput.builder()
-                        .keeps("오늘도 꾸준히 목표를 향해 나아가고 있습니다.")
-                        .problems("시간 관리가 아직 부족한 것 같습니다.")
-                        .trys("내일은 시간을 더 체계적으로 관리해보겠습니다.")
-                        .build())
-                .generatedAt(LocalDateTime.now())
-                .build();
-    }
-
-    private AIPlanRecommendationResponseEvent createMockPlanRecommendationResponse(AIPlanRecommendationRequestEvent requestEvent) {
-        log.info("Using mock response for AI plan recommendation");
-
-        return AIPlanRecommendationResponseEvent.builder()
-                .success(true)
-                .userId(requestEvent.getUserId())
-                .goalId(requestEvent.getGoalId())
-                .planId(requestEvent.getPlanId())
-                .output("이번 주에는 더 구체적인 계획을 세워보세요. 작은 단위로 나누어 진행하면 좋을 것 같습니다.")
-                .generatedAt(LocalDateTime.now())
-                .build();
-    }
 
     // NestJS API 요청/응답 DTO들
     @Data
@@ -241,7 +208,9 @@ public class AIServiceClient {
         @NoArgsConstructor
         @AllArgsConstructor
         public static class AdviceOutput {
+            @JsonProperty("keep")
             private String keeps;
+            @JsonProperty("problem")
             private String problems;
             @JsonProperty("try")
             private String trys;
