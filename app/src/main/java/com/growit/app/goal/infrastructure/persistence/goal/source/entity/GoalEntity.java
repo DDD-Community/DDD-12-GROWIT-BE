@@ -5,6 +5,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.goal.domain.goal.vo.Mentor;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -51,6 +52,10 @@ public class GoalEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Builder.Default
   private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
+
+  @Column(nullable = true)
+  @Enumerated(EnumType.STRING)
+  private Mentor mentor;
 
   @OneToMany(
       mappedBy = "goal",

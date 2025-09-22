@@ -116,6 +116,7 @@ class GoalControllerTest {
                                 .type(STRING)
                                 .description(
                                     "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data[].mentor").type(STRING).description("멘토"),
                             fieldWithPath("data[].plans").description("계획 리스트"),
                             fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plans[].weekOfMonth")
@@ -169,6 +170,7 @@ class GoalControllerTest {
                                 .type(STRING)
                                 .description(
                                     "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data.mentor").type(STRING).description("멘토"),
                             fieldWithPath("data.plans").description("계획 리스트"),
                             fieldWithPath("data.plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data.plans[].weekOfMonth")
@@ -225,7 +227,9 @@ class GoalControllerTest {
                             fieldWithPath("plans[].content")
                                 .type(JsonFieldType.STRING)
                                 .description("계획 내용"))
-                        .responseFields(fieldWithPath("data.id").type(STRING).description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data.id").type(STRING).description("목표 ID"),
+                            fieldWithPath("data.mentor").type(STRING).description("멘토"))
                         .build())));
   }
 

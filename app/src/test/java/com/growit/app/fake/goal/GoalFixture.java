@@ -52,7 +52,7 @@ public class GoalFixture {
         "내 목표는 그로잇 완성",
         new GoalDurationDto(startDate, endDate),
         "배포 완료",
-        GoalCategory.NETWORKING,
+        GoalCategory.STUDY,
         List.of(
             new PlanRequestDto(1, "기획 및 설계 회의"),
             new PlanRequestDto(2, "디자인 시안 뽑기"),
@@ -84,7 +84,7 @@ class GoalBuilder {
   private String userId = "user-1";
   private String name = "테스트 목표";
   private String toBe = "TOBE";
-  private GoalCategory category = GoalCategory.NETWORKING;
+  private GoalCategory category = GoalCategory.STUDY;
   private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
   private boolean isDelete = false;
 

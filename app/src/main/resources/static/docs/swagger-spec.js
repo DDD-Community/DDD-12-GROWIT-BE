@@ -206,7 +206,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-15\",\n        \"endDate\" : \"2025-09-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"ZUurLAlviYyQP9K7isyno\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-22\",\n        \"endDate\" : \"2025-09-28\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"L4iRwLtU2CEqVu3W8opHf\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -277,7 +277,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"K_NO6XkZteFuqkzbSxboD\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"howfQzJs_aTST8B1WhLUg\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -341,11 +341,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/goals-1456783970"
+                  "$ref" : "#/components/schemas/goals204000602"
                 },
                 "examples" : {
                   "get-my-goals" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-15\",\n      \"endDate\" : \"2025-09-21\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"NETWORKING\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-15\",\n        \"endDate\" : \"2025-09-21\"\n      }\n    } ]\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-22\",\n      \"endDate\" : \"2025-09-28\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-22\",\n        \"endDate\" : \"2025-09-28\"\n      }\n    } ],\n    \"mentor\" : null\n  } ]\n}"
                   }
                 }
               }
@@ -366,7 +366,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-22\",\n    \"endDate\" : \"2025-10-19\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"NETWORKING\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-29\",\n    \"endDate\" : \"2025-10-26\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"STUDY\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -378,11 +378,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/goals574842772"
+                  "$ref" : "#/components/schemas/goals-1062664024"
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"XaFGWC3rsW_De_gn1PsJd\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"iLilvu2YhZ9zbRnx45xsK\",\n    \"mentor\" : \"TIM_COOK\"\n  }\n}"
                   }
                 }
               }
@@ -412,11 +412,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/goals-id-1590510103"
+                  "$ref" : "#/components/schemas/goals-id164877485"
                 },
                 "examples" : {
                   "get-my-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-15\",\n      \"endDate\" : \"2025-09-21\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"NETWORKING\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-15\",\n        \"endDate\" : \"2025-09-21\"\n      }\n    } ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-22\",\n      \"endDate\" : \"2025-09-28\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-22\",\n        \"endDate\" : \"2025-09-28\"\n      }\n    } ],\n    \"mentor\" : null\n  }\n}"
                   }
                 }
               }
@@ -446,7 +446,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-22\",\n    \"endDate\" : \"2025-10-19\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"NETWORKING\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-09-29\",\n    \"endDate\" : \"2025-10-26\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"STUDY\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -859,10 +859,10 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-today-mission" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-15\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-15\",\n    \"isCompleted\" : false\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-22\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-22\",\n    \"isCompleted\" : false\n  } ]\n}"
                   },
                   "get-weekly-plan" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-09-15\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-09-22\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
                   }
                 }
               }
@@ -883,7 +883,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-09-15\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-09-22\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -933,7 +933,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-15\",\n    \"isCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-22\",\n    \"isCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -963,7 +963,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-09-15\",\n  \"content\" : \"수정된 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-09-22\",\n  \"content\" : \"수정된 내용\"\n}"
                 }
               }
             }
@@ -1330,6 +1330,24 @@ window.swaggerSpec={
           }
         }
       },
+      "goals-1062664024" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "mentor" : {
+                "type" : "string",
+                "description" : "멘토"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              }
+            }
+          }
+        }
+      },
       "todos-268181502" : {
         "type" : "object",
         "properties" : {
@@ -1514,40 +1532,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id203621875" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "date" : {
-                "type" : "string",
-                "description" : "할 일 날짜 (yyyy-MM-dd)"
-              },
-              "goalId" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              },
-              "planId" : {
-                "type" : "string",
-                "description" : "계획 ID"
-              },
-              "id" : {
-                "type" : "string",
-                "description" : "할일 ID"
-              },
-              "content" : {
-                "type" : "string",
-                "description" : "할 일 내용 (5자 이상 30자 미만)"
-              },
-              "isCompleted" : {
-                "type" : "boolean",
-                "description" : "완료 여부"
-              }
-            }
-          }
-        }
-      },
       "auth-signup-kakao-290542722" : {
         "type" : "object",
         "properties" : {
@@ -1588,6 +1572,40 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "탈퇴 성공 메세지"
+          }
+        }
+      },
+      "todos-id203621875" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "date" : {
+                "type" : "string",
+                "description" : "할 일 날짜 (yyyy-MM-dd)"
+              },
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "planId" : {
+                "type" : "string",
+                "description" : "계획 ID"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "할일 ID"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "할 일 내용 (5자 이상 30자 미만)"
+              },
+              "isCompleted" : {
+                "type" : "boolean",
+                "description" : "완료 여부"
+              }
+            }
           }
         }
       },
@@ -1787,20 +1805,6 @@ window.swaggerSpec={
           }
         }
       },
-      "goals574842772" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "id" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              }
-            }
-          }
-        }
-      },
       "goal-retrospects-1650437255" : {
         "type" : "object",
         "properties" : {
@@ -1858,81 +1862,6 @@ window.swaggerSpec={
           "category" : {
             "type" : "string",
             "description" : "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"
-          }
-        }
-      },
-      "goals-id-1590510103" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "duration" : {
-                "type" : "object",
-                "properties" : {
-                  "endDate" : {
-                    "type" : "string",
-                    "description" : "종료일 (yyyy-MM-dd)"
-                  },
-                  "startDate" : {
-                    "type" : "string",
-                    "description" : "시작일 (yyyy-MM-dd)"
-                  }
-                },
-                "description" : "기간 정보 객체"
-              },
-              "plans" : {
-                "type" : "array",
-                "description" : "계획 리스트",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "duration" : {
-                      "type" : "object",
-                      "properties" : {
-                        "endDate" : {
-                          "type" : "string",
-                          "description" : "종료일 (yyyy-MM-dd)"
-                        },
-                        "startDate" : {
-                          "type" : "string",
-                          "description" : "시작일 (yyyy-MM-dd)"
-                        }
-                      },
-                      "description" : "기간 정보 객체"
-                    },
-                    "weekOfMonth" : {
-                      "type" : "number",
-                      "description" : "주차"
-                    },
-                    "id" : {
-                      "type" : "string",
-                      "description" : "계획 ID"
-                    },
-                    "content" : {
-                      "type" : "string",
-                      "description" : "계획 내용"
-                    }
-                  }
-                }
-              },
-              "toBe" : {
-                "type" : "string",
-                "description" : "목표 달성 후 상태"
-              },
-              "name" : {
-                "type" : "string",
-                "description" : "목표 이름"
-              },
-              "id" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              },
-              "category" : {
-                "type" : "string",
-                "description" : "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"
-              }
-            }
           }
         }
       },
@@ -2184,25 +2113,7 @@ window.swaggerSpec={
           }
         }
       },
-      "auth-signin-424105652" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "accessToken" : {
-                "type" : "string",
-                "description" : "엑세스 토큰"
-              },
-              "refreshToken" : {
-                "type" : "string",
-                "description" : "리프레시 토큰"
-              }
-            }
-          }
-        }
-      },
-      "goals-1456783970" : {
+      "goals204000602" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -2223,6 +2134,10 @@ window.swaggerSpec={
                     }
                   },
                   "description" : "기간 정보 객체"
+                },
+                "mentor" : {
+                  "type" : "string",
+                  "description" : "멘토"
                 },
                 "plans" : {
                   "type" : "array",
@@ -2275,6 +2190,24 @@ window.swaggerSpec={
                   "type" : "string",
                   "description" : "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"
                 }
+              }
+            }
+          }
+        }
+      },
+      "auth-signin-424105652" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "accessToken" : {
+                "type" : "string",
+                "description" : "엑세스 토큰"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "리프레시 토큰"
               }
             }
           }
@@ -2402,6 +2335,85 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "성공 메세지"
+          }
+        }
+      },
+      "goals-id164877485" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "duration" : {
+                "type" : "object",
+                "properties" : {
+                  "endDate" : {
+                    "type" : "string",
+                    "description" : "종료일 (yyyy-MM-dd)"
+                  },
+                  "startDate" : {
+                    "type" : "string",
+                    "description" : "시작일 (yyyy-MM-dd)"
+                  }
+                },
+                "description" : "기간 정보 객체"
+              },
+              "mentor" : {
+                "type" : "string",
+                "description" : "멘토"
+              },
+              "plans" : {
+                "type" : "array",
+                "description" : "계획 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "duration" : {
+                      "type" : "object",
+                      "properties" : {
+                        "endDate" : {
+                          "type" : "string",
+                          "description" : "종료일 (yyyy-MM-dd)"
+                        },
+                        "startDate" : {
+                          "type" : "string",
+                          "description" : "시작일 (yyyy-MM-dd)"
+                        }
+                      },
+                      "description" : "기간 정보 객체"
+                    },
+                    "weekOfMonth" : {
+                      "type" : "number",
+                      "description" : "주차"
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "계획 ID"
+                    },
+                    "content" : {
+                      "type" : "string",
+                      "description" : "계획 내용"
+                    }
+                  }
+                }
+              },
+              "toBe" : {
+                "type" : "string",
+                "description" : "목표 달성 후 상태"
+              },
+              "name" : {
+                "type" : "string",
+                "description" : "목표 이름"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "category" : {
+                "type" : "string",
+                "description" : "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"
+              }
+            }
           }
         }
       },
