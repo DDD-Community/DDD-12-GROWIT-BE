@@ -7,7 +7,6 @@ import com.growit.app.user.infrastructure.persistence.userstats.source.UserStats
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,7 +21,19 @@ public class UserStatsRepositoryImpl implements UserStatsRepository {
                 .orElse(createDefaultUserStats(userId));
     }
 
+    @Override
+    public void save(UserStats userStats) {
+        userStatsJpaRepository.findByUserId(userStats.getUserId())
+                .ifPresentOrElse(
+                        entity -> {
+                            entity.updateByDomain(userStats);
+                            userStatsJpaRepository.save(entity);
+                        },
+                        () -> userStatsJpaRepository.save(UserStatsEntity.from(userStats))
+                );
+    }
+
     private UserStats createDefaultUserStats(String userId) {
-        return new UserStats(userId, LocalDate.now(), 0);
+        return new UserStats(userId, null, 0);
     }
 }

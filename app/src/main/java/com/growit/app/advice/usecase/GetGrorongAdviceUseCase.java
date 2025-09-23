@@ -17,8 +17,8 @@ public class GetGrorongAdviceUseCase {
     private final GrorongAdviceService grorongAdviceService;
 
     public Grorong execute(String userId) {
-        UserStats userStats = userStatsRepository.findByUserId(userId);
-        String saying = getSayingUseCase.execute().getMessage();
+        final UserStats userStats = userStatsRepository.findByUserId(userId);
+        final String saying = getSayingUseCase.execute().getMessage();
 
         return grorongAdviceService.generateAdvice(userStats, saying);
     }

@@ -1,8 +1,10 @@
 package com.growit.app.user.infrastructure.persistence.userstats.source.entity;
 
+import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.user.domain.userstats.UserStats;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -11,25 +13,23 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class UserStatsEntity {
+@SuperBuilder
+public class UserStatsEntity extends BaseEntity {
 
-    @Id
-    @Column(name = "user_id", length = 36)
+    @Column(name = "user_id", unique = true, nullable = false)
     private String userId;
 
     @Column(name = "last_seen_date", nullable = false)
     private LocalDate lastSeenDate;
 
     @Column(name = "streak_len", nullable = false)
-    @Builder.Default
     private Integer streakLen = 0;
 
     public static UserStatsEntity from(UserStats userStats) {
         return UserStatsEntity.builder()
-                .userId(userStats.userId())
-                .lastSeenDate(userStats.lastSeenDate())
-                .streakLen(userStats.streakLen())
+                .userId(userStats.getUserId())
+                .lastSeenDate(userStats.getLastSeenDate())
+                .streakLen(userStats.getStreakLen())
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class UserStatsEntity {
     }
 
     public void updateByDomain(UserStats userStats) {
-        this.lastSeenDate = userStats.lastSeenDate();
-        this.streakLen = userStats.streakLen();
+        this.lastSeenDate = userStats.getLastSeenDate();
+        this.streakLen = userStats.getStreakLen();
     }
 }

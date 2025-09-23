@@ -3,6 +3,7 @@ package com.growit.app.advice.domain.grorong.service;
 import com.growit.app.advice.domain.grorong.Grorong;
 import com.growit.app.advice.domain.grorong.vo.Mood;
 import com.growit.app.user.domain.userstats.UserStats;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,11 @@ public class GrorongAdviceService {
     }
 
     private Mood calculateMood(UserStats userStats) {
-        if (userStats.streakLen() >= 3) {
-            return Mood.HAPPY;
-        } else if (userStats.streakLen() < 3) {
-            return Mood.SAD;
-        } else {
-            return Mood.NORMAL;
-        }
+      UserStats.AccessStatus status = userStats.getAccessStatus(LocalDate.now());
+      return switch (status) {
+        case THREE_DAYS_OR_MORE -> Mood.HAPPY;
+        case NOT_ACCESSED_FOR_THREE_DAYS -> Mood.SAD;
+        default -> Mood.NORMAL;
+      };
     }
-
 }

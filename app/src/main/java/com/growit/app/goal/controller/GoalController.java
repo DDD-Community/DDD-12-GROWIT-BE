@@ -9,6 +9,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.*;
+import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class GoalController {
   private final UpdatePlanUseCase updatePlanUseCase;
   private final MessageService messageService;
   private final GetGoalUseCase getGoalUseCase;
+  private final RecommendPlanUseCase recommendPlanUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
@@ -101,5 +103,15 @@ public class GoalController {
     updatePlanUseCase.execute(command);
     return ResponseEntity.ok(
         ApiResponse.success(messageService.msg("success.plan.content.update")));
+  }
+
+  @GetMapping("/{id}/plans/{planId}/recommendation")
+  public ResponseEntity<ApiResponse<String>> recommendPlan(
+    @PathVariable String id,
+    @PathVariable String planId,
+    @AuthenticationPrincipal User user
+  ) {
+    PlanRecommendation recommendation = recommendPlanUseCase.execute(user, planId);
+    return ResponseEntity.ok(ApiResponse.success(recommendation.getContent()));
   }
 }
