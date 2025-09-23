@@ -5,38 +5,35 @@ import static com.growit.app.advice.infrastructure.persistence.mentor.source.ent
 
 import com.growit.app.advice.infrastructure.persistence.mentor.source.entity.MentorAdviceEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class MentorAdviceCustomRepositoryImpl implements MentorAdviceCustomRepository {
 
-    private final JPAQueryFactory queryFactory;
+  private final JPAQueryFactory queryFactory;
 
-    @Override
-    public Optional<MentorAdviceEntity> findByUserIdAndGoalId(String userId, String goalId) {
-        return Optional.ofNullable(
-                queryFactory
-                        .selectFrom(mentorAdviceEntity)
-                        .leftJoin(mentorAdviceEntity.kpt, mentorAdviceKPTEntity)
-                        .fetchJoin()
-                        .where(mentorAdviceEntity.userId.eq(userId)
-                                .and(mentorAdviceEntity.goalId.eq(goalId)))
-                        .fetchOne()
-        );
-    }
+  @Override
+  public Optional<MentorAdviceEntity> findByUserIdAndGoalId(String userId, String goalId) {
+    return Optional.ofNullable(
+        queryFactory
+            .selectFrom(mentorAdviceEntity)
+            .leftJoin(mentorAdviceEntity.kpt, mentorAdviceKPTEntity)
+            .fetchJoin()
+            .where(mentorAdviceEntity.userId.eq(userId).and(mentorAdviceEntity.goalId.eq(goalId)))
+            .fetchOne());
+  }
 
-    @Override
-    public List<MentorAdviceEntity> findByUserId(String userId) {
-        return queryFactory
-                .selectFrom(mentorAdviceEntity)
-                .leftJoin(mentorAdviceEntity.kpt, mentorAdviceKPTEntity)
-                .fetchJoin()
-                .where(mentorAdviceEntity.userId.eq(userId))
-                .fetch();
-    }
+  @Override
+  public List<MentorAdviceEntity> findByUserId(String userId) {
+    return queryFactory
+        .selectFrom(mentorAdviceEntity)
+        .leftJoin(mentorAdviceEntity.kpt, mentorAdviceKPTEntity)
+        .fetchJoin()
+        .where(mentorAdviceEntity.userId.eq(userId))
+        .fetch();
+  }
 }

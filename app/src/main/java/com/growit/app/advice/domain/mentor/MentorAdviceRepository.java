@@ -4,8 +4,7 @@ import java.util.Optional;
 
 public interface MentorAdviceRepository {
 
-    Optional<MentorAdvice> findByUserIdAndGoalId(String userId, String goalId);
+  Optional<MentorAdvice> findByUserIdAndGoalId(String userId, String goalId);
 
-    void save(MentorAdvice mentorAdvice);
-
+  void save(MentorAdvice mentorAdvice);
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GrorongAdviceResponseMapper {
 
-    public GrorongAdviceResponse toResponse(Grorong grorong) {
-        return new GrorongAdviceResponse(grorong);
-    }
+  public GrorongAdviceResponse toResponse(Grorong grorong) {
+    return new GrorongAdviceResponse(grorong);
+  }
 }

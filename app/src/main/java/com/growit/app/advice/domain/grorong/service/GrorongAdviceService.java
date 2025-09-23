@@ -11,17 +11,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GrorongAdviceService {
 
-    public Grorong generateAdvice(UserStats userStats, String saying) {
-        Mood mood = calculateMood(userStats);
-        return Grorong.of(saying, mood);
-    }
+  public Grorong generateAdvice(UserStats userStats, String saying) {
+    Mood mood = calculateMood(userStats);
+    return Grorong.of(saying, mood);
+  }
 
-    private Mood calculateMood(UserStats userStats) {
-      UserStats.AccessStatus status = userStats.getAccessStatus(LocalDate.now());
-      return switch (status) {
-        case THREE_DAYS_OR_MORE -> Mood.HAPPY;
-        case NOT_ACCESSED_FOR_THREE_DAYS -> Mood.SAD;
-        default -> Mood.NORMAL;
-      };
-    }
+  private Mood calculateMood(UserStats userStats) {
+    UserStats.AccessStatus status = userStats.getAccessStatus(LocalDate.now());
+    return switch (status) {
+      case THREE_DAYS_OR_MORE -> Mood.HAPPY;
+      case NOT_ACCESSED_FOR_THREE_DAYS -> Mood.SAD;
+      default -> Mood.NORMAL;
+    };
+  }
 }

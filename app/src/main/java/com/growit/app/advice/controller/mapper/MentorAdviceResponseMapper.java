@@ -7,17 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class MentorAdviceResponseMapper {
 
-    public MentorAdviceResponse toResponse(MentorAdvice mentorAdvice) {
-        MentorAdviceResponse.KptResponse kpt = new MentorAdviceResponse.KptResponse(
-                mentorAdvice.getKpt().getKeep(),
-                mentorAdvice.getKpt().getProblem(),
-                mentorAdvice.getKpt().getTryNext()
-        );
+  public MentorAdviceResponse toResponse(MentorAdvice mentorAdvice) {
+    MentorAdviceResponse.KptResponse kpt =
+        new MentorAdviceResponse.KptResponse(
+            mentorAdvice.getKpt().getKeep(),
+            mentorAdvice.getKpt().getProblem(),
+            mentorAdvice.getKpt().getTryNext());
 
-        return new MentorAdviceResponse(
-                mentorAdvice.isChecked(),
-                mentorAdvice.getMessage(),
-                kpt
-        );
-    }
+    return new MentorAdviceResponse(mentorAdvice.isChecked(), mentorAdvice.getMessage(), kpt);
+  }
 }
