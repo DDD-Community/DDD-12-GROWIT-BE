@@ -6,6 +6,8 @@ import com.growit.app.ai.domain.service.AIAdviceService;
 import com.growit.app.ai.domain.service.AIDataService;
 import com.growit.app.ai.infrastructure.client.AIServiceClient;
 import com.growit.app.ai.infrastructure.event.EventPublisher;
+import com.growit.app.ai.domain.aiadvice.AIAdviceRepository;
+import com.growit.app.ai.domain.aiadvice.AIAdvice;
 import com.growit.app.batch.domain.batchjob.BatchJob;
 import com.growit.app.batch.domain.batchjob.vo.BatchJobStatus;
 import com.growit.app.goal.domain.goal.Goal;
@@ -34,6 +36,7 @@ public class AIAdviceBatchService {
   private final UserRepository userRepository;
   private final GoalRepository goalRepository;
   private final ToDoRepository toDoRepository;
+  private final AIAdviceRepository aiAdviceRepository;
 
   public BatchJob executeDailyAdviceGeneration() {
     BatchJob batchJob = BatchJob.builder()
@@ -56,23 +59,39 @@ public class AIAdviceBatchService {
       
       for (User user : activeUsers) {
         try {
-          List<String> goalMentorIds = getGoalMentorIds(user.getId());
+          // 사용자의 활성 목표들을 가져와서 각 목표별로 AI 조언 생성
+          List<Goal> userGoals = goalRepository.findByUserIdAndGoalDuration(user.getId(), LocalDate.now());
           
-          for (String goalMentorId : goalMentorIds) {
-            AIAdviceRequestEvent requestEvent = createAdviceRequestEvent(user.getId(), goalMentorId);
-            
-            AIAdviceResponseEvent responseEvent = aiServiceClient.generateAdvice(requestEvent);
-            
-            if (responseEvent.isSuccess()) {
-              aiAdviceService.saveAIAdvice(responseEvent);
-              success++;
-            } else {
-              log.error("AI advice generation failed for user: {}, goalMentor: {}, error: {}", 
-                       user.getId(), goalMentorId, responseEvent.getError());
-              failure++;
-            }
-            processed++;
+          if (userGoals.isEmpty()) {
+            log.info("User {} has no active goals, skipping", user.getId());
+            continue;
           }
+          
+          // 사용자당 하나의 AI 조언만 생성
+          List<AIAdvice> existingAdvices = aiAdviceRepository.findByUserId(user.getId());
+          boolean hasAdvice = !existingAdvices.isEmpty();
+          
+          if (hasAdvice) {
+            log.info("User {} has existing advice, will update", user.getId());
+          } else {
+            log.info("User {} has no advice, will create new", user.getId());
+          }
+          
+          // 첫 번째 진행중인 목표로 AI 조언 생성
+          Goal firstGoal = userGoals.get(0);
+          AIAdviceRequestEvent requestEvent = createAdviceRequestEvent(user.getId(), firstGoal.getId());
+          
+          AIAdviceResponseEvent responseEvent = aiServiceClient.generateAdvice(requestEvent);
+          
+          if (responseEvent.isSuccess()) {
+            aiAdviceService.saveAIAdvice(responseEvent);
+            success++;
+          } else {
+            log.error("AI advice generation failed for user: {}, goal: {}, error: {}", 
+                     user.getId(), firstGoal.getId(), responseEvent.getError());
+            failure++;
+          }
+          processed++;
           
         } catch (Exception e) {
           log.error("Failed to generate advice for user: {}", user.getId(), e);
@@ -92,12 +111,13 @@ public class AIAdviceBatchService {
     return batchJob;
   }
 
-  private AIAdviceRequestEvent createAdviceRequestEvent(String userId, String goalMentorId) {
+  private AIAdviceRequestEvent createAdviceRequestEvent(String userId, String goalId) {
     AIDataService.AIDataResponse data = aiDataService.getDataForAdvice(userId);
     
     return AIAdviceRequestEvent.builder()
         .userId(userId)
-        .goalMentorId(goalMentorId)
+        .goalId(goalId)
+        .goalMentorId("goal-mentor-001")
         .date(LocalDate.now())
         .recentTodos(data.getRecentTodos())
         .weeklyRetrospects(data.getWeeklyRetrospects())
@@ -107,8 +127,6 @@ public class AIAdviceBatchService {
         .build();
   }
 
-  private List<String> getGoalMentorIds(String userId) {
-    return List.of("goal-mentor-001");
-  }
+
 
 }

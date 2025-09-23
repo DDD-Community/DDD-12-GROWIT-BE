@@ -5,6 +5,7 @@ import com.growit.app.ai.domain.event.AIPlanRecommendationResponseEvent;
 import com.growit.app.ai.domain.service.AIDataService;
 import com.growit.app.ai.infrastructure.client.AIServiceClient;
 import com.growit.app.ai.infrastructure.event.EventPublisher;
+import com.growit.app.ai.domain.aiadvice.AIAdviceRepository;
 import com.growit.app.batch.domain.batchjob.BatchJob;
 import com.growit.app.batch.domain.batchjob.vo.BatchJobStatus;
 import com.growit.app.goal.domain.goal.Goal;
@@ -25,6 +26,7 @@ public class AIPlanRecommendationBatchService {
   private final AIServiceClient aiServiceClient;
   private final AIDataService aiDataService;
   private final GoalRepository goalRepository;
+  private final AIAdviceRepository aiAdviceRepository;
 
   public BatchJob executeWeeklyPlanRecommendation() {
     BatchJob batchJob = BatchJob.builder()
@@ -47,6 +49,12 @@ public class AIPlanRecommendationBatchService {
       
       for (Goal goal : activeGoals) {
         try {
+          // 이번 주 이미 목표 추천이 생성되었는지 확인
+          if (aiAdviceRepository.existsByUserIdAndDate(goal.getUserId(), LocalDate.now())) {
+            log.info("Goal {} already has this week's recommendation, skipping", goal.getId());
+            continue;
+          }
+          
           AIPlanRecommendationRequestEvent requestEvent = createPlanRecommendationEvent(goal);
           
           AIPlanRecommendationResponseEvent responseEvent = aiServiceClient.generatePlanRecommendation(requestEvent);

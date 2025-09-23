@@ -63,10 +63,17 @@ public class AIDataService {
                 .completedTodos(completedTodoContents)
                 .incompleteTodos(recentTodoContents)
                 .pastWeeklyGoals(pastWeeklyGoals)
+                .remainingTime("")
+                .currentPlanId("")
+                .currentPlanContent("")
                 .build();
     }
 
     public AIDataResponse getDataForPlanRecommendation(String userId, String goalId) {
+        return getDataForPlanRecommendation(userId, goalId, null);
+    }
+
+    public AIDataResponse getDataForPlanRecommendation(String userId, String goalId, String planId) {
         Optional<Goal> goal = goalRepository.findByIdAndUserId(goalId, userId);
 
         if (goal.isEmpty()) {
@@ -98,6 +105,18 @@ public class AIDataService {
 
         String remainingTime = calculateRemainingTime(goalData.getDuration().endDate());
 
+        String currentPlanId = planId;
+        String currentPlanContent = "";
+        if (planId != null && !planId.isEmpty()) {
+            try {
+                var currentPlan = goalData.getPlanByPlanId(planId);
+                currentPlanContent = currentPlan.getContent();
+            } catch (Exception e) {
+                log.warn("Plan not found: planId={}, goalId={}", planId, goalId);
+                currentPlanId = "";
+            }
+        }
+
         return AIDataResponse.builder()
                 .recentTodos(incompleteTodos)
                 .weeklyRetrospects(pastRetrospects)
@@ -106,6 +125,8 @@ public class AIDataService {
                 .incompleteTodos(incompleteTodos)
                 .pastWeeklyGoals(pastWeeklyGoals)
                 .remainingTime(remainingTime)
+                .currentPlanId(currentPlanId)
+                .currentPlanContent(currentPlanContent)
                 .build();
     }
 
@@ -138,6 +159,8 @@ public class AIDataService {
         private List<String> incompleteTodos;
         private List<String> pastWeeklyGoals;
         private String remainingTime;
+        private String currentPlanId;
+        private String currentPlanContent;
 
         public static AIDataResponse empty() {
             return AIDataResponse.builder()
@@ -148,6 +171,8 @@ public class AIDataService {
                     .incompleteTodos(List.of())
                     .pastWeeklyGoals(List.of())
                     .remainingTime("")
+                    .currentPlanId("")
+                    .currentPlanContent("")
                     .build();
         }
     }

@@ -14,6 +14,9 @@ import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.*;
 import com.growit.app.user.domain.user.User;
+import com.growit.app.ai.domain.service.AIDataService;
+import com.growit.app.ai.domain.aiadvice.AIAdvice;
+import com.growit.app.ai.domain.aiadvice.AIAdviceRepository;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
@@ -35,6 +38,8 @@ public class GoalController {
   private final UpdatePlanUseCase updatePlanUseCase;
   private final MessageService messageService;
   private final GetGoalUseCase getGoalUseCase;
+  private final AIDataService aiDataService;
+  private final AIAdviceRepository aiAdviceRepository;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
@@ -105,5 +110,36 @@ public class GoalController {
     updatePlanUseCase.execute(command);
     return ResponseEntity.ok(
         ApiResponse.success(messageService.msg("success.plan.content.update")));
+  }
+
+  @GetMapping("/{goalId}/plans/{planId}/recommendation")
+  public ResponseEntity<ApiResponse<AIDataService.AIDataResponse>> getPlanRecommendationData(
+      @PathVariable String goalId,
+      @PathVariable String planId,
+      @AuthenticationPrincipal User user) {
+    
+    AIDataService.AIDataResponse data = aiDataService.getDataForPlanRecommendation(user.getId(), goalId, planId);
+    
+    return ResponseEntity.ok(ApiResponse.success(data));
+  }
+
+  @GetMapping("/{goalId}/ai-advices")
+  public ResponseEntity<ApiResponse<List<AIAdvice>>> getAIAdvicesByGoal(
+      @PathVariable String goalId,
+      @AuthenticationPrincipal User user) {
+    
+    List<AIAdvice> aiAdvices = aiAdviceRepository.findByUserIdAndGoalId(user.getId(), goalId);
+    
+    return ResponseEntity.ok(ApiResponse.success(aiAdvices));
+  }
+
+  @GetMapping("/ai-advices/recent")
+  public ResponseEntity<ApiResponse<List<AIAdvice>>> getRecentAIAdvices(
+      @AuthenticationPrincipal User user,
+      @RequestParam(defaultValue = "10") int limit) {
+    
+    List<AIAdvice> aiAdvices = aiAdviceRepository.findRecentByUserId(user.getId(), limit);
+    
+    return ResponseEntity.ok(ApiResponse.success(aiAdvices));
   }
 }

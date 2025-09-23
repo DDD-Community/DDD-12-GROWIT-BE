@@ -46,7 +46,7 @@ public class SecurityConfig {
         .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers(
+                    auth.requestMatchers(
                         "/actuator/**",
                         "/login/**",
                         "/oauth2/**",
@@ -55,7 +55,8 @@ public class SecurityConfig {
                         "/resource/**",
                         "/externals/**",
                         "/docs/**",
-                        "/static/**")
+                        "/static/**",
+                        "/batch/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
