@@ -1,6 +1,7 @@
 package com.growit.app.goal.usecase;
 
 import com.growit.app.common.exception.NotFoundException;
+import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
@@ -33,6 +34,15 @@ public class RecommendPlanUseCase {
     FindPlanRecommendationCommand command =
         new FindPlanRecommendationCommand(user.getId(), currentGoal.getId(), plan.getId());
 
-    return planRecommendationRepository.findByCommand(command).orElse(null);
+    return planRecommendationRepository
+        .findByCommand(command)
+        .orElse(
+            new PlanRecommendation(
+                IDGenerator.generateId(),
+                user.getId(),
+                currentGoal.getId(),
+                planId,
+                "당신은 목표를 추천합니다." // ai 연동전에만 내려드리도록 하겠습니다.
+                ));
   }
 }

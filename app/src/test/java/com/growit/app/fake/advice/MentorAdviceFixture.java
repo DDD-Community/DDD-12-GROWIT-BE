@@ -34,19 +34,19 @@ public class MentorAdviceFixture {
 
   // Grorong 관련 fixtures
   public static Grorong defaultGrorong() {
-    return Grorong.of("최고의 아이디어는 종종 테이블 위의 커피잔 옆에서 나온다!", Mood.HAPPY);
+    return Grorong.of("역시 넌 나를 실망시키지 않아", Mood.HAPPY);
   }
 
   public static Grorong happyGrorong() {
-    return Grorong.of("당신의 노력이 빛을 발하고 있어요!", Mood.HAPPY);
+    return Grorong.of("오다 주웠다", Mood.HAPPY);
   }
 
   public static Grorong normalGrorong() {
-    return Grorong.of("꾸준히 하다보면 좋은 일이 생길 거예요!", Mood.NORMAL);
+    return Grorong.of("꾸준히 나와주는 네 마음이야", Mood.NORMAL);
   }
 
   public static Grorong sadGrorong() {
-    return Grorong.of("요즘은 왜 이리 안와...?", Mood.SAD);
+    return Grorong.of("오늘은 왜 이리 안와…?", Mood.SAD);
   }
 }
 

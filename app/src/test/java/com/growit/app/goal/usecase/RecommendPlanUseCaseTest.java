@@ -67,7 +67,7 @@ class RecommendPlanUseCaseTest {
   }
 
   @Test
-  void givenValidUserAndPlanIdButNoRecommendation_whenExecute_thenReturnNull() {
+  void givenValidUserAndPlanIdButNoRecommendation_whenExecute_thenCreateNewRecommendation() {
     // given
     when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
         .thenReturn(List.of(testGoal));
@@ -78,7 +78,11 @@ class RecommendPlanUseCaseTest {
     PlanRecommendation result = recommendPlanUseCase.execute(testUser, planId);
 
     // then
-    assertThat(result).isNull();
+    assertThat(result).isNotNull();
+    assertThat(result.getUserId()).isEqualTo(testUser.getId());
+    assertThat(result.getGoalId()).isEqualTo(testGoal.getId());
+    assertThat(result.getPlanId()).isEqualTo(planId);
+    assertThat(result.getContent()).isEqualTo("당신은 목표를 추천합니다.");
   }
 
   @Test

@@ -14,14 +14,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.growit.app.advice.controller.dto.response.GrorongAdviceResponse;
 import com.growit.app.advice.controller.dto.response.MentorAdviceResponse;
 import com.growit.app.advice.controller.mapper.GrorongAdviceResponseMapper;
 import com.growit.app.advice.controller.mapper.MentorAdviceResponseMapper;
+import com.growit.app.advice.domain.grorong.Grorong;
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.usecase.GetGrorongAdviceUseCase;
 import com.growit.app.advice.usecase.GetMentorAdviceUseCase;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.fake.advice.GrorongFixture;
 import com.growit.app.fake.advice.MentorAdviceFixture;
 import com.growit.app.user.domain.user.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,6 +65,41 @@ class GrorongAdviceControllerTest {
             .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
             .build();
     TestSecurityUtil.setMockUser();
+  }
+
+  @Test
+  void getGrorongAdviceSuccess() throws Exception {
+    // given
+    Grorong grorong = GrorongFixture.defaultGrorong();
+    GrorongAdviceResponse mockResponse = GrorongFixture.defaultGrorongAdviceResponse();
+
+    given(getGrorongAdviceUseCase.execute(any(String.class))).willReturn(grorong);
+    given(grorongAdviceResponseMapper.toResponse(grorong)).willReturn(mockResponse);
+
+    // when & then
+    mockMvc
+        .perform(get("/advice/grorong").header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").exists())
+        .andDo(
+            document(
+                "get-grorong-advice",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Advice")
+                        .summary("그로롱 조언 조회")
+                        .description("사용자 상태에 따른 그로롱의 격려 메시지와 명언을 조회합니다.")
+                        .responseFields(
+                            fieldWithPath("data.saying").type(STRING).description("그로롱이 전하는 명언"),
+                            fieldWithPath("data.message")
+                                .type(STRING)
+                                .description("현재 기분에 따른 격려 메시지"),
+                            fieldWithPath("data.mood")
+                                .type(STRING)
+                                .description("현재 기분 상태 (HAPPY, NORMAL, SAD)"))
+                        .build())));
   }
 
   @Test

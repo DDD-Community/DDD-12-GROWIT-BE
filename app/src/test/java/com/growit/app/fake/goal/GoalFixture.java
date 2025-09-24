@@ -11,6 +11,7 @@ import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.goal.domain.goal.vo.Mentor;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -29,7 +30,8 @@ public class GoalFixture {
       String toBe,
       GoalCategory category,
       GoalUpdateStatus updateStatus,
-      List<Plan> plans) {
+      List<Plan> plans,
+      Mentor mentor) {
     GoalBuilder builder = new GoalBuilder();
     if (id != null) builder.id(id);
     if (userId != null) builder.userId(userId);
@@ -39,6 +41,7 @@ public class GoalFixture {
     if (category != null) builder.category(category);
     if (updateStatus != null) builder.updateStatus(updateStatus);
     if (plans != null) builder.plans(plans);
+    if (mentor != null) builder.mentor(mentor);
 
     return builder.build();
   }
@@ -86,6 +89,7 @@ class GoalBuilder {
   private String toBe = "TOBE";
   private GoalCategory category = GoalCategory.STUDY;
   private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
+  private Mentor mentor = Mentor.TIM_COOK;
   private boolean isDelete = false;
 
   public GoalBuilder id(String id) {
@@ -128,6 +132,11 @@ class GoalBuilder {
     return this;
   }
 
+  public GoalBuilder mentor(Mentor mentor) {
+    this.mentor = mentor;
+    return this;
+  }
+
   public Goal build() {
     return Goal.builder()
         .id(id)
@@ -137,6 +146,7 @@ class GoalBuilder {
         .toBe(toBe)
         .category(category)
         .plans(plans)
+        .mentor(mentor)
         .isDelete(isDelete)
         .build();
   }

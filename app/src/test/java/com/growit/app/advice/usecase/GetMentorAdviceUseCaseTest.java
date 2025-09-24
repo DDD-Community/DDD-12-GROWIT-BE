@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.then;
 
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
+import com.growit.app.advice.domain.mentor.service.MentorService;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.advice.MentorAdviceFixture;
 import com.growit.app.fake.goal.GoalFixture;
@@ -28,6 +29,7 @@ class GetMentorAdviceUseCaseTest {
 
   @Mock private MentorAdviceRepository mentorAdviceRepository;
   @Mock private GetUserGoalsUseCase getUserGoalsUseCase;
+  @Mock private MentorService mentorService;
 
   @InjectMocks private GetMentorAdviceUseCase getMentorAdviceUseCase;
 
@@ -44,19 +46,23 @@ class GetMentorAdviceUseCaseTest {
   }
 
   @Test
-  void givenNoExistingAdvice_whenExecute_thenReturnNull() {
+  void givenNoExistingAdvice_whenExecute_thenCreateNewAdvice() {
     // given
     User user = UserFixture.defaultUser();
     Goal goal = GoalFixture.defaultGoal();
+    MentorAdvice newAdvice = MentorAdviceFixture.defaultMentorAdvice();
+
     given(getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS)).willReturn(List.of(goal));
     given(mentorAdviceRepository.findByUserIdAndGoalId(user.getId(), goal.getId()))
         .willReturn(Optional.empty());
+    given(mentorService.getMentorAdvice(user.getId(), goal.getId())).willReturn(newAdvice);
 
     // when
     MentorAdvice result = getMentorAdviceUseCase.execute(user);
 
     // then
-    assertThat(result).isNull();
+    assertThat(result).isEqualTo(newAdvice);
+    then(mentorAdviceRepository).should().save(newAdvice);
   }
 
   @Test
