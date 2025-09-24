@@ -22,7 +22,7 @@ public class UserStatsEntity extends BaseEntity {
   private LocalDate lastSeenDate;
 
   @Column(name = "streak_len", nullable = false)
-  private Integer streakLen = 0;
+  private int streakLen ;
 
   public static UserStatsEntity from(UserStats userStats) {
     return UserStatsEntity.builder()

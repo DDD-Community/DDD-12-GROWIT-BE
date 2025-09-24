@@ -23,7 +23,7 @@ public class MentorAdviceEntity extends BaseEntity {
   private String goalId;
 
   @Column(name = "is_checked", nullable = false)
-  private Boolean isChecked = false;
+  private boolean isChecked;
 
   @Column(name = "message", nullable = false, columnDefinition = "TEXT")
   private String message;
