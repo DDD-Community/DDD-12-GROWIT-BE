@@ -1,17 +1,14 @@
 package com.growit.app.goal.controller;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.common.response.IdDto;
 import com.growit.app.common.util.message.MessageService;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
 import com.growit.app.goal.controller.dto.request.UpdatePlanRequest;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
-import com.growit.app.goal.domain.goal.dto.DeleteGoalCommand;
-import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
-import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
+import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
+import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
@@ -35,6 +32,7 @@ public class GoalController {
   private final UpdatePlanUseCase updatePlanUseCase;
   private final MessageService messageService;
   private final GetGoalUseCase getGoalUseCase;
+  private final RecommendPlanUseCase recommendPlanUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
@@ -52,12 +50,12 @@ public class GoalController {
   }
 
   @PostMapping
-  public ResponseEntity<ApiResponse<IdDto>> createGoal(
+  public ResponseEntity<ApiResponse<CreateGoalResult>> createGoal(
       @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
     CreateGoalCommand command = goalRequestMapper.toCommand(user.getId(), request);
-    String goalId = createGoalUseCase.execute(command);
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(new IdDto(goalId)));
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(ApiResponse.success(createGoalUseCase.execute(command)));
   }
 
   @PutMapping("{id}")
@@ -105,5 +103,13 @@ public class GoalController {
     updatePlanUseCase.execute(command);
     return ResponseEntity.ok(
         ApiResponse.success(messageService.msg("success.plan.content.update")));
+  }
+
+  @GetMapping("/{id}/plans/{planId}/recommendation")
+  public ResponseEntity<ApiResponse<String>> recommendPlan(
+      @PathVariable String id, @PathVariable String planId, @AuthenticationPrincipal User user) {
+    PlanRecommendation recommendation = recommendPlanUseCase.execute(user, planId);
+    return ResponseEntity.ok(
+        ApiResponse.success(recommendation == null ? null : recommendation.getContent()));
   }
 }

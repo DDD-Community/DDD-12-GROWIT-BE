@@ -78,13 +78,19 @@ class RetrospectControllerTest {
   @Test
   void createRetrospect() throws Exception {
     CreateRetrospectRequest body = RetrospectFixture.defaultCreateRetrospectRequest();
+    String jsonBody = objectMapper.writeValueAsString(body);
     given(createRetrospectUseCase.execute(any())).willReturn("retrospect-id");
     mockMvc
         .perform(
             post("/retrospects")
                 .header("Authorization", "Bearer mock-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(body)))
+                .content(jsonBody))
+        .andDo(
+            result -> {
+              System.out.println("Status: " + result.getResponse().getStatus());
+              System.out.println("Response: " + result.getResponse().getContentAsString());
+            })
         .andExpect(status().isCreated())
         .andDo(
             document(
@@ -102,9 +108,15 @@ class RetrospectControllerTest {
                             fieldWithPath("planId")
                                 .type(JsonFieldType.STRING)
                                 .description("계획 아이디"),
-                            fieldWithPath("content")
+                            fieldWithPath("kpt.keep")
                                 .type(JsonFieldType.STRING)
-                                .description("회고 내용"))
+                                .description("Keep - 계속 유지할 것"),
+                            fieldWithPath("kpt.problem")
+                                .type(JsonFieldType.STRING)
+                                .description("Problem - 문제점"),
+                            fieldWithPath("kpt.tryNext")
+                                .type(JsonFieldType.STRING)
+                                .description("Try - 다음에 시도해볼 것"))
                         .responseFields(fieldWithPath("data.id").type(STRING).description("회고 ID"))
                         .build())));
   }
@@ -130,9 +142,15 @@ class RetrospectControllerTest {
                         .summary("회고 수정")
                         .pathParameters(parameterWithName("id").description("회고 ID"))
                         .requestFields(
-                            fieldWithPath("content")
+                            fieldWithPath("kpt.keep")
                                 .type(JsonFieldType.STRING)
-                                .description("회고 내용"))
+                                .description("Keep - 계속 유지할 것"),
+                            fieldWithPath("kpt.problem")
+                                .type(JsonFieldType.STRING)
+                                .description("Problem - 문제점"),
+                            fieldWithPath("kpt.tryNext")
+                                .type(JsonFieldType.STRING)
+                                .description("Try - 다음에 시도해볼 것"))
                         .build())));
   }
 
@@ -161,9 +179,16 @@ class RetrospectControllerTest {
                             fieldWithPath("data").description("회고 목록"),
                             fieldWithPath("data.retrospect").description("회고"),
                             fieldWithPath("data.retrospect.id").type(STRING).description("회고 ID"),
-                            fieldWithPath("data.retrospect.content")
+                            fieldWithPath("data.retrospect.kpt").description("KPT 회고"),
+                            fieldWithPath("data.retrospect.kpt.keep")
                                 .type(STRING)
-                                .description("회고 내용"),
+                                .description("Keep - 계속 유지할 것"),
+                            fieldWithPath("data.retrospect.kpt.problem")
+                                .type(STRING)
+                                .description("Problem - 문제점"),
+                            fieldWithPath("data.retrospect.kpt.tryNext")
+                                .type(STRING)
+                                .description("Try - 다음에 시도해볼 것"),
                             fieldWithPath("data.plan").description("계획"),
                             fieldWithPath("data.plan.id").type(STRING).description("계획 ID"),
                             fieldWithPath("data.plan.weekOfMonth")
@@ -205,9 +230,16 @@ class RetrospectControllerTest {
                             fieldWithPath("data[]").description("회고 목록"),
                             fieldWithPath("data[].retrospect").description("회고"),
                             fieldWithPath("data[].retrospect.id").type(STRING).description("회고 ID"),
-                            fieldWithPath("data[].retrospect.content")
+                            fieldWithPath("data[].retrospect.kpt").description("KPT 회고"),
+                            fieldWithPath("data[].retrospect.kpt.keep")
                                 .type(STRING)
-                                .description("회고 내용"),
+                                .description("Keep - 계속 유지할 것"),
+                            fieldWithPath("data[].retrospect.kpt.problem")
+                                .type(STRING)
+                                .description("Problem - 문제점"),
+                            fieldWithPath("data[].retrospect.kpt.tryNext")
+                                .type(STRING)
+                                .description("Try - 다음에 시도해볼 것"),
                             fieldWithPath("data[].plan").description("계획"),
                             fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plan.weekOfMonth")
@@ -276,9 +308,16 @@ class RetrospectControllerTest {
                             fieldWithPath("data[]").description("회고 목록"),
                             fieldWithPath("data[].retrospect").description("회고"),
                             fieldWithPath("data[].retrospect.id").type(STRING).description("회고 ID"),
-                            fieldWithPath("data[].retrospect.content")
+                            fieldWithPath("data[].retrospect.kpt").description("KPT 회고"),
+                            fieldWithPath("data[].retrospect.kpt.keep")
                                 .type(STRING)
-                                .description("회고 내용"),
+                                .description("Keep - 계속 유지할 것"),
+                            fieldWithPath("data[].retrospect.kpt.problem")
+                                .type(STRING)
+                                .description("Problem - 문제점"),
+                            fieldWithPath("data[].retrospect.kpt.tryNext")
+                                .type(STRING)
+                                .description("Try - 다음에 시도해볼 것"),
                             fieldWithPath("data[].plan").description("계획"),
                             fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plan.weekOfMonth")
