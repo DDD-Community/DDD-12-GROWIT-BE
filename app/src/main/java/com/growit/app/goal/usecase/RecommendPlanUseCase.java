@@ -33,7 +33,6 @@ public class RecommendPlanUseCase {
     FindPlanRecommendationCommand command =
         new FindPlanRecommendationCommand(user.getId(), currentGoal.getId(), plan.getId());
 
-    return planRecommendationRepository
-        .findByCommand(command).orElse(null);
+    return planRecommendationRepository.findByCommand(command).orElse(null);
   }
 }

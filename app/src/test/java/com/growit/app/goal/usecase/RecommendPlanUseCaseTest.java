@@ -3,7 +3,6 @@ package com.growit.app.goal.usecase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.common.exception.NotFoundException;
@@ -27,14 +26,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class RecommendPlanUseCaseTest {
 
-  @Mock
-  private PlanRecommendationRepository planRecommendationRepository;
+  @Mock private PlanRecommendationRepository planRecommendationRepository;
 
-  @Mock
-  private GetUserGoalsUseCase getUserGoalsUseCase;
+  @Mock private GetUserGoalsUseCase getUserGoalsUseCase;
 
-  @InjectMocks
-  private RecommendPlanUseCase recommendPlanUseCase;
+  @InjectMocks private RecommendPlanUseCase recommendPlanUseCase;
 
   private User testUser;
   private Goal testGoal;
@@ -50,13 +46,9 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenValidUserAndPlanId_whenExecute_thenReturnPlanRecommendation() {
     // given
-    PlanRecommendation expectedRecommendation = new PlanRecommendation(
-        "recommendation-1",
-        testUser.getId(),
-        testGoal.getId(),
-        planId,
-        "추천 내용"
-    );
+    PlanRecommendation expectedRecommendation =
+        new PlanRecommendation(
+            "recommendation-1", testUser.getId(), testGoal.getId(), planId, "추천 내용");
 
     when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
         .thenReturn(List.of(testGoal));
@@ -92,8 +84,7 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenUserWithoutProgressGoal_whenExecute_thenThrowNotFoundException() {
     // given
-    when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
-        .thenReturn(List.of());
+    when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS)).thenReturn(List.of());
 
     // when & then
     assertThatThrownBy(() -> recommendPlanUseCase.execute(testUser, planId))
@@ -105,7 +96,7 @@ class RecommendPlanUseCaseTest {
   void givenInvalidPlanId_whenExecute_thenThrowNotFoundException() {
     // given
     String invalidPlanId = "invalid-plan-id";
-    
+
     when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
         .thenReturn(List.of(testGoal));
 

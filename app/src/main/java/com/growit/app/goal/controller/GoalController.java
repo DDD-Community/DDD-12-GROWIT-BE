@@ -109,6 +109,7 @@ public class GoalController {
   public ResponseEntity<ApiResponse<String>> recommendPlan(
       @PathVariable String id, @PathVariable String planId, @AuthenticationPrincipal User user) {
     PlanRecommendation recommendation = recommendPlanUseCase.execute(user, planId);
-    return ResponseEntity.ok(ApiResponse.success(recommendation == null ? null : recommendation.getContent()));
+    return ResponseEntity.ok(
+        ApiResponse.success(recommendation == null ? null : recommendation.getContent()));
   }
 }
