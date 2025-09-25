@@ -3,6 +3,7 @@ package com.growit.app.goal.usecase;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
+import com.growit.app.goal.domain.goal.dto.CreateGoalResult;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,13 +18,13 @@ public class CreateGoalUseCase {
 
   @CacheEvict(value = "goalCache", key = "#command.userId")
   @Transactional
-  public String execute(CreateGoalCommand command) {
+  public CreateGoalResult execute(CreateGoalCommand command) {
     goalValidator.checkGoalExists(command.userId());
     goalValidator.checkGoalDuration(command.duration());
     goalValidator.checkPlans(command.duration(), command.plans());
     Goal goal = Goal.from(command);
     goalRepository.saveGoal(goal);
 
-    return goal.getId();
+    return new CreateGoalResult(goal.getId(), goal.getMentor());
   }
 }

@@ -3,6 +3,7 @@ package com.growit.app.retrospect.domain.retrospect;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.retrospect.domain.retrospect.dto.CreateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
+import com.growit.app.retrospect.domain.retrospect.vo.KPT;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class Retrospect {
   private String userId;
   private String goalId;
   private String planId;
-  private String content;
+  private KPT kpt;
 
   public static Retrospect from(CreateRetrospectCommand command) {
     return Retrospect.builder()
@@ -23,11 +24,11 @@ public class Retrospect {
         .userId(command.userId())
         .goalId(command.goalId())
         .planId(command.planId())
-        .content(command.content())
+        .kpt(command.kpt())
         .build();
   }
 
   public void updateBy(UpdateRetrospectCommand command) {
-    this.content = command.content();
+    this.kpt = command.kpt();
   }
 }

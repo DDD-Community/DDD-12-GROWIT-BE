@@ -39,9 +39,7 @@ public class Mission {
               plan != null && plan.getContent() != null && !plan.getContent().trim().isEmpty();
           case WEEKLY_RETROSPECT_WRITE ->
               // 회고가 작성되어 있으면 완료
-              retrospect != null
-                  && retrospect.getContent() != null
-                  && !retrospect.getContent().trim().isEmpty();
+              retrospect != null && retrospect.getKpt() != null;
         };
 
     return Mission.builder()

@@ -22,6 +22,6 @@ class RetrospectTest {
     assertEquals(command.goalId(), retrospect.getGoalId());
     assertEquals(command.userId(), retrospect.getUserId());
     assertEquals(command.planId(), retrospect.getPlanId());
-    assertEquals(command.content(), retrospect.getContent());
+    assertEquals(command.kpt(), retrospect.getKpt());
   }
 }

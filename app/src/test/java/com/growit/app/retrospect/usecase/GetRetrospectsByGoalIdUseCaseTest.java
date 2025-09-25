@@ -11,6 +11,7 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
+import com.growit.app.retrospect.domain.retrospect.vo.KPT;
 import com.growit.app.retrospect.usecase.retrospect.GetRetrospectsByGoalIdUseCase;
 import com.growit.app.retrospect.usecase.retrospect.dto.RetrospectWithPlan;
 import java.util.List;
@@ -36,16 +37,19 @@ class GetRetrospectsByGoalIdUseCaseTest {
     String planId1 = "plan-1";
     String planId2 = "plan-2";
 
+    KPT kpt1 = new KPT("유지할 것 1", "문제점 1", "다음 시도 1");
     Retrospect retrospect1 =
-        RetrospectFixture.customRetrospect("retrospect-1", userId, goalId, planId1, "회고 내용 1");
+        RetrospectFixture.customRetrospect("retrospect-1", userId, goalId, planId1, kpt1);
+    KPT kpt2 = new KPT("유지할 것 2", "문제점 2", "다음 시도 2");
     Retrospect retrospect2 =
-        RetrospectFixture.customRetrospect("retrospect-2", userId, goalId, planId2, "회고 내용 2");
+        RetrospectFixture.customRetrospect("retrospect-2", userId, goalId, planId2, kpt2);
     List<Retrospect> retrospects = List.of(retrospect1, retrospect2);
 
     Plan plan1 = PlanFixture.customPlan(planId1, 1, null, null, null);
     Plan plan2 = PlanFixture.customPlan(planId2, 2, null, null, null);
     Goal goal =
-        GoalFixture.customGoal(goalId, userId, null, null, null, null, null, List.of(plan1, plan2));
+        GoalFixture.customGoal(
+            goalId, userId, null, null, null, null, null, List.of(plan1, plan2), null);
 
     when(retrospectQuery.getRetrospectsByGoalId(goalId, userId)).thenReturn(retrospects);
     when(goalQuery.getMyGoal(goalId, userId)).thenReturn(goal);

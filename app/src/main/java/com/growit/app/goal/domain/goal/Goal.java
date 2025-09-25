@@ -9,10 +9,7 @@ import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.vo.GoalCategory;
-import com.growit.app.goal.domain.goal.vo.GoalDuration;
-import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.goal.domain.goal.vo.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +31,8 @@ public class Goal {
   @JsonIgnore private GoalUpdateStatus updateStatus;
   private List<Plan> plans;
 
+  private Mentor mentor;
+
   @Getter(AccessLevel.NONE)
   private boolean isDelete;
 
@@ -50,6 +49,7 @@ public class Goal {
             command.plans().stream()
                 .map(planDto -> Plan.from(planDto, command.duration().startDate()))
                 .toList())
+        .mentor(Mentor.getMentorByCategory(command.category()))
         .isDelete(false)
         .build();
   }

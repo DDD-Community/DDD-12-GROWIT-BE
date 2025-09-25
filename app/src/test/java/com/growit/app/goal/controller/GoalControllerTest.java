@@ -27,6 +27,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
+import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.usecase.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +61,7 @@ class GoalControllerTest {
   @MockitoBean private DeleteGoalUseCase deleteGoalUseCase;
   @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
   @MockitoBean private UpdatePlanUseCase updatePlanUseCase;
+  @MockitoBean private RecommendPlanUseCase recommendPlanUseCase;
 
   @Autowired private ObjectMapper objectMapper;
   @Autowired private GoalRepository goalRepository;
@@ -116,6 +118,7 @@ class GoalControllerTest {
                                 .type(STRING)
                                 .description(
                                     "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data[].mentor").type(STRING).description("멘토"),
                             fieldWithPath("data[].plans").description("계획 리스트"),
                             fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].plans[].weekOfMonth")
@@ -169,6 +172,7 @@ class GoalControllerTest {
                                 .type(STRING)
                                 .description(
                                     "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data.mentor").type(STRING).description("멘토"),
                             fieldWithPath("data.plans").description("계획 리스트"),
                             fieldWithPath("data.plans[].id").type(STRING).description("계획 ID"),
                             fieldWithPath("data.plans[].weekOfMonth")
@@ -225,7 +229,9 @@ class GoalControllerTest {
                             fieldWithPath("plans[].content")
                                 .type(JsonFieldType.STRING)
                                 .description("계획 내용"))
-                        .responseFields(fieldWithPath("data.id").type(STRING).description("목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data.id").type(STRING).description("목표 ID"),
+                            fieldWithPath("data.mentor").type(STRING).description("멘토"))
                         .build())));
   }
 
@@ -337,5 +343,41 @@ class GoalControllerTest {
                         .build())));
 
     verify(updatePlanUseCase).execute(any(UpdatePlanCommand.class));
+  }
+
+  @Test
+  void recommendPlan() throws Exception {
+    String goalId = "goal-123";
+    String planId = "plan-456";
+    String expectedRecommendation =
+        "계획 " + planId + "에 대한 AI 추천: 단계별로 세분화하여 실행하면 성공 확률이 높아집니다. 매일 30분씩 투자하여 꾸준히 진행하세요.";
+
+    PlanRecommendation mockRecommendation =
+        new PlanRecommendation("rec-123", "user-123", goalId, planId, expectedRecommendation);
+
+    given(recommendPlanUseCase.execute(any(), eq(planId))).willReturn(mockRecommendation);
+
+    mockMvc
+        .perform(
+            get("/goals/{id}/plans/{planId}/recommendation", goalId, planId)
+                .header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").value(expectedRecommendation))
+        .andDo(
+            document(
+                "recommend-plan",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("계획 추천")
+                        .pathParameters(
+                            parameterWithName("id").description("목표 ID"),
+                            parameterWithName("planId").description("계획 ID"))
+                        .responseFields(fieldWithPath("data").type(STRING).description("AI 추천 내용"))
+                        .build())));
+
+    verify(recommendPlanUseCase).execute(any(), eq(planId));
   }
 }

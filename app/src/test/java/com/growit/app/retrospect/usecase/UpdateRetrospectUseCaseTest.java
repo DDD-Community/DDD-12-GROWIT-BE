@@ -8,6 +8,7 @@ import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
+import com.growit.app.retrospect.domain.retrospect.vo.KPT;
 import com.growit.app.retrospect.usecase.retrospect.UpdateRetrospectUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,8 @@ class UpdateRetrospectUseCaseTest {
     String userId = "invalidUserId";
     when(retrospectQuery.getMyRetrospect(id, userId)).thenThrow(NotFoundException.class);
 
-    UpdateRetrospectCommand command = RetrospectFixture.updateRetrospectCommand(id, userId, "이번 주");
+    KPT kpt = new KPT("유지할 것", "문제점", "다음 시도");
+    UpdateRetrospectCommand command = RetrospectFixture.updateRetrospectCommand(id, userId, kpt);
     // Then
     assertThrows(NotFoundException.class, () -> useCase.execute(command));
   }
