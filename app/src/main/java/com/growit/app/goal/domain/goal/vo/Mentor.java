@@ -22,6 +22,6 @@ public enum Mentor {
     return java.util.Arrays.stream(values())
         .filter(mentor -> mentor.category == category)
         .findFirst()
-        .orElse(null);
+        .orElse(TIM_COOK);
   }
 }
