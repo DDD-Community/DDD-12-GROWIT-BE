@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.29.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.28.0...v1.29.0) (2025-09-26)
+
+
+### Features
+
+* **237/mentor:** MentorAdviceEntity에 isChecked 필드 변경 및 UserStatsEntity 수정 ([d46b276](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d46b2765a7133a2a6e009cc577eef319da9fe187))
+* **237/mentor:** Recommend plan 실행 시 현재 진행 목표 확인 및 추천 저장 기능 추가 ([8ca4b89](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8ca4b8935949d9d84fe22d5aad9dcf700888d24d))
+* **237/mentor:** 테스트를 위한 GrorongFixture 클래스 추가 ([1eb699a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1eb699a5c78f230a00b8199f4b3cfd48ac1e940a))
+* **237:** Mentor 조언 도메인 인터페이스 및 Mock 구현 추가 ([a16ed34](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a16ed34f4f5b28941ce07502a57d44badfc521e9))
+* **237:** 목표 생성 시 멘토 정보 저장 및 반환 ([f6d065b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f6d065bcde59b930bd7a15d79854392cdc12ddc8))
+* **237:** 목표 생성 시 멘토 정보 저장 및 반환 ([607b5aa](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/607b5aaed1c1db7647521ff5c47da7b85ce6b012))
+* **237:** 테스트 코드 추가 및 도메인 검증 (이슈 번호 237) ([90a9340](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/90a934079c590637fba29a30285e2c3ef77a4118))
+* **239:** 회고 테이블 생성 및 KPT 값 객체 도입 ([0465f95](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0465f95b9cead4b762f5ba15e502520c563779a0))
+* **239:** 회고 테이블 생성 및 KPT 값 객체 도입 ([c545b2e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c545b2e651ed722a43c8bed4d91f99f4ea1d68b0))
+* **242/grow:** 테스트 케이스 추가 및 API 문서화 진행 ([d2d0813](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d2d0813774c047bd96766d3d79307d997525561c))
+* **goal:** 이전 목표 멘토 팀쿡 지정 ([738a88e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/738a88e199fc81b59d1f2c4e5f03b851e62235ce))
+* **goal:** 카테고리 enum에 레거시 항목 추가 ([#248](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/248)) ([6c9e129](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6c9e1299cfac468eb38cf26f48193ffb5377dfea))
+* **goal:** 카테고리 enum에 레거시 항목 추가 ([#248](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/248)) ([0413a4f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0413a4f15cf63e59c9962e3c55337a828eb6b87f))
+* 환경변수에 카카오 클라이언트 ID 및 Secret 추가 (이슈 [#223](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/223)) ([3b6164e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3b6164e1ce83ba0fd2723b81b7bb3b8341bee36b))
+* 환경변수에 카카오 클라이언트 ID 및 Secret 추가 (이슈 [#223](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/223)) ([70e56bd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/70e56bd1caa0562bae22cb6c840690ecc15ae0c6))
+
+
+### Bug Fixes
+
+* 코드 포매팅 및 가독성 향상 ([283104a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/283104af09d4854feb967966f1839ce44a048d12))
+
 ## [1.28.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.27.0...v1.28.0) (2025-09-15)
 
 
