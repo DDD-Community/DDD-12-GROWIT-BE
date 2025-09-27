@@ -12,7 +12,6 @@ import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.usecase.*;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -78,13 +77,6 @@ public class GoalController {
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.delete")));
   }
 
-  @GetMapping("/utils/ended")
-  public ResponseEntity<ApiResponse<String>> getEndedGoals() {
-    LocalDate today = LocalDate.now();
-    updateGoalUseCase.updateEndedGoals(today);
-    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.status.update")));
-  }
-
   @GetMapping("/me/exists")
   public ResponseEntity<ApiResponse<Boolean>> getGoalIsExist(@AuthenticationPrincipal User user) {
     return ResponseEntity.ok(
@@ -108,7 +100,7 @@ public class GoalController {
   @GetMapping("/{id}/plans/{planId}/recommendation")
   public ResponseEntity<ApiResponse<String>> recommendPlan(
       @PathVariable String id, @PathVariable String planId, @AuthenticationPrincipal User user) {
-    PlanRecommendation recommendation = recommendPlanUseCase.execute(user, planId);
+    PlanRecommendation recommendation = recommendPlanUseCase.execute(user, id, planId);
     return ResponseEntity.ok(
         ApiResponse.success(recommendation == null ? null : recommendation.getContent()));
   }

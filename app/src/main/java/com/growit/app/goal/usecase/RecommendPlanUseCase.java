@@ -1,10 +1,8 @@
 package com.growit.app.goal.usecase;
 
-import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.domain.planrecommendation.PlanRecommendationRepository;
 import com.growit.app.goal.domain.planrecommendation.dto.FindPlanRecommendationCommand;
@@ -19,15 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecommendPlanUseCase {
 
   private final PlanRecommendationRepository planRecommendationRepository;
-  private final GetUserGoalsUseCase getUserGoalsUseCase;
+  private final GetGoalUseCase getGoalUseCase;
 
-  public PlanRecommendation execute(User user, String planId) {
+  public PlanRecommendation execute(User user, String goalId, String planId) {
     // 1. 현재 실행중인 목표가 있는지 확인
-    Goal currentGoal =
-        getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream()
-            .findFirst()
-            .orElseThrow(() -> new NotFoundException("현재 진행중인 목표가 존재하지 않습니다."));
-
+    Goal currentGoal = getGoalUseCase.getGoal(goalId, user);
     Plan plan = currentGoal.getPlanByPlanId(planId);
 
     // 2. 기존 추천이 있는지 확인하고 업데이트하거나 새로 생성

@@ -1,26 +1,34 @@
 package com.growit.app.common.exception;
 
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
+import com.growit.app.common.notification.NotificationService;
 import com.growit.app.common.response.BaseErrorResponse;
+import com.growit.app.common.util.message.ErrorCode;
 import com.growit.app.common.util.message.MessageService;
 import com.growit.app.user.domain.token.service.exception.ExpiredTokenException;
 import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
 import com.growit.app.user.domain.token.service.exception.TokenNotFoundException;
 import com.growit.app.user.domain.user.service.AlreadyExistEmailException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.MalformedParametersException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
+@Slf4j
 public class GlobalExceptionHandler {
   private final MessageService messageService;
+  private final NotificationService notificationService;
 
   @ExceptionHandler({
     BadRequestException.class,
@@ -35,8 +43,35 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<BaseErrorResponse> handleException(Exception e) {
+    sendErrorNotification(e);
     return ResponseEntity.internalServerError()
-        .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
+        .body(
+            BaseErrorResponse.builder()
+                .message(messageService.msg(ErrorCode.INTERNAL_SERVER_ERROR.getCode()))
+                .build());
+  }
+
+  private void sendErrorNotification(Exception e) {
+    try {
+      HttpServletRequest request = getCurrentRequest();
+      String requestUri = request != null ? request.getRequestURI() : "Unknown URI";
+      String method = request != null ? request.getMethod() : "Unknown Method";
+
+      notificationService.sendErrorNotification(
+          requestUri, method, e.getClass().getSimpleName(), e.getMessage());
+    } catch (Exception notificationException) {
+      log.error("Failed to send error notification", notificationException);
+    }
+  }
+
+  private HttpServletRequest getCurrentRequest() {
+    try {
+      ServletRequestAttributes attributes =
+          (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+      return attributes.getRequest();
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   @ExceptionHandler({
