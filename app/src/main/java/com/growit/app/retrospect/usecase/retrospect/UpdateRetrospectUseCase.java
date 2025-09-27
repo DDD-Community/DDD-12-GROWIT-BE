@@ -1,5 +1,6 @@
 package com.growit.app.retrospect.usecase.retrospect;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
 import com.growit.app.retrospect.domain.retrospect.dto.UpdateRetrospectCommand;
@@ -16,6 +17,9 @@ public class UpdateRetrospectUseCase {
 
   @Transactional
   public void execute(UpdateRetrospectCommand command) {
+    if (command.kpt() == null) {
+      throw new BadRequestException("kpt is required");
+    }
     Retrospect retrospect = retrospectQuery.getMyRetrospect(command.id(), command.userId());
     retrospect.updateBy(command);
     retrospectRepository.saveRetrospect(retrospect);

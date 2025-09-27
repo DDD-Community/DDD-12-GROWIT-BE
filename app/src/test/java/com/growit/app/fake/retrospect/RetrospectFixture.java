@@ -66,7 +66,7 @@ public class RetrospectFixture {
 
   public static UpdateRetrospectRequest defaultUpdateRetrospectRequest() {
     KPTDto kptDto = new KPTDto("수정된 Keep 내용", "수정된 Problem 내용", "수정된 Try 내용");
-    return new UpdateRetrospectRequest(kptDto);
+    return new UpdateRetrospectRequest(kptDto, "");
   }
 
   public static UpdateRetrospectCommand defaultUpdateRetrospectCommand() {
