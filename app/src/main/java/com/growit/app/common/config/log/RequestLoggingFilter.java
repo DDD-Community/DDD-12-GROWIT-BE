@@ -31,6 +31,12 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
+    // ELB Health Check 로깅 제외
+    if (isHealthCheckRequest(request)) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     ContentCachingRequestWrapper cachingRequest = new ContentCachingRequestWrapper(request);
     ContentCachingResponseWrapper cachingResponse = new ContentCachingResponseWrapper(response);
 
@@ -78,6 +84,15 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
       MDC.clear();
       cachingResponse.copyBodyToResponse();
     }
+  }
+
+  private boolean isHealthCheckRequest(HttpServletRequest request) {
+    String userAgent = request.getHeader("User-Agent");
+    String uri = request.getRequestURI();
+    
+    return "/actuator/health".equals(uri) && 
+           userAgent != null && 
+           userAgent.contains("ELB-HealthChecker");
   }
 
   private Object maskSensitiveData(String jsonBody) {

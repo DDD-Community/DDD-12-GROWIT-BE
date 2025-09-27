@@ -1,1 +1,0 @@
-ALTER TABLE goals ADD CONSTRAINT uk_goals_user_id_end_date UNIQUE (user_id, end_date);
