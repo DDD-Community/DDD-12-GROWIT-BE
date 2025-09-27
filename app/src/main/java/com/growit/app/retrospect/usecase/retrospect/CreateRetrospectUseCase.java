@@ -1,5 +1,6 @@
 package com.growit.app.retrospect.usecase.retrospect;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.goal.domain.goal.service.GoalValidator;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.RetrospectRepository;
@@ -18,6 +19,9 @@ public class CreateRetrospectUseCase {
 
   @Transactional
   public String execute(CreateRetrospectCommand command) {
+    if (command.kpt() == null) {
+      throw new BadRequestException("kpt is required");
+    }
     // 계획 존재 여부 확인
     goalValidator.checkPlanExists(command.userId(), command.goalId(), command.planId());
 

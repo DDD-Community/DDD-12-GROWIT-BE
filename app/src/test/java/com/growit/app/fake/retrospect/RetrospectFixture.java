@@ -51,7 +51,7 @@ public class RetrospectFixture {
 
   public static CreateRetrospectRequest defaultCreateRetrospectRequest() {
     KPTDto kptDto = new KPTDto("계획대로 진행했던 부분을 작성합니다.", "어려웠던 문제점들을 작성합니다.", "다음에 시도해볼 방법들을 작성합니다.");
-    return new CreateRetrospectRequest("goal-123", "plan-456", kptDto);
+    return new CreateRetrospectRequest("goal-123", "plan-456", "", kptDto);
   }
 
   public static CreateRetrospectCommand defaultCreateRetrospectCommand() {
