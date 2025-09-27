@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.31.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.30.1...v1.31.0) (2025-09-27)
+
+
+### Features
+
+* 회고 내용(content) 필드 추가 및 유효성 검증 로직 구현 (bug/258/retrospect) ([585c47a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/585c47adbba1142aeec9a21c10f7df7f347fbcbc))
+* 회고 내용(content) 필드 추가 및 유효성 검증 로직 구현 (bug/258/retrospect) ([1f40e48](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1f40e482b9b881deb2929157b3c8d292edd3d497))
+
 ## [1.30.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.30.0...v1.30.1) (2025-09-27)
 
 
