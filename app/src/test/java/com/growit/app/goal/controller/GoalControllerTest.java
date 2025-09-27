@@ -355,7 +355,8 @@ class GoalControllerTest {
     PlanRecommendation mockRecommendation =
         new PlanRecommendation("rec-123", "user-123", goalId, planId, expectedRecommendation);
 
-    given(recommendPlanUseCase.execute(any(), eq(goalId), eq(planId))).willReturn(mockRecommendation);
+    given(recommendPlanUseCase.execute(any(), eq(goalId), eq(planId)))
+        .willReturn(mockRecommendation);
 
     mockMvc
         .perform(

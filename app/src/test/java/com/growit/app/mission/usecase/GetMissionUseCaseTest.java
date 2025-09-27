@@ -130,10 +130,6 @@ class GetMissionUseCaseTest {
   }
 
   private ToDo createToDo() {
-    return ToDo.builder()
-      .id("todo-1")
-      .content("테스트 투두")
-      .isCompleted(true)
-      .isDeleted(false).build();
+    return ToDo.builder().id("todo-1").content("테스트 투두").isCompleted(true).isDeleted(false).build();
   }
 }

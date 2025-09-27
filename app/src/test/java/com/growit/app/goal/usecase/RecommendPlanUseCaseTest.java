@@ -48,8 +48,7 @@ class RecommendPlanUseCaseTest {
         new PlanRecommendation(
             "recommendation-1", testUser.getId(), testGoal.getId(), planId, "추천 내용");
 
-    when(getGoalUseCase.getGoal(testGoal.getId(), testUser))
-        .thenReturn(testGoal);
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
     when(planRecommendationRepository.findByCommand(any(FindPlanRecommendationCommand.class)))
         .thenReturn(Optional.of(expectedRecommendation));
 
@@ -67,8 +66,7 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenValidUserAndPlanIdButNoRecommendation_whenExecute_thenCreateNewRecommendation() {
     // given
-    when(getGoalUseCase.getGoal(testGoal.getId(), testUser))
-        .thenReturn(testGoal);
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
     when(planRecommendationRepository.findByCommand(any(FindPlanRecommendationCommand.class)))
         .thenReturn(Optional.empty());
 
@@ -100,11 +98,11 @@ class RecommendPlanUseCaseTest {
     // given
     String invalidPlanId = "invalid-plan-id";
 
-    when(getGoalUseCase.getGoal(testGoal.getId(), testUser))
-        .thenReturn(testGoal);
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
 
     // when & then
-    assertThatThrownBy(() -> recommendPlanUseCase.execute(testUser, testGoal.getId(), invalidPlanId))
+    assertThatThrownBy(
+            () -> recommendPlanUseCase.execute(testUser, testGoal.getId(), invalidPlanId))
         .isInstanceOf(NotFoundException.class);
   }
 }
