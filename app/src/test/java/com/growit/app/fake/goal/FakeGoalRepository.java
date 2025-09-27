@@ -36,7 +36,7 @@ public class FakeGoalRepository implements GoalRepository {
   }
 
   @Override
-  public Optional<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
+  public List<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
     return store.values().stream()
         .filter(goal -> goal.getUserId().equals(userId) && !goal.getDeleted())
         .filter(
@@ -46,21 +46,8 @@ public class FakeGoalRepository implements GoalRepository {
               return (start.isBefore(today) || start.isEqual(today))
                   && (end.isAfter(today) || end.isEqual(today));
             })
-        .findFirst();
+        .toList();
   }
-
-  @Override
-  public List<String> findEndedCandidateIds(LocalDate today, int page, int size) {
-    return List.of();
-  }
-
-  @Override
-  public List<Goal> findAllByIds(List<String> ids) {
-    return List.of();
-  }
-
-  @Override
-  public void flushAndClear() {}
 
   public void clear() {
     store.clear();

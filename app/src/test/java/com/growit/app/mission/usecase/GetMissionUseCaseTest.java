@@ -51,11 +51,11 @@ class GetMissionUseCaseTest {
     String userId = "user-1";
     List<MissionType> missionTypes =
         List.of(MissionType.DAILY_TODO_WRITE, MissionType.DAILY_TODO_COMPLETE);
-    List<ToDo> toDoList = List.of(createToDo("todo-1", true));
+    List<ToDo> toDoList = List.of(createToDo());
 
     given(missionSchedule.typesFor(dayOfWeek)).willReturn(missionTypes);
     given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(toDoList);
-    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(Optional.empty());
+    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(List.of());
 
     // when
     List<Mission> result = useCase.execute(userId);
@@ -74,7 +74,7 @@ class GetMissionUseCaseTest {
 
     given(missionSchedule.typesFor(dayOfWeek)).willReturn(missionTypes);
     given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(Collections.emptyList());
-    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(Optional.empty());
+    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(List.of());
 
     // when
     List<Mission> result = useCase.execute(userId);
@@ -94,7 +94,7 @@ class GetMissionUseCaseTest {
 
     given(missionSchedule.typesFor(dayOfWeek)).willReturn(missionTypes);
     given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(Collections.emptyList());
-    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(Optional.of(goal));
+    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(List.of(goal));
     given(goal.getPlanByDate(today)).willReturn(plan);
 
     // when
@@ -117,7 +117,7 @@ class GetMissionUseCaseTest {
 
     given(missionSchedule.typesFor(dayOfWeek)).willReturn(missionTypes);
     given(toDoRepository.findByUserIdAndDate(userId, today)).willReturn(Collections.emptyList());
-    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(Optional.of(goal));
+    given(goalRepository.findByUserIdAndGoalDuration(userId, today)).willReturn(List.of(goal));
     given(goal.getPlanByDate(today)).willReturn(plan);
     given(retrospectRepository.findByPlanId(plan.getId())).willReturn(Optional.of(retrospect));
 
@@ -129,7 +129,11 @@ class GetMissionUseCaseTest {
     assertThat(result.get(0).getType()).isEqualTo(MissionType.WEEKLY_RETROSPECT_WRITE);
   }
 
-  private ToDo createToDo(String id, boolean completed) {
-    return ToDo.builder().id(id).content("테스트 투두").isCompleted(completed).build();
+  private ToDo createToDo() {
+    return ToDo.builder()
+      .id("todo-1")
+      .content("테스트 투두")
+      .isCompleted(true)
+      .isDeleted(false).build();
   }
 }

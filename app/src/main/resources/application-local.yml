@@ -63,3 +63,7 @@ app:
 ai:
   api:
     api-key: ${OPEN_API_KEY}
+
+notification:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL}
