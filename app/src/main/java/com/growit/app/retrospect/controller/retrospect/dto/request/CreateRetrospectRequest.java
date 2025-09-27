@@ -14,5 +14,7 @@ public class CreateRetrospectRequest {
   @NotBlank(message = "{validation.retrospect.plan-id.required}")
   private String planId;
 
+  private String content;
+
   @Valid private KPTDto kpt;
 }

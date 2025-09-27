@@ -10,11 +10,17 @@ import org.springframework.stereotype.Component;
 public class RetrospectRequestMapper {
 
   public CreateRetrospectCommand toCreateCommand(String userId, CreateRetrospectRequest request) {
-    KPT kpt =
-        new KPT(
-            request.getKpt().getKeep(),
-            request.getKpt().getProblem(),
-            request.getKpt().getTryNext());
+    KPT kpt = null;
+    if (request.getKpt() != null) {
+      kpt =
+          new KPT(
+              request.getKpt().getKeep(),
+              request.getKpt().getProblem(),
+              request.getKpt().getTryNext());
+    } else if (request.getContent() != null) {
+      kpt = new KPT("", "", request.getContent());
+    }
+
     return new CreateRetrospectCommand(request.getGoalId(), request.getPlanId(), userId, kpt);
   }
 

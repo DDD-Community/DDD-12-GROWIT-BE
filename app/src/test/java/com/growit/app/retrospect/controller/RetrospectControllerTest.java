@@ -108,6 +108,9 @@ class RetrospectControllerTest {
                             fieldWithPath("planId")
                                 .type(JsonFieldType.STRING)
                                 .description("계획 아이디"),
+                            fieldWithPath("content")
+                                .type(JsonFieldType.STRING)
+                                .description("회고 내용(v1)"),
                             fieldWithPath("kpt.keep")
                                 .type(JsonFieldType.STRING)
                                 .description("Keep - 계속 유지할 것"),
