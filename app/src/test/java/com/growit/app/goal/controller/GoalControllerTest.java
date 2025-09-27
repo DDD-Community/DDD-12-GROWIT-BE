@@ -355,7 +355,7 @@ class GoalControllerTest {
     PlanRecommendation mockRecommendation =
         new PlanRecommendation("rec-123", "user-123", goalId, planId, expectedRecommendation);
 
-    given(recommendPlanUseCase.execute(any(), eq(planId))).willReturn(mockRecommendation);
+    given(recommendPlanUseCase.execute(any(), eq(goalId), eq(planId))).willReturn(mockRecommendation);
 
     mockMvc
         .perform(
@@ -378,6 +378,6 @@ class GoalControllerTest {
                         .responseFields(fieldWithPath("data").type(STRING).description("AI 추천 내용"))
                         .build())));
 
-    verify(recommendPlanUseCase).execute(any(), eq(planId));
+    verify(recommendPlanUseCase).execute(any(), eq(goalId), eq(planId));
   }
 }
