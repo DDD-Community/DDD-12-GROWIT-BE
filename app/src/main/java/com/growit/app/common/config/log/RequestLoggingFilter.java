@@ -89,10 +89,10 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
   private boolean isHealthCheckRequest(HttpServletRequest request) {
     String userAgent = request.getHeader("User-Agent");
     String uri = request.getRequestURI();
-    
-    return "/actuator/health".equals(uri) && 
-           userAgent != null && 
-           userAgent.contains("ELB-HealthChecker");
+
+    return "/actuator/health".equals(uri)
+        && userAgent != null
+        && userAgent.contains("ELB-HealthChecker");
   }
 
   private Object maskSensitiveData(String jsonBody) {

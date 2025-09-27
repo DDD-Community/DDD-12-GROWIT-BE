@@ -32,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
     try {
       String uri = request.getRequestURI();
       if (uri.startsWith("/auth")
+          || uri.startsWith("/test")
           || uri.startsWith("/login")
           || uri.startsWith("/actuator")
           || uri.startsWith("/h2-console")
