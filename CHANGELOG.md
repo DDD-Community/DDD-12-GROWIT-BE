@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.32.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.31.0...v1.32.0) (2025-09-27)
+
+
+### Features
+
+* 유효성 검사 추가 및 리트로스펙트 업데이트 로직 개선 ([#258](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/258)) ([89d8dba](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/89d8dba8396613724b612853994cd0ec51767e11))
+
+
+### Bug Fixes
+
+* RetrospectFixture에 UpdateRetrospectRequest 생성자 인자 추가 (bug/258/retrospect) ([830ca8a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/830ca8a6ca231cef4043c95d4534a14099e872c4))
+
 ## [1.31.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.30.1...v1.31.0) (2025-09-27)
 
 
