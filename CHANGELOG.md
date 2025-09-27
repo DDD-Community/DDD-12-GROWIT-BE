@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.30.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.30.0...v1.30.1) (2025-09-27)
+
+
+### Bug Fixes
+
+* 사용자 엔티티 삭제 시 OAuth 계정 목록 클리어 ([#255](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/255)) ([c1369b0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c1369b0d7ae201fc0c443efed95f89b13fe3a26e))
+* 사용자 엔티티 삭제 시 OAuth 계정 목록 클리어 ([#255](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/255)) ([071c2c2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/071c2c2a1d6f30cb1273fc073e9b77ee0061a7d8))
+
 ## [1.30.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.29.0...v1.30.0) (2025-09-27)
 
 
