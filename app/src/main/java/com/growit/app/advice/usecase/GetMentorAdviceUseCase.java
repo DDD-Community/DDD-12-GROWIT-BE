@@ -2,7 +2,6 @@ package com.growit.app.advice.usecase;
 
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
-import com.growit.app.advice.domain.mentor.service.MentorService;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
@@ -21,7 +20,7 @@ public class GetMentorAdviceUseCase {
 
   private final MentorAdviceRepository mentorAdviceRepository;
   private final GetUserGoalsUseCase getUserGoalsUseCase;
-  private final MentorService mentorService;
+  private final GenerateMentorAdviceUseCase generateMentorAdviceUseCase;
 
   public MentorAdvice execute(User user) {
     Goal currentGoal = getCurrentProgressGoal(user);
@@ -50,7 +49,7 @@ public class GetMentorAdviceUseCase {
   }
 
   private MentorAdvice createNewMentorAdvice(String userId, String goalId) {
-    MentorAdvice newAdvice = mentorService.getMentorAdvice(userId, goalId);
+    MentorAdvice newAdvice = generateMentorAdviceUseCase.execute(userId, goalId);
     mentorAdviceRepository.save(newAdvice);
     return newAdvice;
   }

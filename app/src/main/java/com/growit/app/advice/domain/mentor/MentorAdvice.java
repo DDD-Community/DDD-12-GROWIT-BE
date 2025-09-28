@@ -1,9 +1,11 @@
 package com.growit.app.advice.domain.mentor;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class MentorAdvice {
   private String id;
