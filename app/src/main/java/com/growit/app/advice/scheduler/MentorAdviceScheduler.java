@@ -1,6 +1,5 @@
 package com.growit.app.advice.scheduler;
 
-import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
 import com.growit.app.advice.usecase.GenerateMentorAdviceUseCase;
 import com.growit.app.goal.usecase.GenerateGoalRecommendationUseCase;
@@ -34,6 +33,7 @@ public class MentorAdviceScheduler {
     Page<User> userPage;
     int totalProcessed = 0;
     int successCount = 0;
+    int skipCount = 0;
     int errorCount = 0;
 
     do {
@@ -53,27 +53,23 @@ public class MentorAdviceScheduler {
       for (User user : userPage.getContent()) {
         totalProcessed++;
         try {
-          log.debug("사용자 '{}' 조언 생성 시작", user.getId());
-          MentorAdvice mentorAdvice = generateMentorAdviceUseCase.execute(user);
-          mentorAdviceRepository.save(mentorAdvice);
-          successCount++;
-          log.info("사용자 '{}'의 조언 생성 완료 ({}/{})", user.getId(), successCount, totalProcessed);
+          var mentorAdviceOptional = generateMentorAdviceUseCase.tryExecute(user);
+          if (mentorAdviceOptional.isPresent()) {
+            mentorAdviceRepository.save(mentorAdviceOptional.get());
+            successCount++;
+          } else {
+            skipCount++; // 진행중인 목표가 없어서 스킵
+          }
         } catch (Exception e) {
-          errorCount++;
-          log.error(
-              "사용자 '{}'의 조언 생성 중 오류 발생 ({}/{}): {}",
-              user.getId(),
-              errorCount,
-              totalProcessed,
-              e.getMessage(),
-              e);
+          errorCount++; // AI 서버 오류 등
         }
       }
 
       log.info(
-          "페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
+          "페이지 {} 처리 완료 - 성공: {}, 스킵: {}, 실패: {}, 진행률: {}/{}",
           pageNumber + 1,
           successCount,
+          skipCount,
           errorCount,
           totalProcessed,
           userPage.getTotalElements());
@@ -82,7 +78,12 @@ public class MentorAdviceScheduler {
     } while (userPage.hasNext());
 
     log.info("=== 데일리 멘토 조언 생성 스케줄러 종료 ===");
-    log.info("최종 결과 - 전체: {}, 성공: {}, 실패: {}", totalProcessed, successCount, errorCount);
+    log.info(
+        "최종 결과 - 전체: {}, 성공: {}, 스킵: {}, 실패: {}",
+        totalProcessed,
+        successCount,
+        skipCount,
+        errorCount);
   }
 
   /** 매주 월요일 오전 0시에 주간 목표 추천을 생성합니다. */
@@ -95,6 +96,7 @@ public class MentorAdviceScheduler {
     Page<User> userPage;
     int totalProcessed = 0;
     int successCount = 0;
+    int skipCount = 0;
     int errorCount = 0;
 
     do {
@@ -114,26 +116,22 @@ public class MentorAdviceScheduler {
       for (User user : userPage.getContent()) {
         totalProcessed++;
         try {
-          log.debug("사용자 '{}' 주간 목표 추천 생성 시작", user.getId());
-          generateGoalRecommendationUseCase.execute(user);
-          successCount++;
-          log.info("사용자 '{}'의 주간 목표 추천 생성 완료 ({}/{})", user.getId(), successCount, totalProcessed);
+          var recommendationOptional = generateGoalRecommendationUseCase.tryExecute(user);
+          if (recommendationOptional.isPresent()) {
+            successCount++;
+          } else {
+            skipCount++; // 진행중인 목표가 없어서 스킵
+          }
         } catch (Exception e) {
-          errorCount++;
-          log.error(
-              "사용자 '{}'의 주간 목표 추천 생성 중 오류 발생 ({}/{}): {}",
-              user.getId(),
-              errorCount,
-              totalProcessed,
-              e.getMessage(),
-              e);
+          errorCount++; // AI 서버 오류 등
         }
       }
 
       log.info(
-          "페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
+          "페이지 {} 처리 완료 - 성공: {}, 스킵: {}, 실패: {}, 진행률: {}/{}",
           pageNumber + 1,
           successCount,
+          skipCount,
           errorCount,
           totalProcessed,
           userPage.getTotalElements());
@@ -142,6 +140,11 @@ public class MentorAdviceScheduler {
     } while (userPage.hasNext());
 
     log.info("=== 주간 목표 추천 생성 스케줄러 종료 ===");
-    log.info("최종 결과 - 전체: {}, 성공: {}, 실패: {}", totalProcessed, successCount, errorCount);
+    log.info(
+        "최종 결과 - 전체: {}, 성공: {}, 스킵: {}, 실패: {}",
+        totalProcessed,
+        successCount,
+        skipCount,
+        errorCount);
   }
 }
