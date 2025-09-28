@@ -141,7 +141,7 @@ public class MentorAdviceScheduler {
 
     log.info("=== 주간 목표 추천 생성 스케줄러 종료 ===");
     log.info(
-        "최종 결과 - 전체: {}, 성공: {}, 스킵: {}, 실패: {}",
+        "최종 결과  - 전체: {}, 성공: {}, 스킵: {}, 실패: {}",
         totalProcessed,
         successCount,
         skipCount,
