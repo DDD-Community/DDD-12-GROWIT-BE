@@ -145,6 +145,9 @@ class RetrospectControllerTest {
                         .summary("회고 수정")
                         .pathParameters(parameterWithName("id").description("회고 ID"))
                         .requestFields(
+                            fieldWithPath("content")
+                                .type(JsonFieldType.STRING)
+                                .description("회고 내용(v1)"),
                             fieldWithPath("kpt.keep")
                                 .type(JsonFieldType.STRING)
                                 .description("Keep - 계속 유지할 것"),
