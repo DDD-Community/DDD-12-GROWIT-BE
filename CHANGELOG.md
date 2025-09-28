@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.34.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.33.0...v1.34.0) (2025-09-28)
+
+
+### Features
+
+* **mentor:** Implement AI Mentor Advice functionality ([89dcc70](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/89dcc700ab92b5f11a7d08280fcf27665de5e52a))
+* **mentor:** Introduce goal recommendation functionality and batch processing ([a1fa89d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a1fa89d808a0d0c60da74f6cdc1b4f345226a9a9))
+* **mentor:** 멘토의 조언과 목표 추천을 위해 데이터 수집 및 생성 구현 ([bbee167](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/bbee1679669097e57c411f1d58f6bf1acd289993))
+* **mentor:** 멘토의 조언과 목표 추천을 위해 데이터 수집 및 생성 구현 ([6218c0b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6218c0b1c7ea906436de9916e3b4fb6dd4c3dd4c))
+* **mentor:** 스케줄링 및 웹플럭스 지원을 통해 멘토 조언 기능 향상 ([0f48132](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0f48132661dbbb33bfedb8ad688857aee358c572))
+
 ## [1.33.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.32.0...v1.33.0) (2025-09-28)
 
 
