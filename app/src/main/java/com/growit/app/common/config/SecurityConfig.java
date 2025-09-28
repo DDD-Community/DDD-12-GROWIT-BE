@@ -56,6 +56,7 @@ public class SecurityConfig {
                         "/resource/**",
                         "/externals/**",
                         "/docs/**",
+                        "/batch/**",
                         "/static/**")
                     .permitAll()
                     .anyRequest()
