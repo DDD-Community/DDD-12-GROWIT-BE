@@ -62,3 +62,5 @@ app:
 ai:
   api:
     api-key: ${OPEN_API_KEY}
+  mentor:
+    url: ${MENTOR_API_URL}
