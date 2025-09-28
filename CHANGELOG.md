@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.34.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.34.0...v1.34.1) (2025-09-28)
+
+
+### Bug Fixes
+
+* **ci:** Add AI_MENTOR_URL to deployment secrets in GitHub Actions wo… ([daede22](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/daede22e59d7b15876cb470f9d13bbbad8282908))
+* **ci:** Add AI_MENTOR_URL to deployment secrets in GitHub Actions workflow ([a886294](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a886294e61b9da186c4e88aaff7081492076af4c))
+
 ## [1.34.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.33.0...v1.34.0) (2025-09-28)
 
 
