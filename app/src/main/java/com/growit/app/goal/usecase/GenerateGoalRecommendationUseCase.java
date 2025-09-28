@@ -17,7 +17,6 @@ import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.user.domain.user.User;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -95,10 +94,11 @@ public class GenerateGoalRecommendationUseCase {
     AiGoalRecommendationResponse response = aiMentorAdviceClient.getGoalRecommendation(request);
 
     // 현재 주차의 계획을 찾거나, 없으면 첫 번째 계획을 사용
-    Plan targetPlan = currentGoal.getPlans().stream()
-        .filter(Plan::isCurrentWeek)
-        .findFirst()
-        .orElse(currentGoal.getPlans().get(0));
+    Plan targetPlan =
+        currentGoal.getPlans().stream()
+            .filter(Plan::isCurrentWeek)
+            .findFirst()
+            .orElse(currentGoal.getPlans().get(0));
 
     PlanRecommendation planRecommendation =
         new PlanRecommendation(

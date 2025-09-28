@@ -29,9 +29,6 @@ public class DBGoalRetrospectQueryRepositoryImpl implements DBGoalRetrospectQuer
     builder.and(qGoalRetrospectEntity.createdAt.between(start, end));
     builder.and(qGoalRetrospectEntity.deletedAt.isNull());
 
-    return query
-        .selectFrom(qGoalRetrospectEntity)
-        .where(builder)
-        .fetch();
+    return query.selectFrom(qGoalRetrospectEntity).where(builder).fetch();
   }
 }

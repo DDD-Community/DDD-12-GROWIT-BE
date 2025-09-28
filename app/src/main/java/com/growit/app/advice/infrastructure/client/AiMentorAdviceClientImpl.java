@@ -1,12 +1,12 @@
 package com.growit.app.advice.infrastructure.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.advice.domain.mentor.service.AiMentorAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationRequest;
 import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationResponse;
 import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceRequest;
 import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

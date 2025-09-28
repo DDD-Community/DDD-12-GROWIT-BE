@@ -19,10 +19,10 @@ public class PlanRecommendationCustomRepositoryImpl implements PlanRecommendatio
   @Override
   public Optional<PlanRecommendationEntity> findByCommand(FindPlanRecommendationCommand command) {
     BooleanBuilder builder = new BooleanBuilder();
-    
+
     builder.and(planRecommendationEntity.userId.eq(command.userId()));
     builder.and(planRecommendationEntity.goalId.eq(command.goalId()));
-    
+
     if (command.planId() != null) {
       builder.and(planRecommendationEntity.planId.eq(command.planId()));
     } else {
@@ -30,9 +30,6 @@ public class PlanRecommendationCustomRepositoryImpl implements PlanRecommendatio
     }
 
     return Optional.ofNullable(
-        queryFactory
-            .selectFrom(planRecommendationEntity)
-            .where(builder)
-            .fetchOne());
+        queryFactory.selectFrom(planRecommendationEntity).where(builder).fetchOne());
   }
 }
