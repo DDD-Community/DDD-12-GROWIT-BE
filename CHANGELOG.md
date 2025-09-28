@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.33.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.32.0...v1.33.0) (2025-09-28)
+
+
+### Features
+
+* 요청 DTO에 content 필드 추가 및 맵퍼 수정 (이슈 [#258](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/258)) ([1eb1353](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1eb13533e9f1ec867c1ffe493adf460b38287d86))
+* 요청 DTO에 content 필드 추가 및 맵퍼 수정 (이슈 [#258](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/258)) ([5c031e3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5c031e3989e173442e99ed60d61d810302fb5a55))
+
 ## [1.32.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.31.0...v1.32.0) (2025-09-27)
 
 
