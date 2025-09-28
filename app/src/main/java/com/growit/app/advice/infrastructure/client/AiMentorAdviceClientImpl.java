@@ -7,7 +7,7 @@ import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationRequest;
 import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationResponse;
 import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceRequest;
 import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceResponse;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
