@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.36.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.35.0...v1.36.0) (2025-09-28)
+
+
+### Features
+
+* **batch:** Implement asynchronous execution for mentor advice and g… ([ee5ac7a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ee5ac7a7aff05eb991a8f91a2c0ead1665b4b914))
+* **batch:** Implement asynchronous execution for mentor advice and goal recommendation schedulers ([cd12a61](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cd12a6110eaaac575bf088b1c512949d1dc55a47))
+
+
+### Bug Fixes
+
+* **scheduler:** Introduce asynchronous methods for daily and weekly recommendations ([b6c81b2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b6c81b264e101764ea427b5e3d9694f43c7150a5))
+* **tests:** Reformat AiMentorAdviceClientImpl declaration for consistency ([98781e2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/98781e24b5e76b7f5bdaebf5f453f408635c5bf6))
+
 ## [1.35.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.34.1...v1.35.0) (2025-09-28)
 
 
