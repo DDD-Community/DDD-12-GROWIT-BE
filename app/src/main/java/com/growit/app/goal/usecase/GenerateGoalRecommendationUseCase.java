@@ -68,9 +68,11 @@ public class GenerateGoalRecommendationUseCase {
       return Optional.empty(); // 멘토 정보 없음 - 스킵
     }
 
-    String promptId = goal.getMentor().getGoalPromprtId();
-    if (promptId == null || promptId.trim().isEmpty()) {
-      return Optional.empty(); // 프롬프트 ID 없음 - 스킵
+    // Goal 엔티티의 mentor 값 검증 (실제로는 항상 유효함)
+    try {
+      validateMentorForGoalRecommendation(goal);
+    } catch (IllegalArgumentException e) {
+      return Optional.empty(); // 알 수 없는 멘토 - 스킵
     }
 
     try {
@@ -93,5 +95,20 @@ public class GenerateGoalRecommendationUseCase {
 
   private Optional<Goal> getCurrentProgressGoalOptional(User user) {
     return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream().findFirst();
+  }
+
+  /** Goal의 mentor 정보가 목표 추천 생성에 유효한지 검증합니다. */
+  private void validateMentorForGoalRecommendation(Goal goal) {
+    if (goal.getMentor() == null) {
+      throw new IllegalArgumentException("목표에 멘토 정보가 설정되지 않았습니다.");
+    }
+
+    // Goal 엔티티의 mentor 값 검증
+    switch (goal.getMentor()) {
+      case TIM_COOK, WARREN_BUFFETT, CONFUCIUS -> {
+        // 유효한 멘토
+      }
+      default -> throw new IllegalArgumentException("알 수 없는 멘토입니다: " + goal.getMentor());
+    }
   }
 }
