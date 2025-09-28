@@ -5,11 +5,13 @@ import com.growit.app.advice.usecase.GenerateMentorAdviceUseCase;
 import com.growit.app.goal.usecase.GenerateGoalRecommendationUseCase;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +25,18 @@ public class MentorAdviceScheduler {
   private final MentorAdviceRepository mentorAdviceRepository;
   private final UserRepository userRepository;
 
+  // 배치 실행 상태 추적
+  private volatile boolean mentorAdviceRunning = false;
+  private volatile boolean goalRecommendationRunning = false;
+  private volatile String lastMentorAdviceResult = "대기 중";
+  private volatile String lastGoalRecommendationResult = "대기 중";
+
   /** 매일 오전 0시에 오늘의 조언을 생성합니다. cron = "초 분 시 일 월 요일" */
+  @Async
   @Scheduled(cron = "0 0 0 * * *")
-  public void generateDailyMentorAdvice() {
+  public CompletableFuture<Void> generateDailyMentorAdvice() {
+    mentorAdviceRunning = true;
+    lastMentorAdviceResult = "실행 중...";
     log.info("=== 데일리 멘토 조언 생성 스케줄러 시작 ===");
 
     int pageSize = 100;
@@ -84,11 +95,23 @@ public class MentorAdviceScheduler {
         successCount,
         skipCount,
         errorCount);
+
+    // 상태 업데이트
+    lastMentorAdviceResult =
+        String.format(
+            "완료 - 전체: %d, 성공: %d, 스킵: %d, 실패: %d",
+            totalProcessed, successCount, skipCount, errorCount);
+    mentorAdviceRunning = false;
+
+    return CompletableFuture.completedFuture(null);
   }
 
   /** 매주 월요일 오전 0시에 주간 목표 추천을 생성합니다. */
+  @Async
   @Scheduled(cron = "0 0 0 * * MON")
-  public void generateWeeklyGoalRecommendation() {
+  public CompletableFuture<Void> generateWeeklyGoalRecommendation() {
+    goalRecommendationRunning = true;
+    lastGoalRecommendationResult = "실행 중...";
     log.info("=== 주간 목표 추천 생성 스케줄러 시작 ===");
 
     int pageSize = 100;
@@ -146,5 +169,31 @@ public class MentorAdviceScheduler {
         successCount,
         skipCount,
         errorCount);
+
+    // 상태 업데이트
+    lastGoalRecommendationResult =
+        String.format(
+            "완료 - 전체: %d, 성공: %d, 스킵: %d, 실패: %d",
+            totalProcessed, successCount, skipCount, errorCount);
+    goalRecommendationRunning = false;
+
+    return CompletableFuture.completedFuture(null);
+  }
+
+  // 상태 조회 메서드들
+  public boolean isMentorAdviceRunning() {
+    return mentorAdviceRunning;
+  }
+
+  public boolean isGoalRecommendationRunning() {
+    return goalRecommendationRunning;
+  }
+
+  public String getLastMentorAdviceResult() {
+    return lastMentorAdviceResult;
+  }
+
+  public String getLastGoalRecommendationResult() {
+    return lastGoalRecommendationResult;
   }
 }

@@ -3,12 +3,14 @@ package com.growit.app.goal.domain.goalrecommendation.service;
 import com.growit.app.advice.domain.mentor.service.AiMentorAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationRequest;
 import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationResponse;
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goalrecommendation.vo.GoalRecommendationData;
 import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.user.domain.user.User;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,18 +51,35 @@ public class GoalRecommendationService {
             .remainingTime(data.getRemainingTime())
             .build();
 
+    // Mentor 정보 확인
+    if (goal.getMentor() == null) {
+      throw new BadRequestException("목표에 멘토 정보가 설정되지 않았습니다. 목표 추천을 생성할 수 없습니다.");
+    }
+
+    String promptId = goal.getMentor().getGoalPromprtId();
+    if (promptId == null || promptId.trim().isEmpty()) {
+      throw new BadRequestException("멘토의 목표 추천 프롬프트 ID가 설정되지 않았습니다.");
+    }
+
     return AiGoalRecommendationRequest.builder()
         .userId(user.getId())
-        .promptId(goal.getMentor().getGoalPromprtId())
+        .promptId(promptId)
         .input(input)
         .build();
   }
 
   private Plan selectTargetPlan(Goal goal) {
-    return goal.getPlans().stream()
+    List<Plan> plans = goal.getPlans();
+
+    // 플랜이 없는 경우 예외 발생
+    if (plans == null || plans.isEmpty()) {
+      throw new BadRequestException("목표에 주간 플랜이 설정되지 않았습니다. 목표 추천을 생성할 수 없습니다.");
+    }
+
+    return plans.stream()
         .filter(Plan::isCurrentWeek)
         .findFirst()
-        .orElse(goal.getPlans().get(0));
+        .orElse(plans.get(0)); // 이제 안전함 (위에서 empty 체크 완료)
   }
 
   private PlanRecommendation createPlanRecommendation(

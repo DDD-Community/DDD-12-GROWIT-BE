@@ -75,6 +75,9 @@ public class MentorAdviceDataCollector {
   }
 
   private List<String> extractWeeklyGoalContents(Goal goal) {
+    if (goal.getPlans() == null || goal.getPlans().isEmpty()) {
+      return List.of(); // 빈 리스트 반환
+    }
     return goal.getPlans().stream().map(Plan::getContent).collect(Collectors.toList());
   }
 }
