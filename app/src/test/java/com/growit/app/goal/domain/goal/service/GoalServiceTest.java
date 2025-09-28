@@ -153,4 +153,159 @@ class GoalServiceTest {
       }
     }
   }
+
+  @Test
+  void givenGoalsFromDifferentYears_whenGetGoalsByYear_thenReturnOnlyGoalsFromSpecifiedYear() {
+    // given
+    LocalDate date2024 = LocalDate.of(2024, 1, 1);
+    LocalDate date2025 = LocalDate.of(2025, 1, 1);
+
+    Goal goal2024 =
+        GoalFixture.customGoal(
+            "goal-2024",
+            "user-test",
+            "2024 목표",
+            new GoalDuration(date2024, date2024.plusWeeks(4)),
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    Goal goal2025 =
+        GoalFixture.customGoal(
+            "goal-2025",
+            "user-test",
+            "2025 목표",
+            new GoalDuration(date2025, date2025.plusWeeks(4)),
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    goalRepository.saveGoal(goal2024);
+    goalRepository.saveGoal(goal2025);
+
+    // when
+    List<Goal> result2024 = goalService.getGoalsByYear("user-test", 2024);
+    List<Goal> result2025 = goalService.getGoalsByYear("user-test", 2025);
+
+    // then
+    assertEquals(1, result2024.size());
+    assertEquals("2024 목표", result2024.get(0).getName());
+
+    assertEquals(1, result2025.size());
+    assertEquals("2025 목표", result2025.get(0).getName());
+  }
+
+  @Test
+  void givenMultipleGoalsInSameYear_whenGetGoalsByYear_thenReturnSortedByStartDateDescending() {
+    // given
+    LocalDate earlyDate = LocalDate.of(2024, 1, 1);
+    LocalDate lateDate = LocalDate.of(2024, 6, 1);
+
+    Goal earlyGoal =
+        GoalFixture.customGoal(
+            "early-goal",
+            "user-test",
+            "Early Goal",
+            new GoalDuration(earlyDate, earlyDate.plusWeeks(4)),
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    Goal lateGoal =
+        GoalFixture.customGoal(
+            "late-goal",
+            "user-test",
+            "Late Goal",
+            new GoalDuration(lateDate, lateDate.plusWeeks(4)),
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    goalRepository.saveGoal(earlyGoal);
+    goalRepository.saveGoal(lateGoal);
+
+    // when
+    List<Goal> result = goalService.getGoalsByYear("user-test", 2024);
+
+    // then
+    assertEquals(2, result.size());
+    assertEquals("Late Goal", result.get(0).getName());
+    assertEquals("Early Goal", result.get(1).getName());
+  }
+
+  @Test
+  void givenNoGoalsInSpecifiedYear_whenGetGoalsByYear_thenReturnEmptyList() {
+    // given
+    LocalDate date2024 = LocalDate.of(2024, 1, 1);
+    Goal goal2024 =
+        GoalFixture.customGoal(
+            "goal-2024",
+            "user-test",
+            "2024 목표",
+            new GoalDuration(date2024, date2024.plusWeeks(4)),
+            null,
+            null,
+            null,
+            null,
+            null);
+    goalRepository.saveGoal(goal2024);
+
+    // when
+    List<Goal> result = goalService.getGoalsByYear("user-test", 2025);
+
+    // then
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  void givenGoalsWithSameStartDate_whenGetGoalsByYear_thenSortByEndDateDescending() {
+    // given
+    LocalDate sameStartDate = LocalDate.of(2024, 1, 1);
+    LocalDate earlyEndDate = sameStartDate.plusWeeks(2);
+    LocalDate lateEndDate = sameStartDate.plusWeeks(4);
+
+    Goal shortGoal =
+        GoalFixture.customGoal(
+            "short-goal",
+            "user-test",
+            "Short Goal",
+            new GoalDuration(sameStartDate, earlyEndDate),
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    Goal longGoal =
+        GoalFixture.customGoal(
+            "long-goal",
+            "user-test",
+            "Long Goal",
+            new GoalDuration(sameStartDate, lateEndDate),
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    goalRepository.saveGoal(shortGoal);
+    goalRepository.saveGoal(longGoal);
+
+    // when
+    List<Goal> result = goalService.getGoalsByYear("user-test", 2024);
+
+    // then
+    assertEquals(2, result.size());
+    // Goals with same start date should be sorted by end date descending
+    assertEquals("Long Goal", result.get(0).getName());
+    assertEquals("Short Goal", result.get(1).getName());
+  }
 }

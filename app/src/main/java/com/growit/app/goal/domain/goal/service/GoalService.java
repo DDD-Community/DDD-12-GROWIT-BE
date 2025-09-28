@@ -96,4 +96,20 @@ public class GoalService implements GoalValidator, GoalQuery {
         .sorted(Comparator.comparing((Goal goal) -> goal.getDuration().startDate()).reversed())
         .toList();
   }
+
+  @Override
+  public List<Goal> getGoalsByYear(String userId, int year) {
+    return goalRepository.findAllByUserId(userId).stream()
+        .filter(
+            goal -> {
+              LocalDate start = goal.getDuration().startDate();
+              return start.getYear() == year;
+            })
+        .sorted(
+            Comparator.comparing((Goal goal) -> goal.getDuration().startDate())
+                .reversed()
+                .thenComparing(
+                    (Goal goal) -> goal.getDuration().endDate(), Comparator.reverseOrder()))
+        .toList();
+  }
 }

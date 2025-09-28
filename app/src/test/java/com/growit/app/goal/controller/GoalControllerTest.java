@@ -62,6 +62,7 @@ class GoalControllerTest {
   @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
   @MockitoBean private UpdatePlanUseCase updatePlanUseCase;
   @MockitoBean private RecommendPlanUseCase recommendPlanUseCase;
+  @MockitoBean private GetGoalsByYearUseCase getGoalsByYearUseCase;
 
   @Autowired private ObjectMapper objectMapper;
   @Autowired private GoalRepository goalRepository;
@@ -98,11 +99,12 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("내 목표 목록 조회")
                         .queryParameters(
                             parameterWithName("status")
-                                .description("목표 상태 필터 | Enum: NONE, ENDED, PROGRESS"))
+                                .description("목표 상태 필터 | Enum: NONE, ENDED, PROGRESS")
+                                .optional())
                         .responseFields(
                             fieldWithPath("data[].id").type(STRING).description("목표 ID"),
                             fieldWithPath("data[].name").type(STRING).description("목표 이름"),
@@ -154,7 +156,7 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("내 목표 조회")
                         .pathParameters(parameterWithName("id").description("목표 ID"))
                         .responseFields(
@@ -206,7 +208,7 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("목표 생성")
                         .requestFields(
                             fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
@@ -247,7 +249,7 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("목표 삭제")
                         .pathParameters(parameterWithName("id").description("삭제할 목표 ID"))
                         .responseFields(
@@ -274,7 +276,7 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("목표 수정")
                         .requestFields(
                             fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
@@ -330,7 +332,7 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("계획 내용 수정")
                         .queryParameters(
                             parameterWithName("goalId").description("목표 ID"),
@@ -371,7 +373,7 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag("Goal")
                         .summary("계획 추천")
                         .pathParameters(
                             parameterWithName("id").description("목표 ID"),
@@ -380,5 +382,68 @@ class GoalControllerTest {
                         .build())));
 
     verify(recommendPlanUseCase).execute(any(), eq(goalId), eq(planId));
+  }
+
+  @Test
+  void getGoalsByYear() throws Exception {
+    // given
+    int testYear = 2025;
+    List<Goal> mockGoals = List.of(GoalFixture.defaultGoal());
+    given(getGoalsByYearUseCase.getGoalsByYear(any(), eq(testYear))).willReturn(mockGoals);
+
+    // when & then
+    mockMvc
+        .perform(
+            get("/goals")
+                .param("year", String.valueOf(testYear))
+                .header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").exists())
+        .andExpect(jsonPath("$.data").isArray())
+        .andDo(
+            document(
+                "get-goals-by-year",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goal")
+                        .summary("연도별 목표 목록 조회")
+                        .queryParameters(
+                            parameterWithName("year").optional().description("조회할 연도 (예: 2025)"))
+                        .responseFields(
+                            fieldWithPath("data[].id").type(STRING).description("목표 ID"),
+                            fieldWithPath("data[].name").type(STRING).description("목표 이름"),
+                            fieldWithPath("data[].duration").description("기간 정보 객체"),
+                            fieldWithPath("data[].duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].toBe").type(STRING).description("목표 달성 후 상태"),
+                            fieldWithPath("data[].category")
+                                .type(STRING)
+                                .description(
+                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
+                            fieldWithPath("data[].mentor").type(STRING).description("멘토"),
+                            fieldWithPath("data[].plans").description("계획 리스트"),
+                            fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
+                            fieldWithPath("data[].plans[].weekOfMonth")
+                                .type(NUMBER)
+                                .description("주차"),
+                            fieldWithPath("data[].plans[].duration").description("기간 정보 객체"),
+                            fieldWithPath("data[].plans[].duration.startDate")
+                                .type(STRING)
+                                .description("시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].plans[].duration.endDate")
+                                .type(STRING)
+                                .description("종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].plans[].content")
+                                .type(STRING)
+                                .description("계획 내용"))
+                        .build())));
+
+    verify(getGoalsByYearUseCase).getGoalsByYear(any(), eq(testYear));
   }
 }

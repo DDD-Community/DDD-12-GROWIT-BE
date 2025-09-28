@@ -22,4 +22,9 @@ public class FakeGoalQuery implements GoalQuery {
   public List<Goal> getFinishedGoalsByYear(String userId, int year) {
     return List.of();
   }
+
+  @Override
+  public List<Goal> getGoalsByYear(String userId, int year) {
+    return List.of();
+  }
 }
