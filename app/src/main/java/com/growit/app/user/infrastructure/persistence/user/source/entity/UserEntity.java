@@ -70,11 +70,13 @@ public class UserEntity extends BaseEntity {
                         .provider(o.provider())
                         .providerId(o.providerId())
                         .build();
+
                 this.oauthAccounts.add(newEntity);
               }
             });
 
     if (user.isDeleted()) {
+      this.oauthAccounts.clear();
       this.setDeletedAt(LocalDateTime.now());
     }
   }

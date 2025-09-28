@@ -9,12 +9,10 @@ import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.domain.planrecommendation.PlanRecommendationRepository;
 import com.growit.app.goal.domain.planrecommendation.dto.FindPlanRecommendationCommand;
 import com.growit.app.user.domain.user.User;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +26,7 @@ class RecommendPlanUseCaseTest {
 
   @Mock private PlanRecommendationRepository planRecommendationRepository;
 
-  @Mock private GetUserGoalsUseCase getUserGoalsUseCase;
+  @Mock private GetGoalUseCase getGoalUseCase;
 
   @InjectMocks private RecommendPlanUseCase recommendPlanUseCase;
 
@@ -50,13 +48,12 @@ class RecommendPlanUseCaseTest {
         new PlanRecommendation(
             "recommendation-1", testUser.getId(), testGoal.getId(), planId, "추천 내용");
 
-    when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
-        .thenReturn(List.of(testGoal));
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
     when(planRecommendationRepository.findByCommand(any(FindPlanRecommendationCommand.class)))
         .thenReturn(Optional.of(expectedRecommendation));
 
     // when
-    PlanRecommendation result = recommendPlanUseCase.execute(testUser, planId);
+    PlanRecommendation result = recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
 
     // then
     assertThat(result).isNotNull();
@@ -69,13 +66,12 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenValidUserAndPlanIdButNoRecommendation_whenExecute_thenCreateNewRecommendation() {
     // given
-    when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
-        .thenReturn(List.of(testGoal));
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
     when(planRecommendationRepository.findByCommand(any(FindPlanRecommendationCommand.class)))
         .thenReturn(Optional.empty());
 
     // when
-    PlanRecommendation result = recommendPlanUseCase.execute(testUser, planId);
+    PlanRecommendation result = recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
 
     // then
     assertThat(result).isNotNull();
@@ -88,10 +84,11 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenUserWithoutProgressGoal_whenExecute_thenThrowNotFoundException() {
     // given
-    when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS)).thenReturn(List.of());
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser))
+        .thenThrow(new NotFoundException("현재 진행중인 목표가 존재하지 않습니다."));
 
     // when & then
-    assertThatThrownBy(() -> recommendPlanUseCase.execute(testUser, planId))
+    assertThatThrownBy(() -> recommendPlanUseCase.execute(testUser, testGoal.getId(), planId))
         .isInstanceOf(NotFoundException.class)
         .hasMessage("현재 진행중인 목표가 존재하지 않습니다.");
   }
@@ -101,11 +98,11 @@ class RecommendPlanUseCaseTest {
     // given
     String invalidPlanId = "invalid-plan-id";
 
-    when(getUserGoalsUseCase.getMyGoals(testUser, GoalStatus.PROGRESS))
-        .thenReturn(List.of(testGoal));
+    when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
 
     // when & then
-    assertThatThrownBy(() -> recommendPlanUseCase.execute(testUser, invalidPlanId))
+    assertThatThrownBy(
+            () -> recommendPlanUseCase.execute(testUser, testGoal.getId(), invalidPlanId))
         .isInstanceOf(NotFoundException.class);
   }
 }

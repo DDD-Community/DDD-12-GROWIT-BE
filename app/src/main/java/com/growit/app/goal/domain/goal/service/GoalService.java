@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +25,8 @@ public class GoalService implements GoalValidator, GoalQuery {
   @Override
   public void checkGoalExists(String userId) {
     LocalDate today = LocalDate.now();
-    Optional<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId, today);
-    if (goal.isPresent()) {
+    List<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId, today);
+    if (!goal.isEmpty()) {
       throw new BadRequestException(GOAL_ALREADY_EXISTS.getCode());
     }
   }

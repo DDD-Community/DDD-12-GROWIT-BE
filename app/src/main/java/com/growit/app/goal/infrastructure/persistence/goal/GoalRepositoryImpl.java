@@ -2,14 +2,12 @@ package com.growit.app.goal.infrastructure.persistence.goal;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -49,24 +47,9 @@ public class GoalRepositoryImpl implements GoalRepository {
   }
 
   @Override
-  public Optional<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
-    Optional<GoalEntity> goalEntity = repository.findByUserIdAndGoalDuration(userId, today);
-    return goalEntity.map(mapper::toDomain);
-  }
+  public List<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
+    List<GoalEntity> goals = repository.findByUserIdAndGoalDuration(userId, today);
 
-  @Override
-  public List<String> findEndedCandidateIds(LocalDate today, int page, int size) {
-    return repository.findEndedCandidateUids(
-        today, GoalUpdateStatus.ENDED, PageRequest.of(page, size));
-  }
-
-  @Override
-  public List<Goal> findAllByIds(List<String> uIds) {
-    return repository.findByUidIn(uIds).stream().map(mapper::toDomain).toList();
-  }
-
-  @Override
-  public void flushAndClear() {
-    repository.flushAndClear();
+    return goals.stream().map(mapper::toDomain).toList();
   }
 }

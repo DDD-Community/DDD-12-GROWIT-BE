@@ -64,3 +64,7 @@ ai:
     api-key: ${OPEN_API_KEY}
   mentor:
     url: ${MENTOR_API_URL}
+
+notification:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL}

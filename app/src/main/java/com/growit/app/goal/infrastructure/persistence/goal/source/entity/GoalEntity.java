@@ -17,7 +17,13 @@ import java.util.stream.Collectors;
 import lombok.*;
 
 @Entity
-@Table(name = "goals")
+@Table(
+    name = "goals",
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "uk_goals_user_id_end_date",
+          columnNames = {"user_id", "end_date"})
+    })
 @Getter
 @Setter
 @NoArgsConstructor
@@ -53,7 +59,7 @@ public class GoalEntity extends BaseEntity {
   @Builder.Default
   private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
 
-  @Column(nullable = true)
+  @Column()
   @Enumerated(EnumType.STRING)
   private Mentor mentor;
 

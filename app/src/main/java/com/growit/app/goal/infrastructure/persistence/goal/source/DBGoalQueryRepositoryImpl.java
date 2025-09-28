@@ -1,17 +1,13 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source;
 
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QGoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.QPlanEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Repository;
 public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
 
   private final JPAQueryFactory queryFactory;
-  @PersistenceContext private final EntityManager em;
 
   @Override
   public List<GoalEntity> findByUserId(String userId) {
@@ -48,45 +43,16 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
   }
 
   @Override
-  public Optional<GoalEntity> findByUserIdAndGoalDuration(String userId, LocalDate today) {
+  public List<GoalEntity> findByUserIdAndGoalDuration(String userId, LocalDate today) {
     QGoalEntity goal = QGoalEntity.goalEntity;
 
-    return Optional.ofNullable(
-        queryFactory
-            .selectFrom(goal)
-            .where(
-                goal.userId.eq(userId),
-                goal.deletedAt.isNull(),
-                goal.startDate.loe(today),
-                goal.endDate.goe(today))
-            .fetchOne());
-  }
-
-  @Override
-  public List<String> findEndedCandidateUids(
-      LocalDate today, GoalUpdateStatus updateStatus, PageRequest pageRequest) {
-    QGoalEntity goal = QGoalEntity.goalEntity;
     return queryFactory
-        .select(goal.uid)
-        .from(goal)
+        .selectFrom(goal)
         .where(
-            goal.deletedAt.isNull(), goal.updateStatus.ne(updateStatus), goal.endDate.before(today))
-        .offset(pageRequest.getOffset())
-        .limit(pageRequest.getPageSize())
+            goal.userId.eq(userId),
+            goal.deletedAt.isNull(),
+            goal.startDate.loe(today),
+            goal.endDate.goe(today))
         .fetch();
-  }
-
-  @Override
-  public List<GoalEntity> findByUidIn(List<String> uids) {
-    if (uids == null || uids.isEmpty()) return List.of();
-    QGoalEntity goal = QGoalEntity.goalEntity;
-
-    return queryFactory.selectFrom(goal).where(goal.uid.in(uids)).fetch();
-  }
-
-  @Override
-  public void flushAndClear() {
-    em.flush();
-    em.clear();
   }
 }

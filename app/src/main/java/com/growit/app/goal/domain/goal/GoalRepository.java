@@ -13,11 +13,5 @@ public interface GoalRepository {
 
   Optional<Goal> findByIdAndUserId(String id, String userId);
 
-  Optional<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today);
-
-  List<String> findEndedCandidateIds(LocalDate today, int page, int size);
-
-  List<Goal> findAllByIds(List<String> ids);
-
-  void flushAndClear();
+  List<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today);
 }

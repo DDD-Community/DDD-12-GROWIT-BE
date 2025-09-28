@@ -30,8 +30,8 @@ public class GetMissionUseCase {
     LocalDate today = LocalDate.now();
     DayOfWeek day = today.getDayOfWeek();
 
-    Optional<Goal> findGoal = goalRepository.findByUserIdAndGoalDuration(userId, today);
-    Goal goal = findGoal.orElse(null);
+    List<Goal> findGoal = goalRepository.findByUserIdAndGoalDuration(userId, today);
+    Goal goal = findGoal.stream().findFirst().orElse(null);
     Plan plan = goal == null ? null : goal.getPlanByDate(today);
 
     List<ToDo> toDoList = toDoRepository.findByUserIdAndDate(userId, today);

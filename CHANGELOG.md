@@ -1,5 +1,54 @@
 # Changelog
 
+## [1.33.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.32.0...v1.33.0) (2025-09-28)
+
+
+### Features
+
+* 요청 DTO에 content 필드 추가 및 맵퍼 수정 (이슈 [#258](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/258)) ([1eb1353](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1eb13533e9f1ec867c1ffe493adf460b38287d86))
+* 요청 DTO에 content 필드 추가 및 맵퍼 수정 (이슈 [#258](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/258)) ([5c031e3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5c031e3989e173442e99ed60d61d810302fb5a55))
+
+## [1.32.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.31.0...v1.32.0) (2025-09-27)
+
+
+### Features
+
+* 유효성 검사 추가 및 리트로스펙트 업데이트 로직 개선 ([#258](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/258)) ([89d8dba](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/89d8dba8396613724b612853994cd0ec51767e11))
+
+
+### Bug Fixes
+
+* RetrospectFixture에 UpdateRetrospectRequest 생성자 인자 추가 (bug/258/retrospect) ([830ca8a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/830ca8a6ca231cef4043c95d4534a14099e872c4))
+
+## [1.31.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.30.1...v1.31.0) (2025-09-27)
+
+
+### Features
+
+* 회고 내용(content) 필드 추가 및 유효성 검증 로직 구현 (bug/258/retrospect) ([585c47a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/585c47adbba1142aeec9a21c10f7df7f347fbcbc))
+* 회고 내용(content) 필드 추가 및 유효성 검증 로직 구현 (bug/258/retrospect) ([1f40e48](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1f40e482b9b881deb2929157b3c8d292edd3d497))
+
+## [1.30.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.30.0...v1.30.1) (2025-09-27)
+
+
+### Bug Fixes
+
+* 사용자 엔티티 삭제 시 OAuth 계정 목록 클리어 ([#255](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/255)) ([c1369b0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c1369b0d7ae201fc0c443efed95f89b13fe3a26e))
+* 사용자 엔티티 삭제 시 OAuth 계정 목록 클리어 ([#255](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/255)) ([071c2c2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/071c2c2a1d6f30cb1273fc073e9b77ee0061a7d8))
+
+## [1.30.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.29.0...v1.30.0) (2025-09-27)
+
+
+### Features
+
+* **notification:** NotificationService 인터페이스 추가 (bug/252/goal) ([e83f45b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e83f45b3d1a65e25967784395f1c7b9fc14fe37c))
+* 추천 계획 실행 시 목표 ID를 인자로 받도록 수정함 (bug/252) ([8c3d5ac](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8c3d5ac1f72252fe3766291491a0020b4104e780))
+
+
+### Bug Fixes
+
+* 서버 에러 시 디스코드 알림 전송 기능 추가 (BUG-252) ([c559e04](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c559e04ca95967c34280a5da234f670a9c21030b))
+
 ## [1.29.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.28.0...v1.29.0) (2025-09-26)
 
 

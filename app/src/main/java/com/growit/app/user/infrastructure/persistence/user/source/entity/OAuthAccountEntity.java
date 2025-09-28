@@ -9,9 +9,6 @@ import lombok.*;
     name = "oauth_accounts",
     uniqueConstraints = {
       @UniqueConstraint(
-          name = "uk_provider_pid",
-          columnNames = {"provider", "provider_id"}),
-      @UniqueConstraint(
           name = "uk_user_provider",
           columnNames = {"user_id", "provider"})
     })
