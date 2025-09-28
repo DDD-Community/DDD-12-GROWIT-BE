@@ -24,11 +24,7 @@ public class RetrospectRequestMapper {
   private static KPT getKpt(KPTDto request, String request1) {
     KPT kpt = null;
     if (request != null) {
-      kpt =
-        new KPT(
-          request.getKeep(),
-          request.getProblem(),
-          request.getTryNext());
+      kpt = new KPT(request.getKeep(), request.getProblem(), request.getTryNext());
     } else if (request1 != null) {
       kpt = new KPT("", "", request1);
     }

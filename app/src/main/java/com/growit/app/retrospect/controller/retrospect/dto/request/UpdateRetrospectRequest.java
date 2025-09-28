@@ -8,9 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UpdateRetrospectRequest {
-  @Valid
-  @NotNull
-  private KPTDto kpt;
+  @Valid @NotNull private KPTDto kpt;
 
   private String content;
 }
