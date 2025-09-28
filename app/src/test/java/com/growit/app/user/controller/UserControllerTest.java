@@ -20,6 +20,7 @@ import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.resource.domain.jobrole.JobRole;
+import com.growit.app.user.controller.dto.request.RegisterPromotionRequest;
 import com.growit.app.user.controller.dto.request.UpdateUserRequest;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.ResponseMapper;
@@ -27,6 +28,7 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.usecase.DeleteUserUseCase;
 import com.growit.app.user.usecase.GetUserUseCase;
 import com.growit.app.user.usecase.LogoutUseCase;
+import com.growit.app.user.usecase.RegisterPromotionUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,6 +63,7 @@ class UserControllerTest {
   @MockitoBean private UpdateUserUseCase updateUserUseCase;
   @MockitoBean private LogoutUseCase logoutUseCase;
   @MockitoBean private DeleteUserUseCase deleteUserUseCase;
+  @MockitoBean private RegisterPromotionUseCase registerPromotionUseCase;
 
   @BeforeEach
   void setUp(
@@ -245,5 +248,37 @@ class UserControllerTest {
                             fieldWithPath("data").type(STRING).description("온보딩 완료 성공 메세지"))
                         .build())));
     verify(updateUserUseCase).isOnboarding(any(User.class));
+  }
+
+  @Test
+  void registerPromotion() throws Exception {
+    RegisterPromotionRequest request = new RegisterPromotionRequest("PROMO2024");
+
+    mockMvc
+        .perform(
+            post("/users/myprofile/promotion")
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "register-promotion",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("User")
+                        .summary("프로모션 등록")
+                        .requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION)
+                                .attributes(key("type").value("String"))
+                                .description("JWT (Your Token)"))
+                        .requestFields(fieldWithPath("code").type(STRING).description("프로모션 코드"))
+                        .responseFields(
+                            fieldWithPath("data").type(STRING).description("프로모션 등록 성공 메세지"))
+                        .build())));
+
+    verify(registerPromotionUseCase).execute(any(User.class), any(String.class));
   }
 }

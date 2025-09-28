@@ -1,6 +1,8 @@
 package com.growit.app.fake.user;
 
+import com.growit.app.fake.promotion.PromotionFixture;
 import com.growit.app.user.controller.dto.request.*;
+import com.growit.app.user.domain.promotion.Promotion;
 import com.growit.app.user.domain.token.UserToken;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
@@ -9,10 +11,18 @@ import com.growit.app.user.domain.user.dto.SignInCommand;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
+import java.util.ArrayList;
 
 public class UserFixture {
   public static User defaultUser() {
     return new UserBuilder().build();
+  }
+
+  public static User userWithPromotion() {
+    User user = new UserBuilder().build();
+    Promotion promotion = PromotionFixture.activePromotionWithCode("EXISTING_PROMO");
+    user.addPromotion(promotion);
+    return user;
   }
 
   public static Token defaultToken() {
@@ -113,6 +123,9 @@ class UserBuilder {
         .name(name)
         .jobRoleId(jobRoleId)
         .careerYear(careerYear)
+        .isDeleted(false)
+        .isOnboarding(false)
+        .oauthAccounts(new ArrayList<>())
         .build();
   }
 }
