@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * 멘토 조언 생성에 필요한 데이터를 수집하는 서비스
- */
+/** 멘토 조언 생성에 필요한 데이터를 수집하는 서비스 */
 @Service
 @RequiredArgsConstructor
 public class MentorAdviceDataCollector {
@@ -50,19 +48,13 @@ public class MentorAdviceDataCollector {
 
   private List<ToDo> getWeeklyTodos(String userId, LocalDate startDate, LocalDate endDate) {
     return toDoRepository.findAllByUserIdAndCreatedAtBetween(
-        userId, 
-        startDate.atStartOfDay(), 
-        endDate.atTime(23, 59, 59)
-    );
+        userId, startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
   }
 
   private List<String> getWeeklyRetrospects(String goalId, LocalDate startDate, LocalDate endDate) {
     return goalRetrospectRepository
         .findAllByGoalIdAndCreatedAtBetween(
-            goalId, 
-            startDate.atStartOfDay(), 
-            endDate.atTime(23, 59, 59)
-        )
+            goalId, startDate.atStartOfDay(), endDate.atTime(23, 59, 59))
         .stream()
         .map(GoalRetrospect::getContent)
         .collect(Collectors.toList());
@@ -83,8 +75,6 @@ public class MentorAdviceDataCollector {
   }
 
   private List<String> extractWeeklyGoalContents(Goal goal) {
-    return goal.getPlans().stream()
-        .map(Plan::getContent)
-        .collect(Collectors.toList());
+    return goal.getPlans().stream().map(Plan::getContent).collect(Collectors.toList());
   }
 }

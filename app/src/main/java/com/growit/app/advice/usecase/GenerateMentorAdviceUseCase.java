@@ -13,12 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 멘토 조언 생성 UseCase
- * - 진행 중인 목표 확인
- * - 조언 데이터 수집
- * - AI 조언 생성
- */
+/** 멘토 조언 생성 UseCase - 진행 중인 목표 확인 - 조언 데이터 수집 - AI 조언 생성 */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -38,7 +33,7 @@ public class GenerateMentorAdviceUseCase {
   public MentorAdvice execute(User user) {
     Goal currentGoal = getCurrentProgressGoal(user);
     MentorAdviceData data = dataCollector.collectData(user, currentGoal);
-    
+
     return mentorAdviceService.generateAdvice(user, currentGoal, data);
   }
 

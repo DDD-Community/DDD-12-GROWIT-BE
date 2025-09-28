@@ -15,9 +15,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * 목표 추천 생성에 필요한 데이터를 수집하는 서비스
- */
+/** 목표 추천 생성에 필요한 데이터를 수집하는 서비스 */
 @Service
 @RequiredArgsConstructor
 public class GoalRecommendationDataCollector {
@@ -50,28 +48,20 @@ public class GoalRecommendationDataCollector {
 
   private List<ToDo> getMonthlyTodos(String userId, LocalDate startDate, LocalDate endDate) {
     return toDoRepository.findAllByUserIdAndCreatedAtBetween(
-        userId, 
-        startDate.atStartOfDay(), 
-        endDate.atTime(23, 59, 59)
-    );
+        userId, startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
   }
 
   private List<String> getPastRetrospects(String goalId, LocalDate startDate, LocalDate endDate) {
     return goalRetrospectRepository
         .findAllByGoalIdAndCreatedAtBetween(
-            goalId, 
-            startDate.atStartOfDay(), 
-            endDate.atTime(23, 59, 59)
-        )
+            goalId, startDate.atStartOfDay(), endDate.atTime(23, 59, 59))
         .stream()
         .map(GoalRetrospect::getContent)
         .collect(Collectors.toList());
   }
 
   private List<String> extractTodoContents(List<ToDo> todos) {
-    return todos.stream()
-        .map(ToDo::getContent)
-        .collect(Collectors.toList());
+    return todos.stream().map(ToDo::getContent).collect(Collectors.toList());
   }
 
   private List<String> extractCompletedTodoContents(List<ToDo> todos) {

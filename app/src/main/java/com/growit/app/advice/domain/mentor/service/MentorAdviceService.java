@@ -10,12 +10,7 @@ import com.growit.app.user.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * 멘토 조언 생성을 담당하는 도메인 서비스
- * - AI 요청 생성
- * - AI 호출
- * - 멘토 조언 객체 생성
- */
+/** 멘토 조언 생성을 담당하는 도메인 서비스 - AI 요청 생성 - AI 호출 - 멘토 조언 객체 생성 */
 @Service
 @RequiredArgsConstructor
 public class MentorAdviceService {
@@ -33,19 +28,20 @@ public class MentorAdviceService {
   public MentorAdvice generateAdvice(User user, Goal goal, MentorAdviceData data) {
     AiMentorAdviceRequest request = createAiRequest(user, goal, data);
     AiMentorAdviceResponse response = aiMentorAdviceClient.getMentorAdvice(request);
-    
+
     return createMentorAdvice(user, goal, response);
   }
 
   private AiMentorAdviceRequest createAiRequest(User user, Goal goal, MentorAdviceData data) {
-    AiMentorAdviceRequest.Input input = AiMentorAdviceRequest.Input.builder()
-        .recentTodos(data.getRecentTodos())
-        .weeklyRetrospects(data.getWeeklyRetrospects())
-        .overallGoal(data.getOverallGoal())
-        .completedTodos(data.getCompletedTodos())
-        .incompleteTodos(data.getIncompleteTodos())
-        .pastWeeklyGoals(data.getPastWeeklyGoals())
-        .build();
+    AiMentorAdviceRequest.Input input =
+        AiMentorAdviceRequest.Input.builder()
+            .recentTodos(data.getRecentTodos())
+            .weeklyRetrospects(data.getWeeklyRetrospects())
+            .overallGoal(data.getOverallGoal())
+            .completedTodos(data.getCompletedTodos())
+            .incompleteTodos(data.getIncompleteTodos())
+            .pastWeeklyGoals(data.getPastWeeklyGoals())
+            .build();
 
     return AiMentorAdviceRequest.builder()
         .userId(user.getId())
@@ -61,10 +57,11 @@ public class MentorAdviceService {
         .goalId(goal.getId())
         .isChecked(false)
         .message("AI Mentor's Advice")
-        .kpt(new MentorAdvice.Kpt(
-            response.getOutput().getKeep(),
-            response.getOutput().getProblem(),
-            response.getOutput().getTryNext()))
+        .kpt(
+            new MentorAdvice.Kpt(
+                response.getOutput().getKeep(),
+                response.getOutput().getProblem(),
+                response.getOutput().getTryNext()))
         .build();
   }
 }

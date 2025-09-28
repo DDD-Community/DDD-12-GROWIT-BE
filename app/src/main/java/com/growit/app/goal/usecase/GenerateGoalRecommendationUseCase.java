@@ -13,13 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 목표 추천 생성 UseCase
- * - 진행 중인 목표 확인
- * - 추천 데이터 수집
- * - AI 추천 생성
- * - 추천 저장
- */
+/** 목표 추천 생성 UseCase - 진행 중인 목표 확인 - 추천 데이터 수집 - AI 추천 생성 - 추천 저장 */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -40,10 +34,11 @@ public class GenerateGoalRecommendationUseCase {
   public PlanRecommendation execute(User user) {
     Goal currentGoal = getCurrentProgressGoal(user);
     GoalRecommendationData data = dataCollector.collectData(user, currentGoal);
-    PlanRecommendation recommendation = recommendationService.generateRecommendation(user, currentGoal, data);
-    
+    PlanRecommendation recommendation =
+        recommendationService.generateRecommendation(user, currentGoal, data);
+
     planRecommendationRepository.save(recommendation);
-    
+
     return recommendation;
   }
 

@@ -6,18 +6,13 @@ import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationResponse;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.domain.goalrecommendation.vo.GoalRecommendationData;
+import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.user.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * 목표 추천 생성을 담당하는 도메인 서비스
- * - AI 요청 생성
- * - AI 호출
- * - 추천 객체 생성
- */
+/** 목표 추천 생성을 담당하는 도메인 서비스 - AI 요청 생성 - AI 호출 - 추천 객체 생성 */
 @Service
 @RequiredArgsConstructor
 public class GoalRecommendationService {
@@ -32,24 +27,27 @@ public class GoalRecommendationService {
    * @param data 추천 생성에 필요한 데이터
    * @return 생성된 계획 추천
    */
-  public PlanRecommendation generateRecommendation(User user, Goal goal, GoalRecommendationData data) {
+  public PlanRecommendation generateRecommendation(
+      User user, Goal goal, GoalRecommendationData data) {
     AiGoalRecommendationRequest request = createAiRequest(user, goal, data);
     AiGoalRecommendationResponse response = aiMentorAdviceClient.getGoalRecommendation(request);
-    
+
     Plan targetPlan = selectTargetPlan(goal);
-    
+
     return createPlanRecommendation(user, goal, targetPlan, response.getOutput());
   }
 
-  private AiGoalRecommendationRequest createAiRequest(User user, Goal goal, GoalRecommendationData data) {
-    AiGoalRecommendationRequest.Input input = AiGoalRecommendationRequest.Input.builder()
-        .pastTodos(data.getPastTodos())
-        .pastRetrospects(data.getPastRetrospects())
-        .overallGoal(goal.getName())
-        .completedTodos(data.getCompletedTodos())
-        .pastWeeklyGoals(data.getPastWeeklyGoals())
-        .remainingTime(data.getRemainingTime())
-        .build();
+  private AiGoalRecommendationRequest createAiRequest(
+      User user, Goal goal, GoalRecommendationData data) {
+    AiGoalRecommendationRequest.Input input =
+        AiGoalRecommendationRequest.Input.builder()
+            .pastTodos(data.getPastTodos())
+            .pastRetrospects(data.getPastRetrospects())
+            .overallGoal(goal.getName())
+            .completedTodos(data.getCompletedTodos())
+            .pastWeeklyGoals(data.getPastWeeklyGoals())
+            .remainingTime(data.getRemainingTime())
+            .build();
 
     return AiGoalRecommendationRequest.builder()
         .userId(user.getId())
@@ -65,13 +63,9 @@ public class GoalRecommendationService {
         .orElse(goal.getPlans().get(0));
   }
 
-  private PlanRecommendation createPlanRecommendation(User user, Goal goal, Plan targetPlan, String content) {
+  private PlanRecommendation createPlanRecommendation(
+      User user, Goal goal, Plan targetPlan, String content) {
     return new PlanRecommendation(
-        IDGenerator.generateId(),
-        user.getId(),
-        goal.getId(),
-        targetPlan.getId(),
-        content
-    );
+        IDGenerator.generateId(), user.getId(), goal.getId(), targetPlan.getId(), content);
   }
 }
