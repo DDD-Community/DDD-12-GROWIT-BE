@@ -29,6 +29,7 @@ class GetMentorAdviceUseCaseTest {
 
   @Mock private MentorAdviceRepository mentorAdviceRepository;
   @Mock private GetUserGoalsUseCase getUserGoalsUseCase;
+  @Mock private GenerateMentorAdviceUseCase generateMentorAdviceUseCase;
   @Mock private MentorService mentorService;
 
   @InjectMocks private GetMentorAdviceUseCase getMentorAdviceUseCase;
@@ -55,7 +56,7 @@ class GetMentorAdviceUseCaseTest {
     given(getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS)).willReturn(List.of(goal));
     given(mentorAdviceRepository.findByUserIdAndGoalId(user.getId(), goal.getId()))
         .willReturn(Optional.empty());
-    given(mentorService.getMentorAdvice(user.getId(), goal.getId())).willReturn(newAdvice);
+    given(generateMentorAdviceUseCase.execute(user)).willReturn(newAdvice);
 
     // when
     MentorAdvice result = getMentorAdviceUseCase.execute(user);

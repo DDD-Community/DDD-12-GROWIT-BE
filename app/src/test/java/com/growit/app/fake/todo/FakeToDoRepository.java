@@ -5,6 +5,7 @@ import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -70,6 +71,12 @@ public class FakeToDoRepository implements ToDoRepository {
 
   @Override
   public List<ToDo> findByGoalId(String goalId) {
+    return List.of();
+  }
+
+  @Override
+  public List<ToDo> findAllByUserIdAndCreatedAtBetween(
+      String userId, LocalDateTime start, LocalDateTime end) {
     return List.of();
   }
 
