@@ -9,6 +9,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +38,32 @@ public class GenerateMentorAdviceUseCase {
     return mentorAdviceService.generateAdvice(user, currentGoal, data);
   }
 
+  /**
+   * 멘토 조언 생성을 시도합니다. 진행 중인 목표가 없으면 조용히 스킵합니다.
+   *
+   * @param user 사용자
+   * @return 생성된 멘토 조언 (진행 중인 목표가 없으면 Optional.empty())
+   */
+  public Optional<MentorAdvice> tryExecute(User user) {
+    Optional<Goal> currentGoal = getCurrentProgressGoalOptional(user);
+
+    if (currentGoal.isEmpty()) {
+      return Optional.empty();
+    }
+
+    MentorAdviceData data = dataCollector.collectData(user, currentGoal.get());
+    MentorAdvice advice = mentorAdviceService.generateAdvice(user, currentGoal.get(), data);
+
+    return Optional.of(advice);
+  }
+
   private Goal getCurrentProgressGoal(User user) {
     return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream()
         .findFirst()
         .orElseThrow(() -> new NotFoundException("진행중인 목표가 없습니다."));
+  }
+
+  private Optional<Goal> getCurrentProgressGoalOptional(User user) {
+    return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream().findFirst();
   }
 }

@@ -1,6 +1,5 @@
 package com.growit.app.advice.infrastructure.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.advice.domain.mentor.service.AiMentorAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiGoalRecommendationRequest;
@@ -38,22 +37,17 @@ public class AiMentorAdviceClientImpl implements AiMentorAdviceClient {
   @Override
   public AiMentorAdviceResponse getMentorAdvice(AiMentorAdviceRequest request) {
     String fullUrl = nestApiUrl + "/daily-advice";
-    log.debug("AI Mentor Server 멘토 조언 요청 시작 - URL: {}", fullUrl);
 
     try {
-      AiMentorAdviceResponse response =
-          webClient
-              .post()
-              .uri(fullUrl)
-              .bodyValue(request)
-              .retrieve()
-              .bodyToMono(AiMentorAdviceResponse.class)
-              .block();
-
-      log.debug("AI Mentor Server 멘토 조언 요청 성공");
-      return response;
+      return webClient
+          .post()
+          .uri(fullUrl)
+          .bodyValue(request)
+          .retrieve()
+          .bodyToMono(AiMentorAdviceResponse.class)
+          .block();
     } catch (Exception e) {
-      log.error("AI Mentor Server 멘토 조언 요청 실패 - URL: {}, Error: {}", fullUrl, e.getMessage(), e);
+      log.error("AI Mentor Server 멘토 조언 요청 실패 - URL: {}, Error: {}", fullUrl, e.getMessage());
       throw e;
     }
   }
@@ -63,28 +57,15 @@ public class AiMentorAdviceClientImpl implements AiMentorAdviceClient {
     String fullUrl = nestApiUrl + "/goal-recommendation";
 
     try {
-      log.info(
-          "AI Mentor Server 목표 추천 요청 시작 - URL: {}, Body: {}",
-          fullUrl,
-          objectMapper.writeValueAsString(request));
-    } catch (JsonProcessingException e) {
-      log.error("목표 추천 요청 JSON 직렬화 오류", e);
-    }
-
-    try {
-      AiGoalRecommendationResponse response =
-          webClient
-              .post()
-              .uri(fullUrl)
-              .bodyValue(request)
-              .retrieve()
-              .bodyToMono(AiGoalRecommendationResponse.class)
-              .block();
-
-      log.debug("AI Mentor Server 목표 추천 요청 성공");
-      return response;
+      return webClient
+          .post()
+          .uri(fullUrl)
+          .bodyValue(request)
+          .retrieve()
+          .bodyToMono(AiGoalRecommendationResponse.class)
+          .block();
     } catch (Exception e) {
-      log.error("AI Mentor Server 목표 추천 요청 실패 - URL: {}, Error: {}", fullUrl, e.getMessage(), e);
+      log.error("AI Mentor Server 목표 추천 요청 실패 - URL: {}, Error: {}", fullUrl, e.getMessage());
       throw e;
     }
   }
