@@ -44,25 +44,45 @@ public class GenerateGoalRecommendationUseCase {
   }
 
   /**
-   * 목표 추천 생성을 시도합니다. 진행 중인 목표가 없으면 조용히 스킵합니다.
+   * 목표 추천 생성을 시도합니다. 조건이 맞지 않으면 조용히 스킵합니다.
    *
    * @param user 사용자
-   * @return 생성된 계획 추천 (진행 중인 목표가 없으면 Optional.empty())
+   * @return 생성된 계획 추천 (조건이 맞지 않으면 Optional.empty())
    */
   public Optional<PlanRecommendation> tryExecute(User user) {
     Optional<Goal> currentGoal = getCurrentProgressGoalOptional(user);
 
     if (currentGoal.isEmpty()) {
-      return Optional.empty();
+      return Optional.empty(); // 진행중인 목표 없음
     }
 
-    GoalRecommendationData data = dataCollector.collectData(user, currentGoal.get());
-    PlanRecommendation recommendation =
-        recommendationService.generateRecommendation(user, currentGoal.get(), data);
+    Goal goal = currentGoal.get();
 
-    planRecommendationRepository.save(recommendation);
+    // 플랜 체크
+    if (goal.getPlans() == null || goal.getPlans().isEmpty()) {
+      return Optional.empty(); // 플랜 없음 - 스킵
+    }
 
-    return Optional.of(recommendation);
+    // 멘토 정보 체크
+    if (goal.getMentor() == null) {
+      return Optional.empty(); // 멘토 정보 없음 - 스킵
+    }
+
+    String promptId = goal.getMentor().getGoalPromprtId();
+    if (promptId == null || promptId.trim().isEmpty()) {
+      return Optional.empty(); // 프롬프트 ID 없음 - 스킵
+    }
+
+    try {
+      GoalRecommendationData data = dataCollector.collectData(user, goal);
+      PlanRecommendation recommendation =
+          recommendationService.generateRecommendation(user, goal, data);
+      planRecommendationRepository.save(recommendation);
+      return Optional.of(recommendation);
+    } catch (Exception e) {
+      // AI 서버 오류 등은 실제 에러로 전파
+      throw e;
+    }
   }
 
   private Goal getCurrentProgressGoal(User user) {

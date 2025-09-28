@@ -39,22 +39,38 @@ public class GenerateMentorAdviceUseCase {
   }
 
   /**
-   * 멘토 조언 생성을 시도합니다. 진행 중인 목표가 없으면 조용히 스킵합니다.
+   * 멘토 조언 생성을 시도합니다. 조건이 맞지 않으면 조용히 스킵합니다.
    *
    * @param user 사용자
-   * @return 생성된 멘토 조언 (진행 중인 목표가 없으면 Optional.empty())
+   * @return 생성된 멘토 조언 (조건이 맞지 않으면 Optional.empty())
    */
   public Optional<MentorAdvice> tryExecute(User user) {
     Optional<Goal> currentGoal = getCurrentProgressGoalOptional(user);
 
     if (currentGoal.isEmpty()) {
-      return Optional.empty();
+      return Optional.empty(); // 진행중인 목표 없음
     }
 
-    MentorAdviceData data = dataCollector.collectData(user, currentGoal.get());
-    MentorAdvice advice = mentorAdviceService.generateAdvice(user, currentGoal.get(), data);
+    Goal goal = currentGoal.get();
 
-    return Optional.of(advice);
+    // 멘토 정보 체크
+    if (goal.getMentor() == null) {
+      return Optional.empty(); // 멘토 정보 없음 - 스킵
+    }
+
+    String promptId = goal.getMentor().getAdvicePromptId();
+    if (promptId == null || promptId.trim().isEmpty()) {
+      return Optional.empty(); // 프롬프트 ID 없음 - 스킵
+    }
+
+    try {
+      MentorAdviceData data = dataCollector.collectData(user, goal);
+      MentorAdvice advice = mentorAdviceService.generateAdvice(user, goal, data);
+      return Optional.of(advice);
+    } catch (Exception e) {
+      // AI 서버 오류 등은 실제 에러로 전파
+      throw e;
+    }
   }
 
   private Goal getCurrentProgressGoal(User user) {
