@@ -27,49 +27,121 @@ public class MentorAdviceScheduler {
   /** 매일 오전 0시에 오늘의 조언을 생성합니다. cron = "초 분 시 일 월 요일" */
   @Scheduled(cron = "0 0 0 * * *")
   public void generateDailyMentorAdvice() {
-    log.info("데일리 멘토 조언 생성 스케줄러 시작");
+    log.info("=== 데일리 멘토 조언 생성 스케줄러 시작 ===");
 
-    Pageable pageable = PageRequest.of(0, 100);
+    int pageSize = 100;
+    int pageNumber = 0;
     Page<User> userPage;
+    int totalProcessed = 0;
+    int successCount = 0;
+    int errorCount = 0;
 
     do {
+      Pageable pageable = PageRequest.of(pageNumber, pageSize);
       userPage = userRepository.findAll(pageable);
+
+      log.info(
+          "페이지 {}/{} 처리 중 - 현재 페이지 사용자 수: {}",
+          pageNumber + 1,
+          userPage.getTotalPages(),
+          userPage.getNumberOfElements());
+
+      if (pageNumber == 0) {
+        log.info("전체 사용자 수: {}", userPage.getTotalElements());
+      }
+
       for (User user : userPage.getContent()) {
+        totalProcessed++;
         try {
+          log.debug("사용자 '{}' 조언 생성 시작", user.getId());
           MentorAdvice mentorAdvice = generateMentorAdviceUseCase.execute(user);
           mentorAdviceRepository.save(mentorAdvice);
-          log.info("사용자 '{}'의 조언 생성 완료", user.getId());
+          successCount++;
+          log.info("사용자 '{}'의 조언 생성 완료 ({}/{})", user.getId(), successCount, totalProcessed);
         } catch (Exception e) {
-          log.error("사용자 '{}'의 조언 생성 중 오류 발생: {}", user.getId(), e.getMessage());
+          errorCount++;
+          log.error(
+              "사용자 '{}'의 조언 생성 중 오류 발생 ({}/{}): {}",
+              user.getId(),
+              errorCount,
+              totalProcessed,
+              e.getMessage(),
+              e);
         }
       }
-      pageable = userPage.nextPageable();
+
+      log.info(
+          "페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
+          pageNumber + 1,
+          successCount,
+          errorCount,
+          totalProcessed,
+          userPage.getTotalElements());
+
+      pageNumber++;
     } while (userPage.hasNext());
 
-    log.info("데일리 멘토 조언 생성 스케줄러 종료");
+    log.info("=== 데일리 멘토 조언 생성 스케줄러 종료 ===");
+    log.info("최종 결과 - 전체: {}, 성공: {}, 실패: {}", totalProcessed, successCount, errorCount);
   }
 
   /** 매주 월요일 오전 0시에 주간 목표 추천을 생성합니다. */
   @Scheduled(cron = "0 0 0 * * MON")
   public void generateWeeklyGoalRecommendation() {
-    log.info("주간 목표 추천 생성 스케줄러 시작");
+    log.info("=== 주간 목표 추천 생성 스케줄러 시작 ===");
 
-    Pageable pageable = PageRequest.of(0, 100);
+    int pageSize = 100;
+    int pageNumber = 0;
     Page<User> userPage;
+    int totalProcessed = 0;
+    int successCount = 0;
+    int errorCount = 0;
 
     do {
+      Pageable pageable = PageRequest.of(pageNumber, pageSize);
       userPage = userRepository.findAll(pageable);
+
+      log.info(
+          "페이지 {}/{} 처리 중 - 현재 페이지 사용자 수: {}",
+          pageNumber + 1,
+          userPage.getTotalPages(),
+          userPage.getNumberOfElements());
+
+      if (pageNumber == 0) {
+        log.info("전체 사용자 수: {}", userPage.getTotalElements());
+      }
+
       for (User user : userPage.getContent()) {
+        totalProcessed++;
         try {
+          log.debug("사용자 '{}' 주간 목표 추천 생성 시작", user.getId());
           generateGoalRecommendationUseCase.execute(user);
-          log.info("사용자 '{}'의 주간 목표 추천 생성 완료", user.getId());
+          successCount++;
+          log.info("사용자 '{}'의 주간 목표 추천 생성 완료 ({}/{})", user.getId(), successCount, totalProcessed);
         } catch (Exception e) {
-          log.error("사용자 '{}'의 주간 목표 추천 생성 중 오류 발생: {}", user.getId(), e.getMessage());
+          errorCount++;
+          log.error(
+              "사용자 '{}'의 주간 목표 추천 생성 중 오류 발생 ({}/{}): {}",
+              user.getId(),
+              errorCount,
+              totalProcessed,
+              e.getMessage(),
+              e);
         }
       }
-      pageable = userPage.nextPageable();
+
+      log.info(
+          "페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
+          pageNumber + 1,
+          successCount,
+          errorCount,
+          totalProcessed,
+          userPage.getTotalElements());
+
+      pageNumber++;
     } while (userPage.hasNext());
 
-    log.info("주간 목표 추천 생성 스케줄러 종료");
+    log.info("=== 주간 목표 추천 생성 스케줄러 종료 ===");
+    log.info("최종 결과 - 전체: {}, 성공: {}, 실패: {}", totalProcessed, successCount, errorCount);
   }
 }
