@@ -2,18 +2,16 @@ package com.growit.app.advice.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.BOOLEAN;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.growit.app.advice.controller.AdviceDocumentFields;
 import com.growit.app.advice.controller.dto.response.GrorongAdviceResponse;
 import com.growit.app.advice.controller.dto.response.MentorAdviceResponse;
 import com.growit.app.advice.controller.mapper.GrorongAdviceResponseMapper;
@@ -49,6 +47,8 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import(TestSecurityConfig.class)
 class GrorongAdviceControllerTest {
+  private static final String TAG = AdviceDocumentFields.TAG;
+
   private MockMvc mockMvc;
 
   @MockitoBean private GetGrorongAdviceUseCase getGrorongAdviceUseCase;
@@ -88,17 +88,10 @@ class GrorongAdviceControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Advice")
+                        .tag(TAG)
                         .summary("그로롱 조언 조회")
                         .description("사용자 상태에 따른 그로롱의 격려 메시지와 명언을 조회합니다.")
-                        .responseFields(
-                            fieldWithPath("data.saying").type(STRING).description("그로롱이 전하는 명언"),
-                            fieldWithPath("data.message")
-                                .type(STRING)
-                                .description("현재 기분에 따른 격려 메시지"),
-                            fieldWithPath("data.mood")
-                                .type(STRING)
-                                .description("현재 기분 상태 (HAPPY, NORMAL, SAD)"))
+                        .responseFields(AdviceDocumentFields.GRORONG_ADVICE_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -123,19 +116,9 @@ class GrorongAdviceControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Advice")
+                        .tag(TAG)
                         .summary("멘토 조언 조회")
-                        .responseFields(
-                            fieldWithPath("data.isChecked").type(BOOLEAN).description("조언 확인 여부"),
-                            fieldWithPath("data.message").type(STRING).description("멘토 조언 메시지"),
-                            fieldWithPath("data.kpt").description("KPT 피드백 객체"),
-                            fieldWithPath("data.kpt.keep").type(STRING).description("Keep - 계속할 것"),
-                            fieldWithPath("data.kpt.problem")
-                                .type(STRING)
-                                .description("Problem - 문제점"),
-                            fieldWithPath("data.kpt.tryNext")
-                                .type(STRING)
-                                .description("Try - 시도할 것"))
+                        .responseFields(AdviceDocumentFields.MENTOR_ADVICE_RESPONSE_FIELDS)
                         .build())));
   }
 }

@@ -2,14 +2,13 @@ package com.growit.app.resource.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.resource.controller.ResourceDocumentFields;
 import com.growit.app.fake.resource.InvitationFixture;
 import com.growit.app.resource.usecase.CreateInvitationUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import(TestSecurityConfig.class)
 class ExternalControllerTest {
+  private static final String TAG = ResourceDocumentFields.INVITATION_TAG;
 
   private MockMvc mockMvc;
 
@@ -63,14 +63,10 @@ class ExternalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Invitation")
+                        .tag(TAG)
                         .summary("초대장 요청 생성")
-                        .requestFields(
-                            fieldWithPath("phone")
-                                .type(STRING)
-                                .description("전화번호 (010-1234-5678 형식)"))
-                        .responseFields(
-                            fieldWithPath("data.message").type(STRING).description("응답 메시지"))
+                        .requestFields(ResourceDocumentFields.INVITATION_REQUEST_FIELDS)
+                        .responseFields(ResourceDocumentFields.INVITATION_RESPONSE_FIELDS)
                         .build())));
   }
 }

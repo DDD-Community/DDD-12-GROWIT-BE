@@ -5,9 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +12,8 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.user.controller.AuthDocumentFields;
+import com.growit.app.common.docs.FieldBuilder;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.controller.dto.request.SignUpKaKaoRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
@@ -49,6 +48,8 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import(TestSecurityConfig.class)
 class AuthControllerTest {
+  private static final String TAG = AuthDocumentFields.TAG;
+
   private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
 
@@ -84,22 +85,13 @@ class AuthControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Auth")
+                        .tag(TAG)
                         .summary("사용자 회원가입")
                         .requestFields(
-                            fieldWithPath("email").type(STRING).description("사용자 이메일"),
-                            fieldWithPath("password").type(STRING).description("사용자 비밀번호"),
-                            fieldWithPath("name").type(STRING).description("사용자 이름"),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear")
-                                .type(STRING)
-                                .description("경력 연차 (예: JUNIOR, MID, SENIOR)"),
-                            fieldWithPath("requiredConsent.privacyPolicyAgreed")
-                                .type(BOOLEAN)
-                                .description("개인정보 동의"),
-                            fieldWithPath("requiredConsent.serviceTermsAgreed")
-                                .type(BOOLEAN)
-                                .description("서비스 약관 동의"))
+                            FieldBuilder.create()
+                                .addFields(AuthDocumentFields.SIGNUP_REQUEST_FIELDS)
+                                .addConsentFields()
+                                .build())
                         .build())));
   }
 
@@ -121,14 +113,11 @@ class AuthControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Auth")
+                        .tag(TAG)
                         .description("사용자 로그인")
-                        .requestFields(
-                            fieldWithPath("email").type(STRING).description("사용자 이메일"),
-                            fieldWithPath("password").type(STRING).description("사용자 비밀번호"))
+                        .requestFields(AuthDocumentFields.SIGNIN_REQUEST_FIELDS)
                         .responseFields(
-                            fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
-                            fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))
+                            FieldBuilder.create().addTokenResponse().build())
                         .build())));
   }
 
@@ -151,13 +140,11 @@ class AuthControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Auth")
+                        .tag(TAG)
                         .summary("토큰 재발급")
-                        .requestFields(
-                            fieldWithPath("refreshToken").type(STRING).description("리프레시 토큰"))
+                        .requestFields(AuthDocumentFields.REISSUE_REQUEST_FIELDS)
                         .responseFields(
-                            fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
-                            fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))
+                            FieldBuilder.create().addTokenResponse().build())
                         .build())));
   }
 
@@ -177,23 +164,13 @@ class AuthControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Auth")
+                        .tag(TAG)
                         .summary("카카오 회원가입")
                         .requestFields(
-                            fieldWithPath("name").type(STRING).description("사용자 이름"),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear")
-                                .type(STRING)
-                                .description("경력 연차 (예: JUNIOR, MID, SENIOR)"),
-                            fieldWithPath("requiredConsent.privacyPolicyAgreed")
-                                .type(BOOLEAN)
-                                .description("개인정보 동의"),
-                            fieldWithPath("requiredConsent.serviceTermsAgreed")
-                                .type(BOOLEAN)
-                                .description("서비스 약관 동의"),
-                            fieldWithPath("registrationToken")
-                                .type(STRING)
-                                .description("카카오 등록 토큰"))
+                            FieldBuilder.create()
+                                .addFields(AuthDocumentFields.SIGNUP_KAKAO_REQUEST_FIELDS)
+                                .addConsentFields()
+                                .build())
                         .build())));
   }
 }

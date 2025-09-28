@@ -2,13 +2,10 @@ package com.growit.app.todo.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.BOOLEAN;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,6 +14,8 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.common.docs.FieldBuilder;
+import com.growit.app.todo.controller.ToDoDocumentFields;
 import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoRepositoryConfig;
@@ -61,8 +60,9 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import({FakeToDoRepositoryConfig.class, TestSecurityConfig.class})
 class ToDoControllerTest {
-  private MockMvc mockMvc;
+  private static final String TAG = ToDoDocumentFields.TAG;
 
+  private MockMvc mockMvc;
   @MockitoBean private CreateToDoUseCase createToDoUseCase;
   @MockitoBean private UpdateToDoUseCase updateToDoUseCase;
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
@@ -113,20 +113,10 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("할 일(TODO) 생성")
-                        .requestFields(
-                            fieldWithPath("goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"),
-                            fieldWithPath("content")
-                                .type(STRING)
-                                .description("할 일 내용 (5자 이상 30자 미만)"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("생성된 TODO ID"),
-                            fieldWithPath("data.plan.id").type(STRING).description("플랜 ID"),
-                            fieldWithPath("data.plan.weekOfMonth")
-                                .type("Number")
-                                .description("플랜의 월 기준 N번째 주"))
+                        .requestFields(ToDoDocumentFields.CREATE_TODO_REQUEST_FIELDS)
+                        .responseFields(ToDoDocumentFields.CREATE_TODO_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -156,20 +146,11 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("할 일(TODO) 수정")
                         .pathParameters(parameterWithName("id").description("수정할 TODO ID"))
-                        .requestFields(
-                            fieldWithPath("content")
-                                .type(STRING)
-                                .description("수정할 할 일 내용 (5자 이상 30자 미만)"),
-                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("수정된 TODO ID"),
-                            fieldWithPath("data.plan.id").type(STRING).description("플랜 ID"),
-                            fieldWithPath("data.plan.weekOfMonth")
-                                .type("Number")
-                                .description("플랜의 월 기준 N번째 주"))
+                        .requestFields(ToDoDocumentFields.UPDATE_TODO_REQUEST_FIELDS)
+                        .responseFields(ToDoDocumentFields.CREATE_TODO_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -195,14 +176,15 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("할 일(TODO) 완료 상태 변경")
                         .description("할 일의 완료 상태를 변경한다.")
                         .pathParameters(parameterWithName("id").description("상태를 변경할 TODO ID"))
-                        .requestFields(
-                            fieldWithPath("isCompleted").type("Boolean").description("완료 여부"))
+                        .requestFields(ToDoDocumentFields.COMPLETED_STATUS_CHANGE_REQUEST_FIELDS)
                         .responseFields(
-                            fieldWithPath("data").type("String").description("변경 결과 메시지"))
+                            FieldBuilder.create()
+                                .addSuccessMessageResponse()
+                                .build())
                         .build())));
   }
 
@@ -224,11 +206,14 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("할 일(TODO) 삭제")
                         .description("할 일을 삭제한다.")
                         .pathParameters(parameterWithName("id").description("상태를 변경할 TODO ID"))
-                        .responseFields(fieldWithPath("data").type("String").description("결과 메시지"))
+                        .responseFields(
+                            FieldBuilder.create()
+                                .addSuccessMessageResponse()
+                                .build())
                         .build())));
   }
 
@@ -248,20 +233,10 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("할 일(TODO) 조회")
                         .pathParameters(parameterWithName("id").description("수정할 TODO ID"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("할일 ID"),
-                            fieldWithPath("data.goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.planId").type(STRING).description("계획 ID"),
-                            fieldWithPath("data.content")
-                                .type(STRING)
-                                .description("할 일 내용 (5자 이상 30자 미만)"),
-                            fieldWithPath("data.date")
-                                .type(STRING)
-                                .description("할 일 날짜 (yyyy-MM-dd)"),
-                            fieldWithPath("data.isCompleted").type(BOOLEAN).description("완료 여부"))
+                        .responseFields(ToDoDocumentFields.GET_TODO_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -310,27 +285,13 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("주간 할 일(Weekly Plan) 조회")
                         .description("특정 목표/플랜에 대한 요일별 할 일을 조회합니다.")
                         .queryParameters(
                             parameterWithName("goalId").description("목표 ID"),
                             parameterWithName("planId").description("계획 ID"))
-                        .responseFields(
-                            fieldWithPath("data.MONDAY[].id").type(STRING).description("TODO ID"),
-                            fieldWithPath("data.MONDAY[].goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.MONDAY[].planId").type(STRING).description("계획 ID"),
-                            fieldWithPath("data.MONDAY[].content").type(STRING).description("내용"),
-                            fieldWithPath("data.MONDAY[].date").type(STRING).description("할 일 날짜"),
-                            fieldWithPath("data.MONDAY[].isCompleted")
-                                .type(BOOLEAN)
-                                .description("완료 여부"),
-                            fieldWithPath("data.TUESDAY").description("화요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.WEDNESDAY").description("수요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.THURSDAY").description("목요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.FRIDAY").description("금요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.SATURDAY").description("토요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.SUNDAY").description("일요일 할 일 리스트(없을 수도 있음)"))
+                        .responseFields(ToDoDocumentFields.WEEKLY_PLAN_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -358,18 +319,10 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("오늘 미션 조회")
                         .description("오늘 날짜의 미완료 ToDo 리스트를 조회합니다.")
-                        .responseFields(
-                            fieldWithPath("data[].id").type(STRING).description("TODO ID"),
-                            fieldWithPath("data[].goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data[].planId").type(STRING).description("계획 ID"),
-                            fieldWithPath("data[].date").type(STRING).description("할 일 날짜"),
-                            fieldWithPath("data[].content").type(STRING).description("내용"),
-                            fieldWithPath("data[].isCompleted")
-                                .type("Boolean")
-                                .description("완료 여부"))
+                        .responseFields(ToDoDocumentFields.TODAY_MISSION_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -397,14 +350,11 @@ class ToDoControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
+                        .tag(TAG)
                         .summary("그로냥 상태 조회")
                         .description("사용자와 목표 ID로 얼굴 상태를 조회합니다.")
                         .queryParameters(parameterWithName("goalId").description("목표 ID"))
-                        .responseFields(
-                            fieldWithPath("data")
-                                .type(STRING)
-                                .description("얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"))
+                        .responseFields(ToDoDocumentFields.FACE_STATUS_RESPONSE_FIELDS)
                         .build())));
   }
 }

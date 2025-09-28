@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.mission.controller.MissionDocumentFields;
 import com.growit.app.fake.mission.MissionFixture;
 import com.growit.app.mission.domain.Mission;
 import com.growit.app.mission.domain.vo.MissionType;
@@ -40,6 +40,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import({TestSecurityConfig.class})
 class MissionControllerTest {
+  private static final String TAG = MissionDocumentFields.TAG;
 
   private MockMvc mockMvc;
 
@@ -78,16 +79,10 @@ class MissionControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Mission")
+                        .tag(TAG)
                         .summary("오늘자 미션 조회")
                         .description("현재 날짜의 요일에 해당하는 미션 목록을 조회합니다.")
-                        .responseFields(
-                            subsectionWithPath("data").description("미션 목록 배열"),
-                            subsectionWithPath("data[].id").description("미션 ID"),
-                            subsectionWithPath("data[].dayOfWeek").description("요일"),
-                            subsectionWithPath("data[].content").description("미션 내용"),
-                            subsectionWithPath("data[].type").description("미션 타입"),
-                            subsectionWithPath("data[].finished").description("완료 여부"))
+                        .responseFields(MissionDocumentFields.MISSION_RESPONSE_FIELDS)
                         .build())));
   }
 

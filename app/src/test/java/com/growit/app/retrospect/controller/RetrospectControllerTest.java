@@ -2,12 +2,10 @@ package com.growit.app.retrospect.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,6 +14,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.retrospect.controller.RetrospectDocumentFields;
 import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.retrospect.controller.retrospect.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.retrospect.dto.request.UpdateRetrospectRequest;
@@ -38,7 +37,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -51,6 +49,8 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import({TestSecurityConfig.class})
 class RetrospectControllerTest {
+  private static final String TAG = RetrospectDocumentFields.TAG;
+
   private MockMvc mockMvc;
 
   @Autowired private ObjectMapper objectMapper;
@@ -86,11 +86,6 @@ class RetrospectControllerTest {
                 .header("Authorization", "Bearer mock-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
-        .andDo(
-            result -> {
-              System.out.println("Status: " + result.getResponse().getStatus());
-              System.out.println("Response: " + result.getResponse().getContentAsString());
-            })
         .andExpect(status().isCreated())
         .andDo(
             document(
@@ -99,28 +94,10 @@ class RetrospectControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Retrospects")
+                        .tag(TAG)
                         .summary("회고 생성")
-                        .requestFields(
-                            fieldWithPath("goalId")
-                                .type(JsonFieldType.STRING)
-                                .description("목표 아이디"),
-                            fieldWithPath("planId")
-                                .type(JsonFieldType.STRING)
-                                .description("계획 아이디"),
-                            fieldWithPath("content")
-                                .type(JsonFieldType.STRING)
-                                .description("회고 내용(v1)"),
-                            fieldWithPath("kpt.keep")
-                                .type(JsonFieldType.STRING)
-                                .description("Keep - 계속 유지할 것"),
-                            fieldWithPath("kpt.problem")
-                                .type(JsonFieldType.STRING)
-                                .description("Problem - 문제점"),
-                            fieldWithPath("kpt.tryNext")
-                                .type(JsonFieldType.STRING)
-                                .description("Try - 다음에 시도해볼 것"))
-                        .responseFields(fieldWithPath("data.id").type(STRING).description("회고 ID"))
+                        .requestFields(RetrospectDocumentFields.CREATE_RETROSPECT_REQUEST_FIELDS)
+                        .responseFields(RetrospectDocumentFields.CREATE_RETROSPECT_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -141,22 +118,10 @@ class RetrospectControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Retrospects")
+                        .tag(TAG)
                         .summary("회고 수정")
                         .pathParameters(parameterWithName("id").description("회고 ID"))
-                        .requestFields(
-                            fieldWithPath("content")
-                                .type(JsonFieldType.STRING)
-                                .description("회고 내용(v1)"),
-                            fieldWithPath("kpt.keep")
-                                .type(JsonFieldType.STRING)
-                                .description("Keep - 계속 유지할 것"),
-                            fieldWithPath("kpt.problem")
-                                .type(JsonFieldType.STRING)
-                                .description("Problem - 문제점"),
-                            fieldWithPath("kpt.tryNext")
-                                .type(JsonFieldType.STRING)
-                                .description("Try - 다음에 시도해볼 것"))
+                        .requestFields(RetrospectDocumentFields.UPDATE_RETROSPECT_REQUEST_FIELDS)
                         .build())));
   }
 
@@ -178,32 +143,10 @@ class RetrospectControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Retrospects")
+                        .tag(TAG)
                         .summary("회고 단건 조회")
                         .pathParameters(parameterWithName("id").description("회고 ID"))
-                        .responseFields(
-                            fieldWithPath("data").description("회고 목록"),
-                            fieldWithPath("data.retrospect").description("회고"),
-                            fieldWithPath("data.retrospect.id").type(STRING).description("회고 ID"),
-                            fieldWithPath("data.retrospect.kpt").description("KPT 회고"),
-                            fieldWithPath("data.retrospect.kpt.keep")
-                                .type(STRING)
-                                .description("Keep - 계속 유지할 것"),
-                            fieldWithPath("data.retrospect.kpt.problem")
-                                .type(STRING)
-                                .description("Problem - 문제점"),
-                            fieldWithPath("data.retrospect.kpt.tryNext")
-                                .type(STRING)
-                                .description("Try - 다음에 시도해볼 것"),
-                            fieldWithPath("data.plan").description("계획"),
-                            fieldWithPath("data.plan.id").type(STRING).description("계획 ID"),
-                            fieldWithPath("data.plan.weekOfMonth")
-                                .type(STRING)
-                                .description("계획 주차"),
-                            fieldWithPath("data.plan.isCurrentWeek")
-                                .type(BOOLEAN)
-                                .description("현재 주차 여부"),
-                            fieldWithPath("data.plan.content").type(STRING).description("계획 내용"))
+                        .responseFields(RetrospectDocumentFields.GET_RETROSPECT_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -227,34 +170,12 @@ class RetrospectControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Retrospects")
+                        .tag(TAG)
                         .summary("회고 단건 조회 by goalId planId")
                         .queryParameters(
                             parameterWithName("goalId").description("목표 ID"),
                             parameterWithName("planId").description("계획 ID"))
-                        .responseFields(
-                            fieldWithPath("data[]").description("회고 목록"),
-                            fieldWithPath("data[].retrospect").description("회고"),
-                            fieldWithPath("data[].retrospect.id").type(STRING).description("회고 ID"),
-                            fieldWithPath("data[].retrospect.kpt").description("KPT 회고"),
-                            fieldWithPath("data[].retrospect.kpt.keep")
-                                .type(STRING)
-                                .description("Keep - 계속 유지할 것"),
-                            fieldWithPath("data[].retrospect.kpt.problem")
-                                .type(STRING)
-                                .description("Problem - 문제점"),
-                            fieldWithPath("data[].retrospect.kpt.tryNext")
-                                .type(STRING)
-                                .description("Try - 다음에 시도해볼 것"),
-                            fieldWithPath("data[].plan").description("계획"),
-                            fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
-                            fieldWithPath("data[].plan.weekOfMonth")
-                                .type(STRING)
-                                .description("계획 주차"),
-                            fieldWithPath("data[].plan.isCurrentWeek")
-                                .type(BOOLEAN)
-                                .description("현재 주차 여부"),
-                            fieldWithPath("data[].plan.content").type(STRING).description("계획 내용"))
+                        .responseFields(RetrospectDocumentFields.GET_RETROSPECTS_BY_FILTER_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -276,13 +197,12 @@ class RetrospectControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Retrospects")
+                        .tag(TAG)
                         .summary("회고 존재 여부 확인")
                         .queryParameters(
                             parameterWithName("goalId").description("목표 ID"),
                             parameterWithName("planId").description("계획 ID"))
-                        .responseFields(
-                            fieldWithPath("data.isExist").description("회고 존재 여부 (true/false)"))
+                        .responseFields(RetrospectDocumentFields.CHECK_RETROSPECT_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -307,32 +227,10 @@ class RetrospectControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Retrospects")
+                        .tag(TAG)
                         .summary("목표별 회고 목록 조회")
                         .queryParameters(parameterWithName("goalId").description("목표 ID"))
-                        .responseFields(
-                            fieldWithPath("data[]").description("회고 목록"),
-                            fieldWithPath("data[].retrospect").description("회고"),
-                            fieldWithPath("data[].retrospect.id").type(STRING).description("회고 ID"),
-                            fieldWithPath("data[].retrospect.kpt").description("KPT 회고"),
-                            fieldWithPath("data[].retrospect.kpt.keep")
-                                .type(STRING)
-                                .description("Keep - 계속 유지할 것"),
-                            fieldWithPath("data[].retrospect.kpt.problem")
-                                .type(STRING)
-                                .description("Problem - 문제점"),
-                            fieldWithPath("data[].retrospect.kpt.tryNext")
-                                .type(STRING)
-                                .description("Try - 다음에 시도해볼 것"),
-                            fieldWithPath("data[].plan").description("계획"),
-                            fieldWithPath("data[].plan.id").type(STRING).description("계획 ID"),
-                            fieldWithPath("data[].plan.weekOfMonth")
-                                .type(STRING)
-                                .description("계획 주차"),
-                            fieldWithPath("data[].plan.isCurrentWeek")
-                                .type(BOOLEAN)
-                                .description("현재 주차 여부"),
-                            fieldWithPath("data[].plan.content").type(STRING).description("계획 내용"))
+                        .responseFields(RetrospectDocumentFields.GET_RETROSPECTS_BY_FILTER_RESPONSE_FIELDS)
                         .build())));
   }
 }

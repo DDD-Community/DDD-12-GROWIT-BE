@@ -2,15 +2,12 @@ package com.growit.app.user.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.BOOLEAN;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,6 +15,8 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.common.docs.FieldBuilder;
+import com.growit.app.user.controller.UserDocumentFields;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.resource.domain.jobrole.JobRole;
 import com.growit.app.user.controller.dto.request.UpdateUserRequest;
@@ -51,6 +50,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import(TestSecurityConfig.class)
 class UserControllerTest {
+  private static final String TAG = UserDocumentFields.TAG;
 
   private MockMvc mockMvc;
 
@@ -98,19 +98,13 @@ class UserControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("User")
+                        .tag(TAG)
                         .summary("사용자 조회")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
                                 .description("JWT (Your Token)"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("사용자 ID"),
-                            fieldWithPath("data.email").type(STRING).description("이메일"),
-                            fieldWithPath("data.name").type(STRING).description("이름"),
-                            fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
-                            fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
-                            fieldWithPath("data.careerYear").type(STRING).description("경력 연차"))
+                        .responseFields(UserDocumentFields.USER_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -132,18 +126,15 @@ class UserControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("User")
+                        .tag(TAG)
                         .summary("사용자 업데이트")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
                                 .description("JWT (Your Token)"))
-                        .requestFields(
-                            fieldWithPath("name").type(STRING).description("이름"),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear").type(STRING).description("경력 연차"))
+                        .requestFields(UserDocumentFields.UPDATE_USER_REQUEST_FIELDS)
                         .responseFields(
-                            fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
+                            FieldBuilder.create().addSuccessMessageResponse().build())
                         .build())));
   }
 
@@ -162,14 +153,14 @@ class UserControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("User")
+                        .tag(TAG)
                         .summary("사용자 로그아웃")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
                                 .description("JWT (Your Token)"))
                         .responseFields(
-                            fieldWithPath("data").type(STRING).description("로그아웃 성공 메세지"))
+                            FieldBuilder.create().addSuccessMessageResponse().build())
                         .build())));
   }
 
@@ -188,13 +179,14 @@ class UserControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("User")
+                        .tag(TAG)
                         .summary("사용자 탈퇴")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
                                 .description("JWT (Your Token)"))
-                        .responseFields(fieldWithPath("data").type(STRING).description("탈퇴 성공 메세지"))
+                        .responseFields(
+                            FieldBuilder.create().addSuccessMessageResponse().build())
                         .build())));
   }
 
@@ -211,14 +203,13 @@ class UserControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("User")
+                        .tag(TAG)
                         .summary("온보딩 여부 조회")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
                                 .description("JWT (Your Token)"))
-                        .responseFields(
-                            fieldWithPath("data").type(BOOLEAN).description("온보딩 진행 여부"))
+                        .responseFields(UserDocumentFields.ONBOARDING_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -235,14 +226,14 @@ class UserControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("User")
+                        .tag(TAG)
                         .summary("온보딩 완료 처리")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
                                 .description("JWT (Your Token)"))
                         .responseFields(
-                            fieldWithPath("data").type(STRING).description("온보딩 완료 성공 메세지"))
+                            FieldBuilder.create().addSuccessMessageResponse().build())
                         .build())));
     verify(updateUserUseCase).isOnboarding(any(User.class));
   }

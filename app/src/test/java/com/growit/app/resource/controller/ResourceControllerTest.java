@@ -2,16 +2,15 @@ package com.growit.app.resource.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.resource.controller.ResourceDocumentFields;
 import com.growit.app.fake.resource.JobRoleFixture;
 import com.growit.app.fake.resource.SayingFixture;
 import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
@@ -36,11 +35,11 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import(TestSecurityConfig.class)
 class ResourceControllerTest {
+  private static final String TAG = ResourceDocumentFields.JOB_ROLE_TAG;
 
   private MockMvc mockMvc;
 
   @MockitoBean private JobRoleRepository jobRoleRepository;
-  @MockitoBean private GetSayingUseCase getSayingUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -64,33 +63,9 @@ class ResourceControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("JobRole")
+                        .tag(TAG)
                         .summary("전체 직무 목록 조회")
-                        .responseFields(
-                            fieldWithPath("data.jobRoles[].id").type(STRING).description("직무 ID"),
-                            fieldWithPath("data.jobRoles[].name").type(STRING).description("직무 이름"))
-                        .build())));
-  }
-
-  @Test
-  void getSaying() throws Exception {
-    given(getSayingUseCase.execute()).willReturn(SayingFixture.defaultSaying());
-
-    mockMvc
-        .perform(get("/resource/saying"))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-saying",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Saying")
-                        .summary("격언 조회")
-                        .responseFields(
-                            fieldWithPath("data.message").type(STRING).description("격언 내용"),
-                            fieldWithPath("data.from").type(STRING).description("격언 출처"))
+                        .responseFields(ResourceDocumentFields.JOB_ROLE_RESPONSE_FIELDS)
                         .build())));
   }
 }

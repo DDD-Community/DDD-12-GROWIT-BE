@@ -2,14 +2,12 @@ package com.growit.app.goal.controller;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.NUMBER;
 import static com.epages.restdocs.apispec.SimpleType.STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -19,6 +17,8 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
+import com.growit.app.common.docs.FieldBuilder;
+import com.growit.app.goal.controller.GoalDocumentFields;
 import com.growit.app.fake.goal.FakeGoalRepository;
 import com.growit.app.fake.goal.FakeGoalRepositoryConfig;
 import com.growit.app.fake.goal.GoalFixture;
@@ -41,7 +41,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -54,6 +53,8 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @Import({FakeGoalRepositoryConfig.class, TestSecurityConfig.class})
 class GoalControllerTest {
+  private static final String TAG = GoalDocumentFields.TAG;
+
   private MockMvc mockMvc;
 
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
@@ -98,42 +99,12 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("내 목표 목록 조회")
                         .queryParameters(
                             parameterWithName("status")
                                 .description("목표 상태 필터 | Enum: NONE, ENDED, PROGRESS"))
-                        .responseFields(
-                            fieldWithPath("data[].id").type(STRING).description("목표 ID"),
-                            fieldWithPath("data[].name").type(STRING).description("목표 이름"),
-                            fieldWithPath("data[].duration").description("기간 정보 객체"),
-                            fieldWithPath("data[].duration.startDate")
-                                .type(STRING)
-                                .description("시작일 (yyyy-MM-dd)"),
-                            fieldWithPath("data[].duration.endDate")
-                                .type(STRING)
-                                .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data[].toBe").type(STRING).description("목표 달성 후 상태"),
-                            fieldWithPath("data[].category")
-                                .type(STRING)
-                                .description(
-                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
-                            fieldWithPath("data[].mentor").type(STRING).description("멘토"),
-                            fieldWithPath("data[].plans").description("계획 리스트"),
-                            fieldWithPath("data[].plans[].id").type(STRING).description("계획 ID"),
-                            fieldWithPath("data[].plans[].weekOfMonth")
-                                .type(NUMBER)
-                                .description("주차"),
-                            fieldWithPath("data[].plans[].duration").description("기간 정보 객체"),
-                            fieldWithPath("data[].plans[].duration.startDate")
-                                .type(STRING)
-                                .description("시작일 (yyyy-MM-dd)"),
-                            fieldWithPath("data[].plans[].duration.endDate")
-                                .type(STRING)
-                                .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data[].plans[].content")
-                                .type(STRING)
-                                .description("계획 내용"))
+                        .responseFields(GoalDocumentFields.GOALS_LIST_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -154,38 +125,10 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("내 목표 조회")
                         .pathParameters(parameterWithName("id").description("목표 ID"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.name").type(STRING).description("목표 이름"),
-                            fieldWithPath("data.duration").description("기간 정보 객체"),
-                            fieldWithPath("data.duration.startDate")
-                                .type(STRING)
-                                .description("시작일 (yyyy-MM-dd)"),
-                            fieldWithPath("data.duration.endDate")
-                                .type(STRING)
-                                .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data.toBe").type(STRING).description("목표 달성 후 상태"),
-                            fieldWithPath("data.category")
-                                .type(STRING)
-                                .description(
-                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
-                            fieldWithPath("data.mentor").type(STRING).description("멘토"),
-                            fieldWithPath("data.plans").description("계획 리스트"),
-                            fieldWithPath("data.plans[].id").type(STRING).description("계획 ID"),
-                            fieldWithPath("data.plans[].weekOfMonth")
-                                .type(NUMBER)
-                                .description("주차"),
-                            fieldWithPath("data.plans[].duration").description("기간 정보 객체"),
-                            fieldWithPath("data.plans[].duration.startDate")
-                                .type(STRING)
-                                .description("시작일 (yyyy-MM-dd)"),
-                            fieldWithPath("data.plans[].duration.endDate")
-                                .type(STRING)
-                                .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"))
+                        .responseFields(GoalDocumentFields.GOAL_RESPONSE_FIELDS)
                         .build())));
   }
 
@@ -206,32 +149,14 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("목표 생성")
-                        .requestFields(
-                            fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
-                            fieldWithPath("duration.startDate")
-                                .type(JsonFieldType.STRING)
-                                .description("시작일 (yyyy-MM-dd)"),
-                            fieldWithPath("duration.endDate")
-                                .type(JsonFieldType.STRING)
-                                .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("toBe")
-                                .type(JsonFieldType.STRING)
-                                .description("목표 달성 후 상태"),
-                            fieldWithPath("category")
-                                .type(JsonFieldType.STRING)
-                                .description(
-                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
-                            fieldWithPath("plans[].weekOfMonth")
-                                .type(JsonFieldType.NUMBER)
-                                .description("계획 주차"),
-                            fieldWithPath("plans[].content")
-                                .type(JsonFieldType.STRING)
-                                .description("계획 내용"))
+                        .requestFields(GoalDocumentFields.CREATE_GOAL_REQUEST_FIELDS)
                         .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.mentor").type(STRING).description("멘토"))
+                            FieldBuilder.create()
+                                .addField("data.id", STRING, "목표 ID")
+                                .addField("data.mentor", STRING, "멘토")
+                                .build())
                         .build())));
   }
 
@@ -247,13 +172,13 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("목표 삭제")
                         .pathParameters(parameterWithName("id").description("삭제할 목표 ID"))
                         .responseFields(
-                            fieldWithPath("data")
-                                .type(JsonFieldType.STRING)
-                                .description("삭제가 완료 되었습니다."))
+                            FieldBuilder.create()
+                                .addSuccessMessageResponse()
+                                .build())
                         .build())));
   }
 
@@ -274,30 +199,13 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("목표 수정")
-                        .requestFields(
-                            fieldWithPath("name").type(JsonFieldType.STRING).description("목표 이름"),
-                            fieldWithPath("duration.startDate")
-                                .type(JsonFieldType.STRING)
-                                .description("시작일 (yyyy-MM-dd)"),
-                            fieldWithPath("duration.endDate")
-                                .type(JsonFieldType.STRING)
-                                .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("toBe")
-                                .type(JsonFieldType.STRING)
-                                .description("목표 달성 후 상태"),
-                            fieldWithPath("category")
-                                .type(JsonFieldType.STRING)
-                                .description(
-                                    "목표 카테고리 (예: PROFESSIONAL_GROWTH, CAREER_TRANSITION 등)"),
-                            fieldWithPath("plans[].weekOfMonth")
-                                .type(JsonFieldType.NUMBER)
-                                .description("계획 주차"),
-                            fieldWithPath("plans[].content")
-                                .type(JsonFieldType.STRING)
-                                .description("계획 내용"))
-                        .responseFields(fieldWithPath("data").type(STRING).description("성공 메세지"))
+                        .requestFields(GoalDocumentFields.CREATE_GOAL_REQUEST_FIELDS)
+                        .responseFields(
+                            FieldBuilder.create()
+                                .addSuccessMessageResponse()
+                                .build())
                         .build())));
   }
 
@@ -330,16 +238,19 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("계획 내용 수정")
                         .queryParameters(
                             parameterWithName("goalId").description("목표 ID"),
                             parameterWithName("planId").description("계획 ID"))
                         .requestFields(
-                            fieldWithPath("content")
-                                .type(JsonFieldType.STRING)
-                                .description("수정할 계획 내용"))
-                        .responseFields(fieldWithPath("data").type(STRING).description("성공 메세지"))
+                            FieldBuilder.create()
+                                .addField("content", STRING, "수정할 계획 내용")
+                                .build())
+                        .responseFields(
+                            FieldBuilder.create()
+                                .addSuccessMessageResponse()
+                                .build())
                         .build())));
 
     verify(updatePlanUseCase).execute(any(UpdatePlanCommand.class));
@@ -371,12 +282,15 @@ class GoalControllerTest {
                 preprocessResponse(prettyPrint()),
                 resource(
                     new ResourceSnippetParametersBuilder()
-                        .tag("Goals")
+                        .tag(TAG)
                         .summary("계획 추천")
                         .pathParameters(
                             parameterWithName("id").description("목표 ID"),
                             parameterWithName("planId").description("계획 ID"))
-                        .responseFields(fieldWithPath("data").type(STRING).description("AI 추천 내용"))
+                        .responseFields(
+                            FieldBuilder.create()
+                                .addField("data", STRING, "AI 추천 내용")
+                                .build())
                         .build())));
 
     verify(recommendPlanUseCase).execute(any(), eq(goalId), eq(planId));
