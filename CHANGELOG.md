@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.36.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.36.0...v1.36.1) (2025-09-28)
+
+
+### Bug Fixes
+
+* **advice:** Enhance mentor advice and goal recommendation logic with prompt ID determination ([3e05f7d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3e05f7d7cb0ffc51565351d82378d69cd265d554))
+* **batch:** Update BatchController for improved asynchronous execution and add scheduler status endpoint ([a057fba](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a057fba20bdd882d4ef0697c49bc5c5ea4c5e8f3))
+* **goal:** Add mentor validation for goal recommendation logic ([b12717d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b12717d5ac7a1aa276989ed46394a17010140cfd))
+
 ## [1.36.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.35.0...v1.36.0) (2025-09-28)
 
 
