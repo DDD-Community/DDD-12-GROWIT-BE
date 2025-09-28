@@ -32,6 +32,7 @@ public class GoalController {
   private final MessageService messageService;
   private final GetGoalUseCase getGoalUseCase;
   private final RecommendPlanUseCase recommendPlanUseCase;
+  private final GetGoalsByYearUseCase getGoalsByYearUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
@@ -39,6 +40,13 @@ public class GoalController {
     GoalStatus goalStatus;
     goalStatus = status == null ? GoalStatus.NONE : GoalStatus.valueOf(status);
     List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, goalStatus);
+    return ResponseEntity.ok(ApiResponse.success(goals));
+  }
+
+  @GetMapping(params = {"year"})
+  public ResponseEntity<ApiResponse<List<Goal>>> getGoalsByYear(
+      @AuthenticationPrincipal User user, @RequestParam int year) {
+    List<Goal> goals = getGoalsByYearUseCase.getGoalsByYear(user, year);
     return ResponseEntity.ok(ApiResponse.success(goals));
   }
 

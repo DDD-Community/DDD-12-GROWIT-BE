@@ -8,4 +8,6 @@ public interface GoalQuery {
   Goal getMyGoal(String id, String userId) throws NotFoundException;
 
   List<Goal> getFinishedGoalsByYear(String userId, int year);
+
+  List<Goal> getGoalsByYear(String userId, int year);
 }
