@@ -29,4 +29,6 @@ public enum Mentor {
   public String getAdvicePromptId() {
     return this.promptIdPrefix + "-advice-001";
   }
+
+  public String getGoalPromprtId() {return this.promptIdPrefix + "-goal-001";}
 }

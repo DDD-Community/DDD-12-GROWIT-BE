@@ -2,6 +2,7 @@ package com.growit.app.retrospect.infrastructure.persistence.goalretrospect.sour
 
 import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity.GoalRetrospectEntity;
 import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity.QGoalRetrospectEntity;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,14 +19,19 @@ public class DBGoalRetrospectQueryRepositoryImpl implements DBGoalRetrospectQuer
   @Override
   public List<GoalRetrospectEntity> findAllByGoalIdAndCreatedAtBetween(
       String goalId, LocalDateTime start, LocalDateTime end) {
+
+    BooleanBuilder builder = new BooleanBuilder();
+
+    if (goalId != null) {
+      builder.and(qGoalRetrospectEntity.goalId.eq(goalId));
+    }
+
+    builder.and(qGoalRetrospectEntity.createdAt.between(start, end));
+    builder.and(qGoalRetrospectEntity.deletedAt.isNull());
+
     return query
         .selectFrom(qGoalRetrospectEntity)
-        .where(
-            qGoalRetrospectEntity
-                .goalId
-                .eq(goalId)
-                .and(qGoalRetrospectEntity.createdAt.between(start, end))
-                .and(qGoalRetrospectEntity.deletedAt.isNull()))
+        .where(builder)
         .fetch();
   }
 }
