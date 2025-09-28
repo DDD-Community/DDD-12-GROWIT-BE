@@ -39,10 +39,13 @@ public class MentorAdviceScheduler {
     do {
       Pageable pageable = PageRequest.of(pageNumber, pageSize);
       userPage = userRepository.findAll(pageable);
-      
-      log.info("페이지 {}/{} 처리 중 - 현재 페이지 사용자 수: {}", 
-               pageNumber + 1, userPage.getTotalPages(), userPage.getNumberOfElements());
-      
+
+      log.info(
+          "페이지 {}/{} 처리 중 - 현재 페이지 사용자 수: {}",
+          pageNumber + 1,
+          userPage.getTotalPages(),
+          userPage.getNumberOfElements());
+
       if (pageNumber == 0) {
         log.info("전체 사용자 수: {}", userPage.getTotalElements());
       }
@@ -57,14 +60,24 @@ public class MentorAdviceScheduler {
           log.info("사용자 '{}'의 조언 생성 완료 ({}/{})", user.getId(), successCount, totalProcessed);
         } catch (Exception e) {
           errorCount++;
-          log.error("사용자 '{}'의 조언 생성 중 오류 발생 ({}/{}): {}", 
-                   user.getId(), errorCount, totalProcessed, e.getMessage(), e);
+          log.error(
+              "사용자 '{}'의 조언 생성 중 오류 발생 ({}/{}): {}",
+              user.getId(),
+              errorCount,
+              totalProcessed,
+              e.getMessage(),
+              e);
         }
       }
-      
-      log.info("페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
-               pageNumber + 1, successCount, errorCount, totalProcessed, userPage.getTotalElements());
-      
+
+      log.info(
+          "페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
+          pageNumber + 1,
+          successCount,
+          errorCount,
+          totalProcessed,
+          userPage.getTotalElements());
+
       pageNumber++;
     } while (userPage.hasNext());
 
@@ -87,10 +100,13 @@ public class MentorAdviceScheduler {
     do {
       Pageable pageable = PageRequest.of(pageNumber, pageSize);
       userPage = userRepository.findAll(pageable);
-      
-      log.info("페이지 {}/{} 처리 중 - 현재 페이지 사용자 수: {}", 
-               pageNumber + 1, userPage.getTotalPages(), userPage.getNumberOfElements());
-      
+
+      log.info(
+          "페이지 {}/{} 처리 중 - 현재 페이지 사용자 수: {}",
+          pageNumber + 1,
+          userPage.getTotalPages(),
+          userPage.getNumberOfElements());
+
       if (pageNumber == 0) {
         log.info("전체 사용자 수: {}", userPage.getTotalElements());
       }
@@ -104,14 +120,24 @@ public class MentorAdviceScheduler {
           log.info("사용자 '{}'의 주간 목표 추천 생성 완료 ({}/{})", user.getId(), successCount, totalProcessed);
         } catch (Exception e) {
           errorCount++;
-          log.error("사용자 '{}'의 주간 목표 추천 생성 중 오류 발생 ({}/{}): {}", 
-                   user.getId(), errorCount, totalProcessed, e.getMessage(), e);
+          log.error(
+              "사용자 '{}'의 주간 목표 추천 생성 중 오류 발생 ({}/{}): {}",
+              user.getId(),
+              errorCount,
+              totalProcessed,
+              e.getMessage(),
+              e);
         }
       }
-      
-      log.info("페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
-               pageNumber + 1, successCount, errorCount, totalProcessed, userPage.getTotalElements());
-      
+
+      log.info(
+          "페이지 {} 처리 완료 - 성공: {}, 실패: {}, 전체 진행률: {}/{}",
+          pageNumber + 1,
+          successCount,
+          errorCount,
+          totalProcessed,
+          userPage.getTotalElements());
+
       pageNumber++;
     } while (userPage.hasNext());
 
