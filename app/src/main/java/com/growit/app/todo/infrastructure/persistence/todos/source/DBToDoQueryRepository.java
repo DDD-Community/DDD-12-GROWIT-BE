@@ -21,5 +21,6 @@ public interface DBToDoQueryRepository {
 
   int countByDateQuery(GetCountByDateQueryFilter countByDateQueryFilter);
 
-  List<ToDoEntity> findAllByUserIdAndCreatedAtBetween(String userId, LocalDateTime start, LocalDateTime end);
+  List<ToDoEntity> findAllByUserIdAndCreatedAtBetween(
+      String userId, LocalDateTime start, LocalDateTime end);
 }

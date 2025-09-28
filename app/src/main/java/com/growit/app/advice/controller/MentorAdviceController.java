@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MentorAdviceController {
 
-    private final MentorAdviceScheduler mentorAdviceScheduler;
+  private final MentorAdviceScheduler mentorAdviceScheduler;
 
-    @PostMapping("/mentor-advice")
-    public ResponseEntity<String> runMentorAdviceScheduler() {
-        mentorAdviceScheduler.generateDailyMentorAdvice();
-        return ResponseEntity.ok("멘토 조언 생성 스케줄러가 수동으로 실행되었습니다.");
-    }
+  @PostMapping("/mentor-advice")
+  public ResponseEntity<String> runMentorAdviceScheduler() {
+    mentorAdviceScheduler.generateDailyMentorAdvice();
+    return ResponseEntity.ok("멘토 조언 생성 스케줄러가 수동으로 실행되었습니다.");
+  }
 }

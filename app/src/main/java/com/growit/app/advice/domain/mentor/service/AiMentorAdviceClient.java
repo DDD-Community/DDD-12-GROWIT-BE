@@ -5,5 +5,5 @@ import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceResponse;
 
 public interface AiMentorAdviceClient {
 
-    AiMentorAdviceResponse getMentorAdvice(AiMentorAdviceRequest request);
+  AiMentorAdviceResponse getMentorAdvice(AiMentorAdviceRequest request);
 }

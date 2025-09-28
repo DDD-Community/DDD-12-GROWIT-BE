@@ -88,11 +88,16 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
   }
 
   @Override
-  public List<ToDoEntity> findAllByUserIdAndCreatedAtBetween(String userId, LocalDateTime start, LocalDateTime end) {
-    return queryFactory.selectFrom(toDoEntity)
-            .where(toDoEntity.userId.eq(userId)
-                    .and(toDoEntity.createdAt.between(start, end))
-                    .and(toDoEntity.deletedAt.isNull()))
-            .fetch();
+  public List<ToDoEntity> findAllByUserIdAndCreatedAtBetween(
+      String userId, LocalDateTime start, LocalDateTime end) {
+    return queryFactory
+        .selectFrom(toDoEntity)
+        .where(
+            toDoEntity
+                .userId
+                .eq(userId)
+                .and(toDoEntity.createdAt.between(start, end))
+                .and(toDoEntity.deletedAt.isNull()))
+        .fetch();
   }
 }

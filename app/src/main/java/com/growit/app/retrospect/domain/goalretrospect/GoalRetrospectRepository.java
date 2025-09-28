@@ -11,5 +11,6 @@ public interface GoalRetrospectRepository {
 
   Optional<GoalRetrospect> findByGoalId(String goalId);
 
-  List<GoalRetrospect> findAllByGoalIdAndCreatedAtBetween(String goalId, LocalDateTime start, LocalDateTime end);
+  List<GoalRetrospect> findAllByGoalIdAndCreatedAtBetween(
+      String goalId, LocalDateTime start, LocalDateTime end);
 }

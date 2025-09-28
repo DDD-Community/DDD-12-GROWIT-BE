@@ -18,6 +18,7 @@ public enum Mentor {
   private final String name;
   private final GoalCategory category;
   private final String promptIdPrefix;
+
   public static Mentor getMentorByCategory(GoalCategory category) {
     return java.util.Arrays.stream(values())
         .filter(mentor -> mentor.category == category)

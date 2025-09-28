@@ -68,7 +68,8 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @Override
-  public List<ToDo> findAllByUserIdAndCreatedAtBetween(String userId, LocalDateTime start, LocalDateTime end) {
+  public List<ToDo> findAllByUserIdAndCreatedAtBetween(
+      String userId, LocalDateTime start, LocalDateTime end) {
     List<ToDoEntity> entities = repository.findAllByUserIdAndCreatedAtBetween(userId, start, end);
     return mapper.toDomainList(entities);
   }

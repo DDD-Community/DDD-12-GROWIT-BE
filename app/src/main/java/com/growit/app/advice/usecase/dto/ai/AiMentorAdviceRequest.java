@@ -8,18 +8,18 @@ import lombok.Getter;
 @Builder
 public class AiMentorAdviceRequest {
 
-    private String userId;
-    private String promptId;
-    private Input input;
+  private String userId;
+  private String promptId;
+  private Input input;
 
-    @Getter
-    @Builder
-    public static class Input {
-        private List<String> recentTodos;
-        private List<String> weeklyRetrospects;
-        private String overallGoal;
-        private List<String> completedTodos;
-        private List<String> incompleteTodos;
-        private List<String> pastWeeklyGoals;
-    }
+  @Getter
+  @Builder
+  public static class Input {
+    private List<String> recentTodos;
+    private List<String> weeklyRetrospects;
+    private String overallGoal;
+    private List<String> completedTodos;
+    private List<String> incompleteTodos;
+    private List<String> pastWeeklyGoals;
+  }
 }

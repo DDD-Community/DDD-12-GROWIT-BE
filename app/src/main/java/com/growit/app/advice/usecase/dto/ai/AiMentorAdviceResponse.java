@@ -10,20 +10,21 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AiMentorAdviceResponse {
 
-    private boolean success;
-    private String userId;
-    private String promptId;
-    private String id;
-    private Output output;
-    private String generatedAt;
+  private boolean success;
+  private String userId;
+  private String promptId;
+  private String id;
+  private Output output;
+  private String generatedAt;
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class Output {
-        private String keep;
-        private String problem;
-        @JsonProperty("try")
-        private String tryNext;
-    }
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  public static class Output {
+    private String keep;
+    private String problem;
+
+    @JsonProperty("try")
+    private String tryNext;
+  }
 }

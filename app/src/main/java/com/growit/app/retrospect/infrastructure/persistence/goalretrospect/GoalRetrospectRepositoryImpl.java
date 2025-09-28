@@ -42,8 +42,10 @@ public class GoalRetrospectRepositoryImpl implements GoalRetrospectRepository {
   }
 
   @Override
-  public List<GoalRetrospect> findAllByGoalIdAndCreatedAtBetween(String goalId, LocalDateTime start, LocalDateTime end) {
-    List<GoalRetrospectEntity> entities = repository.findAllByGoalIdAndCreatedAtBetween(goalId, start, end);
+  public List<GoalRetrospect> findAllByGoalIdAndCreatedAtBetween(
+      String goalId, LocalDateTime start, LocalDateTime end) {
+    List<GoalRetrospectEntity> entities =
+        repository.findAllByGoalIdAndCreatedAtBetween(goalId, start, end);
     return mapper.toDomainList(entities);
   }
 }
