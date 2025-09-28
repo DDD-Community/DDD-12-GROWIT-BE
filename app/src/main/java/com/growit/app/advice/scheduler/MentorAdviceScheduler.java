@@ -32,9 +32,13 @@ public class MentorAdviceScheduler {
   private volatile String lastGoalRecommendationResult = "대기 중";
 
   /** 매일 오전 0시에 오늘의 조언을 생성합니다. cron = "초 분 시 일 월 요일" */
-  @Async
   @Scheduled(cron = "0 0 0 * * *")
-  public CompletableFuture<Void> generateDailyMentorAdvice() {
+  public void generateDailyMentorAdvice() {
+    generateDailyMentorAdviceAsync();
+  }
+
+  @Async
+  public CompletableFuture<Void> generateDailyMentorAdviceAsync() {
     mentorAdviceRunning = true;
     lastMentorAdviceResult = "실행 중...";
     log.info("=== 데일리 멘토 조언 생성 스케줄러 시작 ===");
@@ -107,9 +111,13 @@ public class MentorAdviceScheduler {
   }
 
   /** 매주 월요일 오전 0시에 주간 목표 추천을 생성합니다. */
-  @Async
   @Scheduled(cron = "0 0 0 * * MON")
-  public CompletableFuture<Void> generateWeeklyGoalRecommendation() {
+  public void generateWeeklyGoalRecommendation() {
+    generateWeeklyGoalRecommendationAsync();
+  }
+
+  @Async
+  public CompletableFuture<Void> generateWeeklyGoalRecommendationAsync() {
     goalRecommendationRunning = true;
     lastGoalRecommendationResult = "실행 중...";
     log.info("=== 주간 목표 추천 생성 스케줄러 시작 ===");

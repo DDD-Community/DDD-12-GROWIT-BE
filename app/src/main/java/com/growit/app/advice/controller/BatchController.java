@@ -24,7 +24,7 @@ public class BatchController {
 
   @Async
   public CompletableFuture<Void> runMentorAdviceAsync() {
-    mentorAdviceScheduler.generateDailyMentorAdvice();
+    mentorAdviceScheduler.generateDailyMentorAdviceAsync();
     return CompletableFuture.completedFuture(null);
   }
 
@@ -36,7 +36,7 @@ public class BatchController {
 
   @Async
   public CompletableFuture<Void> runGoalRecommendationAsync() {
-    mentorAdviceScheduler.generateWeeklyGoalRecommendation();
+    mentorAdviceScheduler.generateWeeklyGoalRecommendationAsync();
     return CompletableFuture.completedFuture(null);
   }
 }
