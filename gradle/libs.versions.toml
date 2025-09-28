@@ -30,6 +30,7 @@ spring-boot-starter-validation = { module = "org.springframework.boot:spring-boo
 spring-boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-cache", version.ref = "springBoot" }
 
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "springBoot" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "springBoot" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }

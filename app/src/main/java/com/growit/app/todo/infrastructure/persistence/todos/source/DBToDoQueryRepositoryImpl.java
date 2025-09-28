@@ -9,6 +9,7 @@ import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEn
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -84,5 +85,14 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
             toDo.date.eq(filter.date()),
             toDo.deletedAt.isNull())
         .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findAllByUserIdAndCreatedAtBetween(String userId, LocalDateTime start, LocalDateTime end) {
+    return queryFactory.selectFrom(toDoEntity)
+            .where(toDoEntity.userId.eq(userId)
+                    .and(toDoEntity.createdAt.between(start, end))
+                    .and(toDoEntity.deletedAt.isNull()))
+            .fetch();
   }
 }

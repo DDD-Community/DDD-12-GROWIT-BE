@@ -4,6 +4,7 @@ import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface DBToDoQueryRepository {
   List<ToDoEntity> findByGoalId(String goalId);
 
   int countByDateQuery(GetCountByDateQueryFilter countByDateQueryFilter);
+
+  List<ToDoEntity> findAllByUserIdAndCreatedAtBetween(String userId, LocalDateTime start, LocalDateTime end);
 }
