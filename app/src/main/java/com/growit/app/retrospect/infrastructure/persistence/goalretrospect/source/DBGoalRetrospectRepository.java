@@ -4,7 +4,8 @@ import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.sourc
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DBGoalRetrospectRepository extends JpaRepository<GoalRetrospectEntity, Long> {
+public interface DBGoalRetrospectRepository
+    extends JpaRepository<GoalRetrospectEntity, Long>, DBGoalRetrospectQueryRepository {
   Optional<GoalRetrospectEntity> findByUid(String uid);
 
   Optional<GoalRetrospectEntity> findByGoalId(String goalId);

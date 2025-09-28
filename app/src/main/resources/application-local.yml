@@ -63,7 +63,9 @@ app:
 ai:
   api:
     api-key: ${OPEN_API_KEY}
-
+  mentor:
+    url: http://localhost:8001/api
+    
 notification:
   discord:
     webhook-url: ${DISCORD_WEBHOOK_URL}

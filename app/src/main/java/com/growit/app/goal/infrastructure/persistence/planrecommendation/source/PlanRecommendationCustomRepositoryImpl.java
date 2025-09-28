@@ -4,6 +4,7 @@ import static com.growit.app.goal.infrastructure.persistence.planrecommendation.
 
 import com.growit.app.goal.domain.planrecommendation.dto.FindPlanRecommendationCommand;
 import com.growit.app.goal.infrastructure.persistence.planrecommendation.source.entity.PlanRecommendationEntity;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +18,18 @@ public class PlanRecommendationCustomRepositoryImpl implements PlanRecommendatio
 
   @Override
   public Optional<PlanRecommendationEntity> findByCommand(FindPlanRecommendationCommand command) {
+    BooleanBuilder builder = new BooleanBuilder();
+
+    builder.and(planRecommendationEntity.userId.eq(command.userId()));
+    builder.and(planRecommendationEntity.goalId.eq(command.goalId()));
+
+    if (command.planId() != null) {
+      builder.and(planRecommendationEntity.planId.eq(command.planId()));
+    } else {
+      builder.and(planRecommendationEntity.planId.isNull());
+    }
+
     return Optional.ofNullable(
-        queryFactory
-            .selectFrom(planRecommendationEntity)
-            .where(
-                planRecommendationEntity
-                    .userId
-                    .eq(command.userId())
-                    .and(planRecommendationEntity.goalId.eq(command.goalId()))
-                    .and(planRecommendationEntity.planId.eq(command.planId())))
-            .fetchOne());
+        queryFactory.selectFrom(planRecommendationEntity).where(builder).fetchOne());
   }
 }

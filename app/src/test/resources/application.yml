@@ -25,6 +25,8 @@ notification:
 ai:
   api:
     api-key: test-api-key
+  mentor:
+    url: http://test-api-url
 
 app:
   security:

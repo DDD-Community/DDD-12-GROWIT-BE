@@ -62,6 +62,8 @@ app:
 ai:
   api:
     api-key: ${OPEN_API_KEY}
+  mentor:
+    url: ${AI_MENTOR_URL}
 
 notification:
   discord:

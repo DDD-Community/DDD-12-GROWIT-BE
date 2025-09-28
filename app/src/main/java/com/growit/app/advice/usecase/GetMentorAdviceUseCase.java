@@ -2,7 +2,6 @@ package com.growit.app.advice.usecase;
 
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
-import com.growit.app.advice.domain.mentor.service.MentorService;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
@@ -21,11 +20,11 @@ public class GetMentorAdviceUseCase {
 
   private final MentorAdviceRepository mentorAdviceRepository;
   private final GetUserGoalsUseCase getUserGoalsUseCase;
-  private final MentorService mentorService;
+  private final GenerateMentorAdviceUseCase generateMentorAdviceUseCase;
 
   public MentorAdvice execute(User user) {
     Goal currentGoal = getCurrentProgressGoal(user);
-    return getOrCreateMentorAdvice(user.getId(), currentGoal.getId());
+    return getOrCreateMentorAdvice(user, currentGoal.getId());
   }
 
   private Goal getCurrentProgressGoal(User user) {
@@ -34,11 +33,11 @@ public class GetMentorAdviceUseCase {
         .orElseThrow(() -> new NotFoundException(NO_PROGRESS_GOAL_MESSAGE));
   }
 
-  private MentorAdvice getOrCreateMentorAdvice(String userId, String goalId) {
+  private MentorAdvice getOrCreateMentorAdvice(User user, String goalId) {
     return mentorAdviceRepository
-        .findByUserIdAndGoalId(userId, goalId)
+        .findByUserIdAndGoalId(user.getId(), goalId)
         .map(this::markAsCheckedIfNeeded)
-        .orElseGet(() -> createNewMentorAdvice(userId, goalId));
+        .orElseGet(() -> createNewMentorAdvice(user));
   }
 
   private MentorAdvice markAsCheckedIfNeeded(MentorAdvice mentorAdvice) {
@@ -49,8 +48,8 @@ public class GetMentorAdviceUseCase {
     return mentorAdvice;
   }
 
-  private MentorAdvice createNewMentorAdvice(String userId, String goalId) {
-    MentorAdvice newAdvice = mentorService.getMentorAdvice(userId, goalId);
+  private MentorAdvice createNewMentorAdvice(User user) {
+    MentorAdvice newAdvice = generateMentorAdviceUseCase.execute(user);
     mentorAdviceRepository.save(newAdvice);
     return newAdvice;
   }

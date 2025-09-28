@@ -3,6 +3,8 @@ package com.growit.app.retrospect.infrastructure.persistence.goalretrospect;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.vo.Analysis;
 import com.growit.app.retrospect.infrastructure.persistence.goalretrospect.source.entity.GoalRetrospectEntity;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,5 +35,10 @@ public class GoalRetrospectDBMapper {
         .analysis(analysis)
         .content(entity.getContent())
         .build();
+  }
+
+  public List<GoalRetrospect> toDomainList(List<GoalRetrospectEntity> entities) {
+    if (entities == null) return List.of();
+    return entities.stream().map(this::toDomain).collect(Collectors.toList());
   }
 }
