@@ -51,21 +51,32 @@ public class GoalRecommendationService {
             .remainingTime(data.getRemainingTime())
             .build();
 
-    // Mentor 정보 확인
-    if (goal.getMentor() == null) {
-      throw new BadRequestException("목표에 멘토 정보가 설정되지 않았습니다. 목표 추천을 생성할 수 없습니다.");
-    }
-
-    String promptId = goal.getMentor().getGoalPromprtId();
-    if (promptId == null || promptId.trim().isEmpty()) {
-      throw new BadRequestException("멘토의 목표 추천 프롬프트 ID가 설정되지 않았습니다.");
-    }
+    // Goal에 저장된 mentor 정보로 promptId 결정
+    String promptId = determinePromptIdByMentor(goal);
 
     return AiGoalRecommendationRequest.builder()
         .userId(user.getId())
         .promptId(promptId)
         .input(input)
         .build();
+  }
+
+  /** Goal의 mentor 정보를 바탕으로 적절한 promptId를 결정합니다. */
+  private String determinePromptIdByMentor(Goal goal) {
+    if (goal.getMentor() == null) {
+      throw new BadRequestException("목표에 멘토 정보가 설정되지 않았습니다. 목표 추천을 생성할 수 없습니다.");
+    }
+
+    // Goal 엔티티의 mentor 값에 따라 분기
+    return switch (goal.getMentor()) {
+      case TIM_COOK -> "teamcook-goal-001";
+      case WARREN_BUFFETT -> "warren-buffett-goal-001";
+      case CONFUCIUS -> "confucius-goal-001";
+      default -> {
+        // 알 수 없는 멘토인 경우 기본값으로 팀 쿡 사용
+        throw new BadRequestException("알 수 없는 멘토입니다: " + goal.getMentor());
+      }
+    };
   }
 
   private Plan selectTargetPlan(Goal goal) {
