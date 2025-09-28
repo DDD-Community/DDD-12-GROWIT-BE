@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.35.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.34.1...v1.35.0) (2025-09-28)
+
+
+### Features
+
+* **advice:** Enhance AI Mentor Advice Client and Scheduler logging ([1a03d55](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1a03d55d525f70f874294f7887989a8ceb399b24))
+
+
+### Bug Fixes
+
+* **imports:** Update import statement for PostConstruct to use Jakarta namespace ([be1beca](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/be1becaf78ff2455b962c7022480d07ea6670d58))
+
 ## [1.34.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.34.0...v1.34.1) (2025-09-28)
 
 
