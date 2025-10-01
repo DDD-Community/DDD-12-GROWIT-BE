@@ -2,7 +2,6 @@ package com.growit.app.goal.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.common.exception.NotFoundException;
@@ -47,13 +46,14 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenValidUserAndPlanId_whenExecute_thenReturnPlanRecommendation() {
     // given
-    GoalRecommendationData mockData = GoalRecommendationData.builder()
-        .pastTodos(Arrays.asList("todo1", "todo2"))
-        .completedTodos(Arrays.asList("completed1"))
-        .pastRetrospects(Arrays.asList("retrospect1"))
-        .pastWeeklyGoals(Arrays.asList("weekly1"))
-        .remainingTime("7일")
-        .build();
+    GoalRecommendationData mockData =
+        GoalRecommendationData.builder()
+            .pastTodos(Arrays.asList("todo1", "todo2"))
+            .completedTodos(Arrays.asList("completed1"))
+            .pastRetrospects(Arrays.asList("retrospect1"))
+            .pastWeeklyGoals(Arrays.asList("weekly1"))
+            .remainingTime("7일")
+            .build();
     PlanRecommendation expectedRecommendation =
         new PlanRecommendation(
             "recommendation-1", testUser.getId(), testGoal.getId(), planId, "AI 추천 내용");
@@ -77,13 +77,14 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenValidUserAndPlanId_whenExecute_thenCollectDataAndGenerateRecommendation() {
     // given
-    GoalRecommendationData mockData = GoalRecommendationData.builder()
-        .pastTodos(Arrays.asList("todo1", "todo2"))
-        .completedTodos(Arrays.asList("completed1", "completed2"))
-        .pastRetrospects(Arrays.asList("retrospect1"))
-        .pastWeeklyGoals(Arrays.asList("weekly1"))
-        .remainingTime("14일")
-        .build();
+    GoalRecommendationData mockData =
+        GoalRecommendationData.builder()
+            .pastTodos(Arrays.asList("todo1", "todo2"))
+            .completedTodos(Arrays.asList("completed1", "completed2"))
+            .pastRetrospects(Arrays.asList("retrospect1"))
+            .pastWeeklyGoals(Arrays.asList("weekly1"))
+            .remainingTime("14일")
+            .build();
     PlanRecommendation expectedRecommendation =
         new PlanRecommendation(
             "recommendation-1", testUser.getId(), testGoal.getId(), planId, "생성된 AI 추천");
