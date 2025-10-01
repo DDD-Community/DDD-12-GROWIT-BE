@@ -28,19 +28,19 @@ public class RecommendPlanUseCase {
     GoalRecommendationData data = dataCollector.collectData(user, currentGoal);
 
     return recommendationService.generateRecommendation(user, currentGoal, data);
-//    // 2. 기존 추천이 있는지 확인하고 업데이트하거나 새로 생성
-//    FindPlanRecommendationCommand command =
-//        new FindPlanRecommendationCommand(user.getId(), currentGoal.getId(), plan.getId());
+    //    // 2. 기존 추천이 있는지 확인하고 업데이트하거나 새로 생성
+    //    FindPlanRecommendationCommand command =
+    //        new FindPlanRecommendationCommand(user.getId(), currentGoal.getId(), plan.getId());
 
-//    return planRecommendationRepository
-//        .findByCommand(command)
-//        .orElse(
-//            new PlanRecommendation(
-//                IDGenerator.generateId(),
-//                user.getId(),
-//                currentGoal.getId(),
-//                planId,
-//                "당신은 목표를 추천합니다." // ai 연동전에만 내려드리도록 하겠습니다.
-//                ));
+    //    return planRecommendationRepository
+    //        .findByCommand(command)
+    //        .orElse(
+    //            new PlanRecommendation(
+    //                IDGenerator.generateId(),
+    //                user.getId(),
+    //                currentGoal.getId(),
+    //                planId,
+    //                "당신은 목표를 추천합니다." // ai 연동전에만 내려드리도록 하겠습니다.
+    //                ));
   }
 }

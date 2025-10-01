@@ -24,8 +24,8 @@ public class GetMentorAdviceUseCase {
 
   public MentorAdvice execute(User user) {
     return generateMentorAdviceUseCase.execute(user); // QA 기간동안 실시간 처리
-//    Goal currentGoal = getCurrentProgressGoal(user);
-//    return getOrCreateMentorAdvice(user, currentGoal.getId());
+    //    Goal currentGoal = getCurrentProgressGoal(user);
+    //    return getOrCreateMentorAdvice(user, currentGoal.getId());
   }
 
   private Goal getCurrentProgressGoal(User user) {
