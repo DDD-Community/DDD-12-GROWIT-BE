@@ -29,7 +29,7 @@ class RegisterPromotionUseCaseTest {
   @InjectMocks private RegisterPromotionUseCase registerPromotionUseCase;
 
   @Test
-  void given_ValidPromotionCode_when_RegisterPromotion_then_Success() {
+  void givenValidPromotionCode_whenRegisterPromotion_thenSuccess() {
     // given
     User user = UserFixture.defaultUser();
     String promotionCode = "WELCOME2024";
@@ -48,8 +48,7 @@ class RegisterPromotionUseCaseTest {
   }
 
   @Test
-  void
-      given_InvalidPromotionCode_when_RegisterPromotion_then_ThrowPromotionCodeNotFoundException() {
+  void givenInvalidPromotionCode_whenRegisterPromotion_thenThrowPromotionCodeNotFoundException() {
     // given
     User user = UserFixture.defaultUser();
     String invalidCode = "INVALID_CODE";
@@ -63,7 +62,7 @@ class RegisterPromotionUseCaseTest {
   }
 
   @Test
-  void given_ExpiredPromotion_when_RegisterPromotion_then_ThrowPromotionCodeInvalidException() {
+  void givenExpiredPromotion_whenRegisterPromotion_thenThrowPromotionCodeInvalidException() {
     // given
     User user = UserFixture.defaultUser();
     String promotionCode = "EXPIRED_PROMO";
@@ -79,7 +78,7 @@ class RegisterPromotionUseCaseTest {
 
   @Test
   void
-      given_UserWithActivePromotion_when_RegisterPromotion_then_ThrowPromotionCodeAlreadyExistsException() {
+      givenUserWithActivePromotion_whenRegisterPromotion_thenThrowPromotionCodeAlreadyExistsException() {
     // given
     User user = UserFixture.userWithPromotion();
     String promotionCode = "NEW_PROMO";
@@ -91,20 +90,5 @@ class RegisterPromotionUseCaseTest {
     assertThatThrownBy(() -> registerPromotionUseCase.execute(user, promotionCode))
         .isInstanceOf(BadRequestException.class)
         .hasMessage(PROMOTION_CODE_ALREADY_EXISTS.getCode());
-  }
-
-  @Test
-  void given_UsedPromotionCode_when_RegisterPromotion_then_ThrowPromotionCodeInvalidException() {
-    // given
-    User user = UserFixture.defaultUser();
-    String promotionCode = "USED_PROMO";
-    Promotion usedPromotion = PromotionFixture.usedPromotionWithCode(promotionCode);
-
-    given(promotionRepository.findByCode(promotionCode)).willReturn(Optional.of(usedPromotion));
-
-    // when & then
-    assertThatThrownBy(() -> registerPromotionUseCase.execute(user, promotionCode))
-        .isInstanceOf(BadRequestException.class)
-        .hasMessage(PROMOTION_CODE_INVALID.getCode());
   }
 }

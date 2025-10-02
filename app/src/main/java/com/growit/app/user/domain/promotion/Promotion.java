@@ -33,7 +33,7 @@ public class Promotion {
   }
 
   public boolean isValid() {
-    return isActive && !isExpired() && !isUsed;
+    return isActive && !isExpired();
   }
 
   public void deactivate() {
