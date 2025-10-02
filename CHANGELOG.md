@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.38.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.37.0...v1.38.0) (2025-10-02)
+
+
+### Features
+
+* **281/ai:** 테스트 코드의 변수명 및 함수명 수정 및 불필요한 테스트 제거 ([7c6d680](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7c6d6801f5c8d7e3849ad4609eee171254d55813))
+* **281/ai:** 테스트 코드의 변수명 및 함수명 수정 및 불필요한 테스트 제거 ([0c8b0cd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0c8b0cd06c4c3ef22ad0bd5c0fe5b20231ecc22a))
+* UserPromotionMapEntity에서 사용 기록 관련 코드 제거 (issue [#281](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/281)) ([ae828c3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ae828c39e860eb7a7d7f74b689b09187f88fc908))
+* UserPromotionMapEntity에서 사용 기록 관련 코드 제거 (issue [#281](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/281)) ([42ec6e8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/42ec6e8d52fb3f1be0be256d6470cd2a14e19129))
+
 ## [1.37.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.36.1...v1.37.0) (2025-10-02)
 
 
