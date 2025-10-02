@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.37.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.36.1...v1.37.0) (2025-10-02)
+
+
+### Features
+
+* **241/promotion:** 프로모션 등록 및 유효성 검증 로직 추가 ([fe29acf](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fe29acfe10385e0e4d9bc55ebdd6e174fed786bf)), closes [#241](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/241)
+* **281/ai:** mentor advice 처리 로직 변경 및 추천 플로우 개선 ([0d65302](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0d653020de2e2112ab5bf876929700d70b19e1f5))
+* **281/ai:** mentor advice 처리 로직 변경 및 추천 플로우 개선 ([a80f809](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a80f809c8de0f2cb41ceb3ab7344b9bc4aad0199))
+* **promotion:** promotions 테이블에 is_used 컬럼 추가 ([#241](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/241)) ([93bbddd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/93bbddd9c1b05ba1b46e12951e948fe9781986a9))
+
 ## [1.36.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.36.0...v1.36.1) (2025-09-28)
 
 
