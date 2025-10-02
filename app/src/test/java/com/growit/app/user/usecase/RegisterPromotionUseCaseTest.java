@@ -48,8 +48,7 @@ class RegisterPromotionUseCaseTest {
   }
 
   @Test
-  void
-      givenInvalidPromotionCode_whenRegisterPromotion_thenThrowPromotionCodeNotFoundException() {
+  void givenInvalidPromotionCode_whenRegisterPromotion_thenThrowPromotionCodeNotFoundException() {
     // given
     User user = UserFixture.defaultUser();
     String invalidCode = "INVALID_CODE";
