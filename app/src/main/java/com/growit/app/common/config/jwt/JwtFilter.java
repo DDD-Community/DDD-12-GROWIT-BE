@@ -56,7 +56,7 @@ public class JwtFilter extends OncePerRequestFilter {
       String id = tokenGenerator.getId(token);
       User user = userRepository.findUserByuId(id).orElseThrow();
       if (!PROMOTION_REGISTER_URI.equals(uri) && !user.hasActivePromotion()) {
-        response.setStatus(HttpStatus.CONFLICT.value());
+        response.setStatus(499);
       } else {
         Authentication authentication =
             new UsernamePasswordAuthenticationToken(user, null, List.of());
