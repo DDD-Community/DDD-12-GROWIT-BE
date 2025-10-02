@@ -2,6 +2,7 @@ package com.growit.app.user.controller;
 
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.common.util.message.MessageService;
+import com.growit.app.user.controller.dto.request.RegisterPromotionRequest;
 import com.growit.app.user.controller.dto.request.UpdateUserRequest;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.controller.mapper.RequestMapper;
@@ -11,6 +12,7 @@ import com.growit.app.user.domain.user.dto.UserDto;
 import com.growit.app.user.usecase.DeleteUserUseCase;
 import com.growit.app.user.usecase.GetUserUseCase;
 import com.growit.app.user.usecase.LogoutUseCase;
+import com.growit.app.user.usecase.RegisterPromotionUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class UserController {
   private final UpdateUserUseCase updateUserUseCase;
   private final LogoutUseCase logoutUseCase;
   private final DeleteUserUseCase deleteUseCase;
+  private final RegisterPromotionUseCase registerPromotionUseCase;
   private final RequestMapper requestMapper;
   private final ResponseMapper responseMapper;
   private final MessageService messageService;
@@ -65,5 +68,12 @@ public class UserController {
   public ResponseEntity<ApiResponse<String>> onboarding(@AuthenticationPrincipal User user) {
     updateUserUseCase.isOnboarding(user);
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.onboarding")));
+  }
+
+  @PostMapping("/myprofile/promotion")
+  public ResponseEntity<ApiResponse<String>> registerPromotion(
+      @AuthenticationPrincipal User user, @Valid @RequestBody RegisterPromotionRequest request) {
+    registerPromotionUseCase.execute(user, request.getCode());
+    return ResponseEntity.ok(ApiResponse.success("등록되었습니다"));
   }
 }

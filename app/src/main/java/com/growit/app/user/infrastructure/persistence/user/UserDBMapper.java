@@ -24,6 +24,7 @@ public class UserDBMapper {
             .careerYear(user.getCareerYear())
             .isOnboarding(user.isOnboarding())
             .oauthAccounts(new HashSet<>())
+            .userPromotions(new HashSet<>())
             .build();
 
     Set<OAuthAccountEntity> oauthAccounts =
@@ -59,6 +60,13 @@ public class UserDBMapper {
                         oauthEntity ->
                             new OAuth(oauthEntity.getProvider(), oauthEntity.getProviderId()))
                     .toList()))
+        .promotion(
+            entity.getUserPromotions() != null && !entity.getUserPromotions().isEmpty()
+                ? entity.getUserPromotions().stream()
+                    .findFirst()
+                    .map(userPromotion -> userPromotion.getPromotion().toDomain())
+                    .orElse(null)
+                : null)
         .build();
   }
 }

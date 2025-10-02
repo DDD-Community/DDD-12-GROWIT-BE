@@ -37,6 +37,10 @@ public enum ErrorCode {
   RETROSPECT_NOT_FOUND("error.retrospect-not-found"), // "회고 정보가 존재하지 않습니다."
   GOAL_RETROSPECT_GOAL_NOT_COMPLETED("error.goal-retrospect-not-completed"), // "목표가 완료되지 않았습니다."
   MISSION_NOT_FOUND("error.mission-not-found"), // 미션을 찾을 수 없습니다.
+  PROMOTION_CODE_NOT_FOUND("error.promotion.code-not-found"), // "프로모션 코드를 찾을 수 없습니다."
+  PROMOTION_CODE_INVALID("error.promotion.code-invalid"), // "유효하지 않은 프로모션 코드입니다. "
+  PROMOTION_CODE_ALREADY_EXISTS("error.promotion.code-already-exists"), // "이미 등록된 프로모션 코드가 있습니다."
+  PROMOTION_CODE_ALREADY_USED("error.promotion.code-already-used"), // "이미 사용된 프로모션 코드입니다."
   INTERNAL_SERVER_ERROR("error.server"); // 서버 에러
 
   private final String code;

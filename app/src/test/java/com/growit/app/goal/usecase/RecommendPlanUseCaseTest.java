@@ -2,18 +2,18 @@ package com.growit.app.goal.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goalrecommendation.service.GoalRecommendationDataCollector;
+import com.growit.app.goal.domain.goalrecommendation.service.GoalRecommendationService;
+import com.growit.app.goal.domain.goalrecommendation.vo.GoalRecommendationData;
 import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
-import com.growit.app.goal.domain.planrecommendation.PlanRecommendationRepository;
-import com.growit.app.goal.domain.planrecommendation.dto.FindPlanRecommendationCommand;
 import com.growit.app.user.domain.user.User;
-import java.util.Optional;
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class RecommendPlanUseCaseTest {
 
-  @Mock private PlanRecommendationRepository planRecommendationRepository;
+  @Mock private GoalRecommendationDataCollector dataCollector;
+
+  @Mock private GoalRecommendationService recommendationService;
 
   @Mock private GetGoalUseCase getGoalUseCase;
 
@@ -44,13 +46,22 @@ class RecommendPlanUseCaseTest {
   @Test
   void givenValidUserAndPlanId_whenExecute_thenReturnPlanRecommendation() {
     // given
+    GoalRecommendationData mockData =
+        GoalRecommendationData.builder()
+            .pastTodos(Arrays.asList("todo1", "todo2"))
+            .completedTodos(Arrays.asList("completed1"))
+            .pastRetrospects(Arrays.asList("retrospect1"))
+            .pastWeeklyGoals(Arrays.asList("weekly1"))
+            .remainingTime("7일")
+            .build();
     PlanRecommendation expectedRecommendation =
         new PlanRecommendation(
-            "recommendation-1", testUser.getId(), testGoal.getId(), planId, "추천 내용");
+            "recommendation-1", testUser.getId(), testGoal.getId(), planId, "AI 추천 내용");
 
     when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
-    when(planRecommendationRepository.findByCommand(any(FindPlanRecommendationCommand.class)))
-        .thenReturn(Optional.of(expectedRecommendation));
+    when(dataCollector.collectData(testUser, testGoal)).thenReturn(mockData);
+    when(recommendationService.generateRecommendation(testUser, testGoal, mockData))
+        .thenReturn(expectedRecommendation);
 
     // when
     PlanRecommendation result = recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
@@ -60,15 +71,28 @@ class RecommendPlanUseCaseTest {
     assertThat(result.getId()).isEqualTo("recommendation-1");
     assertThat(result.getUserId()).isEqualTo(testUser.getId());
     assertThat(result.getGoalId()).isEqualTo(testGoal.getId());
-    assertThat(result.getPlanId()).isEqualTo(planId);
+    assertThat(result.getContent()).isEqualTo("AI 추천 내용");
   }
 
   @Test
-  void givenValidUserAndPlanIdButNoRecommendation_whenExecute_thenCreateNewRecommendation() {
+  void givenValidUserAndPlanId_whenExecute_thenCollectDataAndGenerateRecommendation() {
     // given
+    GoalRecommendationData mockData =
+        GoalRecommendationData.builder()
+            .pastTodos(Arrays.asList("todo1", "todo2"))
+            .completedTodos(Arrays.asList("completed1", "completed2"))
+            .pastRetrospects(Arrays.asList("retrospect1"))
+            .pastWeeklyGoals(Arrays.asList("weekly1"))
+            .remainingTime("14일")
+            .build();
+    PlanRecommendation expectedRecommendation =
+        new PlanRecommendation(
+            "recommendation-1", testUser.getId(), testGoal.getId(), planId, "생성된 AI 추천");
+
     when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
-    when(planRecommendationRepository.findByCommand(any(FindPlanRecommendationCommand.class)))
-        .thenReturn(Optional.empty());
+    when(dataCollector.collectData(testUser, testGoal)).thenReturn(mockData);
+    when(recommendationService.generateRecommendation(testUser, testGoal, mockData))
+        .thenReturn(expectedRecommendation);
 
     // when
     PlanRecommendation result = recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
@@ -77,8 +101,7 @@ class RecommendPlanUseCaseTest {
     assertThat(result).isNotNull();
     assertThat(result.getUserId()).isEqualTo(testUser.getId());
     assertThat(result.getGoalId()).isEqualTo(testGoal.getId());
-    assertThat(result.getPlanId()).isEqualTo(planId);
-    assertThat(result.getContent()).isEqualTo("당신은 목표를 추천합니다.");
+    assertThat(result.getContent()).isEqualTo("생성된 AI 추천");
   }
 
   @Test

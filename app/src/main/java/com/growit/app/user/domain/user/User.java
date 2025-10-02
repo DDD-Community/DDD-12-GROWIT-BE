@@ -2,12 +2,10 @@ package com.growit.app.user.domain.user;
 
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.util.IDGenerator;
+import com.growit.app.user.domain.promotion.Promotion;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
-import com.growit.app.user.domain.user.vo.CareerYear;
-import com.growit.app.user.domain.user.vo.Email;
-import com.growit.app.user.domain.user.vo.OAuth;
-import com.growit.app.user.domain.user.vo.RequiredConsent;
+import com.growit.app.user.domain.user.vo.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -36,6 +34,7 @@ public class User {
 
   private boolean isOnboarding;
   private ArrayList<OAuth> oauthAccounts;
+  private Promotion promotion;
 
   public static User from(SignUpCommand command) {
 
@@ -50,6 +49,7 @@ public class User {
         .isDeleted(false)
         .oauthAccounts(
             command.oAuth() == null ? new ArrayList<>() : new ArrayList<>(List.of(command.oAuth())))
+        .promotion(null)
         .build();
   }
 
@@ -84,5 +84,20 @@ public class User {
 
   public void onboarding() {
     this.isOnboarding = true;
+  }
+
+  public void addPromotion(Promotion promotion) {
+    this.promotion = promotion;
+  }
+
+  public Promotion getActivePromotion() {
+    if (promotion == null || !promotion.isValid()) {
+      return null;
+    }
+    return promotion;
+  }
+
+  public boolean hasActivePromotion() {
+    return getActivePromotion() != null;
   }
 }

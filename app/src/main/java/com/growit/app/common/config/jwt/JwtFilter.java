@@ -21,6 +21,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
+  private static final String PROMOTION_REGISTER_URI = "/users/myprofile/promotion";
+
   private final TokenGenerator tokenGenerator;
   private final UserRepository userRepository;
 
@@ -53,11 +55,16 @@ public class JwtFilter extends OncePerRequestFilter {
       String token = authHeader.substring("Bearer ".length());
       String id = tokenGenerator.getId(token);
       User user = userRepository.findUserByuId(id).orElseThrow();
-      Authentication authentication =
-          new UsernamePasswordAuthenticationToken(user, null, List.of());
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+      if (!PROMOTION_REGISTER_URI.equals(uri) && !user.hasActivePromotion()) {
+        response.setStatus(499);
+      } else {
+        Authentication authentication =
+            new UsernamePasswordAuthenticationToken(user, null, List.of());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-      filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);
+      }
+
     } catch (ExpiredTokenException e) {
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
     } catch (Exception e) {

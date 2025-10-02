@@ -47,6 +47,13 @@ public class UserEntity extends BaseEntity {
       )
   private Set<OAuthAccountEntity> oauthAccounts;
 
+  @OneToMany(
+      mappedBy = "user",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.EAGER)
+  private Set<UserPromotionMapEntity> userPromotions;
+
   public void updateByDomain(User user) {
     this.name = user.getName();
     this.jobRoleId = user.getJobRoleId();
