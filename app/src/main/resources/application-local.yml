@@ -64,8 +64,8 @@ ai:
   api:
     api-key: ${OPEN_API_KEY}
   mentor:
-    url: http://localhost:8001/api
-    
+    url: http://growit-ai-alb-251700671.ap-northeast-2.elb.amazonaws.com/api
+
 notification:
   discord:
     webhook-url: ${DISCORD_WEBHOOK_URL}
