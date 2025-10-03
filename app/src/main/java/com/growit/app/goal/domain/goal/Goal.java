@@ -68,6 +68,7 @@ public class Goal {
     this.toBe = command.toBe();
     this.category = command.category();
     this.duration = command.duration();
+    this.mentor = Mentor.getMentorByCategory(command.category());
   }
 
   public boolean checkProgress(GoalStatus status) {
