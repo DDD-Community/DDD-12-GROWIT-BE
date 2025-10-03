@@ -36,7 +36,6 @@ public class MentorAdviceService {
   private AiMentorAdviceRequest createAiRequest(User user, Goal goal, MentorAdviceData data) {
     AiMentorAdviceRequest.Input input =
         AiMentorAdviceRequest.Input.builder()
-            .recentTodos(data.getRecentTodos())
             .weeklyRetrospects(data.getWeeklyRetrospects())
             .overallGoal(data.getOverallGoal())
             .completedTodos(data.getCompletedTodos())

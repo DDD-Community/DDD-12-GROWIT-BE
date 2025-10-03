@@ -37,7 +37,6 @@ public class MentorAdviceDataCollector {
     List<String> weeklyRetrospects = getWeeklyRetrospects(goal.getId(), aWeekAgo, today);
 
     return MentorAdviceData.builder()
-        .recentTodos(extractIncompleteTodoContents(weeklyTodos))
         .completedTodos(extractCompletedTodoContents(weeklyTodos))
         .incompleteTodos(extractIncompleteTodoContents(weeklyTodos))
         .weeklyRetrospects(weeklyRetrospects)

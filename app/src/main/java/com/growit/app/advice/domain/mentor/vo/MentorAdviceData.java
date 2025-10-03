@@ -8,8 +8,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MentorAdviceData {
-
-  private final List<String> recentTodos;
   private final List<String> completedTodos;
   private final List<String> incompleteTodos;
   private final List<String> weeklyRetrospects;
