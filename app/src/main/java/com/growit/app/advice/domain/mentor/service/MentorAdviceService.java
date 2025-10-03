@@ -71,7 +71,7 @@ public class MentorAdviceService {
   }
 
   private MentorAdvice createMentorAdvice(User user, Goal goal, AiMentorAdviceResponse response) {
-    if (response.getOutput() == null) {
+    if (response == null || response.getOutput() == null) {
       throw new BadRequestException("AI 응답의 output이 null입니다.");
     }
 
