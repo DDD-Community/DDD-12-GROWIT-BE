@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.41.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.1...v1.41.0) (2025-10-03)
+
+
+### Features
+
+* **300/goal:** goal 엔티티에 멘토 필드 추가 및 생성자 수정 ([0c8c2a9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0c8c2a9864a5ac8ee941f58597cbb33298983900))
+* **300/goal:** goal 엔티티에 멘토 필드 추가 및 생성자 수정 ([e62fb2c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e62fb2c2be6f483ba81bf23daedfc298fe3142c1))
+
 ## [1.40.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.0...v1.40.1) (2025-10-03)
 
 
