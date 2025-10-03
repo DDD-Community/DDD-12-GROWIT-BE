@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.40.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.39.1...v1.40.0) (2025-10-03)
+
+
+### Features
+
+* 예외 처리 강화를 위해 BadRequestException로 변경 (버그 293) ([91f3677](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/91f3677f5c2d213045184445de8d4cddd2463baa))
+* 예외 처리 강화를 위해 BadRequestException로 변경 (버그 293) ([4f031c8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4f031c8eb6bf22032a0bd3e54a619d122bb7b73b))
+* 예외 처리 강화를 위해 BadRequestException로 변경 (버그 293) ([32bcb14](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/32bcb14a2bca0853fa926147ff60fb67b9aa7788))
+* 예외 처리 강화를 위해 BadRequestException로 변경 (버그 293) ([a680d1d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a680d1dcd100fba864a3374a8a673c19a7c0fbc6))
+
 ## [1.39.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.39.0...v1.39.1) (2025-10-03)
 
 
