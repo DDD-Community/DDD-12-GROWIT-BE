@@ -77,6 +77,7 @@ public class GoalEntity extends BaseEntity {
     this.endDate = goal.getDuration().endDate();
     this.toBe = goal.getToBe();
     this.category = goal.getCategory();
+    this.mentor = goal.getMentor();
     this.updateStatus = goal.getUpdateStatus();
 
     if (goal.getPlans() != null && !goal.getPlans().isEmpty()) {
