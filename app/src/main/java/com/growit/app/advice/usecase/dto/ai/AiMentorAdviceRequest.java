@@ -15,7 +15,6 @@ public class AiMentorAdviceRequest {
   @Getter
   @Builder
   public static class Input {
-    private List<String> recentTodos;
     private List<String> weeklyRetrospects;
     private String overallGoal;
     private List<String> completedTodos;
