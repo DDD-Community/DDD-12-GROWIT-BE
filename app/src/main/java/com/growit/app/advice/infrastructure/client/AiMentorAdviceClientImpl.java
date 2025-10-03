@@ -10,6 +10,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -35,10 +36,12 @@ public class AiMentorAdviceClientImpl implements AiMentorAdviceClient {
   }
 
   @Override
+  @Cacheable(value = "mentorAdvice", key = "#request")
   public AiMentorAdviceResponse getMentorAdvice(AiMentorAdviceRequest request) {
     String fullUrl = nestApiUrl + "/daily-advice";
 
     try {
+      log.info("AI Mentor Server 멘토 조언 요청 - URL: {}, Request: {}", fullUrl, request);
       return webClient
           .post()
           .uri(fullUrl)

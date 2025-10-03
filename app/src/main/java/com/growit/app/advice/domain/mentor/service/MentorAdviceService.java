@@ -4,6 +4,7 @@ import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.vo.MentorAdviceData;
 import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceRequest;
 import com.growit.app.advice.usecase.dto.ai.AiMentorAdviceResponse;
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.user.domain.user.User;
@@ -56,7 +57,7 @@ public class MentorAdviceService {
   /** Goal의 mentor 정보를 바탕으로 적절한 조언 promptId를 결정합니다. */
   private String determineAdvicePromptIdByMentor(Goal goal) {
     if (goal.getMentor() == null) {
-      throw new IllegalArgumentException("목표에 멘토 정보가 설정되지 않았습니다.");
+      throw new BadRequestException("목표에 멘토 정보가 설정되지 않았습니다.");
     }
 
     // Goal 엔티티의 mentor 값에 따라 분기
@@ -65,23 +66,24 @@ public class MentorAdviceService {
       case WARREN_BUFFETT -> "warren-buffett-advice-001";
       case CONFUCIUS -> "confucius-advice-001";
       default -> {
-        throw new IllegalArgumentException("알 수 없는 멘토입니다: " + goal.getMentor());
+        throw new BadRequestException("알 수 없는 멘토입니다: " + goal.getMentor());
       }
     };
   }
 
   private MentorAdvice createMentorAdvice(User user, Goal goal, AiMentorAdviceResponse response) {
+    if (response.getOutput() == null) {
+      throw new BadRequestException("AI 응답의 output이 null입니다.");
+    }
+
+    AiMentorAdviceResponse.Output output = response.getOutput();
     return MentorAdvice.builder()
         .id(IDGenerator.generateId())
         .userId(user.getId())
         .goalId(goal.getId())
         .isChecked(false)
-        .message(response.getOutput().getCopywriting())
-        .kpt(
-            new MentorAdvice.Kpt(
-                response.getOutput().getKeep(),
-                response.getOutput().getProblem(),
-                response.getOutput().getTryNext()))
+        .message(output.getCopywriting())
+        .kpt(new MentorAdvice.Kpt(output.getKeep(), output.getProblem(), output.getTryNext()))
         .build();
   }
 }
