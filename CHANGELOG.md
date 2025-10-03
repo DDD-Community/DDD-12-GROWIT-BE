@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.39.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.38.0...v1.39.0) (2025-10-03)
+
+
+### Features
+
+* **288:** 프로모션 활성화 조건에 canBeUsed() 메서드 추가하여 사용 가능 여부 체크 기능 개선 ([3c8b107](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3c8b107bf06f01d2e320fc2669e45b3f98376dfb))
+* **288:** 프로모션 활성화 조건에 canBeUsed() 메서드 추가하여 사용 가능 여부 체크 기능 개선 ([672a946](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/672a94627f7418858b63a91aa5fe730881493f76))
+
 ## [1.38.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.37.0...v1.38.0) (2025-10-02)
 
 
