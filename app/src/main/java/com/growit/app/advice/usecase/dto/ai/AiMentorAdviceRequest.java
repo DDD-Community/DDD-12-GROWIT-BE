@@ -42,8 +42,8 @@ public class AiMentorAdviceRequest {
       if (this == obj) return true;
       if (obj == null || getClass() != obj.getClass()) return false;
       Input input = (Input) obj;
-      return Objects.equals(recentTodos, input.recentTodos)
-          && Objects.equals(weeklyRetrospects, input.weeklyRetrospects)
+      return 
+          Objects.equals(weeklyRetrospects, input.weeklyRetrospects)
           && Objects.equals(overallGoal, input.overallGoal)
           && Objects.equals(completedTodos, input.completedTodos)
           && Objects.equals(incompleteTodos, input.incompleteTodos)
@@ -53,12 +53,12 @@ public class AiMentorAdviceRequest {
     @Override
     public int hashCode() {
       return Objects.hash(
-          recentTodos,
           weeklyRetrospects,
           overallGoal,
           completedTodos,
           incompleteTodos,
-          pastWeeklyGoals);
+          pastWeeklyGoals
+      );
     }
   }
 }
