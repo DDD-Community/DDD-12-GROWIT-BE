@@ -25,8 +25,8 @@ public class RegisterPromotionUseCase {
             .findByCode(promotionCode)
             .orElseThrow(() -> new BadRequestException(PROMOTION_CODE_NOT_FOUND.getCode()));
 
-    // 2. 프로모션이 유효한지 확인
-    if (!promotion.isValid()) {
+    // 2. 프로모션이 사용 가능한지 체크
+    if (!promotion.canBeUsed()) {
       throw new BadRequestException(PROMOTION_CODE_INVALID.getCode());
     }
 

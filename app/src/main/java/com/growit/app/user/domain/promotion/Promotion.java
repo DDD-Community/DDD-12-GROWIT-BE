@@ -36,6 +36,10 @@ public class Promotion {
     return isActive && !isExpired();
   }
 
+  public boolean canBeUsed() {
+    return !isUsed && isValid();
+  }
+
   public void deactivate() {
     this.isActive = false;
   }
