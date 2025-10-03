@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.42.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.41.0...v1.42.0) (2025-10-03)
+
+
+### Features
+
+* 목표 계획 정렬 로직 추가 (이슈 [#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([26405d8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/26405d83593c509902412bfbb8d62d9dc3c27116))
+
+
+### Bug Fixes
+
+* null 체크 강화로 AI 응답의 output이 null인 경우 처리 (#issue번호) ([4fdc14a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4fdc14af8dc78b2ea9a493583ed3636a531012e1))
+
 ## [1.41.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.1...v1.41.0) (2025-10-03)
 
 
