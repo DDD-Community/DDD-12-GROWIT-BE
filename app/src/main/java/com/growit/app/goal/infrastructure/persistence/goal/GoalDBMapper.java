@@ -64,7 +64,7 @@ public class GoalDBMapper {
                                     planEntity.getStartDate(), planEntity.getEndDate()))
                             .content(planEntity.getContent())
                             .build())
-              .sorted(Comparator.comparing(Plan::getWeekOfMonth))
+                .sorted(Comparator.comparing(Plan::getWeekOfMonth))
                 .toList())
         .updateStatus(entity.getUpdateStatus())
         .isDelete(entity.getDeletedAt() != null)
