@@ -26,5 +26,7 @@ public class AiMentorAdviceResponse {
 
     @JsonProperty("try")
     private String tryNext;
+
+    private String copywriting;
   }
 }
