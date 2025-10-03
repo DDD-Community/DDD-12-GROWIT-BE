@@ -83,11 +83,7 @@ public class MentorAdviceService {
         .goalId(goal.getId())
         .isChecked(false)
         .message(output.getCopywriting())
-        .kpt(
-            new MentorAdvice.Kpt(
-                output.getKeep(),
-                output.getProblem(),
-                output.getTryNext()))
+        .kpt(new MentorAdvice.Kpt(output.getKeep(), output.getProblem(), output.getTryNext()))
         .build();
   }
 }

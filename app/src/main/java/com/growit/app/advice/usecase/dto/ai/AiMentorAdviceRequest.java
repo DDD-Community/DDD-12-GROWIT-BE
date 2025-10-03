@@ -18,9 +18,9 @@ public class AiMentorAdviceRequest {
     if (this == obj) return true;
     if (obj == null || getClass() != obj.getClass()) return false;
     AiMentorAdviceRequest that = (AiMentorAdviceRequest) obj;
-    return Objects.equals(userId, that.userId) &&
-           Objects.equals(promptId, that.promptId) &&
-           Objects.equals(input, that.input);
+    return Objects.equals(userId, that.userId)
+        && Objects.equals(promptId, that.promptId)
+        && Objects.equals(input, that.input);
   }
 
   @Override
@@ -43,18 +43,23 @@ public class AiMentorAdviceRequest {
       if (this == obj) return true;
       if (obj == null || getClass() != obj.getClass()) return false;
       Input input = (Input) obj;
-      return Objects.equals(recentTodos, input.recentTodos) &&
-             Objects.equals(weeklyRetrospects, input.weeklyRetrospects) &&
-             Objects.equals(overallGoal, input.overallGoal) &&
-             Objects.equals(completedTodos, input.completedTodos) &&
-             Objects.equals(incompleteTodos, input.incompleteTodos) &&
-             Objects.equals(pastWeeklyGoals, input.pastWeeklyGoals);
+      return Objects.equals(recentTodos, input.recentTodos)
+          && Objects.equals(weeklyRetrospects, input.weeklyRetrospects)
+          && Objects.equals(overallGoal, input.overallGoal)
+          && Objects.equals(completedTodos, input.completedTodos)
+          && Objects.equals(incompleteTodos, input.incompleteTodos)
+          && Objects.equals(pastWeeklyGoals, input.pastWeeklyGoals);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(recentTodos, weeklyRetrospects, overallGoal, 
-                         completedTodos, incompleteTodos, pastWeeklyGoals);
+      return Objects.hash(
+          recentTodos,
+          weeklyRetrospects,
+          overallGoal,
+          completedTodos,
+          incompleteTodos,
+          pastWeeklyGoals);
     }
   }
 }
