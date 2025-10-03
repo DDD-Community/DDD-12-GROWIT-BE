@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.40.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.0...v1.40.1) (2025-10-03)
+
+
+### Bug Fixes
+
+* **advice:** Clean up equality and hashCode methods in AiMentorAdvice… ([49bcfe8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/49bcfe8685fb2bfcff4133ba7ff6fbbcfe037d29))
+* **advice:** Clean up equality and hashCode methods in AiMentorAdviceRequest ([f32f012](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f32f0129d6f3b5e60ba6c1bbf44eaf8bb7d3dee7))
+* **advice:** Remove recentTodos from MentorAdviceData and relate… ([492faa7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/492faa73628a15b276380a555b4a1daa761a051a))
+
 ## [1.40.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.39.1...v1.40.0) (2025-10-03)
 
 
