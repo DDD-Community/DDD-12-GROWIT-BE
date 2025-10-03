@@ -76,7 +76,7 @@ public class MentorAdviceService {
         .userId(user.getId())
         .goalId(goal.getId())
         .isChecked(false)
-        .message("AI Mentor's Advice")
+        .message(response.getOutput().getCopywriting())
         .kpt(
             new MentorAdvice.Kpt(
                 response.getOutput().getKeep(),
