@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.40.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.0...v1.40.1) (2025-10-03)
+
+
+### Bug Fixes
+
+* **advice:** Remove recentTodos from MentorAdviceData and relate… ([492faa7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/492faa73628a15b276380a555b4a1daa761a051a))
+
 ## [1.40.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.39.1...v1.40.0) (2025-10-03)
 
 
