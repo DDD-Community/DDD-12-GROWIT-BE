@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.39.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.39.0...v1.39.1) (2025-10-03)
+
+
+### Bug Fixes
+
+* **advice:** Add missing line for copywriting field in AiMentorAdviceResponse ([ab2a75f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ab2a75f6bee3d60615a0b224658f426a962b8a6f))
+* **advice:** 오늘의 조언 내용 생성 추가 ([ea93b7e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ea93b7e2972c43e4adf11848038f22bd09c119d6))
+* **advice:** 오늘의 조언 내용 생성 추가가 ([ea65f0d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ea65f0d875b326911b16375676c2959e52683b44))
+
 ## [1.39.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.38.0...v1.39.0) (2025-10-03)
 
 
