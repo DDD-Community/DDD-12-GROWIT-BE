@@ -14,6 +14,6 @@ public class PlanRequestDto {
   private int weekOfMonth;
 
   //  @NotBlank(message = "{validation.goal.plan.content.required}")
-  @Size(max = 20, message = "{validation.goal.plan.content.size}")
+  @Size(message = "{validation.goal.plan.content.size}")
   private String content;
 }
