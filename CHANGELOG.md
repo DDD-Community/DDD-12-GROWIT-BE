@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.43.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.43.0...v1.43.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* 환경 변수로 JWT 만료 시간 설정 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([1961278](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/19612782c9f0296bf53b8173b4fe6aef0a342578))
+
 ## [1.43.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.42.0...v1.43.0) (2025-10-04)
 
 
