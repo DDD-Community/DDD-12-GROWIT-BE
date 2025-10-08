@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.43.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.42.0...v1.43.0) (2025-10-04)
+
+
+### Features
+
+* PlanRequestDto에서 content 필드의 유효성 검증 메시지 수정 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([0d1e12d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0d1e12d24d1a69e035dac11b2f4aa0b602518269))
+
 ## [1.42.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.41.0...v1.42.0) (2025-10-03)
 
 
