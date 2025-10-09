@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.44.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.0...v1.44.1) (2025-10-09)
+
+
+### Bug Fixes
+
+* 테이블 이름 변경으로 user_status를 user_stats로 수정 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([fb2ce89](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fb2ce8927daf068d31f0b111bb0b64976b2db02f))
+
 ## [1.44.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.43.1...v1.44.0) (2025-10-09)
 
 
