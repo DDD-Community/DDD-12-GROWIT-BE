@@ -8,6 +8,7 @@ import com.growit.app.user.controller.dto.response.OAuthResponse;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.domain.token.service.JwtClaimKeys;
 import com.growit.app.user.domain.token.service.TokenService;
+import com.growit.app.user.domain.token.service.UserTokenSaver;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.domain.user.User;
 import jakarta.servlet.http.Cookie;
@@ -39,11 +40,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private static final List<String> ALLOWED_REDIRECT_HOSTS =
       List.of("localhost:3000", "grow-it.me");
 
+  private final UserTokenSaver userTokenSaver;
   private final TokenService tokenService;
   private final OAuth2AuthorizedClientService authorizedClientService;
 
   public OAuth2LoginSuccessHandler(
-      TokenService tokenService, OAuth2AuthorizedClientService authorizedClientService) {
+    UserTokenSaver userTokenSaver, TokenService tokenService, OAuth2AuthorizedClientService authorizedClientService) {
+    this.userTokenSaver = userTokenSaver;
     this.tokenService = tokenService;
     this.authorizedClientService = authorizedClientService;
   }
@@ -128,6 +131,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
       HttpServletRequest req, HttpServletResponse res, User user, Authentication authentication)
       throws IOException {
     Token token = tokenService.createToken(user);
+    userTokenSaver.saveUserToken(user.getId(), token);
 
     String redirectUri = getRedirectUriFromSession(req);
     if (redirectUri != null && !redirectUri.isBlank()) {
