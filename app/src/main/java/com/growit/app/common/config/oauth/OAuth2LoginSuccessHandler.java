@@ -45,7 +45,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private final OAuth2AuthorizedClientService authorizedClientService;
 
   public OAuth2LoginSuccessHandler(
-    UserTokenSaver userTokenSaver, TokenService tokenService, OAuth2AuthorizedClientService authorizedClientService) {
+      UserTokenSaver userTokenSaver,
+      TokenService tokenService,
+      OAuth2AuthorizedClientService authorizedClientService) {
     this.userTokenSaver = userTokenSaver;
     this.tokenService = tokenService;
     this.authorizedClientService = authorizedClientService;
