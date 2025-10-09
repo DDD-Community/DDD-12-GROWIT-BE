@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.44.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.43.1...v1.44.0) (2025-10-09)
+
+
+### Features
+
+* **oauth:** User 토큰 저장 로직 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([564556d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/564556dde3cb725b39577292211d4e3720965b98))
+* **oauth:** User 토큰 저장 로직 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([8fdbf90](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8fdbf90b440fa503954bf1106f30945d959ec2a9))
+
 ## [1.43.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.43.0...v1.43.1) (2025-10-08)
 
 
