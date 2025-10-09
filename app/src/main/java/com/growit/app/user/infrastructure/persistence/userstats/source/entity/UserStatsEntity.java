@@ -8,7 +8,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "user_status")
+@Table(name = "user_stats")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
