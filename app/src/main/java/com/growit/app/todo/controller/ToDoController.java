@@ -63,7 +63,7 @@ public class ToDoController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<ApiResponse<String>> statusChangeToDo(
+  public ResponseEntity<ApiResponse<String>> changeStatus(
       @PathVariable String id,
       @AuthenticationPrincipal User user,
       @Valid @RequestBody CompletedStatusChangeRequest request) {
