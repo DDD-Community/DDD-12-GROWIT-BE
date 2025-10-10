@@ -7,9 +7,13 @@ import static org.mockito.BDDMockito.then;
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
 import com.growit.app.fake.advice.MentorAdviceFixture;
+import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.user.UserFixture;
+import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,8 +33,11 @@ class GetMentorAdviceUseCaseTest {
   void givenUser_whenExecute_thenReturnGeneratedAdvice() {
     // given
     User user = UserFixture.defaultUser();
+    Goal progressGoal = GoalFixture.defaultGoal();
     MentorAdvice expectedAdvice = MentorAdviceFixture.defaultMentorAdvice();
 
+    given(getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS))
+        .willReturn(List.of(progressGoal));
     given(generateMentorAdviceUseCase.execute(user)).willReturn(expectedAdvice);
 
     // when
