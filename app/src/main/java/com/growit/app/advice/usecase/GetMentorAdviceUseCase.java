@@ -23,8 +23,8 @@ public class GetMentorAdviceUseCase {
   private final GenerateMentorAdviceUseCase generateMentorAdviceUseCase;
 
   public MentorAdvice execute(User user) {
-      Goal currentGoal = getCurrentProgressGoal(user);
-      return getOrCreateMentorAdvice(user, currentGoal.getId());
+    Goal currentGoal = getCurrentProgressGoal(user);
+    return getOrCreateMentorAdvice(user, currentGoal.getId());
   }
 
   private Goal getCurrentProgressGoal(User user) {
