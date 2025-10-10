@@ -5,6 +5,7 @@ import static com.growit.app.advice.infrastructure.persistence.mentor.source.ent
 
 import com.growit.app.advice.infrastructure.persistence.mentor.source.entity.MentorAdviceEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,15 @@ public class MentorAdviceCustomRepositoryImpl implements MentorAdviceCustomRepos
             .selectFrom(mentorAdviceEntity)
             .leftJoin(mentorAdviceEntity.kpt, mentorAdviceKPTEntity)
             .fetchJoin()
-            .where(mentorAdviceEntity.userId.eq(userId).and(mentorAdviceEntity.goalId.eq(goalId)))
+            .where(
+                mentorAdviceEntity
+                    .userId
+                    .eq(userId)
+                    .and(mentorAdviceEntity.goalId.eq(goalId))
+                    .and(
+                        mentorAdviceEntity.updatedAt.between(
+                            LocalDate.now().atStartOfDay(),
+                            LocalDate.now().plusDays(1).atStartOfDay())))
             .fetchOne());
   }
 
