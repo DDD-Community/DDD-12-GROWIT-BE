@@ -1,5 +1,7 @@
 package com.growit.app.advice.usecase;
 
+import static com.growit.app.common.util.message.ErrorCode.GOAL_PROGRESS_NOTFOUND;
+
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
 import com.growit.app.common.exception.NotFoundException;
@@ -15,9 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class GetMentorAdviceUseCase {
-
-  private static final String NO_PROGRESS_GOAL_MESSAGE = "현재 진행중인 목표가 존재하지 않습니다.";
-
   private final MentorAdviceRepository mentorAdviceRepository;
   private final GetUserGoalsUseCase getUserGoalsUseCase;
   private final GenerateMentorAdviceUseCase generateMentorAdviceUseCase;
@@ -30,7 +29,7 @@ public class GetMentorAdviceUseCase {
   private Goal getCurrentProgressGoal(User user) {
     return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream()
         .findFirst()
-        .orElseThrow(() -> new NotFoundException(NO_PROGRESS_GOAL_MESSAGE));
+        .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 
   private MentorAdvice getOrCreateMentorAdvice(User user, String goalId) {
