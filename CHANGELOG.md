@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.45.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.2...v1.45.0) (2025-10-10)
+
+
+### Features
+
+* **314/ai:** 코드 포맷 수정 및 정렬 개선으로 가독성 향상 ([ef44e24](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ef44e2402a006326a11525cd2eb5feab1e15a0ef))
+* **314/ai:** 코드 포맷 수정 및 정렬 개선으로 가독성 향상 ([c470251](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c470251281c608ff07a2a53592f1c42d96064d83))
+
+
+### Bug Fixes
+
+* 현재 목표 조회 및 멘토 조언 생성 로직 수정 (이슈 [#314](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/314)) ([b0f002e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b0f002ede9cbfafabb486955a87188b6d01505a8))
+* 현재 목표 조회 및 멘토 조언 생성 로직 수정 (이슈 [#314](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/314)) ([6768a92](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6768a925a7f7dd0c93d7ca0cd06be96129b74b16))
+
 ## [1.44.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.1...v1.44.2) (2025-10-10)
 
 
