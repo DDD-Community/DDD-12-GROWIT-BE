@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.44.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.1...v1.44.2) (2025-10-10)
+
+
+### Bug Fixes
+
+* 유효성 검사 조건 수정 및 테스트 메서드 이름 변경 ([#311](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/311)) ([7fe091e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7fe091ecbc8a3cd7690b9e804683317c85c2b1e4))
+* 유효성 검사 조건 수정 및 테스트 메서드 이름 변경 ([#311](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/311)) ([ebacbc2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ebacbc205276296c11639bb67874744919fb46b3))
+
 ## [1.44.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.0...v1.44.1) (2025-10-09)
 
 
