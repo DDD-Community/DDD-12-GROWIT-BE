@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.46.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.0...v1.46.1) (2025-10-11)
+
+
+### Bug Fixes
+
+* 불필요한 예외 처리 제거 및 멘토 조언 생성 로직 정리 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([378c8f6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/378c8f66497bc471ef376d0ce5a281c412211c95))
+
 ## [1.46.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.45.0...v1.46.0) (2025-10-10)
 
 
