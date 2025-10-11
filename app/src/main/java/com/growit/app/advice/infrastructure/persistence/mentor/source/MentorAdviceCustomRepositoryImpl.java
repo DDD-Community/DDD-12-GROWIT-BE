@@ -28,11 +28,7 @@ public class MentorAdviceCustomRepositoryImpl implements MentorAdviceCustomRepos
                 mentorAdviceEntity
                     .userId
                     .eq(userId)
-                    .and(mentorAdviceEntity.goalId.eq(goalId))
-                    .and(
-                        mentorAdviceEntity.updatedAt.between(
-                            LocalDate.now().atStartOfDay(),
-                            LocalDate.now().plusDays(1).atStartOfDay())))
+                    .and(mentorAdviceEntity.goalId.eq(goalId)))
             .fetchOne());
   }
 
