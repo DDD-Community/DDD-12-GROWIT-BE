@@ -65,14 +65,9 @@ public class GenerateMentorAdviceUseCase {
       return Optional.empty(); // 알 수 없는 멘토 - 스킵
     }
 
-    try {
-      MentorAdviceData data = dataCollector.collectData(user, goal);
-      MentorAdvice advice = mentorAdviceService.generateAdvice(user, goal, data);
-      return Optional.of(advice);
-    } catch (Exception e) {
-      // AI 서버 오류 등은 실제 에러로 전파
-      throw e;
-    }
+    MentorAdviceData data = dataCollector.collectData(user, goal);
+    MentorAdvice advice = mentorAdviceService.generateAdvice(user, goal, data);
+    return Optional.of(advice);
   }
 
   private Goal getCurrentProgressGoal(User user) {
