@@ -13,12 +13,13 @@ import org.springframework.stereotype.Repository;
 public class MentorAdviceRepositoryImpl implements MentorAdviceRepository {
 
   private final MentorAdviceJpaRepository mentorAdviceJpaRepository;
+  private final MentorAdviceDBMapper mentorAdviceDBMapper;
 
   @Override
   public Optional<MentorAdvice> findByUserIdAndGoalId(String userId, String goalId) {
     return mentorAdviceJpaRepository
         .findByUserIdAndGoalId(userId, goalId)
-        .map(MentorAdviceEntity::toDomain);
+        .map(mentorAdviceDBMapper::toDomain);
   }
 
   @Override
@@ -31,7 +32,7 @@ public class MentorAdviceRepositoryImpl implements MentorAdviceRepository {
               mentorAdviceJpaRepository.save(entity);
             },
             () -> {
-              MentorAdviceEntity entity = MentorAdviceEntity.from(mentorAdvice);
+              MentorAdviceEntity entity = mentorAdviceDBMapper.toEntity(mentorAdvice);
               mentorAdviceJpaRepository.save(entity);
             });
   }

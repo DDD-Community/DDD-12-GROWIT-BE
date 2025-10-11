@@ -34,10 +34,12 @@ public class MentorAdviceKPTEntity extends BaseEntity {
     this.tryNext = kpt.getTryNext();
   }
 
+  @Deprecated(forRemoval = true)
   public MentorAdvice.Kpt toDomain() {
     return new MentorAdvice.Kpt(this.keep, this.problem, this.tryNext);
   }
 
+  @Deprecated(forRemoval = true)
   public static MentorAdviceKPTEntity from(
       MentorAdvice.Kpt kpt, MentorAdviceEntity mentorAdviceEntity) {
     return MentorAdviceKPTEntity.builder()

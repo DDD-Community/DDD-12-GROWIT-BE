@@ -2,6 +2,8 @@ package com.growit.app.advice.domain.mentor.service;
 
 import com.growit.app.advice.domain.mentor.MentorAdvice;
 import com.growit.app.common.util.IDGenerator;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Random;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class MockMentorService implements MentorService {
         goalId,
         false, // 새로 생성된 조언은 미확인 상태
         mockMessage,
-        mockKpt);
+        mockKpt,
+        LocalDateTime.now(ZoneOffset.UTC));
   }
 }

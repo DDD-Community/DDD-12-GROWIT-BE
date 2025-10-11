@@ -23,7 +23,17 @@ public class GetMentorAdviceUseCase {
 
   public MentorAdvice execute(User user) {
     Goal currentGoal = getCurrentProgressGoal(user);
-    return getOrCreateMentorAdvice(user, currentGoal.getId());
+    MentorAdvice existingAdvice = findExistingAdvice(user.getId(), currentGoal.getId());
+
+    if (existingAdvice == null) {
+      return createNewMentorAdvice(user);
+    }
+
+    if (shouldFetchNewAdvice(existingAdvice)) {
+      return createNewMentorAdvice(user);
+    }
+
+    return updateExistingAdviceAsChecked(existingAdvice);
   }
 
   private Goal getCurrentProgressGoal(User user) {
@@ -32,19 +42,19 @@ public class GetMentorAdviceUseCase {
         .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 
-  private MentorAdvice getOrCreateMentorAdvice(User user, String goalId) {
-    return mentorAdviceRepository
-        .findByUserIdAndGoalId(user.getId(), goalId)
-        .map(this::markAsCheckedIfNeeded)
-        .orElseGet(() -> createNewMentorAdvice(user));
+  private MentorAdvice findExistingAdvice(String userId, String goalId) {
+    return mentorAdviceRepository.findByUserIdAndGoalId(userId, goalId).orElse(null);
   }
 
-  private MentorAdvice markAsCheckedIfNeeded(MentorAdvice mentorAdvice) {
+  private boolean shouldFetchNewAdvice(MentorAdvice mentorAdvice) {
+    return mentorAdvice.shouldFetch();
+  }
+
+  private MentorAdvice updateExistingAdviceAsChecked(MentorAdvice mentorAdvice) {
     if (!mentorAdvice.isChecked()) {
       mentorAdvice.updateIsChecked(true);
       mentorAdviceRepository.save(mentorAdvice);
     }
-
     return mentorAdvice;
   }
 

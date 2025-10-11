@@ -4,6 +4,8 @@ import com.growit.app.advice.controller.dto.response.MentorAdviceResponse;
 import com.growit.app.advice.domain.grorong.Grorong;
 import com.growit.app.advice.domain.grorong.vo.Mood;
 import com.growit.app.advice.domain.mentor.MentorAdvice;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class MentorAdviceFixture {
 
@@ -57,6 +59,7 @@ class MentorAdviceBuilder {
   private boolean isChecked = false;
   private String message = "혁신은 단순함에서 시작돼";
   private MentorAdvice.Kpt kpt = MentorAdviceFixture.defaultKpt();
+  private LocalDateTime updatedAt = LocalDateTime.now(ZoneOffset.UTC);
 
   public MentorAdviceBuilder withId(String id) {
     this.id = id;
@@ -88,7 +91,12 @@ class MentorAdviceBuilder {
     return this;
   }
 
+  public MentorAdviceBuilder withUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+    return this;
+  }
+
   public MentorAdvice build() {
-    return new MentorAdvice(id, userId, goalId, isChecked, message, kpt);
+    return new MentorAdvice(id, userId, goalId, isChecked, message, kpt, updatedAt);
   }
 }

@@ -29,26 +29,7 @@ public class MentorAdviceEntity extends BaseEntity {
   private String message;
 
   @OneToOne(mappedBy = "mentorAdvice", cascade = CascadeType.ALL)
-  private MentorAdviceKPTEntity kpt;
-
-  public static MentorAdviceEntity from(MentorAdvice mentorAdvice) {
-    MentorAdviceEntity entity =
-        MentorAdviceEntity.builder()
-            .userId(mentorAdvice.getUserId())
-            .goalId(mentorAdvice.getGoalId())
-            .isChecked(mentorAdvice.isChecked())
-            .message(mentorAdvice.getMessage())
-            .build();
-
-    entity.kpt = MentorAdviceKPTEntity.from(mentorAdvice.getKpt(), entity);
-
-    return entity;
-  }
-
-  public MentorAdvice toDomain() {
-    MentorAdvice.Kpt kptDomain = kpt != null ? kpt.toDomain() : null;
-    return new MentorAdvice(getId().toString(), userId, goalId, isChecked, message, kptDomain);
-  }
+  public MentorAdviceKPTEntity kpt;
 
   public void updateByDomain(MentorAdvice mentorAdvice) {
     this.isChecked = mentorAdvice.isChecked();
