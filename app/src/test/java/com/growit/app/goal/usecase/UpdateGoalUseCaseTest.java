@@ -38,7 +38,6 @@ class UpdateGoalUseCaseTest {
 
     // then
     verify(goalQuery).getMyGoal(command.id(), command.userId());
-    verify(goalValidator).checkGoalDuration(command.duration());
     verify(goalValidator).checkPlans(command.duration(), command.plans());
     verify(goalRepository).saveGoal(same(goal));
   }

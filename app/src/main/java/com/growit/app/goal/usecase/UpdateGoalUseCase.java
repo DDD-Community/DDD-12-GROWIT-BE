@@ -19,7 +19,6 @@ public class UpdateGoalUseCase {
   @Transactional
   public void execute(UpdateGoalCommand command) {
     final Goal goal = goalQuery.getMyGoal(command.id(), command.userId());
-    goalValidator.checkGoalDuration(command.duration());
     goalValidator.checkPlans(command.duration(), command.plans());
     goal.updateByCommand(command, goal.getUpdateStatus());
 
