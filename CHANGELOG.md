@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.46.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.1...v1.46.2) (2025-10-15)
+
+
+### Bug Fixes
+
+* goalValidator의 checkGoalDuration 호출 제거 (issue [#322](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/322)) ([f2b3ec3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f2b3ec3f27c037a7547a5544d9d1f4ff97e80967))
+* goalValidator의 checkGoalDuration 호출 제거 (issue [#322](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/322)) ([0e0e685](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0e0e68554fbbdcb0a278fcb8f3f5d36621c75335))
+
 ## [1.46.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.0...v1.46.1) (2025-10-11)
 
 
