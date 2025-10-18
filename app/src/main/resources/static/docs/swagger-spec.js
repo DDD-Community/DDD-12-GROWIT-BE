@@ -256,7 +256,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-29\",\n        \"endDate\" : \"2025-10-05\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"HrVzzN_RDuLilWXuNgqP2\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-10-13\",\n        \"endDate\" : \"2025-10-19\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"VvvkHRqqus_N4X6xrkkyv\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"UAwi4iPnfp90y8cTs2UrW\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"Whv27KSrrYRfM3ZgmMqAW\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -403,10 +403,10 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goals" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-29\",\n      \"endDate\" : \"2025-10-05\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-29\",\n        \"endDate\" : \"2025-10-05\"\n      }\n    } ],\n    \"mentor\" : \"TIM_COOK\"\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-10-13\",\n      \"endDate\" : \"2025-10-19\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-10-13\",\n        \"endDate\" : \"2025-10-19\"\n      }\n    } ],\n    \"mentor\" : \"TIM_COOK\"\n  } ]\n}"
                   },
                   "get-goals-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-29\",\n      \"endDate\" : \"2025-10-05\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-29\",\n        \"endDate\" : \"2025-10-05\"\n      }\n    } ],\n    \"mentor\" : \"TIM_COOK\"\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-10-13\",\n      \"endDate\" : \"2025-10-19\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-10-13\",\n        \"endDate\" : \"2025-10-19\"\n      }\n    } ],\n    \"mentor\" : \"TIM_COOK\"\n  } ]\n}"
                   }
                 }
               }
@@ -427,7 +427,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-10-06\",\n    \"endDate\" : \"2025-11-02\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"STUDY\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-10-20\",\n    \"endDate\" : \"2025-11-16\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"STUDY\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -443,7 +443,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "create-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"UwUbCyNDZzJIDMKAiUlXa\",\n    \"mentor\" : \"TIM_COOK\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"cYPxMVWJwS7RKjCe1au62\",\n    \"mentor\" : \"CONFUCIUS\"\n  }\n}"
                   }
                 }
               }
@@ -477,7 +477,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-09-29\",\n      \"endDate\" : \"2025-10-05\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-09-29\",\n        \"endDate\" : \"2025-10-05\"\n      }\n    } ],\n    \"mentor\" : \"TIM_COOK\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"duration\" : {\n      \"startDate\" : \"2025-10-13\",\n      \"endDate\" : \"2025-10-19\"\n    },\n    \"toBe\" : \"TOBE\",\n    \"category\" : \"STUDY\",\n    \"plans\" : [ {\n      \"id\" : \"plan-1\",\n      \"weekOfMonth\" : 1,\n      \"content\" : \"그로잇 완성\",\n      \"duration\" : {\n        \"startDate\" : \"2025-10-13\",\n        \"endDate\" : \"2025-10-19\"\n      }\n    } ],\n    \"mentor\" : \"TIM_COOK\"\n  }\n}"
                   }
                 }
               }
@@ -507,7 +507,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-10-06\",\n    \"endDate\" : \"2025-11-02\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"STUDY\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-10-20\",\n    \"endDate\" : \"2025-11-16\"\n  },\n  \"toBe\" : \"배포 완료\",\n  \"category\" : \"STUDY\",\n  \"plans\" : [ {\n    \"weekOfMonth\" : 1,\n    \"content\" : \"기획 및 설계 회의\"\n  }, {\n    \"weekOfMonth\" : 2,\n    \"content\" : \"디자인 시안 뽑기\"\n  }, {\n    \"weekOfMonth\" : 3,\n    \"content\" : \"프론트 개발 및 백 개발 완료\"\n  }, {\n    \"weekOfMonth\" : 4,\n    \"content\" : \"배포 완료\"\n  } ]\n}"
                 }
               }
             }
@@ -962,10 +962,10 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-today-mission" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-29\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-29\",\n    \"isCompleted\" : false\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"id\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-10-18\",\n    \"isCompleted\" : false\n  }, {\n    \"id\" : \"id2\",\n    \"goalId\" : \"goalId\",\n    \"planId\" : \"planId\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-10-18\",\n    \"isCompleted\" : false\n  } ]\n}"
                   },
                   "get-weekly-plan" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-09-29\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ {\n      \"id\" : \"todoId\",\n      \"goalId\" : \"goal-123\",\n      \"planId\" : \"plan-456\",\n      \"date\" : \"2025-10-18\",\n      \"content\" : \"목표\",\n      \"isCompleted\" : true\n    } ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
                   }
                 }
               }
@@ -986,7 +986,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-09-29\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-10-18\",\n  \"content\" : \"할 일 예시 내용입니다.\"\n}"
                 }
               }
             }
@@ -1036,7 +1036,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-09-29\",\n    \"isCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"planId\" : \"plan-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-10-18\",\n    \"isCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -1066,7 +1066,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-09-29\",\n  \"content\" : \"수정된 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-10-18\",\n  \"content\" : \"수정된 내용\"\n}"
                 }
               }
             }
@@ -1420,6 +1420,55 @@ window.swaggerSpec={
           }
         }
       }
+    },
+    "/users/myprofile/promotion" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "프로모션 등록",
+        "description" : "프로모션 등록",
+        "operationId" : "register-promotion",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "JWT (Your Token)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Bearer mock-jwt-token"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/users-myprofile-promotion-954185825"
+              },
+              "examples" : {
+                "register-promotion" : {
+                  "value" : "{\n  \"code\" : \"PROMO2024\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/users-myprofile-promotion506539620"
+                },
+                "examples" : {
+                  "register-promotion" : {
+                    "value" : "{\n  \"data\" : \"등록되었습니다\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -1430,6 +1479,24 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "업데이트 성공 메세지"
+          }
+        }
+      },
+      "goals-1062664024" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "mentor" : {
+                "type" : "string",
+                "description" : "멘토"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              }
+            }
           }
         }
       },
@@ -1460,21 +1527,328 @@ window.swaggerSpec={
           }
         }
       },
-      "goals-1062664024" : {
+      "goals-id-1610094206" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "삭제가 완료 되었습니다."
+          }
+        }
+      },
+      "resource-saying2030450560" : {
         "type" : "object",
         "properties" : {
           "data" : {
             "type" : "object",
             "properties" : {
-              "mentor" : {
+              "from" : {
                 "type" : "string",
-                "description" : "멘토"
+                "description" : "격언 출처"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "격언 내용"
+              }
+            }
+          }
+        }
+      },
+      "externals-invitations83146364" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "message" : {
+                "type" : "string",
+                "description" : "응답 메시지"
+              }
+            }
+          }
+        }
+      },
+      "todos881536773" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 ID"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "할 일 내용 (5자 이상 30자 미만)"
+          }
+        }
+      },
+      "users-myprofile-1476599188" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "탈퇴 성공 메세지"
+          }
+        }
+      },
+      "auth-reissue356149288" : {
+        "type" : "object",
+        "properties" : {
+          "refreshToken" : {
+            "type" : "string",
+            "description" : "리프레시 토큰"
+          }
+        }
+      },
+      "goal-retrospects-942583737" : {
+        "type" : "object",
+        "properties" : {
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 아이디"
+          }
+        }
+      },
+      "advice-mentor-1216775327" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "message" : {
+                "type" : "string",
+                "description" : "멘토 조언 메시지"
+              },
+              "isChecked" : {
+                "type" : "boolean",
+                "description" : "조언 확인 여부"
+              },
+              "kpt" : {
+                "type" : "object",
+                "properties" : {
+                  "problem" : {
+                    "type" : "string",
+                    "description" : "Problem - 문제점"
+                  },
+                  "tryNext" : {
+                    "type" : "string",
+                    "description" : "Try - 시도할 것"
+                  },
+                  "keep" : {
+                    "type" : "string",
+                    "description" : "Keep - 계속할 것"
+                  }
+                },
+                "description" : "KPT 피드백 객체"
+              }
+            }
+          }
+        }
+      },
+      "todos-id-1719108715" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "할 일 날짜 (yyyy-MM-dd)"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 할 일 내용 (5자 이상 30자 미만)"
+          }
+        }
+      },
+      "retrospects-exists1042170112" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "isExist" : {
+                "type" : "boolean",
+                "description" : "회고 존재 여부 (true/false)"
+              }
+            }
+          }
+        }
+      },
+      "goals-me-updatePlan460966616" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 계획 내용"
+          }
+        }
+      },
+      "goal-retrospects-id130578538" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string",
+            "description" : "회고 내용"
+          }
+        }
+      },
+      "todos-face-status253775494" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"
+          }
+        }
+      },
+      "users-myprofile-onboarding-878420979" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "온보딩 완료 성공 메세지"
+          }
+        }
+      },
+      "goals-id-plans-planId-recommendation-92159315" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "AI 추천 내용"
+          }
+        }
+      },
+      "todos-id-1410595756" : {
+        "type" : "object",
+        "properties" : {
+          "isCompleted" : {
+            "type" : "boolean",
+            "description" : "완료 여부"
+          }
+        }
+      },
+      "goal-retrospects-id707367061" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "todoCompletedRate" : {
+                "type" : "number",
+                "description" : "할일 완료율"
+              },
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
               },
               "id" : {
                 "type" : "string",
-                "description" : "목표 ID"
+                "description" : "목표회고 ID"
+              },
+              "analysis" : {
+                "type" : "object",
+                "properties" : {
+                  "summary" : {
+                    "type" : "string",
+                    "description" : "요약"
+                  },
+                  "advice" : {
+                    "type" : "string",
+                    "description" : "조언"
+                  }
+                },
+                "description" : "분석 결과"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "회고 내용"
+              }
+            },
+            "description" : "응답 데이터"
+          }
+        }
+      },
+      "goals-id-1899666440" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "성공 메세지"
+          }
+        }
+      },
+      "retrospects-110945572" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "description" : "회고 목록",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "plan" : {
+                  "type" : "object",
+                  "properties" : {
+                    "weekOfMonth" : {
+                      "type" : "string",
+                      "description" : "계획 주차"
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "계획 ID"
+                    },
+                    "content" : {
+                      "type" : "string",
+                      "description" : "계획 내용"
+                    },
+                    "isCurrentWeek" : {
+                      "type" : "boolean",
+                      "description" : "현재 주차 여부"
+                    }
+                  },
+                  "description" : "계획"
+                },
+                "retrospect" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "string",
+                      "description" : "회고 ID"
+                    },
+                    "kpt" : {
+                      "type" : "object",
+                      "properties" : {
+                        "problem" : {
+                          "type" : "string",
+                          "description" : "Problem - 문제점"
+                        },
+                        "tryNext" : {
+                          "type" : "string",
+                          "description" : "Try - 다음에 시도해볼 것"
+                        },
+                        "keep" : {
+                          "type" : "string",
+                          "description" : "Keep - 계속 유지할 것"
+                        }
+                      },
+                      "description" : "KPT 회고"
+                    }
+                  },
+                  "description" : "회고"
+                }
               }
             }
+          }
+        }
+      },
+      "users-myprofile-promotion-954185825" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "프로모션 코드"
           }
         }
       },
@@ -1501,33 +1875,6 @@ window.swaggerSpec={
           "content" : {
             "type" : "string",
             "description" : "회고 내용(v1)"
-          }
-        }
-      },
-      "goals-id-1610094206" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "description" : "삭제가 완료 되었습니다."
-          }
-        }
-      },
-      "resource-saying2030450560" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "from" : {
-                "type" : "string",
-                "description" : "격언 출처"
-              },
-              "message" : {
-                "type" : "string",
-                "description" : "격언 내용"
-              }
-            }
           }
         }
       },
@@ -1618,20 +1965,6 @@ window.swaggerSpec={
           }
         }
       },
-      "externals-invitations83146364" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "message" : {
-                "type" : "string",
-                "description" : "응답 메시지"
-              }
-            }
-          }
-        }
-      },
       "retrospects-1554052329" : {
         "type" : "object",
         "properties" : {
@@ -1652,57 +1985,6 @@ window.swaggerSpec={
           "data" : {
             "type" : "boolean",
             "description" : "온보딩 진행 여부"
-          }
-        }
-      },
-      "todos881536773" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "할 일 날짜 (yyyy-MM-dd)"
-          },
-          "goalId" : {
-            "type" : "string",
-            "description" : "목표 ID"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "할 일 내용 (5자 이상 30자 미만)"
-          }
-        }
-      },
-      "todos-id203621875" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "date" : {
-                "type" : "string",
-                "description" : "할 일 날짜 (yyyy-MM-dd)"
-              },
-              "goalId" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              },
-              "planId" : {
-                "type" : "string",
-                "description" : "계획 ID"
-              },
-              "id" : {
-                "type" : "string",
-                "description" : "할일 ID"
-              },
-              "content" : {
-                "type" : "string",
-                "description" : "할 일 내용 (5자 이상 30자 미만)"
-              },
-              "isCompleted" : {
-                "type" : "boolean",
-                "description" : "완료 여부"
-              }
-            }
           }
         }
       },
@@ -1740,12 +2022,37 @@ window.swaggerSpec={
           }
         }
       },
-      "users-myprofile-1476599188" : {
+      "todos-id203621875" : {
         "type" : "object",
         "properties" : {
           "data" : {
-            "type" : "string",
-            "description" : "탈퇴 성공 메세지"
+            "type" : "object",
+            "properties" : {
+              "date" : {
+                "type" : "string",
+                "description" : "할 일 날짜 (yyyy-MM-dd)"
+              },
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "planId" : {
+                "type" : "string",
+                "description" : "계획 ID"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "할일 ID"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "할 일 내용 (5자 이상 30자 미만)"
+              },
+              "isCompleted" : {
+                "type" : "boolean",
+                "description" : "완료 여부"
+              }
+            }
           }
         }
       },
@@ -1763,15 +2070,6 @@ window.swaggerSpec={
           "jobRoleId" : {
             "type" : "string",
             "description" : "직무 ID"
-          }
-        }
-      },
-      "auth-reissue356149288" : {
-        "type" : "object",
-        "properties" : {
-          "refreshToken" : {
-            "type" : "string",
-            "description" : "리프레시 토큰"
           }
         }
       },
@@ -1809,12 +2107,12 @@ window.swaggerSpec={
           }
         }
       },
-      "goal-retrospects-942583737" : {
+      "users-myprofile-promotion506539620" : {
         "type" : "object",
         "properties" : {
-          "goalId" : {
+          "data" : {
             "type" : "string",
-            "description" : "목표 아이디"
+            "description" : "프로모션 등록 성공 메세지"
           }
         }
       },
@@ -1979,42 +2277,6 @@ window.swaggerSpec={
           }
         }
       },
-      "advice-mentor-1216775327" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "message" : {
-                "type" : "string",
-                "description" : "멘토 조언 메시지"
-              },
-              "isChecked" : {
-                "type" : "boolean",
-                "description" : "조언 확인 여부"
-              },
-              "kpt" : {
-                "type" : "object",
-                "properties" : {
-                  "problem" : {
-                    "type" : "string",
-                    "description" : "Problem - 문제점"
-                  },
-                  "tryNext" : {
-                    "type" : "string",
-                    "description" : "Try - 시도할 것"
-                  },
-                  "keep" : {
-                    "type" : "string",
-                    "description" : "Keep - 계속할 것"
-                  }
-                },
-                "description" : "KPT 피드백 객체"
-              }
-            }
-          }
-        }
-      },
       "goal-retrospects-1650437255" : {
         "type" : "object",
         "properties" : {
@@ -2097,19 +2359,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id-1719108715" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "할 일 날짜 (yyyy-MM-dd)"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "수정할 할 일 내용 (5자 이상 30자 미만)"
-          }
-        }
-      },
       "auth-signin32710318" : {
         "type" : "object",
         "properties" : {
@@ -2120,29 +2369,6 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
-          }
-        }
-      },
-      "retrospects-exists1042170112" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "isExist" : {
-                "type" : "boolean",
-                "description" : "회고 존재 여부 (true/false)"
-              }
-            }
-          }
-        }
-      },
-      "goals-me-updatePlan460966616" : {
-        "type" : "object",
-        "properties" : {
-          "content" : {
-            "type" : "string",
-            "description" : "수정할 계획 내용"
           }
         }
       },
@@ -2177,15 +2403,6 @@ window.swaggerSpec={
                 }
               }
             }
-          }
-        }
-      },
-      "goal-retrospects-id130578538" : {
-        "type" : "object",
-        "properties" : {
-          "content" : {
-            "type" : "string",
-            "description" : "회고 내용"
           }
         }
       },
@@ -2227,39 +2444,12 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-face-status253775494" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "description" : "얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"
-          }
-        }
-      },
       "users-myprofile-logout1299858205" : {
         "type" : "object",
         "properties" : {
           "data" : {
             "type" : "string",
             "description" : "로그아웃 성공 메세지"
-          }
-        }
-      },
-      "users-myprofile-onboarding-878420979" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "description" : "온보딩 완료 성공 메세지"
-          }
-        }
-      },
-      "goals-id-plans-planId-recommendation-92159315" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "description" : "AI 추천 내용"
           }
         }
       },
@@ -2390,15 +2580,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id-1410595756" : {
-        "type" : "object",
-        "properties" : {
-          "isCompleted" : {
-            "type" : "boolean",
-            "description" : "완료 여부"
-          }
-        }
-      },
       "todos-id1880073077" : {
         "type" : "object",
         "properties" : {
@@ -2462,56 +2643,6 @@ window.swaggerSpec={
                 "description" : "이메일"
               }
             }
-          }
-        }
-      },
-      "goal-retrospects-id707367061" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "todoCompletedRate" : {
-                "type" : "number",
-                "description" : "할일 완료율"
-              },
-              "goalId" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              },
-              "id" : {
-                "type" : "string",
-                "description" : "목표회고 ID"
-              },
-              "analysis" : {
-                "type" : "object",
-                "properties" : {
-                  "summary" : {
-                    "type" : "string",
-                    "description" : "요약"
-                  },
-                  "advice" : {
-                    "type" : "string",
-                    "description" : "조언"
-                  }
-                },
-                "description" : "분석 결과"
-              },
-              "content" : {
-                "type" : "string",
-                "description" : "회고 내용"
-              }
-            },
-            "description" : "응답 데이터"
-          }
-        }
-      },
-      "goals-id-1899666440" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "description" : "성공 메세지"
           }
         }
       },
@@ -2644,70 +2775,6 @@ window.swaggerSpec={
                     }
                   },
                   "description" : "목표 정보"
-                }
-              }
-            }
-          }
-        }
-      },
-      "retrospects-110945572" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "array",
-            "description" : "회고 목록",
-            "items" : {
-              "type" : "object",
-              "properties" : {
-                "plan" : {
-                  "type" : "object",
-                  "properties" : {
-                    "weekOfMonth" : {
-                      "type" : "string",
-                      "description" : "계획 주차"
-                    },
-                    "id" : {
-                      "type" : "string",
-                      "description" : "계획 ID"
-                    },
-                    "content" : {
-                      "type" : "string",
-                      "description" : "계획 내용"
-                    },
-                    "isCurrentWeek" : {
-                      "type" : "boolean",
-                      "description" : "현재 주차 여부"
-                    }
-                  },
-                  "description" : "계획"
-                },
-                "retrospect" : {
-                  "type" : "object",
-                  "properties" : {
-                    "id" : {
-                      "type" : "string",
-                      "description" : "회고 ID"
-                    },
-                    "kpt" : {
-                      "type" : "object",
-                      "properties" : {
-                        "problem" : {
-                          "type" : "string",
-                          "description" : "Problem - 문제점"
-                        },
-                        "tryNext" : {
-                          "type" : "string",
-                          "description" : "Try - 다음에 시도해볼 것"
-                        },
-                        "keep" : {
-                          "type" : "string",
-                          "description" : "Keep - 계속 유지할 것"
-                        }
-                      },
-                      "description" : "KPT 회고"
-                    }
-                  },
-                  "description" : "회고"
                 }
               }
             }
