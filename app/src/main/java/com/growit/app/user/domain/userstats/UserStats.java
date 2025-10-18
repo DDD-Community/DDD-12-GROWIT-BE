@@ -47,6 +47,19 @@ public class UserStats {
     return ChronoUnit.DAYS.between(lastSeenDate, currentDate) >= 3;
   }
 
+  public boolean isActiveUser(int diffDay) {
+    return isActiveUser(LocalDate.now(), diffDay);
+  }
+
+  public boolean isActiveUser(LocalDate currentDate, int diffDay) {
+    if (lastSeenDate == null) {
+      return false;
+    }
+
+    long daysBetween = ChronoUnit.DAYS.between(lastSeenDate, currentDate);
+    return daysBetween <= diffDay;
+  }
+
   public AccessStatus getAccessStatus(LocalDate currentDate) {
     if (hasThreeDayStreak()) {
       return AccessStatus.THREE_DAYS_OR_MORE;

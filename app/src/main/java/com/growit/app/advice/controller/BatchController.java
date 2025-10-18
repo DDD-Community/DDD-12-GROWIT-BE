@@ -20,23 +20,9 @@ public class BatchController {
   @PostMapping("/mentor-advice")
   public ResponseEntity<String> runMentorAdviceScheduler() {
     // 진짜 비동기 실행 - Spring AOP 문제 해결
-    CompletableFuture.runAsync(
-        () -> {
-          mentorAdviceScheduler.generateDailyMentorAdviceAsync();
-        });
+    CompletableFuture.runAsync(mentorAdviceScheduler::generateDailyMentorAdviceAsync);
 
-    return ResponseEntity.ok("멘토 조언 생성 스케줄러가 백그라운드에서 시작되었습니다. 로그를 확인하여 진행 상황을 모니터링하세요.");
-  }
-
-  @PostMapping("/goal-recommendation")
-  public ResponseEntity<String> runGoalRecommendationScheduler() {
-    // 진짜 비동기 실행 - Spring AOP 문제 해결
-    CompletableFuture.runAsync(
-        () -> {
-          mentorAdviceScheduler.generateWeeklyGoalRecommendationAsync();
-        });
-
-    return ResponseEntity.ok("주간 목표 추천 생성 스케줄러가 백그라운드에서 시작되었습니다. 로그를 확인하여 진행 상황을 모니터링하세요.");
+    return ResponseEntity.ok("멘토 조언 생성 스케줄러가 백그라운드에서 시작되었습니다. " + "로그를 확인하여 진행 상황을 모니터링하세요.");
   }
 
   @GetMapping("/status")

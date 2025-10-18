@@ -4,6 +4,7 @@ import com.growit.app.user.domain.userstats.UserStats;
 import com.growit.app.user.domain.userstats.UserStatsRepository;
 import com.growit.app.user.infrastructure.persistence.userstats.source.UserStatsJpaRepository;
 import com.growit.app.user.infrastructure.persistence.userstats.source.entity.UserStatsEntity;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,13 @@ public class UserStatsRepositoryImpl implements UserStatsRepository {
         .findByUserId(userId)
         .map(UserStatsEntity::toDomain)
         .orElse(createDefaultUserStats(userId));
+  }
+
+  @Override
+  public List<UserStats> findByUserIds(List<String> userIds) {
+    return userStatsJpaRepository.findByUserIdIn(userIds).stream()
+        .map(UserStatsEntity::toDomain)
+        .toList();
   }
 
   @Override

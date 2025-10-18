@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MentorAdviceResponseMapper {
-
   public MentorAdviceResponse toResponse(MentorAdvice mentorAdvice) {
     MentorAdviceResponse.KptResponse kpt =
         new MentorAdviceResponse.KptResponse(
