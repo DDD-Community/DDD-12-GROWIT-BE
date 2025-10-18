@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.46.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.2...v1.46.3) (2025-10-18)
+
+
+### Bug Fixes
+
+* GetActiveUsersUseCase 구현 및 UserStatsService 테스트 추가 (이슈 [#325](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/325)) ([3fb5d64](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3fb5d647534e30b2b1f77d032b4c55524edafd4c))
+* GetActiveUsersUseCase 구현 및 UserStatsService 테스트 추가 (이슈 [#325](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/325)) ([a49b67e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a49b67ee7e3b75ee862b35fddb0f1b3c27b911cb))
+
 ## [1.46.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.1...v1.46.2) (2025-10-15)
 
 
