@@ -28,7 +28,7 @@ public class Goal {
   private GoalDuration duration;
   private String toBe;
   private GoalCategory category;
-  @JsonIgnore private GoalUpdateStatus updateStatus;
+  private GoalUpdateStatus updateStatus;
   private List<Plan> plans;
 
   private Mentor mentor;
@@ -59,15 +59,12 @@ public class Goal {
       throw new BadRequestException(GOAL_ENDED_DO_NOT_CHANGE.getCode());
     }
 
-    if ((status == GoalUpdateStatus.PARTIALLY_UPDATABLE)
-        && !Objects.equals(this.duration, command.duration())) {
-      throw new BadRequestException(GOAL_PARTIALLY_DO_NOT_CHANGE_DURATION.getCode());
+    this.name = command.name();
+
+    if (status == GoalUpdateStatus.UPDATABLE) {
+      this.duration = command.duration();
     }
 
-    this.name = command.name();
-    this.toBe = command.toBe();
-    this.category = command.category();
-    this.duration = command.duration();
   }
 
   public boolean checkProgress(GoalStatus status) {
