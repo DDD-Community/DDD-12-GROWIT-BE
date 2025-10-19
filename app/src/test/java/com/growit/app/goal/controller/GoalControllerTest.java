@@ -135,7 +135,10 @@ class GoalControllerTest {
                                 .description("종료일 (yyyy-MM-dd)"),
                             fieldWithPath("data[].plans[].content")
                                 .type(STRING)
-                                .description("계획 내용"))
+                                .description("계획 내용"),
+                            fieldWithPath("data[].updateStatus")
+                                .type(STRING)
+                                .description("목표 업데이트 가능 상태"))
                         .build())));
   }
 
@@ -187,7 +190,8 @@ class GoalControllerTest {
                             fieldWithPath("data.plans[].duration.endDate")
                                 .type(STRING)
                                 .description("종료일 (yyyy-MM-dd)"),
-                            fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"))
+                            fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"),
+                            fieldWithPath("data.updateStatus").type(STRING).description("목표 업데이트 가능 상태"))
                         .build())));
   }
 
@@ -441,7 +445,10 @@ class GoalControllerTest {
                                 .description("종료일 (yyyy-MM-dd)"),
                             fieldWithPath("data[].plans[].content")
                                 .type(STRING)
-                                .description("계획 내용"))
+                                .description("계획 내용"),
+                            fieldWithPath("data[].updateStatus")
+                                .type(STRING)
+                                .description("목표 업데이트 가능 상태"))
                         .build())));
 
     verify(getGoalsByYearUseCase).getGoalsByYear(any(), eq(testYear));
