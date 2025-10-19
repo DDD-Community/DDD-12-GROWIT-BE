@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.47.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.3...v1.47.0) (2025-10-19)
+
+
+### Features
+
+* **goal:** Update Goal class to remove JsonIgnore from updateStatus ([e6d9036](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e6d9036db07d78fbb6d06ce56e9301f91381f272))
+
+
+### Bug Fixes
+
+* **goal:** Add updateStatus field to GoalControllerTest descriptions ([af5a2f8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/af5a2f8d077bfecb855c446adbc9b8ad2e603e8b))
+* spotless ([42ef393](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/42ef39304489349a4cb6be5a05bea5d515fc54ed))
+
 ## [1.46.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.2...v1.46.3) (2025-10-18)
 
 
