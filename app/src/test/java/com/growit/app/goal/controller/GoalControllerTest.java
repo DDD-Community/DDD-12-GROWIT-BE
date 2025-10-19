@@ -191,7 +191,9 @@ class GoalControllerTest {
                                 .type(STRING)
                                 .description("종료일 (yyyy-MM-dd)"),
                             fieldWithPath("data.plans[].content").type(STRING).description("계획 내용"),
-                            fieldWithPath("data.updateStatus").type(STRING).description("목표 업데이트 가능 상태"))
+                            fieldWithPath("data.updateStatus")
+                                .type(STRING)
+                                .description("목표 업데이트 가능 상태"))
                         .build())));
   }
 
