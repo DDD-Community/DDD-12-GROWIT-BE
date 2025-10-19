@@ -80,6 +80,8 @@ jobs:
             SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
             SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
+            JWT_EXPIRED_SECOND= ${{secrets.JWT_EXPIRED_SECOND}}
+            JWT_REFRESH_EXPIRED_SECOND= ${{secrets.JWT_REFRESH_EXPIRED_SECOND}}
             OPEN_API_KEY=${{ secrets.OPEN_API_KEY }}
             KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}
             KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}

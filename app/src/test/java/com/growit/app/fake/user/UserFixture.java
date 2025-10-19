@@ -25,6 +25,10 @@ public class UserFixture {
     return user;
   }
 
+  public static User userWithId(String id) {
+    return new UserBuilder().withId(id).build();
+  }
+
   public static Token defaultToken() {
     return new Token("access", "refresh");
   }

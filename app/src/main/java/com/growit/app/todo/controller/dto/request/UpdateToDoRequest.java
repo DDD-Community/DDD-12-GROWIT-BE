@@ -15,6 +15,6 @@ public class UpdateToDoRequest {
   private LocalDate date;
 
   @NotBlank(message = "{validation.todo.content.required}")
-  @Size(min = 5, max = 30, message = "{validation.todo.content.size}")
+  @Size(min = 1, max = 30, message = "{validation.todo.content.size}")
   private String content;
 }

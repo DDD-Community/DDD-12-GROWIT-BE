@@ -7,6 +7,7 @@ import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.PlanEntity;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -63,6 +64,7 @@ public class GoalDBMapper {
                                     planEntity.getStartDate(), planEntity.getEndDate()))
                             .content(planEntity.getContent())
                             .build())
+                .sorted(Comparator.comparing(Plan::getWeekOfMonth))
                 .toList())
         .updateStatus(entity.getUpdateStatus())
         .isDelete(entity.getDeletedAt() != null)

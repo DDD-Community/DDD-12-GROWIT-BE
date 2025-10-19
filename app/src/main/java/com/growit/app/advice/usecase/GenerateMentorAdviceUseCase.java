@@ -46,33 +46,20 @@ public class GenerateMentorAdviceUseCase {
    */
   public Optional<MentorAdvice> tryExecute(User user) {
     Optional<Goal> currentGoal = getCurrentProgressGoalOptional(user);
-
     if (currentGoal.isEmpty()) {
       return Optional.empty(); // 진행중인 목표 없음
     }
 
     Goal goal = currentGoal.get();
-
     // 멘토 정보 체크
     if (goal.getMentor() == null) {
       return Optional.empty(); // 멘토 정보 없음 - 스킵
     }
 
-    // Goal 엔티티의 mentor 값 검증 (실제로는 항상 유효함)
-    try {
-      validateMentorForAdvice(goal);
-    } catch (IllegalArgumentException e) {
-      return Optional.empty(); // 알 수 없는 멘토 - 스킵
-    }
+    MentorAdviceData data = dataCollector.collectData(user, goal);
+    MentorAdvice advice = mentorAdviceService.generateAdvice(user, goal, data);
 
-    try {
-      MentorAdviceData data = dataCollector.collectData(user, goal);
-      MentorAdvice advice = mentorAdviceService.generateAdvice(user, goal, data);
-      return Optional.of(advice);
-    } catch (Exception e) {
-      // AI 서버 오류 등은 실제 에러로 전파
-      throw e;
-    }
+    return Optional.of(advice);
   }
 
   private Goal getCurrentProgressGoal(User user) {

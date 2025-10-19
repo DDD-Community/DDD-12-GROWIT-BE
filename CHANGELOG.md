@@ -1,5 +1,116 @@
 # Changelog
 
+## [1.46.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.2...v1.46.3) (2025-10-18)
+
+
+### Bug Fixes
+
+* GetActiveUsersUseCase 구현 및 UserStatsService 테스트 추가 (이슈 [#325](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/325)) ([3fb5d64](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3fb5d647534e30b2b1f77d032b4c55524edafd4c))
+* GetActiveUsersUseCase 구현 및 UserStatsService 테스트 추가 (이슈 [#325](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/325)) ([a49b67e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a49b67ee7e3b75ee862b35fddb0f1b3c27b911cb))
+
+## [1.46.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.1...v1.46.2) (2025-10-15)
+
+
+### Bug Fixes
+
+* goalValidator의 checkGoalDuration 호출 제거 (issue [#322](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/322)) ([f2b3ec3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f2b3ec3f27c037a7547a5544d9d1f4ff97e80967))
+* goalValidator의 checkGoalDuration 호출 제거 (issue [#322](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/322)) ([0e0e685](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0e0e68554fbbdcb0a278fcb8f3f5d36621c75335))
+
+## [1.46.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.0...v1.46.1) (2025-10-11)
+
+
+### Bug Fixes
+
+* 불필요한 예외 처리 제거 및 멘토 조언 생성 로직 정리 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([378c8f6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/378c8f66497bc471ef376d0ce5a281c412211c95))
+
+## [1.46.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.45.0...v1.46.0) (2025-10-10)
+
+
+### Features
+
+* **314/ai:** 코드 포맷 수정 및 정렬 개선으로 가독성 향상 ([f68413a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f68413ad719498a98d801ba9bea6c0e7f0ad3dd6))
+* **314/ai:** 코드 포맷 수정 및 정렬 개선으로 가독성 향상 ([06f7f8e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/06f7f8e6e043d0ea0b5f0bf6bd2fe3a7151eef27))
+
+## [1.45.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.2...v1.45.0) (2025-10-10)
+
+
+### Features
+
+* **314/ai:** 코드 포맷 수정 및 정렬 개선으로 가독성 향상 ([ef44e24](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ef44e2402a006326a11525cd2eb5feab1e15a0ef))
+* **314/ai:** 코드 포맷 수정 및 정렬 개선으로 가독성 향상 ([c470251](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c470251281c608ff07a2a53592f1c42d96064d83))
+
+
+### Bug Fixes
+
+* 현재 목표 조회 및 멘토 조언 생성 로직 수정 (이슈 [#314](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/314)) ([b0f002e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b0f002ede9cbfafabb486955a87188b6d01505a8))
+* 현재 목표 조회 및 멘토 조언 생성 로직 수정 (이슈 [#314](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/314)) ([6768a92](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6768a925a7f7dd0c93d7ca0cd06be96129b74b16))
+
+## [1.44.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.1...v1.44.2) (2025-10-10)
+
+
+### Bug Fixes
+
+* 유효성 검사 조건 수정 및 테스트 메서드 이름 변경 ([#311](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/311)) ([7fe091e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7fe091ecbc8a3cd7690b9e804683317c85c2b1e4))
+* 유효성 검사 조건 수정 및 테스트 메서드 이름 변경 ([#311](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/311)) ([ebacbc2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ebacbc205276296c11639bb67874744919fb46b3))
+
+## [1.44.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.44.0...v1.44.1) (2025-10-09)
+
+
+### Bug Fixes
+
+* 테이블 이름 변경으로 user_status를 user_stats로 수정 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([fb2ce89](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fb2ce8927daf068d31f0b111bb0b64976b2db02f))
+
+## [1.44.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.43.1...v1.44.0) (2025-10-09)
+
+
+### Features
+
+* **oauth:** User 토큰 저장 로직 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([564556d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/564556dde3cb725b39577292211d4e3720965b98))
+* **oauth:** User 토큰 저장 로직 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([8fdbf90](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8fdbf90b440fa503954bf1106f30945d959ec2a9))
+
+## [1.43.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.43.0...v1.43.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* 환경 변수로 JWT 만료 시간 설정 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([1961278](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/19612782c9f0296bf53b8173b4fe6aef0a342578))
+
+## [1.43.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.42.0...v1.43.0) (2025-10-04)
+
+
+### Features
+
+* PlanRequestDto에서 content 필드의 유효성 검증 메시지 수정 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([0d1e12d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0d1e12d24d1a69e035dac11b2f4aa0b602518269))
+
+## [1.42.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.41.0...v1.42.0) (2025-10-03)
+
+
+### Features
+
+* 목표 계획 정렬 로직 추가 (이슈 [#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([26405d8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/26405d83593c509902412bfbb8d62d9dc3c27116))
+
+
+### Bug Fixes
+
+* null 체크 강화로 AI 응답의 output이 null인 경우 처리 (#issue번호) ([4fdc14a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4fdc14af8dc78b2ea9a493583ed3636a531012e1))
+
+## [1.41.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.1...v1.41.0) (2025-10-03)
+
+
+### Features
+
+* **300/goal:** goal 엔티티에 멘토 필드 추가 및 생성자 수정 ([0c8c2a9](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0c8c2a9864a5ac8ee941f58597cbb33298983900))
+* **300/goal:** goal 엔티티에 멘토 필드 추가 및 생성자 수정 ([e62fb2c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e62fb2c2be6f483ba81bf23daedfc298fe3142c1))
+
+## [1.40.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.40.0...v1.40.1) (2025-10-03)
+
+
+### Bug Fixes
+
+* **advice:** Clean up equality and hashCode methods in AiMentorAdvice… ([49bcfe8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/49bcfe8685fb2bfcff4133ba7ff6fbbcfe037d29))
+* **advice:** Clean up equality and hashCode methods in AiMentorAdviceRequest ([f32f012](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f32f0129d6f3b5e60ba6c1bbf44eaf8bb7d3dee7))
+* **advice:** Remove recentTodos from MentorAdviceData and relate… ([492faa7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/492faa73628a15b276380a555b4a1daa761a051a))
+
 ## [1.40.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.39.1...v1.40.0) (2025-10-03)
 
 

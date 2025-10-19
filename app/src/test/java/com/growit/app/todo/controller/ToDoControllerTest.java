@@ -174,7 +174,7 @@ class ToDoControllerTest {
   }
 
   @Test
-  void statusChangeToDo() throws Exception {
+  void changeStatus() throws Exception {
     String toDoId = "todo-1";
     willDoNothing().given(statusChangeToDoUseCase).execute(any());
 
