@@ -12,7 +12,6 @@ import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,7 +63,6 @@ public class Goal {
     if (status == GoalUpdateStatus.UPDATABLE) {
       this.duration = command.duration();
     }
-
   }
 
   public boolean checkProgress(GoalStatus status) {
