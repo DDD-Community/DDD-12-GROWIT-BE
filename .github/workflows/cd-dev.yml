@@ -1,21 +1,21 @@
 name: Full CI/CD Pipeline
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - develop
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      ECR_REPOSITORY: growit-app
       CLUSTER_NAME: ${{ secrets.ECS_CLUSTER }}
-      SERVICE_NAME: ${{ secrets.ECS_SERVICE }}
-      ECS_TASK_DEFINITION: ${{ secrets.ECS_TASK_DEFINITION }}
+      SERVICE_NAME: growit-app-service-v2
+      ECS_TASK_DEFINITION: growit-app-service-task-v2
 
     steps:
       - name: Checkout code
@@ -51,7 +51,7 @@ jobs:
       - name: Build Docker image
         run: |
           chmod +x gradlew
-          docker build --build-arg SERVER_PORT=8080 -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION ./app
+          docker build --build-arg SERVER_PORT=8081 -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION ./app
 
       - name: Push Docker image to ECR
         run: |
@@ -87,7 +87,7 @@ jobs:
             KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}
             DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
             AI_MENTOR_URL= ${{secrets.AI_MENTOR_URL}}
-            SERVER_PORT=8080
+            SERVER_PORT=8081
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
