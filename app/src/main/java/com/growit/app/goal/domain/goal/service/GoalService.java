@@ -10,6 +10,7 @@ import com.growit.app.goal.domain.goal.dto.PlanDto;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +25,8 @@ public class GoalService implements GoalValidator, GoalQuery {
 
   @Override
   public void checkGoalExists(String userId) {
-    LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+    // goa
     List<Goal> goal = goalRepository.findByUserIdAndGoalDuration(userId, today);
     if (!goal.isEmpty()) {
       throw new BadRequestException(GOAL_ALREADY_EXISTS.getCode());
@@ -36,7 +38,7 @@ public class GoalService implements GoalValidator, GoalQuery {
   public void checkGoalDuration(GoalDuration duration) {
     LocalDate startDate = duration.startDate();
     LocalDate endDate = duration.endDate();
-    LocalDate today = LocalDate.now().with(DayOfWeek.MONDAY);
+    LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul")).with(DayOfWeek.MONDAY);
 
     if (endDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
       throw new BadRequestException(GOAL_DURATION_SUNDAY.getCode());
