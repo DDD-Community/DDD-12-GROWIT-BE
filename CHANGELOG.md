@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.47.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.47.0...v1.47.1) (2025-11-30)
+
+
+### Bug Fixes
+
+* 서울 타임존 적용 및 주 시작일 계산 로직 수정 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([c208fde](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c208fde2587aa5a4eae2f5c035f79016f645c6be))
+
 ## [1.47.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.46.3...v1.47.0) (2025-10-19)
 
 
