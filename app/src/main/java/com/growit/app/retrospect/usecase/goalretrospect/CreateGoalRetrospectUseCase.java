@@ -18,9 +18,11 @@ import com.growit.app.todo.domain.service.ToDoQuery;
 import com.growit.app.todo.domain.util.ToDoUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateGoalRetrospectUseCase {
@@ -34,12 +36,16 @@ public class CreateGoalRetrospectUseCase {
   @Transactional
   public String execute(CreateGoalRetrospectCommand command) {
     if (goalRetrospectQuery.isExistsByGoalId(command.goalId())) {
-      throw new BadRequestException("이미 목표 회고가 존재합니다"); // message unicode 변경으로 인한 메세지 지정
+      log.warn("이미 목표 회고가 존재함 - GoalId: {}", command.goalId());
+      throw new BadRequestException("이미 목표 회고가 존재합니다");
     }
+
     final Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
     if (!goal.finished()) {
+      log.warn("목표가 완료되지 않음 - GoalId: {}", goal.getId());
       throw new BadRequestException(ErrorCode.GOAL_RETROSPECT_GOAL_NOT_COMPLETED.getCode());
     }
+
     final List<ToDo> todos = toDoQuery.getToDosByGoalId(command.goalId());
     final int todoCompletedRate = ToDoUtils.calculateToDoCompletedRate(todos);
     final List<Retrospect> retrospects =
@@ -47,6 +53,7 @@ public class CreateGoalRetrospectUseCase {
 
     final Analysis analysis = aiAnalysis.generate(new AnalysisDto(goal, retrospects, todos));
 
+    // content는 초기 생성 시에는 없고, 나중에 사용자가 작성하는 필드이므로 빈 문자열로 설정
     final GoalRetrospect goalRetrospect =
         GoalRetrospect.create(goal.getId(), todoCompletedRate, analysis, "");
     goalRetrospectRepository.save(goalRetrospect);
