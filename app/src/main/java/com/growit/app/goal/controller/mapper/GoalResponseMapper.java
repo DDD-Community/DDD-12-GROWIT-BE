@@ -4,6 +4,7 @@ import com.growit.app.goal.controller.dto.response.GoalCreateResponse;
 import com.growit.app.goal.controller.dto.response.GoalDetailResponse;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,15 +19,15 @@ public class GoalResponseMapper {
     );
   }
 
-  public GoalDetailResponse toDetailResponse(Goal goal) {
+  public GoalDetailResponse toDetailResponse(Goal goal, GoalAnalysis analysis) {
     return new GoalDetailResponse(
         goal.getId(),
         goal.getName(),
         toDetailPlanetDto(goal),
         toDurationDto(goal),
         mapGoalStatus(goal.getStatus()),
-        createDefaultAnalysis(), // 기본 분석 정보 제공
-        LocalDateTime.now() // TODO: Goal에 createdAt 필드 추가 필요
+        toAnalysisDto(analysis),
+        goal.isCompleted() // isChecked는 목표 완료 여부로 설정
     );
   }
 
@@ -54,19 +55,29 @@ public class GoalResponseMapper {
     );
   }
 
-  private GoalDetailResponse.AnalysisDto createDefaultAnalysis() {
-    // 기본 분석 정보를 제공
+  private GoalDetailResponse.AnalysisDto toAnalysisDto(GoalAnalysis analysis) {
     return new GoalDetailResponse.AnalysisDto(
-        0,
-        "목표를 시작했습니다. 화이팅!"
+        analysis.todoCompletedRate(),
+        analysis.summary()
     );
   }
 
-  private String mapGoalStatus(com.growit.app.goal.domain.goal.vo.GoalStatus status) {
+  private String mapGoalStatus(GoalStatus status) {
     return switch (status) {
       case IN_PROGRESS, PROGRESS -> "PROGRESS";
       case COMPLETED, ENDED -> "ENDED";
       default -> "PROGRESS";
+    };
+  }
+
+  public GoalStatus mapToGoalStatus(String status) {
+    if (status == null) {
+      return GoalStatus.NONE;
+    }
+    return switch (status.toUpperCase()) {
+      case "PROGRESS" -> GoalStatus.PROGRESS;
+      case "ENDED" -> GoalStatus.COMPLETED;
+      default -> GoalStatus.NONE;
     };
   }
 }

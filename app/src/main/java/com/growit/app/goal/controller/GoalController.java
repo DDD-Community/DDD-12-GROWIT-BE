@@ -10,6 +10,7 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.*;
+import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -34,20 +35,23 @@ public class GoalController {
   @GetMapping
   public ResponseEntity<ApiResponse<List<GoalDetailResponse>>> getMyGoals(
       @AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
-    GoalStatus goalStatus = mapToGoalStatus(status);
-    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, goalStatus);
-    List<GoalDetailResponse> responses = goals.stream()
-        .map(goalResponseMapper::toDetailResponse)
+    GoalStatus goalStatus = goalResponseMapper.mapToGoalStatus(status);
+    List<GoalWithAnalysisDto> goalWithAnalysis = getUserGoalsUseCase.getMyGoals(user, goalStatus);
+    List<GoalDetailResponse> responses = goalWithAnalysis.stream()
+        .map(dto -> goalResponseMapper.toDetailResponse(dto.getGoal(), dto.getAnalysis()))
         .toList();
+
     return ResponseEntity.ok(ApiResponse.success(responses));
   }
 
 
-  @GetMapping("{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<GoalDetailResponse>> getGoalById(
       @PathVariable String id, @AuthenticationPrincipal User user) {
-    Goal goal = getGoalUseCase.getGoal(id, user);
-    return ResponseEntity.ok(ApiResponse.success(goalResponseMapper.toDetailResponse(goal)));
+    GoalWithAnalysisDto goalWithAnalysis = getGoalUseCase.getGoal(id, user);
+
+    return ResponseEntity.ok(ApiResponse.success(
+        goalResponseMapper.toDetailResponse(goalWithAnalysis.getGoal(), goalWithAnalysis.getAnalysis())));
   }
 
   @PostMapping
@@ -55,13 +59,13 @@ public class GoalController {
       @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
     CreateGoalCommand command = goalRequestMapper.toCommand(user.getId(), request);
     CreateGoalResult result = createGoalUseCase.execute(command);
-    Goal goal = getGoalUseCase.getGoal(result.id(), user);
+    GoalWithAnalysisDto goalWithAnalysis = getGoalUseCase.getGoal(result.id(), user);
 
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(ApiResponse.success(goalResponseMapper.toCreateResponse(goal)));
+        .body(ApiResponse.success(goalResponseMapper.toCreateResponse(goalWithAnalysis.getGoal())));
   }
 
-  @PutMapping("{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> updateGoal(
       @PathVariable String id,
       @AuthenticationPrincipal User user,
@@ -72,23 +76,12 @@ public class GoalController {
     return ResponseEntity.ok(ApiResponse.success("목표가 수정 완료되었습니다."));
   }
 
-  @DeleteMapping("{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
       @PathVariable String id, @AuthenticationPrincipal User user) {
     DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
 
     return ResponseEntity.ok(ApiResponse.success("삭제되었습니다."));
-  }
-
-  private GoalStatus mapToGoalStatus(String status) {
-    if (status == null) {
-      return GoalStatus.NONE;
-    }
-    return switch (status.toUpperCase()) {
-      case "PROGRESS" -> GoalStatus.PROGRESS;
-      case "ENDED" -> GoalStatus.COMPLETED;
-      default -> GoalStatus.NONE;
-    };
   }
 }

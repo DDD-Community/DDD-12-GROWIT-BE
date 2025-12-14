@@ -13,7 +13,7 @@ public class GoalDetailResponse {
   private DurationDto duration;
   private String status;
   private AnalysisDto analysis;
-  private LocalDateTime createdAt;
+  private boolean isChecked;
 
   @Getter
   @AllArgsConstructor

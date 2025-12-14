@@ -2,20 +2,15 @@ package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.Planet;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.*;
 
 @Entity
-@Table(
-    name = "goals",
-    uniqueConstraints = {
-      @UniqueConstraint(
-          name = "uk_goals_user_id_end_date",
-          columnNames = {"user_id", "end_date"})
-    })
+@Table(name = "goals")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,17 +33,46 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false)
   private LocalDate endDate;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "planet_id")
+  private PlanetEntity planet;
+
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   @Builder.Default
-  private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
+  private GoalStatus status = GoalStatus.IN_PROGRESS;
 
-  // Plans relationship removed as plan domain has been deleted
+  public Goal toDomain() {
+    Planet domainPlanet = planet.toDomain();
+    GoalDuration duration = new GoalDuration(startDate, endDate);
+    Goal goal = Goal.create(uid, name, userId, domainPlanet, duration);
+    
+    // Status 설정
+    if (status == GoalStatus.COMPLETED) {
+      goal.complete();
+    }
+    
+    return goal;
+  }
 
-  public void updateToByDomain(Goal goal) {
+  public static GoalEntity fromDomain(Goal goal, String userId, PlanetEntity planetEntity) {
+    GoalDuration duration = goal.getDuration();
+    
+    return GoalEntity.builder()
+        .uid(goal.getId())
+        .userId(userId)
+        .name(goal.getName())
+        .startDate(duration.startDate())
+        .endDate(duration.endDate())
+        .planet(planetEntity)
+        .status(goal.getStatus())
+        .build();
+  }
+
+  public void updateFromDomain(Goal goal) {
     this.name = goal.getName();
     this.startDate = goal.getDuration().startDate();
     this.endDate = goal.getDuration().endDate();
-    this.updateStatus = goal.getUpdateStatus();
+    this.status = goal.getStatus();
   }
 }

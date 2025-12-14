@@ -14,14 +14,16 @@ import java.util.Objects;
 
 public class Goal {
   private final String id;
+  private final String userId;
   private String name;
   private final Planet planet;
   private GoalDuration duration;
   private GoalStatus status;
   private GoalUpdateStatus updateStatus;
 
-  public Goal(String id, String name, Planet planet, GoalDuration duration) {
+  public Goal(String id, String userId, String name, Planet planet, GoalDuration duration) {
     this.id = Objects.requireNonNull(id, "Goal id cannot be null");
+    this.userId = Objects.requireNonNull(userId, "User id cannot be null");
     this.name = Objects.requireNonNull(name, "Goal name cannot be null");
     this.planet = Objects.requireNonNull(planet, "Planet cannot be null");
     this.duration = Objects.requireNonNull(duration, "Duration cannot be null");
@@ -29,15 +31,15 @@ public class Goal {
     this.updateStatus = GoalUpdateStatus.UPDATABLE;
   }
 
-  public static Goal create(String id, String name, Planet planet, GoalDuration duration) {
-    return new Goal(id, name, planet, duration);
+  public static Goal create(String id, String userId, String name, Planet planet, GoalDuration duration) {
+    return new Goal(id, userId, name, planet, duration);
   }
 
   public static Goal from(CreateGoalCommand command) {
     // Create default planet based on category for now
     var planet = Planet.of("Earth", "/images/earth_done.png", "/images/earth_progress.png");
 
-    return create(IDGenerator.generateId(), command.name(), planet, command.duration());
+    return create(IDGenerator.generateId(), command.userId(), command.name(), planet, command.duration());
   }
 
   public void updateGoal(UpdateGoalCommand command) {
@@ -110,9 +112,8 @@ public class Goal {
     return id;
   }
 
-  @Deprecated
   public String getUserId() {
-    return "";
+    return userId;
   }
 
   @Deprecated

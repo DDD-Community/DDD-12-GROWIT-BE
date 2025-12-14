@@ -65,11 +65,14 @@ public class GenerateMentorAdviceUseCase {
   private Goal getCurrentProgressGoal(User user) {
     return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream()
         .findFirst()
+        .map(dto -> dto.getGoal())
         .orElseThrow(() -> new NotFoundException("진행중인 목표가 없습니다."));
   }
 
   private Optional<Goal> getCurrentProgressGoalOptional(User user) {
-    return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream().findFirst();
+    return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream()
+        .findFirst()
+        .map(dto -> dto.getGoal());
   }
 
   /** Goal의 mentor 정보가 조언 생성에 유효한지 검증합니다. */

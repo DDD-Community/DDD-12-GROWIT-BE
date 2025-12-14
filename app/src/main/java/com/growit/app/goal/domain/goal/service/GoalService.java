@@ -84,4 +84,9 @@ public class GoalService implements GoalValidator, GoalQuery {
                     (Goal goal) -> goal.getDuration().endDate(), Comparator.reverseOrder()))
         .toList();
   }
+  
+  @Override
+  public List<Goal> getAllGoalsByUserId(String userId) {
+    return goalRepository.findAllByUserId(userId);
+  }
 }

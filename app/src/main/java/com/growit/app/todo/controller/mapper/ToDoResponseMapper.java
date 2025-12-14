@@ -24,8 +24,6 @@ public class ToDoResponseMapper {
   }
 
   public ToDoResponse toToDoResponse(ToDoResult result) {
-    var plan = result.getPlan();
-    var planInfo = new ToDoResponse.PlanInfo(plan.getId(), plan.getWeekOfMonth());
-    return new ToDoResponse(result.getId(), planInfo);
+    return new ToDoResponse(result.getId(), null);
   }
 }
