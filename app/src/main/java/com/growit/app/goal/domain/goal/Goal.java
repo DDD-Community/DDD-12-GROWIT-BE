@@ -9,7 +9,6 @@ import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.vo.Planet;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
-import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import java.util.Objects;
 
@@ -37,7 +36,7 @@ public class Goal {
   public static Goal from(CreateGoalCommand command) {
     // Create default planet based on category for now
     var planet = Planet.of("Earth", "/images/earth_done.png", "/images/earth_progress.png");
-    
+
     return create(IDGenerator.generateId(), command.name(), planet, command.duration());
   }
 
@@ -65,12 +64,12 @@ public class Goal {
     if (newStatus == null) {
       throw new IllegalArgumentException("Goal status cannot be null");
     }
-    
+
     // Business rule: Can only transition from IN_PROGRESS to COMPLETED
     if (this.status == GoalStatus.COMPLETED && newStatus == GoalStatus.IN_PROGRESS) {
       throw new BadRequestException("Cannot reopen a completed goal");
     }
-    
+
     this.status = newStatus;
   }
 
@@ -97,7 +96,7 @@ public class Goal {
   public GoalStatus getStatus() {
     return status;
   }
-  
+
 
   public boolean isCompleted() {
     return status.isCompleted();
@@ -107,71 +106,28 @@ public class Goal {
     return status.isInProgress();
   }
 
-  // Legacy compatibility methods for backward compatibility
   public String getId() {
     return id;
   }
 
   @Deprecated
   public String getUserId() {
-    return ""; // This field is no longer part of Goal domain
+    return "";
   }
 
   @Deprecated
   public String getToBe() {
-    return ""; // This field is no longer part of Goal domain
+    return "";
   }
 
   @Deprecated
-  public GoalCategory getCategory() {
-    return null; // This field is no longer part of Goal domain
+  public Object getCategory() {
+    return null;
   }
 
   @Deprecated
   public Object getMentor() {
-    return null; // This field is no longer part of Goal domain
-  }
-
-  @Deprecated
-  public boolean isDeleted() {
-    return false; // Deletion is handled at application level
-  }
-
-
-
-  // More legacy compatibility methods
-  @Deprecated
-  public boolean checkProgress(GoalStatus status) {
-    if (status == GoalStatus.NONE) {
-      return true;
-    } else if (status == GoalStatus.PROGRESS || status == GoalStatus.IN_PROGRESS) {
-      return this.status.isInProgress();
-    } else {
-      return this.status.isCompleted();
-    }
-  }
-
-
-  public GoalUpdateStatus getUpdateStatus() {
-    return updateStatus;
-  }
-  
-  public void updateStatus(GoalUpdateStatus newUpdateStatus) {
-    if (newUpdateStatus == null) {
-      throw new IllegalArgumentException("Goal update status cannot be null");
-    }
-    this.updateStatus = newUpdateStatus;
-    this.status = newUpdateStatus.toGoalStatus();
-  }
-
-  @Deprecated
-  public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
-    updateStatus(updateStatus);
-  }
-
-  @Deprecated
-  public void deleted() {
-    // Deletion is handled at application level
+    return null;
   }
 
   @Deprecated
@@ -185,7 +141,47 @@ public class Goal {
   }
 
   @Deprecated
+  public boolean checkProgress(GoalStatus status) {
+    if (status == GoalStatus.NONE) {
+      return true;
+    } else if (status == GoalStatus.PROGRESS || status == GoalStatus.IN_PROGRESS) {
+      return this.status.isInProgress();
+    } else {
+      return this.status.isCompleted();
+    }
+  }
+
+  @Deprecated
+  public void deleted() {
+  }
+
+  @Deprecated
+  public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
+    updateStatus(updateStatus);
+  }
+
+  @Deprecated
   public void updateByCommand(UpdateGoalCommand command, GoalUpdateStatus status) {
     updateGoal(command);
   }
+
+  @Deprecated
+  public Object getPlans() {
+    return java.util.Collections.emptyList();
+  }
+
+
+
+  public GoalUpdateStatus getUpdateStatus() {
+    return updateStatus;
+  }
+
+  public void updateStatus(GoalUpdateStatus newUpdateStatus) {
+    if (newUpdateStatus == null) {
+      throw new IllegalArgumentException("Goal update status cannot be null");
+    }
+    this.updateStatus = newUpdateStatus;
+    this.status = newUpdateStatus.toGoalStatus();
+  }
+
 }

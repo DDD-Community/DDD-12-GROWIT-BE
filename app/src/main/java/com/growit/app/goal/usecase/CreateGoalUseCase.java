@@ -21,7 +21,6 @@ public class CreateGoalUseCase {
   public CreateGoalResult execute(CreateGoalCommand command) {
     goalValidator.checkGoalExists(command.userId());
     goalValidator.checkGoalDuration(command.duration());
-    goalValidator.checkPlans(command.duration(), command.plans());
     Goal goal = Goal.from(command);
     goalRepository.saveGoal(goal);
 

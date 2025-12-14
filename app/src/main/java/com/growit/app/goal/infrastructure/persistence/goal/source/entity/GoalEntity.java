@@ -2,17 +2,10 @@ package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
-import com.growit.app.goal.domain.goal.vo.Mentor;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.*;
 
 @Entity
@@ -45,22 +38,10 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false)
   private LocalDate endDate;
 
-  @Column(nullable = false, length = 128)
-  private String toBe;
-
-  @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private GoalCategory category = GoalCategory.UNCATEGORIZED;
-
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   @Builder.Default
   private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
-
-  @Column()
-  @Enumerated(EnumType.STRING)
-  private Mentor mentor;
 
   // Plans relationship removed as plan domain has been deleted
 
@@ -68,13 +49,6 @@ public class GoalEntity extends BaseEntity {
     this.name = goal.getName();
     this.startDate = goal.getDuration().startDate();
     this.endDate = goal.getDuration().endDate();
-    this.toBe = goal.getToBe();
-    this.category = goal.getCategory();
-    // mentor field removed from Goal domain
     this.updateStatus = goal.getUpdateStatus();
-
-    // Plan functionality removed - no plan updates needed
-
-    if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }
 }

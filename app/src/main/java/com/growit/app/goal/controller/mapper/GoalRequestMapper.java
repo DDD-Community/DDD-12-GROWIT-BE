@@ -1,7 +1,6 @@
 package com.growit.app.goal.controller.mapper;
 
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
-import com.growit.app.goal.controller.dto.request.UpdatePlanRequest;
 import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import org.springframework.stereotype.Component;
@@ -28,8 +27,4 @@ public class GoalRequestMapper {
     return new DeleteGoalCommand(id, userId);
   }
 
-  public UpdatePlanCommand toUpdatePlanCommand(
-      String goalId, String planId, String userId, UpdatePlanRequest request) {
-    return new UpdatePlanCommand(goalId, planId, userId, request.getContent());
-  }
 }
