@@ -13,12 +13,7 @@ public class GoalRequestMapper {
     return new CreateGoalCommand(
         userId,
         request.getName(),
-        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
-        request.getToBe(),
-        request.getCategory(),
-        request.getPlans().stream()
-            .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
-            .toList());
+        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()));
   }
 
   public UpdateGoalCommand toUpdateCommand(String id, String userId, CreateGoalRequest request) {
@@ -26,12 +21,7 @@ public class GoalRequestMapper {
         id,
         userId,
         request.getName(),
-        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
-        request.getToBe(),
-        request.getCategory(),
-        request.getPlans().stream()
-            .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
-            .toList());
+        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()));
   }
 
   public DeleteGoalCommand toDeleteCommand(String id, String userId) {

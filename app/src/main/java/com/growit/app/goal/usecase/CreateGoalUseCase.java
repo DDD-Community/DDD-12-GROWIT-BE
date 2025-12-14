@@ -25,6 +25,6 @@ public class CreateGoalUseCase {
     Goal goal = Goal.from(command);
     goalRepository.saveGoal(goal);
 
-    return new CreateGoalResult(goal.getId(), goal.getMentor());
+    return new CreateGoalResult(goal.getId());
   }
 }

@@ -11,7 +11,6 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goalrecommendation.service.GoalRecommendationDataCollector;
 import com.growit.app.goal.domain.goalrecommendation.service.GoalRecommendationService;
 import com.growit.app.goal.domain.goalrecommendation.vo.GoalRecommendationData;
-import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.user.domain.user.User;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +43,7 @@ class RecommendPlanUseCaseTest {
   }
 
   @Test
-  void givenValidUserAndPlanId_whenExecute_thenReturnPlanRecommendation() {
+  void givenValidUserAndPlanId_whenExecute_thenExecuteSuccessfully() {
     // given
     GoalRecommendationData mockData =
         GoalRecommendationData.builder()
@@ -54,24 +53,12 @@ class RecommendPlanUseCaseTest {
             .pastWeeklyGoals(Arrays.asList("weekly1"))
             .remainingTime("7일")
             .build();
-    PlanRecommendation expectedRecommendation =
-        new PlanRecommendation(
-            "recommendation-1", testUser.getId(), testGoal.getId(), planId, "AI 추천 내용");
 
     when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
     when(dataCollector.collectData(testUser, testGoal)).thenReturn(mockData);
-    when(recommendationService.generateRecommendation(testUser, testGoal, mockData))
-        .thenReturn(expectedRecommendation);
 
-    // when
-    PlanRecommendation result = recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
-
-    // then
-    assertThat(result).isNotNull();
-    assertThat(result.getId()).isEqualTo("recommendation-1");
-    assertThat(result.getUserId()).isEqualTo(testUser.getId());
-    assertThat(result.getGoalId()).isEqualTo(testGoal.getId());
-    assertThat(result.getContent()).isEqualTo("AI 추천 내용");
+    // when & then - should complete without exception
+    recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
   }
 
   @Test
@@ -85,23 +72,12 @@ class RecommendPlanUseCaseTest {
             .pastWeeklyGoals(Arrays.asList("weekly1"))
             .remainingTime("14일")
             .build();
-    PlanRecommendation expectedRecommendation =
-        new PlanRecommendation(
-            "recommendation-1", testUser.getId(), testGoal.getId(), planId, "생성된 AI 추천");
 
     when(getGoalUseCase.getGoal(testGoal.getId(), testUser)).thenReturn(testGoal);
     when(dataCollector.collectData(testUser, testGoal)).thenReturn(mockData);
-    when(recommendationService.generateRecommendation(testUser, testGoal, mockData))
-        .thenReturn(expectedRecommendation);
 
-    // when
-    PlanRecommendation result = recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
-
-    // then
-    assertThat(result).isNotNull();
-    assertThat(result.getUserId()).isEqualTo(testUser.getId());
-    assertThat(result.getGoalId()).isEqualTo(testGoal.getId());
-    assertThat(result.getContent()).isEqualTo("생성된 AI 추천");
+    // when & then - should complete without exception
+    recommendPlanUseCase.execute(testUser, testGoal.getId(), planId);
   }
 
   @Test

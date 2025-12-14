@@ -1,7 +1,6 @@
 package com.growit.app.todo.usecase;
 
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
@@ -24,11 +23,11 @@ public class CreateToDoUseCase {
   @Transactional
   public ToDoResult execute(CreateToDoCommand command) {
     Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
-    Plan plan = goal.getPlanByDate(command.date());
-    toDoValidator.tooManyToDoCreated(command.date(), command.userId(), plan.getId());
-    ToDo toDo = ToDo.from(command, plan.getId());
+    // Plan functionality removed - validate todo creation without plan constraint
+    toDoValidator.tooManyToDoCreated(command.date(), command.userId(), goal.getId());
+    ToDo toDo = ToDo.from(command, goal.getId());
     toDoRepository.saveToDo(toDo);
     toDoHandler.handle(goal.getId());
-    return new ToDoResult(toDo.getId(), plan);
+    return new ToDoResult(toDo.getId());
   }
 }

@@ -1,11 +1,9 @@
 package com.growit.app.goal.controller.dto.request;
 
-import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,16 +17,4 @@ public class CreateGoalRequest {
   @NotNull(message = "{validation.goal.duration.required}")
   @Valid
   private GoalDurationDto duration;
-
-  @NotBlank(message = "{validation.goal.tobe.required}")
-  @Size(min = 1, max = 30, message = "{validation.goal.tobe.size}")
-  private String toBe;
-
-  @NotNull(message = "{validation.goal.category.required}")
-  @Valid
-  private GoalCategory category;
-
-  @NotNull(message = "{validation.goal.plans.required}")
-  @Valid
-  private List<PlanRequestDto> plans;
 }

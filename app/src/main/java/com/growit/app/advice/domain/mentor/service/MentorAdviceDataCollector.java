@@ -2,7 +2,6 @@ package com.growit.app.advice.domain.mentor.service;
 
 import com.growit.app.advice.domain.mentor.vo.MentorAdviceData;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospect;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.todo.domain.ToDo;
@@ -74,9 +73,7 @@ public class MentorAdviceDataCollector {
   }
 
   private List<String> extractWeeklyGoalContents(Goal goal) {
-    if (goal.getPlans() == null || goal.getPlans().isEmpty()) {
-      return List.of(); // 빈 리스트 반환
-    }
-    return goal.getPlans().stream().map(Plan::getContent).collect(Collectors.toList());
+    // Plans are no longer part of Goal domain
+    return List.of(); // 빈 리스트 반환
   }
 }

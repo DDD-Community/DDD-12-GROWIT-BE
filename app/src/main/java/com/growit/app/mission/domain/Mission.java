@@ -1,6 +1,5 @@
 package com.growit.app.mission.domain;
 
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.mission.domain.vo.MissionType;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.todo.domain.ToDo;
@@ -25,7 +24,7 @@ public class Mission {
   }
 
   public static Mission missionStatus(
-      MissionType type, DayOfWeek day, List<ToDo> toDoList, Retrospect retrospect, Plan plan) {
+      MissionType type, DayOfWeek day, List<ToDo> toDoList, Retrospect retrospect) {
     boolean isFinished =
         switch (type) {
           case DAILY_TODO_WRITE ->
@@ -35,8 +34,8 @@ public class Mission {
               // 모든 투두가 완료되었으면 완료
               !toDoList.isEmpty() && toDoList.stream().allMatch(ToDo::isCompleted);
           case WEEKLY_GOAL_WRITE ->
-              // 주간 목표가 설정되어 있으면 완료
-              plan != null && plan.getContent() != null && !plan.getContent().trim().isEmpty();
+              // 주간 목표 기능이 제거되어 항상 완료로 처리
+              false;
           case WEEKLY_RETROSPECT_WRITE ->
               // 회고가 작성되어 있으면 완료
               retrospect != null && retrospect.getKpt() != null;

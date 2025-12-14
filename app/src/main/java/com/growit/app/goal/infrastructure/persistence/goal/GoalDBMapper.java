@@ -1,13 +1,10 @@
 package com.growit.app.goal.infrastructure.persistence.goal;
 
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.plan.vo.PlanDuration;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.Planet;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
-import com.growit.app.goal.infrastructure.persistence.goal.source.entity.PlanEntity;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,51 +20,36 @@ public class GoalDBMapper {
             .endDate(goal.getDuration().endDate())
             .toBe(goal.getToBe())
             .category(goal.getCategory())
-            .mentor(goal.getMentor())
             .updateStatus(goal.getUpdateStatus())
             .build();
-    entity.setPlans(
-        goal.getPlans().stream()
-            .map(
-                plan ->
-                    new PlanEntity(
-                        plan.getId(),
-                        plan.getWeekOfMonth(),
-                        plan.getContent(),
-                        plan.getDuration().startDate(),
-                        plan.getDuration().endDate(),
-                        entity))
-            .toList());
+    // Plans are no longer part of Goal domain
     entity.setDeletedAt(goal.getDeleted() ? LocalDateTime.now() : null);
     return entity;
   }
 
   public Goal toDomain(GoalEntity entity) {
     if (entity == null) return null;
-    return Goal.builder()
-        .id(entity.getUid())
-        .userId(entity.getUserId())
-        .name(entity.getName())
-        .duration(new GoalDuration(entity.getStartDate(), entity.getEndDate()))
-        .toBe(entity.getToBe())
-        .category(entity.getCategory())
-        .mentor(entity.getMentor())
-        .plans(
-            entity.getPlans().stream()
-                .map(
-                    planEntity ->
-                        Plan.builder()
-                            .id(planEntity.getUid())
-                            .weekOfMonth(planEntity.getWeekOfMonth())
-                            .duration(
-                                new PlanDuration(
-                                    planEntity.getStartDate(), planEntity.getEndDate()))
-                            .content(planEntity.getContent())
-                            .build())
-                .sorted(Comparator.comparing(Plan::getWeekOfMonth))
-                .toList())
-        .updateStatus(entity.getUpdateStatus())
-        .isDelete(entity.getDeletedAt() != null)
-        .build();
+    
+    var planet = Planet.of("Earth", "/images/earth_done.png", "/images/earth_progress.png"); // Default planet
+    
+    var duration = new GoalDuration(entity.getStartDate(), entity.getEndDate());
+    var goal = new Goal(
+        entity.getUid(),
+        entity.getName(),
+        planet,
+        duration
+    );
+    
+    // Set status based on updateStatus
+    if (entity.getUpdateStatus() != null) {
+      goal.updateByGoalUpdateStatus(entity.getUpdateStatus());
+    }
+    
+    // Set deleted status
+    if (entity.getDeletedAt() != null) {
+      goal.deleted();
+    }
+    
+    return goal;
   }
 }

@@ -2,7 +2,6 @@ package com.growit.app.mission.usecase;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.mission.domain.Mission;
 import com.growit.app.mission.domain.service.MissionSchedule;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
@@ -32,20 +31,16 @@ public class GetMissionUseCase {
 
     List<Goal> findGoal = goalRepository.findByUserIdAndGoalDuration(userId, today);
     Goal goal = findGoal.stream().findFirst().orElse(null);
-    Plan plan = goal == null ? null : goal.getPlanByDate(today);
+    // Plan functionality removed
 
     List<ToDo> toDoList = toDoRepository.findByUserIdAndDate(userId, today);
 
-    Retrospect retrospect;
-    if (plan != null) {
-      Optional<Retrospect> findRetrospect = retrospectRepository.findByPlanId(plan.getId());
-      retrospect = findRetrospect.orElse(null);
-    } else {
-      retrospect = null;
-    }
+    // Get retrospect by other means since plan is no longer available
+    // For now, set retrospect to null as plan-based lookup is no longer possible
+    Retrospect retrospect = null;
 
     return missionSchedule.typesFor(day).stream()
-        .map(type -> Mission.missionStatus(type, day, toDoList, retrospect, plan))
+        .map(type -> Mission.missionStatus(type, day, toDoList, retrospect))
         .toList();
   }
 }

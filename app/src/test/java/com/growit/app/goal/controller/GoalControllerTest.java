@@ -27,7 +27,6 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
 import com.growit.app.goal.domain.goal.dto.UpdatePlanCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.usecase.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -357,21 +356,14 @@ class GoalControllerTest {
   void recommendPlan() throws Exception {
     String goalId = "goal-123";
     String planId = "plan-456";
-    String expectedRecommendation =
-        "계획 " + planId + "에 대한 AI 추천: 단계별로 세분화하여 실행하면 성공 확률이 높아집니다. 매일 30분씩 투자하여 꾸준히 진행하세요.";
-
-    PlanRecommendation mockRecommendation =
-        new PlanRecommendation("rec-123", "user-123", goalId, planId, expectedRecommendation);
-
-    given(recommendPlanUseCase.execute(any(), eq(goalId), eq(planId)))
-        .willReturn(mockRecommendation);
+    String expectedMessage = "Plan recommendation generated successfully";
 
     mockMvc
         .perform(
             get("/goals/{id}/plans/{planId}/recommendation", goalId, planId)
                 .header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.data").value(expectedRecommendation))
+        .andExpect(jsonPath("$.data").value(expectedMessage))
         .andDo(
             document(
                 "recommend-plan",

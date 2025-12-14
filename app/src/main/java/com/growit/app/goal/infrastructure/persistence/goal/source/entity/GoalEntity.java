@@ -2,7 +2,6 @@ package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.vo.GoalCategory;
 import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.goal.domain.goal.vo.Mentor;
@@ -63,13 +62,7 @@ public class GoalEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private Mentor mentor;
 
-  @OneToMany(
-      mappedBy = "goal",
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      fetch = FetchType.LAZY)
-  @Builder.Default
-  private List<PlanEntity> plans = new ArrayList<>();
+  // Plans relationship removed as plan domain has been deleted
 
   public void updateToByDomain(Goal goal) {
     this.name = goal.getName();
@@ -77,22 +70,10 @@ public class GoalEntity extends BaseEntity {
     this.endDate = goal.getDuration().endDate();
     this.toBe = goal.getToBe();
     this.category = goal.getCategory();
-    this.mentor = goal.getMentor();
+    // mentor field removed from Goal domain
     this.updateStatus = goal.getUpdateStatus();
 
-    if (goal.getPlans() != null && !goal.getPlans().isEmpty()) {
-      Map<String, String> contentById =
-          goal.getPlans().stream()
-              .filter(p -> p.getId() != null)
-              .collect(Collectors.toMap(Plan::getId, Plan::getContent, (a, b) -> b));
-      // 리팩터링 필요
-      for (PlanEntity pe : this.plans) {
-        String newContent = contentById.get(pe.getUid());
-        if (newContent != null && !Objects.equals(pe.getContent(), newContent)) {
-          pe.setContent(newContent);
-        }
-      }
-    }
+    // Plan functionality removed - no plan updates needed
 
     if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }

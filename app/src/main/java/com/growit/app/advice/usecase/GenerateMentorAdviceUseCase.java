@@ -74,16 +74,6 @@ public class GenerateMentorAdviceUseCase {
 
   /** Goal의 mentor 정보가 조언 생성에 유효한지 검증합니다. */
   private void validateMentorForAdvice(Goal goal) {
-    if (goal.getMentor() == null) {
-      throw new IllegalArgumentException("목표에 멘토 정보가 설정되지 않았습니다.");
-    }
-
-    // Goal 엔티티의 mentor 값 검증
-    switch (goal.getMentor()) {
-      case TIM_COOK, WARREN_BUFFETT, CONFUCIUS -> {
-        // 유효한 멘토
-      }
-      default -> throw new IllegalArgumentException("알 수 없는 멘토입니다: " + goal.getMentor());
-    }
+    // Mentor is no longer part of Goal domain, no validation needed
   }
 }

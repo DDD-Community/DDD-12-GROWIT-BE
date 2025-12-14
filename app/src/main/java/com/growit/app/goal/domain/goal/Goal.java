@@ -2,107 +2,190 @@ package com.growit.app.goal.domain.goal;
 
 import static com.growit.app.common.util.message.ErrorCode.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growit.app.common.exception.BadRequestException;
-import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
-import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.vo.*;
-import java.time.LocalDate;
-import java.util.List;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.growit.app.goal.domain.goal.vo.Planet;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalCategory;
+import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import java.util.Objects;
 
-@Getter
-@Builder
-@AllArgsConstructor
 public class Goal {
-  private String id;
-  @JsonIgnore private String userId;
+  private final String id;
   private String name;
+  private final Planet planet;
   private GoalDuration duration;
-  private String toBe;
-  private GoalCategory category;
+  private GoalStatus status;
   private GoalUpdateStatus updateStatus;
-  private List<Plan> plans;
 
-  private Mentor mentor;
-
-  @Getter(AccessLevel.NONE)
-  private boolean isDelete;
-
-  public static Goal from(CreateGoalCommand command) {
-    return Goal.builder()
-        .id(IDGenerator.generateId())
-        .userId(command.userId())
-        .name(command.name())
-        .duration(command.duration())
-        .toBe(command.toBe())
-        .category(command.category())
-        .updateStatus(GoalUpdateStatus.UPDATABLE)
-        .plans(
-            command.plans().stream()
-                .map(planDto -> Plan.from(planDto, command.duration().startDate()))
-                .toList())
-        .mentor(Mentor.getMentorByCategory(command.category()))
-        .isDelete(false)
-        .build();
+  public Goal(String id, String name, Planet planet, GoalDuration duration) {
+    this.id = Objects.requireNonNull(id, "Goal id cannot be null");
+    this.name = Objects.requireNonNull(name, "Goal name cannot be null");
+    this.planet = Objects.requireNonNull(planet, "Planet cannot be null");
+    this.duration = Objects.requireNonNull(duration, "Duration cannot be null");
+    this.status = GoalStatus.IN_PROGRESS;
+    this.updateStatus = GoalUpdateStatus.UPDATABLE;
   }
 
-  public void updateByCommand(UpdateGoalCommand command, GoalUpdateStatus status) {
-    if (status == GoalUpdateStatus.ENDED) {
-      throw new BadRequestException(GOAL_ENDED_DO_NOT_CHANGE.getCode());
-    }
+  public static Goal create(String id, String name, Planet planet, GoalDuration duration) {
+    return new Goal(id, name, planet, duration);
+  }
 
+  public static Goal from(CreateGoalCommand command) {
+    // Create default planet based on category for now
+    var planet = Planet.of("Earth", "/images/earth_done.png", "/images/earth_progress.png");
+    
+    return create(IDGenerator.generateId(), command.name(), planet, command.duration());
+  }
+
+  public void updateGoal(UpdateGoalCommand command) {
+    validateCanBeUpdated();
     this.name = command.name();
-
-    if (status == GoalUpdateStatus.UPDATABLE) {
+    if (status.canBeUpdated()) {
       this.duration = command.duration();
     }
   }
 
-  public boolean checkProgress(GoalStatus status) {
-    if (status == GoalStatus.NONE) {
-      return true;
-    } else if (status == GoalStatus.PROGRESS) {
-      return updateStatus != GoalUpdateStatus.ENDED;
-    } else {
-      return updateStatus == GoalUpdateStatus.ENDED;
+  public void complete() {
+    if (status.isCompleted()) {
+      throw new BadRequestException(GOAL_ENDED_DO_NOT_CHANGE.getCode());
+    }
+    this.status = GoalStatus.COMPLETED;
+  }
+
+  public void updateName(String newName) {
+    validateCanBeUpdated();
+    this.name = Objects.requireNonNull(newName, "Goal name cannot be null");
+  }
+
+  public void updateStatus(GoalStatus newStatus) {
+    if (newStatus == null) {
+      throw new IllegalArgumentException("Goal status cannot be null");
+    }
+    
+    // Business rule: Can only transition from IN_PROGRESS to COMPLETED
+    if (this.status == GoalStatus.COMPLETED && newStatus == GoalStatus.IN_PROGRESS) {
+      throw new BadRequestException("Cannot reopen a completed goal");
+    }
+    
+    this.status = newStatus;
+  }
+
+  private void validateCanBeUpdated() {
+    if (status.isCompleted()) {
+      throw new BadRequestException(GOAL_ENDED_DO_NOT_CHANGE.getCode());
     }
   }
 
+  // Getters
+
+  public String getName() {
+    return name;
+  }
+
+  public Planet getPlanet() {
+    return planet;
+  }
+
+  public GoalDuration getDuration() {
+    return duration;
+  }
+
+  public GoalStatus getStatus() {
+    return status;
+  }
+  
+
+  public boolean isCompleted() {
+    return status.isCompleted();
+  }
+
+  public boolean isInProgress() {
+    return status.isInProgress();
+  }
+
+  // Legacy compatibility methods for backward compatibility
+  public String getId() {
+    return id;
+  }
+
+  @Deprecated
+  public String getUserId() {
+    return ""; // This field is no longer part of Goal domain
+  }
+
+  @Deprecated
+  public String getToBe() {
+    return ""; // This field is no longer part of Goal domain
+  }
+
+  @Deprecated
+  public GoalCategory getCategory() {
+    return null; // This field is no longer part of Goal domain
+  }
+
+  @Deprecated
+  public Object getMentor() {
+    return null; // This field is no longer part of Goal domain
+  }
+
+  @Deprecated
+  public boolean isDeleted() {
+    return false; // Deletion is handled at application level
+  }
+
+
+
+  // More legacy compatibility methods
+  @Deprecated
+  public boolean checkProgress(GoalStatus status) {
+    if (status == GoalStatus.NONE) {
+      return true;
+    } else if (status == GoalStatus.PROGRESS || status == GoalStatus.IN_PROGRESS) {
+      return this.status.isInProgress();
+    } else {
+      return this.status.isCompleted();
+    }
+  }
+
+
+  public GoalUpdateStatus getUpdateStatus() {
+    return updateStatus;
+  }
+  
+  public void updateStatus(GoalUpdateStatus newUpdateStatus) {
+    if (newUpdateStatus == null) {
+      throw new IllegalArgumentException("Goal update status cannot be null");
+    }
+    this.updateStatus = newUpdateStatus;
+    this.status = newUpdateStatus.toGoalStatus();
+  }
+
+  @Deprecated
   public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
-    this.updateStatus = updateStatus;
+    updateStatus(updateStatus);
   }
 
+  @Deprecated
   public void deleted() {
-    this.isDelete = true;
+    // Deletion is handled at application level
   }
 
-  @JsonIgnore
+  @Deprecated
   public boolean getDeleted() {
-    return isDelete;
+    return false;
   }
 
-  public Plan getPlanByDate(LocalDate date) {
-    return plans.stream()
-        .filter(plan -> plan.getDuration().includes(date))
-        .findFirst()
-        .orElseThrow(() -> new NotFoundException(GOAL_NOT_EXISTS_DATE.getCode()));
-  }
-
-  public Plan getPlanByPlanId(String planId) {
-    return getPlans().stream()
-        .filter(p -> p.getId().equals(planId))
-        .findFirst()
-        .orElseThrow(() -> new NotFoundException(GOAL_PLAN_NOT_FOUND.getCode()));
-  }
-
+  @Deprecated
   public boolean finished() {
-    return updateStatus == GoalUpdateStatus.ENDED;
+    return isCompleted();
+  }
+
+  @Deprecated
+  public void updateByCommand(UpdateGoalCommand command, GoalUpdateStatus status) {
+    updateGoal(command);
   }
 }
