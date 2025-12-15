@@ -1,6 +1,7 @@
 package com.growit.app.todo.domain;
 
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
+import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +15,6 @@ public interface ToDoRepository {
 
   Optional<ToDo> findById(String id);
 
-  List<ToDo> findByPlanId(String planId);
 
   List<ToDo> findByUserIdAndDate(String userId, LocalDate today);
 
@@ -24,4 +24,6 @@ public interface ToDoRepository {
 
   List<ToDo> findAllByUserIdAndCreatedAtBetween(
       String userId, LocalDateTime start, LocalDateTime end);
+
+  List<ToDo> findByUserIdAndDateRange(GetDateRangeQueryFilter filter);
 }

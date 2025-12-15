@@ -28,7 +28,7 @@ public class UpdateToDoUseCase {
     
     toDoValidator.tooManyToDoUpdated(command.date(), command.userId(), goal.getId(), toDo.getId());
 
-    toDo.updateBy(command, goal.getId());
+    toDo.updateBy(command);
 
     toDoRepository.saveToDo(toDo);
 

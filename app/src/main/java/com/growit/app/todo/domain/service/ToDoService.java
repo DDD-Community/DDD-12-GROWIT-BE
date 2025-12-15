@@ -22,8 +22,8 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ToDoHandler {
   private static final int MAX_TO_COUNT = 10;
 
   private void validateMaxToDoCount(
-      LocalDate date, String userId, String planId, Optional<String> toDoId, String errorMessage) {
-    GetCountByDateQueryFilter filter = new GetCountByDateQueryFilter(date, userId, planId, toDoId);
+      LocalDate date, String userId, String goalId, Optional<String> toDoId, String errorMessage) {
+    GetCountByDateQueryFilter filter = new GetCountByDateQueryFilter(date, userId, goalId, toDoId);
     int count = toDoRepository.countByDateQuery(filter);
     if (count >= MAX_TO_COUNT) {
       throw new BadRequestException(errorMessage);
@@ -31,16 +31,16 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ToDoHandler {
   }
 
   @Override
-  public void tooManyToDoCreated(LocalDate date, String userId, String planId)
+  public void tooManyToDoCreated(LocalDate date, String userId, String goalId)
       throws BadRequestException {
-    validateMaxToDoCount(date, userId, planId, Optional.empty(), "하루에 할 일은 최대 10개까지만 등록할 수 있습니다.");
+    validateMaxToDoCount(date, userId, goalId, Optional.empty(), "하루에 할 일은 최대 10개까지만 등록할 수 있습니다.");
   }
 
   @Override
-  public void tooManyToDoUpdated(LocalDate date, String userId, String planId, String toDoId)
+  public void tooManyToDoUpdated(LocalDate date, String userId, String goalId, String toDoId)
       throws BadRequestException {
     validateMaxToDoCount(
-        date, userId, planId, Optional.ofNullable(toDoId), "해당 날짜에 이미 TODO 가 10개 입니다.");
+        date, userId, goalId, Optional.ofNullable(toDoId), "해당 날짜에 이미 TODO 가 10개 입니다.");
   }
 
   @Override

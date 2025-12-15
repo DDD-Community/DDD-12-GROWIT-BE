@@ -25,7 +25,7 @@ public class CreateToDoUseCase {
     Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
     // Plan functionality removed - validate todo creation without plan constraint
     toDoValidator.tooManyToDoCreated(command.date(), command.userId(), goal.getId());
-    ToDo toDo = ToDo.from(command, goal.getId());
+    ToDo toDo = ToDo.from(command);
     toDoRepository.saveToDo(toDo);
     toDoHandler.handle(goal.getId());
     return new ToDoResult(toDo.getId());

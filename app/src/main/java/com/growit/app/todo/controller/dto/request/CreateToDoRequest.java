@@ -1,5 +1,6 @@
 package com.growit.app.todo.controller.dto.request;
 
+import com.growit.app.todo.domain.vo.Routine;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,8 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateToDoRequest {
-  @NotBlank(message = "{validation.todo.goal-id.required}")
-  @Size(min = 1)
+  // goalId is now optional - null for "기타" (other) todos
   private String goalId;
 
   @NotNull(message = "{validation.todo.date.required}")
@@ -20,4 +20,8 @@ public class CreateToDoRequest {
   @NotBlank(message = "{validation.todo.content.required}")
   @Size(min = 1, max = 30, message = "{validation.todo.content.size}")
   private String content;
+
+  private boolean isImportant;
+
+  private Routine routine;
 }

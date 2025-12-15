@@ -17,7 +17,17 @@ public class CompletedStatusChangeToDoUseCase {
   @Transactional
   public void execute(CompletedStatusChangeCommand command) {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
-    toDo.updateIsCompleted(command.completed());
+
+    // Always update completion status
+    if(command.completed() != null) {
+      toDo.updateIsCompleted(command.completed());
+    }
+
+    // Only update importance if provided (not null)
+    if (command.important() != null) {
+      toDo.updateIsImportant(command.important());
+    }
+
     toDoRepository.saveToDo(toDo);
   }
 }

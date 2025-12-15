@@ -64,7 +64,7 @@ public class GoalResponseMapper {
 
   private String mapGoalStatus(GoalStatus status) {
     return switch (status) {
-      case IN_PROGRESS, PROGRESS -> "PROGRESS";
+      case PROGRESS -> "PROGRESS";
       case COMPLETED, ENDED -> "ENDED";
       default -> "PROGRESS";
     };
@@ -72,12 +72,12 @@ public class GoalResponseMapper {
 
   public GoalStatus mapToGoalStatus(String status) {
     if (status == null) {
-      return GoalStatus.NONE;
+      return GoalStatus.PROGRESS;
     }
     return switch (status.toUpperCase()) {
       case "PROGRESS" -> GoalStatus.PROGRESS;
       case "ENDED" -> GoalStatus.COMPLETED;
-      default -> GoalStatus.NONE;
+      default -> GoalStatus.PROGRESS;
     };
   }
 }

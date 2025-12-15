@@ -3,6 +3,7 @@ package com.growit.app.todo.infrastructure.persistence.todos;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
+import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.DBToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
@@ -43,11 +44,6 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     return entity.map(mapper::toDomain);
   }
 
-  @Override
-  public List<ToDo> findByPlanId(String planId) {
-    List<ToDoEntity> entities = repository.findByPlanIdQuery(planId);
-    return mapper.toDomainList(entities);
-  }
 
   @Override
   public List<ToDo> findByUserIdAndDate(String userId, LocalDate today) {
@@ -71,6 +67,12 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   public List<ToDo> findAllByUserIdAndCreatedAtBetween(
       String userId, LocalDateTime start, LocalDateTime end) {
     List<ToDoEntity> entities = repository.findAllByUserIdAndCreatedAtBetween(userId, start, end);
+    return mapper.toDomainList(entities);
+  }
+
+  @Override
+  public List<ToDo> findByUserIdAndDateRange(GetDateRangeQueryFilter filter) {
+    List<ToDoEntity> entities = repository.findByUserIdAndDateRange(filter);
     return mapper.toDomainList(entities);
   }
 }

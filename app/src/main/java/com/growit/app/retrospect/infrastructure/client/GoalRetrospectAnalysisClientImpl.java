@@ -119,7 +119,7 @@ public class GoalRetrospectAnalysisClientImpl implements AIAnalysis {
         GoalRetrospectAnalysisRequest.GoalDto.builder()
             .id(goal.getId())
             .title(goal.getName())
-            .description(goal.getToBe())
+            .description(goal.getName()) // getToBe() 메서드가 제거됨, 목표명으로 대체
             .build();
 
     // Retrospects 변환

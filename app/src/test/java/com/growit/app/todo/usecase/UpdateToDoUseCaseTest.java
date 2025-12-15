@@ -40,9 +40,8 @@ class UpdateToDoUseCaseTest {
     fakeGoalRepository.saveGoal(goal);
 
     LocalDate today = LocalDate.now();
-    String planId = goal.getPlanByDate(today).getId();
 
-    toDo = ToDoFixture.customToDo("todo-1", goal.getUserId(), today, planId, goal.getId());
+    toDo = ToDoFixture.customToDo("todo-1", goal.getUserId(), today, goal.getId());
     fakeToDoRepository.saveToDo(toDo);
   }
 
@@ -68,6 +67,5 @@ class UpdateToDoUseCaseTest {
     ToDo updated = fakeToDoRepository.findById(toDo.getId()).orElse(null);
     assertNotNull(updated, "업데이트 후 ToDo는 null이 아니어야 한다");
     assertEquals(newContent, updated.getContent(), "ToDo 내용이 정상적으로 변경되어야 한다");
-    assertEquals(updatedPlan.getId(), updated.getPlanId(), "ToDo의 planId가 업데이트되어야 한다");
   }
 }

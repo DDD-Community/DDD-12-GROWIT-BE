@@ -5,7 +5,8 @@ import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.controller.dto.response.ToDoResponse;
-import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
+import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
+import com.growit.app.todo.controller.dto.response.ToDoWithGoalResponse;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
@@ -13,13 +14,12 @@ import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
-import com.growit.app.todo.domain.vo.FaceStatus;
 import com.growit.app.todo.usecase.*;
+import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
+import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
-import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +38,8 @@ public class ToDoController {
   private final CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   private final GetToDoUseCase getToDoUseCase;
   private final DeleteToDoUseCase deleteToDoUseCase;
-  private final GetWeeklyTodoUseCase getWeeklyTodoUseCase;
-  private final GetTodayMissionUseCase getTodayMissionUseCase;
-  private final GetFaceStatusUseCase getFaceStatusUseCase;
+  private final GetTodosWithGoalByDateUseCase getTodosWithGoalByDateUseCase;
+  private final GetTodoCountByGoalInDateRangeUseCase getTodoCountByGoalInDateRangeUseCase;
 
   @PostMapping
   public ResponseEntity<ApiResponse<ToDoResponse>> createToDo(
@@ -74,11 +73,12 @@ public class ToDoController {
   }
 
   @GetMapping(params = "date")
-  public ResponseEntity<ApiResponse<List<ToDo>>> getTodayMission(
+  public ResponseEntity<ApiResponse<List<ToDoWithGoalResponse>>> getTodosWithGoalByDate(
       @AuthenticationPrincipal User user, @RequestParam String date) {
-    List<ToDo> toDoList =
-        getTodayMissionUseCase.execute(toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
-    return ResponseEntity.ok(new ApiResponse<>(toDoList));
+    List<ToDoWithGoalDto> toDoList =
+        getTodosWithGoalByDateUseCase.execute(toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
+    List<ToDoWithGoalResponse> response = toDoResponseMapper.toToDoWithGoalResponseList(toDoList);
+    return ResponseEntity.ok(new ApiResponse<>(response));
   }
 
   @GetMapping("/{id}")
@@ -95,22 +95,16 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 
-  @GetMapping(params = {"goalId", "planId"})
-  public ResponseEntity<ApiResponse<Map<String, List<WeeklyTodosResponse>>>> getWeeklyTodos(
+
+  @GetMapping(params = {"from", "to"})
+  public ResponseEntity<ApiResponse<List<TodoCountByDateResponse>>> getTodoCountByDateRange(
       @AuthenticationPrincipal User user,
-      @RequestParam String goalId,
-      @RequestParam String planId) {
-    Map<DayOfWeek, List<ToDo>> grouped = getWeeklyTodoUseCase.execute(goalId, planId, user.getId());
-    Map<String, List<WeeklyTodosResponse>> response =
-        toDoResponseMapper.toWeeklyPlanResponse(grouped);
+      @RequestParam String from,
+      @RequestParam String to) {
+    List<TodoCountByDateDto> todoCountList =
+        getTodoCountByGoalInDateRangeUseCase.execute(
+            toDoRequestMapper.toGetDateRangeQueryFilter(user.getId(), from, to));
+    List<TodoCountByDateResponse> response = toDoResponseMapper.toTodoCountByDateResponseList(todoCountList);
     return ResponseEntity.ok(new ApiResponse<>(response));
-  }
-
-  @GetMapping("/face/status")
-  public ResponseEntity<ApiResponse<FaceStatus>> getFaceStatus(
-      @AuthenticationPrincipal User user, @RequestParam String goalId) {
-    FaceStatus result = getFaceStatusUseCase.execute(user.getId(), goalId);
-
-    return ResponseEntity.ok(new ApiResponse<>(result));
   }
 }

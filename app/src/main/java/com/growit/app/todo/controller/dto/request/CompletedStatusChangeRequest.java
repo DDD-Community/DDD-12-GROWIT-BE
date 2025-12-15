@@ -8,5 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompletedStatusChangeRequest {
   @JsonProperty("isCompleted")
-  private boolean completed;
+  private Boolean completed;
+
+  @JsonProperty("isImportant")
+  private Boolean important; // Use Boolean wrapper to allow null values
 }

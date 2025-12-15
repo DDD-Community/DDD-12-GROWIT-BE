@@ -254,14 +254,14 @@ class ToDoControllerTest {
                         .responseFields(
                             fieldWithPath("data.id").type(STRING).description("할일 ID"),
                             fieldWithPath("data.goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.planId").type(STRING).description("계획 ID"),
                             fieldWithPath("data.content")
                                 .type(STRING)
                                 .description("할 일 내용 (5자 이상 30자 미만)"),
                             fieldWithPath("data.date")
                                 .type(STRING)
                                 .description("할 일 날짜 (yyyy-MM-dd)"),
-                            fieldWithPath("data.isCompleted").type(BOOLEAN).description("완료 여부"))
+                            fieldWithPath("data.isCompleted").type(BOOLEAN).description("완료 여부"),
+                            fieldWithPath("data.isImportant").type(BOOLEAN).description("중요도"))
                         .build())));
   }
 
@@ -270,7 +270,6 @@ class ToDoControllerTest {
     // given
     String userId = "user-1";
     String goalId = "goal-123";
-    String planId = "plan-456";
 
     // 도메인 객체 반환 (요일별 Group)
     Map<DayOfWeek, List<ToDo>> grouped =
@@ -282,7 +281,6 @@ class ToDoControllerTest {
         WeeklyTodosResponse.builder()
             .id("todoId")
             .goalId(goalId)
-            .planId(planId)
             .content("목표")
             .date(LocalDate.now().toString())
             .completed(true)
@@ -291,7 +289,7 @@ class ToDoControllerTest {
     Map<String, List<WeeklyTodosResponse>> mapped =
         ToDoFixture.weeklyTodosMapWith("MONDAY", List.of(mondayResponse));
 
-    given(getWeeklyTodoUseCase.execute(goalId, planId, userId)).willReturn(grouped);
+    given(getWeeklyTodoUseCase.execute(goalId, userId)).willReturn(grouped);
     given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
 
     // when & then
@@ -300,7 +298,6 @@ class ToDoControllerTest {
             get("/todos")
                 .header("Authorization", "Bearer mock-jwt-token")
                 .param("goalId", goalId)
-                .param("planId", planId)
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(
@@ -314,12 +311,10 @@ class ToDoControllerTest {
                         .summary("주간 할 일(Weekly Plan) 조회")
                         .description("특정 목표/플랜에 대한 요일별 할 일을 조회합니다.")
                         .queryParameters(
-                            parameterWithName("goalId").description("목표 ID"),
-                            parameterWithName("planId").description("계획 ID"))
+                            parameterWithName("goalId").description("목표 ID"))
                         .responseFields(
                             fieldWithPath("data.MONDAY[].id").type(STRING).description("TODO ID"),
                             fieldWithPath("data.MONDAY[].goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.MONDAY[].planId").type(STRING).description("계획 ID"),
                             fieldWithPath("data.MONDAY[].content").type(STRING).description("내용"),
                             fieldWithPath("data.MONDAY[].date").type(STRING).description("할 일 날짜"),
                             fieldWithPath("data.MONDAY[].isCompleted")
@@ -339,8 +334,8 @@ class ToDoControllerTest {
     // given
     List<ToDo> todoList =
         List.of(
-            ToDoFixture.customToDo("id", "user-1", LocalDate.now(), "planId", "goalId"),
-            ToDoFixture.customToDo("id2", "user-1", LocalDate.now(), "planId", "goalId"));
+            ToDoFixture.customToDo("id", "user-1", LocalDate.now(), "goalId"),
+            ToDoFixture.customToDo("id2", "user-1", LocalDate.now(), "goalId"));
     given(getTodayMissionUseCase.execute(any())).willReturn(todoList);
 
     // when & then
@@ -364,7 +359,6 @@ class ToDoControllerTest {
                         .responseFields(
                             fieldWithPath("data[].id").type(STRING).description("TODO ID"),
                             fieldWithPath("data[].goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data[].planId").type(STRING).description("계획 ID"),
                             fieldWithPath("data[].date").type(STRING).description("할 일 날짜"),
                             fieldWithPath("data[].content").type(STRING).description("내용"),
                             fieldWithPath("data[].isCompleted")

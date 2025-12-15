@@ -16,6 +16,6 @@ public record GoalDto(
         goal.getUserId(),
         goal.getName(),
         goal.getDuration(),
-        goal.getToBe());
+        goal.getName()); // getToBe() 메서드가 제거됨, 목표명으로 대체
   }
 }

@@ -3,6 +3,7 @@ package com.growit.app.todo.infrastructure.persistence.todos.source;
 import static com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity.toDoEntity;
 
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
+import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity;
 import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
@@ -30,14 +31,6 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
             .fetchOne());
   }
 
-  @Override
-  public List<ToDoEntity> findByPlanIdQuery(String planId) {
-    QToDoEntity toDo = QToDoEntity.toDoEntity;
-    return queryFactory
-        .selectFrom(toDo)
-        .where(toDo.planId.eq(planId), toDo.deletedAt.isNull())
-        .fetch();
-  }
 
   @Override
   public List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today) {
@@ -64,7 +57,7 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
         new BooleanBuilder()
             .and(toDo.date.eq(countByDateQueryFilter.date()))
             .and(toDo.userId.eq(countByDateQueryFilter.userId()))
-            .and(toDo.planId.eq(countByDateQueryFilter.planId()))
+            .and(toDo.goalId.eq(countByDateQueryFilter.goalId()))
             .and(toDo.deletedAt.isNull());
 
     countByDateQueryFilter.toDoId().ifPresent(id -> builder.and(toDo.uid.ne(id)));
@@ -98,6 +91,18 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
                 .eq(userId)
                 .and(toDoEntity.createdAt.between(start, end))
                 .and(toDoEntity.deletedAt.isNull()))
+        .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findByUserIdAndDateRange(GetDateRangeQueryFilter filter) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.userId.eq(filter.userId())
+                .and(toDo.date.between(filter.fromDate(), filter.toDate()))
+                .and(toDo.deletedAt.isNull()))
         .fetch();
   }
 }
