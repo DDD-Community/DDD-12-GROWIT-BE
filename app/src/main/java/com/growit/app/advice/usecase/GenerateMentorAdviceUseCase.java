@@ -51,10 +51,11 @@ public class GenerateMentorAdviceUseCase {
     }
 
     Goal goal = currentGoal.get();
-    // 멘토 정보 체크
-    if (goal.getMentor() == null) {
-      return Optional.empty(); // 멘토 정보 없음 - 스킵
-    }
+    // 멘토 정보 체크 - 현재 멘토 기능이 Goal에서 제거됨
+    // TODO: 멘토 기능 재구현 후 수정 필요
+    // if (goal.getMentor() == null) {
+    //   return Optional.empty(); // 멘토 정보 없음 - 스킵
+    // }
 
     MentorAdviceData data = dataCollector.collectData(user, goal);
     MentorAdvice advice = mentorAdviceService.generateAdvice(user, goal, data);
