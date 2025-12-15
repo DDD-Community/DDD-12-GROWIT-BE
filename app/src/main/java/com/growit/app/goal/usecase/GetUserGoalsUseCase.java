@@ -30,20 +30,14 @@ public class GetUserGoalsUseCase {
     return goals.stream()
         .map(goal -> {
           GoalAnalysis analysis = analysisRepository.findByGoalId(goal.getId())
-              .orElse(createDefaultAnalysis());
+              .orElse(null);
           return new GoalWithAnalysisDto(goal, analysis);
         })
         .toList();
   }
 
-  private GoalAnalysis createDefaultAnalysis() {
-    return GoalAnalysis.of(0, "목표를 시작했습니다. 화이팅!");
-  }
-
   private boolean filterByStatus(Goal goal, GoalStatus status) {
-    if (status == GoalStatus.NONE) {
-      return true;
-    } else if (status == GoalStatus.PROGRESS || status == GoalStatus.IN_PROGRESS) {
+    if (status == GoalStatus.PROGRESS) {
       return goal.isInProgress();
     } else {
       return goal.isCompleted();

@@ -22,12 +22,8 @@ public class GetGoalUseCase {
   public GoalWithAnalysisDto getGoal(String id, User user) {
     Goal goal = goalQuery.getMyGoal(id, user.getId());
     GoalAnalysis analysis = analysisRepository.findByGoalId(goal.getId())
-        .orElse(createDefaultAnalysis());
-    
+        .orElse(null);
+
     return new GoalWithAnalysisDto(goal, analysis);
-  }
-  
-  private GoalAnalysis createDefaultAnalysis() {
-    return GoalAnalysis.of(0, "목표를 시작했습니다. 화이팅!");
   }
 }

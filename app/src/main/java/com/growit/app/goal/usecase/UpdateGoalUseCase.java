@@ -13,13 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UpdateGoalUseCase {
   private final GoalRepository goalRepository;
-  private final GoalValidator goalValidator;
   private final GoalQuery goalQuery;
 
   @Transactional
   public void execute(UpdateGoalCommand command) {
     final Goal goal = goalQuery.getMyGoal(command.id(), command.userId());
-    goal.updateByCommand(command, goal.getUpdateStatus());
+    goal.updateGoal(command);
 
     goalRepository.saveGoal(goal);
   }

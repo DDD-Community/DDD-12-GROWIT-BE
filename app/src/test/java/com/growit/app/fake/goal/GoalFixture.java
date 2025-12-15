@@ -5,8 +5,7 @@ import com.growit.app.goal.controller.dto.request.GoalDurationDto;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
-import com.growit.app.goal.domain.goal.vo.Planet;
+import com.growit.app.goal.domain.goal.planet.Planet;
 import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import java.time.DayOfWeek;
@@ -29,18 +28,6 @@ public class GoalFixture {
     return builder.build();
   }
 
-  public static Goal customGoal(
-      String id,
-      String userId,
-      String name,
-      GoalDuration duration) {
-    GoalBuilder builder = new GoalBuilder();
-    if (id != null) builder.id(id);
-    if (userId != null) builder.userId(userId);
-    if (name != null) builder.name(name);
-    if (duration != null) builder.duration(duration);
-    return builder.build();
-  }
 
   public static CreateGoalRequest defaultCreateGoalRequest() {
     LocalDate today = LocalDate.now();
@@ -72,12 +59,12 @@ class GoalBuilder {
   LocalDate today = LocalDate.now();
   LocalDate thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
   LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-  
+
   private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
   private String id = "goal-1";
   private String userId = "user-1";
   private String name = "테스트 목표";
-  private Planet planet = Planet.of("Earth", "/images/earth_done.png", "/images/earth_progress.png");
+  private final Planet planet = Planet.of(1L, "Earth", "/images/earth_done.png", "/images/earth_progress.png");
 
   public GoalBuilder id(String id) {
     this.id = id;

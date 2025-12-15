@@ -48,4 +48,16 @@ public class DBGoalQueryRepositoryImpl implements DBGoalQueryRepository {
             goal.endDate.goe(today))
         .fetch();
   }
+
+  @Override
+  public Optional<GoalEntity> findLastGoalByUserId(String userId) {
+    QGoalEntity goal = QGoalEntity.goalEntity;
+
+    return Optional.ofNullable(
+        queryFactory
+            .selectFrom(goal)
+            .where(goal.userId.eq(userId), goal.deletedAt.isNull())
+            .orderBy(goal.id.desc())
+            .fetchFirst());
+  }
 }

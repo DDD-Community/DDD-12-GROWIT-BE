@@ -6,7 +6,6 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.exception.NotFoundException;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
@@ -72,12 +71,7 @@ public class ToDoService implements ToDoValidator, ToDoQuery, ToDoHandler {
             .findById(id)
             .orElseThrow(() -> new NotFoundException(GOAL_NOT_FOUND.getCode()));
 
-    List<ToDo> toDoList = toDoRepository.findByGoalId(goal.getId());
-    if (toDoList.isEmpty()) {
-      goal.updateByGoalUpdateStatus(GoalUpdateStatus.UPDATABLE);
-    } else {
-      goal.updateByGoalUpdateStatus(GoalUpdateStatus.PARTIALLY_UPDATABLE);
-    }
-    goalRepository.saveGoal(goal);
+    // Note: The goal update status logic has been removed as it's no longer needed.
+    // Goals now have their own status management system.
   }
 }

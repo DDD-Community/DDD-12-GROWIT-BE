@@ -4,7 +4,7 @@ import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
-import com.growit.app.goal.domain.goal.vo.Planet;
+import com.growit.app.goal.domain.goal.planet.Planet;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -40,24 +40,29 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   @Builder.Default
-  private GoalStatus status = GoalStatus.IN_PROGRESS;
+  private GoalStatus status = GoalStatus.PROGRESS;
 
   public Goal toDomain() {
     Planet domainPlanet = planet.toDomain();
     GoalDuration duration = new GoalDuration(startDate, endDate);
-    Goal goal = Goal.create(uid, name, userId, domainPlanet, duration);
-    
+    Goal goal = Goal.create(uid, userId, name, domainPlanet, duration);
+
     // Status 설정
     if (status == GoalStatus.COMPLETED) {
       goal.complete();
     }
-    
+
+    // Soft delete 상태 설정
+    if (getDeletedAt() != null) {
+      goal.delete();
+    }
+
     return goal;
   }
 
   public static GoalEntity fromDomain(Goal goal, String userId, PlanetEntity planetEntity) {
     GoalDuration duration = goal.getDuration();
-    
+
     return GoalEntity.builder()
         .uid(goal.getId())
         .userId(userId)
@@ -74,5 +79,10 @@ public class GoalEntity extends BaseEntity {
     this.startDate = goal.getDuration().startDate();
     this.endDate = goal.getDuration().endDate();
     this.status = goal.getStatus();
+
+    // Soft delete 상태 동기화
+    if (goal.isDeleted() && getDeletedAt() == null) {
+      setDeletedAt(java.time.LocalDateTime.now());
+    }
   }
 }

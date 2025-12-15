@@ -6,10 +6,9 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
-import com.growit.app.goal.domain.goal.vo.Planet;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.goal.domain.goal.planet.Planet;
 import java.util.Objects;
 
 public class Goal {
@@ -19,7 +18,7 @@ public class Goal {
   private final Planet planet;
   private GoalDuration duration;
   private GoalStatus status;
-  private GoalUpdateStatus updateStatus;
+  private boolean deleted = false;
 
   public Goal(String id, String userId, String name, Planet planet, GoalDuration duration) {
     this.id = Objects.requireNonNull(id, "Goal id cannot be null");
@@ -27,18 +26,14 @@ public class Goal {
     this.name = Objects.requireNonNull(name, "Goal name cannot be null");
     this.planet = Objects.requireNonNull(planet, "Planet cannot be null");
     this.duration = Objects.requireNonNull(duration, "Duration cannot be null");
-    this.status = GoalStatus.IN_PROGRESS;
-    this.updateStatus = GoalUpdateStatus.UPDATABLE;
+    this.status = GoalStatus.PROGRESS;
   }
 
   public static Goal create(String id, String userId, String name, Planet planet, GoalDuration duration) {
     return new Goal(id, userId, name, planet, duration);
   }
 
-  public static Goal from(CreateGoalCommand command) {
-    // Create default planet based on category for now
-    var planet = Planet.of("Earth", "/images/earth_done.png", "/images/earth_progress.png");
-
+  public static Goal from(CreateGoalCommand command, Planet planet) {
     return create(IDGenerator.generateId(), command.userId(), command.name(), planet, command.duration());
   }
 
@@ -67,17 +62,24 @@ public class Goal {
       throw new IllegalArgumentException("Goal status cannot be null");
     }
 
-    // Business rule: Can only transition from IN_PROGRESS to COMPLETED
-    if (this.status == GoalStatus.COMPLETED && newStatus == GoalStatus.IN_PROGRESS) {
+    // Business rule: Can only transition from PROGRESS to COMPLETED
+    if (this.status == GoalStatus.COMPLETED && newStatus == GoalStatus.PROGRESS) {
       throw new BadRequestException("Cannot reopen a completed goal");
     }
 
     this.status = newStatus;
   }
 
+  public void delete() {
+    this.deleted = true;
+  }
+
   private void validateCanBeUpdated() {
     if (status.isCompleted()) {
       throw new BadRequestException(GOAL_ENDED_DO_NOT_CHANGE.getCode());
+    }
+    if (deleted) {
+      throw new BadRequestException("Cannot update deleted goal");
     }
   }
 
@@ -116,73 +118,12 @@ public class Goal {
     return userId;
   }
 
-  @Deprecated
-  public String getToBe() {
-    return "";
-  }
-
-  @Deprecated
-  public Object getCategory() {
-    return null;
-  }
-
-  @Deprecated
-  public Object getMentor() {
-    return null;
-  }
-
-  @Deprecated
-  public boolean getDeleted() {
-    return false;
-  }
-
-  @Deprecated
-  public boolean finished() {
-    return isCompleted();
-  }
-
-  @Deprecated
-  public boolean checkProgress(GoalStatus status) {
-    if (status == GoalStatus.NONE) {
-      return true;
-    } else if (status == GoalStatus.PROGRESS || status == GoalStatus.IN_PROGRESS) {
-      return this.status.isInProgress();
-    } else {
-      return this.status.isCompleted();
-    }
-  }
-
-  @Deprecated
-  public void deleted() {
-  }
-
-  @Deprecated
-  public void updateByGoalUpdateStatus(GoalUpdateStatus updateStatus) {
-    updateStatus(updateStatus);
-  }
-
-  @Deprecated
-  public void updateByCommand(UpdateGoalCommand command, GoalUpdateStatus status) {
-    updateGoal(command);
-  }
-
-  @Deprecated
-  public Object getPlans() {
-    return java.util.Collections.emptyList();
+  public boolean isDeleted() {
+    return deleted;
   }
 
 
 
-  public GoalUpdateStatus getUpdateStatus() {
-    return updateStatus;
-  }
 
-  public void updateStatus(GoalUpdateStatus newUpdateStatus) {
-    if (newUpdateStatus == null) {
-      throw new IllegalArgumentException("Goal update status cannot be null");
-    }
-    this.updateStatus = newUpdateStatus;
-    this.status = newUpdateStatus.toGoalStatus();
-  }
 
 }

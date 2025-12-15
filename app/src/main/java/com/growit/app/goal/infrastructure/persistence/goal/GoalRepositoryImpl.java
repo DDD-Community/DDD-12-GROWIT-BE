@@ -2,6 +2,8 @@ package com.growit.app.goal.infrastructure.persistence.goal;
 
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.GoalRepository;
+import com.growit.app.goal.domain.goal.planet.Planet;
+import com.growit.app.goal.domain.goal.planet.PlanetRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.DBGoalRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.DBPlanetRepository;
 import com.growit.app.goal.infrastructure.persistence.goal.source.entity.GoalEntity;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class GoalRepositoryImpl implements GoalRepository {
+public class GoalRepositoryImpl implements GoalRepository, PlanetRepository {
   private final GoalDBMapper mapper;
   private final DBGoalRepository goalRepository;
   private final DBPlanetRepository planetRepository;
@@ -33,8 +35,7 @@ public class GoalRepositoryImpl implements GoalRepository {
       goalRepository.save(exist);
     } else {
       // Planet 엔티티 찾기 또는 생성
-      PlanetEntity planetEntity = findOrCreatePlanetEntity(goal.getPlanet().name());
-      
+      PlanetEntity planetEntity = findOrCreatePlanetEntity(goal.getPlanet().id());
       GoalEntity entity = mapper.toEntity(goal, goal.getUserId(), planetEntity);
       goalRepository.save(entity);
     }
@@ -57,18 +58,19 @@ public class GoalRepositoryImpl implements GoalRepository {
     List<GoalEntity> goals = goalRepository.findByUserIdAndGoalDuration(userId, today);
     return goals.stream().map(mapper::toDomain).toList();
   }
-  
-  private PlanetEntity findOrCreatePlanetEntity(String planetName) {
-    return planetRepository.findByName(planetName)
-        .orElseGet(() -> {
-          // 기본 Planet 생성
-          PlanetEntity defaultPlanet = PlanetEntity.builder()
-              .name(planetName)
-              .imageDone("/images/" + planetName.toLowerCase() + "_done.png")
-              .imageProgress("/images/" + planetName.toLowerCase() + "_progress.png")
-              .description("기본 행성: " + planetName)
-              .build();
-          return planetRepository.save(defaultPlanet);
-        });
+
+  @Override
+  public Optional<Goal> findLastGoal(String userId) {
+    Optional<GoalEntity> lastGoalEntity = goalRepository.findLastGoalByUserId(userId);
+    return lastGoalEntity.map(mapper::toDomain);
+  }
+
+  private PlanetEntity findOrCreatePlanetEntity(Long id) {
+    return planetRepository.findById(id).orElseThrow();
+  }
+
+  @Override
+  public List<Planet> findAll() {
+    return planetRepository.findAll().stream().map(PlanetEntity::toDomain).toList();
   }
 }

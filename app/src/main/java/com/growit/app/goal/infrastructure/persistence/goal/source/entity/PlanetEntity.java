@@ -1,7 +1,7 @@
 package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
-import com.growit.app.goal.domain.goal.vo.Planet;
+import com.growit.app.goal.domain.goal.planet.Planet;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,11 +31,12 @@ public class PlanetEntity extends BaseEntity {
   private String description;
 
   public Planet toDomain() {
-    return Planet.of(name, imageDone, imageProgress);
+    return Planet.of(id, name, imageDone, imageProgress);
   }
 
   public static PlanetEntity fromDomain(Planet planet) {
     return PlanetEntity.builder()
+      .id(planet.id())
         .name(planet.name())
         .imageDone(planet.imageDone())
         .imageProgress(planet.imageProgress())
