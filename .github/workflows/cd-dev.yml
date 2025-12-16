@@ -16,7 +16,7 @@ jobs:
       CLUSTER_NAME: ${{ secrets.ECS_CLUSTER }}
       SERVICE_NAME: growit-app-service-v2
       ECS_TASK_DEFINITION: growit-app-service-task-v2
-
+    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
