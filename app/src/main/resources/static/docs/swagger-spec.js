@@ -6,7 +6,7 @@ window.swaggerSpec={
     "version" : "0.0.3"
   },
   "servers" : [ {
-    "url" : "http://localhost:8081/"
+    "url" : "https://api.grow-it.me/"
   } ],
   "tags" : [ ],
   "paths" : {
@@ -256,7 +256,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"2vKoli0a0ArrFVWvYbeM5\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"dg2FrEQcQenCQOD8UKw4y\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"esc8VWOaO7fKyDE_CEuSz\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"z2QuehJXLHuJn5HMygcRs\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -366,6 +366,191 @@ window.swaggerSpec={
         "responses" : {
           "200" : {
             "description" : "200"
+          }
+        }
+      }
+    },
+    "/goals" : {
+      "get" : {
+        "tags" : [ "Goals" ],
+        "summary" : "내 목표 목록 조회",
+        "description" : "사용자의 목표 목록을 상태별로 조회합니다.",
+        "operationId" : "get-my-goals",
+        "parameters" : [ {
+          "name" : "status",
+          "in" : "query",
+          "description" : "목표 상태 (PROGRESS, ENDED, COMPLETED)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goals-72449656"
+                },
+                "examples" : {
+                  "get-my-goals" : {
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    },\n    \"duration\" : {\n      \"startDate\" : \"2025-12-15\",\n      \"endDate\" : \"2025-12-21\"\n    },\n    \"status\" : \"PROGRESS\",\n    \"analysis\" : {\n      \"todoCompletedRate\" : 75,\n      \"summary\" : \"목표가 순조롭게 진행되고 있습니다.\"\n    },\n    \"isChecked\" : false\n  } ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Goals" ],
+        "summary" : "목표 생성",
+        "description" : "새로운 목표를 생성합니다.",
+        "operationId" : "create-goal",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/goals-1576692806"
+              },
+              "examples" : {
+                "create-goal" : {
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-12-22\",\n    \"endDate\" : \"2026-01-18\"\n  }\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goals-63574136"
+                },
+                "examples" : {
+                  "create-goal" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    }\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/goals/{goalId}" : {
+      "get" : {
+        "tags" : [ "Goals" ],
+        "summary" : "특정 목표 조회",
+        "description" : "특정 목표의 상세 정보를 조회합니다.",
+        "operationId" : "get-my-goal",
+        "parameters" : [ {
+          "name" : "goalId",
+          "in" : "path",
+          "description" : "목표 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goals-goalId-926231842"
+                },
+                "examples" : {
+                  "get-my-goal" : {
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    },\n    \"duration\" : {\n      \"startDate\" : \"2025-12-15\",\n      \"endDate\" : \"2025-12-21\"\n    },\n    \"status\" : \"PROGRESS\",\n    \"analysis\" : {\n      \"todoCompletedRate\" : 75,\n      \"summary\" : \"목표가 순조롭게 진행되고 있습니다.\"\n    },\n    \"isChecked\" : false\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/goals/{id}" : {
+      "put" : {
+        "tags" : [ "Goals" ],
+        "summary" : "목표 수정",
+        "description" : "기존 목표 정보를 수정합니다.",
+        "operationId" : "update-goal",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "목표 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/goals-id529992684"
+              },
+              "examples" : {
+                "update-goal" : {
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-12-22\",\n    \"endDate\" : \"2026-01-18\"\n  }\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goals-id233228607"
+                },
+                "examples" : {
+                  "update-goal" : {
+                    "value" : "{\n  \"data\" : \"목표가 수정 완료되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Goals" ],
+        "summary" : "목표 삭제",
+        "description" : "특정 목표를 삭제합니다.",
+        "operationId" : "delete-goal",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "삭제할 목표 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goals-id-393629335"
+                },
+                "examples" : {
+                  "delete-goal" : {
+                    "value" : "{\n  \"data\" : \"삭제되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -412,74 +597,6 @@ window.swaggerSpec={
                 "examples" : {
                   "get-saying" : {
                     "value" : "{\n  \"data\" : {\n    \"message\" : \"성공은 매일 반복되는 작은 노력들의 합이다냥!\",\n    \"from\" : \"그로냥\"\n  }\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/todos" : {
-      "get" : {
-        "tags" : [ "ToDos" ],
-        "summary" : "주간 ToDo 조회",
-        "description" : "목표의 주간 ToDo 목록을 조회합니다.",
-        "operationId" : "get-weekly-todos",
-        "parameters" : [ {
-          "name" : "goalId",
-          "in" : "query",
-          "description" : "목표 ID",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "200",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/todos887528801"
-                },
-                "examples" : {
-                  "get-weekly-todos" : {
-                    "value" : "{\n  \"data\" : {\n    \"MONDAY\" : [ ],\n    \"TUESDAY\" : [ ],\n    \"WEDNESDAY\" : [ ],\n    \"THURSDAY\" : [ ],\n    \"FRIDAY\" : [ ],\n    \"SATURDAY\" : [ ],\n    \"SUNDAY\" : [ ]\n  }\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/todos/face/status" : {
-      "get" : {
-        "tags" : [ "ToDos" ],
-        "summary" : "얼굴 상태 조회",
-        "description" : "목표의 현재 얼굴 상태를 조회합니다.",
-        "operationId" : "get-face-status",
-        "parameters" : [ {
-          "name" : "goalId",
-          "in" : "query",
-          "description" : "목표 ID",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "200",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/todos-face-status1436938115"
-                },
-                "examples" : {
-                  "get-face-status" : {
-                    "value" : "{\n  \"data\" : \"HAPPY\"\n}"
                   }
                 }
               }
@@ -785,122 +902,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos887528801" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "WEDNESDAY" : {
-                "type" : "array",
-                "description" : "수요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              },
-              "MONDAY" : {
-                "type" : "array",
-                "description" : "월요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              },
-              "THURSDAY" : {
-                "type" : "array",
-                "description" : "목요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              },
-              "SUNDAY" : {
-                "type" : "array",
-                "description" : "일요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              },
-              "FRIDAY" : {
-                "type" : "array",
-                "description" : "금요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              },
-              "TUESDAY" : {
-                "type" : "array",
-                "description" : "화요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              },
-              "SATURDAY" : {
-                "type" : "array",
-                "description" : "토요일 ToDo 목록",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object"
-                  }, {
-                    "type" : "boolean"
-                  }, {
-                    "type" : "string"
-                  }, {
-                    "type" : "number"
-                  } ]
-                }
-              }
-            },
-            "description" : "요일별 ToDo 목록"
-          }
-        }
-      },
       "resource-jobroles118231371" : {
         "type" : "object",
         "properties" : {
@@ -1019,6 +1020,85 @@ window.swaggerSpec={
           }
         }
       },
+      "goals-goalId-926231842" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "duration" : {
+                "type" : "object",
+                "properties" : {
+                  "endDate" : {
+                    "type" : "string",
+                    "description" : "종료 날짜 (yyyy-MM-dd)"
+                  },
+                  "startDate" : {
+                    "type" : "string",
+                    "description" : "시작 날짜 (yyyy-MM-dd)"
+                  }
+                },
+                "description" : "목표 기간 정보"
+              },
+              "planet" : {
+                "type" : "object",
+                "properties" : {
+                  "image" : {
+                    "type" : "object",
+                    "properties" : {
+                      "progress" : {
+                        "type" : "string",
+                        "description" : "진행 이미지 URL"
+                      },
+                      "done" : {
+                        "type" : "string",
+                        "description" : "완료 이미지 URL"
+                      }
+                    },
+                    "description" : "행성 이미지 정보"
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "description" : "행성 이름"
+                  }
+                },
+                "description" : "행성 정보"
+              },
+              "name" : {
+                "type" : "string",
+                "description" : "목표 이름"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "analysis" : {
+                "type" : "object",
+                "properties" : {
+                  "summary" : {
+                    "type" : "string",
+                    "description" : "분석 요약 메시지"
+                  },
+                  "todoCompletedRate" : {
+                    "type" : "number",
+                    "description" : "ToDo 완료율 (0-100)"
+                  }
+                },
+                "description" : "목표 분석 정보 (null 가능)"
+              },
+              "isChecked" : {
+                "type" : "boolean",
+                "description" : "목표 확인 여부"
+              },
+              "status" : {
+                "type" : "string",
+                "description" : "목표 상태 (PROGRESS, ENDED)"
+              }
+            },
+            "description" : "목표 상세 정보"
+          }
+        }
+      },
       "users-myprofile-promotion506539620" : {
         "type" : "object",
         "properties" : {
@@ -1073,6 +1153,15 @@ window.swaggerSpec={
           }
         }
       },
+      "goals-id233228607" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "수정 완료 메시지"
+          }
+        }
+      },
       "goal-retrospects-1650437255" : {
         "type" : "object",
         "properties" : {
@@ -1119,6 +1208,15 @@ window.swaggerSpec={
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "goals-id-393629335" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "삭제 완료 메시지"
           }
         }
       },
@@ -1169,12 +1267,85 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-face-status1436938115" : {
+      "goals-72449656" : {
         "type" : "object",
         "properties" : {
           "data" : {
-            "type" : "string",
-            "description" : "얼굴 상태 (HAPPY, NORMAL, SAD)"
+            "type" : "array",
+            "description" : "목록 데이터 배열",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "duration" : {
+                  "type" : "object",
+                  "properties" : {
+                    "endDate" : {
+                      "type" : "string",
+                      "description" : "종료 날짜 (yyyy-MM-dd)"
+                    },
+                    "startDate" : {
+                      "type" : "string",
+                      "description" : "시작 날짜 (yyyy-MM-dd)"
+                    }
+                  },
+                  "description" : "목표 기간 정보"
+                },
+                "planet" : {
+                  "type" : "object",
+                  "properties" : {
+                    "image" : {
+                      "type" : "object",
+                      "properties" : {
+                        "progress" : {
+                          "type" : "string",
+                          "description" : "진행 이미지 URL"
+                        },
+                        "done" : {
+                          "type" : "string",
+                          "description" : "완료 이미지 URL"
+                        }
+                      },
+                      "description" : "행성 이미지 정보"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "행성 이름"
+                    }
+                  },
+                  "description" : "행성 정보"
+                },
+                "name" : {
+                  "type" : "string",
+                  "description" : "목표 이름"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "목표 ID"
+                },
+                "analysis" : {
+                  "type" : "object",
+                  "properties" : {
+                    "summary" : {
+                      "type" : "string",
+                      "description" : "분석 요약 메시지"
+                    },
+                    "todoCompletedRate" : {
+                      "type" : "number",
+                      "description" : "ToDo 완료율 (0-100)"
+                    }
+                  },
+                  "description" : "목표 분석 정보 (null 가능)"
+                },
+                "isChecked" : {
+                  "type" : "boolean",
+                  "description" : "목표 확인 여부"
+                },
+                "status" : {
+                  "type" : "string",
+                  "description" : "목표 상태 (PROGRESS, ENDED)"
+                }
+              }
+            }
           }
         }
       },
@@ -1262,6 +1433,29 @@ window.swaggerSpec={
           }
         }
       },
+      "goals-id529992684" : {
+        "type" : "object",
+        "properties" : {
+          "duration" : {
+            "type" : "object",
+            "properties" : {
+              "endDate" : {
+                "type" : "string",
+                "description" : "수정할 종료 날짜 (yyyy-MM-dd)"
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "수정할 시작 날짜 (yyyy-MM-dd)"
+              }
+            },
+            "description" : "수정할 목표 기간 객체"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "수정할 목표 이름"
+          }
+        }
+      },
       "goal-retrospects-id707367061" : {
         "type" : "object",
         "properties" : {
@@ -1300,6 +1494,45 @@ window.swaggerSpec={
               }
             },
             "description" : "응답 데이터"
+          }
+        }
+      },
+      "goals-63574136" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "planet" : {
+                "type" : "object",
+                "properties" : {
+                  "image" : {
+                    "type" : "object",
+                    "properties" : {
+                      "progress" : {
+                        "type" : "string",
+                        "description" : "진행 이미지 URL"
+                      },
+                      "done" : {
+                        "type" : "string",
+                        "description" : "완료 이미지 URL"
+                      }
+                    },
+                    "description" : "행성 이미지 정보"
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "description" : "행성 이름"
+                  }
+                },
+                "description" : "할당된 행성 정보"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "생성된 목표 ID"
+              }
+            },
+            "description" : "생성된 목표 정보"
           }
         }
       },
@@ -1356,6 +1589,29 @@ window.swaggerSpec={
                 }
               }
             }
+          }
+        }
+      },
+      "goals-1576692806" : {
+        "type" : "object",
+        "properties" : {
+          "duration" : {
+            "type" : "object",
+            "properties" : {
+              "endDate" : {
+                "type" : "string",
+                "description" : "종료 날짜 (yyyy-MM-dd)"
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "시작 날짜 (yyyy-MM-dd)"
+              }
+            },
+            "description" : "목표 기간 객체"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "목표 이름"
           }
         }
       },
