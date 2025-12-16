@@ -1,6 +1,5 @@
 package com.growit.app.retrospect.usecase.retrospect.dto;
 
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RetrospectWithPlan {
   private Retrospect retrospect;
-  private Plan plan;
+  // Plan field removed as plan domain has been deleted
 }

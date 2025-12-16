@@ -20,7 +20,7 @@ public class ToDoFixture {
   }
 
   public static CreateToDoRequest defaultCreateToDoRequest() {
-    return new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 예시 내용입니다.");
+    return new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 예시 내용입니다.", false, null);
   }
 
   public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(
@@ -33,13 +33,11 @@ public class ToDoFixture {
     return map;
   }
 
-  public static ToDo customToDo(
-      String id, String userId, LocalDate date, String planId, String goalId) {
+  public static ToDo customToDo(String id, String userId, LocalDate date, String goalId) {
     return new ToDoBuilder()
         .id(id != null ? id : "todo-1")
         .userId(userId != null ? userId : "user-1")
         .date(date != null ? date : LocalDate.now())
-        .planId(planId != null ? planId : "plan-1")
         .goalId(goalId != null ? goalId : "goal-1")
         .build();
   }
@@ -49,9 +47,9 @@ class ToDoBuilder {
   private String id = "todo-1";
   private String goalId = "goal-1";
   private String userId = "user-1";
-  private String planId = "plan-1";
   private String content = "테스트 할 일입니다.";
   private boolean isCompleted = false;
+  private boolean isImportant = false;
   private LocalDate date = LocalDate.now();
 
   public ToDoBuilder id(String id) {
@@ -66,11 +64,6 @@ class ToDoBuilder {
 
   public ToDoBuilder userId(String userId) {
     this.userId = userId;
-    return this;
-  }
-
-  public ToDoBuilder planId(String planId) {
-    this.planId = planId;
     return this;
   }
 
@@ -89,16 +82,22 @@ class ToDoBuilder {
     return this;
   }
 
+  public ToDoBuilder isImportant(boolean isImportant) {
+    this.isImportant = isImportant;
+    return this;
+  }
+
   public ToDo build() {
     return ToDo.builder()
         .id(id)
         .goalId(goalId)
         .userId(userId)
-        .planId(planId)
         .content(content)
         .date(date)
         .isCompleted(isCompleted)
         .isDeleted(false)
+        .isImportant(isImportant)
+        .routine(null)
         .build();
   }
 }

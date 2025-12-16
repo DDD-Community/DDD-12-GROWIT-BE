@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
-import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 class GoalTest {
@@ -15,10 +13,10 @@ class GoalTest {
     // given
     Goal original = GoalFixture.defaultGoal();
     String name = "Updated Name";
-    UpdateGoalCommand command = GoalFixture.defaultUpdateGoalCommand(name, Collections.emptyList());
+    UpdateGoalCommand command = GoalFixture.defaultUpdateGoalCommand(name);
 
     // when
-    original.updateByCommand(command, GoalUpdateStatus.UPDATABLE);
+    original.updateGoal(command);
 
     // then
     assertThat(original.getName()).isEqualTo("Updated Name");

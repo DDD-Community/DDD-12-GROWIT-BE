@@ -1,6 +1,5 @@
 package com.growit.app.todo.domain.dto;
 
-import com.growit.app.goal.domain.goal.plan.Plan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ToDoResult {
   private String id;
-  private Plan plan;
+  // Plan field removed as plan domain has been deleted
 }

@@ -55,19 +55,8 @@ public class MentorAdviceService {
 
   /** Goal의 mentor 정보를 바탕으로 적절한 조언 promptId를 결정합니다. */
   private String determineAdvicePromptIdByMentor(Goal goal) {
-    if (goal.getMentor() == null) {
-      throw new BadRequestException("목표에 멘토 정보가 설정되지 않았습니다.");
-    }
-
-    // Goal 엔티티의 mentor 값에 따라 분기
-    return switch (goal.getMentor()) {
-      case TIM_COOK -> "teamcook-advice-001";
-      case WARREN_BUFFETT -> "warren-buffett-advice-001";
-      case CONFUCIUS -> "confucius-advice-001";
-      default -> {
-        throw new BadRequestException("알 수 없는 멘토입니다: " + goal.getMentor());
-      }
-    };
+    // Mentor is no longer part of Goal domain, use default
+    return "teamcook-advice-001"; // Default prompt ID
   }
 
   private MentorAdvice createMentorAdvice(User user, Goal goal, AiMentorAdviceResponse response) {

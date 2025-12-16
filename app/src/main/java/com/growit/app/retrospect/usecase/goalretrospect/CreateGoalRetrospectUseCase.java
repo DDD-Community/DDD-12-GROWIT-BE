@@ -41,7 +41,7 @@ public class CreateGoalRetrospectUseCase {
     }
 
     final Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
-    if (!goal.finished()) {
+    if (!goal.isCompleted()) {
       log.warn("목표가 완료되지 않음 - GoalId: {}", goal.getId());
       throw new BadRequestException(ErrorCode.GOAL_RETROSPECT_GOAL_NOT_COMPLETED.getCode());
     }

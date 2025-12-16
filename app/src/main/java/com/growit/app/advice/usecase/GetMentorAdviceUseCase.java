@@ -29,6 +29,7 @@ public class GetMentorAdviceUseCase {
   private Goal getCurrentProgressGoal(User user) {
     return getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS).stream()
         .findFirst()
+        .map(dto -> dto.getGoal())
         .orElseThrow(() -> new NotFoundException(GOAL_PROGRESS_NOTFOUND.getCode()));
   }
 

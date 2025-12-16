@@ -64,17 +64,21 @@ public class GoalRetrospectAnalysisClientImpl implements AIAnalysis {
                         .defaultIfEmpty("(응답 본문 없음)")
                         .flatMap(
                             responseBody -> {
-                              log.error("AI 분석 요청 실패 - URL: {}, Status: {}, Response: {}", 
-                                  fullUrl, clientResponse.statusCode(), responseBody);
+                              log.error(
+                                  "AI 분석 요청 실패 - URL: {}, Status: {}, Response: {}",
+                                  fullUrl,
+                                  clientResponse.statusCode(),
+                                  responseBody);
                               return clientResponse
                                   .createException()
                                   .map(
-                                      ex -> new RuntimeException(
-                                          "NestJS 서비스 에러: "
-                                              + clientResponse.statusCode()
-                                              + " - "
-                                              + ex.getMessage(),
-                                          ex));
+                                      ex ->
+                                          new RuntimeException(
+                                              "NestJS 서비스 에러: "
+                                                  + clientResponse.statusCode()
+                                                  + " - "
+                                                  + ex.getMessage(),
+                                              ex));
                             });
                   })
               .bodyToMono(GoalRetrospectAnalysisResponse.class)
@@ -88,12 +92,13 @@ public class GoalRetrospectAnalysisClientImpl implements AIAnalysis {
       return new Analysis(response.getAnalysis().getSummary(), response.getAnalysis().getAdvice());
 
     } catch (WebClientResponseException e) {
-      log.error("AI 분석 HTTP 에러 - URL: {}, Status: {}, Response: {}", 
-          fullUrl, e.getStatusCode(), e.getResponseBodyAsString());
+      log.error(
+          "AI 분석 HTTP 에러 - URL: {}, Status: {}, Response: {}",
+          fullUrl,
+          e.getStatusCode(),
+          e.getResponseBodyAsString());
       String fallbackSummary =
-          "AI 분석을 생성하는 중 오류가 발생했습니다. (HTTP "
-              + e.getStatusCode()
-              + ") 시스템 로그를 확인해 주십시오.";
+          "AI 분석을 생성하는 중 오류가 발생했습니다. (HTTP " + e.getStatusCode() + ") 시스템 로그를 확인해 주십시오.";
       String fallbackAdvice = "예외: " + e.getMessage() + " 다냥";
       return new Analysis(fallbackSummary, fallbackAdvice);
     } catch (Exception e) {
@@ -119,7 +124,7 @@ public class GoalRetrospectAnalysisClientImpl implements AIAnalysis {
         GoalRetrospectAnalysisRequest.GoalDto.builder()
             .id(goal.getId())
             .title(goal.getName())
-            .description(goal.getToBe())
+            .description(goal.getName()) // getToBe() 메서드가 제거됨, 목표명으로 대체
             .build();
 
     // Retrospects 변환
@@ -171,11 +176,10 @@ public class GoalRetrospectAnalysisClientImpl implements AIAnalysis {
 
     return GoalRetrospectAnalysisRequest.builder()
         .goalId(goal.getId())
-        .content("")  // 빈 문자열로 설정 (NestJS에서 허용하도록 수정 필요)
+        .content("") // 빈 문자열로 설정 (NestJS에서 허용하도록 수정 필요)
         .goal(goalDto)
         .retrospects(retrospectDtos)
         .todos(todoDtos)
         .build();
   }
 }
-

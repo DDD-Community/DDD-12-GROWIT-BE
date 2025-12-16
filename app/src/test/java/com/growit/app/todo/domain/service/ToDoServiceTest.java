@@ -36,57 +36,50 @@ class ToDoServiceTest {
   @Test
   void givenLessThan10ToDos_whenTooManyToDoCreated_thenSuccess() {
     String userId = "user-1";
-    String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
-    toDoValidator.tooManyToDoCreated(today, userId, planId);
+    toDoValidator.tooManyToDoCreated(today, userId, goal.getId());
   }
 
   @Test
   void given10OrMoreToDos_whenTooManyToDoCreated_thenThrowBadRequestException() {
     String userId = "user-1";
-    String planId = "plan-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
     toDoValidator.setThrowOnTooManyCreate(true);
-    fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-11", userId, today, planId, goal.getId()));
+    fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-11", userId, today, goal.getId()));
 
     assertThrows(
-        BadRequestException.class, () -> toDoValidator.tooManyToDoCreated(today, userId, planId));
+        BadRequestException.class,
+        () -> toDoValidator.tooManyToDoCreated(today, userId, goal.getId()));
   }
 
   @Test
   void given10ToDosButOneIsBeingUpdated_whenTooManyToDoUpdated_thenSuccess() {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
-    String planId = goal.getPlanByDate(today).getId();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
-    toDoValidator.tooManyToDoUpdated(today, userId, planId, "todo-1");
+    toDoValidator.tooManyToDoUpdated(today, userId, goal.getId(), "todo-1");
   }
 
   @Test
   void given10OtherToDos_whenTooManyToDoUpdated_thenThrowBadRequestException() {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
-    String planId = goal.getPlanByDate(today).getId();
     for (int i = 0; i < 11; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, planId, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
 
     toDoValidator.setThrowOnTooManyUpdate(true);
     assertThrows(
         BadRequestException.class,
-        () -> toDoValidator.tooManyToDoUpdated(today, userId, planId, "todo-11"));
+        () -> toDoValidator.tooManyToDoUpdated(today, userId, goal.getId(), "todo-11"));
   }
 
   @Test
@@ -102,11 +95,9 @@ class ToDoServiceTest {
   @Test
   void givenToDos_whenGetStatus_thenReturnsCorrectStatus() {
     // given
-    ToDo completed =
-        ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), "plan-1", "goal-1");
+    ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), "goal-1");
     completed.updateIsCompleted(true);
-    ToDo notCompleted =
-        ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), "plan-1", "goal-1");
+    ToDo notCompleted = ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), "goal-1");
     notCompleted.updateIsCompleted(false);
 
     List<ToDo> todos = List.of(completed, notCompleted);

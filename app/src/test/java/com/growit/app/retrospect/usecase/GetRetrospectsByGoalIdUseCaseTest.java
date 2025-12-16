@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.fake.goal.GoalFixture;
-import com.growit.app.fake.goal.PlanFixture;
 import com.growit.app.fake.retrospect.RetrospectFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.service.RetrospectQuery;
@@ -45,11 +43,7 @@ class GetRetrospectsByGoalIdUseCaseTest {
         RetrospectFixture.customRetrospect("retrospect-2", userId, goalId, planId2, kpt2);
     List<Retrospect> retrospects = List.of(retrospect1, retrospect2);
 
-    Plan plan1 = PlanFixture.customPlan(planId1, 1, null, null, null);
-    Plan plan2 = PlanFixture.customPlan(planId2, 2, null, null, null);
-    Goal goal =
-        GoalFixture.customGoal(
-            goalId, userId, null, null, null, null, null, List.of(plan1, plan2), null);
+    Goal goal = GoalFixture.customGoal(goalId, "테스트 목표", null);
 
     when(retrospectQuery.getRetrospectsByGoalId(goalId, userId)).thenReturn(retrospects);
     when(goalQuery.getMyGoal(goalId, userId)).thenReturn(goal);
@@ -76,6 +70,6 @@ class GetRetrospectsByGoalIdUseCaseTest {
     List<RetrospectWithPlan> results = useCase.execute(goalId, userId);
 
     // then
-    assertThat(results).hasSize(goal.getPlans().size());
+    assertThat(results).hasSize(0);
   }
 }

@@ -22,12 +22,12 @@ public class GetWeeklyTodoUseCase {
   private final GoalRepository goalRepository;
 
   @Transactional(readOnly = true)
-  public Map<DayOfWeek, List<ToDo>> execute(String goalId, String planId, String userId) {
+  public Map<DayOfWeek, List<ToDo>> execute(String goalId, String userId) {
     Goal goal =
         goalRepository.findById(goalId).orElseThrow(() -> new NotFoundException("목표를 찾을 수 없습니다."));
-    goalValidator.checkPlanExists(userId, goal.getId(), planId);
+    // Plan validation removed as plans are no longer used
 
-    List<ToDo> todos = toDoRepository.findByPlanId(planId);
+    List<ToDo> todos = toDoRepository.findByGoalId(goalId);
     return ToDoUtils.groupByDayOfWeek(todos);
   }
 }

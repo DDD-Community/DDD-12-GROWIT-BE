@@ -32,7 +32,7 @@ class CompletedStatusChangeToDoUseCaseTest {
   void givenValidTodo_whenExecute_thenStatusIsChanged() {
     // given
     CompletedStatusChangeCommand command =
-        new CompletedStatusChangeCommand(todo.getId(), todo.getUserId(), true);
+        new CompletedStatusChangeCommand(todo.getId(), todo.getUserId(), true, null);
 
     // when
     useCase.execute(command);
@@ -49,7 +49,7 @@ class CompletedStatusChangeToDoUseCaseTest {
     String userId = "user-1";
 
     CompletedStatusChangeCommand command =
-        new CompletedStatusChangeCommand(notExistId, userId, true);
+        new CompletedStatusChangeCommand(notExistId, userId, true, null);
 
     // when & then
     assertThatThrownBy(() -> useCase.execute(command))

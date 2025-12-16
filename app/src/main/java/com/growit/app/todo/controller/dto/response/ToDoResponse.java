@@ -7,12 +7,4 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ToDoResponse {
   private String id;
-  private PlanInfo plan;
-
-  @Getter
-  @AllArgsConstructor
-  public static class PlanInfo {
-    private String id;
-    private int weekOfMonth;
-  }
 }

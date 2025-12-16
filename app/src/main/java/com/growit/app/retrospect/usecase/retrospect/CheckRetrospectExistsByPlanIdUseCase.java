@@ -16,7 +16,7 @@ public class CheckRetrospectExistsByPlanIdUseCase {
 
   @Transactional(readOnly = true)
   public boolean execute(RetrospectQueryFilter filter) {
-    goalValidator.checkPlanExists(filter.userId(), filter.goalId(), filter.planId());
+    // 목표 존재 여부 확인은 실제 목표 조회 시 처리됨 (planId 제거됨)
     return isExists(filter);
   }
 

@@ -2,28 +2,15 @@ package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
-import com.growit.app.goal.domain.goal.vo.GoalCategory;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
-import com.growit.app.goal.domain.goal.vo.Mentor;
+import com.growit.app.goal.domain.goal.planet.Planet;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.*;
 
 @Entity
-@Table(
-    name = "goals",
-    uniqueConstraints = {
-      @UniqueConstraint(
-          name = "uk_goals_user_id_end_date",
-          columnNames = {"user_id", "end_date"})
-    })
+@Table(name = "goals")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -46,54 +33,56 @@ public class GoalEntity extends BaseEntity {
   @Column(nullable = false)
   private LocalDate endDate;
 
-  @Column(nullable = false, length = 128)
-  private String toBe;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "planet_id")
+  private PlanetEntity planet;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   @Builder.Default
-  private GoalCategory category = GoalCategory.UNCATEGORIZED;
+  private GoalStatus status = GoalStatus.PROGRESS;
 
-  @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private GoalUpdateStatus updateStatus = GoalUpdateStatus.UPDATABLE;
+  public Goal toDomain() {
+    Planet domainPlanet = planet.toDomain();
+    GoalDuration duration = new GoalDuration(startDate, endDate);
+    Goal goal = Goal.create(uid, userId, name, domainPlanet, duration);
 
-  @Column()
-  @Enumerated(EnumType.STRING)
-  private Mentor mentor;
+    // Status 설정
+    if (status == GoalStatus.COMPLETED) {
+      goal.complete();
+    }
 
-  @OneToMany(
-      mappedBy = "goal",
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      fetch = FetchType.LAZY)
-  @Builder.Default
-  private List<PlanEntity> plans = new ArrayList<>();
+    // Soft delete 상태 설정
+    if (getDeletedAt() != null) {
+      goal.delete();
+    }
 
-  public void updateToByDomain(Goal goal) {
+    return goal;
+  }
+
+  public static GoalEntity fromDomain(Goal goal, String userId, PlanetEntity planetEntity) {
+    GoalDuration duration = goal.getDuration();
+
+    return GoalEntity.builder()
+        .uid(goal.getId())
+        .userId(userId)
+        .name(goal.getName())
+        .startDate(duration.startDate())
+        .endDate(duration.endDate())
+        .planet(planetEntity)
+        .status(goal.getStatus())
+        .build();
+  }
+
+  public void updateFromDomain(Goal goal) {
     this.name = goal.getName();
     this.startDate = goal.getDuration().startDate();
     this.endDate = goal.getDuration().endDate();
-    this.toBe = goal.getToBe();
-    this.category = goal.getCategory();
-    this.mentor = goal.getMentor();
-    this.updateStatus = goal.getUpdateStatus();
+    this.status = goal.getStatus();
 
-    if (goal.getPlans() != null && !goal.getPlans().isEmpty()) {
-      Map<String, String> contentById =
-          goal.getPlans().stream()
-              .filter(p -> p.getId() != null)
-              .collect(Collectors.toMap(Plan::getId, Plan::getContent, (a, b) -> b));
-      // 리팩터링 필요
-      for (PlanEntity pe : this.plans) {
-        String newContent = contentById.get(pe.getUid());
-        if (newContent != null && !Objects.equals(pe.getContent(), newContent)) {
-          pe.setContent(newContent);
-        }
-      }
+    // Soft delete 상태 동기화
+    if (goal.isDeleted() && getDeletedAt() == null) {
+      setDeletedAt(java.time.LocalDateTime.now());
     }
-
-    if (goal.getDeleted()) setDeletedAt(LocalDateTime.now());
   }
 }

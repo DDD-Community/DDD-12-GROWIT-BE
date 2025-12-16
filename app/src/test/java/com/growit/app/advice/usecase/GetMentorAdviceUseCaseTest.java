@@ -9,9 +9,11 @@ import com.growit.app.advice.domain.mentor.MentorAdviceRepository;
 import com.growit.app.fake.advice.MentorAdviceFixture;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.fake.user.UserFixture;
+import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.GetUserGoalsUseCase;
+import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import com.growit.app.user.domain.user.User;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -34,10 +36,12 @@ class GetMentorAdviceUseCaseTest {
     // given
     User user = UserFixture.defaultUser();
     Goal progressGoal = GoalFixture.defaultGoal();
+    GoalAnalysis analysis = new GoalAnalysis(50, "분석 요약");
+    GoalWithAnalysisDto goalWithAnalysis = new GoalWithAnalysisDto(progressGoal, analysis);
     MentorAdvice expectedAdvice = MentorAdviceFixture.defaultMentorAdvice();
 
     given(getUserGoalsUseCase.getMyGoals(user, GoalStatus.PROGRESS))
-        .willReturn(List.of(progressGoal));
+        .willReturn(List.of(goalWithAnalysis));
     given(generateMentorAdviceUseCase.execute(user)).willReturn(expectedAdvice);
 
     // when
