@@ -5,8 +5,8 @@ import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.controller.dto.response.ToDoResponse;
-import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
 import com.growit.app.todo.controller.dto.response.ToDoWithGoalResponse;
+import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
@@ -15,8 +15,8 @@ import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.usecase.*;
-import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
+import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -73,12 +73,13 @@ public class ToDoController {
   }
 
   @GetMapping(params = "date")
-  public ResponseEntity<ApiResponse<List<ToDoWithGoalResponse>>> getTodosWithGoalByDate(
+  public ResponseEntity<ApiResponse<List<ToDoWithGoalResponse>>> getTodosByDate(
       @AuthenticationPrincipal User user, @RequestParam String date) {
-    List<ToDoWithGoalDto> toDoList =
-        getTodosWithGoalByDateUseCase.execute(toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
-    List<ToDoWithGoalResponse> response = toDoResponseMapper.toToDoWithGoalResponseList(toDoList);
-    return ResponseEntity.ok(new ApiResponse<>(response));
+    List<ToDoWithGoalDto> todoList =
+        getTodosWithGoalByDateUseCase.execute(
+            toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
+    return ResponseEntity.ok(
+        ApiResponse.success(toDoResponseMapper.toToDoWithGoalResponseList(todoList)));
   }
 
   @GetMapping("/{id}")
@@ -95,16 +96,14 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 
-
   @GetMapping(params = {"from", "to"})
   public ResponseEntity<ApiResponse<List<TodoCountByDateResponse>>> getTodoCountByDateRange(
-      @AuthenticationPrincipal User user,
-      @RequestParam String from,
-      @RequestParam String to) {
+      @AuthenticationPrincipal User user, @RequestParam String from, @RequestParam String to) {
     List<TodoCountByDateDto> todoCountList =
         getTodoCountByGoalInDateRangeUseCase.execute(
             toDoRequestMapper.toGetDateRangeQueryFilter(user.getId(), from, to));
-    List<TodoCountByDateResponse> response = toDoResponseMapper.toTodoCountByDateResponseList(todoCountList);
+    List<TodoCountByDateResponse> response =
+        toDoResponseMapper.toTodoCountByDateResponseList(todoCountList);
     return ResponseEntity.ok(new ApiResponse<>(response));
   }
 }

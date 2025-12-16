@@ -18,8 +18,6 @@ public class WebClientConfig {
             .responseTimeout(Duration.ofMinutes(5)) // 응답 타임아웃 5분
             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000); // 연결 타임아웃 30초
 
-    return builder
-        .clientConnector(new ReactorClientHttpConnector(httpClient))
-        .build();
+    return builder.clientConnector(new ReactorClientHttpConnector(httpClient)).build();
   }
 }

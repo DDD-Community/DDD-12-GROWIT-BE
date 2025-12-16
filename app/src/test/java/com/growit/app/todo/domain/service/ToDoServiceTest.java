@@ -38,8 +38,7 @@ class ToDoServiceTest {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
     toDoValidator.tooManyToDoCreated(today, userId, goal.getId());
   }
@@ -49,14 +48,14 @@ class ToDoServiceTest {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
     toDoValidator.setThrowOnTooManyCreate(true);
     fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-11", userId, today, goal.getId()));
 
     assertThrows(
-        BadRequestException.class, () -> toDoValidator.tooManyToDoCreated(today, userId, goal.getId()));
+        BadRequestException.class,
+        () -> toDoValidator.tooManyToDoCreated(today, userId, goal.getId()));
   }
 
   @Test
@@ -64,8 +63,7 @@ class ToDoServiceTest {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 10; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
     toDoValidator.tooManyToDoUpdated(today, userId, goal.getId(), "todo-1");
   }
@@ -75,8 +73,7 @@ class ToDoServiceTest {
     String userId = "user-1";
     LocalDate today = LocalDate.now();
     for (int i = 0; i < 11; i++) {
-      fakeToDoRepo.saveToDo(
-          ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
+      fakeToDoRepo.saveToDo(ToDoFixture.customToDo("todo-" + i, userId, today, goal.getId()));
     }
 
     toDoValidator.setThrowOnTooManyUpdate(true);
@@ -98,11 +95,9 @@ class ToDoServiceTest {
   @Test
   void givenToDos_whenGetStatus_thenReturnsCorrectStatus() {
     // given
-    ToDo completed =
-        ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), "goal-1");
+    ToDo completed = ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), "goal-1");
     completed.updateIsCompleted(true);
-    ToDo notCompleted =
-        ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), "goal-1");
+    ToDo notCompleted = ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), "goal-1");
     notCompleted.updateIsCompleted(false);
 
     List<ToDo> todos = List.of(completed, notCompleted);

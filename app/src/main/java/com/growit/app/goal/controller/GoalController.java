@@ -6,7 +6,6 @@ import com.growit.app.goal.controller.dto.response.GoalCreateResponse;
 import com.growit.app.goal.controller.dto.response.GoalDetailResponse;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.controller.mapper.GoalResponseMapper;
-import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.*;
@@ -37,21 +36,23 @@ public class GoalController {
       @AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
     GoalStatus goalStatus = goalResponseMapper.mapToGoalStatus(status);
     List<GoalWithAnalysisDto> goalWithAnalysis = getUserGoalsUseCase.getMyGoals(user, goalStatus);
-    List<GoalDetailResponse> responses = goalWithAnalysis.stream()
-        .map(dto -> goalResponseMapper.toDetailResponse(dto.getGoal(), dto.getAnalysis()))
-        .toList();
+    List<GoalDetailResponse> responses =
+        goalWithAnalysis.stream()
+            .map(dto -> goalResponseMapper.toDetailResponse(dto.getGoal(), dto.getAnalysis()))
+            .toList();
 
     return ResponseEntity.ok(ApiResponse.success(responses));
   }
-
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<GoalDetailResponse>> getGoalById(
       @PathVariable String id, @AuthenticationPrincipal User user) {
     GoalWithAnalysisDto goalWithAnalysis = getGoalUseCase.getGoal(id, user);
 
-    return ResponseEntity.ok(ApiResponse.success(
-        goalResponseMapper.toDetailResponse(goalWithAnalysis.getGoal(), goalWithAnalysis.getAnalysis())));
+    return ResponseEntity.ok(
+        ApiResponse.success(
+            goalResponseMapper.toDetailResponse(
+                goalWithAnalysis.getGoal(), goalWithAnalysis.getAnalysis())));
   }
 
   @PostMapping

@@ -27,4 +27,9 @@ public class FakeGoalQuery implements GoalQuery {
   public List<Goal> getGoalsByYear(String userId, int year) {
     return List.of();
   }
+
+  @Override
+  public List<Goal> getAllGoalsByUserId(String userId) {
+    return repository.findAllByUserId(userId);
+  }
 }

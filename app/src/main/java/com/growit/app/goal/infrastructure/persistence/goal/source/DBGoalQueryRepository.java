@@ -11,6 +11,6 @@ public interface DBGoalQueryRepository {
   Optional<GoalEntity> findByUidAndUserId(String uid, String userId);
 
   List<GoalEntity> findByUserIdAndGoalDuration(String userId, LocalDate today);
-  
+
   Optional<GoalEntity> findLastGoalByUserId(String userId);
 }

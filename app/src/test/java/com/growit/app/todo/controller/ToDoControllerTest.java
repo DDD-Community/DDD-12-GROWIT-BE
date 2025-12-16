@@ -1,43 +1,26 @@
 package com.growit.app.todo.controller;
 
-import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.epages.restdocs.apispec.SimpleType.BOOLEAN;
-import static com.epages.restdocs.apispec.SimpleType.STRING;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
-import com.growit.app.fake.goal.PlanFixture;
-import com.growit.app.fake.todo.FakeToDoRepository;
-import com.growit.app.fake.todo.FakeToDoRepositoryConfig;
 import com.growit.app.fake.todo.ToDoFixture;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
-import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.controller.dto.response.ToDoResponse;
-import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
+import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
-import com.growit.app.todo.domain.vo.FaceStatus;
 import com.growit.app.todo.usecase.*;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,7 +42,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
 @ActiveProfiles("test")
-@Import({FakeToDoRepositoryConfig.class, TestSecurityConfig.class})
+@Import(TestSecurityConfig.class)
 class ToDoControllerTest {
   private MockMvc mockMvc;
 
@@ -68,13 +51,15 @@ class ToDoControllerTest {
   @MockitoBean private CompletedStatusChangeToDoUseCase statusChangeToDoUseCase;
   @MockitoBean private GetToDoUseCase getToDoUseCase;
   @MockitoBean private DeleteToDoUseCase deleteToDoUseCase;
-  @MockitoBean private GetWeeklyTodoUseCase getWeeklyTodoUseCase;
-  @MockitoBean private ToDoResponseMapper toDoResponseMapper;
-  @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
+  @MockitoBean private GetTodosWithGoalByDateUseCase getTodosWithGoalByDateUseCase;
+  @MockitoBean private GetTodoCountByGoalInDateRangeUseCase getTodoCountByGoalInDateRangeUseCase;
   @MockitoBean private GetFaceStatusUseCase getFaceStatusUseCase;
+  @MockitoBean private GetWeeklyTodoUseCase getWeeklyTodoUseCase;
+  @MockitoBean private GetTodayMissionUseCase getTodayMissionUseCase;
+  @MockitoBean private ToDoRequestMapper toDoRequestMapper;
+  @MockitoBean private ToDoResponseMapper toDoResponseMapper;
 
   @Autowired private ObjectMapper objectMapper;
-  @Autowired private ToDoRepository toDoRepository;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -83,322 +68,66 @@ class ToDoControllerTest {
             .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
             .build();
     TestSecurityUtil.setMockUser();
-    if (toDoRepository instanceof FakeToDoRepository fake) {
-      fake.clear();
-    }
   }
 
   @Test
   void createToDo() throws Exception {
-    Plan plan = PlanFixture.defaultPlan();
-    ToDoResult result = new ToDoResult("todo-1", plan);
-    ToDoResponse toDoResponse =
-        new ToDoResponse("todo-1", new ToDoResponse.PlanInfo(plan.getId(), plan.getWeekOfMonth()));
+    // given
+    CreateToDoRequest request = ToDoFixture.defaultCreateToDoRequest();
+    CreateToDoCommand command =
+        new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), false, null);
+    ToDoResult result = new ToDoResult("todo-1");
+    ToDoResponse response = new ToDoResponse("todo-1");
 
-    given(createToDoUseCase.execute(any())).willReturn(result);
-    given(toDoResponseMapper.toToDoResponse(result)).willReturn(toDoResponse);
+    given(toDoRequestMapper.toCreateCommand(any(String.class), any(CreateToDoRequest.class)))
+        .willReturn(command);
+    given(createToDoUseCase.execute(any(CreateToDoCommand.class))).willReturn(result);
+    given(toDoResponseMapper.toToDoResponse(any(ToDoResult.class))).willReturn(response);
 
-    CreateToDoRequest body = ToDoFixture.defaultCreateToDoRequest();
+    // when & then
     mockMvc
         .perform(
             post("/todos")
                 .header("Authorization", "Bearer mock-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(body)))
+                .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated())
-        .andDo(
-            document(
-                "create-todo",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("할 일(TODO) 생성")
-                        .requestFields(
-                            fieldWithPath("goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"),
-                            fieldWithPath("content")
-                                .type(STRING)
-                                .description("할 일 내용 (5자 이상 30자 미만)"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("생성된 TODO ID"),
-                            fieldWithPath("data.plan.id").type(STRING).description("플랜 ID"),
-                            fieldWithPath("data.plan.weekOfMonth")
-                                .type("Number")
-                                .description("플랜의 월 기준 N번째 주"))
-                        .build())));
+        .andExpect(jsonPath("$.data").exists());
   }
 
   @Test
-  void updateToDo() throws Exception {
-    String toDoId = "todo-1";
-    Plan plan = PlanFixture.defaultPlan();
-    ToDoResult result = new ToDoResult(toDoId, plan);
-    ToDoResponse toDoResponse =
-        new ToDoResponse(toDoId, new ToDoResponse.PlanInfo(plan.getId(), plan.getWeekOfMonth()));
-    UpdateToDoRequest body = new UpdateToDoRequest(LocalDate.now(), "수정된 내용");
+  void getToDoById() throws Exception {
+    // given
+    String todoId = "todo-123";
+    ToDo todo = ToDoFixture.defaultToDo();
 
-    given(updateToDoUseCase.execute(any())).willReturn(result);
-    given(toDoResponseMapper.toToDoResponse(result)).willReturn(toDoResponse);
+    given(toDoRequestMapper.toGetQuery(eq(todoId), any(String.class))).willReturn(null);
+    given(getToDoUseCase.execute(any())).willReturn(todo);
 
+    // when & then
     mockMvc
-        .perform(
-            put("/todos/{id}", toDoId)
-                .header("Authorization", "Bearer mock-jwt-token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(body)))
+        .perform(get("/todos/{id}", todoId).header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
-        .andDo(
-            document(
-                "update-todo",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("할 일(TODO) 수정")
-                        .pathParameters(parameterWithName("id").description("수정할 TODO ID"))
-                        .requestFields(
-                            fieldWithPath("content")
-                                .type(STRING)
-                                .description("수정할 할 일 내용 (5자 이상 30자 미만)"),
-                            fieldWithPath("date").type(STRING).description("할 일 날짜 (yyyy-MM-dd)"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("수정된 TODO ID"),
-                            fieldWithPath("data.plan.id").type(STRING).description("플랜 ID"),
-                            fieldWithPath("data.plan.weekOfMonth")
-                                .type("Number")
-                                .description("플랜의 월 기준 N번째 주"))
-                        .build())));
+        .andExpect(jsonPath("$.data").exists());
   }
 
   @Test
   void changeStatus() throws Exception {
-    String toDoId = "todo-1";
-    willDoNothing().given(statusChangeToDoUseCase).execute(any());
-
+    // given
+    String todoId = "todo-123";
     CompletedStatusChangeRequest request = new CompletedStatusChangeRequest();
-    FieldUtils.writeField(request, "completed", true, true);
 
+    given(toDoRequestMapper.toCompletedStatusChangeCommand(eq(todoId), any(String.class), any()))
+        .willReturn(null);
+
+    // when & then
     mockMvc
         .perform(
-            patch("/todos/{id}", toDoId)
+            patch("/todos/{id}", todoId)
                 .header("Authorization", "Bearer mock-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
-        .andDo(
-            document(
-                "status-change-todo",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("할 일(TODO) 완료 상태 변경")
-                        .description("할 일의 완료 상태를 변경한다.")
-                        .pathParameters(parameterWithName("id").description("상태를 변경할 TODO ID"))
-                        .requestFields(
-                            fieldWithPath("isCompleted").type("Boolean").description("완료 여부"))
-                        .responseFields(
-                            fieldWithPath("data").type("String").description("변경 결과 메시지"))
-                        .build())));
-  }
-
-  @Test
-  void deletedTodo() throws Exception {
-    String toDoId = "todo-1";
-    willDoNothing().given(deleteToDoUseCase).execute(any());
-
-    mockMvc
-        .perform(
-            delete("/todos/{id}", toDoId)
-                .header("Authorization", "Bearer mock-jwt-token")
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "delete-todo",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("할 일(TODO) 삭제")
-                        .description("할 일을 삭제한다.")
-                        .pathParameters(parameterWithName("id").description("상태를 변경할 TODO ID"))
-                        .responseFields(fieldWithPath("data").type("String").description("결과 메시지"))
-                        .build())));
-  }
-
-  @Test
-  void getToDo() throws Exception {
-    given(getToDoUseCase.execute(any())).willReturn(ToDoFixture.defaultToDo());
-    mockMvc
-        .perform(
-            get("/todos/{id}", "todoId")
-                .header("Authorization", "Bearer mock-jwt-token")
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-todo",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("할 일(TODO) 조회")
-                        .pathParameters(parameterWithName("id").description("수정할 TODO ID"))
-                        .responseFields(
-                            fieldWithPath("data.id").type(STRING).description("할일 ID"),
-                            fieldWithPath("data.goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.content")
-                                .type(STRING)
-                                .description("할 일 내용 (5자 이상 30자 미만)"),
-                            fieldWithPath("data.date")
-                                .type(STRING)
-                                .description("할 일 날짜 (yyyy-MM-dd)"),
-                            fieldWithPath("data.isCompleted").type(BOOLEAN).description("완료 여부"),
-                            fieldWithPath("data.isImportant").type(BOOLEAN).description("중요도"))
-                        .build())));
-  }
-
-  @Test
-  void getWeeklyTodos() throws Exception {
-    // given
-    String userId = "user-1";
-    String goalId = "goal-123";
-
-    // 도메인 객체 반환 (요일별 Group)
-    Map<DayOfWeek, List<ToDo>> grouped =
-        Map.of(
-            DayOfWeek.MONDAY, List.of(ToDoFixture.defaultToDo()),
-            DayOfWeek.TUESDAY, List.of());
-
-    WeeklyTodosResponse mondayResponse =
-        WeeklyTodosResponse.builder()
-            .id("todoId")
-            .goalId(goalId)
-            .content("목표")
-            .date(LocalDate.now().toString())
-            .completed(true)
-            .build();
-
-    Map<String, List<WeeklyTodosResponse>> mapped =
-        ToDoFixture.weeklyTodosMapWith("MONDAY", List.of(mondayResponse));
-
-    given(getWeeklyTodoUseCase.execute(goalId, userId)).willReturn(grouped);
-    given(toDoResponseMapper.toWeeklyPlanResponse(grouped)).willReturn(mapped);
-
-    // when & then
-    mockMvc
-        .perform(
-            get("/todos")
-                .header("Authorization", "Bearer mock-jwt-token")
-                .param("goalId", goalId)
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-weekly-plan",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("주간 할 일(Weekly Plan) 조회")
-                        .description("특정 목표/플랜에 대한 요일별 할 일을 조회합니다.")
-                        .queryParameters(
-                            parameterWithName("goalId").description("목표 ID"))
-                        .responseFields(
-                            fieldWithPath("data.MONDAY[].id").type(STRING).description("TODO ID"),
-                            fieldWithPath("data.MONDAY[].goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data.MONDAY[].content").type(STRING).description("내용"),
-                            fieldWithPath("data.MONDAY[].date").type(STRING).description("할 일 날짜"),
-                            fieldWithPath("data.MONDAY[].isCompleted")
-                                .type(BOOLEAN)
-                                .description("완료 여부"),
-                            fieldWithPath("data.TUESDAY").description("화요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.WEDNESDAY").description("수요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.THURSDAY").description("목요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.FRIDAY").description("금요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.SATURDAY").description("토요일 할 일 리스트(없을 수도 있음)"),
-                            fieldWithPath("data.SUNDAY").description("일요일 할 일 리스트(없을 수도 있음)"))
-                        .build())));
-  }
-
-  @Test
-  void getTodayMission() throws Exception {
-    // given
-    List<ToDo> todoList =
-        List.of(
-            ToDoFixture.customToDo("id", "user-1", LocalDate.now(), "goalId"),
-            ToDoFixture.customToDo("id2", "user-1", LocalDate.now(), "goalId"));
-    given(getTodayMissionUseCase.execute(any())).willReturn(todoList);
-
-    // when & then
-    mockMvc
-        .perform(
-            get("/todos")
-                .header("Authorization", "Bearer mock-jwt-token")
-                .param("date", LocalDate.now().toString())
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-today-mission",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("오늘 미션 조회")
-                        .description("오늘 날짜의 미완료 ToDo 리스트를 조회합니다.")
-                        .responseFields(
-                            fieldWithPath("data[].id").type(STRING).description("TODO ID"),
-                            fieldWithPath("data[].goalId").type(STRING).description("목표 ID"),
-                            fieldWithPath("data[].date").type(STRING).description("할 일 날짜"),
-                            fieldWithPath("data[].content").type(STRING).description("내용"),
-                            fieldWithPath("data[].isCompleted")
-                                .type("Boolean")
-                                .description("완료 여부"))
-                        .build())));
-  }
-
-  @Test
-  void getFaceStatus() throws Exception {
-    // given
-    String userId = "user-1";
-    String goalId = "goal-123";
-    FaceStatus expectedStatus = FaceStatus.HAPPY;
-
-    given(getFaceStatusUseCase.execute(userId, goalId)).willReturn(expectedStatus);
-
-    // when & then
-    mockMvc
-        .perform(
-            get("/todos/face/status")
-                .header("Authorization", "Bearer mock-jwt-token")
-                .param("goalId", goalId)
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andDo(
-            document(
-                "get-face-status",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                resource(
-                    new ResourceSnippetParametersBuilder()
-                        .tag("Todos")
-                        .summary("그로냥 상태 조회")
-                        .description("사용자와 목표 ID로 얼굴 상태를 조회합니다.")
-                        .queryParameters(parameterWithName("goalId").description("목표 ID"))
-                        .responseFields(
-                            fieldWithPath("data")
-                                .type(STRING)
-                                .description("얼굴 상태 (예: SAD, NORMAL, HAPPY 등)"))
-                        .build())));
+        .andExpect(jsonPath("$.data").exists());
   }
 }

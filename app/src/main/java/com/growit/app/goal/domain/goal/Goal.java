@@ -6,9 +6,9 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.common.util.IDGenerator;
 import com.growit.app.goal.domain.goal.dto.CreateGoalCommand;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
-import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.domain.goal.planet.Planet;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import java.util.Objects;
 
 public class Goal {
@@ -29,12 +29,14 @@ public class Goal {
     this.status = GoalStatus.PROGRESS;
   }
 
-  public static Goal create(String id, String userId, String name, Planet planet, GoalDuration duration) {
+  public static Goal create(
+      String id, String userId, String name, Planet planet, GoalDuration duration) {
     return new Goal(id, userId, name, planet, duration);
   }
 
   public static Goal from(CreateGoalCommand command, Planet planet) {
-    return create(IDGenerator.generateId(), command.userId(), command.name(), planet, command.duration());
+    return create(
+        IDGenerator.generateId(), command.userId(), command.name(), planet, command.duration());
   }
 
   public void updateGoal(UpdateGoalCommand command) {
@@ -101,7 +103,6 @@ public class Goal {
     return status;
   }
 
-
   public boolean isCompleted() {
     return status.isCompleted();
   }
@@ -121,9 +122,4 @@ public class Goal {
   public boolean isDeleted() {
     return deleted;
   }
-
-
-
-
-
 }

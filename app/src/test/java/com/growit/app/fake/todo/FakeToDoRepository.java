@@ -50,7 +50,6 @@ public class FakeToDoRepository implements ToDoRepository {
         .findFirst();
   }
 
-
   @Override
   public List<ToDo> findByUserIdAndDate(String userId, LocalDate today) {
     return store.getOrDefault(userId, Collections.emptyList()).stream()
@@ -82,7 +81,10 @@ public class FakeToDoRepository implements ToDoRepository {
   public List<ToDo> findByUserIdAndDateRange(GetDateRangeQueryFilter filter) {
     return store.getOrDefault(filter.userId(), Collections.emptyList()).stream()
         .filter(todo -> !todo.isDeleted())
-        .filter(todo -> !todo.getDate().isBefore(filter.fromDate()) && !todo.getDate().isAfter(filter.toDate()))
+        .filter(
+            todo ->
+                !todo.getDate().isBefore(filter.fromDate())
+                    && !todo.getDate().isAfter(filter.toDate()))
         .toList();
   }
 

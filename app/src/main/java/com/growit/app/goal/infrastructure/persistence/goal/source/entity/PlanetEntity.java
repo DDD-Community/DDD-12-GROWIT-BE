@@ -27,16 +27,13 @@ public class PlanetEntity extends BaseEntity {
   @Column(nullable = false, length = 255)
   private String imageProgress;
 
-  @Column(length = 500)
-  private String description;
-
   public Planet toDomain() {
     return Planet.of(id, name, imageDone, imageProgress);
   }
 
   public static PlanetEntity fromDomain(Planet planet) {
     return PlanetEntity.builder()
-      .id(planet.id())
+        .id(planet.id())
         .name(planet.name())
         .imageDone(planet.imageDone())
         .imageProgress(planet.imageProgress())

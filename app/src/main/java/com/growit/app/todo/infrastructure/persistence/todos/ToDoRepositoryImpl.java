@@ -44,7 +44,6 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     return entity.map(mapper::toDomain);
   }
 
-
   @Override
   public List<ToDo> findByUserIdAndDate(String userId, LocalDate today) {
     List<ToDoEntity> entities = repository.findByUserIdAndDate(userId, today);

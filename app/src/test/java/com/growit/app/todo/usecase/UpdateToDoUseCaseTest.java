@@ -10,7 +10,6 @@ import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.FakeToDoValidator;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
@@ -59,9 +58,6 @@ class UpdateToDoUseCaseTest {
     // Then: 반환값 검증
     assertNotNull(result, "반환된 ToDoResult가 null이 아니어야 한다");
     assertEquals(toDo.getId(), result.getId(), "ToDoResult의 id가 수정 대상과 같아야 한다");
-    assertNotNull(result.getPlan(), "ToDoResult의 plan이 null이 아니어야 한다");
-    Plan updatedPlan = goal.getPlanByDate(today);
-    assertEquals(updatedPlan.getId(), result.getPlan().getId(), "플랜 id가 일치해야 한다");
 
     // 저장소(Repository)에서도 실제로 값이 변경됐는지 검증
     ToDo updated = fakeToDoRepository.findById(toDo.getId()).orElse(null);

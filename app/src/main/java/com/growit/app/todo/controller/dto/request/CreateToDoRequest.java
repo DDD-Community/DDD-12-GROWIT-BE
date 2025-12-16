@@ -1,5 +1,6 @@
 package com.growit.app.todo.controller.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.growit.app.todo.domain.vo.Routine;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateToDoRequest {
-  // goalId is now optional - null for "기타" (other) todos
   private String goalId;
 
   @NotNull(message = "{validation.todo.date.required}")
@@ -21,6 +21,7 @@ public class CreateToDoRequest {
   @Size(min = 1, max = 30, message = "{validation.todo.content.size}")
   private String content;
 
+  @JsonProperty("isImportant")
   private boolean isImportant;
 
   private Routine routine;

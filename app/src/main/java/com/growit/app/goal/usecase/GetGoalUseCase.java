@@ -1,9 +1,9 @@
 package com.growit.app.goal.usecase;
 
+import com.growit.app.goal.domain.anlaysis.AnalysisRepository;
+import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
-import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
-import com.growit.app.goal.domain.anlaysis.AnalysisRepository;
 import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import com.growit.app.user.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,7 @@ public class GetGoalUseCase {
   @Transactional(readOnly = true)
   public GoalWithAnalysisDto getGoal(String id, User user) {
     Goal goal = goalQuery.getMyGoal(id, user.getId());
-    GoalAnalysis analysis = analysisRepository.findByGoalId(goal.getId())
-        .orElse(null);
+    GoalAnalysis analysis = analysisRepository.findByGoalId(goal.getId()).orElse(null);
 
     return new GoalWithAnalysisDto(goal, analysis);
   }

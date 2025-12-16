@@ -1,7 +1,7 @@
 package com.growit.app.goal.infrastructure.persistence.analysis;
 
-import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.domain.anlaysis.AnalysisRepository;
+import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.infrastructure.persistence.analysis.source.DBAnalysisRepository;
 import com.growit.app.goal.infrastructure.persistence.analysis.source.entity.AnalysisEntity;
 import java.util.Optional;

@@ -21,8 +21,6 @@ public class GetRetrospectsByGoalIdUseCase {
     final Goal goal = goalQuery.getMyGoal(goalId, userId);
     final List<Retrospect> retrospects = retrospectQuery.getRetrospectsByGoalId(goalId, userId);
 
-    return retrospects.stream()
-        .map(retrospect -> new RetrospectWithPlan(retrospect))
-        .toList();
+    return retrospects.stream().map(retrospect -> new RetrospectWithPlan(retrospect)).toList();
   }
 }

@@ -1,9 +1,9 @@
 package com.growit.app.todo.controller.dto.response;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import java.util.List;
 
 @Getter
 @Builder

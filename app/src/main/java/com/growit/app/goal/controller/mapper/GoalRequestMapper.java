@@ -26,5 +26,4 @@ public class GoalRequestMapper {
   public DeleteGoalCommand toDeleteCommand(String id, String userId) {
     return new DeleteGoalCommand(id, userId);
   }
-
 }

@@ -22,8 +22,10 @@ public class ToDo {
   private LocalDate date;
   private boolean isCompleted;
   private boolean isDeleted;
+
   @JsonProperty("isImportant")
   private boolean isImportant;
+
   private Routine routine;
 
   public static ToDo from(CreateToDoCommand command) {

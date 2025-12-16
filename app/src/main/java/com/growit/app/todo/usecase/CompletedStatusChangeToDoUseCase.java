@@ -19,7 +19,7 @@ public class CompletedStatusChangeToDoUseCase {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
 
     // Always update completion status
-    if(command.completed() != null) {
+    if (command.completed() != null) {
       toDo.updateIsCompleted(command.completed());
     }
 

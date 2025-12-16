@@ -22,16 +22,17 @@ public class GetTodosWithGoalByDateUseCase {
   @Transactional(readOnly = true)
   public List<ToDoWithGoalDto> execute(GetDateQueryFilter filter) {
     List<ToDo> todos = toDoRepository.findByUserIdAndDate(filter.userId(), filter.date());
-    
+
     return todos.stream()
-        .map(todo -> {
-          Goal goal = null;
-          if (todo.getGoalId() != null) {
-            Optional<Goal> goalOpt = goalRepository.findById(todo.getGoalId());
-            goal = goalOpt.orElse(null);
-          }
-          return new ToDoWithGoalDto(todo, goal);
-        })
+        .map(
+            todo -> {
+              Goal goal = null;
+              if (todo.getGoalId() != null) {
+                Optional<Goal> goalOpt = goalRepository.findById(todo.getGoalId());
+                goal = goalOpt.orElse(null);
+              }
+              return new ToDoWithGoalDto(todo, goal);
+            })
         .collect(Collectors.toList());
   }
 }

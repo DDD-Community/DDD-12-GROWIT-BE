@@ -21,13 +21,13 @@ public class ToDoWithGoalResponse {
     private String goalId;
     private String date;
     private String content;
-    
+
     @JsonProperty("isImportant")
     private boolean important;
-    
+
     @JsonProperty("isCompleted")
     private boolean completed;
-    
+
     private Routine routine;
   }
 

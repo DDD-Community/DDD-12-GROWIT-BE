@@ -1,8 +1,8 @@
 package com.growit.app.goal.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -14,6 +14,11 @@ public class GoalDetailResponse {
   private String status;
   private AnalysisDto analysis;
   private boolean isChecked;
+
+  @JsonProperty("isChecked")
+  public boolean isChecked() {
+    return isChecked;
+  }
 
   @Getter
   @AllArgsConstructor

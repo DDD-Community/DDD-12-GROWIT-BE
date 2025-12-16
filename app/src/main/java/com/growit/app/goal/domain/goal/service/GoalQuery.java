@@ -10,6 +10,6 @@ public interface GoalQuery {
   List<Goal> getFinishedGoalsByYear(String userId, int year);
 
   List<Goal> getGoalsByYear(String userId, int year);
-  
+
   List<Goal> getAllGoalsByUserId(String userId);
 }

@@ -42,8 +42,6 @@ public class TestSecurityConfig {
 
   @MockitoBean private MessageService messageService;
 
-  @MockitoBean private com.growit.app.advice.scheduler.MentorAdviceScheduler mentorAdviceScheduler;
-
   @MockitoBean
   private com.growit.app.advice.infrastructure.client.AiMentorAdviceClientImpl aiMentorAdviceClient;
 

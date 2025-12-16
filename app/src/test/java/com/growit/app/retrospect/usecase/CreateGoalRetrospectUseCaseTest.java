@@ -9,7 +9,7 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
-import com.growit.app.goal.domain.goal.vo.GoalUpdateStatus;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.retrospect.domain.goalretrospect.GoalRetrospectRepository;
 import com.growit.app.retrospect.domain.goalretrospect.dto.CreateGoalRetrospectCommand;
 import com.growit.app.retrospect.domain.goalretrospect.service.AIAnalysis;
@@ -40,7 +40,7 @@ class CreateGoalRetrospectUseCaseTest {
   void givenCommand_whenExecute_thenReturnsId() {
     // given
     Goal goal = GoalFixture.defaultGoal();
-    goal.updateByGoalUpdateStatus(GoalUpdateStatus.ENDED);
+    goal.updateStatus(GoalStatus.ENDED);
     when(goalRetrospectQuery.isExistsByGoalId(goal.getId())).thenReturn(false);
     when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
     CreateGoalRetrospectCommand command =
@@ -56,7 +56,7 @@ class CreateGoalRetrospectUseCaseTest {
   void givenInvalidCommand_whenExecute_thenReturnsBadRequestException() {
     // given
     Goal goal = GoalFixture.defaultGoal();
-    goal.updateByGoalUpdateStatus(GoalUpdateStatus.UPDATABLE);
+    goal.updateStatus(GoalStatus.PROGRESS);
     when(goalRetrospectQuery.isExistsByGoalId(goal.getId())).thenReturn(false);
     when(goalQuery.getMyGoal(goal.getId(), goal.getUserId())).thenReturn(goal);
     CreateGoalRetrospectCommand command =

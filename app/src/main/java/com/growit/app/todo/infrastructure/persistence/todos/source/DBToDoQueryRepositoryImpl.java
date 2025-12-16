@@ -31,7 +31,6 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
             .fetchOne());
   }
 
-
   @Override
   public List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today) {
     QToDoEntity toDo = QToDoEntity.toDoEntity;
@@ -100,7 +99,8 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
     return queryFactory
         .selectFrom(toDo)
         .where(
-            toDo.userId.eq(filter.userId())
+            toDo.userId
+                .eq(filter.userId())
                 .and(toDo.date.between(filter.fromDate(), filter.toDate()))
                 .and(toDo.deletedAt.isNull()))
         .fetch();

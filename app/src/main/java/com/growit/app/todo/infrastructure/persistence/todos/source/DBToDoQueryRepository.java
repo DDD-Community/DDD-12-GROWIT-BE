@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface DBToDoQueryRepository {
   Optional<ToDoEntity> findByUid(String uid);
 
-
   List<ToDoEntity> findByUserIdAndDate(String userId, LocalDate today);
 
   List<ToDoEntity> findByDateFilter(GetToDoDateQueryFilter filter);

@@ -33,8 +33,7 @@ public class ToDoFixture {
     return map;
   }
 
-  public static ToDo customToDo(
-      String id, String userId, LocalDate date, String goalId) {
+  public static ToDo customToDo(String id, String userId, LocalDate date, String goalId) {
     return new ToDoBuilder()
         .id(id != null ? id : "todo-1")
         .userId(userId != null ? userId : "user-1")
@@ -67,7 +66,6 @@ class ToDoBuilder {
     this.userId = userId;
     return this;
   }
-
 
   public ToDoBuilder content(String content) {
     this.content = content;

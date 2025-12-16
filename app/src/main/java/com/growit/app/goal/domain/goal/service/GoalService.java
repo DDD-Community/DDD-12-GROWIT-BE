@@ -34,7 +34,6 @@ public class GoalService implements GoalValidator, GoalQuery {
     }
   }
 
-
   @Override
   public Goal getMyGoal(String id, String userId) throws NotFoundException {
     return goalRepository

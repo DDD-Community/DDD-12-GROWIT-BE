@@ -2,9 +2,9 @@ package com.growit.app.goal.infrastructure.persistence.goal.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.domain.goal.planet.Planet;
+import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;

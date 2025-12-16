@@ -1,10 +1,10 @@
 package com.growit.app.goal.usecase;
 
 import com.growit.app.goal.domain.anlaysis.AnalysisRepository;
+import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.domain.anlaysis.GoalAnalysis;
 import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import com.growit.app.user.domain.user.User;
 import java.util.Collections;
@@ -21,18 +21,19 @@ public class GetUserGoalsUseCase {
 
   @Transactional(readOnly = true)
   public List<GoalWithAnalysisDto> getMyGoals(User user, GoalStatus status) {
-    List<Goal> goals = goalQuery.getAllGoalsByUserId(user.getId()).stream()
-        .filter(goal -> filterByStatus(goal, status))
-        .toList();
+    List<Goal> goals =
+        goalQuery.getAllGoalsByUserId(user.getId()).stream()
+            .filter(goal -> filterByStatus(goal, status))
+            .toList();
 
     if (goals.isEmpty()) return Collections.emptyList();
 
     return goals.stream()
-        .map(goal -> {
-          GoalAnalysis analysis = analysisRepository.findByGoalId(goal.getId())
-              .orElse(null);
-          return new GoalWithAnalysisDto(goal, analysis);
-        })
+        .map(
+            goal -> {
+              GoalAnalysis analysis = analysisRepository.findByGoalId(goal.getId()).orElse(null);
+              return new GoalWithAnalysisDto(goal, analysis);
+            })
         .toList();
   }
 

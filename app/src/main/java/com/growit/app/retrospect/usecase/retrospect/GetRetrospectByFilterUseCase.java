@@ -1,6 +1,5 @@
 package com.growit.app.retrospect.usecase.retrospect;
 
-import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;

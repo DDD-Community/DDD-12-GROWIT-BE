@@ -1,9 +1,9 @@
 package com.growit.app.todo.usecase.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import java.time.LocalDate;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 @AllArgsConstructor

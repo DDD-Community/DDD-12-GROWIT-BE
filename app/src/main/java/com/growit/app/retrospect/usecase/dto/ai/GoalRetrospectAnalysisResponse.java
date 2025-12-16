@@ -21,5 +21,3 @@ public class GoalRetrospectAnalysisResponse {
     private String advice;
   }
 }
-
-

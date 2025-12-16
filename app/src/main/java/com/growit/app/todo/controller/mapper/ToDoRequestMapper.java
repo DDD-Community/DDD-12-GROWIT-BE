@@ -12,9 +12,9 @@ public class ToDoRequestMapper {
 
   public CreateToDoCommand toCreateCommand(String userId, CreateToDoRequest request) {
     return new CreateToDoCommand(
-        userId, 
-        request.getGoalId(), 
-        request.getContent(), 
+        userId,
+        request.getGoalId(),
+        request.getContent(),
         request.getDate(),
         request.isImportant(),
         request.getRoutine());
@@ -26,7 +26,8 @@ public class ToDoRequestMapper {
 
   public CompletedStatusChangeCommand toCompletedStatusChangeCommand(
       String id, String userId, CompletedStatusChangeRequest request) {
-    return new CompletedStatusChangeCommand(id, userId, request.getCompleted(), request.getImportant());
+    return new CompletedStatusChangeCommand(
+        id, userId, request.getCompleted(), request.getImportant());
   }
 
   public DeleteToDoCommand toDeleteCommand(String id, String userId) {
@@ -47,7 +48,8 @@ public class ToDoRequestMapper {
     return new GetDateQueryFilter(userId, today);
   }
 
-  public GetDateRangeQueryFilter toGetDateRangeQueryFilter(String userId, String fromDate, String toDate) {
+  public GetDateRangeQueryFilter toGetDateRangeQueryFilter(
+      String userId, String fromDate, String toDate) {
     LocalDate from;
     LocalDate to;
     try {
