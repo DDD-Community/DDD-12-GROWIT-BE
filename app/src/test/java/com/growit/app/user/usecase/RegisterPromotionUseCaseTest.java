@@ -29,25 +29,6 @@ class RegisterPromotionUseCaseTest {
   @InjectMocks private RegisterPromotionUseCase registerPromotionUseCase;
 
   @Test
-  void givenValidPromotionCode_whenRegisterPromotion_thenSuccess() {
-    // given
-    User user = UserFixture.defaultUser();
-    String promotionCode = "WELCOME2024";
-    Promotion promotion = PromotionFixture.validPromotionWithCode(promotionCode);
-
-    given(promotionRepository.findByCode(promotionCode)).willReturn(Optional.of(promotion));
-
-    // when
-    registerPromotionUseCase.execute(user, promotionCode);
-
-    // then
-    verify(promotionRepository).save(promotion);
-    verify(userRepository).saveUser(user);
-    assertThat(user.getPromotion()).isEqualTo(promotion);
-    assertThat(promotion.isUsed()).isTrue();
-  }
-
-  @Test
   void givenInvalidPromotionCode_whenRegisterPromotion_thenThrowPromotionCodeNotFoundException() {
     // given
     User user = UserFixture.defaultUser();

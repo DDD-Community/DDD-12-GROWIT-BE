@@ -6,6 +6,4 @@ import com.growit.app.user.domain.user.vo.OAuth;
 
 public interface UserValidator {
   void checkEmailExists(Email email) throws AlreadyExistEmailException;
-
-  void checkOAuthExists(OAuth oAuth) throws BadRequestException;
 }

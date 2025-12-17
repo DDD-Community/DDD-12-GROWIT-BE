@@ -55,7 +55,6 @@ class SignUpKaKaoUseCaseTest {
     verify(tokenService).parseClaims("dummy-registration-token");
     verify(jobRoleValidator).checkJobRoleExist("jobRoleId-1");
     verify(userValidator).checkEmailExists(new Email("test@kakao.com"));
-    verify(userValidator).checkOAuthExists(new OAuth("kakao", "12345"));
 
     ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
     verify(userRepository).saveUser(userCaptor.capture());
@@ -117,36 +116,6 @@ class SignUpKaKaoUseCaseTest {
     verify(tokenService).parseClaims("dummy-registration-token");
     verify(jobRoleValidator).checkJobRoleExist("jobRoleId-1");
     verify(userValidator).checkEmailExists(new Email("existing@kakao.com"));
-    verify(userRepository, never()).saveUser(any());
-  }
-
-  @Test
-  void givenExistingOAuth_whenExecute_thenThrowException() {
-    // given
-    SignUpKaKaoCommand signUpCommand =
-        new SignUpKaKaoCommand("홍길동", "jobRoleId-1", CareerYear.JUNIOR, "dummy-registration-token");
-    RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
-
-    Claims claims = mock(Claims.class);
-    when(tokenService.parseClaims("dummy-registration-token")).thenReturn(claims);
-    when(claims.get(JwtClaimKeys.PROVIDER, String.class)).thenReturn("kakao");
-    when(claims.get(JwtClaimKeys.PROVIDER_ID, String.class)).thenReturn("12345");
-    when(claims.get(JwtClaimKeys.EMAIL, String.class)).thenReturn("test@kakao.com");
-
-    doThrow(new RuntimeException("OAuth account already exists"))
-        .when(userValidator)
-        .checkOAuthExists(new OAuth("kakao", "12345"));
-
-    // when & then
-    assertThrows(
-        RuntimeException.class,
-        () -> signUpKaKaoUseCase.execute(signUpCommand, requiredConsentCommand));
-
-    verify(requiredConsentCommand).checkRequiredConsent();
-    verify(tokenService).parseClaims("dummy-registration-token");
-    verify(jobRoleValidator).checkJobRoleExist("jobRoleId-1");
-    verify(userValidator).checkEmailExists(new Email("test@kakao.com"));
-    verify(userValidator).checkOAuthExists(new OAuth("kakao", "12345"));
     verify(userRepository, never()).saveUser(any());
   }
 

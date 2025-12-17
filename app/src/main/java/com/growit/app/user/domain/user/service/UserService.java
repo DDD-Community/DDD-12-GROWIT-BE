@@ -25,12 +25,6 @@ public class UserService implements UserValidator, UserQuery {
   }
 
   @Override
-  public void checkOAuthExists(OAuth oAuth) throws BadRequestException {
-    // OAuth 중복 검사를 위한 모든 사용자 확인 (임시 구현)
-    // TODO: 더 효율적인 방법으로 변경 필요
-  }
-
-  @Override
   public User getUserByEmail(Email email) throws NotFoundException {
     return userRepository
         .findByEmail(email)
