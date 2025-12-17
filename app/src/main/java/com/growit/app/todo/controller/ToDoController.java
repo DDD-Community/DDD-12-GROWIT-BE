@@ -51,14 +51,13 @@ public class ToDoController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ApiResponse<ToDoResponse>> updateToDo(
+  public ResponseEntity<Void> updateToDo(
       @PathVariable String id,
       @AuthenticationPrincipal User user,
       @Valid @RequestBody UpdateToDoRequest request) {
     UpdateToDoCommand command = toDoRequestMapper.toUpdateCommand(id, user.getId(), request);
-    ToDoResult result = updateToDoUseCase.execute(command);
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(ApiResponse.success(toDoResponseMapper.toToDoResponse(result)));
+    updateToDoUseCase.execute(command);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @PatchMapping("/{id}")

@@ -21,8 +21,12 @@ public class CreateToDoRequest {
   @Size(min = 1, max = 30, message = "{validation.todo.content.size}")
   private String content;
 
-  @JsonProperty("isImportant")
   private boolean isImportant;
 
   private Routine routine;
+
+  @JsonProperty("isImportant")
+  public boolean isImportant() {
+    return isImportant;
+  }
 }

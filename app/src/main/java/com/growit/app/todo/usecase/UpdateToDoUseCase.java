@@ -24,7 +24,6 @@ public class UpdateToDoUseCase {
   public ToDoResult execute(UpdateToDoCommand command) {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
     Goal goal = goalQuery.getMyGoal(toDo.getGoalId(), command.userId());
-    // Plan functionality removed - validate todo update without plan constraint
 
     toDoValidator.tooManyToDoUpdated(command.date(), command.userId(), goal.getId(), toDo.getId());
 

@@ -246,7 +246,7 @@ class GoalControllerTest {
 
     // when & then
     mockMvc
-        .perform(get("/goals/{goalId}", goalId).header("Authorization", "Bearer mock-jwt-token"))
+        .perform(get("/goals/{id}", goalId).header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
         .andDo(
@@ -259,7 +259,7 @@ class GoalControllerTest {
                         .tag("Goals")
                         .summary("특정 목표 조회")
                         .description("특정 목표의 상세 정보를 조회합니다.")
-                        .pathParameters(parameterWithName("goalId").description("목표 ID"))
+                        .pathParameters(parameterWithName("id").description("목표 ID"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.OBJECT)
