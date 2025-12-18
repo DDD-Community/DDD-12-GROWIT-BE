@@ -1,10 +1,8 @@
 package com.growit.app.user.usecase;
 
 import static com.growit.app.common.util.message.ErrorCode.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.promotion.PromotionFixture;

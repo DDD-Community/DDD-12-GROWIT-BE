@@ -15,7 +15,6 @@ import com.growit.app.user.domain.user.dto.SignUpKaKaoCommand;
 import com.growit.app.user.domain.user.service.UserValidator;
 import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
-import com.growit.app.user.domain.user.vo.OAuth;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

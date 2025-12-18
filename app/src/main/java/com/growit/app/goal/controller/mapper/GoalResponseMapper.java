@@ -45,7 +45,9 @@ public class GoalResponseMapper {
   }
 
   private GoalDetailResponse.AnalysisDto toAnalysisDto(GoalAnalysis analysis) {
-    return new GoalDetailResponse.AnalysisDto(analysis.todoCompletedRate(), analysis.summary());
+    return analysis == null
+        ? null
+        : new GoalDetailResponse.AnalysisDto(analysis.todoCompletedRate(), analysis.summary());
   }
 
   private String mapGoalStatus(GoalStatus status) {

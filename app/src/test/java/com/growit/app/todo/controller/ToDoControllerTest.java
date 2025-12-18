@@ -29,14 +29,13 @@ import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
-import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
-import com.growit.app.user.domain.user.User;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -152,7 +151,9 @@ class ToDoControllerTest {
     ToDoResult result = new ToDoResult("todo-123");
     ToDoResponse response = new ToDoResponse("todo-123");
 
-    given(toDoRequestMapper.toUpdateCommand(eq(todoId), any(String.class), any(UpdateToDoRequest.class)))
+    given(
+            toDoRequestMapper.toUpdateCommand(
+                eq(todoId), any(String.class), any(UpdateToDoRequest.class)))
         .willReturn(null);
     given(updateToDoUseCase.execute(any(UpdateToDoCommand.class))).willReturn(result);
     given(toDoResponseMapper.toToDoResponse(any(ToDoResult.class))).willReturn(response);
@@ -192,7 +193,9 @@ class ToDoControllerTest {
     String todoId = "todo-123";
     CompletedStatusChangeRequest request = new CompletedStatusChangeRequest();
 
-    given(toDoRequestMapper.toCompletedStatusChangeCommand(eq(todoId), any(String.class), any(CompletedStatusChangeRequest.class)))
+    given(
+            toDoRequestMapper.toCompletedStatusChangeCommand(
+                eq(todoId), any(String.class), any(CompletedStatusChangeRequest.class)))
         .willReturn(null);
     willDoNothing().given(statusChangeToDoUseCase).execute(any(CompletedStatusChangeCommand.class));
 
@@ -244,44 +247,38 @@ class ToDoControllerTest {
     ToDo todo2 = ToDoFixture.customToDo("todo-2", "user-1", LocalDate.of(2024, 1, 1), "goal-1");
 
     // Create ToDoWithGoalDto list
-    List<ToDoWithGoalDto> todoList = List.of(
-        new ToDoWithGoalDto(todo1, mockGoal),
-        new ToDoWithGoalDto(todo2, mockGoal)
-    );
+    List<ToDoWithGoalDto> todoList =
+        List.of(new ToDoWithGoalDto(todo1, mockGoal), new ToDoWithGoalDto(todo2, mockGoal));
 
     // Create response list
-    List<ToDoWithGoalResponse> responseList = List.of(
-        ToDoWithGoalResponse.builder()
-            .todo(ToDoWithGoalResponse.ToDoInfo.builder()
-                .id("todo-1")
-                .goalId("goal-1")
-                .date("2024-01-01")
-                .content("테스트 할 일입니다.")
-                .important(false)
-                .completed(false)
-                .routine(null)
-                .build())
-            .goal(ToDoWithGoalResponse.GoalInfo.builder()
-                .id("goal-1")
-                .name("테스트 목표")
-                .build())
-            .build(),
-        ToDoWithGoalResponse.builder()
-            .todo(ToDoWithGoalResponse.ToDoInfo.builder()
-                .id("todo-2")
-                .goalId("goal-1")
-                .date("2024-01-01")
-                .content("테스트 할 일입니다.")
-                .important(false)
-                .completed(false)
-                .routine(null)
-                .build())
-            .goal(ToDoWithGoalResponse.GoalInfo.builder()
-                .id("goal-1")
-                .name("테스트 목표")
-                .build())
-            .build()
-    );
+    List<ToDoWithGoalResponse> responseList =
+        List.of(
+            ToDoWithGoalResponse.builder()
+                .todo(
+                    ToDoWithGoalResponse.ToDoInfo.builder()
+                        .id("todo-1")
+                        .goalId("goal-1")
+                        .date("2024-01-01")
+                        .content("테스트 할 일입니다.")
+                        .important(false)
+                        .completed(false)
+                        .routine(null)
+                        .build())
+                .goal(ToDoWithGoalResponse.GoalInfo.builder().id("goal-1").name("테스트 목표").build())
+                .build(),
+            ToDoWithGoalResponse.builder()
+                .todo(
+                    ToDoWithGoalResponse.ToDoInfo.builder()
+                        .id("todo-2")
+                        .goalId("goal-1")
+                        .date("2024-01-01")
+                        .content("테스트 할 일입니다.")
+                        .important(false)
+                        .completed(false)
+                        .routine(null)
+                        .build())
+                .goal(ToDoWithGoalResponse.GoalInfo.builder().id("goal-1").name("테스트 목표").build())
+                .build());
 
     given(toDoRequestMapper.toGetDateQueryFilter(any(String.class), eq(date))).willReturn(null);
     given(getTodosWithGoalByDateUseCase.execute(any())).willReturn(todoList);
@@ -289,10 +286,7 @@ class ToDoControllerTest {
 
     // when & then
     mockMvc
-        .perform(
-            get("/todos")
-                .param("date", date)
-                .header("Authorization", "Bearer mock-jwt-token"))
+        .perform(get("/todos").param("date", date).header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
         .andDo(
@@ -306,8 +300,7 @@ class ToDoControllerTest {
                         .summary("날짜별 ToDo 조회")
                         .description("특정 날짜의 ToDo 목록을 목표 정보와 함께 조회합니다.")
                         .queryParameters(
-                            parameterWithName("date")
-                                .description("조회할 날짜 (yyyy-MM-dd)"))
+                            parameterWithName("date").description("조회할 날짜 (yyyy-MM-dd)"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.ARRAY)
@@ -439,32 +432,34 @@ class ToDoControllerTest {
     // given
     String from = "2024-01-01";
     String to = "2024-01-07";
-    List<TodoCountByDateDto> todoCountList = List.of(
-        new TodoCountByDateDto(LocalDate.of(2024, 1, 1), List.of(
-            new TodoCountByDateDto.GoalTodoCount("goal-1", 3),
-            new TodoCountByDateDto.GoalTodoCount("goal-2", 2)
-        )),
-        new TodoCountByDateDto(LocalDate.of(2024, 1, 2), List.of(
-            new TodoCountByDateDto.GoalTodoCount("goal-1", 1),
-            new TodoCountByDateDto.GoalTodoCount("goal-2", 4)
-        ))
-    );
-    List<TodoCountByDateResponse> responseList = List.of(
-        TodoCountByDateResponse.builder()
-            .date("2024-01-01")
-            .goals(List.of(
-                new TodoCountByDateResponse.GoalTodoCount("goal-1", 3),
-                new TodoCountByDateResponse.GoalTodoCount("goal-2", 2)
-            ))
-            .build(),
-        TodoCountByDateResponse.builder()
-            .date("2024-01-02")
-            .goals(List.of(
-                new TodoCountByDateResponse.GoalTodoCount("goal-1", 1),
-                new TodoCountByDateResponse.GoalTodoCount("goal-2", 4)
-            ))
-            .build()
-    );
+    List<TodoCountByDateDto> todoCountList =
+        List.of(
+            new TodoCountByDateDto(
+                LocalDate.of(2024, 1, 1),
+                List.of(
+                    new TodoCountByDateDto.GoalTodoCount("goal-1", 3),
+                    new TodoCountByDateDto.GoalTodoCount("goal-2", 2))),
+            new TodoCountByDateDto(
+                LocalDate.of(2024, 1, 2),
+                List.of(
+                    new TodoCountByDateDto.GoalTodoCount("goal-1", 1),
+                    new TodoCountByDateDto.GoalTodoCount("goal-2", 4))));
+    List<TodoCountByDateResponse> responseList =
+        List.of(
+            TodoCountByDateResponse.builder()
+                .date("2024-01-01")
+                .goals(
+                    List.of(
+                        new TodoCountByDateResponse.GoalTodoCount("goal-1", 3),
+                        new TodoCountByDateResponse.GoalTodoCount("goal-2", 2)))
+                .build(),
+            TodoCountByDateResponse.builder()
+                .date("2024-01-02")
+                .goals(
+                    List.of(
+                        new TodoCountByDateResponse.GoalTodoCount("goal-1", 1),
+                        new TodoCountByDateResponse.GoalTodoCount("goal-2", 4)))
+                .build());
 
     given(toDoRequestMapper.toGetDateRangeQueryFilter(any(String.class), eq(from), eq(to)))
         .willReturn(null);
@@ -491,10 +486,8 @@ class ToDoControllerTest {
                         .summary("기간별 ToDo 개수 조회")
                         .description("특정 기간 내 날짜별 목표당 ToDo 개수를 조회합니다.")
                         .queryParameters(
-                            parameterWithName("from")
-                                .description("시작 날짜 (yyyy-MM-dd)"),
-                            parameterWithName("to")
-                                .description("종료 날짜 (yyyy-MM-dd)"))
+                            parameterWithName("from").description("시작 날짜 (yyyy-MM-dd)"),
+                            parameterWithName("to").description("종료 날짜 (yyyy-MM-dd)"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.ARRAY)

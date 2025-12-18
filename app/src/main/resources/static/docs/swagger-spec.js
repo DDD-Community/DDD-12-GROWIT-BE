@@ -6,7 +6,7 @@ window.swaggerSpec={
     "version" : "0.0.3"
   },
   "servers" : [ {
-    "url" : "https://dev.grow-it.me/"
+    "url" : "http://localhost:8081/"
   } ],
   "tags" : [ ],
   "paths" : {
@@ -26,7 +26,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-grorong-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"오다 주웠다\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"역시 넌 나를 실망시키지 않아\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
                   }
                 }
               }
@@ -256,7 +256,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"WayydeZetlLHHm2hZ_3IC\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"yGFpZzowPARQBkuGeKpjn\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"x8Y6SO2C9q25LjmjfKaKf\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"UYnE7VJZFzs8SFYGeImUm\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -379,7 +379,7 @@ window.swaggerSpec={
         "parameters" : [ {
           "name" : "status",
           "in" : "query",
-          "description" : "목표 상태 (PROGRESS, ENDED, COMPLETED)",
+          "description" : "목표 상태 (PROGRESS, ENDED)",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -668,7 +668,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-17\",\n  \"content\" : \"할 일 예시 내용입니다.\",\n  \"isImportant\" : false,\n  \"routine\" : null\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-18\",\n  \"content\" : \"할 일 예시 내용입니다.\",\n  \"isImportant\" : false,\n  \"routine\" : null\n}"
                 }
               }
             }
@@ -718,7 +718,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todo-by-id" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-12-17\",\n    \"isCompleted\" : false,\n    \"isImportant\" : false,\n    \"routine\" : null\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-12-18\",\n    \"isCompleted\" : false,\n    \"isImportant\" : false,\n    \"routine\" : null\n  }\n}"
                   }
                 }
               }
@@ -748,7 +748,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-12-17\",\n  \"content\" : \"수정된 할 일 내용\"\n}"
+                  "value" : "{\n  \"date\" : \"2025-12-18\",\n  \"content\" : \"수정된 할 일 내용\"\n}"
                 }
               }
             }
@@ -1118,24 +1118,6 @@ window.swaggerSpec={
           }
         }
       },
-      "resource-saying2030450560" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "from" : {
-                "type" : "string",
-                "description" : "격언 출처"
-              },
-              "message" : {
-                "type" : "string",
-                "description" : "격언 내용"
-              }
-            }
-          }
-        }
-      },
       "todos-id-1315705963" : {
         "type" : "object",
         "properties" : {
@@ -1172,6 +1154,24 @@ window.swaggerSpec={
               }
             },
             "description" : "ToDo 상세 정보"
+          }
+        }
+      },
+      "resource-saying2030450560" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "from" : {
+                "type" : "string",
+                "description" : "격언 출처"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "격언 내용"
+              }
+            }
           }
         }
       },
@@ -1576,15 +1576,6 @@ window.swaggerSpec={
           }
         }
       },
-      "goal-retrospects-id130578538" : {
-        "type" : "object",
-        "properties" : {
-          "content" : {
-            "type" : "string",
-            "description" : "회고 내용"
-          }
-        }
-      },
       "todos-620286235" : {
         "type" : "object",
         "properties" : {
@@ -1607,6 +1598,15 @@ window.swaggerSpec={
           "content" : {
             "type" : "string",
             "description" : "ToDo 내용 (1-30자)"
+          }
+        }
+      },
+      "goal-retrospects-id130578538" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string",
+            "description" : "회고 내용"
           }
         }
       },

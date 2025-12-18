@@ -177,8 +177,7 @@ class GoalControllerTest {
                         .summary("내 목표 목록 조회")
                         .description("사용자의 목표 목록을 상태별로 조회합니다.")
                         .queryParameters(
-                            parameterWithName("status")
-                                .description("목표 상태 (PROGRESS, ENDED, COMPLETED)"))
+                            parameterWithName("status").description("목표 상태 (PROGRESS, ENDED)"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.ARRAY)
