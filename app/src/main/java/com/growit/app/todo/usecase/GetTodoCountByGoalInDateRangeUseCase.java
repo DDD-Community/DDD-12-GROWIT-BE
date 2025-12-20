@@ -39,7 +39,7 @@ public class GetTodoCountByGoalInDateRangeUseCase {
           todosForDate.stream()
               .collect(
                   Collectors.groupingBy(
-                      todo -> todo.getGoalId() != null ? todo.getGoalId() : "기타",
+                      todo -> todo.getGoalId() != null ? todo.getGoalId() : "",
                       Collectors.counting()));
 
       List<TodoCountByDateDto.GoalTodoCount> goalCounts =
@@ -48,7 +48,7 @@ public class GetTodoCountByGoalInDateRangeUseCase {
                   entry ->
                       new TodoCountByDateDto.GoalTodoCount(
                           entry.getKey(), entry.getValue().intValue()))
-              .collect(Collectors.toList());
+              .toList();
 
       result.add(new TodoCountByDateDto(currentDate, goalCounts));
       currentDate = currentDate.plusDays(1);
