@@ -25,7 +25,7 @@ public class ToDoEntity extends BaseEntity {
   @Column(nullable = false, length = 128)
   private String userId;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private String goalId;
 
   @Column(nullable = false)

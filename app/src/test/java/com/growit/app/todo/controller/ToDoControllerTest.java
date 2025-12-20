@@ -469,7 +469,7 @@ class ToDoControllerTest {
     // when & then
     mockMvc
         .perform(
-            get("/todos")
+            get("/todos/count")
                 .param("from", from)
                 .param("to", to)
                 .header("Authorization", "Bearer mock-jwt-token"))

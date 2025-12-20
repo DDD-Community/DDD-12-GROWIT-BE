@@ -21,6 +21,9 @@ public class DeleteToDoUseCase {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
     toDo.deleted();
     toDoRepository.saveToDo(toDo);
-    toDoHandler.handle(toDo.getGoalId());
+
+    if (toDo.getGoalId() != null) {
+      toDoHandler.handle(toDo.getGoalId());
+    }
   }
 }

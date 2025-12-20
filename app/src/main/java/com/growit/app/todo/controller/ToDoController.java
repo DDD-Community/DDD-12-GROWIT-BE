@@ -95,7 +95,9 @@ public class ToDoController {
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 
-  @GetMapping(params = {"from", "to"})
+  @GetMapping(
+      value = "/count",
+      params = {"from", "to"})
   public ResponseEntity<ApiResponse<List<TodoCountByDateResponse>>> getTodoCountByDateRange(
       @AuthenticationPrincipal User user, @RequestParam String from, @RequestParam String to) {
     List<TodoCountByDateDto> todoCountList =

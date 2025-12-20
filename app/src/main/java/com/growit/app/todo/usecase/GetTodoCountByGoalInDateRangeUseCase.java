@@ -21,6 +21,7 @@ public class GetTodoCountByGoalInDateRangeUseCase {
   @Transactional(readOnly = true)
   public List<TodoCountByDateDto> execute(GetDateRangeQueryFilter filter) {
     List<ToDo> todos = toDoRepository.findByUserIdAndDateRange(filter);
+    if (todos.isEmpty()) return List.of();
 
     // Group todos by date
     Map<LocalDate, List<ToDo>> todosByDate =

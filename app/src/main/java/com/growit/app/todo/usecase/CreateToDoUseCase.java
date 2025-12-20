@@ -22,12 +22,14 @@ public class CreateToDoUseCase {
 
   @Transactional
   public ToDoResult execute(CreateToDoCommand command) {
-    Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
-    // Plan functionality removed - validate todo creation without plan constraint
-    toDoValidator.tooManyToDoCreated(command.date(), command.userId(), goal.getId());
+    if (command.goalId() != null) {
+      Goal goal = goalQuery.getMyGoal(command.goalId(), command.userId());
+      toDoValidator.tooManyToDoCreated(command.date(), command.userId(), goal.getId());
+      toDoHandler.handle(goal.getId());
+    }
+
     ToDo toDo = ToDo.from(command);
     toDoRepository.saveToDo(toDo);
-    toDoHandler.handle(goal.getId());
     return new ToDoResult(toDo.getId());
   }
 }

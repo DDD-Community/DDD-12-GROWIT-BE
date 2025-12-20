@@ -23,9 +23,12 @@ public class UpdateToDoUseCase {
   @Transactional
   public ToDoResult execute(UpdateToDoCommand command) {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
-    Goal goal = goalQuery.getMyGoal(toDo.getGoalId(), command.userId());
 
-    toDoValidator.tooManyToDoUpdated(command.date(), command.userId(), goal.getId(), toDo.getId());
+    if (toDo.getGoalId() != null) {
+      Goal goal = goalQuery.getMyGoal(toDo.getGoalId(), command.userId());
+      toDoValidator.tooManyToDoUpdated(
+          command.date(), command.userId(), goal.getId(), toDo.getId());
+    }
 
     toDo.updateBy(command);
 
