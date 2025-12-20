@@ -3,7 +3,11 @@ package com.growit.app.todo.controller.mapper;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.response.RoutineDto;
 import com.growit.app.todo.domain.dto.*;
+import com.growit.app.todo.domain.vo.RepeatType;
+import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.RoutineDuration;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +21,7 @@ public class ToDoRequestMapper {
         request.getContent(),
         request.getDate(),
         request.isImportant(),
-        request.getRoutine());
+        toDomainRoutine(request.getRoutine()));
   }
 
   public UpdateToDoCommand toUpdateCommand(String id, String userId, UpdateToDoRequest request) {
@@ -61,5 +65,22 @@ public class ToDoRequestMapper {
       to = LocalDate.now();
     }
     return new GetDateRangeQueryFilter(userId, from, to);
+  }
+
+  private Routine toDomainRoutine(RoutineDto routineDto) {
+    if (routineDto == null) {
+      return null;
+    }
+
+    RoutineDuration duration = null;
+    if (routineDto.getDuration() != null) {
+      duration =
+          RoutineDuration.of(
+              routineDto.getDuration().getStartDate(), routineDto.getDuration().getEndDate());
+    }
+
+    RepeatType repeatType = RepeatType.valueOf(routineDto.getRepeatType());
+
+    return Routine.of(duration, repeatType);
   }
 }

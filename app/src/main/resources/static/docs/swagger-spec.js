@@ -6,7 +6,7 @@ window.swaggerSpec={
     "version" : "0.0.3"
   },
   "servers" : [ {
-    "url" : "http://localhost:8081/"
+    "url" : "https://dev.groiw-it.me/"
   } ],
   "tags" : [ ],
   "paths" : {
@@ -256,7 +256,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"6pZEEyYTKmUtyVq_w3B03\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"pJWjfcNwL1TjiQ72LDGVU\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"iUeDYF_TM5LMP9nIL_lAV\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"RuiSCZELd5HVytPXYKQqX\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -624,11 +624,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/todos-981284753"
+                  "$ref" : "#/components/schemas/todos-1638716139"
                 },
                 "examples" : {
                   "get-todos-by-date" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"todo\" : {\n      \"id\" : \"todo-1\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : null\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  }, {\n    \"todo\" : {\n      \"id\" : \"todo-2\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : null\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"todo\" : {\n      \"id\" : \"todo-1\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : {\n        \"duration\" : {\n          \"startDate\" : \"2024-01-01\",\n          \"endDate\" : \"2024-01-07\"\n        },\n        \"repeatType\" : \"DAILY\"\n      }\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  }, {\n    \"todo\" : {\n      \"id\" : \"todo-2\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : null\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -645,11 +645,11 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/todos-620286235"
+                "$ref" : "#/components/schemas/todos1540117927"
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-20\",\n  \"content\" : \"할 일 예시 내용입니다.\",\n  \"isImportant\" : false,\n  \"routine\" : null\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-20\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-07\"\n    },\n    \"repeatType\" : \"DAILY\"\n  }\n}"
                 }
               }
             }
@@ -737,11 +737,11 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/todos-id-1315705963"
+                  "$ref" : "#/components/schemas/todos-id164945951"
                 },
                 "examples" : {
                   "get-todo-by-id" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-1\",\n    \"goalId\" : \"goal-1\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"date\" : \"2025-12-20\",\n    \"isCompleted\" : false,\n    \"isImportant\" : false,\n    \"routine\" : null\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"todo-123\",\n    \"goalId\" : \"goal-1\",\n    \"date\" : \"2024-01-01\",\n    \"content\" : \"테스트 할 일입니다.\",\n    \"isImportant\" : false,\n    \"isCompleted\" : false,\n    \"routine\" : null\n  }\n}"
                   }
                 }
               }
@@ -1141,42 +1141,85 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id-1315705963" : {
+      "todos-1638716139" : {
         "type" : "object",
         "properties" : {
           "data" : {
-            "type" : "object",
-            "properties" : {
-              "date" : {
-                "type" : "string",
-                "description" : "ToDo 날짜"
-              },
-              "routine" : {
-                "type" : "object",
-                "description" : "루틴 정보 (null 가능)"
-              },
-              "goalId" : {
-                "type" : "string",
-                "description" : "목표 ID"
-              },
-              "isImportant" : {
-                "type" : "boolean",
-                "description" : "중요도 여부"
-              },
-              "id" : {
-                "type" : "string",
-                "description" : "ToDo ID"
-              },
-              "content" : {
-                "type" : "string",
-                "description" : "ToDo 내용"
-              },
-              "isCompleted" : {
-                "type" : "boolean",
-                "description" : "완료 여부"
+            "type" : "array",
+            "description" : "ToDo 목록 데이터 배열",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "todo" : {
+                  "type" : "object",
+                  "properties" : {
+                    "date" : {
+                      "type" : "string",
+                      "description" : "ToDo 날짜"
+                    },
+                    "routine" : {
+                      "type" : "object",
+                      "properties" : {
+                        "duration" : {
+                          "type" : "object",
+                          "properties" : {
+                            "endDate" : {
+                              "type" : "string",
+                              "description" : "루틴 종료 날짜 (yyyy-MM-dd)"
+                            },
+                            "startDate" : {
+                              "type" : "string",
+                              "description" : "루틴 시작 날짜 (yyyy-MM-dd)"
+                            }
+                          },
+                          "description" : "루틴 기간 정보"
+                        },
+                        "repeatType" : {
+                          "type" : "string",
+                          "description" : "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"
+                        }
+                      },
+                      "description" : "루틴 정보 (null 가능)"
+                    },
+                    "goalId" : {
+                      "type" : "string",
+                      "description" : "목표 ID"
+                    },
+                    "isImportant" : {
+                      "type" : "boolean",
+                      "description" : "중요도 여부"
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "ToDo ID"
+                    },
+                    "content" : {
+                      "type" : "string",
+                      "description" : "ToDo 내용"
+                    },
+                    "isCompleted" : {
+                      "type" : "boolean",
+                      "description" : "완료 여부"
+                    }
+                  },
+                  "description" : "ToDo 정보"
+                },
+                "goal" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "description" : "목표 이름"
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "목표 ID"
+                    }
+                  },
+                  "description" : "목표 정보"
+                }
               }
-            },
-            "description" : "ToDo 상세 정보"
+            }
           }
         }
       },
@@ -1244,6 +1287,65 @@ window.swaggerSpec={
           "data" : {
             "type" : "boolean",
             "description" : "온보딩 진행 여부"
+          }
+        }
+      },
+      "todos-id164945951" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "date" : {
+                "type" : "string",
+                "description" : "ToDo 날짜"
+              },
+              "routine" : {
+                "type" : "object",
+                "properties" : {
+                  "duration" : {
+                    "type" : "object",
+                    "properties" : {
+                      "endDate" : {
+                        "type" : "string",
+                        "description" : "루틴 종료 날짜 (yyyy-MM-dd)"
+                      },
+                      "startDate" : {
+                        "type" : "string",
+                        "description" : "루틴 시작 날짜 (yyyy-MM-dd)"
+                      }
+                    },
+                    "description" : "루틴 기간 정보"
+                  },
+                  "repeatType" : {
+                    "type" : "string",
+                    "description" : "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"
+                  }
+                },
+                "description" : "루틴 정보 (null 가능)"
+              },
+              "goalId" : {
+                "type" : "string",
+                "description" : "목표 ID"
+              },
+              "isImportant" : {
+                "type" : "boolean",
+                "description" : "중요도 여부"
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "ToDo ID"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "ToDo 내용"
+              },
+              "isCompleted" : {
+                "type" : "boolean",
+                "description" : "완료 여부"
+              }
+            },
+            "description" : "ToDo 상세 정보"
           }
         }
       },
@@ -1551,31 +1653,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-620286235" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "ToDo 날짜 (yyyy-MM-dd)"
-          },
-          "routine" : {
-            "type" : "object",
-            "description" : "루틴 정보 (선택사항)"
-          },
-          "goalId" : {
-            "type" : "string",
-            "description" : "목표 ID"
-          },
-          "isImportant" : {
-            "type" : "boolean",
-            "description" : "중요도 여부"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "ToDo 내용 (1-30자)"
-          }
-        }
-      },
       "goal-retrospects-id130578538" : {
         "type" : "object",
         "properties" : {
@@ -1736,65 +1813,48 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-981284753" : {
+      "todos1540117927" : {
         "type" : "object",
         "properties" : {
-          "data" : {
-            "type" : "array",
-            "description" : "ToDo 목록 데이터 배열",
-            "items" : {
-              "type" : "object",
-              "properties" : {
-                "todo" : {
-                  "type" : "object",
-                  "properties" : {
-                    "date" : {
-                      "type" : "string",
-                      "description" : "ToDo 날짜"
-                    },
-                    "routine" : {
-                      "type" : "object",
-                      "description" : "루틴 정보 (null 가능)"
-                    },
-                    "goalId" : {
-                      "type" : "string",
-                      "description" : "목표 ID"
-                    },
-                    "isImportant" : {
-                      "type" : "boolean",
-                      "description" : "중요도 여부"
-                    },
-                    "id" : {
-                      "type" : "string",
-                      "description" : "ToDo ID"
-                    },
-                    "content" : {
-                      "type" : "string",
-                      "description" : "ToDo 내용"
-                    },
-                    "isCompleted" : {
-                      "type" : "boolean",
-                      "description" : "완료 여부"
-                    }
+          "date" : {
+            "type" : "string",
+            "description" : "ToDo 날짜 (yyyy-MM-dd)"
+          },
+          "routine" : {
+            "type" : "object",
+            "properties" : {
+              "duration" : {
+                "type" : "object",
+                "properties" : {
+                  "endDate" : {
+                    "type" : "string",
+                    "description" : "루틴 종료 날짜 (yyyy-MM-dd)"
                   },
-                  "description" : "ToDo 정보"
+                  "startDate" : {
+                    "type" : "string",
+                    "description" : "루틴 시작 날짜 (yyyy-MM-dd)"
+                  }
                 },
-                "goal" : {
-                  "type" : "object",
-                  "properties" : {
-                    "name" : {
-                      "type" : "string",
-                      "description" : "목표 이름"
-                    },
-                    "id" : {
-                      "type" : "string",
-                      "description" : "목표 ID"
-                    }
-                  },
-                  "description" : "목표 정보"
-                }
+                "description" : "루틴 기간 정보"
+              },
+              "repeatType" : {
+                "type" : "string",
+                "description" : "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"
               }
-            }
+            },
+            "description" : "루틴 정보 (선택사항)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 ID"
+          },
+          "isImportant" : {
+            "type" : "boolean",
+            "description" : "중요도 여부"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "ToDo 내용 (1-30자)"
           }
         }
       },

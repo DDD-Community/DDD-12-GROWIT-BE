@@ -1,9 +1,14 @@
 package com.growit.app.todo.controller.mapper;
 
+import com.growit.app.todo.controller.dto.response.GoalDto;
+import com.growit.app.todo.controller.dto.response.RoutineDto;
 import com.growit.app.todo.controller.dto.response.ToDoResponse;
 import com.growit.app.todo.controller.dto.response.ToDoWithGoalResponse;
 import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
+import com.growit.app.todo.controller.dto.response.TodoDto;
+import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.ToDoResult;
+import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
 import java.util.List;
@@ -15,32 +20,31 @@ public class ToDoResponseMapper {
     return new ToDoResponse(result.getId());
   }
 
+  public TodoDto toTodoDto(ToDo todo) {
+    return TodoDto.builder()
+        .id(todo.getId())
+        .goalId(todo.getGoalId())
+        .date(todo.getDate().toString())
+        .content(todo.getContent())
+        .important(todo.isImportant())
+        .completed(todo.isCompleted())
+        .routine(toRoutineDto(todo.getRoutine()))
+        .build();
+  }
+
   public List<ToDoWithGoalResponse> toToDoWithGoalResponseList(List<ToDoWithGoalDto> dtos) {
     return dtos.stream().map(this::toToDoWithGoalResponse).toList();
   }
 
   private ToDoWithGoalResponse toToDoWithGoalResponse(ToDoWithGoalDto dto) {
-    ToDoWithGoalResponse.ToDoInfo todoInfo =
-        ToDoWithGoalResponse.ToDoInfo.builder()
-            .id(dto.getTodo().getId())
-            .goalId(dto.getTodo().getGoalId())
-            .date(dto.getTodo().getDate().toString())
-            .content(dto.getTodo().getContent())
-            .important(dto.getTodo().isImportant())
-            .completed(dto.getTodo().isCompleted())
-            .routine(dto.getTodo().getRoutine())
-            .build();
+    TodoDto todoDto = toTodoDto(dto.getTodo());
 
-    ToDoWithGoalResponse.GoalInfo goalInfo = null;
+    GoalDto goalDto = null;
     if (dto.getGoal() != null) {
-      goalInfo =
-          ToDoWithGoalResponse.GoalInfo.builder()
-              .id(dto.getGoal().getId())
-              .name(dto.getGoal().getName())
-              .build();
+      goalDto = GoalDto.builder().id(dto.getGoal().getId()).name(dto.getGoal().getName()).build();
     }
 
-    return ToDoWithGoalResponse.builder().todo(todoInfo).goal(goalInfo).build();
+    return ToDoWithGoalResponse.builder().todo(todoDto).goal(goalDto).build();
   }
 
   public List<TodoCountByDateResponse> toTodoCountByDateResponseList(
@@ -62,6 +66,26 @@ public class ToDoResponseMapper {
     return TodoCountByDateResponse.builder()
         .date(dto.getDate().toString())
         .goals(goalCounts)
+        .build();
+  }
+
+  private RoutineDto toRoutineDto(Routine routine) {
+    if (routine == null) {
+      return null;
+    }
+
+    RoutineDto.DurationDto durationDto = null;
+    if (routine.getDuration() != null) {
+      durationDto =
+          RoutineDto.DurationDto.builder()
+              .startDate(routine.getDuration().getStartDate())
+              .endDate(routine.getDuration().getEndDate())
+              .build();
+    }
+
+    return RoutineDto.builder()
+        .duration(durationDto)
+        .repeatType(routine.getRepeatType().name())
         .build();
   }
 }

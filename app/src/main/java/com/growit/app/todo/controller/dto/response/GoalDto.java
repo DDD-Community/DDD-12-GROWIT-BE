@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class ToDoWithGoalResponse {
-  private TodoDto todo;
-  private GoalDto goal;
+public class GoalDto {
+  private String id;
+  private String name;
 }

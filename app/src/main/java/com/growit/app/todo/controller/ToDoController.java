@@ -7,6 +7,7 @@ import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.controller.dto.response.ToDoResponse;
 import com.growit.app.todo.controller.dto.response.ToDoWithGoalResponse;
 import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
+import com.growit.app.todo.controller.dto.response.TodoDto;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
@@ -82,10 +83,11 @@ public class ToDoController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ApiResponse<ToDo>> getToDoById(
+  public ResponseEntity<ApiResponse<TodoDto>> getToDoById(
       @AuthenticationPrincipal User user, @PathVariable String id) {
     ToDo result = getToDoUseCase.execute(toDoRequestMapper.toGetQuery(id, user.getId()));
-    return ResponseEntity.ok(ApiResponse.success(result));
+    TodoDto todoDto = toDoResponseMapper.toTodoDto(result);
+    return ResponseEntity.ok(ApiResponse.success(todoDto));
   }
 
   @DeleteMapping("/{id}")

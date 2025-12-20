@@ -23,9 +23,12 @@ import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
+import com.growit.app.todo.controller.dto.response.GoalDto;
+import com.growit.app.todo.controller.dto.response.RoutineDto;
 import com.growit.app.todo.controller.dto.response.ToDoResponse;
 import com.growit.app.todo.controller.dto.response.ToDoWithGoalResponse;
 import com.growit.app.todo.controller.dto.response.TodoCountByDateResponse;
+import com.growit.app.todo.controller.dto.response.TodoDto;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
@@ -33,6 +36,9 @@ import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
+import com.growit.app.todo.domain.vo.RepeatType;
+import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.RoutineDuration;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
@@ -88,9 +94,26 @@ class ToDoControllerTest {
   @Test
   void createToDo() throws Exception {
     // given
-    CreateToDoRequest request = ToDoFixture.defaultCreateToDoRequest();
+    RoutineDto routineDto =
+        RoutineDto.builder()
+            .duration(
+                RoutineDto.DurationDto.builder()
+                    .startDate(LocalDate.of(2024, 1, 1))
+                    .endDate(LocalDate.of(2024, 1, 7))
+                    .build())
+            .repeatType("DAILY")
+            .build();
+
+    CreateToDoRequest request =
+        new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 내용", false, routineDto);
+
+    Routine domainRoutine =
+        Routine.of(
+            RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7)),
+            RepeatType.DAILY);
+
     CreateToDoCommand command =
-        new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), false, null);
+        new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), false, domainRoutine);
     ToDoResult result = new ToDoResult("todo-1");
     ToDoResponse response = new ToDoResponse("todo-1");
 
@@ -132,7 +155,24 @@ class ToDoControllerTest {
                             fieldWithPath("routine")
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
-                                .description("루틴 정보 (선택사항)"))
+                                .description("루틴 정보 (선택사항)"),
+                            fieldWithPath("routine.duration")
+                                .type(JsonFieldType.OBJECT)
+                                .optional()
+                                .description("루틴 기간 정보"),
+                            fieldWithPath("routine.duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 시작 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("routine.duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 종료 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("routine.repeatType")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description(
+                                    "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.OBJECT)
@@ -255,20 +295,28 @@ class ToDoControllerTest {
         List.of(
             ToDoWithGoalResponse.builder()
                 .todo(
-                    ToDoWithGoalResponse.ToDoInfo.builder()
+                    TodoDto.builder()
                         .id("todo-1")
                         .goalId("goal-1")
                         .date("2024-01-01")
                         .content("테스트 할 일입니다.")
                         .important(false)
                         .completed(false)
-                        .routine(null)
+                        .routine(
+                            RoutineDto.builder()
+                                .duration(
+                                    RoutineDto.DurationDto.builder()
+                                        .startDate(LocalDate.of(2024, 1, 1))
+                                        .endDate(LocalDate.of(2024, 1, 7))
+                                        .build())
+                                .repeatType("DAILY")
+                                .build())
                         .build())
-                .goal(ToDoWithGoalResponse.GoalInfo.builder().id("goal-1").name("테스트 목표").build())
+                .goal(GoalDto.builder().id("goal-1").name("테스트 목표").build())
                 .build(),
             ToDoWithGoalResponse.builder()
                 .todo(
-                    ToDoWithGoalResponse.ToDoInfo.builder()
+                    TodoDto.builder()
                         .id("todo-2")
                         .goalId("goal-1")
                         .date("2024-01-01")
@@ -277,7 +325,7 @@ class ToDoControllerTest {
                         .completed(false)
                         .routine(null)
                         .build())
-                .goal(ToDoWithGoalResponse.GoalInfo.builder().id("goal-1").name("테스트 목표").build())
+                .goal(GoalDto.builder().id("goal-1").name("테스트 목표").build())
                 .build());
 
     given(toDoRequestMapper.toGetDateQueryFilter(any(String.class), eq(date))).willReturn(null);
@@ -330,6 +378,23 @@ class ToDoControllerTest {
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
                                 .description("루틴 정보 (null 가능)"),
+                            fieldWithPath("data[].todo.routine.duration")
+                                .type(JsonFieldType.OBJECT)
+                                .optional()
+                                .description("루틴 기간 정보"),
+                            fieldWithPath("data[].todo.routine.duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 시작 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].todo.routine.duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 종료 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("data[].todo.routine.repeatType")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description(
+                                    "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"),
                             fieldWithPath("data[].goal")
                                 .type(JsonFieldType.OBJECT)
                                 .description("목표 정보"),
@@ -347,9 +412,20 @@ class ToDoControllerTest {
     // given
     String todoId = "todo-123";
     ToDo todo = ToDoFixture.defaultToDo();
+    TodoDto todoDto =
+        TodoDto.builder()
+            .id("todo-123")
+            .goalId("goal-1")
+            .date("2024-01-01")
+            .content("테스트 할 일입니다.")
+            .important(false)
+            .completed(false)
+            .routine(null)
+            .build();
 
     given(toDoRequestMapper.toGetQuery(eq(todoId), any(String.class))).willReturn(null);
     given(getToDoUseCase.execute(any())).willReturn(todo);
+    given(toDoResponseMapper.toTodoDto(any(ToDo.class))).willReturn(todoDto);
 
     // when & then
     mockMvc
@@ -392,7 +468,24 @@ class ToDoControllerTest {
                             fieldWithPath("data.routine")
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
-                                .description("루틴 정보 (null 가능)"))
+                                .description("루틴 정보 (null 가능)"),
+                            fieldWithPath("data.routine.duration")
+                                .type(JsonFieldType.OBJECT)
+                                .optional()
+                                .description("루틴 기간 정보"),
+                            fieldWithPath("data.routine.duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 시작 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("data.routine.duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 종료 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("data.routine.repeatType")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description(
+                                    "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"))
                         .build())));
   }
 
