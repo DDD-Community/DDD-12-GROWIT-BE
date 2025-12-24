@@ -1,6 +1,7 @@
 package com.growit.app.advice.infrastructure.persistence.chatadvice.source.entity;
 
 import com.growit.app.advice.domain.chatadvice.ChatAdvice;
+import com.growit.app.advice.domain.chatadvice.vo.AdviceStyle;
 import com.growit.app.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -47,6 +48,7 @@ public class ChatAdviceEntity extends BaseEntity {
                             c.getWeek(),
                             c.getUserMessage(),
                             c.getGrorongResponse(),
+                            c.getAdviceStyle() != null ? c.getAdviceStyle().name() : null,
                             c.getTimestamp()))
                 .collect(Collectors.toList())
             : new ArrayList<>();
@@ -65,9 +67,14 @@ public class ChatAdviceEntity extends BaseEntity {
         conversations != null
             ? conversations.stream()
                 .map(
-                    c ->
-                        new ChatAdvice.Conversation(
-                            c.week, c.userMessage, c.grorongResponse, c.timestamp))
+                    c -> {
+                      AdviceStyle adviceStyle =
+                          c.adviceStyle != null
+                              ? AdviceStyle.valueOf(c.adviceStyle)
+                              : AdviceStyle.BASIC;
+                      return new ChatAdvice.Conversation(
+                          c.week, c.userMessage, c.grorongResponse, adviceStyle, c.timestamp);
+                    })
                 .collect(Collectors.toList())
             : new ArrayList<>();
 
@@ -94,6 +101,7 @@ public class ChatAdviceEntity extends BaseEntity {
                             c.getWeek(),
                             c.getUserMessage(),
                             c.getGrorongResponse(),
+                            c.getAdviceStyle() != null ? c.getAdviceStyle().name() : null,
                             c.getTimestamp()))
                 .collect(Collectors.toList())
             : new ArrayList<>();
@@ -107,6 +115,7 @@ public class ChatAdviceEntity extends BaseEntity {
     private Integer week;
     private String userMessage;
     private String grorongResponse;
+    private String adviceStyle;
     private LocalDateTime timestamp;
   }
 }

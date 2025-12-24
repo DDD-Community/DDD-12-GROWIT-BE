@@ -1,6 +1,8 @@
 package com.growit.app.advice.controller;
 
+import com.growit.app.advice.controller.dto.request.SendChatAdviceRequest;
 import com.growit.app.advice.usecase.GetChatAdviceUseCase;
+import com.growit.app.advice.usecase.SendChatAdviceUseCase;
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ChatAdviceController {
 
   private final GetChatAdviceUseCase getChatAdviceUseCase;
+  private final SendChatAdviceUseCase sendChatAdviceUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> getChatAdviceStatus(
@@ -22,14 +25,16 @@ public class ChatAdviceController {
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 
-  /** 조언 받을 목표와 멘토를 선택하여 조언을 네스트로 요청하고 그의 결과 값을 return 한다. */
   @PostMapping
   public ResponseEntity<ApiResponse<Object>> sendChatAdvice(
-      @AuthenticationPrincipal User user, @RequestBody Object request) {
-    // TODO :: UseCase 구현 후 주석 해제
-    // SendChatAdviceCommand command = requestMapper.toCommand(user.getId(), request);
-    // ChatAdviceResult result = sendChatAdviceUseCase.execute(command);
-    // return ResponseEntity.ok(ApiResponse.success(result));
-    return ResponseEntity.ok(ApiResponse.success(null));
+      @AuthenticationPrincipal User user, @RequestBody SendChatAdviceRequest request) {
+    var response =
+        sendChatAdviceUseCase.execute(
+            user,
+            request.getWeek(),
+            request.getGoalId(),
+            request.getUserMessage(),
+            request.getAdviceStyle());
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
 }

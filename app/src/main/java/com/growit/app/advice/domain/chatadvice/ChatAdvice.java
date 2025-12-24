@@ -1,5 +1,6 @@
 package com.growit.app.advice.domain.chatadvice;
 
+import com.growit.app.advice.domain.chatadvice.vo.AdviceStyle;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ChatAdvice {
     private Integer week;
     private String userMessage;
     private String grorongResponse;
+    private AdviceStyle adviceStyle;
     private LocalDateTime timestamp;
   }
 }
