@@ -3,7 +3,6 @@ package com.growit.app.user.infrastructure.persistence.useradvicestatus.source.e
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.user.domain.useradvicestatus.UserAdviceStatus;
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -18,21 +17,21 @@ public class UserAdviceStatusEntity extends BaseEntity {
   @Column(name = "user_id", unique = true, nullable = false)
   private String userId;
 
-  @Column(name = "last_seen_date")
-  private LocalDate lastSeenDate;
+  @Column(name = "is_goal_onboarding_completed", nullable = false)
+  private boolean isGoalOnboardingCompleted;
 
   public static UserAdviceStatusEntity from(UserAdviceStatus userAdviceStatus) {
     return UserAdviceStatusEntity.builder()
         .userId(userAdviceStatus.getUserId())
-        .lastSeenDate(userAdviceStatus.getLastSeenDate())
+        .isGoalOnboardingCompleted(userAdviceStatus.isGoalOnboardingCompleted())
         .build();
   }
 
   public UserAdviceStatus toDomain() {
-    return new UserAdviceStatus(userId, lastSeenDate);
+    return new UserAdviceStatus(userId, isGoalOnboardingCompleted);
   }
 
   public void updateByDomain(UserAdviceStatus userAdviceStatus) {
-    this.lastSeenDate = userAdviceStatus.getLastSeenDate();
+    this.isGoalOnboardingCompleted = userAdviceStatus.isGoalOnboardingCompleted();
   }
 }

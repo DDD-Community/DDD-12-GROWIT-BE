@@ -9,7 +9,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   flyway:
-    enabled: true
+    enabled: false
     baseline-on-migrate: true
     baseline-version: 1
 
@@ -64,8 +64,8 @@ ai:
   api:
     api-key: ${OPEN_API_KEY}
   mentor:
-    url: http://growit-ai-alb-251700671.ap-northeast-2.elb.amazonaws.com/api
+    url: http://localhost:8001
 
 notification:
   discord:
-    webhook-url: ${DISCORD_WEBHOOK_URL}
+    webhook-url: ${DISCORD_WEBHOOK_URL:}

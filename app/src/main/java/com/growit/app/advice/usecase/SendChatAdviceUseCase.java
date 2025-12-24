@@ -11,6 +11,7 @@ import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
 import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.useradvicestatus.UserAdviceStatus;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,10 @@ public class SendChatAdviceUseCase {
   private final ChatAdviceClient chatAdviceClient;
   private final ChatAdviceDataCollector dataCollector;
   private final ChatAdviceService chatAdviceService;
+  private final com.growit.app.user.domain.useradvicestatus.repository.UserAdviceStatusRepository userAdviceStatusRepository;
 
   public ChatAdviceResponse execute(
-      User user, Integer week, String goalId, String userMessage, AdviceStyle adviceStyle) {
+      User user, Integer week, String goalId, String userMessage, AdviceStyle adviceStyle, Boolean isOnboarding) {
     String userId = user.getId();
 
     // 1. ChatAdvice 조회 또는 생성
@@ -55,6 +57,7 @@ public class SendChatAdviceUseCase {
             .concern(data.getUserMessage())
             .mode(adviceStyle.getLabel())
             .recentTodos(data.getRecentTodos())
+            .isGoalOnboardingCompleted(isOnboarding == null || !isOnboarding)
             .build();
 
     AiChatAdviceResponse aiResponse =
@@ -65,6 +68,12 @@ public class SendChatAdviceUseCase {
     }
     
     String grorongResponse = aiResponse.getData().getAdvice();
+
+    // 5.5 온보딩 상태 업데이트 (온보딩 답변인 경우)
+    if (isOnboarding != null && isOnboarding) {
+        UserAdviceStatus updatedStatus = new UserAdviceStatus(userId, true);
+        userAdviceStatusRepository.save(updatedStatus);
+    }
 
     // 6. Conversation 추가
     List<ChatAdvice.Conversation> updatedConversations =
@@ -98,9 +107,18 @@ public class SendChatAdviceUseCase {
                         c.getUserMessage(), c.getGrorongResponse(), c.getTimestamp()))
             .collect(Collectors.toList());
 
+    boolean isGoalOnboardingCompleted = false;
+    if (isOnboarding != null && isOnboarding) {
+        isGoalOnboardingCompleted = true;
+    } else {
+        isGoalOnboardingCompleted = userAdviceStatusRepository.findByUserId(userId)
+            .map(UserAdviceStatus::isGoalOnboardingCompleted)
+            .orElse(false);
+    }
+
     return ChatAdviceResponse.builder()
         .remainingCount(updatedChatAdvice.getRemainingCount())
-        .lastSeenDate(null) // UserAdviceStatus는 별도 관리
+        .isGoalOnboardingCompleted(isGoalOnboardingCompleted)
         .conversations(conversations)
         .build();
   }

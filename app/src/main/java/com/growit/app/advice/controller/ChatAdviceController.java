@@ -34,7 +34,8 @@ public class ChatAdviceController {
             request.getWeek(),
             request.getGoalId(),
             request.getUserMessage(),
-            request.getAdviceStyle());
+            request.getAdviceStyle(),
+            request.getIsOnboarding());
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 }

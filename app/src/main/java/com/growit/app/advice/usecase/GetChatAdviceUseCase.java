@@ -6,7 +6,6 @@ import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.useradvicestatus.UserAdviceStatus;
 import com.growit.app.user.domain.useradvicestatus.repository.UserAdviceStatusRepository;
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,12 +24,16 @@ public class GetChatAdviceUseCase {
     // 1. ChatAdvice 조회
     ChatAdvice chatAdvice = chatAdviceRepository.findByUserId(userId).orElse(null);
 
-    // 2. 처음 본 날짜 조회
-    LocalDate lastSeenDate =
+    // 2. 처음 본 날짜 조회 및 초기화
+    UserAdviceStatus userAdviceStatus =
         userAdviceStatusRepository
             .findByUserId(userId)
-            .map(UserAdviceStatus::getLastSeenDate)
-            .orElse(null);
+            .orElseGet(
+                () -> {
+                  UserAdviceStatus newStatus = new UserAdviceStatus(userId, false);
+                  userAdviceStatusRepository.save(newStatus);
+                  return newStatus;
+                });
 
     // 3. 남은 대화 횟수 조회
     int remainingCount = chatAdvice != null ? chatAdvice.getRemainingCount() : 3;
@@ -50,7 +53,7 @@ public class GetChatAdviceUseCase {
     // 5. 응답 반환
     return ChatAdviceResponse.builder()
         .remainingCount(remainingCount)
-        .lastSeenDate(lastSeenDate)
+        .isGoalOnboardingCompleted(userAdviceStatus.isGoalOnboardingCompleted())
         .conversations(conversations)
         .build();
   }
