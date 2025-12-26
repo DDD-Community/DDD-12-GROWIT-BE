@@ -45,8 +45,9 @@ class SendChatAdviceUseCaseTest {
     ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
     given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, goalId, userMessage, style, true))
+    given(
+            chatAdviceService.addAdviceConversation(
+                chatAdvice, user, 1, goalId, userMessage, style, true))
         .willReturn(updatedChatAdvice);
     given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), true)).willReturn(false);
 
@@ -62,8 +63,9 @@ class SendChatAdviceUseCaseTest {
     // given
     ChatAdvice chatAdvice = createChatAdvice(0);
     given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, goalId, userMessage, style, false))
+    given(
+            chatAdviceService.addAdviceConversation(
+                chatAdvice, user, 1, goalId, userMessage, style, false))
         .willThrow(new BadRequestException("ADVICE_COUNT_EXHAUSTED"));
 
     // when & then
@@ -79,8 +81,9 @@ class SendChatAdviceUseCaseTest {
     ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
     given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, goalId, userMessage, style, false))
+    given(
+            chatAdviceService.addAdviceConversation(
+                chatAdvice, user, 1, goalId, userMessage, style, false))
         .willReturn(updatedChatAdvice);
     given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), false)).willReturn(true);
 
@@ -88,7 +91,8 @@ class SendChatAdviceUseCaseTest {
     sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
 
     // then
-    verify(chatAdviceService).addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
+    verify(chatAdviceService)
+        .addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
   }
 
   @Test
@@ -98,8 +102,9 @@ class SendChatAdviceUseCaseTest {
     ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
     given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, goalId, userMessage, style, true))
+    given(
+            chatAdviceService.addAdviceConversation(
+                chatAdvice, user, 1, goalId, userMessage, style, true))
         .willReturn(updatedChatAdvice);
     given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), true)).willReturn(true);
 
@@ -128,8 +133,9 @@ class SendChatAdviceUseCaseTest {
     ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
     given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, goalId, userMessage, style, false))
+    given(
+            chatAdviceService.addAdviceConversation(
+                chatAdvice, user, 1, goalId, userMessage, style, false))
         .willReturn(updatedChatAdvice);
     given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), false)).willReturn(true);
 
@@ -137,7 +143,8 @@ class SendChatAdviceUseCaseTest {
     var result = sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
 
     // then
-    verify(chatAdviceService).addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
+    verify(chatAdviceService)
+        .addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
   }
 
   @Test
@@ -147,8 +154,9 @@ class SendChatAdviceUseCaseTest {
     ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
     given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, goalId, userMessage, style, false))
+    given(
+            chatAdviceService.addAdviceConversation(
+                chatAdvice, user, 1, goalId, userMessage, style, false))
         .willReturn(updatedChatAdvice);
     given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), false)).willReturn(true);
 
@@ -156,6 +164,7 @@ class SendChatAdviceUseCaseTest {
     sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
 
     // then
-    verify(chatAdviceService).addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
+    verify(chatAdviceService)
+        .addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
   }
 }
