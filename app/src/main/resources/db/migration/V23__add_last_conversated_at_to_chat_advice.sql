@@ -1,0 +1,2 @@
+ALTER TABLE chat_advice
+ADD COLUMN last_conversated_at TIMESTAMP WITHOUT TIME ZONE;

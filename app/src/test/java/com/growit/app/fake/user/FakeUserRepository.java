@@ -31,4 +31,11 @@ public class FakeUserRepository implements UserRepository {
   public Page<User> findAll(Pageable pageable) {
     return null;
   }
+
+  @Override
+  public java.util.List<User> findAllById(java.util.List<String> ids) {
+    return store.values().stream()
+        .filter(user -> ids.contains(user.getId()))
+        .collect(java.util.stream.Collectors.toList());
+  }
 }
