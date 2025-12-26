@@ -38,11 +38,11 @@ public class GetChatAdviceUseCase {
     // 3. 남은 대화 횟수 조회
     int remainingCount = chatAdvice != null ? chatAdvice.getRemainingCount() : 3;
 
-    // 4. 해당 주차의 대화 내역 필터링
+    // 4. 해당 주차의 대화 내역 필터링 (week가 null이면 전체 조회)
     List<ChatAdviceResponse.ConversationResponse> conversations =
         chatAdvice != null && chatAdvice.getConversations() != null
             ? chatAdvice.getConversations().stream()
-                .filter(c -> c.getWeek().equals(week))
+                .filter(c -> week == null || (c.getWeek() != null && c.getWeek().equals(week)))
                 .map(
                     c ->
                         new ChatAdviceResponse.ConversationResponse(

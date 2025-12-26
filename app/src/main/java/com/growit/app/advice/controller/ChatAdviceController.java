@@ -20,7 +20,7 @@ public class ChatAdviceController {
 
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> getChatAdviceStatus(
-      @AuthenticationPrincipal User user, @RequestParam() Integer week) {
+      @AuthenticationPrincipal User user, @RequestParam(required = false) Integer week) {
     var response = getChatAdviceUseCase.execute(user, week);
     return ResponseEntity.ok(ApiResponse.success(response));
   }
@@ -35,7 +35,7 @@ public class ChatAdviceController {
             request.getGoalId(),
             request.getUserMessage(),
             request.getAdviceStyle(),
-            request.getIsOnboarding());
+            request.getIsGoalOnboardingCompleted());
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 }

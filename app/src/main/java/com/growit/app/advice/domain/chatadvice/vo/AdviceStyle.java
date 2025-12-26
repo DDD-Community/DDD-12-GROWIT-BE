@@ -9,7 +9,8 @@ public enum AdviceStyle {
   BASIC("기본"),
   WARM("대문자F"),
   FACTUAL("팩폭"),
-  STRATEGIC("천재전략가");
+  STRATEGIC("천재전략가"),
+  MORNING("아침조언");
 
   private final String label;
 
@@ -19,8 +20,7 @@ public enum AdviceStyle {
       case WARM -> "chat-advice-warm-001";
       case FACTUAL -> "chat-advice-factual-001";
       case STRATEGIC -> "chat-advice-strategic-001";
+      case MORNING -> "chat-advice-morning-001";
     };
   }
 }
-
-

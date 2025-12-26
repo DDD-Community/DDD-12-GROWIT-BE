@@ -25,6 +25,6 @@ public class SendChatAdviceRequest {
   @NotNull(message = "조언 스타일은 필수입니다.")
   private AdviceStyle adviceStyle;
 
-  @com.fasterxml.jackson.annotation.JsonProperty("isOnboarding")
-  private Boolean isOnboarding;
+  @com.fasterxml.jackson.annotation.JsonProperty("isGoalOnboardingCompleted")
+  private Boolean isGoalOnboardingCompleted;
 }

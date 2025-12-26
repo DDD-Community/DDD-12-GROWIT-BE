@@ -153,7 +153,71 @@ class SendChatAdviceUseCaseTest {
         .remainingCount(remainingCount)
         .lastResetDate(LocalDate.now())
         .conversations(new ArrayList<>())
+        .createdAt(java.time.LocalDateTime.now())
+        .updatedAt(java.time.LocalDateTime.now())
         .build();
+  }
+
+  @Test
+  void givenValidRequest_whenExecute_thenDecreaseRemainingCount() {
+    // given
+    ChatAdvice chatAdvice = createChatAdvice(3);
+    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+
+    ChatAdviceDataCollector.RealtimeAdviceData data =
+        ChatAdviceDataCollector.RealtimeAdviceData.builder()
+            .goalId(goalId)
+            .selectedGoal("목표")
+            .userMessage(userMessage)
+            .recentTodos(new ArrayList<>())
+            .build();
+    given(dataCollector.collectRealtimeData(user, goalId, userMessage)).willReturn(data);
+    given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(createAiResponse("답변"));
+
+    // when
+    sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
+
+    // then
+    verify(chatAdviceRepository)
+        .save(
+            argThat(
+                saved -> saved.getRemainingCount() == 2 && saved.getConversations().size() == 1));
+  }
+
+  @Test
+  void givenValidRequest_whenExecute_thenSaveConversation() {
+    // given
+    ChatAdvice chatAdvice = createChatAdvice(3);
+    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+
+    ChatAdviceDataCollector.RealtimeAdviceData data =
+        ChatAdviceDataCollector.RealtimeAdviceData.builder()
+            .goalId(goalId)
+            .selectedGoal("목표")
+            .userMessage(userMessage)
+            .recentTodos(new ArrayList<>())
+            .build();
+    given(dataCollector.collectRealtimeData(user, goalId, userMessage)).willReturn(data);
+
+    String aiResponseText = "좋은 목표네요!";
+    given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(createAiResponse(aiResponseText));
+
+    // when
+    sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
+
+    // then
+    verify(chatAdviceRepository)
+        .save(
+            argThat(
+                saved -> {
+                  if (saved.getConversations().isEmpty()) return false;
+                  ChatAdvice.Conversation conv = saved.getConversations().get(0);
+                  return conv.getUserMessage().equals(userMessage)
+                      && conv.getGrorongResponse().equals(aiResponseText)
+                      && conv.getAdviceStyle().equals(style);
+                }));
   }
 
   private AiChatAdviceResponse createAiResponse(String advice) {

@@ -100,11 +100,15 @@ class ChatAdviceControllerTest {
                                 .parameterWithName("week")
                                 .description("조회할 주차"))
                         .responseFields(
-                            fieldWithPath("data.remainingCount").type(NUMBER).description("남은 대화 횟수"),
+                            fieldWithPath("data.remainingCount")
+                                .type(NUMBER)
+                                .description("남은 대화 횟수"),
                             fieldWithPath("data.isGoalOnboardingCompleted")
                                 .type(BOOLEAN)
                                 .description("온보딩 완료 여부"),
-                            fieldWithPath("data.conversations").type(ARRAY).description("대화 내역 리스트"),
+                            fieldWithPath("data.conversations")
+                                .type(ARRAY)
+                                .description("대화 내역 리스트"),
                             fieldWithPath("data.conversations[].userMessage")
                                 .type(STRING)
                                 .description("사용자 메시지"),
@@ -156,7 +160,9 @@ class ChatAdviceControllerTest {
                         .description("그로롱에게 고민을 보내고 조언을 받습니다.")
                         .requestFields(
                             fieldWithPath("week").type(NUMBER).description("현재 주차"),
-                            fieldWithPath("userMessage").type(STRING).description("사용자 메시지 (5-100자)"),
+                            fieldWithPath("userMessage")
+                                .type(STRING)
+                                .description("사용자 메시지 (5-100자)"),
                             fieldWithPath("goalId").type(STRING).description("목표 ID"),
                             fieldWithPath("adviceStyle")
                                 .type(STRING)
@@ -166,11 +172,15 @@ class ChatAdviceControllerTest {
                                 .optional()
                                 .description("온보딩 답변 여부"))
                         .responseFields(
-                            fieldWithPath("data.remainingCount").type(NUMBER).description("남은 대화 횟수"),
+                            fieldWithPath("data.remainingCount")
+                                .type(NUMBER)
+                                .description("남은 대화 횟수"),
                             fieldWithPath("data.isGoalOnboardingCompleted")
                                 .type(BOOLEAN)
                                 .description("온보딩 완료 여부"),
-                            fieldWithPath("data.conversations").type(ARRAY).description("대화 내역 리스트"),
+                            fieldWithPath("data.conversations")
+                                .type(ARRAY)
+                                .description("대화 내역 리스트"),
                             fieldWithPath("data.conversations[].userMessage")
                                 .type(STRING)
                                 .description("사용자 메시지"),

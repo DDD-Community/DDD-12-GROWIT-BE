@@ -87,4 +87,28 @@ public class UserEntity extends BaseEntity {
       this.setDeletedAt(LocalDateTime.now());
     }
   }
+
+  public User toDomain() {
+    java.util.ArrayList<com.growit.app.user.domain.user.vo.OAuth> oauthList =
+        new java.util.ArrayList<>();
+    if (this.oauthAccounts != null) {
+      this.oauthAccounts.forEach(
+          o ->
+              oauthList.add(
+                  new com.growit.app.user.domain.user.vo.OAuth(
+                      o.getProvider(), o.getProviderId())));
+    }
+
+    return User.builder()
+        .id(this.uid)
+        .email(new com.growit.app.user.domain.user.vo.Email(this.email))
+        .password(this.password)
+        .name(this.name)
+        .jobRoleId(this.jobRoleId)
+        .careerYear(this.careerYear)
+        .isOnboarding(this.isOnboarding)
+        .isDeleted(getDeletedAt() != null)
+        .oauthAccounts(oauthList)
+        .build();
+  }
 }

@@ -2,6 +2,12 @@ spring:
   application:
     name: growit
 
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
+
   datasource:
     url: jdbc:postgresql://localhost:5432/growit_dev
     username: postgres

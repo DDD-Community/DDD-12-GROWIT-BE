@@ -22,6 +22,12 @@ notification:
   discord:
     webhook-url: http://test-webhook-url
 
+batch:
+  jdbc:
+    initialize-schema: always
+  job:
+    enabled: true
+    
 ai:
   api:
     api-key: test-api-key

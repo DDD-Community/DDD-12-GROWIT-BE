@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserAdviceStatusJpaRepository
-    extends JpaRepository<UserAdviceStatusEntity, String> {
+public interface UserAdviceStatusJpaRepository extends JpaRepository<UserAdviceStatusEntity, Long> {
   Optional<UserAdviceStatusEntity> findByUserId(String userId);
 }

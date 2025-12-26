@@ -34,6 +34,13 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
+  public java.util.List<User> findAllById(java.util.List<String> ids) {
+    return dbUserRepository.findAllByUidIn(ids).stream()
+        .map(UserEntity::toDomain)
+        .collect(java.util.stream.Collectors.toList());
+  }
+
+  @Override
   public void saveUser(User user) {
     Optional<UserEntity> userEntityOpt = dbUserRepository.findByUid(user.getId());
     UserEntity userEntity = null;
