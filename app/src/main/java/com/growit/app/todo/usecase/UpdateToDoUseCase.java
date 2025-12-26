@@ -23,7 +23,7 @@ public class UpdateToDoUseCase {
   @Transactional
   public ToDoResult execute(UpdateToDoCommand command) {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
-    if(command.goalId() != null) {
+    if (command.goalId() != null) {
       goalQuery.getMyGoal(command.goalId(), command.userId());
     }
 

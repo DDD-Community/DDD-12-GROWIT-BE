@@ -10,6 +10,77 @@ window.swaggerSpec={
   } ],
   "tags" : [ ],
   "paths" : {
+    "/advice/chat" : {
+      "get" : {
+        "tags" : [ "Advice" ],
+        "summary" : "실시간 채팅 조언 상태 조회",
+        "description" : "사용자의 남은 대화 횟수와 온보딩 완료 여부, 대화 내역을 조회합니다.",
+        "operationId" : "get-chat-advice-status",
+        "parameters" : [ {
+          "name" : "week",
+          "in" : "query",
+          "description" : "조회할 주차",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/advice-chat-1431857123"
+                },
+                "examples" : {
+                  "get-chat-advice-status" : {
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2025-12-26T21:39:34.733117\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Advice" ],
+        "summary" : "실시간 채팅 조언 전송",
+        "description" : "그로롱에게 고민을 보내고 조언을 받습니다.",
+        "operationId" : "send-chat-advice",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/advice-chat383383228"
+              },
+              "examples" : {
+                "send-chat-advice" : {
+                  "value" : "{\n  \"week\" : 1,\n  \"userMessage\" : \"목표 달성 힘드네\",\n  \"goalId\" : \"goal-1\",\n  \"adviceStyle\" : \"STRATEGIC\",\n  \"isGoalOnboardingCompleted\" : true\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/advice-chat-1431857123"
+                },
+                "examples" : {
+                  "send-chat-advice" : {
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2025-12-26T21:39:34.200801\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/advice/grorong" : {
       "get" : {
         "tags" : [ "Advice" ],
@@ -256,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-15\",\n        \"endDate\" : \"2025-12-21\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"pJWjfcNwL1TjiQ72LDGVU\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-22\",\n        \"endDate\" : \"2025-12-28\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"YdFvu3CyAnSMpA8sR1uL4\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -327,7 +398,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"RuiSCZELd5HVytPXYKQqX\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"hJPDOvrklDOg5czIRt4ss\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -395,7 +466,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goals" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    },\n    \"duration\" : {\n      \"startDate\" : \"2025-12-15\",\n      \"endDate\" : \"2025-12-21\"\n    },\n    \"status\" : \"PROGRESS\",\n    \"analysis\" : {\n      \"todoCompletedRate\" : 75,\n      \"summary\" : \"목표가 순조롭게 진행되고 있습니다.\"\n    },\n    \"isChecked\" : false\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    },\n    \"duration\" : {\n      \"startDate\" : \"2025-12-22\",\n      \"endDate\" : \"2025-12-28\"\n    },\n    \"status\" : \"PROGRESS\",\n    \"analysis\" : {\n      \"todoCompletedRate\" : 75,\n      \"summary\" : \"목표가 순조롭게 진행되고 있습니다.\"\n    },\n    \"isChecked\" : false\n  } ]\n}"
                   }
                 }
               }
@@ -416,7 +487,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-12-22\",\n    \"endDate\" : \"2026-01-18\"\n  }\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-12-29\",\n    \"endDate\" : \"2026-01-25\"\n  }\n}"
                 }
               }
             }
@@ -466,7 +537,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-my-goal" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    },\n    \"duration\" : {\n      \"startDate\" : \"2025-12-15\",\n      \"endDate\" : \"2025-12-21\"\n    },\n    \"status\" : \"PROGRESS\",\n    \"analysis\" : {\n      \"todoCompletedRate\" : 75,\n      \"summary\" : \"목표가 순조롭게 진행되고 있습니다.\"\n    },\n    \"isChecked\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"goal-1\",\n    \"name\" : \"테스트 목표\",\n    \"planet\" : {\n      \"name\" : \"Earth\",\n      \"image\" : {\n        \"done\" : \"/images/earth_done.png\",\n        \"progress\" : \"/images/earth_progress.png\"\n      }\n    },\n    \"duration\" : {\n      \"startDate\" : \"2025-12-22\",\n      \"endDate\" : \"2025-12-28\"\n    },\n    \"status\" : \"PROGRESS\",\n    \"analysis\" : {\n      \"todoCompletedRate\" : 75,\n      \"summary\" : \"목표가 순조롭게 진행되고 있습니다.\"\n    },\n    \"isChecked\" : false\n  }\n}"
                   }
                 }
               }
@@ -496,7 +567,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-goal" : {
-                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-12-22\",\n    \"endDate\" : \"2026-01-18\"\n  }\n}"
+                  "value" : "{\n  \"name\" : \"내 목표는 그로잇 완성\",\n  \"duration\" : {\n    \"startDate\" : \"2025-12-29\",\n    \"endDate\" : \"2026-01-25\"\n  }\n}"
                 }
               }
             }
@@ -649,7 +720,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-20\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-07\"\n    },\n    \"repeatType\" : \"DAILY\"\n  }\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-26\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-07\"\n    },\n    \"repeatType\" : \"DAILY\"\n  }\n}"
                 }
               }
             }
@@ -767,11 +838,11 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/todos-id-1443446372"
+                "$ref" : "#/components/schemas/todos-id642432626"
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"date\" : \"2025-12-20\",\n  \"content\" : \"수정된 할 일 내용\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-26\",\n  \"content\" : \"수정된 할 일 내용\",\n  \"isImportant\" : true\n}"
                 }
               }
             }
@@ -1700,6 +1771,31 @@ window.swaggerSpec={
           }
         }
       },
+      "advice-chat383383228" : {
+        "type" : "object",
+        "properties" : {
+          "adviceStyle" : {
+            "type" : "string",
+            "description" : "조언 스타일 (BASIC, WARM, FACTUAL, STRATEGIC)"
+          },
+          "userMessage" : {
+            "type" : "string",
+            "description" : "사용자 메시지 (5-100자)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "목표 ID"
+          },
+          "week" : {
+            "type" : "number",
+            "description" : "현재 주차"
+          },
+          "isGoalOnboardingCompleted" : {
+            "type" : "boolean",
+            "description" : "온보딩 답변 여부"
+          }
+        }
+      },
       "goals-72449656" : {
         "type" : "object",
         "properties" : {
@@ -1800,19 +1896,6 @@ window.swaggerSpec={
           }
         }
       },
-      "todos-id-1443446372" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "수정할 ToDo 날짜 (yyyy-MM-dd)"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "수정할 ToDo 내용 (1-30자)"
-          }
-        }
-      },
       "todos1540117927" : {
         "type" : "object",
         "properties" : {
@@ -1909,6 +1992,27 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id642432626" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "수정할 ToDo 날짜 (yyyy-MM-dd)"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "수정할 목표 ID"
+          },
+          "isImportant" : {
+            "type" : "boolean",
+            "description" : "수정할 중요도 여부"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 ToDo 내용 (1-30자)"
+          }
+        }
+      },
       "todos-id-925192925" : {
         "type" : "object",
         "properties" : {
@@ -1919,6 +2023,45 @@ window.swaggerSpec={
           "isCompleted" : {
             "type" : "boolean",
             "description" : "완료 여부 (선택사항)"
+          }
+        }
+      },
+      "advice-chat-1431857123" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "isGoalOnboardingCompleted" : {
+                "type" : "boolean",
+                "description" : "온보딩 완료 여부"
+              },
+              "conversations" : {
+                "type" : "array",
+                "description" : "대화 내역 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "userMessage" : {
+                      "type" : "string",
+                      "description" : "사용자 메시지"
+                    },
+                    "grorongResponse" : {
+                      "type" : "string",
+                      "description" : "그로롱 답변"
+                    },
+                    "timestamp" : {
+                      "type" : "string",
+                      "description" : "시간"
+                    }
+                  }
+                }
+              },
+              "remainingCount" : {
+                "type" : "number",
+                "description" : "남은 대화 횟수"
+              }
+            }
           }
         }
       },

@@ -22,5 +22,4 @@ public class UpdateToDoRequest {
 
   @JsonProperty("isImportant")
   private Boolean important; // Use Boolean wrapper to allow null values
-
 }

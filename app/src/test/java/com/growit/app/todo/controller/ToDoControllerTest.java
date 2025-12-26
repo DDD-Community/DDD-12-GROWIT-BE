@@ -187,16 +187,18 @@ class ToDoControllerTest {
   void updateToDo() throws Exception {
     // given
     String todoId = "todo-123";
-    UpdateToDoRequest request = new UpdateToDoRequest(LocalDate.now(), "수정된 할 일 내용");
+    UpdateToDoRequest request =
+        new UpdateToDoRequest("goal-1", LocalDate.now(), "수정된 할 일 내용", true);
+    UpdateToDoCommand command =
+        new UpdateToDoCommand(todoId, "user-1", "goal-1", "수정된 할 일 내용", LocalDate.now(), true);
+
     ToDoResult result = new ToDoResult("todo-123");
-    ToDoResponse response = new ToDoResponse("todo-123");
 
     given(
             toDoRequestMapper.toUpdateCommand(
                 eq(todoId), any(String.class), any(UpdateToDoRequest.class)))
-        .willReturn(null);
+        .willReturn(command);
     given(updateToDoUseCase.execute(any(UpdateToDoCommand.class))).willReturn(result);
-    given(toDoResponseMapper.toToDoResponse(any(ToDoResult.class))).willReturn(response);
 
     // when & then
     mockMvc
@@ -218,12 +220,18 @@ class ToDoControllerTest {
                         .description("기존 ToDo 정보를 수정합니다.")
                         .pathParameters(parameterWithName("id").description("ToDo ID"))
                         .requestFields(
+                            fieldWithPath("goalId")
+                                .type(JsonFieldType.STRING)
+                                .description("수정할 목표 ID"),
                             fieldWithPath("date")
                                 .type(JsonFieldType.STRING)
                                 .description("수정할 ToDo 날짜 (yyyy-MM-dd)"),
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
-                                .description("수정할 ToDo 내용 (1-30자)"))
+                                .description("수정할 ToDo 내용 (1-30자)"),
+                            fieldWithPath("isImportant")
+                                .type(JsonFieldType.BOOLEAN)
+                                .description("수정할 중요도 여부"))
                         .build())));
   }
 

@@ -50,7 +50,8 @@ class UpdateToDoUseCaseTest {
     LocalDate today = LocalDate.now();
     String newContent = "수정된 내용";
     UpdateToDoCommand command =
-        new UpdateToDoCommand(toDo.getId(), toDo.getUserId(), newContent, today);
+        new UpdateToDoCommand(
+            toDo.getId(), toDo.getUserId(), toDo.getGoalId(), newContent, today, false);
 
     // When
     ToDoResult result = updateToDoUseCase.execute(command);
