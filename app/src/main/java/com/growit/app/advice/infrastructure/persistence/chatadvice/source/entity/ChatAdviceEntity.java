@@ -34,20 +34,15 @@ public class ChatAdviceEntity extends BaseEntity {
   @Column(name = "conversations", columnDefinition = "jsonb")
   private List<ConversationData> conversations;
 
-  @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
-
   public void update(
       int remainingCount,
       LocalDate lastResetDate,
       LocalDateTime lastConversatedAt,
-      List<ConversationData> conversations,
-      LocalDateTime updatedAt) {
+      List<ConversationData> conversations) {
     this.remainingCount = remainingCount;
     this.lastResetDate = lastResetDate;
     this.lastConversatedAt = lastConversatedAt;
     this.conversations = conversations;
-    this.updatedAt = updatedAt;
   }
 
   @Getter

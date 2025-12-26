@@ -35,7 +35,6 @@ public class ChatAdviceDBMapper {
         .lastResetDate(chatAdvice.getLastResetDate())
         .lastConversatedAt(chatAdvice.getLastConversatedAt())
         .conversations(conversationDataList)
-        .updatedAt(chatAdvice.getUpdatedAt())
         .build();
   }
 
@@ -72,8 +71,7 @@ public class ChatAdviceDBMapper {
         domain.getRemainingCount(),
         domain.getLastResetDate(),
         domain.getLastConversatedAt(),
-        conversationDataList,
-        domain.getUpdatedAt());
+        conversationDataList);
   }
 
   public List<ChatAdvice> toDomainList(List<ChatAdviceEntity> entities) {
