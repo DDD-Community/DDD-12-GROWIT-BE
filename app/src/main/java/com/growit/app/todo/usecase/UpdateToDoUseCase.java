@@ -23,6 +23,9 @@ public class UpdateToDoUseCase {
   @Transactional
   public ToDoResult execute(UpdateToDoCommand command) {
     ToDo toDo = toDoQuery.getMyToDo(command.id(), command.userId());
+    if (command.goalId() != null) {
+      goalQuery.getMyGoal(command.goalId(), command.userId());
+    }
 
     if (toDo.getGoalId() != null) {
       Goal goal = goalQuery.getMyGoal(toDo.getGoalId(), command.userId());
@@ -31,7 +34,6 @@ public class UpdateToDoUseCase {
     }
 
     toDo.updateBy(command);
-
     toDoRepository.saveToDo(toDo);
 
     return new ToDoResult(toDo.getId());

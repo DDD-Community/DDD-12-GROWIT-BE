@@ -13,4 +13,6 @@ public interface UserRepository {
   void saveUser(User user);
 
   Page<User> findAll(Pageable pageable);
+
+  java.util.List<User> findAllById(java.util.List<String> ids);
 }

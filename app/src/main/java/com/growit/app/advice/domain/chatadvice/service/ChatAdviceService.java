@@ -1,0 +1,133 @@
+package com.growit.app.advice.domain.chatadvice.service;
+
+import com.growit.app.advice.domain.chatadvice.ChatAdvice;
+import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
+import com.growit.app.advice.domain.chatadvice.vo.AdviceStyle;
+import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
+import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
+import com.growit.app.common.exception.BadRequestException;
+import com.growit.app.user.domain.user.User;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ChatAdviceService implements ChatAdviceValidator {
+
+  private static final int DAILY_LIMIT = 3;
+
+  private final ChatAdviceRepository chatAdviceRepository;
+  private final ChatAdviceClient chatAdviceClient;
+  private final ChatAdviceDataCollector dataCollector;
+
+  public ChatAdvice prepareForNewMessage(String userId) {
+    ChatAdvice chatAdvice = getOrCreateChatAdvice(userId);
+    chatAdvice = resetIfNeeded(chatAdvice);
+    validateCanSendMessage(chatAdvice);
+    return chatAdvice;
+  }
+
+  public ChatAdvice addAdviceConversation(
+      ChatAdvice chatAdvice,
+      User user,
+      Integer week,
+      String goalId,
+      String userMessage,
+      AdviceStyle adviceStyle,
+      Boolean isOnboarding) {
+
+    validateConversation(userMessage, week);
+
+    ChatAdviceRequest request =
+        buildAiRequest(user, week, goalId, userMessage, adviceStyle, isOnboarding);
+
+    String aiAdvice = requestAiAdvice(request);
+
+    ChatAdvice updated =
+        chatAdvice.addConversation(
+            week, userMessage, aiAdvice, adviceStyle, Boolean.TRUE.equals(isOnboarding));
+
+    chatAdviceRepository.save(updated);
+    return updated;
+  }
+
+  @Override
+  public void validateCanSendMessage(ChatAdvice chatAdvice) {
+    if (!chatAdvice.canSendMessage()) {
+      throw new BadRequestException("일일 대화 횟수를 초과했습니다.");
+    }
+  }
+
+  @Override
+  public void validateConversation(String userMessage, Integer week) {
+    if (userMessage == null || userMessage.isBlank()) {
+      throw new BadRequestException("메시지는 비어있을 수 없습니다.");
+    }
+    if (week == null || week < 1) {
+      throw new BadRequestException("유효하지 않은 주차입니다.");
+    }
+  }
+
+  public ChatAdvice getOrCreateChatAdvice(String userId) {
+    LocalDate today = LocalDate.now();
+    return chatAdviceRepository
+        .findByUserId(userId)
+        .orElseGet(() -> createNewChatAdvice(userId, today));
+  }
+
+  public ChatAdvice resetIfNeeded(ChatAdvice chatAdvice) {
+    LocalDate today = LocalDate.now();
+    if (chatAdvice.needsReset(today)) {
+      return chatAdvice.resetDaily(DAILY_LIMIT, today);
+    }
+    return chatAdvice;
+  }
+
+  private ChatAdviceRequest buildAiRequest(
+      User user,
+      Integer week,
+      String goalId,
+      String userMessage,
+      AdviceStyle adviceStyle,
+      Boolean isOnboarding) {
+
+    ChatAdviceDataCollector.RealtimeAdviceData data =
+        dataCollector.collectRealtimeData(user, goalId, userMessage);
+
+    return ChatAdviceRequest.builder()
+        .userId(user.getId())
+        .goalId(data.getGoalId())
+        .goalTitle(data.getSelectedGoal())
+        .concern(data.getUserMessage())
+        .mode(adviceStyle.getLabel())
+        .week(week)
+        .recentTodos(data.getRecentTodos())
+        .isGoalOnboardingCompleted(isOnboarding == null || !isOnboarding)
+        .build();
+  }
+
+  private String requestAiAdvice(ChatAdviceRequest request) {
+    AiChatAdviceResponse response = chatAdviceClient.getRealtimeAdvice(request);
+
+    if (response == null || response.getData() == null || response.getData().getAdvice() == null) {
+      throw new AiServiceException("AI 서버로부터 조언 데이터를 받지 못했습니다.");
+    }
+
+    return response.getData().getAdvice();
+  }
+
+  private ChatAdvice createNewChatAdvice(String userId, LocalDate today) {
+    return ChatAdvice.of(
+        null,
+        userId,
+        DAILY_LIMIT,
+        today,
+        new ArrayList<>(),
+        LocalDateTime.now(),
+        LocalDateTime.now(),
+        null);
+  }
+}

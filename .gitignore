@@ -72,3 +72,6 @@ app/src/main/generated
 ### REST Docs ###
 src/main/resources/static/docs/
 app/src/main/resources/static/docs/
+
+.serena/
+.claude

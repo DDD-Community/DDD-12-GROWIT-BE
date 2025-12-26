@@ -2,6 +2,12 @@ spring:
   application:
     name: growit
 
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
+
   datasource:
     url: jdbc:postgresql://localhost:5432/growit_dev
     username: postgres
@@ -64,8 +70,8 @@ ai:
   api:
     api-key: ${OPEN_API_KEY}
   mentor:
-    url: http://growit-ai-alb-251700671.ap-northeast-2.elb.amazonaws.com/api
+    url: http://localhost:8001
 
 notification:
   discord:
-    webhook-url: ${DISCORD_WEBHOOK_URL}
+    webhook-url: ${DISCORD_WEBHOOK_URL:}
