@@ -44,7 +44,9 @@ public class ToDo {
 
   public void updateBy(UpdateToDoCommand command) {
     this.date = command.date();
+    this.goalId = command.goalId();
     this.content = command.content();
+    this.isImportant = command.isImportant();
   }
 
   public void updateIsCompleted(boolean isCompleted) {

@@ -25,7 +25,7 @@ public class ToDoRequestMapper {
   }
 
   public UpdateToDoCommand toUpdateCommand(String id, String userId, UpdateToDoRequest request) {
-    return new UpdateToDoCommand(id, userId, request.getContent(), request.getDate());
+    return new UpdateToDoCommand(id, userId, request.getGoalId(), request.getContent(),  request.getDate(), request.getImportant());
   }
 
   public CompletedStatusChangeCommand toCompletedStatusChangeCommand(
