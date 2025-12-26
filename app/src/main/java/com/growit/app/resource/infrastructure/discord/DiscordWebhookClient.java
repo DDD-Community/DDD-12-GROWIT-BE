@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,8 +24,8 @@ public class DiscordWebhookClient {
   private final RestTemplate restTemplate;
   private final ObjectMapper objectMapper;
 
-  private static final String DISCORD_WEBHOOK_URL =
-      "https://discord.com/api/webhooks/1416585254415765535/MAxIHEiDGl_zrGqbzaYjzXhymNrZdpPUJPIiQ0UArGM0_Fps4KqoufIcgqt3I_ikZmjd";
+  @Value("${notification.discord.webhook-url}")
+  private String discordWebhookUrl;
 
   public void sendInvitation(String phone) {
     try {
@@ -44,7 +45,7 @@ public class DiscordWebhookClient {
 
       HttpEntity<String> request = new HttpEntity<>(json, headers);
       ResponseEntity<String> response =
-          restTemplate.postForEntity(DISCORD_WEBHOOK_URL, request, String.class);
+          restTemplate.postForEntity(discordWebhookUrl, request, String.class);
 
       if (response.getStatusCode().is2xxSuccessful()) {
         log.info("Discord webhook sent successfully for phone: {}", phone);
