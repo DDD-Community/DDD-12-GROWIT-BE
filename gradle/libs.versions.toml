@@ -37,7 +37,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
-spring-batch-test = { module = "org.springframework.batch:spring-batch-test", version.ref = "springBoot" }
+spring-batch-test = { module = "org.springframework.batch:spring-batch-test" }
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 
