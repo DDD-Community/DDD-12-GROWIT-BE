@@ -97,7 +97,7 @@ swaggerSources {
 }
 
 openapi3 {
-  this.setServer("https://dev.groiw-it.me/")
+  this.setServer("https://dev.grow-it.me/")
   title = "GrowIT API Specification"
   description = "GrowIT description"
   version = project.version.toString()
