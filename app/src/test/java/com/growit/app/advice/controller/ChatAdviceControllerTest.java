@@ -167,7 +167,7 @@ class ChatAdviceControllerTest {
                             fieldWithPath("adviceStyle")
                                 .type(STRING)
                                 .description("조언 스타일 (BASIC, WARM, FACTUAL, STRATEGIC)"),
-                            fieldWithPath("isOnboarding")
+                            fieldWithPath("isGoalOnboardingCompleted")
                                 .type(BOOLEAN)
                                 .optional()
                                 .description("온보딩 답변 여부"))

@@ -1,28 +1,18 @@
 package com.growit.app.advice.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import com.growit.app.advice.domain.chatadvice.ChatAdvice;
-import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
-import com.growit.app.advice.domain.chatadvice.service.ChatAdviceClient;
-import com.growit.app.advice.domain.chatadvice.service.ChatAdviceDataCollector;
 import com.growit.app.advice.domain.chatadvice.service.ChatAdviceService;
 import com.growit.app.advice.domain.chatadvice.vo.AdviceStyle;
-import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
-import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.domain.user.User;
-import com.growit.app.user.domain.useradvicestatus.UserAdviceStatus;
-import com.growit.app.user.domain.useradvicestatus.repository.UserAdviceStatusRepository;
+import com.growit.app.user.domain.useradvicestatus.service.UserAdviceStatusService;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +23,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SendChatAdviceUseCaseTest {
 
-  @Mock private ChatAdviceRepository chatAdviceRepository;
-  @Mock private ChatAdviceClient chatAdviceClient;
-  @Mock private ChatAdviceDataCollector dataCollector;
   @Mock private ChatAdviceService chatAdviceService;
-  @Mock private UserAdviceStatusRepository userAdviceStatusRepository;
+  @Mock private UserAdviceStatusService userAdviceStatusService;
 
   @InjectMocks private SendChatAdviceUseCase sendChatAdviceUseCase;
 
@@ -55,40 +42,29 @@ class SendChatAdviceUseCaseTest {
   void givenOnboardingRequest_whenExecute_thenIncludeOnboardingFlagInAiRequest() {
     // given
     ChatAdvice chatAdvice = createChatAdvice(3);
-    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+    ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
-    ChatAdviceDataCollector.RealtimeAdviceData data =
-        ChatAdviceDataCollector.RealtimeAdviceData.builder()
-            .goalId(goalId)
-            .selectedGoal("테스트 목표")
-            .userMessage(userMessage)
-            .recentTodos(List.of("할일1"))
-            .build();
-    given(dataCollector.collectRealtimeData(user, goalId, userMessage)).willReturn(data);
-
-    AiChatAdviceResponse aiResponse = createAiResponse("격려의 답변입니다.");
-    given(chatAdviceClient.getRealtimeAdvice(any(ChatAdviceRequest.class))).willReturn(aiResponse);
+    given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.addAdviceConversation(
+        chatAdvice, user, 1, goalId, userMessage, style, true))
+        .willReturn(updatedChatAdvice);
+    given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), true)).willReturn(false);
 
     // when
     sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, true);
 
     // then
-    verify(chatAdviceClient)
-        .getRealtimeAdvice(
-            argThat(
-                request ->
-                    !request.isGoalOnboardingCompleted()
-                        && request.getConcern().equals(userMessage)
-                        && request.getGoalId().equals(goalId)));
+    verify(userAdviceStatusService).completeGoalOnboarding(user.getId());
   }
 
   @Test
   void givenRemainingCountZero_whenExecute_thenThrowBadRequestException() {
     // given
     ChatAdvice chatAdvice = createChatAdvice(0);
-    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+    given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.addAdviceConversation(
+        chatAdvice, user, 1, goalId, userMessage, style, false))
+        .willThrow(new BadRequestException("ADVICE_COUNT_EXHAUSTED"));
 
     // when & then
     assertThrows(
@@ -100,51 +76,38 @@ class SendChatAdviceUseCaseTest {
   void givenValidRequest_whenExecute_thenCollectDataWithCorrectParams() {
     // given
     ChatAdvice chatAdvice = createChatAdvice(3);
-    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+    ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
-    ChatAdviceDataCollector.RealtimeAdviceData data =
-        ChatAdviceDataCollector.RealtimeAdviceData.builder()
-            .goalId(goalId)
-            .selectedGoal("목표")
-            .userMessage(userMessage)
-            .recentTodos(new ArrayList<>())
-            .build();
-    given(dataCollector.collectRealtimeData(user, goalId, userMessage)).willReturn(data);
-    given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(createAiResponse("답변"));
+    given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.addAdviceConversation(
+        chatAdvice, user, 1, goalId, userMessage, style, false))
+        .willReturn(updatedChatAdvice);
+    given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), false)).willReturn(true);
 
     // when
     sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
 
     // then
-    verify(dataCollector).collectRealtimeData(user, goalId, userMessage);
+    verify(chatAdviceService).addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
   }
 
   @Test
   void givenOnboardingRequest_whenExecute_thenUpdateUserAdviceStatus() {
     // given
     ChatAdvice chatAdvice = createChatAdvice(3);
-    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+    ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
-    given(dataCollector.collectRealtimeData(any(), any(), any()))
-        .willReturn(
-            ChatAdviceDataCollector.RealtimeAdviceData.builder()
-                .goalId(goalId)
-                .selectedGoal("목표")
-                .userMessage(userMessage)
-                .recentTodos(new ArrayList<>())
-                .build());
-    given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(createAiResponse("답변"));
-
-    UserAdviceStatus status = new UserAdviceStatus(user.getId(), false);
-    given(userAdviceStatusRepository.findByUserId(user.getId())).willReturn(Optional.of(status));
+    given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.addAdviceConversation(
+        chatAdvice, user, 1, goalId, userMessage, style, true))
+        .willReturn(updatedChatAdvice);
+    given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), true)).willReturn(true);
 
     // when
     sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, true);
 
     // then
-    verify(userAdviceStatusRepository).save(argThat(UserAdviceStatus::isGoalOnboardingCompleted));
+    verify(userAdviceStatusService).completeGoalOnboarding(user.getId());
   }
 
   private ChatAdvice createChatAdvice(int remainingCount) {
@@ -162,69 +125,37 @@ class SendChatAdviceUseCaseTest {
   void givenValidRequest_whenExecute_thenDecreaseRemainingCount() {
     // given
     ChatAdvice chatAdvice = createChatAdvice(3);
-    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+    ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
-    ChatAdviceDataCollector.RealtimeAdviceData data =
-        ChatAdviceDataCollector.RealtimeAdviceData.builder()
-            .goalId(goalId)
-            .selectedGoal("목표")
-            .userMessage(userMessage)
-            .recentTodos(new ArrayList<>())
-            .build();
-    given(dataCollector.collectRealtimeData(user, goalId, userMessage)).willReturn(data);
-    given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(createAiResponse("답변"));
+    given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.addAdviceConversation(
+        chatAdvice, user, 1, goalId, userMessage, style, false))
+        .willReturn(updatedChatAdvice);
+    given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), false)).willReturn(true);
 
     // when
-    sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
+    var result = sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
 
     // then
-    verify(chatAdviceRepository)
-        .save(
-            argThat(
-                saved -> saved.getRemainingCount() == 2 && saved.getConversations().size() == 1));
+    verify(chatAdviceService).addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
   }
 
   @Test
   void givenValidRequest_whenExecute_thenSaveConversation() {
     // given
     ChatAdvice chatAdvice = createChatAdvice(3);
-    given(chatAdviceService.getOrCreateChatAdvice(user.getId())).willReturn(chatAdvice);
-    given(chatAdviceService.resetIfNeeded(chatAdvice)).willReturn(chatAdvice);
+    ChatAdvice updatedChatAdvice = createChatAdvice(2);
 
-    ChatAdviceDataCollector.RealtimeAdviceData data =
-        ChatAdviceDataCollector.RealtimeAdviceData.builder()
-            .goalId(goalId)
-            .selectedGoal("목표")
-            .userMessage(userMessage)
-            .recentTodos(new ArrayList<>())
-            .build();
-    given(dataCollector.collectRealtimeData(user, goalId, userMessage)).willReturn(data);
-
-    String aiResponseText = "좋은 목표네요!";
-    given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(createAiResponse(aiResponseText));
+    given(chatAdviceService.prepareForNewMessage(user.getId())).willReturn(chatAdvice);
+    given(chatAdviceService.addAdviceConversation(
+        chatAdvice, user, 1, goalId, userMessage, style, false))
+        .willReturn(updatedChatAdvice);
+    given(userAdviceStatusService.isGoalOnboardingCompleted(user.getId(), false)).willReturn(true);
 
     // when
     sendChatAdviceUseCase.execute(user, 1, goalId, userMessage, style, false);
 
     // then
-    verify(chatAdviceRepository)
-        .save(
-            argThat(
-                saved -> {
-                  if (saved.getConversations().isEmpty()) return false;
-                  ChatAdvice.Conversation conv = saved.getConversations().get(0);
-                  return conv.getUserMessage().equals(userMessage)
-                      && conv.getGrorongResponse().equals(aiResponseText)
-                      && conv.getAdviceStyle().equals(style);
-                }));
-  }
-
-  private AiChatAdviceResponse createAiResponse(String advice) {
-    AiChatAdviceResponse response = new AiChatAdviceResponse();
-    AiChatAdviceResponse.Data data = new AiChatAdviceResponse.Data();
-    data.setAdvice(advice);
-    response.setData(data);
-    return response;
+    verify(chatAdviceService).addAdviceConversation(chatAdvice, user, 1, goalId, userMessage, style, false);
   }
 }
