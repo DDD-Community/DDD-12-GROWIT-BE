@@ -36,7 +36,7 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
       throw new IllegalArgumentException("ChatAdviceRequest cannot be null");
     }
 
-    String fullUrl = nestApiUrl + "/api/advice/realtime";
+    String fullUrl = nestApiUrl + "/advice/realtime";
 
     try {
       // Map to strict DTO for realtime advice to avoid sending unwanted fields
@@ -66,7 +66,7 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
 
   @Override
   public AiChatAdviceResponse getMorningAdvice(ChatAdviceRequest request) {
-    String fullUrl = nestApiUrl + "/api/advice/morning";
+    String fullUrl = nestApiUrl + "/advice/morning";
     try {
       MorningAdviceRequestDto payload =
           new MorningAdviceRequestDto(
