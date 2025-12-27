@@ -402,7 +402,7 @@ class GoalControllerTest {
     // when & then
     mockMvc
         .perform(
-            post("/goals/{id}/anlaysis", goalId).header("Authorization", "Bearer mock-jwt-token"))
+            post("/goals/{id}/analysis", goalId).header("Authorization", "Bearer mock-jwt-token"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data").exists())
         .andDo(

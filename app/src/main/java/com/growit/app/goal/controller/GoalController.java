@@ -87,7 +87,7 @@ public class GoalController {
     return ResponseEntity.ok(ApiResponse.success("삭제되었습니다."));
   }
 
-  @PostMapping("/{id}/anlaysis")
+  @PostMapping("/{id}/analysis")
   public ResponseEntity<ApiResponse<String>> completeGoal(
       @PathVariable String id, @AuthenticationPrincipal User user) {
     createGoalAnalysisUseCase.execute(id, user.getId());

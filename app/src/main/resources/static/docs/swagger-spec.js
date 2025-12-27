@@ -35,7 +35,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-chat-advice-status" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2025-12-27T09:31:36.748624\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2025-12-27T11:03:00.139081\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -72,7 +72,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "send-chat-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2025-12-27T09:31:36.136632\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2025-12-27T11:02:59.476526\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
                   }
                 }
               }
@@ -97,7 +97,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-grorong-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"오다 주웠다\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"역시 넌 나를 실망시키지 않아\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-22\",\n        \"endDate\" : \"2025-12-28\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"JoN6b-CkRz3mYeuy-xqTB\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-22\",\n        \"endDate\" : \"2025-12-28\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"1Um1CHjR3gz7HqAzJpsQj\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -398,7 +398,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"PeRCX5L-bak5BqibwaLZl\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"A4r90FHSB_79uZulxTG_K\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -616,6 +616,40 @@ window.swaggerSpec={
                 "examples" : {
                   "delete-goal" : {
                     "value" : "{\n  \"data\" : \"삭제되었습니다.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/goals/{id}/analysis" : {
+      "post" : {
+        "tags" : [ "Goals" ],
+        "summary" : "목표 분석 생성",
+        "description" : "완료된 목표에 대해 AI 분석을 생성합니다.",
+        "operationId" : "create-goal-analysis",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "분석할 목표 ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/goals-id-analysis198891731"
+                },
+                "examples" : {
+                  "create-goal-analysis" : {
+                    "value" : "{\n  \"data\" : \"목표 분석이 완료되었습니다.\"\n}"
                   }
                 }
               }
@@ -1374,6 +1408,15 @@ window.swaggerSpec={
                 "description" : "응답 메시지"
               }
             }
+          }
+        }
+      },
+      "goals-id-analysis198891731" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "분석 완료 메시지"
           }
         }
       },
