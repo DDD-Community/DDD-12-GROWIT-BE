@@ -15,6 +15,7 @@ import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
+import com.growit.app.todo.domain.vo.RoutineDeleteType;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
@@ -92,8 +93,11 @@ public class ToDoController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> deleteToDo(
-      @AuthenticationPrincipal User user, @PathVariable String id) {
-    deleteToDoUseCase.execute(toDoRequestMapper.toDeleteCommand(id, user.getId()));
+      @AuthenticationPrincipal User user,
+      @PathVariable String id,
+      @RequestParam(required = false) RoutineDeleteType routineDeleteType) {
+    deleteToDoUseCase.execute(
+        toDoRequestMapper.toDeleteCommand(id, user.getId(), routineDeleteType));
     return ResponseEntity.ok(ApiResponse.success("삭제가 완료되었습니다."));
   }
 

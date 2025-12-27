@@ -6,6 +6,7 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
+import com.growit.app.todo.domain.service.RoutineService;
 import com.growit.app.todo.domain.service.ToDoHandler;
 import com.growit.app.todo.domain.service.ToDoValidator;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class CreateToDoUseCase {
   private final ToDoHandler toDoHandler;
   private final ToDoValidator toDoValidator;
   private final ToDoRepository toDoRepository;
+  private final RoutineService routineService;
 
   @Transactional
   public ToDoResult execute(CreateToDoCommand command) {
@@ -28,8 +30,13 @@ public class CreateToDoUseCase {
       toDoHandler.handle(goal.getId());
     }
 
+    if (command.routine() != null && command.routine().isValid()) {
+      return routineService.createRoutineToDos(command);
+    }
+
     ToDo toDo = ToDo.from(command);
     toDoRepository.saveToDo(toDo);
+
     return new ToDoResult(toDo.getId());
   }
 }

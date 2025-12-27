@@ -1,14 +1,13 @@
 package com.growit.app.todo.infrastructure.persistence.todo;
 
-import com.growit.app.common.util.IDGenerator;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
 import com.growit.app.todo.domain.vo.Routine;
-import com.growit.app.todo.infrastructure.persistence.todo.source.DBToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todo.source.DBRoutineRepository;
+import com.growit.app.todo.infrastructure.persistence.todo.source.DBToDoRepository;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.RoutineEntity;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.ToDoEntity;
 import java.time.LocalDate;
@@ -29,12 +28,23 @@ public class ToDoRepositoryImpl implements ToDoRepository {
   public void saveToDo(ToDo toDo) {
     String routineId = null;
     if (toDo.getRoutine() != null) {
-      String routineUid = IDGenerator.generateId();
-      RoutineEntity routineEntity = mapper.toRoutineEntity(toDo.getRoutine(), routineUid, toDo.getUserId());
-      routineRepository.save(routineEntity);
+      String routineUid = toDo.getRoutine().getId();
+
+      // 기존 루틴이 있는지 조회
+      Optional<RoutineEntity> existingRoutine =
+          routineRepository.findByUidAndDeletedAtIsNull(routineUid);
+
+      if (existingRoutine.isEmpty()) {
+        // 없으면 새로 저장
+        RoutineEntity routineEntity =
+            mapper.toRoutineEntity(toDo.getRoutine(), routineUid, toDo.getUserId());
+        routineRepository.save(routineEntity);
+      }
+      // 있으면 기존 루틴 사용 (저장하지 않음)
+
       routineId = routineUid;
     }
-    
+
     Optional<ToDoEntity> existing = repository.findByUid(toDo.getId());
     if (existing.isPresent()) {
       ToDoEntity entity = existing.get();
@@ -57,16 +67,17 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     if (entity.isEmpty()) {
       return Optional.empty();
     }
-    
+
     ToDoEntity toDoEntity = entity.get();
     Routine routine = null;
     if (toDoEntity.getRoutineId() != null) {
-      Optional<RoutineEntity> routineEntity = routineRepository.findByUidAndDeletedAtIsNull(toDoEntity.getRoutineId());
+      Optional<RoutineEntity> routineEntity =
+          routineRepository.findByUidAndDeletedAtIsNull(toDoEntity.getRoutineId());
       if (routineEntity.isPresent()) {
         routine = mapper.routineEntityToDomain(routineEntity.get());
       }
     }
-    
+
     return Optional.of(mapper.toDomain(toDoEntity, routine));
   }
 
@@ -101,16 +112,34 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     return entitiesToDomain(entities);
   }
 
+  @Override
+  public List<ToDo> findByRoutineIdAndUserId(String routineId, String userId) {
+    List<ToDoEntity> entities = repository.findByRoutineIdAndUserId(routineId, userId);
+    return entitiesToDomain(entities);
+  }
+
+  @Override
+  public List<ToDo> findByRoutineIdAndUserIdAndDateAfter(
+      String routineId, String userId, LocalDate date) {
+    List<ToDoEntity> entities =
+        repository.findByRoutineIdAndUserIdAndDateAfter(routineId, userId, date);
+    return entitiesToDomain(entities);
+  }
+
+  @Override
+  public void deleteToDo(String id) {
+    repository.findByUid(id).ifPresent(repository::delete);
+  }
+
   private List<ToDo> entitiesToDomain(List<ToDoEntity> entities) {
-    return entities.stream()
-        .map(this::entityToDomain)
-        .toList();
+    return entities.stream().map(this::entityToDomain).toList();
   }
 
   private ToDo entityToDomain(ToDoEntity entity) {
     Routine routine = null;
     if (entity.getRoutineId() != null) {
-      Optional<RoutineEntity> routineEntity = routineRepository.findByUidAndDeletedAtIsNull(entity.getRoutineId());
+      Optional<RoutineEntity> routineEntity =
+          routineRepository.findByUidAndDeletedAtIsNull(entity.getRoutineId());
       if (routineEntity.isPresent()) {
         routine = mapper.routineEntityToDomain(routineEntity.get());
       }

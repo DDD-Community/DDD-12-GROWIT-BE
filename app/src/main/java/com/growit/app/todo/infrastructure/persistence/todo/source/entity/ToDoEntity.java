@@ -45,7 +45,11 @@ public class ToDoEntity extends BaseEntity {
     this.content = toDo.getContent();
     this.isCompleted = toDo.isCompleted();
     this.isImportant = toDo.isImportant();
-
+    if (toDo.getRoutine() != null) {
+      this.routineId = toDo.getRoutine().getId();
+    } else {
+      this.routineId = null;
+    }
     if (toDo.isDeleted()) {
       this.setDeletedAt(LocalDateTime.now());
     }

@@ -5,6 +5,6 @@ import java.util.Optional;
 
 public interface DBRoutineRepository {
   Optional<RoutineEntity> findByUidAndDeletedAtIsNull(String uid);
-  
+
   void save(RoutineEntity routineEntity);
 }

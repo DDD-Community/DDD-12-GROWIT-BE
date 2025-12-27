@@ -105,4 +105,29 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
                 .and(toDo.deletedAt.isNull()))
         .fetch();
   }
+
+  @Override
+  public List<ToDoEntity> findByRoutineIdAndUserId(String routineId, String userId) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.routineId.eq(routineId).and(toDo.userId.eq(userId)).and(toDo.deletedAt.isNull()))
+        .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findByRoutineIdAndUserIdAndDateAfter(
+      String routineId, String userId, LocalDate date) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.routineId
+                .eq(routineId)
+                .and(toDo.userId.eq(userId))
+                .and(toDo.date.goe(date))
+                .and(toDo.deletedAt.isNull()))
+        .fetch();
+  }
 }

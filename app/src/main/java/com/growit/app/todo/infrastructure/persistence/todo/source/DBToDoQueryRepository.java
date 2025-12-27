@@ -24,4 +24,9 @@ public interface DBToDoQueryRepository {
       String userId, LocalDateTime start, LocalDateTime end);
 
   List<ToDoEntity> findByUserIdAndDateRange(GetDateRangeQueryFilter filter);
+
+  List<ToDoEntity> findByRoutineIdAndUserId(String routineId, String userId);
+
+  List<ToDoEntity> findByRoutineIdAndUserIdAndDateAfter(
+      String routineId, String userId, LocalDate date);
 }

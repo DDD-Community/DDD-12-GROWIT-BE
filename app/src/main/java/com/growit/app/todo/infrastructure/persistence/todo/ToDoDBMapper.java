@@ -51,6 +51,6 @@ public class ToDoDBMapper {
 
   public Routine routineEntityToDomain(RoutineEntity entity) {
     RoutineDuration duration = RoutineDuration.of(entity.getStartDate(), entity.getEndDate());
-    return Routine.of(duration, entity.getRepeatType());
+    return new Routine(entity.getUid(), duration, entity.getRepeatType());
   }
 }
