@@ -26,6 +26,7 @@ import com.growit.app.goal.controller.mapper.GoalRequestMapper;
 import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
+import com.growit.app.goal.usecase.CreateGoalAnalysisUseCase;
 import com.growit.app.goal.usecase.CreateGoalUseCase;
 import com.growit.app.goal.usecase.DeleteGoalUseCase;
 import com.growit.app.goal.usecase.GetGoalUseCase;
@@ -65,6 +66,7 @@ class GoalControllerTest {
   @MockitoBean private GetUserGoalsUseCase getUserGoalsUseCase;
   @MockitoBean private DeleteGoalUseCase deleteGoalUseCase;
   @MockitoBean private UpdateGoalUseCase updateGoalUseCase;
+  @MockitoBean private CreateGoalAnalysisUseCase createGoalAnalysisUseCase;
   @MockitoBean private GoalRequestMapper goalRequestMapper;
   @MockitoBean private GoalResponseMapper goalResponseMapper;
 
@@ -388,6 +390,36 @@ class GoalControllerTest {
                             fieldWithPath("data")
                                 .type(JsonFieldType.STRING)
                                 .description("삭제 완료 메시지"))
+                        .build())));
+  }
+
+  @Test
+  void createGoalAnalysis() throws Exception {
+    // given
+    String goalId = "goal-123";
+    willDoNothing().given(createGoalAnalysisUseCase).execute(eq(goalId), any(String.class));
+
+    // when & then
+    mockMvc
+        .perform(
+            post("/goals/{id}/anlaysis", goalId).header("Authorization", "Bearer mock-jwt-token"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").exists())
+        .andDo(
+            document(
+                "create-goal-analysis",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Goals")
+                        .summary("목표 분석 생성")
+                        .description("완료된 목표에 대해 AI 분석을 생성합니다.")
+                        .pathParameters(parameterWithName("id").description("분석할 목표 ID"))
+                        .responseFields(
+                            fieldWithPath("data")
+                                .type(JsonFieldType.STRING)
+                                .description("분석 완료 메시지"))
                         .build())));
   }
 }
