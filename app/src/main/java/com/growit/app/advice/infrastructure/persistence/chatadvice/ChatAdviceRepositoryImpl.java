@@ -4,6 +4,7 @@ import com.growit.app.advice.domain.chatadvice.ChatAdvice;
 import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
 import com.growit.app.advice.infrastructure.persistence.chatadvice.source.ChatAdviceJpaRepository;
 import com.growit.app.advice.infrastructure.persistence.chatadvice.source.entity.ChatAdviceEntity;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,7 @@ public class ChatAdviceRepositoryImpl implements ChatAdviceRepository {
   }
 
   @Override
-  public List<ChatAdvice> findByLastConversatedAtBetween(
-      java.time.LocalDateTime start, java.time.LocalDateTime end) {
+  public List<ChatAdvice> findByLastConversatedAtBetween(LocalDateTime start, LocalDateTime end) {
     List<ChatAdviceEntity> entities =
         chatAdviceJpaRepository.findByLastConversatedAtBetween(start, end);
     return mapper.toDomainList(entities);

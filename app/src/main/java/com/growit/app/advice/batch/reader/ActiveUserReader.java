@@ -4,6 +4,7 @@ import com.growit.app.advice.domain.chatadvice.ChatAdvice;
 import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
 import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
 import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,7 +22,7 @@ public class ActiveUserReader implements ItemReader<UserEntity> {
 
   private final ChatAdviceRepository chatAdviceRepository;
   private final DBUserRepository dbUserRepository;
-  private final java.time.Clock clock;
+  private final Clock clock;
 
   private Iterator<UserEntity> userIterator;
 

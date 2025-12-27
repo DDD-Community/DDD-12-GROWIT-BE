@@ -3,9 +3,11 @@ package com.growit.app.fake.user;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.vo.Email;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,9 +35,9 @@ public class FakeUserRepository implements UserRepository {
   }
 
   @Override
-  public java.util.List<User> findAllById(java.util.List<String> ids) {
+  public List<User> findAllById(List<String> ids) {
     return store.values().stream()
         .filter(user -> ids.contains(user.getId()))
-        .collect(java.util.stream.Collectors.toList());
+        .collect(Collectors.toList());
   }
 }
