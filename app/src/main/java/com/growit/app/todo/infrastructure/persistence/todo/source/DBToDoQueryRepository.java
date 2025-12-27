@@ -1,9 +1,9 @@
-package com.growit.app.todo.infrastructure.persistence.todos.source;
+package com.growit.app.todo.infrastructure.persistence.todo.source;
 
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
-import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
+import com.growit.app.todo.infrastructure.persistence.todo.source.entity.ToDoEntity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,4 +24,9 @@ public interface DBToDoQueryRepository {
       String userId, LocalDateTime start, LocalDateTime end);
 
   List<ToDoEntity> findByUserIdAndDateRange(GetDateRangeQueryFilter filter);
+
+  List<ToDoEntity> findByRoutineIdAndUserId(String routineId, String userId);
+
+  List<ToDoEntity> findByRoutineIdAndUserIdAndDateAfter(
+      String routineId, String userId, LocalDate date);
 }

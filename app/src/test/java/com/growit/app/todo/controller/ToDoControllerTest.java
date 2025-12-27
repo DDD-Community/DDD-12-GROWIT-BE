@@ -38,7 +38,9 @@ import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.RoutineDeleteType;
 import com.growit.app.todo.domain.vo.RoutineDuration;
+import com.growit.app.todo.domain.vo.RoutineUpdateType;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
@@ -187,16 +189,36 @@ class ToDoControllerTest {
   void updateToDo() throws Exception {
     // given
     String todoId = "todo-123";
-    UpdateToDoRequest request = new UpdateToDoRequest(LocalDate.now(), "수정된 할 일 내용");
+    RoutineDto.DurationDto durationDto =
+        RoutineDto.DurationDto.builder()
+            .startDate(LocalDate.now())
+            .endDate(LocalDate.now().plusDays(7))
+            .build();
+    RoutineDto routineDto = RoutineDto.builder().duration(durationDto).repeatType("DAILY").build();
+
+    RoutineDuration duration = RoutineDuration.of(LocalDate.now(), LocalDate.now().plusDays(7));
+    Routine routine = Routine.of(duration, RepeatType.DAILY);
+    UpdateToDoRequest request =
+        new UpdateToDoRequest(
+            "goal-1", LocalDate.now(), "수정된 할 일 내용", true, routineDto, RoutineUpdateType.ALL);
+    UpdateToDoCommand command =
+        new UpdateToDoCommand(
+            todoId,
+            "user-1",
+            "goal-1",
+            "수정된 할 일 내용",
+            LocalDate.now(),
+            true,
+            routine,
+            RoutineUpdateType.ALL);
+
     ToDoResult result = new ToDoResult("todo-123");
-    ToDoResponse response = new ToDoResponse("todo-123");
 
     given(
             toDoRequestMapper.toUpdateCommand(
                 eq(todoId), any(String.class), any(UpdateToDoRequest.class)))
-        .willReturn(null);
+        .willReturn(command);
     given(updateToDoUseCase.execute(any(UpdateToDoCommand.class))).willReturn(result);
-    given(toDoResponseMapper.toToDoResponse(any(ToDoResult.class))).willReturn(response);
 
     // when & then
     mockMvc
@@ -218,12 +240,134 @@ class ToDoControllerTest {
                         .description("기존 ToDo 정보를 수정합니다.")
                         .pathParameters(parameterWithName("id").description("ToDo ID"))
                         .requestFields(
+                            fieldWithPath("goalId")
+                                .type(JsonFieldType.STRING)
+                                .description("수정할 목표 ID"),
                             fieldWithPath("date")
                                 .type(JsonFieldType.STRING)
                                 .description("수정할 ToDo 날짜 (yyyy-MM-dd)"),
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
-                                .description("수정할 ToDo 내용 (1-30자)"))
+                                .description("수정할 ToDo 내용 (1-30자)"),
+                            fieldWithPath("isImportant")
+                                .type(JsonFieldType.BOOLEAN)
+                                .description("수정할 중요도 여부"),
+                            fieldWithPath("routine")
+                                .type(JsonFieldType.OBJECT)
+                                .optional()
+                                .description("수정할 루틴 정보"),
+                            fieldWithPath("routine.duration")
+                                .type(JsonFieldType.OBJECT)
+                                .optional()
+                                .description("루틴 기간"),
+                            fieldWithPath("routine.duration.startDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 시작일 (yyyy-MM-dd)"),
+                            fieldWithPath("routine.duration.endDate")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 종료일 (yyyy-MM-dd)"),
+                            fieldWithPath("routine.repeatType")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("반복 타입 (DAILY, WEEKLY, BIWEEKLY, MONTHLY)"),
+                            fieldWithPath("routineUpdateType")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("루틴 수정 타입 (SINGLE, FROM_DATE, ALL)"))
+                        .build())));
+  }
+
+  @Test
+  void updateToDoWithRoutine() throws Exception {
+    // given
+    String todoId = "todo-123";
+
+    RoutineDto routineDto =
+        RoutineDto.builder()
+            .duration(
+                RoutineDto.DurationDto.builder()
+                    .startDate(LocalDate.of(2024, 1, 1))
+                    .endDate(LocalDate.of(2024, 1, 7))
+                    .build())
+            .repeatType("DAILY")
+            .build();
+
+    UpdateToDoRequest request =
+        new UpdateToDoRequest(
+            "goal-123",
+            LocalDate.of(2024, 1, 1),
+            "Updated routine task",
+            true,
+            routineDto,
+            RoutineUpdateType.FROM_DATE);
+
+    UpdateToDoCommand command =
+        new UpdateToDoCommand(
+            todoId,
+            "user-123",
+            "goal-123",
+            "Updated routine task",
+            LocalDate.of(2024, 1, 1),
+            true,
+            null,
+            RoutineUpdateType.FROM_DATE);
+    ToDoResult result = new ToDoResult("todo-123");
+
+    given(
+            toDoRequestMapper.toUpdateCommand(
+                eq(todoId), any(String.class), any(UpdateToDoRequest.class)))
+        .willReturn(command);
+    given(updateToDoUseCase.execute(any(UpdateToDoCommand.class))).willReturn(result);
+    given(toDoResponseMapper.toToDoResponse(any(ToDoResult.class)))
+        .willReturn(new ToDoResponse("todo-123"));
+
+    // when & then
+    mockMvc
+        .perform(
+            put("/todos/{id}", todoId)
+                .header("Authorization", "Bearer mock-jwt-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void deleteToDoWithRoutineOption() throws Exception {
+    // given
+    String todoId = "todo-123";
+    RoutineDeleteType routineDeleteType = RoutineDeleteType.ALL;
+
+    willDoNothing().given(deleteToDoUseCase).execute(any());
+
+    // when & then
+    mockMvc
+        .perform(
+            delete("/todos/{id}", todoId)
+                .header("Authorization", "Bearer mock-jwt-token")
+                .param("routineDeleteType", routineDeleteType.name()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data").value("삭제가 완료되었습니다."))
+        .andDo(
+            document(
+                "delete-todo-with-routine",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Todos")
+                        .summary("루틴 ToDo 삭제")
+                        .description("루틴 옵션과 함께 ToDo를 삭제합니다.")
+                        .pathParameters(parameterWithName("id").description("ToDo ID"))
+                        .queryParameters(
+                            parameterWithName("routineDeleteType")
+                                .optional()
+                                .description("루틴 삭제 타입 (SINGLE, FROM_DATE, ALL)"))
+                        .responseFields(
+                            fieldWithPath("data")
+                                .type(JsonFieldType.STRING)
+                                .description("삭제 완료 메시지"))
                         .build())));
   }
 

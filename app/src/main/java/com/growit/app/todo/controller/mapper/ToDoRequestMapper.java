@@ -7,6 +7,7 @@ import com.growit.app.todo.controller.dto.response.RoutineDto;
 import com.growit.app.todo.domain.dto.*;
 import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.RoutineDeleteType;
 import com.growit.app.todo.domain.vo.RoutineDuration;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,15 @@ public class ToDoRequestMapper {
   }
 
   public UpdateToDoCommand toUpdateCommand(String id, String userId, UpdateToDoRequest request) {
-    return new UpdateToDoCommand(id, userId, request.getContent(), request.getDate());
+    return new UpdateToDoCommand(
+        id,
+        userId,
+        request.getGoalId(),
+        request.getContent(),
+        request.getDate(),
+        request.getImportant() != null ? request.getImportant() : false,
+        toDomainRoutine(request.getRoutine()),
+        request.getRoutineUpdateType());
   }
 
   public CompletedStatusChangeCommand toCompletedStatusChangeCommand(
@@ -35,7 +44,12 @@ public class ToDoRequestMapper {
   }
 
   public DeleteToDoCommand toDeleteCommand(String id, String userId) {
-    return new DeleteToDoCommand(id, userId);
+    return new DeleteToDoCommand(id, userId, null);
+  }
+
+  public DeleteToDoCommand toDeleteCommand(
+      String id, String userId, RoutineDeleteType routineDeleteType) {
+    return new DeleteToDoCommand(id, userId, routineDeleteType);
   }
 
   public GetToDoQueryFilter toGetQuery(String id, String userId) {

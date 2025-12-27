@@ -23,7 +23,7 @@ class DeleteToDoUseCaseTest {
     FakeToDoHandler toDoHandler = new FakeToDoHandler();
     useCase =
         new DeleteToDoUseCase(
-            fakeToDoRepository, toDoHandler, new FakeToDoQuery(fakeToDoRepository));
+            fakeToDoRepository, toDoHandler, new FakeToDoQuery(fakeToDoRepository), null);
 
     fakeToDoRepository.saveToDo(todo);
   }
@@ -31,7 +31,7 @@ class DeleteToDoUseCaseTest {
   @Test
   void givenValidTodo_whenExecute_thenSuccess() {
     // given
-    DeleteToDoCommand command = new DeleteToDoCommand(todo.getId(), todo.getUserId());
+    DeleteToDoCommand command = new DeleteToDoCommand(todo.getId(), todo.getUserId(), null);
 
     // when
     useCase.execute(command);

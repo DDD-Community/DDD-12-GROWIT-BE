@@ -44,7 +44,14 @@ public class ToDo {
 
   public void updateBy(UpdateToDoCommand command) {
     this.date = command.date();
+    this.goalId = command.goalId();
     this.content = command.content();
+    this.isImportant = command.isImportant();
+    this.routine = command.routine();
+  }
+
+  public void removeRoutine() {
+    this.routine = null;
   }
 
   public void updateIsCompleted(boolean isCompleted) {

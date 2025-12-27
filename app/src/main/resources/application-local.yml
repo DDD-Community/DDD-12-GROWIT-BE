@@ -70,7 +70,7 @@ ai:
   api:
     api-key: ${OPEN_API_KEY}
   mentor:
-    url: http://localhost:8001
+    url: http://growit-ai-alb-251700671.ap-northeast-2.elb.amazonaws.com/api
 
 notification:
   discord:

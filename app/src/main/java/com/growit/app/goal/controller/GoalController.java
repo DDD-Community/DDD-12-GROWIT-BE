@@ -30,6 +30,7 @@ public class GoalController {
   private final DeleteGoalUseCase deleteGoalUseCase;
   private final UpdateGoalUseCase updateGoalUseCase;
   private final GetGoalUseCase getGoalUseCase;
+  private final CreateGoalAnalysisUseCase createGoalAnalysisUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<List<GoalDetailResponse>>> getMyGoals(
@@ -84,5 +85,13 @@ public class GoalController {
     deleteGoalUseCase.execute(command);
 
     return ResponseEntity.ok(ApiResponse.success("삭제되었습니다."));
+  }
+
+  @PostMapping("/{id}/analysis")
+  public ResponseEntity<ApiResponse<String>> completeGoal(
+      @PathVariable String id, @AuthenticationPrincipal User user) {
+    createGoalAnalysisUseCase.execute(id, user.getId());
+
+    return ResponseEntity.ok(ApiResponse.success("목표 분석이 완료되었습니다."));
   }
 }

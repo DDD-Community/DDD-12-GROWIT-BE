@@ -1,12 +1,12 @@
-package com.growit.app.todo.infrastructure.persistence.todos.source;
+package com.growit.app.todo.infrastructure.persistence.todo.source;
 
-import static com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity.toDoEntity;
+import static com.growit.app.todo.infrastructure.persistence.todo.source.entity.QToDoEntity.toDoEntity;
 
 import com.growit.app.todo.domain.dto.GetCountByDateQueryFilter;
 import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.GetToDoDateQueryFilter;
-import com.growit.app.todo.infrastructure.persistence.todos.source.entity.QToDoEntity;
-import com.growit.app.todo.infrastructure.persistence.todos.source.entity.ToDoEntity;
+import com.growit.app.todo.infrastructure.persistence.todo.source.entity.QToDoEntity;
+import com.growit.app.todo.infrastructure.persistence.todo.source.entity.ToDoEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDate;
@@ -102,6 +102,31 @@ public class DBToDoQueryRepositoryImpl implements DBToDoQueryRepository {
             toDo.userId
                 .eq(filter.userId())
                 .and(toDo.date.between(filter.fromDate(), filter.toDate()))
+                .and(toDo.deletedAt.isNull()))
+        .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findByRoutineIdAndUserId(String routineId, String userId) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.routineId.eq(routineId).and(toDo.userId.eq(userId)).and(toDo.deletedAt.isNull()))
+        .fetch();
+  }
+
+  @Override
+  public List<ToDoEntity> findByRoutineIdAndUserIdAndDateAfter(
+      String routineId, String userId, LocalDate date) {
+    QToDoEntity toDo = QToDoEntity.toDoEntity;
+    return queryFactory
+        .selectFrom(toDo)
+        .where(
+            toDo.routineId
+                .eq(routineId)
+                .and(toDo.userId.eq(userId))
+                .and(toDo.date.goe(date))
                 .and(toDo.deletedAt.isNull()))
         .fetch();
   }
