@@ -35,7 +35,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-chat-advice-status" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2025-12-26T22:21:06.888096\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2025-12-27T09:31:36.748624\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -72,7 +72,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "send-chat-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2025-12-26T22:21:06.317613\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2025-12-27T09:31:36.136632\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
                   }
                 }
               }
@@ -97,7 +97,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-grorong-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"역시 넌 나를 실망시키지 않아\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"오다 주웠다\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-22\",\n        \"endDate\" : \"2025-12-28\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"8VCiGLitCYKxWs3N1jUKJ\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2025-12-22\",\n        \"endDate\" : \"2025-12-28\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"JoN6b-CkRz3mYeuy-xqTB\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -398,7 +398,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"ry1cp5pWi482zp9vDpVZ5\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"PeRCX5L-bak5BqibwaLZl\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -720,7 +720,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-26\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-07\"\n    },\n    \"repeatType\" : \"DAILY\"\n  }\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-27\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-07\"\n    },\n    \"repeatType\" : \"DAILY\"\n  }\n}"
                 }
               }
             }
@@ -838,11 +838,11 @@ window.swaggerSpec={
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/todos-id642432626"
+                "$ref" : "#/components/schemas/todos-id340018218"
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-26\",\n  \"content\" : \"수정된 할 일 내용\",\n  \"isImportant\" : true\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2025-12-27\",\n  \"content\" : \"수정된 할 일 내용\",\n  \"isImportant\" : true,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2025-12-27\",\n      \"endDate\" : \"2026-01-03\"\n    },\n    \"repeatType\" : \"DAILY\"\n  },\n  \"routineUpdateType\" : \"ALL\"\n}"
                 }
               }
             }
@@ -856,18 +856,40 @@ window.swaggerSpec={
       },
       "delete" : {
         "tags" : [ "Todos" ],
-        "summary" : "ToDo 삭제",
-        "description" : "특정 ToDo를 삭제합니다.",
+        "summary" : "루틴 ToDo 삭제",
+        "description" : "루틴 옵션과 함께 ToDo를 삭제합니다.",
         "operationId" : "delete-todo",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
-          "description" : "삭제할 ToDo ID",
+          "description" : "ToDo ID",
           "required" : true,
           "schema" : {
             "type" : "string"
           }
+        }, {
+          "name" : "routineDeleteType",
+          "in" : "query",
+          "description" : "루틴 삭제 타입 (SINGLE, FROM_DATE, ALL)",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
+        "requestBody" : {
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/todos-id486549215"
+              },
+              "examples" : {
+                "delete-todo-with-routine" : {
+                  "value" : "routineDeleteType=ALL"
+                }
+              }
+            }
+          }
+        },
         "responses" : {
           "200" : {
             "description" : "200",
@@ -877,6 +899,9 @@ window.swaggerSpec={
                   "$ref" : "#/components/schemas/goals-id-393629335"
                 },
                 "examples" : {
+                  "delete-todo-with-routine" : {
+                    "value" : "{\n  \"data\" : \"삭제가 완료되었습니다.\"\n}"
+                  },
                   "delete-todo" : {
                     "value" : "{\n  \"data\" : \"삭제가 완료되었습니다.\"\n}"
                   }
@@ -1715,6 +1740,9 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id486549215" : {
+        "type" : "object"
+      },
       "goals-id-393629335" : {
         "type" : "object",
         "properties" : {
@@ -1941,6 +1969,55 @@ window.swaggerSpec={
           }
         }
       },
+      "todos-id340018218" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "수정할 ToDo 날짜 (yyyy-MM-dd)"
+          },
+          "routineUpdateType" : {
+            "type" : "string",
+            "description" : "루틴 수정 타입 (SINGLE, FROM_DATE, ALL)"
+          },
+          "routine" : {
+            "type" : "object",
+            "properties" : {
+              "duration" : {
+                "type" : "object",
+                "properties" : {
+                  "endDate" : {
+                    "type" : "string",
+                    "description" : "루틴 종료일 (yyyy-MM-dd)"
+                  },
+                  "startDate" : {
+                    "type" : "string",
+                    "description" : "루틴 시작일 (yyyy-MM-dd)"
+                  }
+                },
+                "description" : "루틴 기간"
+              },
+              "repeatType" : {
+                "type" : "string",
+                "description" : "반복 타입 (DAILY, WEEKLY, BIWEEKLY, MONTHLY)"
+              }
+            },
+            "description" : "수정할 루틴 정보"
+          },
+          "goalId" : {
+            "type" : "string",
+            "description" : "수정할 목표 ID"
+          },
+          "isImportant" : {
+            "type" : "boolean",
+            "description" : "수정할 중요도 여부"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 ToDo 내용 (1-30자)"
+          }
+        }
+      },
       "externals-invitations874860244" : {
         "type" : "object",
         "properties" : {
@@ -1989,27 +2066,6 @@ window.swaggerSpec={
           "data" : {
             "type" : "string",
             "description" : "상태 변경 완료 메시지"
-          }
-        }
-      },
-      "todos-id642432626" : {
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "type" : "string",
-            "description" : "수정할 ToDo 날짜 (yyyy-MM-dd)"
-          },
-          "goalId" : {
-            "type" : "string",
-            "description" : "수정할 목표 ID"
-          },
-          "isImportant" : {
-            "type" : "boolean",
-            "description" : "수정할 중요도 여부"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "수정할 ToDo 내용 (1-30자)"
           }
         }
       },

@@ -25,4 +25,10 @@ public interface ToDoRepository {
       String userId, LocalDateTime start, LocalDateTime end);
 
   List<ToDo> findByUserIdAndDateRange(GetDateRangeQueryFilter filter);
+
+  List<ToDo> findByRoutineIdAndUserId(String routineId, String userId);
+
+  List<ToDo> findByRoutineIdAndUserIdAndDateAfter(String routineId, String userId, LocalDate date);
+
+  void deleteToDo(String id);
 }

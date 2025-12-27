@@ -47,6 +47,11 @@ public class ToDo {
     this.goalId = command.goalId();
     this.content = command.content();
     this.isImportant = command.isImportant();
+    this.routine = command.routine();
+  }
+
+  public void removeRoutine() {
+    this.routine = null;
   }
 
   public void updateIsCompleted(boolean isCompleted) {

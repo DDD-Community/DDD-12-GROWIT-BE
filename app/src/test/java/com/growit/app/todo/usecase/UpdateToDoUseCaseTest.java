@@ -33,7 +33,7 @@ class UpdateToDoUseCaseTest {
     ToDoValidator toDoValidator = new FakeToDoValidator();
     FakeGoalQuery goalQuery = new FakeGoalQuery(fakeGoalRepository);
     updateToDoUseCase =
-        new UpdateToDoUseCase(toDoQuery, toDoValidator, fakeToDoRepository, goalQuery);
+        new UpdateToDoUseCase(toDoQuery, toDoValidator, fakeToDoRepository, goalQuery, null);
 
     goal = GoalFixture.defaultGoal();
     fakeGoalRepository.saveGoal(goal);
@@ -51,7 +51,7 @@ class UpdateToDoUseCaseTest {
     String newContent = "수정된 내용";
     UpdateToDoCommand command =
         new UpdateToDoCommand(
-            toDo.getId(), toDo.getUserId(), toDo.getGoalId(), newContent, today, false);
+            toDo.getId(), toDo.getUserId(), toDo.getGoalId(), newContent, today, false, null, null);
 
     // When
     ToDoResult result = updateToDoUseCase.execute(command);

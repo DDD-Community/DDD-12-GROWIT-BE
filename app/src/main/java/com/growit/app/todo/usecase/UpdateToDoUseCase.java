@@ -6,6 +6,7 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
+import com.growit.app.todo.domain.service.RoutineService;
 import com.growit.app.todo.domain.service.ToDoQuery;
 import com.growit.app.todo.domain.service.ToDoValidator;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class UpdateToDoUseCase {
   private final ToDoValidator toDoValidator;
   private final ToDoRepository toDoRepository;
   private final GoalQuery goalQuery;
+  private final RoutineService routineService;
 
   @Transactional
   public ToDoResult execute(UpdateToDoCommand command) {
@@ -31,6 +33,11 @@ public class UpdateToDoUseCase {
       Goal goal = goalQuery.getMyGoal(toDo.getGoalId(), command.userId());
       toDoValidator.tooManyToDoUpdated(
           command.date(), command.userId(), goal.getId(), toDo.getId());
+    }
+
+    // 루틴 업데이트 처리
+    if (command.routineUpdateType() != null) {
+      return routineService.updateRoutineToDos(toDo, command);
     }
 
     toDo.updateBy(command);

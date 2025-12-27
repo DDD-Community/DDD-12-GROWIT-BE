@@ -88,6 +88,31 @@ public class FakeToDoRepository implements ToDoRepository {
         .toList();
   }
 
+  @Override
+  public List<ToDo> findByRoutineIdAndUserId(String routineId, String userId) {
+    return store.getOrDefault(userId, Collections.emptyList()).stream()
+        .filter(todo -> todo.getRoutine() != null)
+        .filter(todo -> todo.getRoutine().getId().equals(routineId))
+        .filter(todo -> !todo.isDeleted())
+        .toList();
+  }
+
+  @Override
+  public List<ToDo> findByRoutineIdAndUserIdAndDateAfter(
+      String routineId, String userId, LocalDate date) {
+    return store.getOrDefault(userId, Collections.emptyList()).stream()
+        .filter(todo -> todo.getRoutine() != null)
+        .filter(todo -> todo.getRoutine().getId().equals(routineId))
+        .filter(todo -> !todo.getDate().isBefore(date))
+        .filter(todo -> !todo.isDeleted())
+        .toList();
+  }
+
+  @Override
+  public void deleteToDo(String id) {
+    store.values().forEach(todos -> todos.removeIf(todo -> todo.getId().equals(id)));
+  }
+
   public void clear() {
     store.clear();
   }
