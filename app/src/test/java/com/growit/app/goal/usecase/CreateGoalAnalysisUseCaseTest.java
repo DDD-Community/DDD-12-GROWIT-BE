@@ -56,9 +56,11 @@ class CreateGoalAnalysisUseCaseTest {
     completedGoal.complete(); // 목표 완료 상태로 설정
     goalRepository.saveGoal(completedGoal);
 
-    ToDo completedToDo = ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), completedGoal.getId());
+    ToDo completedToDo =
+        ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), completedGoal.getId());
     completedToDo.updateIsCompleted(true);
-    ToDo incompleteToDo = ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), completedGoal.getId());
+    ToDo incompleteToDo =
+        ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), completedGoal.getId());
     toDoRepository.saveToDo(completedToDo);
     toDoRepository.saveToDo(incompleteToDo);
 
@@ -127,9 +129,11 @@ class CreateGoalAnalysisUseCaseTest {
     completedGoal.complete();
     goalRepository.saveGoal(completedGoal);
 
-    ToDo completedToDo1 = ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), completedGoal.getId());
+    ToDo completedToDo1 =
+        ToDoFixture.customToDo("todo-1", "user-1", LocalDate.now(), completedGoal.getId());
     completedToDo1.updateIsCompleted(true);
-    ToDo completedToDo2 = ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), completedGoal.getId());
+    ToDo completedToDo2 =
+        ToDoFixture.customToDo("todo-2", "user-1", LocalDate.now(), completedGoal.getId());
     completedToDo2.updateIsCompleted(true);
     toDoRepository.saveToDo(completedToDo1);
     toDoRepository.saveToDo(completedToDo2);
