@@ -38,7 +38,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private static final String REDIRECT_URI_SESSION_KEY = "OAUTH2_REDIRECT_URI";
 
   private static final List<String> ALLOWED_REDIRECT_HOSTS =
-      List.of("localhost:3000", "grow-it.me");
+      List.of("localhost:3000", "grow-it.me", "devweb.grow-it.me");
 
   private final UserTokenSaver userTokenSaver;
   private final TokenService tokenService;
