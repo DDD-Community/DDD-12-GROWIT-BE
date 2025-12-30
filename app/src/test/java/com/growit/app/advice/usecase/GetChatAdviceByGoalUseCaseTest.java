@@ -10,6 +10,7 @@ import com.growit.app.advice.domain.chatadvice.service.ChatAdviceService;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.useradvicestatus.UserAdviceStatus;
 import com.growit.app.user.domain.useradvicestatus.repository.UserAdviceStatusRepository;
+import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,8 @@ class GetChatAdviceByGoalUseCaseTest {
   void givenUserAndAdvice_whenExecute_thenResetDailyLimitShouldBeCalled() {
     // given
     User user = User.builder().id("user-1").build();
-    ChatAdvice chatAdvice = ChatAdvice.builder().userId("user-1").id(1L).build();
+    ChatAdvice chatAdvice =
+        ChatAdvice.builder().userId("user-1").id(1L).lastResetDate(LocalDate.now()).build();
     UserAdviceStatus status = new UserAdviceStatus("user-1", false);
 
     given(chatAdviceRepository.findByUserId("user-1")).willReturn(Optional.of(chatAdvice));
