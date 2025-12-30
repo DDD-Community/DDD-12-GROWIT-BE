@@ -7,6 +7,7 @@ import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Entity
@@ -82,7 +83,7 @@ public class GoalEntity extends BaseEntity {
 
     // Soft delete 상태 동기화
     if (goal.isDeleted() && getDeletedAt() == null) {
-      setDeletedAt(java.time.LocalDateTime.now());
+      setDeletedAt(LocalDateTime.now());
     }
   }
 }

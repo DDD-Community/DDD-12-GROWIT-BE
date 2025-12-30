@@ -4,6 +4,7 @@ import com.growit.app.advice.domain.chatadvice.service.ChatAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
 import jakarta.annotation.PostConstruct;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -141,8 +142,8 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
   // Inner DTOs for Morning Advice API
   record MorningAdviceRequestDto(
       String userId,
-      java.util.List<String> goalTitles,
-      java.util.List<String> recentTodos,
+      List<String> goalTitles,
+      List<String> recentTodos,
       String previousConversations) {}
 
   // Inner DTO for Realtime Advice API
@@ -152,6 +153,6 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
       String goalTitle,
       String concern,
       String mode,
-      java.util.List<String> recentTodos,
+      List<String> recentTodos,
       boolean isGoalOnboardingCompleted) {}
 }
