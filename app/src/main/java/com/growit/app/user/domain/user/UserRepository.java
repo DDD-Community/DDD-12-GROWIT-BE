@@ -1,6 +1,7 @@
 package com.growit.app.user.domain.user;
 
 import com.growit.app.user.domain.user.vo.Email;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +15,5 @@ public interface UserRepository {
 
   Page<User> findAll(Pageable pageable);
 
-  java.util.List<User> findAllById(java.util.List<String> ids);
+  List<User> findAllById(List<String> ids);
 }
