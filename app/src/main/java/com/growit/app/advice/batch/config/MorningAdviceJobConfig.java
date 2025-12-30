@@ -8,6 +8,9 @@ import com.growit.app.advice.domain.chatadvice.service.ChatAdviceClient;
 import com.growit.app.advice.domain.chatadvice.service.ChatAdviceDataCollector;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
 import com.growit.app.user.domain.user.UserRepository;
+import com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository;
+import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity;
+import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -35,12 +38,11 @@ public class MorningAdviceJobConfig {
   private final JobRepository jobRepository;
   private final PlatformTransactionManager transactionManager;
   private final UserRepository userRepository;
-  private final com.growit.app.user.infrastructure.persistence.user.source.DBUserRepository
-      dbUserRepository;
+  private final DBUserRepository dbUserRepository;
   private final ChatAdviceRepository chatAdviceRepository;
   private final ChatAdviceDataCollector chatAdviceDataCollector;
   private final ChatAdviceClient chatAdviceClient;
-  private final java.time.Clock clock;
+  private final Clock clock;
 
   @Bean
   public Job morningAdviceJob() {
@@ -50,9 +52,7 @@ public class MorningAdviceJobConfig {
   @Bean
   public Step morningAdviceStep() {
     return new StepBuilder("morningAdviceStep", jobRepository)
-        .<com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity,
-            ChatAdviceRequest>
-            chunk(10, transactionManager)
+        .<UserEntity, ChatAdviceRequest>chunk(10, transactionManager)
         .reader(morningAdviceUserReader())
         .processor(morningAdviceProcessor())
         .writer(morningAdviceWriter())
@@ -61,8 +61,7 @@ public class MorningAdviceJobConfig {
 
   @Bean
   @StepScope
-  public ItemReader<com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity>
-      morningAdviceUserReader() {
+  public ItemReader<UserEntity> morningAdviceUserReader() {
     DayOfWeek dayOfWeek = LocalDate.now(clock).getDayOfWeek();
     log.info("Initializing MorningAdviceUserReader for day: {}", dayOfWeek);
 
@@ -70,8 +69,7 @@ public class MorningAdviceJobConfig {
       Map<String, Sort.Direction> sorts = new HashMap<>();
       sorts.put("uid", Sort.Direction.ASC);
 
-      return new RepositoryItemReaderBuilder<
-              com.growit.app.user.infrastructure.persistence.user.source.entity.UserEntity>()
+      return new RepositoryItemReaderBuilder<UserEntity>()
           .name("mondayUserReader")
           .repository(dbUserRepository)
           .methodName("findAll")

@@ -118,7 +118,7 @@ class ChatAdviceServiceTest {
     LocalDate yesterday = LocalDate.now().minusDays(1);
     ChatAdvice.Conversation conversation =
         new ChatAdvice.Conversation(
-            1, "test message", "test response", null, LocalDateTime.now(), false);
+            1, null, "test message", "test response", null, LocalDateTime.now(), false);
 
     ArrayList<ChatAdvice.Conversation> conversations = new ArrayList<>();
     conversations.add(conversation);
@@ -139,5 +139,59 @@ class ChatAdviceServiceTest {
     // then
     assertThat(result.getConversations()).hasSize(1);
     assertThat(result.getConversations().get(0).getUserMessage()).isEqualTo("test message");
+  }
+
+  @Test
+  @DisplayName("조회 시 날짜가 지났으면 리셋하고 저장한다")
+  void givenDayChanged_whenCheckAndReset_thenResetAndSave() {
+    // given
+    LocalDate yesterday = LocalDate.now().minusDays(1);
+    ChatAdvice chatAdvice =
+        ChatAdvice.builder()
+            .userId(USER_ID)
+            .remainingCount(0)
+            .lastResetDate(yesterday)
+            .conversations(new ArrayList<>())
+            .createdAt(LocalDateTime.now())
+            .updatedAt(LocalDateTime.now())
+            .build();
+
+    // when
+    ChatAdvice result = chatAdviceService.checkAndResetDailyLimit(chatAdvice);
+
+    // then
+    assertThat(result.getRemainingCount()).isEqualTo(3);
+    assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now());
+
+    // verify save called
+    org.mockito.Mockito.verify(chatAdviceRepository, org.mockito.Mockito.times(1))
+        .save(org.mockito.ArgumentMatchers.any(ChatAdvice.class));
+  }
+
+  @Test
+  @DisplayName("조회 시 날짜가 같으면 리셋하지 않고 저장도 안한다")
+  void givenSameDay_whenCheckAndReset_thenNoResetNoSave() {
+    // given
+    LocalDate today = LocalDate.now();
+    ChatAdvice chatAdvice =
+        ChatAdvice.builder()
+            .userId(USER_ID)
+            .remainingCount(1)
+            .lastResetDate(today)
+            .conversations(new ArrayList<>())
+            .createdAt(LocalDateTime.now())
+            .updatedAt(LocalDateTime.now())
+            .build();
+
+    // when
+    ChatAdvice result = chatAdviceService.checkAndResetDailyLimit(chatAdvice);
+
+    // then
+    assertThat(result.getRemainingCount()).isEqualTo(1);
+    assertThat(result.getLastResetDate()).isEqualTo(today);
+
+    // verify save NOT called
+    org.mockito.Mockito.verify(chatAdviceRepository, org.mockito.Mockito.never())
+        .save(org.mockito.ArgumentMatchers.any(ChatAdvice.class));
   }
 }

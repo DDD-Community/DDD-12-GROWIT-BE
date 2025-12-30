@@ -3,8 +3,11 @@ package com.growit.app.user.infrastructure.persistence.user.source.entity;
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.CareerYear;
+import com.growit.app.user.domain.user.vo.Email;
+import com.growit.app.user.domain.user.vo.OAuth;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.*;
@@ -89,19 +92,15 @@ public class UserEntity extends BaseEntity {
   }
 
   public User toDomain() {
-    java.util.ArrayList<com.growit.app.user.domain.user.vo.OAuth> oauthList =
-        new java.util.ArrayList<>();
+    ArrayList<OAuth> oauthList = new ArrayList<>();
     if (this.oauthAccounts != null) {
       this.oauthAccounts.forEach(
-          o ->
-              oauthList.add(
-                  new com.growit.app.user.domain.user.vo.OAuth(
-                      o.getProvider(), o.getProviderId())));
+          o -> oauthList.add(new OAuth(o.getProvider(), o.getProviderId())));
     }
 
     return User.builder()
         .id(this.uid)
-        .email(new com.growit.app.user.domain.user.vo.Email(this.email))
+        .email(new Email(this.email))
         .password(this.password)
         .name(this.name)
         .jobRoleId(this.jobRoleId)

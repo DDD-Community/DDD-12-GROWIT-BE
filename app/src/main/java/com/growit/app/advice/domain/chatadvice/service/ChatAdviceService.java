@@ -48,7 +48,12 @@ public class ChatAdviceService implements ChatAdviceValidator {
 
     ChatAdvice updated =
         chatAdvice.addConversation(
-            week, userMessage, aiAdvice, adviceStyle, Boolean.TRUE.equals(isOnboarding));
+            week,
+            goalId,
+            userMessage,
+            aiAdvice,
+            adviceStyle,
+            Boolean.TRUE.equals(isOnboarding));
 
     chatAdviceRepository.save(updated);
     return updated;
@@ -83,6 +88,24 @@ public class ChatAdviceService implements ChatAdviceValidator {
     if (chatAdvice.needsReset(today)) {
       return chatAdvice.resetDaily(DAILY_LIMIT, today);
     }
+    return chatAdvice;
+  }
+
+  /**
+   * 조회 시점에 날짜가 지났는지 확인하고, 지났다면 리셋 후 DB에 저장합니다.
+   */
+  public ChatAdvice checkAndResetDailyLimit(ChatAdvice chatAdvice) {
+    if (chatAdvice == null) {
+      return null;
+    }
+    
+    LocalDate today = LocalDate.now();
+    if (chatAdvice.needsReset(today)) {
+      ChatAdvice resetAdvice = chatAdvice.resetDaily(DAILY_LIMIT, today);
+      chatAdviceRepository.save(resetAdvice);
+      return resetAdvice;
+    }
+    
     return chatAdvice;
   }
 

@@ -17,10 +17,19 @@ public class ChatAdviceController {
 
   private final GetChatAdviceUseCase getChatAdviceUseCase;
   private final SendChatAdviceUseCase sendChatAdviceUseCase;
+  private final com.growit.app.advice.usecase.GetChatAdviceByGoalUseCase getChatAdviceByGoalUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> getChatAdviceStatus(
-      @AuthenticationPrincipal User user, @RequestParam(required = false) Integer week) {
+      @AuthenticationPrincipal User user,
+      @RequestParam(required = false) Integer week,
+      @RequestParam(required = false) String goalId) {
+
+    if (goalId != null && !goalId.isBlank()) {
+      var response = getChatAdviceByGoalUseCase.execute(user, week, goalId);
+      return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
     var response = getChatAdviceUseCase.execute(user, week);
     return ResponseEntity.ok(ApiResponse.success(response));
   }

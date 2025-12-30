@@ -21,6 +21,7 @@ public class ChatAdviceDBMapper {
                     c ->
                         new ChatAdviceEntity.ConversationData(
                             c.getWeek(),
+                            c.getGoalId(),
                             c.getUserMessage(),
                             c.getGrorongResponse(),
                             c.getAdviceStyle() != null ? c.getAdviceStyle().name() : null,
@@ -86,6 +87,7 @@ public class ChatAdviceDBMapper {
 
     return new ChatAdvice.Conversation(
         data.getWeek(),
+        data.getGoalId(),
         data.getUserMessage(),
         data.getGrorongResponse(),
         adviceStyle,
@@ -97,6 +99,7 @@ public class ChatAdviceDBMapper {
       ChatAdvice.Conversation conversation) {
     return new ChatAdviceEntity.ConversationData(
         conversation.getWeek(),
+        conversation.getGoalId(),
         conversation.getUserMessage(),
         conversation.getGrorongResponse(),
         conversation.getAdviceStyle() != null ? conversation.getAdviceStyle().name() : null,

@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GetChatAdviceUseCase {
+public class GetChatAdviceByGoalUseCase {
   private final UserAdviceStatusRepository userAdviceStatusRepository;
   private final ChatAdviceRepository chatAdviceRepository;
   private final com.growit.app.advice.domain.chatadvice.service.ChatAdviceService chatAdviceService;
 
-  public ChatAdviceResponse execute(User user, Integer week) {
+  public ChatAdviceResponse execute(User user, Integer week, String goalId) {
     String userId = user.getId();
 
     // 1. ChatAdvice 조회
@@ -44,10 +44,11 @@ public class GetChatAdviceUseCase {
     // 3. 남은 대화 횟수 조회
     int remainingCount = chatAdvice != null ? chatAdvice.getRemainingCount() : 3;
 
-    // 4. 해당 주차의 대화 내역 필터링 (week가 null이면 전체 조회)
+    // 4. 해당 목표(goalId) 및 주차(week)의 대화 내역 필터링
     List<ChatAdviceResponse.ConversationResponse> conversations =
         chatAdvice != null && chatAdvice.getConversations() != null
             ? chatAdvice.getConversations().stream()
+                .filter(c -> goalId.equals(c.getGoalId()))
                 .filter(c -> week == null || (c.getWeek() != null && c.getWeek().equals(week)))
                 .map(
                     c ->
