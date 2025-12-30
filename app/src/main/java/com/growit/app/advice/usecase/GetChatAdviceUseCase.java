@@ -17,12 +17,18 @@ import org.springframework.stereotype.Service;
 public class GetChatAdviceUseCase {
   private final UserAdviceStatusRepository userAdviceStatusRepository;
   private final ChatAdviceRepository chatAdviceRepository;
+  private final com.growit.app.advice.domain.chatadvice.service.ChatAdviceService chatAdviceService;
 
   public ChatAdviceResponse execute(User user, Integer week) {
     String userId = user.getId();
 
     // 1. ChatAdvice 조회
     ChatAdvice chatAdvice = chatAdviceRepository.findByUserId(userId).orElse(null);
+
+    // 1-1. 날짜가 지났으면 초기화
+    if (chatAdvice != null) {
+      chatAdvice = chatAdviceService.checkAndResetDailyLimit(chatAdvice);
+    }
 
     // 2. 처음 본 날짜 조회 및 초기화
     UserAdviceStatus userAdviceStatus =
