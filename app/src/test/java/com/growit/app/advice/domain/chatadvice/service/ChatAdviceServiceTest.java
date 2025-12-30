@@ -118,7 +118,7 @@ class ChatAdviceServiceTest {
     LocalDate yesterday = LocalDate.now().minusDays(1);
     ChatAdvice.Conversation conversation =
         new ChatAdvice.Conversation(
-            1, "test message", "test response", null, LocalDateTime.now(), false);
+            1, null, "test message", "test response", null, LocalDateTime.now(), false);
 
     ArrayList<ChatAdvice.Conversation> conversations = new ArrayList<>();
     conversations.add(conversation);

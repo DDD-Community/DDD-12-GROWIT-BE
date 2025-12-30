@@ -48,7 +48,12 @@ public class ChatAdviceService implements ChatAdviceValidator {
 
     ChatAdvice updated =
         chatAdvice.addConversation(
-            week, userMessage, aiAdvice, adviceStyle, Boolean.TRUE.equals(isOnboarding));
+            week,
+            goalId,
+            userMessage,
+            aiAdvice,
+            adviceStyle,
+            Boolean.TRUE.equals(isOnboarding));
 
     chatAdviceRepository.save(updated);
     return updated;

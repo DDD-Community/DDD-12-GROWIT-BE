@@ -63,6 +63,7 @@ public class MorningAdviceWriter implements ItemWriter<ChatAdviceRequest> {
     conversations.add(
         new Conversation(
             currentWeek,
+            null,
             "아침 조언 요청",
             response.getData().getAdvice(),
             AdviceStyle.valueOf(response.getData().getMode()),

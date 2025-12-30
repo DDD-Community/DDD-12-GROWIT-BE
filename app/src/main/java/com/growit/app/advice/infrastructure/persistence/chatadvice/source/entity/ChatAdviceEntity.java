@@ -51,6 +51,7 @@ public class ChatAdviceEntity extends BaseEntity {
   @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
   public static class ConversationData {
     private Integer week;
+    private String goalId;
     private String userMessage;
     private String grorongResponse;
     private String adviceStyle;
@@ -62,12 +63,14 @@ public class ChatAdviceEntity extends BaseEntity {
 
     public ConversationData(
         Integer week,
+        String goalId,
         String userMessage,
         String grorongResponse,
         String adviceStyle,
         LocalDateTime timestamp,
         boolean isOnboarding) {
       this.week = week;
+      this.goalId = goalId;
       this.userMessage = userMessage;
       this.grorongResponse = grorongResponse;
       this.adviceStyle = adviceStyle;

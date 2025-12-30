@@ -65,6 +65,7 @@ public class ChatAdvice {
 
   public ChatAdvice addConversation(
       Integer week,
+      String goalId,
       String userMessage,
       String grorongResponse,
       AdviceStyle adviceStyle,
@@ -73,7 +74,13 @@ public class ChatAdvice {
     List<Conversation> updatedConversations = new ArrayList<>(this.conversations);
     updatedConversations.add(
         new Conversation(
-            week, userMessage, grorongResponse, adviceStyle, LocalDateTime.now(), isOnboarding));
+            week,
+            goalId,
+            userMessage,
+            grorongResponse,
+            adviceStyle,
+            LocalDateTime.now(),
+            isOnboarding));
 
     return new ChatAdvice(
         this.id,
@@ -109,6 +116,7 @@ public class ChatAdvice {
   @Getter
   public static class Conversation {
     private final Integer week;
+    private final String goalId;
     private final String userMessage;
     private final String grorongResponse;
     private final AdviceStyle adviceStyle;
@@ -117,12 +125,14 @@ public class ChatAdvice {
 
     public Conversation(
         Integer week,
+        String goalId,
         String userMessage,
         String grorongResponse,
         AdviceStyle adviceStyle,
         LocalDateTime timestamp,
         boolean isOnboarding) {
       this.week = week;
+      this.goalId = goalId;
       this.userMessage = userMessage;
       this.grorongResponse = grorongResponse;
       this.adviceStyle = adviceStyle;
