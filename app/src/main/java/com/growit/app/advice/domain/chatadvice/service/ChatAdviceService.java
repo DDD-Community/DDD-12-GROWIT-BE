@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.time.Clock;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class ChatAdviceService implements ChatAdviceValidator {
   private final ChatAdviceRepository chatAdviceRepository;
   private final ChatAdviceClient chatAdviceClient;
   private final ChatAdviceDataCollector dataCollector;
+  private final Clock clock;
 
   public ChatAdvice prepareForNewMessage(String userId) {
     ChatAdvice chatAdvice = getOrCreateChatAdvice(userId);
@@ -77,14 +79,14 @@ public class ChatAdviceService implements ChatAdviceValidator {
   }
 
   public ChatAdvice getOrCreateChatAdvice(String userId) {
-    LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now(clock);
     return chatAdviceRepository
         .findByUserId(userId)
         .orElseGet(() -> createNewChatAdvice(userId, today));
   }
 
   public ChatAdvice resetIfNeeded(ChatAdvice chatAdvice) {
-    LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now(clock);
     if (chatAdvice.needsReset(today)) {
       return chatAdvice.resetDaily(DAILY_LIMIT, today);
     }
@@ -99,7 +101,7 @@ public class ChatAdviceService implements ChatAdviceValidator {
       return null;
     }
     
-    LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now(clock);
     if (chatAdvice.needsReset(today)) {
       ChatAdvice resetAdvice = chatAdvice.resetDaily(DAILY_LIMIT, today);
       chatAdviceRepository.save(resetAdvice);
@@ -149,8 +151,8 @@ public class ChatAdviceService implements ChatAdviceValidator {
         DAILY_LIMIT,
         today,
         new ArrayList<>(),
-        LocalDateTime.now(),
-        LocalDateTime.now(),
+        LocalDateTime.now(clock),
+        LocalDateTime.now(clock),
         null);
   }
 }
