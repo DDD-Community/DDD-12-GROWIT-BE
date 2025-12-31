@@ -3,6 +3,7 @@ package com.growit.app.advice.usecase;
 import com.growit.app.advice.controller.dto.response.ChatAdviceResponse;
 import com.growit.app.advice.domain.chatadvice.ChatAdvice;
 import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
+import com.growit.app.advice.domain.chatadvice.service.ChatAdviceService;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.useradvicestatus.UserAdviceStatus;
 import com.growit.app.user.domain.useradvicestatus.repository.UserAdviceStatusRepository;
@@ -11,13 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GetChatAdviceByGoalUseCase {
   private final UserAdviceStatusRepository userAdviceStatusRepository;
   private final ChatAdviceRepository chatAdviceRepository;
-  private final com.growit.app.advice.domain.chatadvice.service.ChatAdviceService chatAdviceService;
+  private final ChatAdviceService chatAdviceService;
 
   public ChatAdviceResponse execute(User user, Integer week, String goalId) {
     String userId = user.getId();
