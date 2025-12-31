@@ -22,6 +22,8 @@ import java.time.ZoneId;
 class ChatAdviceServiceTest {
 
   @Mock private ChatAdviceRepository chatAdviceRepository;
+  @Mock private ChatAdviceClient chatAdviceClient;
+  @Mock private ChatAdviceDataCollector dataCollector;
   @Mock private Clock clock; // Mock Clock
 
   @InjectMocks private ChatAdviceService chatAdviceService;

@@ -1,6 +1,7 @@
 package com.growit.app.advice.controller;
 
 import com.growit.app.advice.controller.dto.request.SendChatAdviceRequest;
+import com.growit.app.advice.usecase.GetChatAdviceByGoalUseCase;
 import com.growit.app.advice.usecase.GetChatAdviceUseCase;
 import com.growit.app.advice.usecase.SendChatAdviceUseCase;
 import com.growit.app.common.response.ApiResponse;
@@ -17,7 +18,7 @@ public class ChatAdviceController {
 
   private final GetChatAdviceUseCase getChatAdviceUseCase;
   private final SendChatAdviceUseCase sendChatAdviceUseCase;
-  private final com.growit.app.advice.usecase.GetChatAdviceByGoalUseCase getChatAdviceByGoalUseCase;
+  private final GetChatAdviceByGoalUseCase getChatAdviceByGoalUseCase;
 
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> getChatAdviceStatus(
