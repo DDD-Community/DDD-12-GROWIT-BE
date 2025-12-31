@@ -15,20 +15,31 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.time.Clock;
+import java.time.ZoneId;
 
 @ExtendWith(MockitoExtension.class)
 class ChatAdviceServiceTest {
 
   @Mock private ChatAdviceRepository chatAdviceRepository;
+  @Mock private Clock clock; // Mock Clock
 
   @InjectMocks private ChatAdviceService chatAdviceService;
 
   private static final String USER_ID = "user-123";
+  private static final ZoneId ZONE_ID = ZoneId.of("Asia/Seoul");
+
+  @org.junit.jupiter.api.BeforeEach
+  void setUp() {
+    given(clock.getZone()).willReturn(ZONE_ID);
+    given(clock.instant()).willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
+  }
 
   @Test
   @DisplayName("사용자가 없으면 새로운 ChatAdvice를 생성한다 - 초기 카운트 3")
   void givenUserNotExists_whenGetOrCreate_thenCreateWithCount3() {
     // given
+    LocalDate today = LocalDate.now(clock);
     given(chatAdviceRepository.findByUserId(USER_ID)).willReturn(Optional.empty());
 
     // when
@@ -37,7 +48,7 @@ class ChatAdviceServiceTest {
     // then
     assertThat(result.getUserId()).isEqualTo(USER_ID);
     assertThat(result.getRemainingCount()).isEqualTo(3);
-    assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now());
+    assertThat(result.getLastResetDate()).isEqualTo(today);
     assertThat(result.getConversations()).isEmpty();
   }
 
@@ -49,10 +60,10 @@ class ChatAdviceServiceTest {
         ChatAdvice.builder()
             .userId(USER_ID)
             .remainingCount(2)
-            .lastResetDate(LocalDate.now())
+            .lastResetDate(LocalDate.now(clock))
             .conversations(new ArrayList<>())
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now(clock))
+            .updatedAt(LocalDateTime.now(clock))
             .build();
 
     given(chatAdviceRepository.findByUserId(USER_ID)).willReturn(Optional.of(existingAdvice));
@@ -69,15 +80,15 @@ class ChatAdviceServiceTest {
   @DisplayName("오늘 날짜면 리셋하지 않는다")
   void givenSameDay_whenResetIfNeeded_thenNoReset() {
     // given
-    LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now(clock);
     ChatAdvice chatAdvice =
         ChatAdvice.builder()
             .userId(USER_ID)
             .remainingCount(1)
             .lastResetDate(today)
             .conversations(new ArrayList<>())
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now(clock))
+            .updatedAt(LocalDateTime.now(clock))
             .build();
 
     // when
@@ -92,15 +103,15 @@ class ChatAdviceServiceTest {
   @DisplayName("날짜가 바뀌면 카운트를 3으로 리셋한다")
   void givenDayChanged_whenResetIfNeeded_thenResetToThree() {
     // given
-    LocalDate yesterday = LocalDate.now().minusDays(1);
+    LocalDate yesterday = LocalDate.now(clock).minusDays(1);
     ChatAdvice chatAdvice =
         ChatAdvice.builder()
             .userId(USER_ID)
             .remainingCount(0)
             .lastResetDate(yesterday)
             .conversations(new ArrayList<>())
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now(clock))
+            .updatedAt(LocalDateTime.now(clock))
             .build();
 
     // when
@@ -108,17 +119,17 @@ class ChatAdviceServiceTest {
 
     // then
     assertThat(result.getRemainingCount()).isEqualTo(3);
-    assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now());
+    assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now(clock));
   }
 
   @Test
   @DisplayName("리셋 시 기존 대화 내역은 유지한다")
   void givenDayChanged_whenResetIfNeeded_thenKeepHistory() {
     // given
-    LocalDate yesterday = LocalDate.now().minusDays(1);
+    LocalDate yesterday = LocalDate.now(clock).minusDays(1);
     ChatAdvice.Conversation conversation =
         new ChatAdvice.Conversation(
-            1, null, "test message", "test response", null, LocalDateTime.now(), false);
+            1, null, "test message", "test response", null, LocalDateTime.now(clock), false);
 
     ArrayList<ChatAdvice.Conversation> conversations = new ArrayList<>();
     conversations.add(conversation);
@@ -129,8 +140,8 @@ class ChatAdviceServiceTest {
             .remainingCount(0)
             .lastResetDate(yesterday)
             .conversations(conversations)
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now(clock))
+            .updatedAt(LocalDateTime.now(clock))
             .build();
 
     // when
@@ -145,15 +156,15 @@ class ChatAdviceServiceTest {
   @DisplayName("조회 시 날짜가 지났으면 리셋하고 저장한다")
   void givenDayChanged_whenCheckAndReset_thenResetAndSave() {
     // given
-    LocalDate yesterday = LocalDate.now().minusDays(1);
+    LocalDate yesterday = LocalDate.now(clock).minusDays(1);
     ChatAdvice chatAdvice =
         ChatAdvice.builder()
             .userId(USER_ID)
             .remainingCount(0)
             .lastResetDate(yesterday)
             .conversations(new ArrayList<>())
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now(clock))
+            .updatedAt(LocalDateTime.now(clock))
             .build();
 
     // when
@@ -161,7 +172,7 @@ class ChatAdviceServiceTest {
 
     // then
     assertThat(result.getRemainingCount()).isEqualTo(3);
-    assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now());
+    assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now(clock));
 
     // verify save called
     org.mockito.Mockito.verify(chatAdviceRepository, org.mockito.Mockito.times(1))
@@ -172,15 +183,15 @@ class ChatAdviceServiceTest {
   @DisplayName("조회 시 날짜가 같으면 리셋하지 않고 저장도 안한다")
   void givenSameDay_whenCheckAndReset_thenNoResetNoSave() {
     // given
-    LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now(clock);
     ChatAdvice chatAdvice =
         ChatAdvice.builder()
             .userId(USER_ID)
             .remainingCount(1)
             .lastResetDate(today)
             .conversations(new ArrayList<>())
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now(clock))
+            .updatedAt(LocalDateTime.now(clock))
             .build();
 
     // when
