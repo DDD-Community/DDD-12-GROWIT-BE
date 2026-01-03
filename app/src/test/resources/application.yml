@@ -4,6 +4,8 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+  flyway:
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -22,6 +24,12 @@ notification:
   discord:
     webhook-url: http://test-webhook-url
 
+batch:
+  jdbc:
+    initialize-schema: always
+  job:
+    enabled: true
+    
 ai:
   api:
     api-key: test-api-key

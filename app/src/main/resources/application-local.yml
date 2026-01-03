@@ -2,8 +2,14 @@ spring:
   application:
     name: growit
 
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/Growit
+    url: jdbc:postgresql://localhost:5432/growit_dev
     username: postgres
     password: 1234
     driver-class-name: org.postgresql.Driver
@@ -68,4 +74,4 @@ ai:
 
 notification:
   discord:
-    webhook-url: ${DISCORD_WEBHOOK_URL}
+    webhook-url: ${DISCORD_WEBHOOK_URL:}

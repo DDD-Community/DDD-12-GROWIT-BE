@@ -18,4 +18,9 @@ public record GoalDuration(LocalDate startDate, LocalDate endDate) {
 
     return 1 + remainingWeeks;
   }
+
+  @JsonIgnore
+  public boolean includes(LocalDate date) {
+    return !date.isBefore(startDate) && !date.isAfter(endDate);
+  }
 }

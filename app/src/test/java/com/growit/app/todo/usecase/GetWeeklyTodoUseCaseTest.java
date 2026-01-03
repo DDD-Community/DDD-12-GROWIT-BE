@@ -41,23 +41,21 @@ class GetWeeklyTodoUseCaseTest {
     // Given
     String userId = "user-1";
     String goalId = "goal-1";
-    String planId = "plan-1";
     Goal goal = GoalFixture.defaultGoal();
     given(goalRepository.findById(goalId)).willReturn(Optional.of(goal));
-    willDoNothing().given(goalService).checkPlanExists(userId, goalId, planId);
 
     ToDo mondayTodo =
         ToDoFixture.customToDo(
-            "todo-1", userId, LocalDate.of(2025, 7, 8), planId, goalId); // 2025-07-08은 TUESDAY
+            "todo-1", userId, LocalDate.of(2025, 7, 8), goalId); // 2025-07-08은 TUESDAY
     ToDo tuesdayTodo =
         ToDoFixture.customToDo(
-            "todo-2", userId, LocalDate.of(2025, 7, 7), planId, goalId); // 2025-07-07은 MONDAY
+            "todo-2", userId, LocalDate.of(2025, 7, 7), goalId); // 2025-07-07은 MONDAY
 
     List<ToDo> todos = List.of(mondayTodo, tuesdayTodo);
-    given(toDoRepository.findByPlanId(planId)).willReturn(todos);
+    given(toDoRepository.findByGoalId(goalId)).willReturn(todos);
 
     // When
-    Map<DayOfWeek, List<ToDo>> result = useCase.execute(goalId, planId, userId);
+    Map<DayOfWeek, List<ToDo>> result = useCase.execute(goalId, userId);
 
     // Then
     Map<DayOfWeek, List<ToDo>> expected =
@@ -81,11 +79,10 @@ class GetWeeklyTodoUseCaseTest {
     // Given
     String userId = "user-1";
     String goalId = "goal-123";
-    String planId = "plan-456";
     given(goalRepository.findById(goalId)).willReturn(Optional.empty());
 
     // When & Then
-    assertThatThrownBy(() -> useCase.execute(goalId, planId, userId))
+    assertThatThrownBy(() -> useCase.execute(goalId, userId))
         .isInstanceOf(NotFoundException.class)
         .hasMessageContaining("목표를 찾을 수 없습니다.");
   }

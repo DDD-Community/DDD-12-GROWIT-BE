@@ -1,15 +1,15 @@
 package com.growit.app.goal.controller;
 
 import com.growit.app.common.response.ApiResponse;
-import com.growit.app.common.util.message.MessageService;
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
-import com.growit.app.goal.controller.dto.request.UpdatePlanRequest;
+import com.growit.app.goal.controller.dto.response.GoalCreateResponse;
+import com.growit.app.goal.controller.dto.response.GoalDetailResponse;
 import com.growit.app.goal.controller.mapper.GoalRequestMapper;
-import com.growit.app.goal.domain.goal.Goal;
+import com.growit.app.goal.controller.mapper.GoalResponseMapper;
 import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalStatus;
-import com.growit.app.goal.domain.planrecommendation.PlanRecommendation;
 import com.growit.app.goal.usecase.*;
+import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import com.growit.app.user.domain.user.User;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -25,47 +25,49 @@ import org.springframework.web.bind.annotation.*;
 public class GoalController {
   private final CreateGoalUseCase createGoalUseCase;
   private final GoalRequestMapper goalRequestMapper;
+  private final GoalResponseMapper goalResponseMapper;
   private final GetUserGoalsUseCase getUserGoalsUseCase;
   private final DeleteGoalUseCase deleteGoalUseCase;
   private final UpdateGoalUseCase updateGoalUseCase;
-  private final UpdatePlanUseCase updatePlanUseCase;
-  private final MessageService messageService;
   private final GetGoalUseCase getGoalUseCase;
-  private final RecommendPlanUseCase recommendPlanUseCase;
-  private final GetGoalsByYearUseCase getGoalsByYearUseCase;
+  private final CreateGoalAnalysisUseCase createGoalAnalysisUseCase;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<Goal>>> getMyGoal(
+  public ResponseEntity<ApiResponse<List<GoalDetailResponse>>> getMyGoals(
       @AuthenticationPrincipal User user, @RequestParam(required = false) String status) {
-    GoalStatus goalStatus;
-    goalStatus = status == null ? GoalStatus.NONE : GoalStatus.valueOf(status);
-    List<Goal> goals = getUserGoalsUseCase.getMyGoals(user, goalStatus);
-    return ResponseEntity.ok(ApiResponse.success(goals));
+    GoalStatus goalStatus = goalResponseMapper.mapToGoalStatus(status);
+    List<GoalWithAnalysisDto> goalWithAnalysis = getUserGoalsUseCase.getMyGoals(user, goalStatus);
+    List<GoalDetailResponse> responses =
+        goalWithAnalysis.stream()
+            .map(dto -> goalResponseMapper.toDetailResponse(dto.getGoal(), dto.getAnalysis()))
+            .toList();
+
+    return ResponseEntity.ok(ApiResponse.success(responses));
   }
 
-  @GetMapping(params = {"year"})
-  public ResponseEntity<ApiResponse<List<Goal>>> getGoalsByYear(
-      @AuthenticationPrincipal User user, @RequestParam int year) {
-    List<Goal> goals = getGoalsByYearUseCase.getGoalsByYear(user, year);
-    return ResponseEntity.ok(ApiResponse.success(goals));
-  }
-
-  @GetMapping("{id}")
-  public ResponseEntity<ApiResponse<Goal>> getGoalById(
+  @GetMapping("/{id}")
+  public ResponseEntity<ApiResponse<GoalDetailResponse>> getGoalById(
       @PathVariable String id, @AuthenticationPrincipal User user) {
-    return ResponseEntity.ok(ApiResponse.success(getGoalUseCase.getGoal(id, user)));
+    GoalWithAnalysisDto goalWithAnalysis = getGoalUseCase.getGoal(id, user);
+
+    return ResponseEntity.ok(
+        ApiResponse.success(
+            goalResponseMapper.toDetailResponse(
+                goalWithAnalysis.getGoal(), goalWithAnalysis.getAnalysis())));
   }
 
   @PostMapping
-  public ResponseEntity<ApiResponse<CreateGoalResult>> createGoal(
+  public ResponseEntity<ApiResponse<GoalCreateResponse>> createGoal(
       @AuthenticationPrincipal User user, @Valid @RequestBody CreateGoalRequest request) {
     CreateGoalCommand command = goalRequestMapper.toCommand(user.getId(), request);
+    CreateGoalResult result = createGoalUseCase.execute(command);
+    GoalWithAnalysisDto goalWithAnalysis = getGoalUseCase.getGoal(result.id(), user);
 
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(ApiResponse.success(createGoalUseCase.execute(command)));
+        .body(ApiResponse.success(goalResponseMapper.toCreateResponse(goalWithAnalysis.getGoal())));
   }
 
-  @PutMapping("{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> updateGoal(
       @PathVariable String id,
       @AuthenticationPrincipal User user,
@@ -73,43 +75,23 @@ public class GoalController {
     UpdateGoalCommand command = goalRequestMapper.toUpdateCommand(id, user.getId(), request);
     updateGoalUseCase.execute(command);
 
-    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.update")));
+    return ResponseEntity.ok(ApiResponse.success("목표가 수정 완료되었습니다."));
   }
 
-  @DeleteMapping("{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<String>> deleteGoal(
       @PathVariable String id, @AuthenticationPrincipal User user) {
     DeleteGoalCommand command = goalRequestMapper.toDeleteCommand(id, user.getId());
     deleteGoalUseCase.execute(command);
 
-    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.goal.delete")));
+    return ResponseEntity.ok(ApiResponse.success("삭제되었습니다."));
   }
 
-  @GetMapping("/me/exists")
-  public ResponseEntity<ApiResponse<Boolean>> getGoalIsExist(@AuthenticationPrincipal User user) {
-    return ResponseEntity.ok(
-        ApiResponse.success(!getUserGoalsUseCase.getMyGoals(user, GoalStatus.NONE).isEmpty()));
-  }
+  @PostMapping("/{id}/analysis")
+  public ResponseEntity<ApiResponse<String>> completeGoal(
+      @PathVariable String id, @AuthenticationPrincipal User user) {
+    createGoalAnalysisUseCase.execute(id, user.getId());
 
-  @PutMapping("/me/updatePlan")
-  public ResponseEntity<ApiResponse<String>> updatePlanContent(
-      @RequestParam() String goalId,
-      @RequestParam() String planId,
-      @AuthenticationPrincipal User user,
-      @Valid @RequestBody UpdatePlanRequest request) {
-    UpdatePlanCommand command =
-        goalRequestMapper.toUpdatePlanCommand(goalId, planId, user.getId(), request);
-
-    updatePlanUseCase.execute(command);
-    return ResponseEntity.ok(
-        ApiResponse.success(messageService.msg("success.plan.content.update")));
-  }
-
-  @GetMapping("/{id}/plans/{planId}/recommendation")
-  public ResponseEntity<ApiResponse<String>> recommendPlan(
-      @PathVariable String id, @PathVariable String planId, @AuthenticationPrincipal User user) {
-    PlanRecommendation recommendation = recommendPlanUseCase.execute(user, id, planId);
-    return ResponseEntity.ok(
-        ApiResponse.success(recommendation == null ? null : recommendation.getContent()));
+    return ResponseEntity.ok(ApiResponse.success("목표 분석이 완료되었습니다."));
   }
 }

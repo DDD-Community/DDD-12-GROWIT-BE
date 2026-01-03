@@ -49,7 +49,6 @@ public class SignUpKaKaoUseCase {
 
     jobRoleValidator.checkJobRoleExist(command.jobRoleId());
     userValidator.checkEmailExists(command.email());
-    userValidator.checkOAuthExists(command.oAuth());
     User user = User.from(command);
 
     userRepository.saveUser(user);

@@ -39,6 +39,7 @@ dependencies {
   implementation(libs.spring.boot.starter.validation)
   implementation(libs.spring.boot.starter.cache)
   implementation(libs.nanoid)
+  implementation(libs.spring.boot.starter.batch)
   // oauth
   implementation (libs.spring.boot.starter.security.oauth2)
   // Flyway
@@ -71,6 +72,7 @@ dependencies {
 
   testImplementation(libs.spring.boot.starter.test)
   testImplementation(libs.spring.security.test)
+  testImplementation(libs.spring.batch.test)
 
   testRuntimeOnly(libs.h2)
   testImplementation(libs.rest.assured)
@@ -95,8 +97,8 @@ swaggerSources {
 }
 
 openapi3 {
-  this.setServer("https://api.grow-it.me/")
-
+//  this.setServer("http://localhost:8081/")
+  this.setServer("https://dev.grow-it.me/")
   title = "GrowIT API Specification"
   description = "GrowIT description"
   version = project.version.toString()

@@ -22,8 +22,7 @@ public class CreateRetrospectUseCase {
     if (command.kpt() == null) {
       throw new BadRequestException("kpt is required");
     }
-    // 계획 존재 여부 확인
-    goalValidator.checkPlanExists(command.userId(), command.goalId(), command.planId());
+    // 목표 존재 여부 확인은 실제 목표 조회 시 처리됨 (planId 제거됨)
 
     // 이미 회고가 존재하는지 확인
     retrospectValidator.checkUniqueRetrospect(command.planId());

@@ -1,0 +1,108 @@
+name: Full CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      ECR_REPOSITORY: growit-app
+      CLUSTER_NAME: ${{ secrets.ECS_CLUSTER }}
+      SERVICE_NAME: growit-app-service-v2
+      ECS_TASK_DEFINITION: growit-app-service-task-v2
+    environment: dev
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build JAR
+        run: ./gradlew clean build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Extract version from tag
+        id: extract_version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      - name: Build Docker image
+        run: |
+          chmod +x gradlew
+          docker build --build-arg SERVER_PORT=8081 -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION ./app
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION
+
+      - name: Download ECS task definition
+        id: download-task-def
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --region ${{ env.AWS_REGION }} \
+            --output json \
+            --query 'taskDefinition' > task-def.json
+
+      - name: Render ECS task definition with secrets
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-def.json
+          container-name: growit-app-service-v2
+          image: "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.VERSION }}"
+          environment-variables: |
+            SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}
+            JAVA_OPTS=${{ secrets.JAVA_OPTS }}
+            SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
+            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
+            SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            JWT_EXPIRED_SECOND= ${{secrets.JWT_EXPIRED_SECOND}}
+            JWT_REFRESH_EXPIRED_SECOND= ${{secrets.JWT_REFRESH_EXPIRED_SECOND}}
+            OPEN_API_KEY=${{ secrets.OPEN_API_KEY }}
+            KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}
+            KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}
+            DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
+            AI_MENTOR_URL= ${{secrets.AI_MENTOR_URL}}
+            SERVER_PORT=8081
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          wait-for-service-stability: false
+          cluster: ${{ env.CLUSTER_NAME }}
+          service: ${{ env.SERVICE_NAME }}
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+
+  notify:
+    name: Notify Slack
+    needs: build-and-deploy
+    uses: ./.github/workflows/slack.yml
+
+    with:
+      job-status: ${{ needs.build-and-deploy.result }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

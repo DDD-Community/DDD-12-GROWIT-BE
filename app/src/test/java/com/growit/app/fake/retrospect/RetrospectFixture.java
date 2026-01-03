@@ -1,7 +1,5 @@
 package com.growit.app.fake.retrospect;
 
-import com.growit.app.fake.goal.PlanFixture;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.retrospect.controller.retrospect.dto.request.CreateRetrospectRequest;
 import com.growit.app.retrospect.controller.retrospect.dto.request.KPTDto;
 import com.growit.app.retrospect.controller.retrospect.dto.request.UpdateRetrospectRequest;
@@ -20,9 +18,7 @@ public class RetrospectFixture {
 
   public static RetrospectWithPlan defaultRetrospectWithPlan() {
     Retrospect retrospect = RetrospectFixture.defaultRetrospect();
-    String planId = retrospect.getPlanId();
-    Plan plan = PlanFixture.customPlan(planId, 1, null, null, null);
-    return new RetrospectWithPlan(retrospect, plan);
+    return new RetrospectWithPlan(retrospect);
   }
 
   public static Retrospect customRetrospect(

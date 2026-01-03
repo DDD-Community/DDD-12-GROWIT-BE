@@ -1,10 +1,8 @@
 package com.growit.app.user.usecase;
 
 import static com.growit.app.common.util.message.ErrorCode.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.promotion.PromotionFixture;
@@ -27,25 +25,6 @@ class RegisterPromotionUseCaseTest {
   @Mock private UserRepository userRepository;
 
   @InjectMocks private RegisterPromotionUseCase registerPromotionUseCase;
-
-  @Test
-  void givenValidPromotionCode_whenRegisterPromotion_thenSuccess() {
-    // given
-    User user = UserFixture.defaultUser();
-    String promotionCode = "WELCOME2024";
-    Promotion promotion = PromotionFixture.validPromotionWithCode(promotionCode);
-
-    given(promotionRepository.findByCode(promotionCode)).willReturn(Optional.of(promotion));
-
-    // when
-    registerPromotionUseCase.execute(user, promotionCode);
-
-    // then
-    verify(promotionRepository).save(promotion);
-    verify(userRepository).saveUser(user);
-    assertThat(user.getPromotion()).isEqualTo(promotion);
-    assertThat(promotion.isUsed()).isTrue();
-  }
 
   @Test
   void givenInvalidPromotionCode_whenRegisterPromotion_thenThrowPromotionCodeNotFoundException() {

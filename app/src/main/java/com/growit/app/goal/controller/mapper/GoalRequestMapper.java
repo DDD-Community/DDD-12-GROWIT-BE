@@ -1,7 +1,6 @@
 package com.growit.app.goal.controller.mapper;
 
 import com.growit.app.goal.controller.dto.request.CreateGoalRequest;
-import com.growit.app.goal.controller.dto.request.UpdatePlanRequest;
 import com.growit.app.goal.domain.goal.dto.*;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
 import org.springframework.stereotype.Component;
@@ -13,12 +12,7 @@ public class GoalRequestMapper {
     return new CreateGoalCommand(
         userId,
         request.getName(),
-        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
-        request.getToBe(),
-        request.getCategory(),
-        request.getPlans().stream()
-            .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
-            .toList());
+        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()));
   }
 
   public UpdateGoalCommand toUpdateCommand(String id, String userId, CreateGoalRequest request) {
@@ -26,20 +20,10 @@ public class GoalRequestMapper {
         id,
         userId,
         request.getName(),
-        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()),
-        request.getToBe(),
-        request.getCategory(),
-        request.getPlans().stream()
-            .map(planRequest -> new PlanDto(planRequest.getWeekOfMonth(), planRequest.getContent()))
-            .toList());
+        new GoalDuration(request.getDuration().getStartDate(), request.getDuration().getEndDate()));
   }
 
   public DeleteGoalCommand toDeleteCommand(String id, String userId) {
     return new DeleteGoalCommand(id, userId);
-  }
-
-  public UpdatePlanCommand toUpdatePlanCommand(
-      String goalId, String planId, String userId, UpdatePlanRequest request) {
-    return new UpdatePlanCommand(goalId, planId, userId, request.getContent());
   }
 }

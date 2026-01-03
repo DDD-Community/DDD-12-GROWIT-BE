@@ -19,7 +19,7 @@ public class DeleteGoalUseCase {
   @Transactional
   public void execute(DeleteGoalCommand command) {
     Goal goal = goalQuery.getMyGoal(command.id(), command.userId());
-    goal.deleted();
+    goal.delete();
     goalRepository.saveGoal(goal);
   }
 }

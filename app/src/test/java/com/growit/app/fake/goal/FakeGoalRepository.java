@@ -12,7 +12,7 @@ public class FakeGoalRepository implements GoalRepository {
   @Override
   public List<Goal> findAllByUserId(String userId) {
     return store.values().stream()
-        .filter(goal -> goal.getUserId().equals(userId) && !goal.getDeleted())
+        .filter(goal -> goal.getUserId().equals(userId) && !goal.isDeleted())
         .toList();
   }
 
@@ -29,7 +29,7 @@ public class FakeGoalRepository implements GoalRepository {
   @Override
   public Optional<Goal> findByIdAndUserId(String id, String userId) {
     Goal goal = store.get(id);
-    if (goal == null || !goal.getUserId().equals(userId) || goal.getDeleted()) {
+    if (goal == null || !goal.getUserId().equals(userId) || goal.isDeleted()) {
       return Optional.empty();
     }
     return Optional.of(goal);
@@ -38,7 +38,7 @@ public class FakeGoalRepository implements GoalRepository {
   @Override
   public List<Goal> findByUserIdAndGoalDuration(String userId, LocalDate today) {
     return store.values().stream()
-        .filter(goal -> goal.getUserId().equals(userId) && !goal.getDeleted())
+        .filter(goal -> goal.getUserId().equals(userId) && !goal.isDeleted())
         .filter(
             goal -> {
               LocalDate start = goal.getDuration().startDate();
@@ -47,6 +47,13 @@ public class FakeGoalRepository implements GoalRepository {
                   && (end.isAfter(today) || end.isEqual(today));
             })
         .toList();
+  }
+
+  @Override
+  public Optional<Goal> findLastGoal(String userId) {
+    return store.values().stream()
+        .filter(goal -> goal.getUserId().equals(userId) && !goal.isDeleted())
+        .max((g1, g2) -> g1.getDuration().startDate().compareTo(g2.getDuration().startDate()));
   }
 
   public void clear() {

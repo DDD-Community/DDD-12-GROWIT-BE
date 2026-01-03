@@ -51,7 +51,7 @@ jobs:
       - name: Build Docker image
         run: |
           chmod +x gradlew
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION ./app
+          docker build --build-arg SERVER_PORT=8080 -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION ./app
 
       - name: Push Docker image to ECR
         run: |
@@ -87,6 +87,7 @@ jobs:
             KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}
             DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
             AI_MENTOR_URL= ${{secrets.AI_MENTOR_URL}}
+            SERVER_PORT=8080
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -95,7 +96,6 @@ jobs:
           cluster: ${{ env.CLUSTER_NAME }}
           service: ${{ env.SERVICE_NAME }}
           task-definition: ${{ steps.render-task-def.outputs.task-definition }}
-
   notify:
     name: Notify Slack
     needs: build-and-deploy

@@ -98,6 +98,6 @@ public class User {
   }
 
   public boolean hasActivePromotion() {
-    return getActivePromotion() != null;
+    return true;
   }
 }

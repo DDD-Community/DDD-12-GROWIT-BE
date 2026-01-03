@@ -35,7 +35,7 @@ class DeleteGoalUseCaseTest {
 
     // then
     Goal deletedGoal = goalRepository.findById(goal.getId()).orElseThrow();
-    assertTrue(deletedGoal.getDeleted());
+    assertTrue(deletedGoal.isDeleted());
   }
 
   @Test

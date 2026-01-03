@@ -10,6 +10,7 @@ import com.growit.app.user.infrastructure.persistence.user.source.entity.UserEnt
 import com.growit.app.user.infrastructure.persistence.user.source.entity.UserPromotionMapEntity;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,6 +32,13 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public Optional<User> findUserByuId(String id) {
     return dbUserRepository.findByUid(id).map(userDBMapper::toDomain);
+  }
+
+  @Override
+  public List<User> findAllById(List<String> ids) {
+    return dbUserRepository.findAllByUidIn(ids).stream()
+        .map(UserEntity::toDomain)
+        .collect(Collectors.toList());
   }
 
   @Override

@@ -53,11 +53,9 @@ class ToDoUtilsTest {
   void givenToDosOnSomeDays_whenGroupByDayOfWeek_thenGroupsCorrectlyAndFillsEmptyDays() {
     // given
     ToDo monday =
-        ToDoFixture.customToDo(
-            "monday", "user-1", LocalDate.of(2024, 7, 8), "plan-1", "goal-1"); // Monday
+        ToDoFixture.customToDo("monday", "user-1", LocalDate.of(2024, 7, 8), "goal-1"); // Monday
     ToDo tuesday =
-        ToDoFixture.customToDo(
-            "tuesday", "user-1", LocalDate.of(2024, 7, 9), "plan-1", "goal-1"); // Tuesday
+        ToDoFixture.customToDo("tuesday", "user-1", LocalDate.of(2024, 7, 9), "goal-1"); // Tuesday
     List<ToDo> todos = List.of(monday, tuesday);
 
     // when

@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT:8081}
+
 spring:
   application:
     name: growit
@@ -6,6 +9,12 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
 
   flyway:
     enabled: true

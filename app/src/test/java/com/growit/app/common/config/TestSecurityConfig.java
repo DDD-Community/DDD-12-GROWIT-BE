@@ -1,5 +1,6 @@
 package com.growit.app.common.config;
 
+import com.growit.app.advice.infrastructure.client.AiMentorAdviceClientImpl;
 import com.growit.app.common.config.jwt.JwtFilter;
 import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
 import com.growit.app.common.config.oauth.OAuth2LoginFailureHandler;
@@ -42,10 +43,7 @@ public class TestSecurityConfig {
 
   @MockitoBean private MessageService messageService;
 
-  @MockitoBean private com.growit.app.advice.scheduler.MentorAdviceScheduler mentorAdviceScheduler;
-
-  @MockitoBean
-  private com.growit.app.advice.infrastructure.client.AiMentorAdviceClientImpl aiMentorAdviceClient;
+  @MockitoBean private AiMentorAdviceClientImpl aiMentorAdviceClient;
 
   @Bean
   @Primary

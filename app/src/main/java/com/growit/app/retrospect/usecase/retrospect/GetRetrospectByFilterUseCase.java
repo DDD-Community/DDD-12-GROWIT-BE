@@ -1,7 +1,5 @@
 package com.growit.app.retrospect.usecase.retrospect;
 
-import com.growit.app.goal.domain.goal.Goal;
-import com.growit.app.goal.domain.goal.plan.Plan;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.retrospect.domain.retrospect.Retrospect;
 import com.growit.app.retrospect.domain.retrospect.dto.RetrospectQueryFilter;
@@ -20,9 +18,7 @@ public class GetRetrospectByFilterUseCase {
   @Transactional(readOnly = true)
   public RetrospectWithPlan execute(RetrospectQueryFilter filter) {
     final Retrospect retrospect = retrospectQuery.getRetrospectByFilter(filter);
-    final Goal goal = goalQuery.getMyGoal(retrospect.getGoalId(), retrospect.getUserId());
-    final Plan plan = goal.getPlanByPlanId(retrospect.getPlanId());
-
-    return new RetrospectWithPlan(retrospect, plan);
+    // Plan functionality removed - return retrospect without plan
+    return new RetrospectWithPlan(retrospect);
   }
 }
