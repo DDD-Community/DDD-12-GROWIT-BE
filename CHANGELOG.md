@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.48.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.48.0...v1.48.1) (2026-01-03)
+
+
+### Bug Fixes
+
+* swagger-spec.js URL 및 데이터 타임스탬프 수정, version 변경 (issue [#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([9816e6e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9816e6ee0073d9356f0021b7f8fa4608937c4a0f))
+
 ## [1.48.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.47.2...v1.48.0) (2026-01-03)
 
 
