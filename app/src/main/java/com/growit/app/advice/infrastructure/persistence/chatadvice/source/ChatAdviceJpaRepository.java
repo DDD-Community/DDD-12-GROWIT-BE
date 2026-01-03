@@ -11,6 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface ChatAdviceJpaRepository extends JpaRepository<ChatAdviceEntity, String> {
   Optional<ChatAdviceEntity> findByUserId(String userId);
 
-  List<ChatAdviceEntity> findByLastConversatedAtBetween(
-      LocalDateTime start, LocalDateTime end);
+  List<ChatAdviceEntity> findByLastConversatedAtBetween(LocalDateTime start, LocalDateTime end);
 }

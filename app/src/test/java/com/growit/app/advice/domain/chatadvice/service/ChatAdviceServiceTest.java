@@ -5,8 +5,10 @@ import static org.mockito.BDDMockito.given;
 
 import com.growit.app.advice.domain.chatadvice.ChatAdvice;
 import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.time.Clock;
-import java.time.ZoneId;
 
 @ExtendWith(MockitoExtension.class)
 class ChatAdviceServiceTest {
@@ -34,7 +34,8 @@ class ChatAdviceServiceTest {
   @org.junit.jupiter.api.BeforeEach
   void setUp() {
     given(clock.getZone()).willReturn(ZONE_ID);
-    given(clock.instant()).willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
+    given(clock.instant())
+        .willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
   }
 
   @Test

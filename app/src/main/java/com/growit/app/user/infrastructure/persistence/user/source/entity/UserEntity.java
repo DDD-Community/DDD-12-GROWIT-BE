@@ -94,8 +94,7 @@ public class UserEntity extends BaseEntity {
   public User toDomain() {
     ArrayList<OAuth> oauthList = new ArrayList<>();
     if (this.oauthAccounts != null) {
-      this.oauthAccounts.forEach(
-          o -> oauthList.add(new OAuth(o.getProvider(), o.getProviderId())));
+      this.oauthAccounts.forEach(o -> oauthList.add(new OAuth(o.getProvider(), o.getProviderId())));
     }
 
     return User.builder()

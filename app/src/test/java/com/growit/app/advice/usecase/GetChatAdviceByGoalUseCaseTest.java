@@ -1,6 +1,5 @@
 package com.growit.app.advice.usecase;
 
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 

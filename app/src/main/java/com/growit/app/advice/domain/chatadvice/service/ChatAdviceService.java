@@ -7,12 +7,12 @@ import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.user.domain.user.User;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.time.Clock;
 
 @Service
 @RequiredArgsConstructor
@@ -50,12 +50,7 @@ public class ChatAdviceService implements ChatAdviceValidator {
 
     ChatAdvice updated =
         chatAdvice.addConversation(
-            week,
-            goalId,
-            userMessage,
-            aiAdvice,
-            adviceStyle,
-            Boolean.TRUE.equals(isOnboarding));
+            week, goalId, userMessage, aiAdvice, adviceStyle, Boolean.TRUE.equals(isOnboarding));
 
     chatAdviceRepository.save(updated);
     return updated;
@@ -93,21 +88,19 @@ public class ChatAdviceService implements ChatAdviceValidator {
     return chatAdvice;
   }
 
-  /**
-   * 조회 시점에 날짜가 지났는지 확인하고, 지났다면 리셋 후 DB에 저장합니다.
-   */
+  /** 조회 시점에 날짜가 지났는지 확인하고, 지났다면 리셋 후 DB에 저장합니다. */
   public ChatAdvice checkAndResetDailyLimit(ChatAdvice chatAdvice) {
     if (chatAdvice == null) {
       return null;
     }
-    
+
     LocalDate today = LocalDate.now(clock);
     if (chatAdvice.needsReset(today)) {
       ChatAdvice resetAdvice = chatAdvice.resetDaily(DAILY_LIMIT, today);
       chatAdviceRepository.save(resetAdvice);
       return resetAdvice;
     }
-    
+
     return chatAdvice;
   }
 
