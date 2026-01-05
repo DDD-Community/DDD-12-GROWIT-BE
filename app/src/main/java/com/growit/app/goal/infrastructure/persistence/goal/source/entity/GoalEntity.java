@@ -40,8 +40,7 @@ public class GoalEntity extends BaseEntity {
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private GoalStatus status = GoalStatus.PROGRESS;
+  private GoalStatus status;
 
   public Goal toDomain() {
     Planet domainPlanet = planet.toDomain();
