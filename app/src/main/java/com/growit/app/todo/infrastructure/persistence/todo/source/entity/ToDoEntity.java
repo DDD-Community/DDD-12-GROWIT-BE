@@ -45,6 +45,7 @@ public class ToDoEntity extends BaseEntity {
     this.content = toDo.getContent();
     this.isCompleted = toDo.isCompleted();
     this.isImportant = toDo.isImportant();
+    this.goalId = toDo.getGoalId();
     if (toDo.getRoutine() != null) {
       this.routineId = toDo.getRoutine().getId();
     } else {
