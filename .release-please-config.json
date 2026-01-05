@@ -5,5 +5,11 @@
       "package-name": "com.growit.app",
       "branch": "main"
     }
-  }
+  },
+  "release-type": "simple",
+  "release-search-depth": 50,
+  "commit-search-depth": 50,
+  "sequential-calls": true
+
 }
+

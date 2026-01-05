@@ -1,5 +1,70 @@
 # Changelog
 
+## [1.48.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.48.0...v1.48.1) (2026-01-03)
+
+
+### Bug Fixes
+
+* swagger-spec.js URL 및 데이터 타임스탬프 수정, version 변경 (issue [#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([9816e6e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9816e6ee0073d9356f0021b7f8fa4608937c4a0f))
+
+## [1.48.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.47.2...v1.48.0) (2026-01-03)
+
+
+### Features
+
+* **333:** 도메인 목표와 행성 관련 소거 및 순환 행성 할당 로직 추가 ([9a40334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9a40334551fe558a0f3dbc19f06167bd2727f298))
+* **333:** 도메인 및 인프라 구조 정리 및 리팩토링 진행 ([1d48464](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1d4846485f788e29f997819d3f5795fff6f2d887))
+* **333:** 목표 삭제 및 관련 도메인 기능 제거 ([c097c08](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c097c08d87aa6afa7842f10b1828b30ab6dab1d1))
+* **333:** 목표 삭제 및 관련 도메인 기능 제거 ([4d4a856](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4d4a8563cc2418496b974db048a0f9a8fe68e7ee))
+* **334:** ToDo 관련 엔티티와 DTO에 중요도 및 루틴 정보 추가 및 변경 ([c442f86](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c442f86d9eaef482fcfd28a52c65095db7675bef))
+* **334:** ToDo 관련 엔티티와 DTO에 중요도 및 루틴 정보 추가 및 변경 ([a6250dd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a6250ddb6fd1fb033da0ff1fb696ef926fcbb934))
+* **334:** 엔티티 및 DTO에 중요도 및 루틴 정보 추가 ([54b5227](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/54b52273d936334b3234b6a0d32f197672e987f3))
+* **337/routine:** 루틴 관련 데이터베이스 구조 및 서비스 로직 추가 ([50157ca](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/50157ca38945ff76ad12435d6b55f6fa2a4dc007))
+* **341/analysis:** 목표 분석 생성 기능 추가 ([0fe83a2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0fe83a29fe57e439afc03b99789e5f73866e8ba6))
+* **341/analysis:** 목표 분석 생성 기능 추가 ([a644667](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a644667bdc4ee232041ef5451480fe422e3116c8))
+* **341/analysis:** 목표 분석 생성 기능 추가 ([26a884d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/26a884db3aca4522d5fbaf3e27b4a3a73b2fac00))
+* **341/analysis:** 목표 완료 검증 및 분석 데이터 생성 API 추가 ([e9b82a4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e9b82a4c8ba2d86293fdf1a0968617a55ef39822))
+* **341/analysis:** 목표 완료 검증 및 분석 데이터 생성 API 추가 ([4350d7e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4350d7e43540f86849f927c223da7d8b85568213))
+* **341/analysis:** 목표 완료 검증 및 분석 데이터 생성 API 추가 ([e636cf5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e636cf529e773800f8c78cd28830164779169019))
+* **341/analysis:** 목표 완료 검증 및 분석 데이터 생성 API 추가 ([7395570](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/739557007640e9aff9ba391c01d78667134ff3ae))
+* **341/analysis:** 목표 완료 검증 및 분석 데이터 생성 API 추가 ([feb3ec7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/feb3ec784f293ec99c49937c1af9d3de2747e5bc))
+* openapi3 서버 URL을 로컬에서 배포용 URL로 변경 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([4d3ddfd](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4d3ddfd38d6301f352ede3122ce33af6eb19daa3))
+* swagger 스키마 수정 및 ToDo API 개선 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([acdd15e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/acdd15eb9727b45e00a2e23fff4fc9db39960932))
+* swagger 스키마 수정 및 ToDo API 응답값 일부 수정 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([395d817](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/395d817382ec3ec0904cdb700cf90580e302b9d7))
+* ToDo 및 Routine 관련 저장 및 조회 로직 개선 ([#337](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/337)) ([fbcbd39](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fbcbd39615071e36503fd329e3efdc03f5855889))
+* ToDo 응답 DTO 및 관련 매핑 로직 개선 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([09e51c6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/09e51c6da9f2e58a3b301adbbbc489a4a21e49ac))
+* Update ToDoDTO, mapper, and domain to support goalId and importance ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([c1a5c03](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c1a5c03b8a912d512f4dd2a7737b47ecb88cccec))
+* UserValidator에서 checkOAuthExists 제거, 관련 테스트 및 호출도 삭제 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([6d1876e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6d1876e2b017d6e5c140fa827bcc1c1238f628ff))
+* 루틴 필드 및 삭제 옵션 지원 ([#337](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/337)) ([5015ea4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5015ea4bd15a90f986b46eb1043996632b489686))
+* 목표 조회/생성/수정/삭제 API 추가 및 Swagger 스키마 갱신 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([906bb4f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/906bb4f329fa0eb8a5fad5d66804d29aabadb9b8))
+* 수정 ToDo 요청에 goalId와 important 필드 지원 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([12aebe7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/12aebe773ac289a414827ca4fd71158cac7b7eaa))
+* 수정 ToDo 요청에 goalId와 important 필드 지원 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([d0b7047](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d0b70479862395a2f78b1b74fd4f03f2dbcf80b9))
+
+
+### Bug Fixes
+
+* .github/workflows/cd-dev.yml에 환경 변수 추가 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([942a052](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/942a0520962bbc7b89aaa1e6f766e8ae1f99fde8))
+* .release-please-config.json 업데이트 (issue [#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([62d90dc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/62d90dc1d6826bd9cf72e7af93eb59bd6e1778ad))
+* FQN ([ef022d1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ef022d11977bb5f9ce320d5c6c72c0766792477d))
+* FQN ([7b4998d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7b4998daf6dc482a69dc1416f634b6bb2732ec44))
+* FQN ([d19fe3b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d19fe3be9d2800b106a65bb5eac3a6c404b36607))
+* **oauth:** 개발 웹사이트 호스트 허용 목록에 devweb.grow-it.me 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([d950f7c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d950f7c04df20fc8df6af54ebf413850413daf14))
+* **oauth:** 추가 허용된 리다이렉트 호스트에 devweb.grow-it.me 포함 (#issue-number) ([3ec0a18](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3ec0a183fe34970083f952004eaafcfddb798b4a))
+* swagger-spec의 서버 URL을 localhost로 변경 및 예시 값 수정 ([#334](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/334)) ([e416ff1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e416ff122abd25c5fdf0fdf4e0b7106832991f22))
+* test ([d3c3c95](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d3c3c958c326bfb05f4f243e453fa445d47bcde1))
+* test ([f22c28f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f22c28f4152a1b9a1ee4f6f3378055168d721f8a))
+* test ([cc9024e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cc9024eee26d9561ddc9e0084db6b19ff51a727e))
+* test ([fb5f5b1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fb5f5b1947679e29e801b3316eb55dbc787b377d))
+* test ([76f8815](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/76f8815178a81943c695d4390437f855f324f4c2))
+* Transaction 붙이기 ([689aa66](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/689aa6620404db7b124ccb3f4dd58179e77258d9))
+* update안되는 부분해결 ([221c8e5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/221c8e5b579dd2e7901d7aac5bd65b016d7ee1ee))
+* 서버 URL을 개발 환경 주소로 업데이트 (개발용 서버 URL 변경) ([e8eb75b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e8eb75b3807142349a3960ac25e300f32cb2f434))
+* 서버 URL을 개발 환경 주소로 업데이트 (개발용 서버 URL 변경) ([af097e6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/af097e657db67c264c35f381dd94d0d427767cf1))
+* 서버 URL을 프로덕션 주소로 업데이트 (#이슈번호) ([107b384](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/107b384dbaf75324198e45beadf707579400c3bf))
+* 시간대역 변경 ([2659b99](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2659b992580825529f89eb89e467cefeae7b8c6e))
+* 시간대역 변경 ([a10642c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a10642c89e393fa497ce5d66255ddcb845453133))
+* 조회시 초기화 ([12ee68c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/12ee68c179387e1172973ebfb05fb35b5f4efac4))
+
 ## [1.47.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.47.1...v1.47.2) (2025-12-14)
 
 

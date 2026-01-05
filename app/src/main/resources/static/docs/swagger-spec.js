@@ -6,7 +6,7 @@ window.swaggerSpec={
     "version" : "0.0.3"
   },
   "servers" : [ {
-    "url" : "https://dev.grow-it.me/"
+    "url" : "https://api.grow-it.me/"
   } ],
   "tags" : [ ],
   "paths" : {
