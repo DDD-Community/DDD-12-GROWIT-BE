@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.49.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.48.1...v1.49.0) (2026-01-05)
+
+
+### Features
+
+* ToDoEntity에 goalId 필드 추가 (이슈번호) ([ff46af4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ff46af4d9926bb37c7bb4c547eccc13aa6728838))
+* 환경설정 변경 및 데이터 값 업데이트 반영 (이슈 [#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([847838a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/847838acefc02f94a83cab6afc383318d8601a28))
+
 ## [1.48.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.48.0...v1.48.1) (2026-01-03)
 
 
