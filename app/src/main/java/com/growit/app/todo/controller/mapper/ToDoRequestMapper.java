@@ -5,10 +5,7 @@ import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.controller.dto.response.RoutineDto;
 import com.growit.app.todo.domain.dto.*;
-import com.growit.app.todo.domain.vo.RepeatType;
-import com.growit.app.todo.domain.vo.Routine;
-import com.growit.app.todo.domain.vo.RoutineDeleteType;
-import com.growit.app.todo.domain.vo.RoutineDuration;
+import com.growit.app.todo.domain.vo.*;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +31,9 @@ public class ToDoRequestMapper {
         request.getDate(),
         request.getImportant() != null ? request.getImportant() : false,
         toDomainRoutine(request.getRoutine()),
-        request.getRoutineUpdateType());
+        request.getRoutine() != null && request.getRoutineUpdateType() == null
+            ? RoutineUpdateType.ALL
+            : request.getRoutineUpdateType());
   }
 
   public CompletedStatusChangeCommand toCompletedStatusChangeCommand(

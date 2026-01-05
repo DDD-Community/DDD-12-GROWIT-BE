@@ -35,7 +35,6 @@ public class UpdateToDoUseCase {
           command.date(), command.userId(), goal.getId(), toDo.getId());
     }
 
-    // 루틴 업데이트 처리
     if (command.routineUpdateType() != null) {
       return routineService.updateRoutineToDos(toDo, command);
     }
