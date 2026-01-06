@@ -10,6 +10,5 @@
   "release-search-depth": 50,
   "commit-search-depth": 50,
   "sequential-calls": true
-
 }
 
