@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.52.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.1...v1.52.2) (2026-01-06)
+
+
+### Bug Fixes
+
+* .github/workflows/pr-ci.yml에 dependency-graph 항목 추가 및 ([7b3d6b2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7b3d6b284e36ff268101deca5f623c326b20481d))
+
 ## [1.52.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.0...v1.52.1) (2026-01-06)
 
 
