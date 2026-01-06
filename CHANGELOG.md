@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.51.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.50.0...v1.51.0) (2026-01-06)
+
+
+### Features
+
+* Goal 생성자에 상태 필드 추가 및 초기화 로직 수정 ([19a5abb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/19a5abbb11722f4d2bd83147ee52292596ad029f))
+
 ## [1.50.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.49.0...v1.50.0) (2026-01-05)
 
 
