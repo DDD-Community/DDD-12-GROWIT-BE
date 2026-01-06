@@ -90,6 +90,7 @@ class GoalBuilder {
   LocalDate thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
   LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
+  private GoalStatus status = GoalStatus.PROGRESS;
   private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
   private String id = "goal-1";
   private String userId = "user-1";
@@ -117,7 +118,12 @@ class GoalBuilder {
     return this;
   }
 
+  public GoalBuilder status(GoalStatus status) {
+    this.status = status;
+    return this;
+  }
+
   public Goal build() {
-    return Goal.create(id, userId, name, planet, duration, GoalStatus.PROGRESS);
+    return Goal.create(id, userId, name, planet, duration, status);
   }
 }
