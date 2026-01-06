@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.52.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.51.0...v1.52.0) (2026-01-06)
+
+
+### Features
+
+* Goal 생성자에 상태 필드 추가 및 초기화 로직 수정 ([284f240](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/284f240ee0beb4c8ccd5440ba6fb82588487fc74))
+
+
+### Bug Fixes
+
+* .github/workflows/pr-ci.yml에 dependency-graph 항목 추가 및 의존성 ([2a94915](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2a94915eb608c354817a7b63b71c0104e5879d55))
+* .release-please-config.json에 "sequential-calls" 항목 추가 ([#123](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/123)) ([e10b5e5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e10b5e57c24db73bc784b6f7e5d7e3d4149c51fb))
+
 ## [1.51.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.50.0...v1.51.0) (2026-01-06)
 
 
