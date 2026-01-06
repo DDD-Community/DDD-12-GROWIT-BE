@@ -29,7 +29,6 @@ configurations {
 repositories {
   mavenLocal()
   gradlePluginPortal()
-  mavenCentral()
   maven { 
     url = uri("https://repo.spring.io/milestone")
     name = "Spring Milestone Repository"
@@ -38,6 +37,11 @@ repositories {
     url = uri("https://repo.spring.io/snapshot")
     name = "Spring Snapshot Repository"
   }
+  maven {
+    url = uri("https://repo1.maven.org/maven2/")
+    name = "Maven Central Mirror"
+  }
+  mavenCentral()
 }
 
 dependencies {
