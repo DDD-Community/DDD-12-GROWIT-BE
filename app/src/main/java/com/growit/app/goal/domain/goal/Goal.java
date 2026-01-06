@@ -20,23 +20,39 @@ public class Goal {
   private GoalStatus status;
   private boolean deleted = false;
 
-  public Goal(String id, String userId, String name, Planet planet, GoalDuration duration) {
+  public Goal(
+      String id,
+      String userId,
+      String name,
+      Planet planet,
+      GoalDuration duration,
+      GoalStatus status) {
     this.id = Objects.requireNonNull(id, "Goal id cannot be null");
     this.userId = Objects.requireNonNull(userId, "User id cannot be null");
     this.name = Objects.requireNonNull(name, "Goal name cannot be null");
     this.planet = Objects.requireNonNull(planet, "Planet cannot be null");
     this.duration = Objects.requireNonNull(duration, "Duration cannot be null");
-    this.status = GoalStatus.PROGRESS;
+    this.status = status;
   }
 
   public static Goal create(
-      String id, String userId, String name, Planet planet, GoalDuration duration) {
-    return new Goal(id, userId, name, planet, duration);
+      String id,
+      String userId,
+      String name,
+      Planet planet,
+      GoalDuration duration,
+      GoalStatus status) {
+    return new Goal(id, userId, name, planet, duration, status);
   }
 
   public static Goal from(CreateGoalCommand command, Planet planet) {
     return create(
-        IDGenerator.generateId(), command.userId(), command.name(), planet, command.duration());
+        IDGenerator.generateId(),
+        command.userId(),
+        command.name(),
+        planet,
+        command.duration(),
+        GoalStatus.PROGRESS);
   }
 
   public void updateGoal(UpdateGoalCommand command) {
