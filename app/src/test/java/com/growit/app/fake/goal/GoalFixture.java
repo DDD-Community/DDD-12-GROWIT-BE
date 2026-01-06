@@ -11,6 +11,7 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalResult;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.planet.Planet;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -117,6 +118,6 @@ class GoalBuilder {
   }
 
   public Goal build() {
-    return Goal.create(id, userId, name, planet, duration);
+    return Goal.create(id, userId, name, planet, duration, GoalStatus.PROGRESS);
   }
 }
