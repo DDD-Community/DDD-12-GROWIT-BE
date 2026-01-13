@@ -205,8 +205,7 @@ public class RoutineServiceImpl implements RoutineService {
   }
 
   private ToDoResult updateAllRoutineToDos(ToDo existingToDo, UpdateToDoCommand command) {
-    deleteOtherRoutineToDos(
-        existingToDo.getRoutine().getId(), existingToDo.getId(), command.userId());
+    deleteAllRoutineToDos(existingToDo.getRoutine().getId(), command.userId());
 
     if (command.routine() != null && command.routine().isValid()) {
       CreateToDoCommand createCommand =
@@ -219,10 +218,17 @@ public class RoutineServiceImpl implements RoutineService {
               command.routine());
       return createRoutineToDos(createCommand);
     } else {
-      existingToDo.updateBy(command);
-      existingToDo.removeRoutine();
-      toDoRepository.saveToDo(existingToDo);
-      return new ToDoResult(existingToDo.getId());
+      CreateToDoCommand createCommand =
+          new CreateToDoCommand(
+              command.userId(),
+              command.goalId(),
+              command.content(),
+              command.date(),
+              command.isImportant(),
+              null);
+      ToDo newToDo = ToDo.from(createCommand);
+      toDoRepository.saveToDo(newToDo);
+      return new ToDoResult(newToDo.getId());
     }
   }
 
