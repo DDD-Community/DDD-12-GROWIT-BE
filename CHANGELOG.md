@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.52.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.2...v1.52.3) (2026-01-13)
+
+
+### Bug Fixes
+
+* 기존 루틴 관련 ToDo 삭제 로직 수정 및 ToDo 업데이트 방식 개선 (bug/363/todo) ([e48b295](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e48b295c06892b14bf396c72d4b6a737b836aa1e))
+* 기존 루틴 관련 ToDo 삭제 로직 수정 및 ToDo 업데이트 방식 개선 (bug/363/todo) ([8ce8cc4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8ce8cc4f3769a748be59e237d8db343233612cd8))
+
 ## [1.52.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.1...v1.52.2) (2026-01-06)
 
 
