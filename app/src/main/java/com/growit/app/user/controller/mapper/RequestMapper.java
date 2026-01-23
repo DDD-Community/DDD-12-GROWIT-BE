@@ -42,6 +42,10 @@ public class RequestMapper {
 
   public UpdateUserCommand toUpdateUserCommand(User user, UpdateUserRequest request) {
     return new UpdateUserCommand(
-        user, request.getName(), request.getLastName(), request.getJobRoleId(), request.getCareerYear());
+        user,
+        request.getName(),
+        request.getLastName(),
+        request.getJobRoleId(),
+        request.getCareerYear());
   }
 }
