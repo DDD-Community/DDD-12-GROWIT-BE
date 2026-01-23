@@ -187,10 +187,10 @@ public class RoutineServiceImpl implements RoutineService {
   }
 
   private ToDoResult updateSingleToDo(ToDo existingToDo, UpdateToDoCommand command) {
-    if (command.routine() != null && !command.routine().equals(existingToDo.getRoutine())) {
-      createNewRoutineFromDate(command, command.date());
-      removeRoutineFromToDo();
-    }
+    // 단일 투두 수정: 해당 투두만 수정하고 루틴 연결을 제거하여 독립적으로 만듦
+    existingToDo.updateBy(command);
+    existingToDo.removeRoutine(); // 루틴 연결 제거하여 단일 투두로 변경
+    toDoRepository.saveToDo(existingToDo);
     return new ToDoResult(existingToDo.getId());
   }
 
@@ -297,8 +297,9 @@ public class RoutineServiceImpl implements RoutineService {
     }
   }
 
-  private void removeRoutineFromToDo() {
-    // 루틴 정보 제거 로직 (도메인 메서드 필요)
+  private void removeRoutineFromToDo(ToDo toDo) {
+    toDo.removeRoutine();
+    toDoRepository.saveToDo(toDo);
   }
 
   @Override
