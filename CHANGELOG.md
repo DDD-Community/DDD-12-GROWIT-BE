@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.53.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.3...v1.53.0) (2026-01-23)
+
+
+### Features
+
+* 사용자 Last Name 필드 추가 및 관련 코드 수정 (issue/366) ([f880d40](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f880d404b7be9ae6b2adc3e134535d0ada21dffd))
+
+
+### Bug Fixes
+
+* Update UpdateUserCommand record 선언 방식 및 요청 매핑 방식 ([#366](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/366)) ([7c9be9a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7c9be9afd192c1b66e7304cfb6c109f625dbd010))
+
 ## [1.52.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.2...v1.52.3) (2026-01-13)
 
 
