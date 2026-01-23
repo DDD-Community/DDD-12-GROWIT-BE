@@ -43,6 +43,7 @@ public class SignUpKaKaoUseCase {
             new Email(emailFromToken),
             null,
             signUpCommand.name(),
+            null,
             signUpCommand.jobRoleId(),
             signUpCommand.careerYear(),
             oAuth);

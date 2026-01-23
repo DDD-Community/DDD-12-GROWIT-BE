@@ -24,6 +24,8 @@ public class User {
 
   private String name;
 
+  private String lastName;
+
   private String jobRoleId;
 
   private CareerYear careerYear;
@@ -43,6 +45,7 @@ public class User {
         .email(command.email())
         .password(command.password())
         .name(command.name())
+        .lastName(command.lastName())
         .jobRoleId(command.jobRoleId())
         .careerYear(command.careerYear())
         .isOnboarding(false)
@@ -55,6 +58,7 @@ public class User {
 
   public void updateByCommand(UpdateUserCommand command) {
     this.name = command.name();
+    this.lastName = command.lastName();
     this.jobRoleId = command.jobRoleId();
     this.careerYear = command.careerYear();
   }
