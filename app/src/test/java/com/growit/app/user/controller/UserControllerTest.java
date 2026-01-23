@@ -88,6 +88,7 @@ class UserControllerTest {
                 user.getId(),
                 user.getEmail().value(),
                 user.getName(),
+                user.getLastName(),
                 jobRole,
                 user.getCareerYear().name()));
 
@@ -111,6 +112,7 @@ class UserControllerTest {
                             fieldWithPath("data.id").type(STRING).description("사용자 ID"),
                             fieldWithPath("data.email").type(STRING).description("이메일"),
                             fieldWithPath("data.name").type(STRING).description("이름"),
+                            fieldWithPath("data.lastName").type(STRING).description("성").optional(),
                             fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
                             fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
                             fieldWithPath("data.careerYear").type(STRING).description("경력 연차"))

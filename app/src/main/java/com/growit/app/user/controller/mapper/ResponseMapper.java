@@ -20,6 +20,7 @@ public class ResponseMapper {
     return UserResponse.builder()
         .id(userDto.user().getId())
         .name(userDto.user().getName())
+        .lastName(userDto.user().getLastName())
         .jobRole(userDto.jobRole())
         .email(userDto.user().getEmail().value())
         .careerYear(userDto.user().getCareerYear().name())
