@@ -11,11 +11,12 @@ public record SignUpCommand(
     Email email,
     String password,
     String name,
+    String lastName,
     String jobRoleId,
     CareerYear careerYear,
     OAuth oAuth) {
   public SignUpCommand encodePassword(String password) {
-    return new SignUpCommand(email, password, name, jobRoleId, careerYear, oAuth);
+    return new SignUpCommand(email, password, name, lastName, jobRoleId, careerYear, oAuth);
   }
 
   public void checkOAuth() {

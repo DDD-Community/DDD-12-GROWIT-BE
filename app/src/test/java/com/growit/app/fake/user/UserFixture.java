@@ -46,11 +46,11 @@ public class UserFixture {
   }
 
   public static UpdateUserCommand defaultUpdateUserCommand(User user) {
-    return new UpdateUserCommand(user, "updatedName", "jobRoleId-1", CareerYear.JUNIOR);
+    return new UpdateUserCommand(user, "updatedName", null, "jobRoleId-1", CareerYear.JUNIOR);
   }
 
   public static UpdateUserRequest defaultUpdateUserRequest() {
-    return new UpdateUserRequest("updatedName", "jobRoleId-1", CareerYear.JUNIOR);
+    return new UpdateUserRequest("updatedName", null, "jobRoleId-1", CareerYear.JUNIOR);
   }
 
   public static SignUpRequest defaultSignUpRequest() {
@@ -58,6 +58,7 @@ public class UserFixture {
         "test@example.com",
         "securePass123",
         "홍길동",
+        null,
         "6rOg7Zmp7IOd",
         CareerYear.JUNIOR,
         new RequiredConsentRequest(true, true));
@@ -125,6 +126,7 @@ class UserBuilder {
         .email(new Email(email))
         .password(password)
         .name(name)
+        .lastName(null)
         .jobRoleId(jobRoleId)
         .careerYear(careerYear)
         .isDeleted(false)

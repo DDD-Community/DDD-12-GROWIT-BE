@@ -13,6 +13,7 @@ public class RequestMapper {
         new Email(request.getEmail()),
         request.getPassword(),
         request.getName(),
+        request.getLastName(),
         request.getJobRoleId(),
         request.getCareerYear(),
         null);
@@ -41,6 +42,6 @@ public class RequestMapper {
 
   public UpdateUserCommand toUpdateUserCommand(User user, UpdateUserRequest request) {
     return new UpdateUserCommand(
-        user, request.getName(), request.getJobRoleId(), request.getCareerYear());
+        user, request.getName(), request.getLastName(), request.getJobRoleId(), request.getCareerYear());
   }
 }

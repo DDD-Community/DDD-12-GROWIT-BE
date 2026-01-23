@@ -39,6 +39,7 @@ class SignUpUseCaseTest {
             new Email("test@example.com"),
             "password123",
             "홍길동",
+            null,
             "jobRoleId-1",
             CareerYear.JUNIOR,
             null);
@@ -73,6 +74,7 @@ class SignUpUseCaseTest {
             new Email("test@example.com"),
             "password123",
             "홍길동",
+            null,
             "invalidJobRole",
             CareerYear.JUNIOR,
             null);
@@ -99,6 +101,7 @@ class SignUpUseCaseTest {
             new Email("existing@example.com"),
             "password123",
             "홍길동",
+            null,
             "jobRoleId-1",
             CareerYear.JUNIOR,
             null);
@@ -125,7 +128,8 @@ class SignUpUseCaseTest {
         new SignUpCommand(
             new Email("test@example.com"),
             "password123",
-            "홍길동",
+            "홍긘동",
+            null,
             "jobRoleId-1",
             CareerYear.JUNIOR,
             null);

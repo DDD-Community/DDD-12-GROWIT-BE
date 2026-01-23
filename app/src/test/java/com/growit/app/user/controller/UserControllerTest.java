@@ -143,6 +143,7 @@ class UserControllerTest {
                                 .description("JWT (Your Token)"))
                         .requestFields(
                             fieldWithPath("name").type(STRING).description("이름"),
+                            fieldWithPath("lastName").type(STRING).description("성").optional(),
                             fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
                             fieldWithPath("careerYear").type(STRING).description("경력 연차"))
                         .responseFields(

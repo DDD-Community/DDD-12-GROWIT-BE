@@ -15,6 +15,8 @@ public class UpdateUserRequest {
   @Size(min = 2, message = "{validation.user.name.size}")
   private String name;
 
+  private String lastName;
+
   @NotBlank(message = "{validation.user.job-role.required}")
   private String jobRoleId;
 
