@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.54.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.53.0...v1.54.0) (2026-01-23)
+
+
+### Features
+
+* UserResponse에 lastName 필드 추가 및 응답 매핑 수정 ([#369](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/369)) ([dac7e28](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/dac7e285bd208a17f90bcb548f02ee28f6af88e4))
+* UserResponse에 lastName 필드 추가 및 응답 매핑 수정 ([#369](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/369)) ([311715c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/311715c3452386f01b73570b863cb02b46e051ff))
+
+
+### Bug Fixes
+
+* todo 반복 설정 이슈 ([#369](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/369)) ([d2d6d16](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d2d6d1640a4a0447678c950737a1f0a209d943ac))
+* Update UpdateUserCommand 선언 방식과 요청 매핑 방식 ([#366](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/366)) ([f0d5328](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f0d53282a2a9624f353de2184195ae024fe1152b))
+
 ## [1.53.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.52.3...v1.53.0) (2026-01-23)
 
 
