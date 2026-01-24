@@ -187,9 +187,8 @@ public class RoutineServiceImpl implements RoutineService {
   }
 
   private ToDoResult updateSingleToDo(ToDo existingToDo, UpdateToDoCommand command) {
-    // 단일 투두 수정: 해당 투두만 수정하고 루틴 연결을 제거하여 독립적으로 만듦
-    existingToDo.updateBy(command);
-    existingToDo.removeRoutine(); // 루틴 연결 제거하여 단일 투두로 변경
+    // 단일 투두 수정: 해당 투두만 내용 변경하고 반복 연결은 유지
+    existingToDo.updateContentOnly(command);
     toDoRepository.saveToDo(existingToDo);
     return new ToDoResult(existingToDo.getId());
   }
