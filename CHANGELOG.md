@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.54.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.54.0...v1.54.1) (2026-01-24)
+
+
+### Bug Fixes
+
+* 단일 투두 수정 시 루틴 연결 유지하도록 변경 (bug/369/todo) ([7993761](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7993761ac231da5e71b4f6141d3c327398c5df67))
+* 단일 투두 수정 시 루틴 연결 유지하도록 변경 (bug/369/todo) ([3c1d0f5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3c1d0f52743f9798c202a0a08d7bab417cf2e0af))
+
 ## [1.54.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.53.0...v1.54.0) (2026-01-23)
 
 
