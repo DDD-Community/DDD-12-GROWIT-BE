@@ -50,6 +50,15 @@ public class ToDo {
     this.routine = command.routine();
   }
 
+  public void updateContentOnly(UpdateToDoCommand command) {
+    // 루틴 정보는 유지하고 내용만 변경
+    this.date = command.date();
+    this.goalId = command.goalId();
+    this.content = command.content();
+    this.isImportant = command.isImportant();
+    // routine은 변경하지 않음
+  }
+
   public void removeRoutine() {
     this.routine = null;
   }
