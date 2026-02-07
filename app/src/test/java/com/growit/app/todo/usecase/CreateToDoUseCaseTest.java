@@ -53,7 +53,7 @@ class CreateToDoUseCaseTest {
     RoutineDuration duration =
         RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7));
 
-    Routine routine = Routine.of(duration, RepeatType.DAILY);
+    Routine routine = Routine.of(duration, RepeatType.DAILY, null);
 
     routineCommand =
         new CreateToDoCommand(

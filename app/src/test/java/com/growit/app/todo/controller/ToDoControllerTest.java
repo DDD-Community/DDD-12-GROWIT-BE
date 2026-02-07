@@ -112,7 +112,8 @@ class ToDoControllerTest {
     Routine domainRoutine =
         Routine.of(
             RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7)),
-            RepeatType.DAILY);
+            RepeatType.DAILY,
+            null);
 
     CreateToDoCommand command =
         new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), false, domainRoutine);
@@ -197,7 +198,7 @@ class ToDoControllerTest {
     RoutineDto routineDto = RoutineDto.builder().duration(durationDto).repeatType("DAILY").build();
 
     RoutineDuration duration = RoutineDuration.of(LocalDate.now(), LocalDate.now().plusDays(7));
-    Routine routine = Routine.of(duration, RepeatType.DAILY);
+    Routine routine = Routine.of(duration, RepeatType.DAILY, null);
     UpdateToDoRequest request =
         new UpdateToDoRequest(
             "goal-1", LocalDate.now(), "수정된 할 일 내용", true, routineDto, RoutineUpdateType.ALL);

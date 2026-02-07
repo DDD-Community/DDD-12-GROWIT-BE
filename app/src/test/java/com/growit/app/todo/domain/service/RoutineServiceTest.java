@@ -16,6 +16,7 @@ import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDuration;
 import com.growit.app.todo.domain.vo.RoutineUpdateType;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +45,7 @@ class RoutineServiceTest {
     RoutineDuration duration =
         RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7));
 
-    routine = Routine.of(duration, RepeatType.DAILY);
+    routine = Routine.of(duration, RepeatType.DAILY, null);
 
     createCommand =
         new CreateToDoCommand(
@@ -78,6 +79,9 @@ class RoutineServiceTest {
   @Test
   @DisplayName("루틴 생성 시 반복 타입에 따라 여러 ToDo가 생성되어야 한다")
   void shouldCreateMultipleToDosForRoutine() {
+    // Given
+    // setUp()에서 이미 daily routine이 준비됨
+
     // When
     ToDoResult result = routineService.createRoutineToDos(createCommand);
 
@@ -169,7 +173,7 @@ class RoutineServiceTest {
     RoutineDuration duration =
         RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 29));
 
-    Routine weeklyRoutine = Routine.of(duration, RepeatType.WEEKLY);
+    Routine weeklyRoutine = Routine.of(duration, RepeatType.WEEKLY, null);
 
     CreateToDoCommand weeklyCommand =
         new CreateToDoCommand(
@@ -200,5 +204,121 @@ class RoutineServiceTest {
         .isImportant(false)
         .routine(routine)
         .build();
+  }
+
+  @Test
+  @DisplayName("주간 반복에서 지정된 요일에만 ToDo가 생성되어야 한다")
+  void shouldCreateWeeklyToDosOnSpecificDays() {
+    // Given
+    RoutineDuration duration =
+        RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 14)); // 2주간
+
+    List<DayOfWeek> repeatDays =
+        Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY);
+    Routine weeklyRoutineWithDays = Routine.of(duration, RepeatType.WEEKLY, repeatDays);
+
+    CreateToDoCommand weeklyCommand =
+        new CreateToDoCommand(
+            "user123",
+            "goal123",
+            "Weekly routine on specific days",
+            LocalDate.of(2024, 1, 1), // 월요일
+            true,
+            weeklyRoutineWithDays);
+
+    // When
+    ToDoResult result = routineService.createRoutineToDos(weeklyCommand);
+
+    // Then
+    // 2주간 월/수/금만 생성 = 6개 ToDo
+    verify(toDoRepository, times(6)).saveToDo(any(ToDo.class));
+    assertThat(result).isNotNull();
+    assertThat(result.getId()).isNotNull();
+  }
+
+  @Test
+  @DisplayName("격주 반복에서 지정된 요일에만 ToDo가 생성되어야 한다")
+  void shouldCreateBiweeklyToDosOnSpecificDays() {
+    // Given
+    RoutineDuration duration =
+        RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 28)); // 4주간
+
+    List<DayOfWeek> repeatDays = Arrays.asList(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY);
+    Routine biweeklyRoutine = Routine.of(duration, RepeatType.BIWEEKLY, repeatDays);
+
+    CreateToDoCommand biweeklyCommand =
+        new CreateToDoCommand(
+            "user123",
+            "goal123",
+            "Biweekly routine on specific days",
+            LocalDate.of(2024, 1, 1), // 월요일
+            true,
+            biweeklyRoutine);
+
+    // When
+    ToDoResult result = routineService.createRoutineToDos(biweeklyCommand);
+
+    // Then
+    // 격주(0주차, 2주차)에서 화/목만 생성 = 4개 ToDo
+    verify(toDoRepository, times(4)).saveToDo(any(ToDo.class));
+    assertThat(result).isNotNull();
+    assertThat(result.getId()).isNotNull();
+  }
+
+  @Test
+  @DisplayName("repeatDays가 null이면 기존 로직으로 동작해야 한다")
+  void shouldUseOriginalLogicWhenRepeatDaysIsNull() {
+    // Given
+    RoutineDuration duration =
+        RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 15)); // 2주간
+
+    Routine weeklyRoutineWithoutDays = Routine.of(duration, RepeatType.WEEKLY, null);
+
+    CreateToDoCommand weeklyCommand =
+        new CreateToDoCommand(
+            "user123",
+            "goal123",
+            "Weekly routine without specific days",
+            LocalDate.of(2024, 1, 1), // 월요일
+            true,
+            weeklyRoutineWithoutDays);
+
+    // When
+    ToDoResult result = routineService.createRoutineToDos(weeklyCommand);
+
+    // Then
+    // 기존 주간 반복 로직: 매주 월요일 = 3개 ToDo (1/1, 1/8, 1/15)
+    verify(toDoRepository, times(3)).saveToDo(any(ToDo.class));
+    assertThat(result).isNotNull();
+    assertThat(result.getId()).isNotNull();
+  }
+
+  @Test
+  @DisplayName("일간 반복은 repeatDays와 관계없이 매일 ToDo가 생성되어야 한다")
+  void shouldCreateDailyToDosRegardlessOfRepeatDays() {
+    // Given
+    RoutineDuration duration =
+        RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 5)); // 5일간
+
+    List<DayOfWeek> repeatDays = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY);
+    Routine dailyRoutineWithDays = Routine.of(duration, RepeatType.DAILY, repeatDays);
+
+    CreateToDoCommand dailyCommand =
+        new CreateToDoCommand(
+            "user123",
+            "goal123",
+            "Daily routine with repeatDays",
+            LocalDate.of(2024, 1, 1),
+            true,
+            dailyRoutineWithDays);
+
+    // When
+    ToDoResult result = routineService.createRoutineToDos(dailyCommand);
+
+    // Then
+    // 일간 반복은 repeatDays 무시하고 매일 생성 = 5개 ToDo
+    verify(toDoRepository, times(5)).saveToDo(any(ToDo.class));
+    assertThat(result).isNotNull();
+    assertThat(result.getId()).isNotNull();
   }
 }
