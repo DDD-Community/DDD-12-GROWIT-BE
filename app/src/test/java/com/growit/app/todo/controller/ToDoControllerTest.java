@@ -175,7 +175,12 @@ class ToDoControllerTest {
                                 .type(JsonFieldType.STRING)
                                 .optional()
                                 .description(
-                                    "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"))
+                                    "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"),
+                            fieldWithPath("routine.repeatDays")
+                                .type(JsonFieldType.ARRAY)
+                                .optional()
+                                .description(
+                                    "반복할 요일 목록 (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.OBJECT)
@@ -195,7 +200,8 @@ class ToDoControllerTest {
             .startDate(LocalDate.now())
             .endDate(LocalDate.now().plusDays(7))
             .build();
-    RoutineDto routineDto = RoutineDto.builder().duration(durationDto).repeatType("DAILY").build();
+    RoutineDto routineDto =
+        RoutineDto.builder().duration(durationDto).repeatType("DAILY").repeatDays(null).build();
 
     RoutineDuration duration = RoutineDuration.of(LocalDate.now(), LocalDate.now().plusDays(7));
     Routine routine = Routine.of(duration, RepeatType.DAILY, null);
@@ -273,6 +279,11 @@ class ToDoControllerTest {
                                 .type(JsonFieldType.STRING)
                                 .optional()
                                 .description("반복 타입 (DAILY, WEEKLY, BIWEEKLY, MONTHLY)"),
+                            fieldWithPath("routine.repeatDays")
+                                .type(JsonFieldType.ARRAY)
+                                .optional()
+                                .description(
+                                    "반복할 요일 목록 (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)"),
                             fieldWithPath("routineUpdateType")
                                 .type(JsonFieldType.STRING)
                                 .optional()
@@ -293,6 +304,7 @@ class ToDoControllerTest {
                     .endDate(LocalDate.of(2024, 1, 7))
                     .build())
             .repeatType("DAILY")
+            .repeatDays(null)
             .build();
 
     UpdateToDoRequest request =
@@ -455,6 +467,7 @@ class ToDoControllerTest {
                                         .endDate(LocalDate.of(2024, 1, 7))
                                         .build())
                                 .repeatType("DAILY")
+                                .repeatDays(null)
                                 .build())
                         .build())
                 .goal(GoalDto.builder().id("goal-1").name("테스트 목표").build())
@@ -540,6 +553,11 @@ class ToDoControllerTest {
                                 .optional()
                                 .description(
                                     "반복 유형 (DAILY: 매일, WEEKLY: 매주, BIWEEKLY: 격주, MONTHLY: 매월)"),
+                            fieldWithPath("data[].todo.routine.repeatDays")
+                                .type(JsonFieldType.ARRAY)
+                                .optional()
+                                .description(
+                                    "반복할 요일 목록 (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)"),
                             fieldWithPath("data[].goal")
                                 .type(JsonFieldType.OBJECT)
                                 .description("목표 정보"),
