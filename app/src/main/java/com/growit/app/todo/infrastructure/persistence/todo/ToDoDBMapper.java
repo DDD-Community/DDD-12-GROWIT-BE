@@ -5,6 +5,10 @@ import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDuration;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.RoutineEntity;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.ToDoEntity;
+import java.time.DayOfWeek;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,11 +50,25 @@ public class ToDoDBMapper {
         .startDate(routine.getDuration().getStartDate())
         .endDate(routine.getDuration().getEndDate())
         .repeatType(routine.getRepeatType())
+        .repeatDays(
+            routine.getRepeatDays() != null
+                ? routine.getRepeatDays().stream().map(Enum::name).collect(Collectors.joining(","))
+                : null)
         .build();
   }
 
   public Routine routineEntityToDomain(RoutineEntity entity) {
     RoutineDuration duration = RoutineDuration.of(entity.getStartDate(), entity.getEndDate());
-    return new Routine(entity.getUid(), duration, entity.getRepeatType());
+
+    List<DayOfWeek> repeatDays = null;
+    if (entity.getRepeatDays() != null && !entity.getRepeatDays().isEmpty()) {
+      repeatDays =
+          Arrays.stream(entity.getRepeatDays().split(","))
+              .map(String::trim)
+              .map(DayOfWeek::valueOf)
+              .collect(Collectors.toList());
+    }
+
+    return new Routine(entity.getUid(), duration, entity.getRepeatType(), repeatDays);
   }
 }

@@ -94,6 +94,6 @@ public class ToDoRequestMapper {
 
     RepeatType repeatType = RepeatType.valueOf(routineDto.getRepeatType());
 
-    return Routine.of(duration, repeatType);
+    return Routine.of(duration, repeatType, routineDto.getRepeatDays());
   }
 }
