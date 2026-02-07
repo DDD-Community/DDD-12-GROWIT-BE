@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.56.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.55.0...v1.56.0) (2026-02-07)
+
+
+### Features
+
+* 반복 요일 지정 로직 및 관련 데이터 구조 수정 ([#378](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/378)) ([59cb991](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/59cb9911e2d3d08cae9dd48e29706c323a1a0998))
+* 반복 요일 지정 로직 추가 (fix: 단일 투두 수정 시 루틴 연결 유지하도록 변경 [#378](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/378)) ([f716116](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/f716116fdbbc34ab3ade1610624829101b5d9480))
+
 ## [1.55.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.54.1...v1.55.0) (2026-01-24)
 
 
