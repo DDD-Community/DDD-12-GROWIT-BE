@@ -211,7 +211,9 @@ class ToDoControllerTest {
             .build();
 
     RoutineDuration duration = RoutineDuration.of(LocalDate.now(), LocalDate.now().plusDays(7));
-    Routine routine = Routine.of(duration, RepeatType.BIWEEKLY, Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY));
+    Routine routine =
+        Routine.of(
+            duration, RepeatType.BIWEEKLY, Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY));
     UpdateToDoRequest request =
         new UpdateToDoRequest(
             "goal-1", LocalDate.now(), "수정된 할 일 내용", true, routineDto, RoutineUpdateType.ALL);
