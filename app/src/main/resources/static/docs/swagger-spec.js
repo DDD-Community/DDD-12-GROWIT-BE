@@ -35,7 +35,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-chat-advice-status" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2026-02-07T17:21:38.653924\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2026-02-07T18:14:11.75702\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -72,7 +72,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "send-chat-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2026-02-07T17:21:38.08143\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2026-02-07T18:14:11.164409\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
                   }
                 }
               }
@@ -97,7 +97,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-grorong-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"오다 주웠다\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"saying\" : \"오늘도 화이팅!\",\n    \"message\" : \"역시 넌 나를 실망시키지 않아\",\n    \"mood\" : \"HAPPY\"\n  }\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2026-02-02\",\n        \"endDate\" : \"2026-02-08\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"AaM3P2Ds2aAQpHNEsZjRB\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2026-02-02\",\n        \"endDate\" : \"2026-02-08\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"PrVFOSKc2PAZsCwvHDgTM\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -398,7 +398,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"hmRha7s_24lPlRPhCcSbU\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"thlANvLO5tv8JrzD7ckgM\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -733,7 +733,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-todos-by-date" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"todo\" : {\n      \"id\" : \"todo-1\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : {\n        \"duration\" : {\n          \"startDate\" : \"2024-01-01\",\n          \"endDate\" : \"2024-01-07\"\n        },\n        \"repeatType\" : \"DAILY\",\n        \"repeatDays\" : null\n      }\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  }, {\n    \"todo\" : {\n      \"id\" : \"todo-2\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : null\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"todo\" : {\n      \"id\" : \"todo-1\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : {\n        \"duration\" : {\n          \"startDate\" : \"2024-01-01\",\n          \"endDate\" : \"2024-01-07\"\n        },\n        \"repeatType\" : \"WEEKLY\",\n        \"repeatDays\" : [ \"TUESDAY\", \"THURSDAY\" ]\n      }\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  }, {\n    \"todo\" : {\n      \"id\" : \"todo-2\",\n      \"goalId\" : \"goal-1\",\n      \"date\" : \"2024-01-01\",\n      \"content\" : \"테스트 할 일입니다.\",\n      \"isImportant\" : false,\n      \"isCompleted\" : false,\n      \"routine\" : null\n    },\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\"\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -754,7 +754,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "create-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2026-02-07\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-07\"\n    },\n    \"repeatType\" : \"DAILY\",\n    \"repeatDays\" : null\n  }\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2026-02-07\",\n  \"content\" : \"할 일 내용\",\n  \"isImportant\" : false,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2024-01-01\",\n      \"endDate\" : \"2024-01-31\"\n    },\n    \"repeatType\" : \"WEEKLY\",\n    \"repeatDays\" : [ \"MONDAY\", \"WEDNESDAY\", \"FRIDAY\" ]\n  }\n}"
                 }
               }
             }
@@ -876,7 +876,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "update-todo" : {
-                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2026-02-07\",\n  \"content\" : \"수정된 할 일 내용\",\n  \"isImportant\" : true,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2026-02-07\",\n      \"endDate\" : \"2026-02-14\"\n    },\n    \"repeatType\" : \"DAILY\",\n    \"repeatDays\" : null\n  },\n  \"routineUpdateType\" : \"ALL\"\n}"
+                  "value" : "{\n  \"goalId\" : \"goal-1\",\n  \"date\" : \"2026-02-07\",\n  \"content\" : \"수정된 할 일 내용\",\n  \"isImportant\" : true,\n  \"routine\" : {\n    \"duration\" : {\n      \"startDate\" : \"2026-02-07\",\n      \"endDate\" : \"2026-02-14\"\n    },\n    \"repeatType\" : \"BIWEEKLY\",\n    \"repeatDays\" : [ \"MONDAY\", \"FRIDAY\" ]\n  },\n  \"routineUpdateType\" : \"ALL\"\n}"
                 }
               }
             }
