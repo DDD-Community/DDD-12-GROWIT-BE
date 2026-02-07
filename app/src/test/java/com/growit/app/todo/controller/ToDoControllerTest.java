@@ -44,7 +44,9 @@ import com.growit.app.todo.domain.vo.RoutineUpdateType;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,9 +103,10 @@ class ToDoControllerTest {
             .duration(
                 RoutineDto.DurationDto.builder()
                     .startDate(LocalDate.of(2024, 1, 1))
-                    .endDate(LocalDate.of(2024, 1, 7))
+                    .endDate(LocalDate.of(2024, 1, 31))
                     .build())
-            .repeatType("DAILY")
+            .repeatType("WEEKLY")
+            .repeatDays(Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))
             .build();
 
     CreateToDoRequest request =
@@ -111,9 +114,9 @@ class ToDoControllerTest {
 
     Routine domainRoutine =
         Routine.of(
-            RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7)),
-            RepeatType.DAILY,
-            null);
+            RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31)),
+            RepeatType.WEEKLY,
+            Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY));
 
     CreateToDoCommand command =
         new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), false, domainRoutine);
@@ -201,10 +204,14 @@ class ToDoControllerTest {
             .endDate(LocalDate.now().plusDays(7))
             .build();
     RoutineDto routineDto =
-        RoutineDto.builder().duration(durationDto).repeatType("DAILY").repeatDays(null).build();
+        RoutineDto.builder()
+            .duration(durationDto)
+            .repeatType("BIWEEKLY")
+            .repeatDays(Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))
+            .build();
 
     RoutineDuration duration = RoutineDuration.of(LocalDate.now(), LocalDate.now().plusDays(7));
-    Routine routine = Routine.of(duration, RepeatType.DAILY, null);
+    Routine routine = Routine.of(duration, RepeatType.BIWEEKLY, Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY));
     UpdateToDoRequest request =
         new UpdateToDoRequest(
             "goal-1", LocalDate.now(), "수정된 할 일 내용", true, routineDto, RoutineUpdateType.ALL);
@@ -303,8 +310,8 @@ class ToDoControllerTest {
                     .startDate(LocalDate.of(2024, 1, 1))
                     .endDate(LocalDate.of(2024, 1, 7))
                     .build())
-            .repeatType("DAILY")
-            .repeatDays(null)
+            .repeatType("WEEKLY")
+            .repeatDays(Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY))
             .build();
 
     UpdateToDoRequest request =
@@ -466,8 +473,8 @@ class ToDoControllerTest {
                                         .startDate(LocalDate.of(2024, 1, 1))
                                         .endDate(LocalDate.of(2024, 1, 7))
                                         .build())
-                                .repeatType("DAILY")
-                                .repeatDays(null)
+                                .repeatType("WEEKLY")
+                                .repeatDays(Arrays.asList(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY))
                                 .build())
                         .build())
                 .goal(GoalDto.builder().id("goal-1").name("테스트 목표").build())
