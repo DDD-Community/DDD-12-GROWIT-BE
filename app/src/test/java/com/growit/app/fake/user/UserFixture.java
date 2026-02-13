@@ -46,11 +46,11 @@ public class UserFixture {
   }
 
   public static UpdateUserCommand defaultUpdateUserCommand(User user) {
-    return new UpdateUserCommand(user, "updatedName", null, "jobRoleId-1", CareerYear.JUNIOR);
+    return new UpdateUserCommand(user, "updatedName", null, "jobRoleId-1", CareerYear.JUNIOR, null);
   }
 
   public static UpdateUserRequest defaultUpdateUserRequest() {
-    return new UpdateUserRequest("updatedName", null, "jobRoleId-1", CareerYear.JUNIOR);
+    return new UpdateUserRequest("updatedName", null, "jobRoleId-1", CareerYear.JUNIOR, null);
   }
 
   public static SignUpRequest defaultSignUpRequest() {
@@ -132,6 +132,7 @@ class UserBuilder {
         .isDeleted(false)
         .isOnboarding(false)
         .oauthAccounts(new ArrayList<>())
+        .sajuInfo(null)
         .build();
   }
 }

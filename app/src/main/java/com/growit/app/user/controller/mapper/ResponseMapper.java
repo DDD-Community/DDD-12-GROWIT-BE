@@ -1,5 +1,6 @@
 package com.growit.app.user.controller.mapper;
 
+import com.growit.app.user.controller.dto.response.SajuInfoResponse;
 import com.growit.app.user.controller.dto.response.TokenResponse;
 import com.growit.app.user.controller.dto.response.UserResponse;
 import com.growit.app.user.domain.token.vo.Token;
@@ -17,6 +18,11 @@ public class ResponseMapper {
   }
 
   public UserResponse toUserResponse(UserDto userDto) {
+    SajuInfoResponse sajuInfoResponse = null;
+    if (userDto.user().getSajuInfo() != null) {
+      sajuInfoResponse = SajuInfoResponse.from(userDto.user().getSajuInfo());
+    }
+
     return UserResponse.builder()
         .id(userDto.user().getId())
         .name(userDto.user().getName())
@@ -24,6 +30,7 @@ public class ResponseMapper {
         .jobRole(userDto.jobRole())
         .email(userDto.user().getEmail().value())
         .careerYear(userDto.user().getCareerYear().name())
+        .sajuInfo(sajuInfoResponse)
         .build();
   }
 }
