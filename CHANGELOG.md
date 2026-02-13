@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.58.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.57.0...v1.58.0) (2026-02-13)
+
+
+### Features
+
+* 사용자 사주 정보 및 관련 데이터 구조 수정 ([#383](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/383)) ([0a5a19b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0a5a19b0a83921759c8d28d8f4d184545236d29c))
+* 사용자 사주 정보 추가 및 관련 데이터 구조 수정 ([#378](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/378)) ([c89886d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/c89886d5d8ce3c8e1fe2b8b72ba7fc5d18e75ac2))
+* 사용자 사주 정보 추가 및 관련 데이터 구조 수정 ([#378](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/378)) ([ee81904](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/ee81904c17f9fc3557a2d705ce34a8ed53e64b59))
+
 ## [1.57.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.56.0...v1.57.0) (2026-02-07)
 
 
