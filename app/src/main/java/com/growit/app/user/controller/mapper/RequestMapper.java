@@ -4,6 +4,7 @@ import com.growit.app.user.controller.dto.request.*;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.*;
 import com.growit.app.user.domain.user.vo.Email;
+import com.growit.app.user.domain.user.vo.SajuInfo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,11 +42,21 @@ public class RequestMapper {
   }
 
   public UpdateUserCommand toUpdateUserCommand(User user, UpdateUserRequest request) {
+    SajuInfo sajuInfo = null;
+    if (request.getSaju() != null) {
+      sajuInfo =
+          new SajuInfo(
+              request.getSaju().getGender(),
+              request.getSaju().getBirth(),
+              request.getSaju().getBirthHour());
+    }
+
     return new UpdateUserCommand(
         user,
         request.getName(),
         request.getLastName(),
         request.getJobRoleId(),
-        request.getCareerYear());
+        request.getCareerYear(),
+        sajuInfo);
   }
 }

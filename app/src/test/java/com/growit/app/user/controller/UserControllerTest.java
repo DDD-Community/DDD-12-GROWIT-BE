@@ -90,7 +90,8 @@ class UserControllerTest {
                 user.getName(),
                 user.getLastName(),
                 jobRole,
-                user.getCareerYear().name()));
+                user.getCareerYear().name(),
+                null));
 
     mockMvc
         .perform(get("/users/myprofile").header("Authorization", "Bearer mock-jwt-token"))
@@ -115,7 +116,24 @@ class UserControllerTest {
                             fieldWithPath("data.lastName").type(STRING).description("성").optional(),
                             fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
                             fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
-                            fieldWithPath("data.careerYear").type(STRING).description("경력 연차"))
+                            fieldWithPath("data.careerYear").type(STRING).description("경력 연차"),
+                            fieldWithPath("data.sajuInfo").description("사주정보").optional(),
+                            fieldWithPath("data.sajuInfo.gender")
+                                .type(STRING)
+                                .description("성별")
+                                .optional(),
+                            fieldWithPath("data.sajuInfo.birth")
+                                .type(STRING)
+                                .description("생년월일")
+                                .optional(),
+                            fieldWithPath("data.sajuInfo.birthHour")
+                                .type(STRING)
+                                .description("태어난 시간")
+                                .optional(),
+                            fieldWithPath("data.sajuInfo.birthHourDisplay")
+                                .type(STRING)
+                                .description("태어난 시간 표시")
+                                .optional())
                         .build())));
   }
 
@@ -147,7 +165,14 @@ class UserControllerTest {
                             fieldWithPath("name").type(STRING).description("이름"),
                             fieldWithPath("lastName").type(STRING).description("성").optional(),
                             fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear").type(STRING).description("경력 연차"))
+                            fieldWithPath("careerYear").type(STRING).description("경력 연차"),
+                            fieldWithPath("saju").description("사주정보").optional(),
+                            fieldWithPath("saju.gender").type(STRING).description("성별").optional(),
+                            fieldWithPath("saju.birth").type(STRING).description("생년월일").optional(),
+                            fieldWithPath("saju.birthHour")
+                                .type(STRING)
+                                .description("태어난 시간")
+                                .optional())
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
                         .build())));

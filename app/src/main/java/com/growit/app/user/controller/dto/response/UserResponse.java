@@ -17,4 +17,5 @@ public class UserResponse {
   private String lastName;
   private JobRole jobRole;
   private String careerYear;
+  private SajuInfoResponse sajuInfo;
 }

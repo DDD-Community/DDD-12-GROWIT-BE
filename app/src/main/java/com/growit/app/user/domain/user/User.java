@@ -37,6 +37,7 @@ public class User {
   private boolean isOnboarding;
   private ArrayList<OAuth> oauthAccounts;
   private Promotion promotion;
+  private SajuInfo sajuInfo;
 
   public static User from(SignUpCommand command) {
 
@@ -53,6 +54,7 @@ public class User {
         .oauthAccounts(
             command.oAuth() == null ? new ArrayList<>() : new ArrayList<>(List.of(command.oAuth())))
         .promotion(null)
+        .sajuInfo(null)
         .build();
   }
 
@@ -61,6 +63,9 @@ public class User {
     this.lastName = command.lastName();
     this.jobRoleId = command.jobRoleId();
     this.careerYear = command.careerYear();
+    if (command.sajuInfo() != null) {
+      this.sajuInfo = command.sajuInfo();
+    }
   }
 
   public boolean hasAnyOAuth() {
