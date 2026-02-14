@@ -122,22 +122,18 @@ class UserControllerTest {
                             fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
                             fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
                             fieldWithPath("data.careerYear").type(STRING).description("경력 연차"),
-                            fieldWithPath("data.sajuInfo").description("사주정보").optional(),
-                            fieldWithPath("data.sajuInfo.gender")
+                            fieldWithPath("data.saju").description("사주정보").optional(),
+                            fieldWithPath("data.saju.gender")
                                 .type(STRING)
                                 .description("성별")
                                 .optional(),
-                            fieldWithPath("data.sajuInfo.birth")
+                            fieldWithPath("data.saju.birth")
                                 .type(STRING)
                                 .description("생년월일")
                                 .optional(),
-                            fieldWithPath("data.sajuInfo.birthHour")
+                            fieldWithPath("data.saju.birthHour")
                                 .type(STRING)
                                 .description("태어난 시간")
-                                .optional(),
-                            fieldWithPath("data.sajuInfo.birthHourDisplay")
-                                .type(STRING)
-                                .description("태어난 시간 표시")
                                 .optional())
                         .build())));
   }
@@ -159,7 +155,6 @@ class UserControllerTest {
                     .gender(SajuInfo.Gender.MALE)
                     .birth(LocalDate.of(1990, 5, 15))
                     .birthHour(EarthlyBranchHour.JIN)
-                    .birthHourDisplay("진시 07:30 ~ 09:30")
                     .build()));
 
     mockMvc
@@ -187,20 +182,17 @@ class UserControllerTest {
                             fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
                             fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
                             fieldWithPath("data.careerYear").type(STRING).description("경력 연차"),
-                            fieldWithPath("data.sajuInfo").description("사주정보"),
-                            fieldWithPath("data.sajuInfo.gender")
+                            fieldWithPath("data.saju").description("사주정보"),
+                            fieldWithPath("data.saju.gender")
                                 .type(STRING)
                                 .description("성별 (MALE, FEMALE)"),
-                            fieldWithPath("data.sajuInfo.birth")
+                            fieldWithPath("data.saju.birth")
                                 .type(STRING)
                                 .description("생년월일 (YYYY-MM-DD)"),
-                            fieldWithPath("data.sajuInfo.birthHour")
+                            fieldWithPath("data.saju.birthHour")
                                 .type(STRING)
                                 .description(
-                                    "태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"),
-                            fieldWithPath("data.sajuInfo.birthHourDisplay")
-                                .type(STRING)
-                                .description("태어난 시간 표시 (한글명 + 시간대)"))
+                                    "태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"))
                         .build())));
   }
 

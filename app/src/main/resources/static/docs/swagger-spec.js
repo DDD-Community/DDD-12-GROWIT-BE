@@ -35,7 +35,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-chat-advice-status" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2026-02-14T14:44:16.823706\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 3,\n    \"conversations\" : [ {\n      \"userMessage\" : \"계기가 뭐야?\",\n      \"grorongResponse\" : \"그로롱 답변\",\n      \"timestamp\" : \"2026-02-14T15:25:50.573703\"\n    } ],\n    \"isGoalOnboardingCompleted\" : false\n  }\n}"
                   }
                 }
               }
@@ -72,7 +72,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "send-chat-advice" : {
-                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2026-02-14T14:44:16.194728\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"remainingCount\" : 2,\n    \"conversations\" : [ {\n      \"userMessage\" : \"목표 달성 힘드네\",\n      \"grorongResponse\" : \"전략적인 답변\",\n      \"timestamp\" : \"2026-02-14T15:25:50.013166\"\n    } ],\n    \"isGoalOnboardingCompleted\" : true\n  }\n}"
                   }
                 }
               }
@@ -327,7 +327,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospects-by-year" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2026-02-09\",\n        \"endDate\" : \"2026-02-15\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"vQl6_6lGxpccvjqep9gQi\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"goal\" : {\n      \"id\" : \"goal-1\",\n      \"name\" : \"테스트 목표\",\n      \"duration\" : {\n        \"startDate\" : \"2026-02-09\",\n        \"endDate\" : \"2026-02-15\"\n      }\n    },\n    \"goalRetrospect\" : {\n      \"id\" : \"Xgj0-49E-YXnnQRkagioM\",\n      \"isCompleted\" : true\n    }\n  } ]\n}"
                   }
                 }
               }
@@ -398,7 +398,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "get-goal-retrospect" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"KG2SjCt1RTsTd_RwmGe8A\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"btXeZLTSzxlDWA-MWL6Mm\",\n    \"goalId\" : \"goalId\",\n    \"todoCompletedRate\" : 25,\n    \"analysis\" : {\n      \"summary\" : \"GROWIT MVP 개발과 서비스 기획을 병행하며 4주 목표를 달성\",\n      \"advice\" : \"모든 활동이 한 가지 핵심 가치에 연결되도록 중심축을 명확히 해보라냥!\"\n    },\n    \"content\" : \"이번 달 나는 '나만의 의미 있는 일'을 찾기 위해 다양한 프로젝트와 리서치에 몰입했다...\"\n  }\n}"
                   }
                 }
               }
@@ -1014,14 +1014,14 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/users-myprofile-911377986"
+                  "$ref" : "#/components/schemas/users-myprofile690448998"
                 },
                 "examples" : {
                   "get-user-with-saju" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"user-1\",\n    \"email\" : \"user@example.com\",\n    \"name\" : \"testUser\",\n    \"lastName\" : null,\n    \"jobRole\" : {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    },\n    \"careerYear\" : \"JUNIOR\",\n    \"sajuInfo\" : {\n      \"gender\" : \"MALE\",\n      \"birth\" : \"1990-05-15\",\n      \"birthHour\" : \"JIN\",\n      \"birthHourDisplay\" : \"진시 07:30 ~ 09:30\"\n    }\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"user-1\",\n    \"email\" : \"user@example.com\",\n    \"name\" : \"testUser\",\n    \"lastName\" : null,\n    \"jobRole\" : {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    },\n    \"careerYear\" : \"JUNIOR\",\n    \"saju\" : {\n      \"gender\" : \"MALE\",\n      \"birth\" : \"1990-05-15\",\n      \"birthHour\" : \"JIN\"\n    }\n  }\n}"
                   },
                   "get-user" : {
-                    "value" : "{\n  \"data\" : {\n    \"id\" : \"user-1\",\n    \"email\" : \"user@example.com\",\n    \"name\" : \"testUser\",\n    \"lastName\" : null,\n    \"jobRole\" : {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    },\n    \"careerYear\" : \"JUNIOR\",\n    \"sajuInfo\" : null\n  }\n}"
+                    "value" : "{\n  \"data\" : {\n    \"id\" : \"user-1\",\n    \"email\" : \"user@example.com\",\n    \"name\" : \"testUser\",\n    \"lastName\" : null,\n    \"jobRole\" : {\n      \"id\" : \"dev\",\n      \"name\" : \"개발자\"\n    },\n    \"careerYear\" : \"JUNIOR\",\n    \"saju\" : null\n  }\n}"
                   }
                 }
               }
@@ -1280,6 +1280,67 @@ window.swaggerSpec={
           }
         }
       },
+      "users-myprofile690448998" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "careerYear" : {
+                "type" : "string",
+                "description" : "경력 연차"
+              },
+              "lastName" : {
+                "type" : "string",
+                "description" : "성"
+              },
+              "name" : {
+                "type" : "string",
+                "description" : "이름"
+              },
+              "jobRole" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string",
+                    "description" : "직무 이름"
+                  },
+                  "id" : {
+                    "type" : "string",
+                    "description" : "직무 ID"
+                  }
+                }
+              },
+              "id" : {
+                "type" : "string",
+                "description" : "사용자 ID"
+              },
+              "saju" : {
+                "type" : "object",
+                "properties" : {
+                  "birthHour" : {
+                    "type" : "string",
+                    "description" : "태어난 시간"
+                  },
+                  "gender" : {
+                    "type" : "string",
+                    "description" : "성별"
+                  },
+                  "birth" : {
+                    "type" : "string",
+                    "description" : "생년월일"
+                  }
+                },
+                "description" : "사주정보"
+              },
+              "email" : {
+                "type" : "string",
+                "description" : "이메일"
+              }
+            }
+          }
+        }
+      },
       "resource-saying2030450560" : {
         "type" : "object",
         "properties" : {
@@ -1506,71 +1567,6 @@ window.swaggerSpec={
           "refreshToken" : {
             "type" : "string",
             "description" : "리프레시 토큰"
-          }
-        }
-      },
-      "users-myprofile-911377986" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "careerYear" : {
-                "type" : "string",
-                "description" : "경력 연차"
-              },
-              "lastName" : {
-                "type" : "string",
-                "description" : "성"
-              },
-              "name" : {
-                "type" : "string",
-                "description" : "이름"
-              },
-              "jobRole" : {
-                "type" : "object",
-                "properties" : {
-                  "name" : {
-                    "type" : "string",
-                    "description" : "직무 이름"
-                  },
-                  "id" : {
-                    "type" : "string",
-                    "description" : "직무 ID"
-                  }
-                }
-              },
-              "id" : {
-                "type" : "string",
-                "description" : "사용자 ID"
-              },
-              "email" : {
-                "type" : "string",
-                "description" : "이메일"
-              },
-              "sajuInfo" : {
-                "type" : "object",
-                "properties" : {
-                  "birthHour" : {
-                    "type" : "string",
-                    "description" : "태어난 시간"
-                  },
-                  "gender" : {
-                    "type" : "string",
-                    "description" : "성별"
-                  },
-                  "birthHourDisplay" : {
-                    "type" : "string",
-                    "description" : "태어난 시간 표시"
-                  },
-                  "birth" : {
-                    "type" : "string",
-                    "description" : "생년월일"
-                  }
-                },
-                "description" : "사주정보"
-              }
-            }
           }
         }
       },

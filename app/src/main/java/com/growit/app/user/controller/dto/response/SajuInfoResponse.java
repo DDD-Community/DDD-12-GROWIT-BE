@@ -13,14 +13,12 @@ public class SajuInfoResponse {
   private SajuInfo.Gender gender;
   private LocalDate birth;
   private EarthlyBranchHour birthHour;
-  private String birthHourDisplay;
 
   public static SajuInfoResponse from(SajuInfo sajuInfo) {
     return SajuInfoResponse.builder()
         .gender(sajuInfo.gender())
         .birth(sajuInfo.birth())
         .birthHour(sajuInfo.birthHour())
-        .birthHourDisplay(sajuInfo.birthHour().toDisplayString())
         .build();
   }
 }

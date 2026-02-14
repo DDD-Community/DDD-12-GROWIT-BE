@@ -30,7 +30,7 @@ public class ResponseMapper {
         .jobRole(userDto.jobRole())
         .email(userDto.user().getEmail().value())
         .careerYear(userDto.user().getCareerYear().name())
-        .sajuInfo(sajuInfoResponse)
+        .saju(sajuInfoResponse)
         .build();
   }
 }
