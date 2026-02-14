@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.61.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.60.0...v1.61.0) (2026-02-14)
+
+
+### Features
+
+* 사주 정보 관련 요청 필드 및 응답 내용 업데이트 ([28165c1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/28165c16cbbd2cf548c2de73684c9723dda9f214))
+* 사주 정보 관련 요청 필드 및 응답 내용 업데이트 (#없음) ([5b7b56e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5b7b56eb617af64d4543fd3c2530b5474ca67fc9))
+
 ## [1.60.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.59.0...v1.60.0) (2026-02-14)
 
 
