@@ -157,7 +157,7 @@ class UserBuilder {
         .isDeleted(false)
         .isOnboarding(false)
         .oauthAccounts(new ArrayList<>())
-        .sajuInfo(null)
+        .saju(null)
         .build();
   }
 }

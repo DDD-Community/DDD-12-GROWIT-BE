@@ -89,11 +89,11 @@ public class UserEntity extends BaseEntity {
             });
 
     // 사주정보 업데이트
-    if (user.getSajuInfo() != null) {
+    if (user.getSaju() != null) {
       if (this.sajuInfo == null) {
-        this.sajuInfo = SajuInfoEntity.fromDomain(this, user.getSajuInfo());
+        this.sajuInfo = SajuInfoEntity.fromDomain(this, user.getSaju());
       } else {
-        this.sajuInfo.updateByDomain(user.getSajuInfo());
+        this.sajuInfo.updateByDomain(user.getSaju());
       }
     }
 
@@ -119,7 +119,7 @@ public class UserEntity extends BaseEntity {
         .isOnboarding(this.isOnboarding)
         .isDeleted(getDeletedAt() != null)
         .oauthAccounts(oauthList)
-        .sajuInfo(this.sajuInfo != null ? this.sajuInfo.toDomain() : null)
+        .saju(this.sajuInfo != null ? this.sajuInfo.toDomain() : null)
         .build();
   }
 }

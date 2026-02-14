@@ -19,8 +19,8 @@ public class ResponseMapper {
 
   public UserResponse toUserResponse(UserDto userDto) {
     SajuInfoResponse sajuInfoResponse = null;
-    if (userDto.user().getSajuInfo() != null) {
-      sajuInfoResponse = SajuInfoResponse.from(userDto.user().getSajuInfo());
+    if (userDto.user().getSaju() != null) {
+      sajuInfoResponse = SajuInfoResponse.from(userDto.user().getSaju());
     }
 
     return UserResponse.builder()
