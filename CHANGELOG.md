@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.60.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.59.0...v1.60.0) (2026-02-14)
+
+
+### Features
+
+* Update ToDoRequest에 routine 필드 및 관련 업데이트 타입 추가 (#없음) ([518742b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/518742b446de0079d18a2195472e0570a8857895))
+* 사용자 프로필 조회 및 업데이트에 사주 정보 포함 지원 (#issue번호없음) ([4f31512](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4f315125d0340186633931725a619862b7037f12))
+
 ## [1.59.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.58.0...v1.59.0) (2026-02-14)
 
 
