@@ -10,8 +10,8 @@ import com.growit.app.user.domain.user.dto.ReIssueCommand;
 import com.growit.app.user.domain.user.dto.SignInCommand;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
 import com.growit.app.user.domain.user.vo.CareerYear;
-import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.EarthlyBranchHour;
+import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.SajuInfo;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,44 +58,24 @@ public class UserFixture {
 
   public static UpdateUserRequest updateUserRequestWithSaju() {
     return new UpdateUserRequest(
-        "홍길동", 
-        null, 
-        "jobRoleId-1", 
-        CareerYear.JUNIOR, 
-        defaultSajuRequest()
-    );
+        "홍길동", null, "jobRoleId-1", CareerYear.JUNIOR, defaultSajuRequest());
   }
 
   public static SajuRequest defaultSajuRequest() {
-    return new SajuRequest(
-        SajuInfo.Gender.MALE,
-        LocalDate.of(1990, 5, 15),
-        EarthlyBranchHour.JIN
-    );
+    return new SajuRequest(SajuInfo.Gender.MALE, LocalDate.of(1990, 5, 15), EarthlyBranchHour.JIN);
   }
 
   public static SajuRequest femaleSajuRequest() {
     return new SajuRequest(
-        SajuInfo.Gender.FEMALE,
-        LocalDate.of(1985, 12, 25),
-        EarthlyBranchHour.YU
-    );
+        SajuInfo.Gender.FEMALE, LocalDate.of(1985, 12, 25), EarthlyBranchHour.YU);
   }
 
   public static SajuInfo defaultSajuInfo() {
-    return new SajuInfo(
-        SajuInfo.Gender.MALE,
-        LocalDate.of(1990, 5, 15),
-        EarthlyBranchHour.JIN
-    );
+    return new SajuInfo(SajuInfo.Gender.MALE, LocalDate.of(1990, 5, 15), EarthlyBranchHour.JIN);
   }
 
   public static SajuInfo femaleSajuInfo() {
-    return new SajuInfo(
-        SajuInfo.Gender.FEMALE,
-        LocalDate.of(1985, 12, 25),
-        EarthlyBranchHour.YU
-    );
+    return new SajuInfo(SajuInfo.Gender.FEMALE, LocalDate.of(1985, 12, 25), EarthlyBranchHour.YU);
   }
 
   public static SignUpRequest defaultSignUpRequest() {

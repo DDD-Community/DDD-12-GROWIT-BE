@@ -21,7 +21,6 @@ import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.resource.domain.jobrole.JobRole;
 import com.growit.app.user.controller.dto.request.RegisterPromotionRequest;
-import com.growit.app.user.controller.dto.request.SajuRequest;
 import com.growit.app.user.controller.dto.request.UpdateUserRequest;
 import com.growit.app.user.controller.dto.response.SajuInfoResponse;
 import com.growit.app.user.controller.dto.response.UserResponse;
@@ -29,12 +28,12 @@ import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.vo.EarthlyBranchHour;
 import com.growit.app.user.domain.user.vo.SajuInfo;
-import java.time.LocalDate;
 import com.growit.app.user.usecase.DeleteUserUseCase;
 import com.growit.app.user.usecase.GetUserUseCase;
 import com.growit.app.user.usecase.LogoutUseCase;
 import com.growit.app.user.usecase.RegisterPromotionUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
+import java.time.LocalDate;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -189,10 +188,19 @@ class UserControllerTest {
                             fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
                             fieldWithPath("data.careerYear").type(STRING).description("경력 연차"),
                             fieldWithPath("data.sajuInfo").description("사주정보"),
-                            fieldWithPath("data.sajuInfo.gender").type(STRING).description("성별 (MALE, FEMALE)"),
-                            fieldWithPath("data.sajuInfo.birth").type(STRING).description("생년월일 (YYYY-MM-DD)"),
-                            fieldWithPath("data.sajuInfo.birthHour").type(STRING).description("태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"),
-                            fieldWithPath("data.sajuInfo.birthHourDisplay").type(STRING).description("태어난 시간 표시 (한글명 + 시간대)"))
+                            fieldWithPath("data.sajuInfo.gender")
+                                .type(STRING)
+                                .description("성별 (MALE, FEMALE)"),
+                            fieldWithPath("data.sajuInfo.birth")
+                                .type(STRING)
+                                .description("생년월일 (YYYY-MM-DD)"),
+                            fieldWithPath("data.sajuInfo.birthHour")
+                                .type(STRING)
+                                .description(
+                                    "태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"),
+                            fieldWithPath("data.sajuInfo.birthHourDisplay")
+                                .type(STRING)
+                                .description("태어난 시간 표시 (한글명 + 시간대)"))
                         .build())));
   }
 
@@ -389,7 +397,8 @@ class UserControllerTest {
                     new ResourceSnippetParametersBuilder()
                         .tag("User")
                         .summary("사용자 정보 업데이트 (사주 정보 포함)")
-                        .description("사용자의 기본 정보와 사주 정보를 함께 업데이트합니다. 사주 정보에는 성별, 생년월일, 태어난 시간이 포함됩니다.")
+                        .description(
+                            "사용자의 기본 정보와 사주 정보를 함께 업데이트합니다. 사주 정보에는 성별, 생년월일, 태어난 시간이 포함됩니다.")
                         .requestHeaders(
                             headerWithName(HttpHeaders.AUTHORIZATION)
                                 .attributes(key("type").value("String"))
@@ -400,9 +409,16 @@ class UserControllerTest {
                             fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
                             fieldWithPath("careerYear").type(STRING).description("경력 연차"),
                             fieldWithPath("saju").description("사주정보"),
-                            fieldWithPath("saju.gender").type(STRING).description("성별 (MALE, FEMALE)"),
-                            fieldWithPath("saju.birth").type(STRING).description("생년월일 (YYYY-MM-DD 형식)"),
-                            fieldWithPath("saju.birthHour").type(STRING).description("태어난 시간 (JA: 자시, CHUK: 축시, IN: 인시, MYO: 묘시, JIN: 진시, SA: 사시, O: 오시, MI: 미시, SIN: 신시, YU: 유시, SUL: 술시, HAE: 해시)"))
+                            fieldWithPath("saju.gender")
+                                .type(STRING)
+                                .description("성별 (MALE, FEMALE)"),
+                            fieldWithPath("saju.birth")
+                                .type(STRING)
+                                .description("생년월일 (YYYY-MM-DD 형식)"),
+                            fieldWithPath("saju.birthHour")
+                                .type(STRING)
+                                .description(
+                                    "태어난 시간 (JA: 자시, CHUK: 축시, IN: 인시, MYO: 묘시, JIN: 진시, SA: 사시, O: 오시, MI: 미시, SIN: 신시, YU: 유시, SUL: 술시, HAE: 해시)"))
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
                         .build())));
