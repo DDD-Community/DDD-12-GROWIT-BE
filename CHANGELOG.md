@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.59.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.58.0...v1.59.0) (2026-02-14)
+
+
+### Features
+
+* saju_infos 테이블 생성 및 ID 컬럼 데이터 타입 수정 ([#383](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/383)) ([637ada1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/637ada1c9dc5da1b1859fa1ea78290f735018d80))
+
 ## [1.58.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.57.0...v1.58.0) (2026-02-13)
 
 
