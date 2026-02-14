@@ -26,6 +26,5 @@ public class UpdateToDoRequest {
   private Boolean important; // Use Boolean wrapper to allow null values
 
   private RoutineDto routine; // nullable
-
   private RoutineUpdateType routineUpdateType; // nullable
 }
