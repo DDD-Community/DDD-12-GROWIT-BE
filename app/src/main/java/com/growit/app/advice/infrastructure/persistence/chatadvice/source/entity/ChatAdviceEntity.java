@@ -1,5 +1,8 @@
 package com.growit.app.advice.infrastructure.persistence.chatadvice.source.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.growit.app.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -48,7 +51,7 @@ public class ChatAdviceEntity extends BaseEntity {
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static class ConversationData {
     private Integer week;
     private String goalId;
@@ -57,8 +60,7 @@ public class ChatAdviceEntity extends BaseEntity {
     private String adviceStyle;
     private LocalDateTime timestamp;
 
-    @com.fasterxml.jackson.annotation.JsonInclude(
-        com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isOnboarding = false;
 
     public ConversationData(
@@ -78,7 +80,7 @@ public class ChatAdviceEntity extends BaseEntity {
       this.isOnboarding = isOnboarding;
     }
 
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     public boolean isOnboarding() {
       return isOnboarding != null && isOnboarding;
     }

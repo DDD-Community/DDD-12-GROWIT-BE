@@ -3,6 +3,8 @@ package com.growit.app.advice.infrastructure.client;
 import com.growit.app.advice.domain.chatadvice.service.ChatAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -91,9 +93,8 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
         throw new IllegalStateException("Received null response from Morning Advice API");
       }
 
-      com.fasterxml.jackson.databind.ObjectMapper mapper =
-          new com.fasterxml.jackson.databind.ObjectMapper();
-      com.fasterxml.jackson.databind.JsonNode rootNode = mapper.readTree(rawResponse);
+      ObjectMapper mapper = new ObjectMapper();
+      JsonNode rootNode = mapper.readTree(rawResponse);
 
       String advice = null;
 
@@ -103,7 +104,7 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
       }
       // 2. Try finding 'data' -> 'advice' (NestJS Interceptor pattern)
       else if (rootNode.has("data")) {
-        com.fasterxml.jackson.databind.JsonNode dataNode = rootNode.get("data");
+        JsonNode dataNode = rootNode.get("data");
         if (dataNode.has("advice")) {
           advice = dataNode.get("advice").asText();
         }
