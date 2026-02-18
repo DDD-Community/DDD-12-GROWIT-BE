@@ -17,6 +17,9 @@ public class ChatAdviceRequest {
   private List<String> activeGoals;
   private String yesterdayConversation;
   private Integer week;
+  private String birthDate;
+  private String birthTime;
+  private String gender;
 
   @JsonProperty("isGoalOnboardingCompleted")
   private boolean isGoalOnboardingCompleted;

@@ -124,6 +124,18 @@ public class ChatAdviceService implements ChatAdviceValidator {
         .week(week)
         .recentTodos(data.getRecentTodos())
         .isGoalOnboardingCompleted(isOnboarding == null || !isOnboarding)
+        .birthDate(
+            user.getSaju() != null && user.getSaju().birth() != null
+                ? user.getSaju().birth().toString()
+                : null)
+        .birthTime(
+            user.getSaju() != null && user.getSaju().birthHour() != null
+                ? user.getSaju().birthHour().getLabel()
+                : null)
+        .gender(
+            user.getSaju() != null && user.getSaju().gender() != null
+                ? user.getSaju().gender().getLabel()
+                : null)
         .build();
   }
 
