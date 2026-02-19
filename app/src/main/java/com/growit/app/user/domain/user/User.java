@@ -68,6 +68,10 @@ public class User {
     }
   }
 
+  public void updateSaju(SajuInfo sajuInfo) {
+    this.saju = sajuInfo;
+  }
+
   public boolean hasAnyOAuth() {
     return oauthAccounts != null && !oauthAccounts.isEmpty();
   }

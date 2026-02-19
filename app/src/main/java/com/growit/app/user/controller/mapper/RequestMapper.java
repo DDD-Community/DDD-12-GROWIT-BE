@@ -48,7 +48,8 @@ public class RequestMapper {
           new SajuInfo(
               request.getSaju().getGender(),
               request.getSaju().getBirth(),
-              request.getSaju().getBirthHour());
+              request.getSaju().getBirthHour(),
+              null, null, null, null);
     }
 
     return new UpdateUserCommand(

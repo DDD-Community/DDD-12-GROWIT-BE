@@ -41,6 +41,19 @@ public class MorningAdviceProcessor implements ItemProcessor<UserEntity, ChatAdv
             user.getSaju() != null && user.getSaju().gender() != null
                 ? user.getSaju().gender().getLabel()
                 : null)
+        .manseRyok(
+            user.getSaju() != null
+                    && user.getSaju().ganjiYear() != null
+                    && user.getSaju().ganjiMonth() != null
+                    && user.getSaju().ganjiDay() != null
+                    && user.getSaju().ganjiHour() != null
+                ? ChatAdviceRequest.ManseRyok.builder()
+                    .year(user.getSaju().ganjiYear())
+                    .month(user.getSaju().ganjiMonth())
+                    .day(user.getSaju().ganjiDay())
+                    .hour(user.getSaju().ganjiHour())
+                    .build()
+                : null)
         .build();
   }
 }

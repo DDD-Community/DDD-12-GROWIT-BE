@@ -50,7 +50,7 @@ class ChatAdviceServiceSajuTest {
     given(clock.instant()).willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z"));
 
     LocalDate birthDate = LocalDate.of(1990, 1, 1);
-    SajuInfo sajuInfo = new SajuInfo(Gender.MALE, birthDate, EarthlyBranchHour.JA);
+    SajuInfo sajuInfo = new SajuInfo(Gender.MALE, birthDate, EarthlyBranchHour.JA, null, null, null, null);
     
     User user = User.builder()
         .id(USER_ID)

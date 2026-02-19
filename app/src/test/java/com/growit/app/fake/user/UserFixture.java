@@ -71,11 +71,13 @@ public class UserFixture {
   }
 
   public static SajuInfo defaultSajuInfo() {
-    return new SajuInfo(SajuInfo.Gender.MALE, LocalDate.of(1990, 5, 15), EarthlyBranchHour.JIN);
+    return new SajuInfo(
+        SajuInfo.Gender.MALE, LocalDate.of(1990, 5, 15), EarthlyBranchHour.JIN, null, null, null, null);
   }
 
   public static SajuInfo femaleSajuInfo() {
-    return new SajuInfo(SajuInfo.Gender.FEMALE, LocalDate.of(1985, 12, 25), EarthlyBranchHour.YU);
+    return new SajuInfo(
+        SajuInfo.Gender.FEMALE, LocalDate.of(1985, 12, 25), EarthlyBranchHour.YU, null, null, null, null);
   }
 
   public static SignUpRequest defaultSignUpRequest() {

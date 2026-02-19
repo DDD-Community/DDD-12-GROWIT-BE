@@ -30,6 +30,18 @@ public class SajuInfoEntity extends BaseEntity {
   @Column(name = "birth_hour", nullable = false)
   private EarthlyBranchHour birthHour;
 
+  @Column(name = "ganji_year")
+  private String ganjiYear;
+
+  @Column(name = "ganji_month")
+  private String ganjiMonth;
+
+  @Column(name = "ganji_day")
+  private String ganjiDay;
+
+  @Column(name = "ganji_hour")
+  private String ganjiHour;
+
   public static SajuInfoEntity fromDomain(UserEntity user, SajuInfo sajuInfo) {
     if (sajuInfo == null) {
       return null;
@@ -40,6 +52,10 @@ public class SajuInfoEntity extends BaseEntity {
         .gender(sajuInfo.gender())
         .birth(sajuInfo.birth())
         .birthHour(sajuInfo.birthHour())
+        .ganjiYear(sajuInfo.ganjiYear())
+        .ganjiMonth(sajuInfo.ganjiMonth())
+        .ganjiDay(sajuInfo.ganjiDay())
+        .ganjiHour(sajuInfo.ganjiHour())
         .build();
   }
 
@@ -48,7 +64,9 @@ public class SajuInfoEntity extends BaseEntity {
       return null;
     }
 
-    return new SajuInfo(this.gender, this.birth, this.birthHour);
+    return new SajuInfo(
+        this.gender, this.birth, this.birthHour,
+        this.ganjiYear, this.ganjiMonth, this.ganjiDay, this.ganjiHour);
   }
 
   public void updateByDomain(SajuInfo sajuInfo) {
@@ -56,6 +74,10 @@ public class SajuInfoEntity extends BaseEntity {
       this.gender = sajuInfo.gender();
       this.birth = sajuInfo.birth();
       this.birthHour = sajuInfo.birthHour();
+      this.ganjiYear = sajuInfo.ganjiYear();
+      this.ganjiMonth = sajuInfo.ganjiMonth();
+      this.ganjiDay = sajuInfo.ganjiDay();
+      this.ganjiHour = sajuInfo.ganjiHour();
     }
   }
 

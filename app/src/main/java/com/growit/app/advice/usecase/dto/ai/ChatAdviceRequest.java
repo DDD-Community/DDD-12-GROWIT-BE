@@ -28,4 +28,15 @@ public class ChatAdviceRequest {
   public boolean isGoalOnboardingCompleted() {
     return isGoalOnboardingCompleted;
   }
+
+  private ManseRyok manseRyok;
+
+  @Getter
+  @Builder
+  public static class ManseRyok {
+    private String year;
+    private String month;
+    private String day;
+    private String hour;
+  }
 }

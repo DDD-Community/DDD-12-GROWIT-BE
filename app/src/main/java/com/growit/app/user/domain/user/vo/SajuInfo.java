@@ -4,7 +4,14 @@ import jakarta.persistence.Embeddable;
 import java.time.LocalDate;
 
 @Embeddable
-public record SajuInfo(Gender gender, LocalDate birth, EarthlyBranchHour birthHour) {
+public record SajuInfo(
+    Gender gender,
+    LocalDate birth,
+    EarthlyBranchHour birthHour,
+    String ganjiYear,
+    String ganjiMonth,
+    String ganjiDay,
+    String ganjiHour) {
 
   public enum Gender {
     MALE("남성"),
