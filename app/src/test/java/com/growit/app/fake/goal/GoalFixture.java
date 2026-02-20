@@ -11,6 +11,7 @@ import com.growit.app.goal.domain.goal.dto.CreateGoalResult;
 import com.growit.app.goal.domain.goal.dto.UpdateGoalCommand;
 import com.growit.app.goal.domain.goal.planet.Planet;
 import com.growit.app.goal.domain.goal.vo.GoalDuration;
+import com.growit.app.goal.domain.goal.vo.GoalStatus;
 import com.growit.app.goal.usecase.dto.GoalWithAnalysisDto;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -89,6 +90,7 @@ class GoalBuilder {
   LocalDate thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
   LocalDate thisSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
+  private GoalStatus status = GoalStatus.PROGRESS;
   private GoalDuration duration = new GoalDuration(thisMonday, thisSunday);
   private String id = "goal-1";
   private String userId = "user-1";
@@ -116,7 +118,12 @@ class GoalBuilder {
     return this;
   }
 
+  public GoalBuilder status(GoalStatus status) {
+    this.status = status;
+    return this;
+  }
+
   public Goal build() {
-    return Goal.create(id, userId, name, planet, duration);
+    return Goal.create(id, userId, name, planet, duration, status);
   }
 }

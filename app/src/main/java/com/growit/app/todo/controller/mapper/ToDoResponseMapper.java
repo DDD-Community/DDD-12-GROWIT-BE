@@ -86,6 +86,7 @@ public class ToDoResponseMapper {
     return RoutineDto.builder()
         .duration(durationDto)
         .repeatType(routine.getRepeatType().name())
+        .repeatDays(routine.getRepeatDays())
         .build();
   }
 }

@@ -40,13 +40,12 @@ public class GoalEntity extends BaseEntity {
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private GoalStatus status = GoalStatus.PROGRESS;
+  private GoalStatus status;
 
   public Goal toDomain() {
     Planet domainPlanet = planet.toDomain();
     GoalDuration duration = new GoalDuration(startDate, endDate);
-    Goal goal = Goal.create(uid, userId, name, domainPlanet, duration);
+    Goal goal = Goal.create(uid, userId, name, domainPlanet, duration, status);
 
     // Status 설정
     if (status == GoalStatus.COMPLETED) {

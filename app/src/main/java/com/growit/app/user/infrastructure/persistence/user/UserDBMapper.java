@@ -67,6 +67,7 @@ public class UserDBMapper {
                     .map(userPromotion -> userPromotion.getPromotion().toDomain())
                     .orElse(null)
                 : null)
+        .saju(entity.getSajuInfo() != null ? entity.getSajuInfo().toDomain() : null)
         .build();
   }
 }

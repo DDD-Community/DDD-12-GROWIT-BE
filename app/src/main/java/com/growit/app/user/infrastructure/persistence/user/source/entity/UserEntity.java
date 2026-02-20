@@ -57,6 +57,9 @@ public class UserEntity extends BaseEntity {
       fetch = FetchType.EAGER)
   private Set<UserPromotionMapEntity> userPromotions;
 
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private SajuInfoEntity sajuInfo;
+
   public void updateByDomain(User user) {
     this.name = user.getName();
     this.jobRoleId = user.getJobRoleId();
@@ -85,6 +88,15 @@ public class UserEntity extends BaseEntity {
               }
             });
 
+    // 사주정보 업데이트
+    if (user.getSaju() != null) {
+      if (this.sajuInfo == null) {
+        this.sajuInfo = SajuInfoEntity.fromDomain(this, user.getSaju());
+      } else {
+        this.sajuInfo.updateByDomain(user.getSaju());
+      }
+    }
+
     if (user.isDeleted()) {
       this.oauthAccounts.clear();
       this.setDeletedAt(LocalDateTime.now());
@@ -107,6 +119,7 @@ public class UserEntity extends BaseEntity {
         .isOnboarding(this.isOnboarding)
         .isDeleted(getDeletedAt() != null)
         .oauthAccounts(oauthList)
+        .saju(this.sajuInfo != null ? this.sajuInfo.toDomain() : null)
         .build();
   }
 }

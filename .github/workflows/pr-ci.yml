@@ -26,6 +26,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          dependency-graph: generate-and-submit
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
@@ -35,10 +36,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Check spotless
-        run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache
+        run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache --refresh-dependencies
 
       - name: Run Tests
-        run: ./gradlew test --no-configuration-cache
+        run: ./gradlew test --no-configuration-cache --refresh-dependencies
 
 
   notify:

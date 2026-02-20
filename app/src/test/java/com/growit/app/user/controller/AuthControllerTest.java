@@ -90,6 +90,7 @@ class AuthControllerTest {
                             fieldWithPath("email").type(STRING).description("사용자 이메일"),
                             fieldWithPath("password").type(STRING).description("사용자 비밀번호"),
                             fieldWithPath("name").type(STRING).description("사용자 이름"),
+                            fieldWithPath("lastName").type(STRING).description("사용자 성").optional(),
                             fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
                             fieldWithPath("careerYear")
                                 .type(STRING)

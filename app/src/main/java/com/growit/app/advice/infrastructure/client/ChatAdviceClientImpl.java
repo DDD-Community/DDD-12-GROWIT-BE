@@ -3,6 +3,9 @@ package com.growit.app.advice.infrastructure.client;
 import com.growit.app.advice.domain.chatadvice.service.ChatAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
+import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest.ManseRyok;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +52,8 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
               request.getConcern(),
               request.getMode(),
               request.getRecentTodos(),
-              request.isGoalOnboardingCompleted());
+              request.isGoalOnboardingCompleted(),
+              request.getManseRyok());
 
       log.info("Chat Advice Server 실시간 조언 요청 - URL: {}, Payload: {}", fullUrl, realtimePayload);
       return webClient
@@ -74,7 +78,8 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
               request.getUserId(),
               request.getActiveGoals(),
               request.getRecentTodos(),
-              request.getYesterdayConversation());
+              request.getYesterdayConversation(),
+              request.getManseRyok());
 
       log.info("Chat Advice Server 아침 조언 요청 - URL: {}, Payload: {}", fullUrl, payload);
 
@@ -91,9 +96,8 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
         throw new IllegalStateException("Received null response from Morning Advice API");
       }
 
-      com.fasterxml.jackson.databind.ObjectMapper mapper =
-          new com.fasterxml.jackson.databind.ObjectMapper();
-      com.fasterxml.jackson.databind.JsonNode rootNode = mapper.readTree(rawResponse);
+      ObjectMapper mapper = new ObjectMapper();
+      JsonNode rootNode = mapper.readTree(rawResponse);
 
       String advice = null;
 
@@ -103,7 +107,7 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
       }
       // 2. Try finding 'data' -> 'advice' (NestJS Interceptor pattern)
       else if (rootNode.has("data")) {
-        com.fasterxml.jackson.databind.JsonNode dataNode = rootNode.get("data");
+        JsonNode dataNode = rootNode.get("data");
         if (dataNode.has("advice")) {
           advice = dataNode.get("advice").asText();
         }
@@ -139,12 +143,15 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
     }
   }
 
+
+
   // Inner DTOs for Morning Advice API
   record MorningAdviceRequestDto(
       String userId,
       List<String> goalTitles,
       List<String> recentTodos,
-      String previousConversations) {}
+      String previousConversations,
+      ManseRyok manseRyok) {}
 
   // Inner DTO for Realtime Advice API
   record RealtimeAdviceRequestDto(
@@ -154,5 +161,6 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
       String concern,
       String mode,
       List<String> recentTodos,
-      boolean isGoalOnboardingCompleted) {}
+      boolean isGoalOnboardingCompleted,
+      ManseRyok manseRyok) {}
 }

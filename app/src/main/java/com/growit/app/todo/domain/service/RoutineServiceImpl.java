@@ -52,6 +52,61 @@ public class RoutineServiceImpl implements RoutineService {
     return dates;
   }
 
+  private List<LocalDate> generateRoutineDatesWithDays(
+      LocalDate baseDate,
+      LocalDate startDate,
+      LocalDate endDate,
+      RepeatType repeatType,
+      Routine routine) {
+    List<LocalDate> dates = new ArrayList<>();
+
+    // 일간, 월간 반복이거나 repeatDays가 없으면 기존 로직 사용
+    if (repeatType == RepeatType.DAILY
+        || repeatType == RepeatType.MONTHLY
+        || routine.getRepeatDays() == null
+        || routine.getRepeatDays().isEmpty()) {
+      return generateRoutineDates(baseDate, startDate, endDate, repeatType);
+    }
+
+    // 주간/격주 반복에서 지정된 요일만 생성
+    LocalDate currentDate = startDate;
+
+    if (repeatType == RepeatType.WEEKLY) {
+      // 주간 반복: 매주 지정된 요일에 생성
+      while (!currentDate.isAfter(endDate)) {
+        if (routine.getRepeatDays().contains(currentDate.getDayOfWeek())) {
+          dates.add(currentDate);
+        }
+        currentDate = currentDate.plusDays(1);
+      }
+    } else if (repeatType == RepeatType.BIWEEKLY) {
+      // 격주 반복: 시작 주를 기준으로 격주마다 지정된 요일에 생성
+      LocalDate weekStart = startDate.minusDays(startDate.getDayOfWeek().getValue() - 1);
+      int weekCount = 0;
+
+      while (!currentDate.isAfter(endDate)) {
+        LocalDate currentWeekStart = weekStart.plusWeeks(weekCount);
+
+        // 격주 주인지 확인 (짝수 번째 주)
+        if (weekCount % 2 == 0) {
+          for (int dayOffset = 0; dayOffset < 7; dayOffset++) {
+            LocalDate checkDate = currentWeekStart.plusDays(dayOffset);
+            if (!checkDate.isBefore(startDate)
+                && !checkDate.isAfter(endDate)
+                && routine.getRepeatDays().contains(checkDate.getDayOfWeek())) {
+              dates.add(checkDate);
+            }
+          }
+        }
+
+        weekCount++;
+        currentDate = currentWeekStart.plusWeeks(1);
+      }
+    }
+
+    return dates;
+  }
+
   private LocalDate getNextMonthlyDateFromBase(
       LocalDate baseDate, LocalDate currentDate, LocalDate endDate) {
     int baseDayOfMonth = baseDate.getDayOfMonth();
@@ -187,10 +242,9 @@ public class RoutineServiceImpl implements RoutineService {
   }
 
   private ToDoResult updateSingleToDo(ToDo existingToDo, UpdateToDoCommand command) {
-    if (command.routine() != null && !command.routine().equals(existingToDo.getRoutine())) {
-      createNewRoutineFromDate(command, command.date());
-      removeRoutineFromToDo();
-    }
+    // 단일 투두 수정: 해당 투두만 내용 변경하고 반복 연결은 유지
+    existingToDo.updateContentOnly(command);
+    toDoRepository.saveToDo(existingToDo);
     return new ToDoResult(existingToDo.getId());
   }
 
@@ -205,8 +259,7 @@ public class RoutineServiceImpl implements RoutineService {
   }
 
   private ToDoResult updateAllRoutineToDos(ToDo existingToDo, UpdateToDoCommand command) {
-    deleteOtherRoutineToDos(
-        existingToDo.getRoutine().getId(), existingToDo.getId(), command.userId());
+    deleteAllRoutineToDos(existingToDo.getRoutine().getId(), command.userId());
 
     if (command.routine() != null && command.routine().isValid()) {
       CreateToDoCommand createCommand =
@@ -219,10 +272,17 @@ public class RoutineServiceImpl implements RoutineService {
               command.routine());
       return createRoutineToDos(createCommand);
     } else {
-      existingToDo.updateBy(command);
-      existingToDo.removeRoutine();
-      toDoRepository.saveToDo(existingToDo);
-      return new ToDoResult(existingToDo.getId());
+      CreateToDoCommand createCommand =
+          new CreateToDoCommand(
+              command.userId(),
+              command.goalId(),
+              command.content(),
+              command.date(),
+              command.isImportant(),
+              null);
+      ToDo newToDo = ToDo.from(createCommand);
+      toDoRepository.saveToDo(newToDo);
+      return new ToDoResult(newToDo.getId());
     }
   }
 
@@ -249,7 +309,8 @@ public class RoutineServiceImpl implements RoutineService {
       LocalDate endDate) {
 
     List<LocalDate> dates =
-        generateRoutineDates(baseDate, startDate, endDate, sharedRoutine.getRepeatType());
+        generateRoutineDatesWithDays(
+            baseDate, startDate, endDate, sharedRoutine.getRepeatType(), sharedRoutine);
 
     String firstToDoId = null;
     for (LocalDate date : dates) {
@@ -291,8 +352,9 @@ public class RoutineServiceImpl implements RoutineService {
     }
   }
 
-  private void removeRoutineFromToDo() {
-    // 루틴 정보 제거 로직 (도메인 메서드 필요)
+  private void removeRoutineFromToDo(ToDo toDo) {
+    toDo.removeRoutine();
+    toDoRepository.saveToDo(toDo);
   }
 
   @Override

@@ -4,7 +4,10 @@ initscript {
   val spotlessVersion = "6.25.0"
 
   repositories {
+    mavenLocal()
+    gradlePluginPortal()
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
   }
 
   dependencies {
