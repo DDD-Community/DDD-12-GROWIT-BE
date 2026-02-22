@@ -17,8 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.RequestCac
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
-import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
@@ -27,8 +26,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 public class SecurityConfig {
   private final JwtFilter jwtFilter;
   private final KakaoOAuth2UserService kakaoOAuth2UserService;
-  private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest>
-      accessTokenResponseClient;
+
   private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
   private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
   private final CustomOAuth2AuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
@@ -72,8 +70,6 @@ public class SecurityConfig {
                         authorization ->
                             authorization.authorizationRequestResolver(
                                 customOAuth2AuthorizationRequestResolver))
-                    .tokenEndpoint(
-                        token -> token.accessTokenResponseClient(accessTokenResponseClient))
                     .userInfoEndpoint(u -> u.userService(kakaoOAuth2UserService))
                     .successHandler(oAuth2LoginSuccessHandler)
                     .failureHandler(oAuth2LoginFailureHandler))
