@@ -1,5 +1,6 @@
 package com.growit.app.advice.controller.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.growit.app.advice.domain.chatadvice.vo.AdviceStyle;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,6 @@ public class SendChatAdviceRequest {
   @NotNull(message = "조언 스타일은 필수입니다.")
   private AdviceStyle adviceStyle;
 
-  @com.fasterxml.jackson.annotation.JsonProperty("isGoalOnboardingCompleted")
+  @JsonProperty("isGoalOnboardingCompleted")
   private Boolean isGoalOnboardingCompleted;
 }

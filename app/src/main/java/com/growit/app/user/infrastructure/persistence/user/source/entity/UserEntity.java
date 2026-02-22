@@ -82,9 +82,23 @@ public class UserEntity extends BaseEntity {
                         .user(this)
                         .provider(o.provider())
                         .providerId(o.providerId())
+                        .refreshToken(o.refreshToken())
                         .build();
 
                 this.oauthAccounts.add(newEntity);
+              } else {
+                this.oauthAccounts.stream()
+                    .filter(
+                        e ->
+                            e.getProvider().equals(o.provider())
+                                && e.getProviderId().equals(o.providerId()))
+                    .findFirst()
+                    .ifPresent(
+                        e -> {
+                          if (o.refreshToken() != null) {
+                            e.updateRefreshToken(o.refreshToken());
+                          }
+                        });
               }
             });
 
@@ -106,7 +120,8 @@ public class UserEntity extends BaseEntity {
   public User toDomain() {
     ArrayList<OAuth> oauthList = new ArrayList<>();
     if (this.oauthAccounts != null) {
-      this.oauthAccounts.forEach(o -> oauthList.add(new OAuth(o.getProvider(), o.getProviderId())));
+      this.oauthAccounts.forEach(
+          o -> oauthList.add(new OAuth(o.getProvider(), o.getProviderId(), o.getRefreshToken())));
     }
 
     return User.builder()

@@ -1,0 +1,5 @@
+ALTER TABLE saju_infos
+ADD COLUMN ganji_year VARCHAR(255),
+ADD COLUMN ganji_month VARCHAR(255),
+ADD COLUMN ganji_day VARCHAR(255),
+ADD COLUMN ganji_hour VARCHAR(255);

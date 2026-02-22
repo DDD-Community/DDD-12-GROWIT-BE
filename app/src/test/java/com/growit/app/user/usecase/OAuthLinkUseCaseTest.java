@@ -8,6 +8,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.OAuthCommand;
@@ -90,8 +91,8 @@ class OAuthLinkUseCaseTest {
   }
 
   @Test
-  @DisplayName("이미 OAuth 계정을 가진 사용자는 추가 연결하지 않고 반환한다")
-  void should_ReturnUserWithoutLinking_When_UserAlreadyHasOAuth() {
+  @DisplayName("이미 다른 OAuth 계정을 가진 사용자는 예외가 발생한다")
+  void should_ThrowException_When_UserAlreadyHasAnotherOAuth() {
     // given
     User userWithOAuth =
         User.builder()
@@ -110,17 +111,12 @@ class OAuthLinkUseCaseTest {
     given(userRepository.findByEmail(new Email(command.email())))
         .willReturn(Optional.of(userWithOAuth));
 
-    // when
-    Optional<User> result = oAuthLinkUseCase.execute(command);
+    // when & then
+    assertThatThrownBy(() -> oAuthLinkUseCase.execute(command))
+        .isInstanceOf(BadRequestException.class)
+        .hasMessage("이미 google 계정으로 가입된 이메일입니다.");
 
-    // then
-    assertThat(result).isPresent();
-    assertThat(result.get()).isEqualTo(userWithOAuth);
-    // OAuth 연결은 하지 않음 (이미 다른 OAuth 계정 보유)
-    assertThat(result.get().hasProvider(command.provider())).isFalse();
-    assertThat(result.get().hasProvider("google")).isTrue();
-
-    // 저장은 하지 않음 (OAuth 연결하지 않았으므로)
+    // 저장은 하지 않음
     then(userRepository).should(never()).saveUser(any(User.class));
   }
 

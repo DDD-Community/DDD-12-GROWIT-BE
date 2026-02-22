@@ -68,6 +68,10 @@ public class User {
     }
   }
 
+  public void updateSaju(SajuInfo sajuInfo) {
+    this.saju = sajuInfo;
+  }
+
   public boolean hasAnyOAuth() {
     return oauthAccounts != null && !oauthAccounts.isEmpty();
   }
@@ -77,14 +81,26 @@ public class User {
         && oauthAccounts.stream().anyMatch(o -> o.provider().equals(provider));
   }
 
-  public void linkOAuth(String provider, String providerId) {
+  public void linkOAuth(String provider, String providerId, String refreshToken) {
     if (hasProvider(provider)) {
       throw new BadRequestException("해당 provider가 이미 연결되어 있습니다.");
     }
     if (oauthAccounts == null) {
       oauthAccounts = new ArrayList<>();
     }
-    oauthAccounts.add(new OAuth(provider, providerId));
+    oauthAccounts.add(new OAuth(provider, providerId, refreshToken));
+  }
+
+  public void updateOAuthRefreshToken(String provider, String refreshToken) {
+    if (oauthAccounts == null) return;
+
+    for (int i = 0; i < oauthAccounts.size(); i++) {
+      OAuth oauth = oauthAccounts.get(i);
+      if (oauth.provider().equals(provider)) {
+        oauthAccounts.set(i, new OAuth(oauth.provider(), oauth.providerId(), refreshToken));
+        return;
+      }
+    }
   }
 
   public void deleted() {

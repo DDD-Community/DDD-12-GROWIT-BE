@@ -1,5 +1,6 @@
 package com.growit.app.user.usecase;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.OAuthCommand;
@@ -20,8 +21,16 @@ public class OAuthLinkUseCase {
     Optional<User> existingUser = userRepository.findByEmail(new Email(command.email()));
     if (existingUser.isPresent()) {
       User user = existingUser.get();
-      if (!existingUser.get().hasAnyOAuth()) {
-        user.linkOAuth(command.provider(), command.providerId());
+
+      if (!user.hasProvider(command.provider())) {
+        if (user.hasAnyOAuth()) {
+          String linkedProvider = user.getOauthAccounts().get(0).provider();
+          throw new BadRequestException("이미 " + linkedProvider + " 계정으로 가입된 이메일입니다.");
+        }
+        user.linkOAuth(command.provider(), command.providerId(), command.refreshToken());
+        userRepository.saveUser(user);
+      } else if (command.refreshToken() != null) {
+        user.updateOAuthRefreshToken(command.provider(), command.refreshToken());
         userRepository.saveUser(user);
       }
 

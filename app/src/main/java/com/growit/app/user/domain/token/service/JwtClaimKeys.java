@@ -14,6 +14,8 @@ public final class JwtClaimKeys {
   public static final String USER = "user";
   public static final String NICK_NAME = "nickName";
 
+  public static final String REFRESH_TOKEN = "refreshToken";
+
   private JwtClaimKeys() {
     // utility class
   }

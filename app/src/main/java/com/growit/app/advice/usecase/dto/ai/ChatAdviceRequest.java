@@ -17,6 +17,9 @@ public class ChatAdviceRequest {
   private List<String> activeGoals;
   private String yesterdayConversation;
   private Integer week;
+  private String birthDate;
+  private String birthTime;
+  private String gender;
 
   @JsonProperty("isGoalOnboardingCompleted")
   private boolean isGoalOnboardingCompleted;
@@ -24,5 +27,16 @@ public class ChatAdviceRequest {
   @JsonProperty("isGoalOnboardingCompleted")
   public boolean isGoalOnboardingCompleted() {
     return isGoalOnboardingCompleted;
+  }
+
+  private ManseRyok manseRyok;
+
+  @Getter
+  @Builder
+  public static class ManseRyok {
+    private String year;
+    private String month;
+    private String day;
+    private String hour;
   }
 }

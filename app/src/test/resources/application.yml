@@ -40,3 +40,9 @@ app:
   security:
     api-keys:
       - test-api-key
+  oauth:
+    apple:
+      team-id: test-team-id
+      client-id: test-client-id
+      key-id: test-key-id
+      private-key: test-private-key

@@ -28,6 +28,14 @@ public class RequestMapper {
         request.getRegistrationToken());
   }
 
+  public SignUpAppleCommand toSignUpAppleCommand(SignUpAppleRequest request) {
+    return new SignUpAppleCommand(
+        request.getRegistrationToken(),
+        request.getName(),
+        request.getJobRoleId(),
+        request.getCareerYear());
+  }
+
   public SignInCommand toSignInCommand(SignInRequest request) {
     return new SignInCommand(new Email(request.getEmail()), request.getPassword());
   }
@@ -48,7 +56,11 @@ public class RequestMapper {
           new SajuInfo(
               request.getSaju().getGender(),
               request.getSaju().getBirth(),
-              request.getSaju().getBirthHour());
+              request.getSaju().getBirthHour(),
+              null,
+              null,
+              null,
+              null);
     }
 
     return new UpdateUserCommand(

@@ -25,6 +25,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 public class SecurityConfig {
   private final JwtFilter jwtFilter;
   private final KakaoOAuth2UserService kakaoOAuth2UserService;
+
   private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
   private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
   private final CustomOAuth2AuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
