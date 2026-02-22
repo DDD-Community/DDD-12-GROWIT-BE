@@ -45,12 +45,14 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
     return claims;
   }
 
-  private Claims createRegistrationClaims(String provider, String providerId, String email) {
+  private Claims createRegistrationClaims(
+      String provider, String providerId, String email, String refreshToken) {
     final Claims claims = Jwts.claims();
     claims.put(JwtClaimKeys.TYPE, "registration");
     claims.put(JwtClaimKeys.PROVIDER, provider);
     claims.put(JwtClaimKeys.PROVIDER_ID, providerId);
     if (email != null) claims.put(JwtClaimKeys.EMAIL, email);
+    if (refreshToken != null) claims.put(JwtClaimKeys.REFRESH_TOKEN, refreshToken);
     claims.put(JwtClaimKeys.JTI, UUID.randomUUID().toString());
     return claims;
   }
@@ -133,7 +135,12 @@ public class TokenService implements TokenGenerator, UserTokenQuery, UserTokenSa
    * provider/providerId/email and a type="registration" claim.
    */
   public String createRegistrationToken(String provider, String providerId, String email) {
-    final Claims claims = createRegistrationClaims(provider, providerId, email);
+    return createRegistrationToken(provider, providerId, email, null);
+  }
+
+  public String createRegistrationToken(
+      String provider, String providerId, String email, String refreshToken) {
+    final Claims claims = createRegistrationClaims(provider, providerId, email, refreshToken);
     // 5 minutes TTL for registration token
     return createToken(claims, 300);
   }

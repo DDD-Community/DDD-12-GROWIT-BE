@@ -15,11 +15,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @ExtendWith(MockitoExtension.class)
 class SajuFortuneClientImplTest {
 
-  @InjectMocks
-  private SajuFortuneClientImpl sajuFortuneClientImpl;
+  @InjectMocks private SajuFortuneClientImpl sajuFortuneClientImpl;
 
-  @Mock
-  private WebClient webClient;
+  @Mock private WebClient webClient;
 
   @Test
   @DisplayName("생년월일/시간/성별이 ForceTellerRequest로 올바르게 변환된다")

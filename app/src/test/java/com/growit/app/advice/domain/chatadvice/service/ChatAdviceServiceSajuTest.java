@@ -16,11 +16,9 @@ import com.growit.app.user.domain.user.vo.SajuInfo;
 import com.growit.app.user.domain.user.vo.SajuInfo.Gender;
 import java.time.Clock;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,26 +48,26 @@ class ChatAdviceServiceSajuTest {
     given(clock.instant()).willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z"));
 
     LocalDate birthDate = LocalDate.of(1990, 1, 1);
-    SajuInfo sajuInfo = new SajuInfo(Gender.MALE, birthDate, EarthlyBranchHour.JA, null, null, null, null);
-    
-    User user = User.builder()
-        .id(USER_ID)
-        .saju(sajuInfo)
-        .build();
+    SajuInfo sajuInfo =
+        new SajuInfo(Gender.MALE, birthDate, EarthlyBranchHour.JA, null, null, null, null);
 
-    ChatAdvice chatAdvice = ChatAdvice.builder()
-        .userId(USER_ID)
-        .remainingCount(3)
-        .lastResetDate(LocalDate.now(clock))
-        .conversations(new ArrayList<>())
-        .build();
+    User user = User.builder().id(USER_ID).saju(sajuInfo).build();
 
-    ChatAdviceDataCollector.RealtimeAdviceData adviceData = ChatAdviceDataCollector.RealtimeAdviceData.builder()
-        .goalId("goal-1")
-        .selectedGoal("My Goal")
-        .userMessage("My Concern")
-        .recentTodos(List.of("Todo 1"))
-        .build();
+    ChatAdvice chatAdvice =
+        ChatAdvice.builder()
+            .userId(USER_ID)
+            .remainingCount(3)
+            .lastResetDate(LocalDate.now(clock))
+            .conversations(new ArrayList<>())
+            .build();
+
+    ChatAdviceDataCollector.RealtimeAdviceData adviceData =
+        ChatAdviceDataCollector.RealtimeAdviceData.builder()
+            .goalId("goal-1")
+            .selectedGoal("My Goal")
+            .userMessage("My Concern")
+            .recentTodos(List.of("Todo 1"))
+            .build();
     given(dataCollector.collectRealtimeData(any(), any(), any())).willReturn(adviceData);
 
     AiChatAdviceResponse.Data aiData = new AiChatAdviceResponse.Data();
@@ -79,13 +77,12 @@ class ChatAdviceServiceSajuTest {
     AiChatAdviceResponse aiResponse = new AiChatAdviceResponse();
     aiResponse.setData(aiData);
     aiResponse.setSuccess(true);
-    
+
     given(chatAdviceClient.getRealtimeAdvice(any())).willReturn(aiResponse);
 
     // when
     chatAdviceService.addAdviceConversation(
-        chatAdvice, user, 1, "goal-1", "My verification message", AdviceStyle.SAJU, true
-    );
+        chatAdvice, user, 1, "goal-1", "My verification message", AdviceStyle.SAJU, true);
 
     // then
     ArgumentCaptor<ChatAdviceRequest> captor = ArgumentCaptor.forClass(ChatAdviceRequest.class);

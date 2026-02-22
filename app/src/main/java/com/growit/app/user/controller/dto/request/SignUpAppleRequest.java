@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpKaKaoRequest {
+public class SignUpAppleRequest {
+  @NotBlank(message = "{validation.signup.registration-token.required}")
+  private String registrationToken;
+
   @NotBlank(message = "{validation.user.name.required}")
   @Size(min = 2, message = "{validation.user.name.size}")
   private String name;
@@ -26,6 +29,4 @@ public class SignUpKaKaoRequest {
   @Valid
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
-
-  @NotNull private String registrationToken;
 }

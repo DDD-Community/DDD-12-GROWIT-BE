@@ -26,4 +26,11 @@ public class OAuthAccountEntity extends BaseEntity {
 
   @Column(name = "provider_id", nullable = false)
   private String providerId;
+
+  @Column(name = "refresh_token")
+  private String refreshToken;
+
+  public void updateRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
 }

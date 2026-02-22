@@ -13,6 +13,7 @@ import com.growit.app.user.usecase.DeleteUserUseCase;
 import com.growit.app.user.usecase.GetUserUseCase;
 import com.growit.app.user.usecase.LogoutUseCase;
 import com.growit.app.user.usecase.RegisterPromotionUseCase;
+import com.growit.app.user.usecase.RevokeAppleAccountUseCase;
 import com.growit.app.user.usecase.UpdateUserUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class UserController {
   private final UpdateUserUseCase updateUserUseCase;
   private final LogoutUseCase logoutUseCase;
   private final DeleteUserUseCase deleteUseCase;
+  private final RevokeAppleAccountUseCase revokeAppleAccountUseCase;
   private final RegisterPromotionUseCase registerPromotionUseCase;
   private final RequestMapper requestMapper;
   private final ResponseMapper responseMapper;
@@ -57,6 +59,12 @@ public class UserController {
   public ResponseEntity<ApiResponse<String>> deleteUser(@AuthenticationPrincipal User user) {
     deleteUseCase.execute(user);
     return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.delete")));
+  }
+
+  @PostMapping("/myprofile/apple/revoke")
+  public ResponseEntity<ApiResponse<String>> revokeApple(@AuthenticationPrincipal User user) {
+    revokeAppleAccountUseCase.execute(user.getId());
+    return ResponseEntity.ok(ApiResponse.success(messageService.msg("success.user.apple.revoke")));
   }
 
   @GetMapping("/myprofile/onboarding")

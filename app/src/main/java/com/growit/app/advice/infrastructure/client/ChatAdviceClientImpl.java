@@ -1,11 +1,11 @@
 package com.growit.app.advice.infrastructure.client;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.advice.domain.chatadvice.service.ChatAdviceClient;
 import com.growit.app.advice.usecase.dto.ai.AiChatAdviceResponse;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest;
 import com.growit.app.advice.usecase.dto.ai.ChatAdviceRequest.ManseRyok;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -142,8 +142,6 @@ public class ChatAdviceClientImpl implements ChatAdviceClient {
       throw new RuntimeException("Failed to get morning advice", e);
     }
   }
-
-
 
   // Inner DTOs for Morning Advice API
   record MorningAdviceRequestDto(

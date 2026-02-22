@@ -65,8 +65,13 @@ public class SajuInfoEntity extends BaseEntity {
     }
 
     return new SajuInfo(
-        this.gender, this.birth, this.birthHour,
-        this.ganjiYear, this.ganjiMonth, this.ganjiDay, this.ganjiHour);
+        this.gender,
+        this.birth,
+        this.birthHour,
+        this.ganjiYear,
+        this.ganjiMonth,
+        this.ganjiDay,
+        this.ganjiHour);
   }
 
   public void updateByDomain(SajuInfo sajuInfo) {
