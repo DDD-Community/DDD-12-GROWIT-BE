@@ -35,6 +35,7 @@ public class UserDBMapper {
                         .user(userEntity)
                         .provider(oauth.provider())
                         .providerId(oauth.providerId())
+                        .refreshToken(oauth.refreshToken())
                         .build())
             .collect(Collectors.toSet());
 
@@ -58,7 +59,10 @@ public class UserDBMapper {
                 entity.getOauthAccounts().stream()
                     .map(
                         oauthEntity ->
-                            new OAuth(oauthEntity.getProvider(), oauthEntity.getProviderId()))
+                            new OAuth(
+                                oauthEntity.getProvider(),
+                                oauthEntity.getProviderId(),
+                                oauthEntity.getRefreshToken()))
                     .toList()))
         .promotion(
             entity.getUserPromotions() != null && !entity.getUserPromotions().isEmpty()

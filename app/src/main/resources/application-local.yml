@@ -44,12 +44,24 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
             scope: [ profile_nickname, account_email ]   # 콘솔 동의항목과 일치
+          apple:
+            client-id:  com.growitddd.growit-app
+            client-secret: "ES256-JWT"
+            client-name: Apple
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/apple"
+            scope: [ name, email ]
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+          apple:
+            authorization-uri: https://appleid.apple.com/auth/authorize
+            token-uri: https://appleid.apple.com/auth/token
+            jwk-set-uri: https://appleid.apple.com/auth/keys
 
 jwt:
   expired-second: 3600
@@ -63,6 +75,12 @@ management:
         include: health,info,metrics,caches
 
 app:
+  oauth:
+    apple:
+      team-id: ${APPLE_TEAM_ID:}
+      client-id: ${APPLE_CLIENT_ID:}
+      key-id: ${APPLE_KEY_ID:}
+      private-key: ${APPLE_PRIVATE_KEY:}
   security:
     api-keys:
       - ${GOAL_API_KEY_PRIMARY:}
