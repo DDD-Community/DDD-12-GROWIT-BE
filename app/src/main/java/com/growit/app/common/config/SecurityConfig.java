@@ -1,8 +1,8 @@
 package com.growit.app.common.config;
 
 import com.growit.app.common.config.jwt.JwtFilter;
-import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
 import com.growit.app.common.config.oauth.CustomOAuth2AuthorizationRequestResolver;
+import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
 import com.growit.app.common.config.oauth.OAuth2LoginFailureHandler;
 import com.growit.app.common.config.oauth.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configurers.RequestCac
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 

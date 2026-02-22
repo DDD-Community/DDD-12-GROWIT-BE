@@ -25,8 +25,7 @@ public class OAuthLinkUseCase {
       if (!user.hasProvider(command.provider())) {
         if (user.hasAnyOAuth()) {
           String linkedProvider = user.getOauthAccounts().get(0).provider();
-          throw new BadRequestException(
-              "이미 " + linkedProvider + " 계정으로 가입된 이메일입니다.");
+          throw new BadRequestException("이미 " + linkedProvider + " 계정으로 가입된 이메일입니다.");
         }
         user.linkOAuth(command.provider(), command.providerId(), command.refreshToken());
         userRepository.saveUser(user);
