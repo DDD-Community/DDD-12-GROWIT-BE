@@ -16,9 +16,7 @@ public class UserResponse {
   private String lastName;
   private SajuInfoResponse saju;
 
-  @Deprecated
-  private String jobRoleId;
+  @Deprecated private String jobRoleId;
 
-  @Deprecated
-  private String careerYear;
+  @Deprecated private String careerYear;
 }

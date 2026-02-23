@@ -7,11 +7,7 @@ import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.OAuth;
 
 public record SignUpCommand(
-    Email email,
-    String password,
-    String name,
-    String lastName,
-    OAuth oAuth) {
+    Email email, String password, String name, String lastName, OAuth oAuth) {
   public SignUpCommand encodePassword(String password) {
     return new SignUpCommand(email, password, name, lastName, oAuth);
   }

@@ -35,11 +35,9 @@ public class User {
   private Promotion promotion;
   private SajuInfo saju;
 
-  @Deprecated
-  private String jobRoleId;
+  @Deprecated private String jobRoleId;
 
-  @Deprecated
-  private String careerYear;
+  @Deprecated private String careerYear;
 
   public static User from(SignUpCommand command) {
 

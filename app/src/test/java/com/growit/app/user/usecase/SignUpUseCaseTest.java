@@ -2,7 +2,6 @@ package com.growit.app.user.usecase;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import com.growit.app.user.domain.user.User;
@@ -32,12 +31,7 @@ class SignUpUseCaseTest {
   void givenValidSignUpCommand_whenExecute_thenSaveUser() {
     // given
     SignUpCommand signUpCommand =
-        new SignUpCommand(
-            new Email("test@example.com"),
-            "password123",
-            "홍길동",
-            null,
-            null);
+        new SignUpCommand(new Email("test@example.com"), "password123", "홍길동", null, null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     when(passwordEncoder.encode("password123")).thenReturn("encodedPassword");
@@ -58,17 +52,11 @@ class SignUpUseCaseTest {
     assertEquals("홍길동", savedUser.getName());
   }
 
-
   @Test
   void givenExistingEmail_whenExecute_thenThrowException() {
     // given
     SignUpCommand signUpCommand =
-        new SignUpCommand(
-            new Email("existing@example.com"),
-            "password123",
-            "홍길동",
-            null,
-            null);
+        new SignUpCommand(new Email("existing@example.com"), "password123", "홍길동", null, null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     doThrow(new RuntimeException("Email already exists"))
@@ -88,12 +76,7 @@ class SignUpUseCaseTest {
   void givenInvalidConsent_whenExecute_thenThrowException() {
     // given
     SignUpCommand signUpCommand =
-        new SignUpCommand(
-            new Email("test@example.com"),
-            "password123",
-            "홍긘동",
-            null,
-            null);
+        new SignUpCommand(new Email("test@example.com"), "password123", "홍긘동", null, null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     doThrow(new RuntimeException("Required consent not provided"))

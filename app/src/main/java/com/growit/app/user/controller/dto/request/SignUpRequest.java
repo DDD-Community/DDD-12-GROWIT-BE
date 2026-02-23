@@ -26,9 +26,7 @@ public class SignUpRequest {
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
 
-  @Deprecated
-  private String jobRoleId;
+  @Deprecated private String jobRoleId;
 
-  @Deprecated
-  private String careerYear;
+  @Deprecated private String careerYear;
 }

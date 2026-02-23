@@ -24,9 +24,7 @@ public class SignUpKaKaoRequest {
 
   @NotNull private String registrationToken;
 
-  @Deprecated
-  private String jobRoleId;
+  @Deprecated private String jobRoleId;
 
-  @Deprecated
-  private String careerYear;
+  @Deprecated private String careerYear;
 }

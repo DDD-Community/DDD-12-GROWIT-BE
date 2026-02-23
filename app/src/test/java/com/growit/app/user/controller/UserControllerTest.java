@@ -130,8 +130,14 @@ class UserControllerTest {
                                 .type(STRING)
                                 .description("태어난 시간")
                                 .optional(),
-                            fieldWithPath("data.careerYear").type(STRING).description("연차 (Deprecated)").optional(),
-                            fieldWithPath("data.jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
+                            fieldWithPath("data.careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("data.jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .build())));
   }
 
@@ -186,8 +192,14 @@ class UserControllerTest {
                                 .type(STRING)
                                 .description(
                                     "태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"),
-                            fieldWithPath("data.careerYear").type(STRING).description("연차 (Deprecated)").optional(),
-                            fieldWithPath("data.jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
+                            fieldWithPath("data.careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("data.jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .build())));
   }
 
@@ -225,8 +237,14 @@ class UserControllerTest {
                                 .type(STRING)
                                 .description("태어난 시간")
                                 .optional(),
-                            fieldWithPath("careerYear").type(STRING).description("연차 (Deprecated)").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
                         .build())));
@@ -404,8 +422,14 @@ class UserControllerTest {
                                 .type(STRING)
                                 .description(
                                     "태어난 시간 (JA: 자시, CHUK: 축시, IN: 인시, MYO: 묘시, JIN: 진시, SA: 사시, O: 오시, MI: 미시, SIN: 신시, YU: 유시, SUL: 술시, HAE: 해시)"),
-                            fieldWithPath("careerYear").type(STRING).description("연차 (Deprecated)").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
                         .build())));
