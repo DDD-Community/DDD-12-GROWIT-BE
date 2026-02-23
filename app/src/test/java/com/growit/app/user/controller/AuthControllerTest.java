@@ -97,8 +97,14 @@ class AuthControllerTest {
                             fieldWithPath("requiredConsent.serviceTermsAgreed")
                                 .type(BOOLEAN)
                                 .description("서비스 약관 동의"),
-                            fieldWithPath("careerYear").type(STRING).description("연차 (Deprecated)").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .build())));
   }
 
@@ -189,8 +195,14 @@ class AuthControllerTest {
                             fieldWithPath("registrationToken")
                                 .type(STRING)
                                 .description("카카오 등록 토큰"),
-                            fieldWithPath("careerYear").type(STRING).description("연차 (Deprecated)").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .build())));
   }
 }

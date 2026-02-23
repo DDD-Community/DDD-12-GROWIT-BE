@@ -39,12 +39,7 @@ public class SignUpAppleUseCase {
 
     // 3) 최종 SignUpCommand 조립 (소셜 가입은 비밀번호가 없으므로 null로 처리)
     SignUpCommand command =
-        new SignUpCommand(
-            new Email(emailFromToken),
-            null,
-            signUpCommand.name(),
-            null,
-            oAuth);
+        new SignUpCommand(new Email(emailFromToken), null, signUpCommand.name(), null, oAuth);
 
     userValidator.checkEmailExists(command.email());
     User user = User.from(command);

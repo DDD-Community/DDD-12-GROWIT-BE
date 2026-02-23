@@ -1,10 +1,8 @@
 package com.growit.app.user.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
@@ -17,8 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateUserUseCaseTest {
-
-
 
   @Mock private UserRepository userRepository;
 
@@ -36,6 +32,4 @@ class UpdateUserUseCaseTest {
     verify(userRepository).saveUser(user);
     assertThat(user.getName()).isEqualTo(command.name());
   }
-
-
 }

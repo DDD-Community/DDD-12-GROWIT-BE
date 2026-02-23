@@ -11,7 +11,6 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpKaKaoCommand;
-
 import com.growit.app.user.domain.user.service.UserValidator;
 import com.growit.app.user.domain.user.vo.Email;
 import io.jsonwebtoken.Claims;
@@ -34,8 +33,7 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenValidKakaoSignUpCommand_whenExecute_thenSaveUser() {
     // given
-    SignUpKaKaoCommand signUpCommand =
-        new SignUpKaKaoCommand("홍길동", "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand("홍길동", "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     Claims claims = mock(Claims.class);
@@ -67,8 +65,7 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenInvalidRegistrationToken_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand =
-        new SignUpKaKaoCommand("홍길동", "invalid-token");
+    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand("홍길동", "invalid-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     when(tokenService.parseClaims("invalid-token"))
@@ -87,8 +84,7 @@ class SignUpKaKaoUseCaseTest {
   @Test
   void givenExistingEmail_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand =
-        new SignUpKaKaoCommand("홍길동", "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand("홍길동", "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     Claims claims = mock(Claims.class);
@@ -112,12 +108,10 @@ class SignUpKaKaoUseCaseTest {
     verify(userRepository, never()).saveUser(any());
   }
 
-
   @Test
   void givenInvalidConsent_whenExecute_thenThrowException() {
     // given
-    SignUpKaKaoCommand signUpCommand =
-        new SignUpKaKaoCommand("홍길동", "dummy-registration-token");
+    SignUpKaKaoCommand signUpCommand = new SignUpKaKaoCommand("홍길동", "dummy-registration-token");
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
     doThrow(new RuntimeException("Required consent not provided"))

@@ -19,15 +19,11 @@ public class RequestMapper {
   }
 
   public SignUpKaKaoCommand toSignUpKaKaoCommand(SignUpKaKaoRequest request) {
-    return new SignUpKaKaoCommand(
-        request.getName(),
-        request.getRegistrationToken());
+    return new SignUpKaKaoCommand(request.getName(), request.getRegistrationToken());
   }
 
   public SignUpAppleCommand toSignUpAppleCommand(SignUpAppleRequest request) {
-    return new SignUpAppleCommand(
-        request.getRegistrationToken(),
-        request.getName());
+    return new SignUpAppleCommand(request.getRegistrationToken(), request.getName());
   }
 
   public SignInCommand toSignInCommand(SignInRequest request) {
@@ -56,10 +52,6 @@ public class RequestMapper {
               null,
               null);
     }
-    return new UpdateUserCommand(
-        user,
-        request.getName(),
-        request.getLastName(),
-        sajuInfo);
+    return new UpdateUserCommand(user, request.getName(), request.getLastName(), sajuInfo);
   }
 }

@@ -112,11 +112,7 @@ public class UserFixture {
 
   public static SignUpKaKaoRequest defaultSignUpKaKaoRequest() {
     return new SignUpKaKaoRequest(
-        "홍길동",
-        new RequiredConsentRequest(true, true),
-        "dummy-registration-token",
-        null,
-        null);
+        "홍길동", new RequiredConsentRequest(true, true), "dummy-registration-token", null, null);
   }
 }
 
