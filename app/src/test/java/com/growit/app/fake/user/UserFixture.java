@@ -9,9 +9,9 @@ import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.dto.ReIssueCommand;
 import com.growit.app.user.domain.user.dto.SignInCommand;
 import com.growit.app.user.domain.user.dto.UpdateUserCommand;
-import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.EarthlyBranchHour;
 import com.growit.app.user.domain.user.vo.Email;
+import com.growit.app.user.domain.user.vo.RequiredConsent;
 import com.growit.app.user.domain.user.vo.SajuInfo;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,16 +49,15 @@ public class UserFixture {
   }
 
   public static UpdateUserCommand defaultUpdateUserCommand(User user) {
-    return new UpdateUserCommand(user, "updatedName", null, "jobRoleId-1", CareerYear.JUNIOR, null);
+    return new UpdateUserCommand(user, "updatedName", null, null);
   }
 
   public static UpdateUserRequest defaultUpdateUserRequest() {
-    return new UpdateUserRequest("updatedName", null, "jobRoleId-1", CareerYear.JUNIOR, null);
+    return new UpdateUserRequest("updatedName", null, null, null, null);
   }
 
-  public static UpdateUserRequest updateUserRequestWithSaju() {
-    return new UpdateUserRequest(
-        "홍길동", null, "jobRoleId-1", CareerYear.JUNIOR, defaultSajuRequest());
+  public static UpdateUserRequest defaultUpdateUserSajuRequest() {
+    return new UpdateUserRequest("홍길동", null, defaultSajuRequest(), null, null);
   }
 
   public static SajuRequest defaultSajuRequest() {
@@ -98,9 +97,9 @@ public class UserFixture {
         "securePass123",
         "홍길동",
         null,
-        "6rOg7Zmp7IOd",
-        CareerYear.JUNIOR,
-        new RequiredConsentRequest(true, true));
+        new RequiredConsentRequest(true, true),
+        null,
+        null);
   }
 
   public static SignInRequest defaultSignInRequest() {
@@ -113,11 +112,7 @@ public class UserFixture {
 
   public static SignUpKaKaoRequest defaultSignUpKaKaoRequest() {
     return new SignUpKaKaoRequest(
-        "홍길동",
-        "6rOg7Zmp7IOd",
-        CareerYear.JUNIOR,
-        new RequiredConsentRequest(true, true),
-        "dummy-registration-token");
+        "홍길동", new RequiredConsentRequest(true, true), "dummy-registration-token", null, null);
   }
 }
 
@@ -126,8 +121,7 @@ class UserBuilder {
   private String email = "user@example.com";
   private String password = "encodedPassword";
   private String name = "testUser";
-  private String jobRoleId = "jobRoleId123";
-  private CareerYear careerYear = CareerYear.JUNIOR;
+  private RequiredConsent requiredConsent = new RequiredConsent(true, true);
 
   public UserBuilder withId(String id) {
     this.id = id;
@@ -149,13 +143,8 @@ class UserBuilder {
     return this;
   }
 
-  public UserBuilder withJobRoleId(String jobRoleId) {
-    this.jobRoleId = jobRoleId;
-    return this;
-  }
-
-  public UserBuilder withCareerYear(CareerYear careerYear) {
-    this.careerYear = careerYear;
+  public UserBuilder withRequiredConsent(RequiredConsent requiredConsent) {
+    this.requiredConsent = requiredConsent;
     return this;
   }
 
@@ -166,8 +155,7 @@ class UserBuilder {
         .password(password)
         .name(name)
         .lastName(null)
-        .jobRoleId(jobRoleId)
-        .careerYear(careerYear)
+        .requiredConsent(requiredConsent)
         .isDeleted(false)
         .isOnboarding(false)
         .oauthAccounts(new ArrayList<>())

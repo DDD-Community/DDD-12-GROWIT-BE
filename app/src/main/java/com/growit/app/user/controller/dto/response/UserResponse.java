@@ -1,6 +1,5 @@
 package com.growit.app.user.controller.dto.response;
 
-import com.growit.app.resource.domain.jobrole.JobRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,9 @@ public class UserResponse {
   private String email;
   private String name;
   private String lastName;
-  private JobRole jobRole;
-  private String careerYear;
   private SajuInfoResponse saju;
+
+  @Deprecated private String jobRoleId;
+
+  @Deprecated private String careerYear;
 }

@@ -1,6 +1,5 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.token.service.JwtClaimKeys;
 import com.growit.app.user.domain.token.service.TokenService;
 import com.growit.app.user.domain.user.User;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SignUpKaKaoUseCase {
   private final UserRepository userRepository;
-  private final JobRoleValidator jobRoleValidator;
   private final UserValidator userValidator;
   private final TokenService tokenService;
 
@@ -39,16 +37,8 @@ public class SignUpKaKaoUseCase {
 
     // 4) 최종 SignUpCommand 조립 (소셜 가입은 비밀번호가 없으므로 빈 문자열로 처리)
     SignUpCommand command =
-        new SignUpCommand(
-            new Email(emailFromToken),
-            null,
-            signUpCommand.name(),
-            null,
-            signUpCommand.jobRoleId(),
-            signUpCommand.careerYear(),
-            oAuth);
+        new SignUpCommand(new Email(emailFromToken), null, signUpCommand.name(), null, oAuth);
 
-    jobRoleValidator.checkJobRoleExist(command.jobRoleId());
     userValidator.checkEmailExists(command.email());
     User user = User.from(command);
 

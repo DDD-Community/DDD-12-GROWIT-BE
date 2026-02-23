@@ -1,0 +1,5 @@
+ALTER TABLE users
+    ALTER COLUMN job_role_id DROP NOT NULL;
+
+ALTER TABLE users
+    ALTER COLUMN career_year DROP NOT NULL;

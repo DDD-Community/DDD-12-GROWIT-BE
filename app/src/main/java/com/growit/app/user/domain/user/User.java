@@ -26,10 +26,6 @@ public class User {
 
   private String lastName;
 
-  private String jobRoleId;
-
-  private CareerYear careerYear;
-
   private RequiredConsent requiredConsent;
 
   private boolean isDeleted;
@@ -39,6 +35,10 @@ public class User {
   private Promotion promotion;
   private SajuInfo saju;
 
+  @Deprecated private String jobRoleId;
+
+  @Deprecated private String careerYear;
+
   public static User from(SignUpCommand command) {
 
     return User.builder()
@@ -47,8 +47,6 @@ public class User {
         .password(command.password())
         .name(command.name())
         .lastName(command.lastName())
-        .jobRoleId(command.jobRoleId())
-        .careerYear(command.careerYear())
         .isOnboarding(false)
         .isDeleted(false)
         .oauthAccounts(
@@ -61,8 +59,6 @@ public class User {
   public void updateByCommand(UpdateUserCommand command) {
     this.name = command.name();
     this.lastName = command.lastName();
-    this.jobRoleId = command.jobRoleId();
-    this.careerYear = command.careerYear();
     if (command.sajuInfo() != null) {
       this.saju = command.sajuInfo();
     }

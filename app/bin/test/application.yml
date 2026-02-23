@@ -4,6 +4,8 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+  flyway:
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -38,3 +40,9 @@ app:
   security:
     api-keys:
       - test-api-key
+  oauth:
+    apple:
+      team-id: test-team-id
+      client-id: test-client-id
+      key-id: test-key-id
+      private-key: test-private-key

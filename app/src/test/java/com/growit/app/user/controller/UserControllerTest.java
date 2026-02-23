@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.TestSecurityUtil;
 import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.user.UserFixture;
-import com.growit.app.resource.domain.jobrole.JobRole;
 import com.growit.app.user.controller.dto.request.RegisterPromotionRequest;
 import com.growit.app.user.controller.dto.request.UpdateUserRequest;
 import com.growit.app.user.controller.dto.response.SajuInfoResponse;
@@ -85,7 +84,6 @@ class UserControllerTest {
   @Test
   void getUser() throws Exception {
     User user = UserFixture.defaultUser();
-    JobRole jobRole = new JobRole("dev", "개발자");
     given(responseMapper.toUserResponse(any()))
         .willReturn(
             new UserResponse(
@@ -93,8 +91,8 @@ class UserControllerTest {
                 user.getEmail().value(),
                 user.getName(),
                 user.getLastName(),
-                jobRole,
-                user.getCareerYear().name(),
+                null,
+                null,
                 null));
 
     mockMvc
@@ -119,9 +117,6 @@ class UserControllerTest {
                             fieldWithPath("data.email").type(STRING).description("이메일"),
                             fieldWithPath("data.name").type(STRING).description("이름"),
                             fieldWithPath("data.lastName").type(STRING).description("성").optional(),
-                            fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
-                            fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
-                            fieldWithPath("data.careerYear").type(STRING).description("경력 연차"),
                             fieldWithPath("data.saju").description("사주정보").optional(),
                             fieldWithPath("data.saju.gender")
                                 .type(STRING)
@@ -134,6 +129,14 @@ class UserControllerTest {
                             fieldWithPath("data.saju.birthHour")
                                 .type(STRING)
                                 .description("태어난 시간")
+                                .optional(),
+                            fieldWithPath("data.careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("data.jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
                                 .optional())
                         .build())));
   }
@@ -141,7 +144,6 @@ class UserControllerTest {
   @Test
   void getUserWithSaju() throws Exception {
     User user = UserFixture.defaultUser();
-    JobRole jobRole = new JobRole("dev", "개발자");
     given(responseMapper.toUserResponse(any()))
         .willReturn(
             new UserResponse(
@@ -149,13 +151,13 @@ class UserControllerTest {
                 user.getEmail().value(),
                 user.getName(),
                 user.getLastName(),
-                jobRole,
-                user.getCareerYear().name(),
                 SajuInfoResponse.builder()
                     .gender(SajuInfo.Gender.MALE)
                     .birth(LocalDate.of(1990, 5, 15))
                     .birthHour(EarthlyBranchHour.JIN)
-                    .build()));
+                    .build(),
+                null,
+                null));
 
     mockMvc
         .perform(get("/users/myprofile").header("Authorization", "Bearer mock-jwt-token"))
@@ -179,9 +181,6 @@ class UserControllerTest {
                             fieldWithPath("data.email").type(STRING).description("이메일"),
                             fieldWithPath("data.name").type(STRING).description("이름"),
                             fieldWithPath("data.lastName").type(STRING).description("성").optional(),
-                            fieldWithPath("data.jobRole.id").type(STRING).description("직무 ID"),
-                            fieldWithPath("data.jobRole.name").type(STRING).description("직무 이름"),
-                            fieldWithPath("data.careerYear").type(STRING).description("경력 연차"),
                             fieldWithPath("data.saju").description("사주정보"),
                             fieldWithPath("data.saju.gender")
                                 .type(STRING)
@@ -192,7 +191,15 @@ class UserControllerTest {
                             fieldWithPath("data.saju.birthHour")
                                 .type(STRING)
                                 .description(
-                                    "태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"))
+                                    "태어난 시간 (JA, CHUK, IN, MYO, JIN, SA, O, MI, SIN, YU, SUL, HAE)"),
+                            fieldWithPath("data.careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("data.jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .build())));
   }
 
@@ -223,14 +230,20 @@ class UserControllerTest {
                         .requestFields(
                             fieldWithPath("name").type(STRING).description("이름"),
                             fieldWithPath("lastName").type(STRING).description("성").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear").type(STRING).description("경력 연차"),
                             fieldWithPath("saju").description("사주정보").optional(),
                             fieldWithPath("saju.gender").type(STRING).description("성별").optional(),
                             fieldWithPath("saju.birth").type(STRING).description("생년월일").optional(),
                             fieldWithPath("saju.birthHour")
                                 .type(STRING)
                                 .description("태어난 시간")
+                                .optional(),
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
                                 .optional())
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
@@ -371,7 +384,7 @@ class UserControllerTest {
 
   @Test
   void updateUserWithSaju() throws Exception {
-    UpdateUserRequest request = UserFixture.updateUserRequestWithSaju();
+    UpdateUserRequest request = UserFixture.defaultUpdateUserSajuRequest();
 
     mockMvc
         .perform(
@@ -398,8 +411,6 @@ class UserControllerTest {
                         .requestFields(
                             fieldWithPath("name").type(STRING).description("이름"),
                             fieldWithPath("lastName").type(STRING).description("성").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear").type(STRING).description("경력 연차"),
                             fieldWithPath("saju").description("사주정보"),
                             fieldWithPath("saju.gender")
                                 .type(STRING)
@@ -410,7 +421,15 @@ class UserControllerTest {
                             fieldWithPath("saju.birthHour")
                                 .type(STRING)
                                 .description(
-                                    "태어난 시간 (JA: 자시, CHUK: 축시, IN: 인시, MYO: 묘시, JIN: 진시, SA: 사시, O: 오시, MI: 미시, SIN: 신시, YU: 유시, SUL: 술시, HAE: 해시)"))
+                                    "태어난 시간 (JA: 자시, CHUK: 축시, IN: 인시, MYO: 묘시, JIN: 진시, SA: 사시, O: 오시, MI: 미시, SIN: 신시, YU: 유시, SUL: 술시, HAE: 해시)"),
+                            fieldWithPath("careerYear")
+                                .type(STRING)
+                                .description("연차 (Deprecated)")
+                                .optional(),
+                            fieldWithPath("jobRoleId")
+                                .type(STRING)
+                                .description("직무 ID (Deprecated)")
+                                .optional())
                         .responseFields(
                             fieldWithPath("data").type(STRING).description("업데이트 성공 메세지"))
                         .build())));

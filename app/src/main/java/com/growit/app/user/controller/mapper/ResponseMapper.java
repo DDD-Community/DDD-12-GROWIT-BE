@@ -27,10 +27,10 @@ public class ResponseMapper {
         .id(userDto.user().getId())
         .name(userDto.user().getName())
         .lastName(userDto.user().getLastName())
-        .jobRole(userDto.jobRole())
         .email(userDto.user().getEmail().value())
-        .careerYear(userDto.user().getCareerYear().name())
         .saju(sajuInfoResponse)
+        .careerYear(userDto.user().getCareerYear())
+        .jobRoleId(userDto.user().getJobRoleId())
         .build();
   }
 }
