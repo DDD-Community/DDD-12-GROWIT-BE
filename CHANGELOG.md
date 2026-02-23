@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.63.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.62.0...v1.63.0) (2026-02-22)
+
+
+### Features
+
+* 사주 기반 프롬프트 기능 개발 ([8e11a9c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8e11a9cb6547dd6dca41d24b88c4ee3b91da0131))
+* 사주기반 조언 ([cbbd864](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/cbbd864c3fdd4a70477450d69cfbb01aaaf6c015))
+* 사주기반 조언 기능 ([3f40197](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3f40197f365867b91fce6998e9e36067e9c53ea8))
+* 소셜(애플) 로그인 기능 구현 ([2827d8e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2827d8eed3eaf1676c62c9984d173ac715e9d675))
+
+
+### Bug Fixes
+
+* FQN ([92af12b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/92af12bf4687f98adfbb7e011d6a04f15b53fa0a))
+* spotless ([6076023](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/607602336c7550caf7fb5c0fc24affccee020caf))
+* spotless ([b93ce56](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/b93ce564b5f8193ebe2c66da0f1bf0cd4efcbcec))
+* test ([75c3531](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/75c3531f982beccdd01268ca71d3c2cb1630f876))
+* 지워진 설정 삭제 ([1d9e308](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1d9e3081976658b7665cefd11c21c42f44031c86))
+* 지워진 설정 삭제 ([fed85e4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fed85e42754ece6b5e8f8ae7aec4b8b1d1274daa))
+
 ## [1.62.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.61.0...v1.62.0) (2026-02-14)
 
 
