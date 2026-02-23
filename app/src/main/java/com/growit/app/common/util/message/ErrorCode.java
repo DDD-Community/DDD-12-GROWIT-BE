@@ -27,7 +27,6 @@ public enum ErrorCode {
   USER_TOKEN_EXPIRED("error.user.token-expired"), // "토큰정보가 만료되었습니다."
   USER_TOKEN_INVALID("error.user.token-invalid"), // "토큰정보가 올바르지 않습니다."
   USER_TOKEN_NOT_FOUND("error.user.token-not-found"), // "토큰정보가 존재하지 않습니다."
-  RESOURCE_JOBROLE_NOT_FOUND("error.resource.job-role-not-found"), // "직무가 존재하지 않습니다"
   USER_REQUIRED_INVALID("error.user.required-invalid"), // "필수 약관 동의 필요"
   USER_SIGN_IN_FAILED("error.user.sign-in-failed"), // "로그인 정보를 확인해주세요"
   RETROSPECT_ALREADY_EXISTS_BY_PLAN(

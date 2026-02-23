@@ -5,13 +5,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
 import com.growit.app.user.domain.user.dto.SignUpCommand;
 import com.growit.app.user.domain.user.service.UserValidator;
-import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +24,6 @@ class SignUpUseCaseTest {
 
   @Mock private UserRepository userRepository;
   @Mock private PasswordEncoder passwordEncoder;
-  @Mock private JobRoleValidator jobRoleValidator;
   @Mock private UserValidator userValidator;
 
   @InjectMocks private SignUpUseCase signUpUseCase;
@@ -40,8 +37,6 @@ class SignUpUseCaseTest {
             "password123",
             "홍길동",
             null,
-            "jobRoleId-1",
-            CareerYear.JUNIOR,
             null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
@@ -52,7 +47,6 @@ class SignUpUseCaseTest {
 
     // then
     verify(requiredConsentCommand).checkRequiredConsent();
-    verify(jobRoleValidator).checkJobRoleExist("jobRoleId-1");
     verify(userValidator).checkEmailExists(new Email("test@example.com"));
 
     ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
@@ -62,36 +56,8 @@ class SignUpUseCaseTest {
     assertEquals("test@example.com", savedUser.getEmail().value());
     assertEquals("encodedPassword", savedUser.getPassword());
     assertEquals("홍길동", savedUser.getName());
-    assertEquals("jobRoleId-1", savedUser.getJobRoleId());
-    assertEquals(CareerYear.JUNIOR, savedUser.getCareerYear());
   }
 
-  @Test
-  void givenInvalidJobRole_whenExecute_thenThrowException() {
-    // given
-    SignUpCommand signUpCommand =
-        new SignUpCommand(
-            new Email("test@example.com"),
-            "password123",
-            "홍길동",
-            null,
-            "invalidJobRole",
-            CareerYear.JUNIOR,
-            null);
-    RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
-
-    doThrow(new RuntimeException("Invalid job role"))
-        .when(jobRoleValidator)
-        .checkJobRoleExist("invalidJobRole");
-
-    // when & then
-    assertThrows(
-        RuntimeException.class, () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
-
-    verify(requiredConsentCommand).checkRequiredConsent();
-    verify(jobRoleValidator).checkJobRoleExist("invalidJobRole");
-    verify(userRepository, never()).saveUser(any());
-  }
 
   @Test
   void givenExistingEmail_whenExecute_thenThrowException() {
@@ -102,8 +68,6 @@ class SignUpUseCaseTest {
             "password123",
             "홍길동",
             null,
-            "jobRoleId-1",
-            CareerYear.JUNIOR,
             null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
@@ -116,7 +80,6 @@ class SignUpUseCaseTest {
         RuntimeException.class, () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
-    verify(jobRoleValidator).checkJobRoleExist("jobRoleId-1");
     verify(userValidator).checkEmailExists(new Email("existing@example.com"));
     verify(userRepository, never()).saveUser(any());
   }
@@ -130,8 +93,6 @@ class SignUpUseCaseTest {
             "password123",
             "홍긘동",
             null,
-            "jobRoleId-1",
-            CareerYear.JUNIOR,
             null);
     RequiredConsentCommand requiredConsentCommand = mock(RequiredConsentCommand.class);
 
@@ -144,7 +105,6 @@ class SignUpUseCaseTest {
         RuntimeException.class, () -> signUpUseCase.execute(signUpCommand, requiredConsentCommand));
 
     verify(requiredConsentCommand).checkRequiredConsent();
-    verify(jobRoleValidator, never()).checkJobRoleExist(anyString());
     verify(userValidator, never()).checkEmailExists(any());
     verify(userRepository, never()).saveUser(any());
   }

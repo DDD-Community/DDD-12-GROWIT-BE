@@ -1,7 +1,6 @@
 package com.growit.app.user.usecase;
 
 import com.growit.app.common.exception.BaseException;
-import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.RequiredConsentCommand;
@@ -18,14 +17,12 @@ public class SignUpUseCase {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
 
-  private final JobRoleValidator jobRoleValidator;
   private final UserValidator userValidator;
 
   @Transactional
   public void execute(SignUpCommand signUpCommand, RequiredConsentCommand requiredConsentCommand)
       throws BaseException {
     requiredConsentCommand.checkRequiredConsent();
-    jobRoleValidator.checkJobRoleExist(signUpCommand.jobRoleId());
     userValidator.checkEmailExists(signUpCommand.email());
 
     final SignUpCommand encodePassword =

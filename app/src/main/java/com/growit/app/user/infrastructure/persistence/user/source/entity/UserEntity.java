@@ -2,7 +2,6 @@ package com.growit.app.user.infrastructure.persistence.user.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.user.domain.user.User;
-import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.OAuth;
 import jakarta.persistence.*;
@@ -32,15 +31,16 @@ public class UserEntity extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @Column(name = "job_role_id", nullable = false)
-  private String jobRoleId;
-
-  @Enumerated(EnumType.STRING)
-  @Column(name = "career_year", nullable = false)
-  private CareerYear careerYear;
-
   @Column(nullable = false)
   private Boolean isOnboarding;
+
+  @Deprecated
+  @Column(nullable = true)
+  private String jobRoleId;
+
+  @Deprecated
+  @Column(nullable = true)
+  private String careerYear;
 
   @OneToMany(
       mappedBy = "user",
@@ -62,8 +62,6 @@ public class UserEntity extends BaseEntity {
 
   public void updateByDomain(User user) {
     this.name = user.getName();
-    this.jobRoleId = user.getJobRoleId();
-    this.careerYear = user.getCareerYear();
     this.isOnboarding = user.isOnboarding();
 
     Set<String> existingKeys =
@@ -129,12 +127,12 @@ public class UserEntity extends BaseEntity {
         .email(new Email(this.email))
         .password(this.password)
         .name(this.name)
-        .jobRoleId(this.jobRoleId)
-        .careerYear(this.careerYear)
         .isOnboarding(this.isOnboarding)
         .isDeleted(getDeletedAt() != null)
         .oauthAccounts(oauthList)
         .saju(this.sajuInfo != null ? this.sajuInfo.toDomain() : null)
+        .jobRoleId(this.jobRoleId)
+        .careerYear(this.careerYear)
         .build();
   }
 }

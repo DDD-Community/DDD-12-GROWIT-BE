@@ -1,12 +1,13 @@
 package com.growit.app.user.controller.dto.request;
 
-import com.growit.app.user.domain.user.vo.CareerYear;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SignUpRequest {
   @NotBlank(message = "{validation.signup.email.required}")
   @Email(message = "{validation.signup.email.invalid}")
@@ -22,12 +23,12 @@ public class SignUpRequest {
 
   private String lastName;
 
-  @NotBlank(message = "{validation.user.job-role.required}")
-  private String jobRoleId;
-
-  @NotNull(message = "{validation.user.career.required}")
-  private CareerYear careerYear;
-
   @NotNull(message = "{validation.signup.consent.required}")
   private RequiredConsentRequest requiredConsent;
+
+  @Deprecated
+  private String jobRoleId;
+
+  @Deprecated
+  private String careerYear;
 }

@@ -3,7 +3,6 @@ package com.growit.app.user.domain.user.dto;
 import static com.growit.app.common.util.message.ErrorCode.USER_REQUIRED_INVALID;
 
 import com.growit.app.common.exception.BadRequestException;
-import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.OAuth;
 
@@ -12,11 +11,9 @@ public record SignUpCommand(
     String password,
     String name,
     String lastName,
-    String jobRoleId,
-    CareerYear careerYear,
     OAuth oAuth) {
   public SignUpCommand encodePassword(String password) {
-    return new SignUpCommand(email, password, name, lastName, jobRoleId, careerYear, oAuth);
+    return new SignUpCommand(email, password, name, lastName, oAuth);
   }
 
   public void checkOAuth() {

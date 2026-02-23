@@ -1,6 +1,5 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.resource.domain.jobrole.service.JobRoleValidator;
 import com.growit.app.user.domain.token.service.JwtClaimKeys;
 import com.growit.app.user.domain.token.service.TokenService;
 import com.growit.app.user.domain.user.User;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SignUpAppleUseCase {
   private final UserRepository userRepository;
-  private final JobRoleValidator jobRoleValidator;
   private final UserValidator userValidator;
   private final TokenService tokenService;
 
@@ -46,11 +44,8 @@ public class SignUpAppleUseCase {
             null,
             signUpCommand.name(),
             null,
-            signUpCommand.jobRoleId(),
-            signUpCommand.careerYear(),
             oAuth);
 
-    jobRoleValidator.checkJobRoleExist(command.jobRoleId());
     userValidator.checkEmailExists(command.email());
     User user = User.from(command);
 
