@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.64.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.63.0...v1.64.0) (2026-02-23)
+
+
+### Features
+
+* 직무, 연차 삭제 ([296f74c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/296f74c54ea60989b0606a056355f043ad441d4d))
+
+
+### Bug Fixes
+
+* column 누락 건 해결 ([a7b5778](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a7b57781a0db54919ce158e1eaf8b58c0333861a))
+* spotless ([8954c08](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8954c0859ca164530742b9d4191f93301ace4c6d))
+* spotless ([03559f8](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/03559f8bff4a2eb978907bbdbd68b70c4535f5fb))
+
 ## [1.63.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.62.0...v1.63.0) (2026-02-22)
 
 
