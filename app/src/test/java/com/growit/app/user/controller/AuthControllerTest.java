@@ -91,16 +91,14 @@ class AuthControllerTest {
                             fieldWithPath("password").type(STRING).description("사용자 비밀번호"),
                             fieldWithPath("name").type(STRING).description("사용자 이름"),
                             fieldWithPath("lastName").type(STRING).description("사용자 성").optional(),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear")
-                                .type(STRING)
-                                .description("경력 연차 (예: JUNIOR, MID, SENIOR)"),
                             fieldWithPath("requiredConsent.privacyPolicyAgreed")
                                 .type(BOOLEAN)
                                 .description("개인정보 동의"),
                             fieldWithPath("requiredConsent.serviceTermsAgreed")
                                 .type(BOOLEAN)
-                                .description("서비스 약관 동의"))
+                                .description("서비스 약관 동의"),
+                            fieldWithPath("careerYear").type(STRING).description("연차 (Deprecated)").optional(),
+                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
                         .build())));
   }
 
@@ -182,10 +180,6 @@ class AuthControllerTest {
                         .summary("카카오 회원가입")
                         .requestFields(
                             fieldWithPath("name").type(STRING).description("사용자 이름"),
-                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID"),
-                            fieldWithPath("careerYear")
-                                .type(STRING)
-                                .description("경력 연차 (예: JUNIOR, MID, SENIOR)"),
                             fieldWithPath("requiredConsent.privacyPolicyAgreed")
                                 .type(BOOLEAN)
                                 .description("개인정보 동의"),
@@ -194,7 +188,9 @@ class AuthControllerTest {
                                 .description("서비스 약관 동의"),
                             fieldWithPath("registrationToken")
                                 .type(STRING)
-                                .description("카카오 등록 토큰"))
+                                .description("카카오 등록 토큰"),
+                            fieldWithPath("careerYear").type(STRING).description("연차 (Deprecated)").optional(),
+                            fieldWithPath("jobRoleId").type(STRING).description("직무 ID (Deprecated)").optional())
                         .build())));
   }
 }

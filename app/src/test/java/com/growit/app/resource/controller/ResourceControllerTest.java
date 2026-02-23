@@ -12,9 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.growit.app.common.config.TestSecurityConfig;
-import com.growit.app.fake.resource.JobRoleFixture;
 import com.growit.app.fake.resource.SayingFixture;
-import com.growit.app.resource.domain.jobrole.repository.JobRoleRepository;
 import com.growit.app.resource.usecase.GetSayingUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +37,6 @@ class ResourceControllerTest {
 
   private MockMvc mockMvc;
 
-  @MockitoBean private JobRoleRepository jobRoleRepository;
   @MockitoBean private GetSayingUseCase getSayingUseCase;
 
   @BeforeEach
@@ -52,8 +49,6 @@ class ResourceControllerTest {
 
   @Test
   void getJobRoles() throws Exception {
-    given(jobRoleRepository.findAll()).willReturn(JobRoleFixture.defaultJobRoles());
-
     mockMvc
         .perform(get("/resource/jobroles"))
         .andExpect(status().isOk())
@@ -65,10 +60,12 @@ class ResourceControllerTest {
                 resource(
                     new ResourceSnippetParametersBuilder()
                         .tag("JobRole")
-                        .summary("전체 직무 목록 조회")
+                        .summary("전체 직무 목록 조회 (Dummy)")
+                        .description("이전 버전(jobRoleId) 유지보수를 위한 하위 호환용 더미 API입니다. 빈 리스트를 반환합니다.")
                         .responseFields(
-                            fieldWithPath("data.jobRoles[].id").type(STRING).description("직무 ID"),
-                            fieldWithPath("data.jobRoles[].name").type(STRING).description("직무 이름"))
+                            fieldWithPath("data.jobRoles[]")
+                                .type("Array")
+                                .description("빈 직무 배멸 (하위 호환 유지)"))
                         .build())));
   }
 

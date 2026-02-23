@@ -12,7 +12,6 @@ import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
 import com.growit.app.user.domain.user.dto.OAuthCommand;
-import com.growit.app.user.domain.user.vo.CareerYear;
 import com.growit.app.user.domain.user.vo.Email;
 import com.growit.app.user.domain.user.vo.OAuth;
 import java.util.ArrayList;
@@ -48,8 +47,6 @@ class OAuthLinkUseCaseTest {
             .email(new Email("test@example.com"))
             .password("password")
             .name("테스트유저")
-            .jobRoleId("job1")
-            .careerYear(CareerYear.JUNIOR)
             .isOnboarding(false)
             .isDeleted(false)
             .oauthAccounts(new ArrayList<>()) // 변경 가능한 빈 리스트
@@ -62,8 +59,6 @@ class OAuthLinkUseCaseTest {
             .email(new Email("test@example.com"))
             .password(null)
             .name("카카오유저")
-            .jobRoleId("job1")
-            .careerYear(CareerYear.MID)
             .isOnboarding(false)
             .isDeleted(false)
             .oauthAccounts(new ArrayList<>(List.of(new OAuth("kakao", "kakao123"))))
@@ -100,8 +95,6 @@ class OAuthLinkUseCaseTest {
             .email(new Email("test@example.com"))
             .password("password")
             .name("기존OAuth유저")
-            .jobRoleId("job1")
-            .careerYear(CareerYear.SENIOR)
             .isOnboarding(false)
             .isDeleted(false)
             .oauthAccounts(

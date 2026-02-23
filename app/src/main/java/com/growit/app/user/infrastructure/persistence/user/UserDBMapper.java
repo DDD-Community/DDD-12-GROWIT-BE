@@ -20,8 +20,6 @@ public class UserDBMapper {
             .email(user.getEmail().value())
             .password(user.getPassword())
             .name(user.getName())
-            .jobRoleId(user.getJobRoleId())
-            .careerYear(user.getCareerYear())
             .isOnboarding(user.isOnboarding())
             .oauthAccounts(new HashSet<>())
             .userPromotions(new HashSet<>())
@@ -50,8 +48,6 @@ public class UserDBMapper {
         .email(new Email(entity.getEmail()))
         .password(entity.getPassword())
         .name(entity.getName())
-        .jobRoleId(entity.getJobRoleId())
-        .careerYear(entity.getCareerYear())
         .isDeleted(entity.getDeletedAt() != null)
         .isOnboarding(entity.getIsOnboarding())
         .oauthAccounts(
