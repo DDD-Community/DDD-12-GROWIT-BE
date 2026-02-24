@@ -80,13 +80,17 @@ jobs:
             SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
             SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
-            JWT_EXPIRED_SECOND= ${{secrets.JWT_EXPIRED_SECOND}}
-            JWT_REFRESH_EXPIRED_SECOND= ${{secrets.JWT_REFRESH_EXPIRED_SECOND}}
+            JWT_EXPIRED_SECOND=${{secrets.JWT_EXPIRED_SECOND}}
+            JWT_REFRESH_EXPIRED_SECOND=${{secrets.JWT_REFRESH_EXPIRED_SECOND}}
             OPEN_API_KEY=${{ secrets.OPEN_API_KEY }}
             KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}
             KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}
+            APPLE_CLIENT_ID=${{ secrets.APPLE_CLIENT_ID }}
+            APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}
+            APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}
+            APPLE_PRIVATE_KEY=${{ secrets.APPLE_PRIVATE_KEY }}
             DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
-            AI_MENTOR_URL= ${{secrets.AI_MENTOR_URL}}
+            AI_MENTOR_URL=${{secrets.AI_MENTOR_URL}}
             SERVER_PORT=8080
 
       - name: Deploy to Amazon ECS
