@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.64.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.64.0...v1.64.1) (2026-02-24)
+
+
+### Bug Fixes
+
+* bug ([5580de6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/5580de6ae9d5918bbf1f899553cd5f08c8899163))
+* 설정값 누락 해결 ([0d2ec09](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0d2ec09afe9c742009e3cc68cf9bb963e8621f38))
+* 설정값 누락 해결 ([7cd76e7](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7cd76e72085db3fa266134dc3aa40a1f9ee9c5a7))
+
 ## [1.64.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.63.0...v1.64.0) (2026-02-23)
 
 
