@@ -1,10 +1,6 @@
 package com.growit.app.common.config;
 
 import com.growit.app.common.config.jwt.JwtFilter;
-import com.growit.app.common.config.oauth.CustomOAuth2AuthorizationRequestResolver;
-import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
-import com.growit.app.common.config.oauth.OAuth2LoginFailureHandler;
-import com.growit.app.common.config.oauth.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +20,6 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
   private final JwtFilter jwtFilter;
-  private final KakaoOAuth2UserService kakaoOAuth2UserService;
-
-  private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-  private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-  private final CustomOAuth2AuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -62,16 +53,6 @@ public class SecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
-        .oauth2Login(
-            oauth ->
-                oauth
-                    .authorizationEndpoint(
-                        authorization ->
-                            authorization.authorizationRequestResolver(
-                                customOAuth2AuthorizationRequestResolver))
-                    .userInfoEndpoint(u -> u.userService(kakaoOAuth2UserService))
-                    .successHandler(oAuth2LoginSuccessHandler)
-                    .failureHandler(oAuth2LoginFailureHandler))
         .addFilterBefore(jwtFilter, AuthorizationFilter.class)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
