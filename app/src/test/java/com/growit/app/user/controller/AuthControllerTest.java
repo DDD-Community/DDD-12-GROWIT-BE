@@ -26,6 +26,10 @@ import com.growit.app.user.usecase.ReissueUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpKaKaoUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
+import com.growit.app.user.usecase.SignInAppleUseCase;
+import com.growit.app.user.usecase.SignInKakaoUseCase;
+import com.growit.app.user.usecase.SignInKakaoResult;
+import com.growit.app.user.controller.dto.request.SignInKakaoRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,6 +62,8 @@ class AuthControllerTest {
   @MockitoBean private ReissueUseCase reissueUseCase;
   @MockitoBean private RequestMapper requestMapper;
   @MockitoBean private ResponseMapper responseMapper;
+  @MockitoBean private SignInAppleUseCase signInAppleUseCase;
+  @MockitoBean private SignInKakaoUseCase signInKakaoUseCase;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
@@ -203,6 +209,37 @@ class AuthControllerTest {
                                 .type(STRING)
                                 .description("직무 ID (Deprecated)")
                                 .optional())
+                        .build())));
+  }
+  @Test
+  void signinKakaoTest() throws Exception {
+    SignInKakaoRequest request = UserFixture.defaultSignInKakaoRequest();
+    
+    SignInKakaoResult result = new SignInKakaoResult(false, new TokenResponse("accessToken", "refreshToken"), null);
+    given(signInKakaoUseCase.execute(any())).willReturn(result);
+
+    mockMvc
+        .perform(
+            post("/auth/signin/kakao")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(request)))
+        .andExpect(status().isOk())
+        .andDo(
+            MockMvcRestDocumentationWrapper.document(
+                "auth-signin-kakao",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                resource(
+                    new ResourceSnippetParametersBuilder()
+                        .tag("Auth")
+                        .summary("카카오 로그인")
+                        .requestFields(
+                            fieldWithPath("idToken").type(STRING).description("카카오 ID 토큰"),
+                            fieldWithPath("nonce").type(STRING).description("프론트엔드에서 생성한 논스"),
+                            fieldWithPath("refreshToken").type(STRING).description("카카오 리프레시 토큰 (선택)").optional())
+                        .responseFields(
+                            fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
+                            fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))
                         .build())));
   }
 }

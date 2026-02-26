@@ -33,7 +33,7 @@ public class AppleClientSecretGenerator {
 
   public String createClientSecret() {
     Date expirationDate =
-        Date.from(LocalDateTime.now().plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant());
+        Date.from(LocalDateTime.now().plusMonths(6).atZone(ZoneId.systemDefault()).toInstant());
 
     return Jwts.builder()
         .setHeaderParam("kid", keyId)

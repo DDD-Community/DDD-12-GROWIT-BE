@@ -114,6 +114,10 @@ public class UserFixture {
     return new SignUpKaKaoRequest(
         "홍길동", new RequiredConsentRequest(true, true), "dummy-registration-token", null, null);
   }
+
+  public static SignInKakaoRequest defaultSignInKakaoRequest() {
+    return new SignInKakaoRequest("dummy-id-token", "dummy-refresh-token", "dummy-nonce");
+  }
 }
 
 class UserBuilder {
