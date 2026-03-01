@@ -97,7 +97,7 @@ class KakaoIdTokenValidatorTest {
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Invalid Kakao ID Token issuer");
+        .hasMessageContaining("카카오 id_token 발급자(issuer)가 유효하지 않습니다");
   }
 
   @Test
@@ -113,7 +113,7 @@ class KakaoIdTokenValidatorTest {
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Invalid Kakao ID Token audience");
+        .hasMessageContaining("카카오 id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다");
   }
 
   @Test
@@ -129,7 +129,7 @@ class KakaoIdTokenValidatorTest {
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Invalid Kakao ID Token nonce");
+        .hasMessageContaining("카카오 id_token의 nonce가 요청 값과 일치하지 않습니다");
   }
 
   @Test
