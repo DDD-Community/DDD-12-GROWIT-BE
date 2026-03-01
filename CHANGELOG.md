@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.65.4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.3...v1.65.4) (2026-03-01)
+
+
+### Bug Fixes
+
+* spotless ([a33e359](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a33e35943cf3698a47b194ef3df907babf1eb0ec))
+* 닉네임 null ([a59ac9a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a59ac9a546a7c30e40e5b579859ad4ee8125609e))
+* 컬럼 ([085f36d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/085f36d0f725578df11a9ddd90d00b33066046cf))
+
 ## [1.65.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.2...v1.65.3) (2026-03-01)
 
 
