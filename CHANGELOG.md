@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.65.6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.5...v1.65.6) (2026-03-01)
+
+
+### Bug Fixes
+
+* batch ([9d2e377](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9d2e377c30e028307aafc3ad7eb935205ebb9445))
+* batch ([e1b5758](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e1b57583a53e6a7b44f0c3fb837551fb1bdbf9c6))
+
 ## [1.65.5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.4...v1.65.5) (2026-03-01)
 
 
