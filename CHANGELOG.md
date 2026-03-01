@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.65.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.64.1...v1.65.0) (2026-03-01)
+
+
+### Features
+
+* 카카오 소셜 로그인 redirect -&gt; OIDC로 변경 ([555341e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/555341edec479068f02de92ebaab7ead1b54560f))
+* 카카오 소셜 로그인 redirect -&gt; OIDC로 변경 ([6778ebe](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/6778ebe877bab9505986dbb79094729d39d51a4c))
+
+
+### Bug Fixes
+
+* delete option fix it ([1123b99](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/1123b990cf90ac367991788d83ea96aef224f12f))
+* spotless ([0f063d2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/0f063d2420816a8e79b11fba32969f846d969903))
+* spotless ([679516f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/679516fda0c979081c3faea5fc89deb0f9983b2b))
+* spotless ([043cc64](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/043cc64eed1a09f4db2ab5c04880d321ab45d422))
+* test ([bf62958](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/bf629588b6eb22f451417fab055df6de8023b7ce))
+* 로직 수정 ([62008b3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/62008b3fa4999c168fd5cce91cdbf93ea7736f11))
+* 애플 회원 삭제 기능 조건 변경 ([d26787a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d26787acf7d4ebf314072571a6ad654be49198d9))
+* 에러메시지 고도화 ([e70a782](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e70a782f75e9ef814bf67d23dd79d80dc404a2d5))
+* 에러메시지 고도화 ([2511919](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2511919b1a452f948e575577d457a5cc4baee1d3))
+
 ## [1.64.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.64.0...v1.64.1) (2026-02-24)
 
 
