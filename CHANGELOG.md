@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.65.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.2...v1.65.3) (2026-03-01)
+
+
+### Bug Fixes
+
+* **security:** permit health check root endpoint ([550e50d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/550e50d5f8ac5013792d4baf20e4f61cbe649826))
+* **security:** permit health check root endpoint ([31883c5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/31883c547fe20ff58dac4639f9f24dda534267d2))
+
 ## [1.65.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.1...v1.65.2) (2026-03-01)
 
 
