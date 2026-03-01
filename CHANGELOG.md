@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.65.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.1...v1.65.2) (2026-03-01)
+
+
+### Bug Fixes
+
+* **health:** add root endpoint for ALB health checks ([9f9fbd3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9f9fbd32179f395d00b736c8313dcf8d4daff89f))
+
 ## [1.65.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.0...v1.65.1) (2026-03-01)
 
 
