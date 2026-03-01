@@ -61,10 +61,7 @@ public class SignInKakaoUseCase {
               KakaoKeys.PROVIDER_NAME, sub, email, command.refreshToken());
 
       OAuthResponse oauthResponse =
-          OAuthResponse.builder()
-              .registrationToken(regToken)
-              .name(null)
-              .build();
+          OAuthResponse.builder().registrationToken(regToken).name(null).build();
 
       return new SignInKakaoResult(true, null, oauthResponse);
     }

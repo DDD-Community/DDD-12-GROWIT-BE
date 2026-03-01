@@ -16,6 +16,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growit.app.common.config.TestSecurityConfig;
 import com.growit.app.fake.user.UserFixture;
+import com.growit.app.user.controller.dto.request.SignInKakaoRequest;
 import com.growit.app.user.controller.dto.request.SignUpKaKaoRequest;
 import com.growit.app.user.controller.dto.request.SignUpRequest;
 import com.growit.app.user.controller.dto.response.TokenResponse;
@@ -23,13 +24,12 @@ import com.growit.app.user.controller.mapper.RequestMapper;
 import com.growit.app.user.controller.mapper.ResponseMapper;
 import com.growit.app.user.domain.token.vo.Token;
 import com.growit.app.user.usecase.ReissueUseCase;
+import com.growit.app.user.usecase.SignInAppleUseCase;
+import com.growit.app.user.usecase.SignInKakaoResult;
+import com.growit.app.user.usecase.SignInKakaoUseCase;
 import com.growit.app.user.usecase.SignInUseCase;
 import com.growit.app.user.usecase.SignUpKaKaoUseCase;
 import com.growit.app.user.usecase.SignUpUseCase;
-import com.growit.app.user.usecase.SignInAppleUseCase;
-import com.growit.app.user.usecase.SignInKakaoUseCase;
-import com.growit.app.user.usecase.SignInKakaoResult;
-import com.growit.app.user.controller.dto.request.SignInKakaoRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -211,11 +211,13 @@ class AuthControllerTest {
                                 .optional())
                         .build())));
   }
+
   @Test
   void signinKakaoTest() throws Exception {
     SignInKakaoRequest request = UserFixture.defaultSignInKakaoRequest();
-    
-    SignInKakaoResult result = new SignInKakaoResult(false, new TokenResponse("accessToken", "refreshToken"), null);
+
+    SignInKakaoResult result =
+        new SignInKakaoResult(false, new TokenResponse("accessToken", "refreshToken"), null);
     given(signInKakaoUseCase.execute(any())).willReturn(result);
 
     mockMvc
@@ -236,7 +238,10 @@ class AuthControllerTest {
                         .requestFields(
                             fieldWithPath("idToken").type(STRING).description("카카오 ID 토큰"),
                             fieldWithPath("nonce").type(STRING).description("프론트엔드에서 생성한 논스"),
-                            fieldWithPath("refreshToken").type(STRING).description("카카오 리프레시 토큰 (선택)").optional())
+                            fieldWithPath("refreshToken")
+                                .type(STRING)
+                                .description("카카오 리프레시 토큰 (선택)")
+                                .optional())
                         .responseFields(
                             fieldWithPath("data.accessToken").type(STRING).description("엑세스 토큰"),
                             fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"))

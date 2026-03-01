@@ -40,7 +40,9 @@ class SignInKakaoUseCaseTest {
 
   @BeforeEach
   void setUp() {
-    signInKakaoUseCase = new SignInKakaoUseCase(kakaoIdTokenValidator, oAuthLinkUseCase, tokenGenerator, userTokenSaver, tokenService);
+    signInKakaoUseCase =
+        new SignInKakaoUseCase(
+            kakaoIdTokenValidator, oAuthLinkUseCase, tokenGenerator, userTokenSaver, tokenService);
   }
 
   @Test
@@ -95,7 +97,8 @@ class SignInKakaoUseCaseTest {
     when(oAuthLinkUseCase.execute(any(OAuthCommand.class))).thenReturn(Optional.empty());
 
     String regToken = "registration-token-123";
-    when(tokenService.createRegistrationToken(KakaoKeys.PROVIDER_NAME, "sub-5678", "new@kakao.com", refreshToken))
+    when(tokenService.createRegistrationToken(
+            KakaoKeys.PROVIDER_NAME, "sub-5678", "new@kakao.com", refreshToken))
         .thenReturn(regToken);
 
     // when
@@ -123,8 +126,7 @@ class SignInKakaoUseCaseTest {
     when(kakaoIdTokenValidator.parseAndVerifyIdToken(idToken, nonce)).thenReturn(mockAttributes);
 
     User mockUser = mock(User.class);
-    when(oAuthLinkUseCase.execute(
-            argThat(cmd -> cmd.email().equals("sub-9999@kakao.com"))))
+    when(oAuthLinkUseCase.execute(argThat(cmd -> cmd.email().equals("sub-9999@kakao.com"))))
         .thenReturn(Optional.of(mockUser));
 
     when(tokenGenerator.createToken(any(User.class))).thenReturn(new Token("access", "refresh"));

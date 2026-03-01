@@ -35,9 +35,7 @@ class KakaoIdTokenValidatorTest {
 
   @BeforeAll
   static void setUpAll() throws Exception {
-    rsaKey = new RSAKeyGenerator(2048)
-        .keyID("test-kid")
-        .generate();
+    rsaKey = new RSAKeyGenerator(2048).keyID("test-kid").generate();
     jwkSource = new ImmutableJWKSet<>(new JWKSet(rsaKey));
   }
 
@@ -46,20 +44,24 @@ class KakaoIdTokenValidatorTest {
     validator = new KakaoIdTokenValidator(clientId, jwkSource);
   }
 
-  private String generateToken(String issuer, String audience, String nonce, Date expirationTime, RSAKey signingKey) throws Exception {
-    JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
-        .issuer(issuer)
-        .audience(audience)
-        .subject("test-sub")
-        .expirationTime(expirationTime);
+  private String generateToken(
+      String issuer, String audience, String nonce, Date expirationTime, RSAKey signingKey)
+      throws Exception {
+    JWTClaimsSet.Builder builder =
+        new JWTClaimsSet.Builder()
+            .issuer(issuer)
+            .audience(audience)
+            .subject("test-sub")
+            .expirationTime(expirationTime);
 
     if (nonce != null) {
       builder.claim(KakaoKeys.NONCE, nonce);
     }
 
-    SignedJWT signedJWT = new SignedJWT(
-        new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(signingKey.getKeyID()).build(),
-        builder.build());
+    SignedJWT signedJWT =
+        new SignedJWT(
+            new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(signingKey.getKeyID()).build(),
+            builder.build());
 
     signedJWT.sign(new RSASSASigner(signingKey));
     return signedJWT.serialize();
@@ -68,15 +70,16 @@ class KakaoIdTokenValidatorTest {
   @Test
   @DisplayName("유효한 토큰은 정상적으로 검증된다")
   void validToken_Success() throws Exception {
-    String token = generateToken(
-        KakaoKeys.ISSUER,
-        clientId,
-        validNonce,
-        Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
-        rsaKey);
+    String token =
+        generateToken(
+            KakaoKeys.ISSUER,
+            clientId,
+            validNonce,
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
+            rsaKey);
 
     Map<String, Object> claims = validator.parseAndVerifyIdToken(token, validNonce);
-    
+
     assertThat(claims).isNotNull();
     assertThat(claims.get("sub")).isEqualTo("test-sub");
   }
@@ -84,12 +87,13 @@ class KakaoIdTokenValidatorTest {
   @Test
   @DisplayName("잘못된 발급자(issuer)면 예외가 발생한다")
   void invalidIssuer_ThrowsException() throws Exception {
-    String token = generateToken(
-        "https://invalid.issuer.com",
-        clientId,
-        validNonce,
-        Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
-        rsaKey);
+    String token =
+        generateToken(
+            "https://invalid.issuer.com",
+            clientId,
+            validNonce,
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
+            rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalStateException.class)
@@ -99,12 +103,13 @@ class KakaoIdTokenValidatorTest {
   @Test
   @DisplayName("잘못된 대상자(audience)면 예외가 발생한다")
   void invalidAudience_ThrowsException() throws Exception {
-    String token = generateToken(
-        KakaoKeys.ISSUER,
-        "wrong-client-id",
-        validNonce,
-        Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
-        rsaKey);
+    String token =
+        generateToken(
+            KakaoKeys.ISSUER,
+            "wrong-client-id",
+            validNonce,
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
+            rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalStateException.class)
@@ -114,12 +119,13 @@ class KakaoIdTokenValidatorTest {
   @Test
   @DisplayName("잘못된 논스(nonce)면 예외가 발생한다")
   void invalidNonce_ThrowsException() throws Exception {
-    String token = generateToken(
-        KakaoKeys.ISSUER,
-        clientId,
-        "wrong-nonce",
-        Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
-        rsaKey);
+    String token =
+        generateToken(
+            KakaoKeys.ISSUER,
+            clientId,
+            "wrong-nonce",
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
+            rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalStateException.class)
@@ -129,12 +135,13 @@ class KakaoIdTokenValidatorTest {
   @Test
   @DisplayName("만료된 토큰이면 예외가 발생한다")
   void expiredToken_ThrowsException() throws Exception {
-    String token = generateToken(
-        KakaoKeys.ISSUER,
-        clientId,
-        validNonce,
-        Date.from(Instant.now().minus(1, ChronoUnit.HOURS)),
-        rsaKey);
+    String token =
+        generateToken(
+            KakaoKeys.ISSUER,
+            clientId,
+            validNonce,
+            Date.from(Instant.now().minus(1, ChronoUnit.HOURS)),
+            rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalArgumentException.class)
@@ -145,12 +152,13 @@ class KakaoIdTokenValidatorTest {
   @DisplayName("잘못된 서명이면 예외가 발생한다")
   void invalidSignature_ThrowsException() throws Exception {
     RSAKey wrongKey = new RSAKeyGenerator(2048).keyID("wrong-kid").generate();
-    String token = generateToken(
-        KakaoKeys.ISSUER,
-        clientId,
-        validNonce,
-        Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
-        wrongKey);
+    String token =
+        generateToken(
+            KakaoKeys.ISSUER,
+            clientId,
+            validNonce,
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
+            wrongKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalStateException.class)

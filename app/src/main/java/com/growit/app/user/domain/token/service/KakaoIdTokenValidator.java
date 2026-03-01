@@ -2,14 +2,14 @@ package com.growit.app.user.domain.token.service;
 
 import com.growit.app.common.config.oauth.KakaoKeys;
 import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.proc.BadJWTException;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
-import com.nimbusds.jwt.proc.BadJWTException;
-import com.nimbusds.jose.jwk.source.JWKSource;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
