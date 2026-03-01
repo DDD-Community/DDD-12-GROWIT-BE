@@ -60,8 +60,10 @@ public class SignInKakaoUseCase {
           tokenService.createRegistrationToken(
               KakaoKeys.PROVIDER_NAME, sub, email, command.refreshToken());
 
+      String nickname = (String) attributes.get(KakaoKeys.NICKNAME);
+
       OAuthResponse oauthResponse =
-          OAuthResponse.builder().registrationToken(regToken).name(null).build();
+          OAuthResponse.builder().registrationToken(regToken).name(nickname).build();
 
       return new SignInKakaoResult(true, null, oauthResponse);
     }
