@@ -12,6 +12,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -20,6 +21,9 @@ public class AppleIdTokenValidator {
 
   private static final String APPLE_ISSUER = "https://appleid.apple.com";
   private static final RemoteJWKSet<SecurityContext> APPLE_JWKS;
+
+  @Value("${app.oauth.apple.client-id}")
+  private String clientId;
 
   static {
     try {
@@ -38,6 +42,10 @@ public class AppleIdTokenValidator {
 
       if (!APPLE_ISSUER.equals(claims.getIssuer())) {
         throw new IllegalStateException("Invalid Apple ID Token issuer");
+      }
+
+      if (!claims.getAudience().contains(clientId)) {
+        throw new IllegalStateException("Invalid Apple ID Token audience");
       }
 
       return claims.getClaims();

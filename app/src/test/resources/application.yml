@@ -41,6 +41,8 @@ app:
     api-keys:
       - test-api-key
   oauth:
+    kakao:
+      client-id: test-kakao-client-id
     apple:
       team-id: test-team-id
       client-id: test-client-id
