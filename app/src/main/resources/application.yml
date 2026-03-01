@@ -14,7 +14,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      enabled: true
+      enabled: false  # 배포 시 자동 실행 방지 (스케줄러가 7AM에 실행)
 
   flyway:
     enabled: true
@@ -66,6 +66,9 @@ management:
     web:
       exposure:
         include: health,info,metrics,caches
+  health:
+    batch:
+      enabled: false  # 배치 잡 실패가 서비스 헬스체크에 영향 주지 않도록
 
 app:
   oauth:
