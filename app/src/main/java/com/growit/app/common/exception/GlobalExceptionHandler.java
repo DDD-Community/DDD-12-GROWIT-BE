@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
     BadRequestException.class,
     MalformedParametersException.class,
     IllegalArgumentException.class,
+    IllegalStateException.class,
     ValueInstantiationException.class,
   })
   public ResponseEntity<BaseErrorResponse> returnBadRequestException(RuntimeException e) {

@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.proc.BadJWTException;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import java.net.MalformedURLException;
@@ -41,20 +42,28 @@ public class AppleIdTokenValidator {
       JWTClaimsSet claims = processor.process(idToken, null);
 
       if (!APPLE_ISSUER.equals(claims.getIssuer())) {
-        throw new IllegalStateException("Invalid Apple ID Token issuer");
+        log.error("Apple id_token issuer 불일치: expected={}, actual={}", APPLE_ISSUER, claims.getIssuer());
+        throw new IllegalArgumentException("Apple id_token 발급자(issuer)가 유효하지 않습니다. Apple에서 발급된 토큰인지 확인해 주세요.");
       }
 
       if (!claims.getAudience().contains(clientId)) {
-        throw new IllegalStateException("Invalid Apple ID Token audience");
+        log.error("Apple id_token audience 불일치: expectedClientId={}, actual={}", clientId, claims.getAudience());
+        throw new IllegalArgumentException("Apple id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다.");
       }
 
       return claims.getClaims();
     } catch (ParseException e) {
-      log.error("Failed to parse Apple id_token", e);
-      throw new IllegalArgumentException("Invalid Apple id_token format");
+      log.error("Apple id_token 파싱 실패: {}", e.getMessage());
+      throw new IllegalArgumentException("Apple id_token 형식이 올바르지 않습니다. 유효한 토큰을 전달해 주세요.");
+    } catch (BadJWTException e) {
+      log.error("Apple id_token 유효성 검증 실패: {}", e.getMessage());
+      throw new IllegalArgumentException("Apple id_token이 만료되었거나 유효하지 않습니다. 다시 로그인해 주세요.");
+    } catch (IllegalStateException e) {
+      log.error("Apple id_token 클레임 검증 실패: {}", e.getMessage());
+      throw e;
     } catch (Exception e) {
-      log.error("Failed to verify Apple id_token signature via JWKS", e);
-      throw new IllegalStateException("Apple id_token verification failed");
+      log.error("Apple id_token 서명 검증 중 예외 발생: exceptionType={}, message={}", e.getClass().getSimpleName(), e.getMessage(), e);
+      throw new IllegalArgumentException("Apple id_token 서명 검증에 실패했습니다. 잠시 후 다시 시도해 주세요.", e);
     }
   }
 }

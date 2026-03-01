@@ -48,28 +48,33 @@ public class KakaoIdTokenValidator {
       JWTClaimsSet claims = processor.process(idToken, null);
 
       if (!KakaoKeys.ISSUER.equals(claims.getIssuer())) {
-        throw new IllegalStateException("Invalid Kakao ID Token issuer");
+        log.error("카카오 id_token issuer 불일치: expected={}, actual={}", KakaoKeys.ISSUER, claims.getIssuer());
+        throw new IllegalArgumentException("카카오 id_token 발급자(issuer)가 유효하지 않습니다. 카카오에서 발급된 토큰인지 확인해 주세요.");
       }
 
       if (!claims.getAudience().contains(clientId)) {
-        throw new IllegalStateException("Invalid Kakao ID Token audience");
+        log.error("카카오 id_token audience 불일치: expectedClientId={}, actual={}", clientId, claims.getAudience());
+        throw new IllegalArgumentException("카카오 id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다.");
       }
 
       String tokenNonce = (String) claims.getClaim(KakaoKeys.NONCE);
-      if (tokenNonce == null || !tokenNonce.equals(nonce)) {
-        throw new IllegalStateException("Invalid Kakao ID Token nonce");
+      if (tokenNonce == null) {
+        throw new IllegalArgumentException("카카오 id_token에 nonce 클레임이 존재하지 않습니다. 로그인 요청을 다시 시도해 주세요.");
+      }
+      if (!tokenNonce.equals(nonce)) {
+        throw new IllegalArgumentException("카카오 id_token의 nonce가 요청 값과 일치하지 않습니다. 재로그인 후 다시 시도해 주세요.");
       }
 
       return claims.getClaims();
     } catch (ParseException | BadJWTException e) {
-      log.error("Failed to parse or expired Kakao id_token", e);
+      log.error("카카오 id_token 파싱 또는 만료 오류: {}", e.getMessage());
       throw new IllegalArgumentException("유효하지 않은 형식이거나 만료된 카카오 id_token입니다.");
     } catch (IllegalArgumentException | IllegalStateException e) {
       log.error("카카오 id_token 클레임 검증 실패: {}", e.getMessage());
       throw e;
     } catch (Exception e) {
-      log.error("Failed to verify Kakao id_token signature via JWKS", e);
-      throw new IllegalStateException("카카오 id_token 서명 검증에 실패했습니다.");
+      log.error("카카오 id_token 서명 검증 중 예외 발생: exceptionType={}, message={}", e.getClass().getSimpleName(), e.getMessage(), e);
+      throw new IllegalArgumentException("카카오 id_token 서명 검증에 실패했습니다. 잠시 후 다시 시도해 주세요.", e);
     }
   }
 }

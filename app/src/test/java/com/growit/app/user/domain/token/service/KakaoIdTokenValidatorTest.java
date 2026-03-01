@@ -96,7 +96,7 @@ class KakaoIdTokenValidatorTest {
             rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
-        .isInstanceOf(IllegalStateException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Invalid Kakao ID Token issuer");
   }
 
@@ -112,7 +112,7 @@ class KakaoIdTokenValidatorTest {
             rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
-        .isInstanceOf(IllegalStateException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Invalid Kakao ID Token audience");
   }
 
@@ -128,7 +128,7 @@ class KakaoIdTokenValidatorTest {
             rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
-        .isInstanceOf(IllegalStateException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Invalid Kakao ID Token nonce");
   }
 
@@ -161,7 +161,7 @@ class KakaoIdTokenValidatorTest {
             wrongKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
-        .isInstanceOf(IllegalStateException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("카카오 id_token 서명 검증에 실패했습니다.");
   }
 }
