@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.65.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.0...v1.65.1) (2026-03-01)
+
+
+### Bug Fixes
+
+* 로그인 버그 수정 ([a955fce](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a955fced1344aa6d564ac3d811166738e7daedb7))
+* 로그인 버그 수정 ([e294bfb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e294bfb2aeed989884aeaabe3b8873f7843effbd))
+
 ## [1.65.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.64.1...v1.65.0) (2026-03-01)
 
 
