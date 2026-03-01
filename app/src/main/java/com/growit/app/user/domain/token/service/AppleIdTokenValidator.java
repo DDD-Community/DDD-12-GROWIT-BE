@@ -42,13 +42,19 @@ public class AppleIdTokenValidator {
       JWTClaimsSet claims = processor.process(idToken, null);
 
       if (!APPLE_ISSUER.equals(claims.getIssuer())) {
-        log.error("Apple id_token issuer 불일치: expected={}, actual={}", APPLE_ISSUER, claims.getIssuer());
-        throw new IllegalArgumentException("Apple id_token 발급자(issuer)가 유효하지 않습니다. Apple에서 발급된 토큰인지 확인해 주세요.");
+        log.error(
+            "Apple id_token issuer 불일치: expected={}, actual={}", APPLE_ISSUER, claims.getIssuer());
+        throw new IllegalArgumentException(
+            "Apple id_token 발급자(issuer)가 유효하지 않습니다. Apple에서 발급된 토큰인지 확인해 주세요.");
       }
 
       if (!claims.getAudience().contains(clientId)) {
-        log.error("Apple id_token audience 불일치: expectedClientId={}, actual={}", clientId, claims.getAudience());
-        throw new IllegalArgumentException("Apple id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다.");
+        log.error(
+            "Apple id_token audience 불일치: expectedClientId={}, actual={}",
+            clientId,
+            claims.getAudience());
+        throw new IllegalArgumentException(
+            "Apple id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다.");
       }
 
       return claims.getClaims();
@@ -62,7 +68,11 @@ public class AppleIdTokenValidator {
       log.error("Apple id_token 클레임 검증 실패: {}", e.getMessage());
       throw e;
     } catch (Exception e) {
-      log.error("Apple id_token 서명 검증 중 예외 발생: exceptionType={}, message={}", e.getClass().getSimpleName(), e.getMessage(), e);
+      log.error(
+          "Apple id_token 서명 검증 중 예외 발생: exceptionType={}, message={}",
+          e.getClass().getSimpleName(),
+          e.getMessage(),
+          e);
       throw new IllegalArgumentException("Apple id_token 서명 검증에 실패했습니다. 잠시 후 다시 시도해 주세요.", e);
     }
   }
