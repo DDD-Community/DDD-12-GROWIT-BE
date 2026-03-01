@@ -1,13 +1,14 @@
 package com.growit.app.user.usecase;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.domain.token.UserTokenRepository;
-import com.growit.app.user.domain.token.service.UserTokenQuery;
-import com.growit.app.user.domain.token.service.exception.InvalidTokenException;
+import com.growit.app.user.domain.user.AppleTokenRevocationPort;
 import com.growit.app.user.domain.user.User;
+import com.growit.app.user.domain.user.UserRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,18 +19,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class DeleteUseCaseTest {
 
   @Mock private UserTokenRepository userTokenRepository;
-
-  @Mock private UserTokenQuery userTokenQuery;
+  @Mock private UserRepository userRepository;
+  @Mock private AppleTokenRevocationPort appleTokenRevocationPort;
 
   @InjectMocks private DeleteUserUseCase deleteUserUseCase;
 
   @Test
-  void givenUserTokenNotExists_whenExecute_thenThrowsInvalidUserTokenException() {
+  void givenUser_whenExecute_thenDeletesUserAndTokens() {
     // given
     User user = UserFixture.defaultUser();
-    when(userTokenQuery.getUserTokenByUserId(user.getId())).thenThrow(InvalidTokenException.class);
+    when(userTokenRepository.findByUserId(user.getId())).thenReturn(Optional.empty());
 
-    // when & then
-    assertThrows(InvalidTokenException.class, () -> deleteUserUseCase.execute(user));
+    // when
+    deleteUserUseCase.execute(user);
+
+    // then
+    verify(userTokenRepository).findByUserId(user.getId());
+    verify(userRepository).saveUser(user);
   }
 }
