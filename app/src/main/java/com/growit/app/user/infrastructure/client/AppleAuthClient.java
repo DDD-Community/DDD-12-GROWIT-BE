@@ -59,15 +59,17 @@ public class AppleAuthClient {
       if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
         AppleTokenResponse tokenResponse =
             objectMapper.readValue(response.getBody(), AppleTokenResponse.class);
-        log.info("Successfully fetched refresh token from Apple");
+        log.info("Apple authorization_code 교환 성공: refreshToken 발급 완료");
         return tokenResponse.getRefreshToken();
       } else {
-        log.error("Failed to fetch refresh token from Apple: {}", response.getBody());
-        throw new IllegalStateException("Failed to exchange authorization code with Apple");
+        log.error("Apple authorization_code 교환 실패: status={}, body={}", response.getStatusCode(), response.getBody());
+        throw new IllegalStateException("Apple 인가 코드(authorization_code) 교환에 실패했습니다. 코드가 만료되었거나 이미 사용된 코드입니다.");
       }
+    } catch (IllegalStateException e) {
+      throw e;
     } catch (Exception e) {
-      log.error("Error exchanging authorization code with Apple", e);
-      throw new IllegalStateException("Error communicating with Apple Token API", e);
+      log.error("Apple Token API 통신 중 예외 발생: exceptionType={}, message={}", e.getClass().getSimpleName(), e.getMessage(), e);
+      throw new IllegalStateException("Apple 인증 서버와의 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.", e);
     }
   }
 }
