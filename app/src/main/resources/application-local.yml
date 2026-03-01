@@ -65,7 +65,7 @@ management:
 app:
   oauth:
     kakao:
-      client-id: ${KAKAO_CLIENT_ID:}
+      client-id: ${KAKAO_CLIENT_ID:82d47911ec3863fe1b589953d419e1bb}
     apple:
       team-id: ${APPLE_TEAM_ID:}
       client-id: ${APPLE_CLIENT_ID:}
