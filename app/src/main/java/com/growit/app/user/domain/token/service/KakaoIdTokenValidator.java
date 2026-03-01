@@ -66,10 +66,8 @@ public class KakaoIdTokenValidator {
 
       String tokenNonce = (String) claims.getClaim(KakaoKeys.NONCE);
       if (tokenNonce == null) {
-        throw new IllegalArgumentException(
-            "카카오 id_token에 nonce 클레임이 존재하지 않습니다. 로그인 요청을 다시 시도해 주세요.");
-      }
-      if (!tokenNonce.equals(nonce)) {
+        log.warn("카카오 id_token에 nonce 클레임이 존재하지 않습니다. 검증을 건너뜁니다.");
+      } else if (!tokenNonce.equals(nonce)) {
         throw new IllegalArgumentException(
             "카카오 id_token의 nonce가 요청 값과 일치하지 않습니다. 재로그인 후 다시 시도해 주세요.");
       }
