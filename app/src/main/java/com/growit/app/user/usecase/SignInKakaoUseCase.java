@@ -54,7 +54,7 @@ public class SignInKakaoUseCase {
               .refreshToken(token.refreshToken())
               .build();
 
-    return new SignInKakaoResult(false, tokenResponse, null);
+      return new SignInKakaoResult(false, tokenResponse, null);
     } else {
       String regToken =
           tokenService.createRegistrationToken(
