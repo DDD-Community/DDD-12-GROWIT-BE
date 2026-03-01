@@ -1,8 +1,6 @@
 package com.growit.app.user.usecase;
 
-import com.growit.app.user.domain.token.UserToken;
 import com.growit.app.user.domain.token.UserTokenRepository;
-import com.growit.app.user.domain.token.service.UserTokenQuery;
 import com.growit.app.user.domain.user.AppleTokenRevocationPort;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.user.UserRepository;
@@ -16,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class DeleteUserUseCase {
-  private final UserTokenQuery userTokenQuery;
   private final UserTokenRepository userTokenRepository;
   private final UserRepository userRepository;
   private final AppleTokenRevocationPort appleTokenRevocationPort;
@@ -24,8 +21,7 @@ public class DeleteUserUseCase {
   @Transactional
   public void execute(User user) {
     revokeAppleTokenIfPresent(user);
-    final UserToken userToken = userTokenQuery.getUserTokenByUserId(user.getId());
-    userTokenRepository.deleteUserToken(userToken);
+    userTokenRepository.findByUserId(user.getId()).ifPresent(userTokenRepository::deleteUserToken);
     user.deleted();
     userRepository.saveUser(user);
   }
