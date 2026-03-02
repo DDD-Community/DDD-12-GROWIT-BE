@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.66.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.6...v1.66.0) (2026-03-02)
+
+
+### Features
+
+* 카카오 OAuth2 로그인 흐름 및 등록 처리 API 구현 (bug/425/kakao) ([e77da72](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e77da7221ab9a7a3cc2cdc84efe0584570850b05))
+* 카카오 OAuth2 로그인 흐름 및 등록 처리 API 구현 (bug/425/kakao) ([fbd6155](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fbd615596c84c5c1ff9bd3bfc6afd7e62db0a8b6))
+* 테스트 환경에 카카오 OAuth2 클라이언트 관련 Mock Bean 추가 (bug/425/kakao) ([888728d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/888728d74ac8c41644ce0ba3bbfc33fb45db28f1))
+* 테스트 환경에 카카오 OAuth2 클라이언트 관련 Mock Bean 추가 (bug/425/kakao) ([a163c2b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a163c2b358b1160aefb21d3ef78a8bf92e92429e))
+* 테스트 환경에 카카오 OAuth2 클라이언트 관련 Mock Bean 추가 (bug/425/kakao) ([52a4d0e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/52a4d0e252f7307ea18aacb96aa8a14e5be84cf1))
+
 ## [1.65.6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.5...v1.65.6) (2026-03-01)
 
 
