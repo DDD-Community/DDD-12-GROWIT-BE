@@ -61,6 +61,7 @@ public class AuthController {
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
       @Valid @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(requestMapper.toSignInCommand(signInRequest));
+
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
   }
 
