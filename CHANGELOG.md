@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.66.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.0...v1.66.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* AuthController 분리 ([e69131f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e69131f83ff304a4fcac8e7701c03b4243586a13))
+* FQN ([44bcf7c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/44bcf7cc62daf19bd247fe0f6fe706b48df64881))
+* Redirct 방식 버그 수정 ([9bc4da2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9bc4da2612b29ff37f9a70da60eaeb5c945063e7))
+* spotless ([81e0e78](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/81e0e783fbfafac53231c60563cca7479f1ac7cf))
+* test링크 삭제 ([a126f28](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a126f28949bd52a45ad6e2cd506d1e4d39531d2b))
+* 카카오 리다이렉트 방식 수정 ([4f001b1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4f001b157c1c86b3fa6c6009b83362d5890bca40))
+
 ## [1.66.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.6...v1.66.0) (2026-03-02)
 
 
