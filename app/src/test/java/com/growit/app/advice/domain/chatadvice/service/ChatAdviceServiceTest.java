@@ -1,16 +1,22 @@
 package com.growit.app.advice.domain.chatadvice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.growit.app.advice.domain.chatadvice.ChatAdvice;
 import com.growit.app.advice.domain.chatadvice.repository.ChatAdviceRepository;
 import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,11 +37,10 @@ class ChatAdviceServiceTest {
   private static final String USER_ID = "user-123";
   private static final ZoneId ZONE_ID = ZoneId.of("Asia/Seoul");
 
-  @org.junit.jupiter.api.BeforeEach
+  @BeforeEach
   void setUp() {
     given(clock.getZone()).willReturn(ZONE_ID);
-    given(clock.instant())
-        .willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
+    given(clock.instant()).willReturn(Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
   }
 
   @Test
@@ -178,8 +183,7 @@ class ChatAdviceServiceTest {
     assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now(clock));
 
     // verify save called
-    org.mockito.Mockito.verify(chatAdviceRepository, org.mockito.Mockito.times(1))
-        .save(org.mockito.ArgumentMatchers.any(ChatAdvice.class));
+    verify(chatAdviceRepository, times(1)).save(any(ChatAdvice.class));
   }
 
   @Test
@@ -205,7 +209,6 @@ class ChatAdviceServiceTest {
     assertThat(result.getLastResetDate()).isEqualTo(today);
 
     // verify save NOT called
-    org.mockito.Mockito.verify(chatAdviceRepository, org.mockito.Mockito.never())
-        .save(org.mockito.ArgumentMatchers.any(ChatAdvice.class));
+    verify(chatAdviceRepository, never()).save(any(ChatAdvice.class));
   }
 }

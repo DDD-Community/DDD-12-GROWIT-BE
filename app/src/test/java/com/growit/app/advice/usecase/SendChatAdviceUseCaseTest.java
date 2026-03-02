@@ -12,6 +12,7 @@ import com.growit.app.fake.user.UserFixture;
 import com.growit.app.user.domain.user.User;
 import com.growit.app.user.domain.useradvicestatus.service.UserAdviceStatusService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -121,8 +122,8 @@ class SendChatAdviceUseCaseTest {
         .remainingCount(remainingCount)
         .lastResetDate(LocalDate.now())
         .conversations(new ArrayList<>())
-        .createdAt(java.time.LocalDateTime.now())
-        .updatedAt(java.time.LocalDateTime.now())
+        .createdAt(LocalDateTime.now())
+        .updatedAt(LocalDateTime.now())
         .build();
   }
 

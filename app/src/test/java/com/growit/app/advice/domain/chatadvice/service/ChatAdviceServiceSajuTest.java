@@ -15,6 +15,7 @@ import com.growit.app.user.domain.user.vo.EarthlyBranchHour;
 import com.growit.app.user.domain.user.vo.SajuInfo;
 import com.growit.app.user.domain.user.vo.SajuInfo.Gender;
 import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ class ChatAdviceServiceSajuTest {
   void givenUserWithSaju_whenAddAdvice_thenRequestContainsSajuInfo() {
     // given
     given(clock.getZone()).willReturn(ZONE_ID);
-    given(clock.instant()).willReturn(java.time.Instant.parse("2024-01-01T00:00:00Z"));
+    given(clock.instant()).willReturn(Instant.parse("2024-01-01T00:00:00Z"));
 
     LocalDate birthDate = LocalDate.of(1990, 1, 1);
     SajuInfo sajuInfo =

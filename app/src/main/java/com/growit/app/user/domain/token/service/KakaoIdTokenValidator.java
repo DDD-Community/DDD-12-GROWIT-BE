@@ -13,8 +13,11 @@ import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +26,14 @@ import org.springframework.stereotype.Component;
 public class KakaoIdTokenValidator {
 
   private final JWKSource<SecurityContext> jwkSource;
-  private final String clientId;
+  private final List<String> validClientIds;
 
-  @org.springframework.beans.factory.annotation.Autowired
-  public KakaoIdTokenValidator(@Value("${app.oauth.kakao.client-id}") String clientId) {
-    this.clientId = clientId;
+  @Autowired
+  public KakaoIdTokenValidator(
+      @Value("${app.oauth.kakao.client-id}") String webClientId,
+      @Value("${app.oauth.kakao.app-client-id:}") String appClientId) {
+    this.validClientIds =
+        Stream.of(webClientId, appClientId).filter(id -> id != null && !id.isBlank()).toList();
     try {
       this.jwkSource = new RemoteJWKSet<>(new URL("https://kauth.kakao.com/.well-known/jwks.json"));
     } catch (MalformedURLException e) {
@@ -35,8 +41,8 @@ public class KakaoIdTokenValidator {
     }
   }
 
-  KakaoIdTokenValidator(String clientId, JWKSource<SecurityContext> jwkSource) {
-    this.clientId = clientId;
+  KakaoIdTokenValidator(List<String> validClientIds, JWKSource<SecurityContext> jwkSource) {
+    this.validClientIds = validClientIds;
     this.jwkSource = jwkSource;
   }
 
@@ -56,12 +62,14 @@ public class KakaoIdTokenValidator {
             "카카오 id_token 발급자(issuer)가 유효하지 않습니다. 카카오에서 발급된 토큰인지 확인해 주세요.");
       }
 
-      if (!claims.getAudience().contains(clientId)) {
+      boolean isAudienceValid = claims.getAudience().stream().anyMatch(validClientIds::contains);
+
+      if (!isAudienceValid) {
         log.error(
-            "카카오 id_token audience 불일치: expectedClientId={}, actual={}",
-            clientId,
+            "카카오 id_token audience 불일치: validClientIds={}, actual={}",
+            validClientIds,
             claims.getAudience());
-        throw new IllegalArgumentException("카카오 id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다.");
+        throw new IllegalArgumentException("카카오 id_token의 대상(audience)이 유효한 클라이언트 ID와 일치하지 않습니다.");
       }
 
       String tokenNonce = (String) claims.getClaim(KakaoKeys.NONCE);
