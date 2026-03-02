@@ -32,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/auth")
@@ -96,6 +97,16 @@ public class AuthController {
     } else {
       return ResponseEntity.ok(ApiResponse.success(result.tokenResponse()));
     }
+  }
+
+  @GetMapping("/signin/kakao")
+  public RedirectView signInWithKakao(
+      @RequestParam(required = false, name = "redirect-uri") String redirectUri) {
+    String oauth2Url = "/oauth2/authorization/kakao";
+    if (redirectUri != null && !redirectUri.isBlank()) {
+      oauth2Url += "?redirect-uri=" + redirectUri;
+    }
+    return new RedirectView(oauth2Url);
   }
 
   @PostMapping("/signin/kakao")
