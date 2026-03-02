@@ -1,5 +1,6 @@
 package com.growit.app.user.controller;
 
+import com.growit.app.common.config.oauth.KakaoKeys;
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInAppleRequest;
@@ -101,9 +102,9 @@ public class AuthController {
   }
 
   @GetMapping("/signin/kakao")
-  public RedirectView signInWithKakao(
+  public RedirectView signInWithKakaoRedirect(
       @RequestParam(required = false, name = "redirect-uri") String redirectUri) {
-    String oauth2Url = "/oauth2/authorization/kakao";
+    String oauth2Url = KakaoKeys.KAKAO_AUTHORIZATION_URL;
     if (redirectUri != null && !redirectUri.isBlank()) {
       oauth2Url += "?redirect-uri=" + redirectUri;
     }
@@ -119,9 +120,8 @@ public class AuthController {
 
     if (result.isPendingSignup()) {
       return ResponseEntity.ok(ApiResponse.success(result.oauthResponse()));
-    } else {
-      return ResponseEntity.ok(ApiResponse.success(result.tokenResponse()));
     }
+    return ResponseEntity.ok(ApiResponse.success(result.tokenResponse()));
   }
 
   @PostMapping("/reissue")
