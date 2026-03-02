@@ -13,7 +13,7 @@ public class DiscordNotificationService implements NotificationService {
   private final RestTemplate restTemplate = new RestTemplate();
 
   private static final String DISCORD_WEBHOOK_URL =
-      "https://discord.com/api/webhooks/1416585254415765535/MAxIHEiDGl_zrGqbzaYjzXhymNrZdpPUJPIiQ0UArGM0_Fps4KqoufIcgqt3I_ikZmjd";
+      "https://discord.com/api/webhooks/1416586177632276571/nGy-6R3xEzs0LfOfiVfqDHAj1yX4LT38bQHGwC3CQT00WWd16-PeSw4SFKAZiBL3gGXB";
 
   @Override
   public void sendErrorNotification(String uri, String method, String errorType, String message) {
