@@ -13,7 +13,6 @@ import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -33,9 +32,8 @@ public class KakaoIdTokenValidator {
   public KakaoIdTokenValidator(
       @Value("${app.oauth.kakao.client-id}") String webClientId,
       @Value("${app.oauth.kakao.app-client-id:}") String appClientId) {
-    this.validClientIds = Stream.of(webClientId, appClientId)
-        .filter(id -> id != null && !id.isBlank())
-        .toList();
+    this.validClientIds =
+        Stream.of(webClientId, appClientId).filter(id -> id != null && !id.isBlank()).toList();
     try {
       this.jwkSource = new RemoteJWKSet<>(new URL("https://kauth.kakao.com/.well-known/jwks.json"));
     } catch (MalformedURLException e) {
@@ -64,8 +62,7 @@ public class KakaoIdTokenValidator {
             "카카오 id_token 발급자(issuer)가 유효하지 않습니다. 카카오에서 발급된 토큰인지 확인해 주세요.");
       }
 
-      boolean isAudienceValid = claims.getAudience().stream()
-          .anyMatch(validClientIds::contains);
+      boolean isAudienceValid = claims.getAudience().stream().anyMatch(validClientIds::contains);
 
       if (!isAudienceValid) {
         log.error(

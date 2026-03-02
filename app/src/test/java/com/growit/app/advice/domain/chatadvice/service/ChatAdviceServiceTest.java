@@ -40,8 +40,7 @@ class ChatAdviceServiceTest {
   @BeforeEach
   void setUp() {
     given(clock.getZone()).willReturn(ZONE_ID);
-    given(clock.instant())
-        .willReturn(Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
+    given(clock.instant()).willReturn(Instant.parse("2024-01-01T00:00:00Z")); // This is 09:00 KST
   }
 
   @Test
@@ -184,8 +183,7 @@ class ChatAdviceServiceTest {
     assertThat(result.getLastResetDate()).isEqualTo(LocalDate.now(clock));
 
     // verify save called
-    verify(chatAdviceRepository, times(1))
-        .save(any(ChatAdvice.class));
+    verify(chatAdviceRepository, times(1)).save(any(ChatAdvice.class));
   }
 
   @Test
@@ -211,7 +209,6 @@ class ChatAdviceServiceTest {
     assertThat(result.getLastResetDate()).isEqualTo(today);
 
     // verify save NOT called
-    verify(chatAdviceRepository, never())
-        .save(any(ChatAdvice.class));
+    verify(chatAdviceRepository, never()).save(any(ChatAdvice.class));
   }
 }

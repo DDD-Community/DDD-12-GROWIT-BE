@@ -96,9 +96,7 @@ class ChatAdviceControllerTest {
                         .tag("Advice")
                         .summary("실시간 채팅 조언 상태 조회")
                         .description("사용자의 남은 대화 횟수와 온보딩 완료 여부, 대화 내역을 조회합니다.")
-                        .queryParameters(
-                            parameterWithName("week")
-                                .description("조회할 주차"))
+                        .queryParameters(parameterWithName("week").description("조회할 주차"))
                         .responseFields(
                             fieldWithPath("data.remainingCount")
                                 .type(NUMBER)
