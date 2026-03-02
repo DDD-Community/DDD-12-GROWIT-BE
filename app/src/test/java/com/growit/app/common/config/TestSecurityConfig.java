@@ -1,5 +1,7 @@
 package com.growit.app.common.config;
 
+import static org.mockito.Mockito.mock;
+
 import com.growit.app.advice.infrastructure.client.AiMentorAdviceClientImpl;
 import com.growit.app.common.config.jwt.JwtFilter;
 import com.growit.app.common.util.message.MessageService;
@@ -16,7 +18,6 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import static org.mockito.Mockito.mock;
 
 @TestConfiguration
 public class TestSecurityConfig {
