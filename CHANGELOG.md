@@ -1,5 +1,65 @@
 # Changelog
 
+## [1.66.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.6...v1.66.0) (2026-03-02)
+
+
+### Features
+
+* 카카오 OAuth2 로그인 흐름 및 등록 처리 API 구현 (bug/425/kakao) ([e77da72](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e77da7221ab9a7a3cc2cdc84efe0584570850b05))
+* 카카오 OAuth2 로그인 흐름 및 등록 처리 API 구현 (bug/425/kakao) ([fbd6155](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/fbd615596c84c5c1ff9bd3bfc6afd7e62db0a8b6))
+* 테스트 환경에 카카오 OAuth2 클라이언트 관련 Mock Bean 추가 (bug/425/kakao) ([888728d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/888728d74ac8c41644ce0ba3bbfc33fb45db28f1))
+* 테스트 환경에 카카오 OAuth2 클라이언트 관련 Mock Bean 추가 (bug/425/kakao) ([a163c2b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a163c2b358b1160aefb21d3ef78a8bf92e92429e))
+* 테스트 환경에 카카오 OAuth2 클라이언트 관련 Mock Bean 추가 (bug/425/kakao) ([52a4d0e](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/52a4d0e252f7307ea18aacb96aa8a14e5be84cf1))
+
+## [1.65.6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.5...v1.65.6) (2026-03-01)
+
+
+### Bug Fixes
+
+* batch ([9d2e377](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9d2e377c30e028307aafc3ad7eb935205ebb9445))
+* batch ([e1b5758](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e1b57583a53e6a7b44f0c3fb837551fb1bdbf9c6))
+
+## [1.65.5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.4...v1.65.5) (2026-03-01)
+
+
+### Bug Fixes
+
+* checksum ([a83df33](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a83df334756ffe86860378da9225818d9a077b50))
+* checksum ([155145b](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/155145b259086d566e24782c56542e49dc279699))
+* spotless ([e5f0ea5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e5f0ea58a7274b6232d30e0882758d01d9e1daed))
+
+## [1.65.4](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.3...v1.65.4) (2026-03-01)
+
+
+### Bug Fixes
+
+* spotless ([a33e359](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a33e35943cf3698a47b194ef3df907babf1eb0ec))
+* 닉네임 null ([a59ac9a](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a59ac9a546a7c30e40e5b579859ad4ee8125609e))
+* 컬럼 ([085f36d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/085f36d0f725578df11a9ddd90d00b33066046cf))
+
+## [1.65.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.2...v1.65.3) (2026-03-01)
+
+
+### Bug Fixes
+
+* **security:** permit health check root endpoint ([550e50d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/550e50d5f8ac5013792d4baf20e4f61cbe649826))
+* **security:** permit health check root endpoint ([31883c5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/31883c547fe20ff58dac4639f9f24dda534267d2))
+
+## [1.65.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.1...v1.65.2) (2026-03-01)
+
+
+### Bug Fixes
+
+* **health:** add root endpoint for ALB health checks ([9f9fbd3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/9f9fbd32179f395d00b736c8313dcf8d4daff89f))
+
+## [1.65.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.65.0...v1.65.1) (2026-03-01)
+
+
+### Bug Fixes
+
+* 로그인 버그 수정 ([a955fce](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a955fced1344aa6d564ac3d811166738e7daedb7))
+* 로그인 버그 수정 ([e294bfb](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e294bfb2aeed989884aeaabe3b8873f7843effbd))
+
 ## [1.65.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.64.1...v1.65.0) (2026-03-01)
 
 

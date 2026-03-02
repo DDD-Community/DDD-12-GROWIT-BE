@@ -1,5 +1,7 @@
 package com.growit.app.common.config;
 
+import static org.mockito.Mockito.mock;
+
 import com.growit.app.advice.infrastructure.client.AiMentorAdviceClientImpl;
 import com.growit.app.common.config.jwt.JwtFilter;
 import com.growit.app.common.util.message.MessageService;
@@ -12,6 +14,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -29,6 +33,16 @@ public class TestSecurityConfig {
   @MockitoBean private MessageService messageService;
 
   @MockitoBean private AiMentorAdviceClientImpl aiMentorAdviceClient;
+
+  @Bean
+  public OAuth2AuthorizedClientService oAuth2AuthorizedClientService() {
+    return mock(OAuth2AuthorizedClientService.class);
+  }
+
+  @Bean
+  public ClientRegistrationRepository clientRegistrationRepository() {
+    return mock(ClientRegistrationRepository.class);
+  }
 
   @Bean
   @Primary

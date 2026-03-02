@@ -1,5 +1,6 @@
 package com.growit.app.user.controller;
 
+import com.growit.app.common.config.oauth.KakaoKeys;
 import com.growit.app.common.response.ApiResponse;
 import com.growit.app.user.controller.dto.request.ReissueRequest;
 import com.growit.app.user.controller.dto.request.SignInAppleRequest;
@@ -32,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/auth")
@@ -60,6 +62,7 @@ public class AuthController {
   public ResponseEntity<ApiResponse<TokenResponse>> signin(
       @Valid @RequestBody SignInRequest signInRequest) {
     Token token = signInUseCase.execute(requestMapper.toSignInCommand(signInRequest));
+
     return ResponseEntity.ok(ApiResponse.success(responseMapper.toTokenResponse(token)));
   }
 
@@ -98,6 +101,16 @@ public class AuthController {
     }
   }
 
+  @GetMapping("/signin/kakao")
+  public RedirectView signInWithKakaoRedirect(
+      @RequestParam(required = false, name = "redirect-uri") String redirectUri) {
+    String oauth2Url = KakaoKeys.KAKAO_AUTHORIZATION_URL;
+    if (redirectUri != null && !redirectUri.isBlank()) {
+      oauth2Url += "?redirect-uri=" + redirectUri;
+    }
+    return new RedirectView(oauth2Url);
+  }
+
   @PostMapping("/signin/kakao")
   public ResponseEntity<ApiResponse<?>> signinWithKakao(
       @Valid @RequestBody SignInKakaoRequest request) {
@@ -107,9 +120,8 @@ public class AuthController {
 
     if (result.isPendingSignup()) {
       return ResponseEntity.ok(ApiResponse.success(result.oauthResponse()));
-    } else {
-      return ResponseEntity.ok(ApiResponse.success(result.tokenResponse()));
     }
+    return ResponseEntity.ok(ApiResponse.success(result.tokenResponse()));
   }
 
   @PostMapping("/reissue")

@@ -18,6 +18,7 @@ import com.nimbusds.jwt.SignedJWT;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,8 @@ class KakaoIdTokenValidatorTest {
   private static JWKSource<SecurityContext> jwkSource;
   private KakaoIdTokenValidator validator;
 
-  private final String clientId = "test-client-id";
+  private final String webClientId = "test-web-client-id";
+  private final String appClientId = "test-app-client-id";
   private final String validNonce = "test-nonce";
 
   @BeforeAll
@@ -41,7 +43,7 @@ class KakaoIdTokenValidatorTest {
 
   @BeforeEach
   void setUp() {
-    validator = new KakaoIdTokenValidator(clientId, jwkSource);
+    validator = new KakaoIdTokenValidator(List.of(webClientId, appClientId), jwkSource);
   }
 
   private String generateToken(
@@ -68,12 +70,29 @@ class KakaoIdTokenValidatorTest {
   }
 
   @Test
-  @DisplayName("유효한 토큰은 정상적으로 검증된다")
-  void validToken_Success() throws Exception {
+  @DisplayName("웹 클라이언트 ID(REST API 키)로 발급된 토큰은 정상적으로 검증된다")
+  void validToken_withWebClientId_Success() throws Exception {
     String token =
         generateToken(
             KakaoKeys.ISSUER,
-            clientId,
+            webClientId,
+            validNonce,
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
+            rsaKey);
+
+    Map<String, Object> claims = validator.parseAndVerifyIdToken(token, validNonce);
+
+    assertThat(claims).isNotNull();
+    assertThat(claims.get("sub")).isEqualTo("test-sub");
+  }
+
+  @Test
+  @DisplayName("앱 클라이언트 ID(네이티브 앱 키)로 발급된 토큰도 정상적으로 검증된다")
+  void validToken_withAppClientId_Success() throws Exception {
+    String token =
+        generateToken(
+            KakaoKeys.ISSUER,
+            appClientId,
             validNonce,
             Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
             rsaKey);
@@ -90,7 +109,7 @@ class KakaoIdTokenValidatorTest {
     String token =
         generateToken(
             "https://invalid.issuer.com",
-            clientId,
+            webClientId,
             validNonce,
             Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
             rsaKey);
@@ -101,19 +120,19 @@ class KakaoIdTokenValidatorTest {
   }
 
   @Test
-  @DisplayName("잘못된 대상자(audience)면 예외가 발생한다")
+  @DisplayName("등록되지 않은 audience면 예외가 발생한다")
   void invalidAudience_ThrowsException() throws Exception {
     String token =
         generateToken(
             KakaoKeys.ISSUER,
-            "wrong-client-id",
+            "unknown-client-id",
             validNonce,
             Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
             rsaKey);
 
     assertThatThrownBy(() -> validator.parseAndVerifyIdToken(token, validNonce))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("카카오 id_token의 대상(audience)이 현재 앱 클라이언트 ID와 일치하지 않습니다");
+        .hasMessageContaining("카카오 id_token의 대상(audience)이 유효한 클라이언트 ID와 일치하지 않습니다");
   }
 
   @Test
@@ -122,7 +141,7 @@ class KakaoIdTokenValidatorTest {
     String token =
         generateToken(
             KakaoKeys.ISSUER,
-            clientId,
+            webClientId,
             "wrong-nonce",
             Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
             rsaKey);
@@ -138,7 +157,7 @@ class KakaoIdTokenValidatorTest {
     String token =
         generateToken(
             KakaoKeys.ISSUER,
-            clientId,
+            webClientId,
             validNonce,
             Date.from(Instant.now().minus(1, ChronoUnit.HOURS)),
             rsaKey);
@@ -155,7 +174,7 @@ class KakaoIdTokenValidatorTest {
     String token =
         generateToken(
             KakaoKeys.ISSUER,
-            clientId,
+            webClientId,
             validNonce,
             Date.from(Instant.now().plus(1, ChronoUnit.HOURS)),
             wrongKey);

@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,8 +97,7 @@ class ChatAdviceControllerTest {
                         .summary("실시간 채팅 조언 상태 조회")
                         .description("사용자의 남은 대화 횟수와 온보딩 완료 여부, 대화 내역을 조회합니다.")
                         .queryParameters(
-                            org.springframework.restdocs.request.RequestDocumentation
-                                .parameterWithName("week")
+                            parameterWithName("week")
                                 .description("조회할 주차"))
                         .responseFields(
                             fieldWithPath("data.remainingCount")
