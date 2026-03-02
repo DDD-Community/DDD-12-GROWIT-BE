@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.66.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.1...v1.66.2) (2026-03-02)
+
+
+### Bug Fixes
+
+* 허용하지 않았던 image 삭제 ([a13e406](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a13e4063dae6942f399f2a581a34bf889c04c496))
+* 허용하지 않았던 image 삭제 ([2d617cc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2d617ccc78e8193d6b8e6a9a81f19a8974131de7))
+
 ## [1.66.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.0...v1.66.1) (2026-03-02)
 
 
