@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.66.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.2...v1.66.3) (2026-03-05)
+
+
+### Bug Fixes
+
+* 만료시간 버그 해결 ([8d6d6e5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8d6d6e54b2c441e4936d7e40b4cb6781635957c4))
+* 만료시간 버그 해결 ([3f84838](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3f8483870035a4925973540abc0754976ecd005f))
+
 ## [1.66.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.1...v1.66.2) (2026-03-02)
 
 
