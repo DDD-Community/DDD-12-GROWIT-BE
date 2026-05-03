@@ -8,8 +8,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
@@ -50,7 +50,12 @@ class RoutineServiceTest {
 
     createCommand =
         new CreateToDoCommand(
-            "user123", "goal123", "Daily routine task", LocalDate.of(2024, 1, 1), TodoCategory.NOW, routine);
+            "user123",
+            "goal123",
+            "Daily routine task",
+            LocalDate.of(2024, 1, 1),
+            TodoCategory.NOW,
+            routine);
 
     updateCommand =
         new UpdateToDoCommand(

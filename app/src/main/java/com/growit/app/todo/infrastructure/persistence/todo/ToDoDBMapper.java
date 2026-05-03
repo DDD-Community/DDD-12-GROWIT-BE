@@ -39,7 +39,10 @@ public class ToDoDBMapper {
         .date(entity.getDate())
         .isCompleted(entity.isCompleted())
         .isDeleted(entity.getDeletedAt() != null)
-        .category(entity.getCategory() != null ? TodoCategory.valueOf(entity.getCategory()) : TodoCategory.NOW)
+        .category(
+            entity.getCategory() != null
+                ? TodoCategory.valueOf(entity.getCategory())
+                : TodoCategory.NOW)
         .routine(routine)
         .build();
   }

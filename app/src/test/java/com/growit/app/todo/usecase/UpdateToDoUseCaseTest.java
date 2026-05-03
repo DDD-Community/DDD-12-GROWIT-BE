@@ -11,7 +11,6 @@ import com.growit.app.fake.todo.FakeToDoValidator;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.service.ToDoValidator;

@@ -32,11 +32,11 @@ import com.growit.app.todo.controller.dto.response.TodoDto;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
-import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDeleteType;
@@ -120,7 +120,8 @@ class ToDoControllerTest {
             Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY));
 
     CreateToDoCommand command =
-        new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), TodoCategory.NOW, domainRoutine);
+        new CreateToDoCommand(
+            "user-1", "goal-1", "할 일 내용", LocalDate.now(), TodoCategory.NOW, domainRoutine);
     ToDoResult result = new ToDoResult("todo-1");
     ToDoResponse response = new ToDoResponse("todo-1");
 
@@ -218,7 +219,12 @@ class ToDoControllerTest {
             duration, RepeatType.BIWEEKLY, Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY));
     UpdateToDoRequest request =
         new UpdateToDoRequest(
-            "goal-1", LocalDate.now(), "수정된 할 일 내용", TodoCategory.NOW, routineDto, RoutineUpdateType.ALL);
+            "goal-1",
+            LocalDate.now(),
+            "수정된 할 일 내용",
+            TodoCategory.NOW,
+            routineDto,
+            RoutineUpdateType.ALL);
     UpdateToDoCommand command =
         new UpdateToDoCommand(
             todoId,
