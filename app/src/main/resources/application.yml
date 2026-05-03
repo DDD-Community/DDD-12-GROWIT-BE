@@ -20,7 +20,6 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 1 # 초기 버전 1은 스킵한다는 의미
-    repair-on-migrate: true
 
   jpa:
     hibernate:
