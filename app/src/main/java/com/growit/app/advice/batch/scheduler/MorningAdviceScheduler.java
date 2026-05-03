@@ -18,7 +18,7 @@ public class MorningAdviceScheduler {
   private final JobLauncher jobLauncher;
   private final Job morningAdviceJob;
 
-  @Scheduled(cron = "0 0 7 * * *") // Daily at 7:00 AM
+  @Scheduled(cron = "-") // Disabled: AI advice service is temporarily disabled
   public void runMorningAdviceJob() {
     log.info("Starting Morning Advice Batch Job at {}", LocalDateTime.now());
     try {
