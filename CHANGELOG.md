@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.67.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.3...v1.67.0) (2026-05-03)
+
+
+### Features
+
+* add AI orchestration setup (CLAUDE.md, .ai/, .cursor/) ([76058c5](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/76058c599beb9d793b769f07ca8c99de3ce33e50))
+
+
+### Bug Fixes
+
+* add flyway repair-on-migrate to fix V22/V23 checksum mismatch ([7dc3af0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/7dc3af05dd6c702d1464eb1b27be070f264f87fa))
+
 ## [1.66.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.2...v1.66.3) (2026-03-05)
 
 
