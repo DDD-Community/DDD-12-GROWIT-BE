@@ -75,10 +75,12 @@ public class ToDoController {
 
   @GetMapping(params = "date")
   public ResponseEntity<ApiResponse<List<ToDoWithGoalResponse>>> getTodosByDate(
-      @AuthenticationPrincipal User user, @RequestParam String date) {
+      @AuthenticationPrincipal User user,
+      @RequestParam String date,
+      @RequestParam(required = false) String category) {
     List<ToDoWithGoalDto> todoList =
         getTodosWithGoalByDateUseCase.execute(
-            toDoRequestMapper.toGetDateQueryFilter(user.getId(), date));
+            toDoRequestMapper.toGetDateQueryFilter(user.getId(), date, category));
     return ResponseEntity.ok(
         ApiResponse.success(toDoResponseMapper.toToDoWithGoalResponseList(todoList)));
   }

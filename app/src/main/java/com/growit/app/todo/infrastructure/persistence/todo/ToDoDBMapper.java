@@ -1,6 +1,7 @@
 package com.growit.app.todo.infrastructure.persistence.todo;
 
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDuration;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.RoutineEntity;
@@ -22,7 +23,7 @@ public class ToDoDBMapper {
         .content(todo.getContent())
         .date(todo.getDate())
         .isCompleted(todo.isCompleted())
-        .isImportant(todo.isImportant())
+        .category(todo.getCategory() != null ? todo.getCategory().name() : "NOW")
         .routineId(routineId)
         .build();
   }
@@ -38,7 +39,10 @@ public class ToDoDBMapper {
         .date(entity.getDate())
         .isCompleted(entity.isCompleted())
         .isDeleted(entity.getDeletedAt() != null)
-        .isImportant(entity.isImportant())
+        .category(
+            entity.getCategory() != null
+                ? TodoCategory.valueOf(entity.getCategory())
+                : TodoCategory.NOW)
         .routine(routine)
         .build();
   }

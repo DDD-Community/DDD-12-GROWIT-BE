@@ -3,6 +3,7 @@ package com.growit.app.fake.todo;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
@@ -20,7 +21,8 @@ public class ToDoFixture {
   }
 
   public static CreateToDoRequest defaultCreateToDoRequest() {
-    return new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 예시 내용입니다.", false, null);
+    return new CreateToDoRequest(
+        "goal-1", LocalDate.now(), "할 일 예시 내용입니다.", TodoCategory.NOW, null);
   }
 
   public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(
@@ -49,7 +51,7 @@ class ToDoBuilder {
   private String userId = "user-1";
   private String content = "테스트 할 일입니다.";
   private boolean isCompleted = false;
-  private boolean isImportant = false;
+  private TodoCategory category = TodoCategory.NOW;
   private LocalDate date = LocalDate.now();
 
   public ToDoBuilder id(String id) {
@@ -82,8 +84,8 @@ class ToDoBuilder {
     return this;
   }
 
-  public ToDoBuilder isImportant(boolean isImportant) {
-    this.isImportant = isImportant;
+  public ToDoBuilder category(TodoCategory category) {
+    this.category = category;
     return this;
   }
 
@@ -96,7 +98,7 @@ class ToDoBuilder {
         .date(date)
         .isCompleted(isCompleted)
         .isDeleted(false)
-        .isImportant(isImportant)
+        .category(category)
         .routine(null)
         .build();
   }

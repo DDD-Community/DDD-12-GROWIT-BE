@@ -32,6 +32,7 @@ import com.growit.app.todo.controller.dto.response.TodoDto;
 import com.growit.app.todo.controller.mapper.ToDoRequestMapper;
 import com.growit.app.todo.controller.mapper.ToDoResponseMapper;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.CompletedStatusChangeCommand;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
@@ -110,7 +111,7 @@ class ToDoControllerTest {
             .build();
 
     CreateToDoRequest request =
-        new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 내용", false, routineDto);
+        new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 내용", TodoCategory.NOW, routineDto);
 
     Routine domainRoutine =
         Routine.of(
@@ -119,7 +120,8 @@ class ToDoControllerTest {
             Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY));
 
     CreateToDoCommand command =
-        new CreateToDoCommand("user-1", "goal-1", "할 일 내용", LocalDate.now(), false, domainRoutine);
+        new CreateToDoCommand(
+            "user-1", "goal-1", "할 일 내용", LocalDate.now(), TodoCategory.NOW, domainRoutine);
     ToDoResult result = new ToDoResult("todo-1");
     ToDoResponse response = new ToDoResponse("todo-1");
 
@@ -155,9 +157,10 @@ class ToDoControllerTest {
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 내용 (1-30자)"),
-                            fieldWithPath("isImportant")
-                                .type(JsonFieldType.BOOLEAN)
-                                .description("중요도 여부"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("카테고리 (NOW, STEADY, SKIP, DELETE)"),
                             fieldWithPath("routine")
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
@@ -216,7 +219,12 @@ class ToDoControllerTest {
             duration, RepeatType.BIWEEKLY, Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY));
     UpdateToDoRequest request =
         new UpdateToDoRequest(
-            "goal-1", LocalDate.now(), "수정된 할 일 내용", true, routineDto, RoutineUpdateType.ALL);
+            "goal-1",
+            LocalDate.now(),
+            "수정된 할 일 내용",
+            TodoCategory.NOW,
+            routineDto,
+            RoutineUpdateType.ALL);
     UpdateToDoCommand command =
         new UpdateToDoCommand(
             todoId,
@@ -224,7 +232,7 @@ class ToDoControllerTest {
             "goal-1",
             "수정된 할 일 내용",
             LocalDate.now(),
-            true,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.ALL);
 
@@ -265,9 +273,10 @@ class ToDoControllerTest {
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
                                 .description("수정할 ToDo 내용 (1-30자)"),
-                            fieldWithPath("isImportant")
-                                .type(JsonFieldType.BOOLEAN)
-                                .description("수정할 중요도 여부"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("카테고리 (NOW, STEADY, SKIP, DELETE)"),
                             fieldWithPath("routine")
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
@@ -321,7 +330,7 @@ class ToDoControllerTest {
             "goal-123",
             LocalDate.of(2024, 1, 1),
             "Updated routine task",
-            true,
+            TodoCategory.NOW,
             routineDto,
             RoutineUpdateType.FROM_DATE);
 
@@ -332,7 +341,7 @@ class ToDoControllerTest {
             "goal-123",
             "Updated routine task",
             LocalDate.of(2024, 1, 1),
-            true,
+            TodoCategory.NOW,
             null,
             RoutineUpdateType.FROM_DATE);
     ToDoResult result = new ToDoResult("todo-123");
@@ -430,10 +439,10 @@ class ToDoControllerTest {
                                 .type(JsonFieldType.BOOLEAN)
                                 .optional()
                                 .description("완료 여부 (선택사항)"),
-                            fieldWithPath("isImportant")
-                                .type(JsonFieldType.BOOLEAN)
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
                                 .optional()
-                                .description("중요도 여부 (선택사항)"))
+                                .description("카테고리 (NOW, STEADY, SKIP, DELETE) (선택사항)"))
                         .responseFields(
                             fieldWithPath("data")
                                 .type(JsonFieldType.STRING)
@@ -466,7 +475,7 @@ class ToDoControllerTest {
                         .goalId("goal-1")
                         .date("2024-01-01")
                         .content("테스트 할 일입니다.")
-                        .important(false)
+                        .category(TodoCategory.NOW)
                         .completed(false)
                         .routine(
                             RoutineDto.builder()
@@ -488,7 +497,7 @@ class ToDoControllerTest {
                         .goalId("goal-1")
                         .date("2024-01-01")
                         .content("테스트 할 일입니다.")
-                        .important(false)
+                        .category(TodoCategory.NOW)
                         .completed(false)
                         .routine(null)
                         .build())
@@ -535,9 +544,9 @@ class ToDoControllerTest {
                             fieldWithPath("data[].todo.content")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 내용"),
-                            fieldWithPath("data[].todo.isImportant")
-                                .type(JsonFieldType.BOOLEAN)
-                                .description("중요도 여부"),
+                            fieldWithPath("data[].todo.category")
+                                .type(JsonFieldType.STRING)
+                                .description("카테고리 (NOW, STEADY, SKIP, DELETE)"),
                             fieldWithPath("data[].todo.isCompleted")
                                 .type(JsonFieldType.BOOLEAN)
                                 .description("완료 여부"),
@@ -590,7 +599,7 @@ class ToDoControllerTest {
             .goalId("goal-1")
             .date("2024-01-01")
             .content("테스트 할 일입니다.")
-            .important(false)
+            .category(TodoCategory.NOW)
             .completed(false)
             .routine(null)
             .build();
@@ -634,9 +643,9 @@ class ToDoControllerTest {
                             fieldWithPath("data.isCompleted")
                                 .type(JsonFieldType.BOOLEAN)
                                 .description("완료 여부"),
-                            fieldWithPath("data.isImportant")
-                                .type(JsonFieldType.BOOLEAN)
-                                .description("중요도 여부"),
+                            fieldWithPath("data.category")
+                                .type(JsonFieldType.STRING)
+                                .description("카테고리 (NOW, STEADY, SKIP, DELETE)"),
                             fieldWithPath("data.routine")
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
