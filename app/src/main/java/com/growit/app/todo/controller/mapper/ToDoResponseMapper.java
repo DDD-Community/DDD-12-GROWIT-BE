@@ -26,7 +26,7 @@ public class ToDoResponseMapper {
         .goalId(todo.getGoalId())
         .date(todo.getDate().toString())
         .content(todo.getContent())
-        .important(todo.isImportant())
+        .category(todo.getCategory())
         .completed(todo.isCompleted())
         .routine(toRoutineDto(todo.getRoutine()))
         .build();

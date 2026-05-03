@@ -34,8 +34,8 @@ public class ToDoEntity extends BaseEntity {
   @Column(nullable = false, columnDefinition = "boolean default false")
   private boolean isCompleted;
 
-  @Column(nullable = false, columnDefinition = "boolean default false")
-  private boolean isImportant;
+  @Column(nullable = false, length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'NOW'")
+  private String category;
 
   @Column(nullable = true)
   private String routineId;
@@ -44,7 +44,7 @@ public class ToDoEntity extends BaseEntity {
     this.date = toDo.getDate();
     this.content = toDo.getContent();
     this.isCompleted = toDo.isCompleted();
-    this.isImportant = toDo.isImportant();
+    this.category = toDo.getCategory() != null ? toDo.getCategory().name() : "NOW";
     this.goalId = toDo.getGoalId();
     if (toDo.getRoutine() != null) {
       this.routineId = toDo.getRoutine().getId();

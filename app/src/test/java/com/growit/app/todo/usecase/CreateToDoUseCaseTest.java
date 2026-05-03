@@ -10,6 +10,7 @@ import com.growit.app.fake.goal.GoalFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.goal.domain.goal.service.GoalQuery;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
@@ -48,7 +49,7 @@ class CreateToDoUseCaseTest {
     goal = GoalFixture.customGoal("goal123", "Test Goal", null);
 
     simpleCommand =
-        new CreateToDoCommand("user123", "goal123", "Simple task", LocalDate.now(), false, null);
+        new CreateToDoCommand("user123", "goal123", "Simple task", LocalDate.now(), TodoCategory.NOW, null);
 
     RoutineDuration duration =
         RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7));
@@ -57,7 +58,7 @@ class CreateToDoUseCaseTest {
 
     routineCommand =
         new CreateToDoCommand(
-            "user123", "goal123", "Routine task", LocalDate.of(2024, 1, 1), true, routine);
+            "user123", "goal123", "Routine task", LocalDate.of(2024, 1, 1), TodoCategory.NOW, routine);
   }
 
   @Test

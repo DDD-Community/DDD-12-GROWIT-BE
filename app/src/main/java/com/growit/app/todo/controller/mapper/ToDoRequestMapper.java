@@ -4,6 +4,7 @@ import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
 import com.growit.app.todo.controller.dto.response.RoutineDto;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.*;
 import com.growit.app.todo.domain.vo.*;
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public class ToDoRequestMapper {
         request.getGoalId(),
         request.getContent(),
         request.getDate(),
-        request.isImportant(),
+        request.getCategory(),
         toDomainRoutine(request.getRoutine()));
   }
 
@@ -29,7 +30,7 @@ public class ToDoRequestMapper {
         request.getGoalId(),
         request.getContent(),
         request.getDate(),
-        request.getImportant() != null ? request.getImportant() : false,
+        request.getCategory(),
         toDomainRoutine(request.getRoutine()),
         request.getRoutine() != null && request.getRoutineUpdateType() == null
             ? RoutineUpdateType.ALL
@@ -39,7 +40,7 @@ public class ToDoRequestMapper {
   public CompletedStatusChangeCommand toCompletedStatusChangeCommand(
       String id, String userId, CompletedStatusChangeRequest request) {
     return new CompletedStatusChangeCommand(
-        id, userId, request.getCompleted(), request.getImportant());
+        id, userId, request.getCompleted(), request.getCategory());
   }
 
   public DeleteToDoCommand toDeleteCommand(String id, String userId) {
@@ -62,7 +63,25 @@ public class ToDoRequestMapper {
     } catch (Exception e) {
       today = LocalDate.now();
     }
-    return new GetDateQueryFilter(userId, today);
+    return new GetDateQueryFilter(userId, today, null);
+  }
+
+  public GetDateQueryFilter toGetDateQueryFilter(String userId, String date, String category) {
+    LocalDate today;
+    try {
+      today = LocalDate.parse(date);
+    } catch (Exception e) {
+      today = LocalDate.now();
+    }
+    TodoCategory todoCategory = null;
+    if (category != null && !category.isBlank()) {
+      try {
+        todoCategory = TodoCategory.valueOf(category.toUpperCase());
+      } catch (IllegalArgumentException ignored) {
+        // invalid category value, treat as no filter
+      }
+    }
+    return new GetDateQueryFilter(userId, today, todoCategory);
   }
 
   public GetDateRangeQueryFilter toGetDateRangeQueryFilter(

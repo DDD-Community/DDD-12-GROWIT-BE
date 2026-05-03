@@ -23,8 +23,7 @@ public class ToDo {
   private boolean isCompleted;
   private boolean isDeleted;
 
-  @JsonProperty("isImportant")
-  private boolean isImportant;
+  @Builder.Default private TodoCategory category = TodoCategory.NOW;
 
   private Routine routine;
 
@@ -37,7 +36,7 @@ public class ToDo {
         .date(command.date())
         .isCompleted(false)
         .isDeleted(false)
-        .isImportant(command.isImportant())
+        .category(command.category() != null ? command.category() : TodoCategory.NOW)
         .routine(command.routine())
         .build();
   }
@@ -46,7 +45,7 @@ public class ToDo {
     this.date = command.date();
     this.goalId = command.goalId();
     this.content = command.content();
-    this.isImportant = command.isImportant();
+    this.category = command.category() != null ? command.category() : this.category;
     this.routine = command.routine();
   }
 
@@ -55,7 +54,7 @@ public class ToDo {
     this.date = command.date();
     this.goalId = command.goalId();
     this.content = command.content();
-    this.isImportant = command.isImportant();
+    this.category = command.category() != null ? command.category() : this.category;
     // routine은 변경하지 않음
   }
 
@@ -67,8 +66,8 @@ public class ToDo {
     this.isCompleted = isCompleted;
   }
 
-  public void updateIsImportant(boolean isImportant) {
-    this.isImportant = isImportant;
+  public void updateCategory(TodoCategory category) {
+    this.category = category;
   }
 
   public void deleted() {
@@ -85,8 +84,7 @@ public class ToDo {
     return isDeleted;
   }
 
-  @JsonProperty("isImportant")
-  public boolean isImportant() {
-    return isImportant;
+  public TodoCategory getCategory() {
+    return category;
   }
 }

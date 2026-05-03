@@ -11,6 +11,7 @@ import com.growit.app.fake.todo.FakeToDoValidator;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.goal.domain.goal.Goal;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.service.ToDoValidator;
@@ -51,7 +52,7 @@ class UpdateToDoUseCaseTest {
     String newContent = "수정된 내용";
     UpdateToDoCommand command =
         new UpdateToDoCommand(
-            toDo.getId(), toDo.getUserId(), toDo.getGoalId(), newContent, today, false, null, null);
+            toDo.getId(), toDo.getUserId(), toDo.getGoalId(), newContent, today, null, null, null);
 
     // When
     ToDoResult result = updateToDoUseCase.execute(command);

@@ -23,6 +23,12 @@ public class GetTodosWithGoalByDateUseCase {
   public List<ToDoWithGoalDto> execute(GetDateQueryFilter filter) {
     List<ToDo> todos = toDoRepository.findByUserIdAndDate(filter.userId(), filter.date());
 
+    if (filter.category() != null) {
+      todos = todos.stream()
+          .filter(todo -> filter.category().equals(todo.getCategory()))
+          .collect(Collectors.toList());
+    }
+
     return todos.stream()
         .map(
             todo -> {
