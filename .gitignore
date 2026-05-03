@@ -75,3 +75,7 @@ app/src/main/resources/static/docs/
 
 .serena/
 .claude
+
+### growit-lead artifacts ###
+.research/
+.plan/

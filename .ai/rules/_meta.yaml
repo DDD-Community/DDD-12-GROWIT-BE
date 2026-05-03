@@ -1,0 +1,9 @@
+architecture:
+  description: "DDD + Aggregate Root 기반 아키텍처 규칙"
+  cursor:
+    alwaysApply: true
+
+coding-standards:
+  description: "코딩 컨벤션 & 스타일 가이드"
+  cursor:
+    alwaysApply: true

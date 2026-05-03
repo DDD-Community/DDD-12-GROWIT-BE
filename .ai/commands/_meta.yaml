@@ -1,0 +1,47 @@
+research:
+  description: "요구사항 분석 & 변경 영향도 파악"
+  claude:
+    allowed-tools: Read, Grep, Glob, Bash, Write, Edit
+    context: fork
+
+plan:
+  description: "구현 계획 수립 (아키텍처, 엔티티, API, 마이그레이션)"
+  claude:
+    allowed-tools: Read, Grep, Glob, Bash, Write, Edit
+    context: fork
+
+implement:
+  description: "코드 구현 실행 (DDD 아키텍처 준수)"
+  claude:
+    allowed-tools: Read, Grep, Glob, Bash, Write, Edit
+    context: fork
+
+review:
+  description: "코드 리뷰 & 품질 게이트 검수"
+  claude:
+    allowed-tools: Read, Grep, Glob, Bash
+    context: fork
+
+pr:
+  description: "PR 생성 & GitHub 푸시"
+  claude:
+    allowed-tools: Read, Grep, Glob, Bash, Write, Edit
+    context: fork
+
+deploy-local:
+  description: "로컬 개발 서버 기동 (Spring Boot local profile)"
+  claude:
+    allowed-tools: Read, Bash
+    context: fork
+
+deploy-dev:
+  description: "DEV 환경 배포 (PR -> main 머지)"
+  claude:
+    allowed-tools: Read, Bash
+    context: fork
+
+deploy-prod:
+  description: "PROD 환경 배포 (릴리스 태그)"
+  claude:
+    allowed-tools: Read, Bash
+    context: fork
