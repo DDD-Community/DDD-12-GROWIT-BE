@@ -19,6 +19,7 @@ public class ToDoRequestMapper {
         request.getGoalId(),
         request.getContent(),
         request.getDate(),
+        request.getTime(),
         request.getCategory(),
         toDomainRoutine(request.getRoutine()));
   }
@@ -30,6 +31,7 @@ public class ToDoRequestMapper {
         request.getGoalId(),
         request.getContent(),
         request.getDate(),
+        request.getTime(),
         request.getCategory(),
         toDomainRoutine(request.getRoutine()),
         request.getRoutine() != null && request.getRoutineUpdateType() == null

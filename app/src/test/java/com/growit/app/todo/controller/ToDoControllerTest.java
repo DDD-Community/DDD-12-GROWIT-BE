@@ -111,7 +111,8 @@ class ToDoControllerTest {
             .build();
 
     CreateToDoRequest request =
-        new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 내용", TodoCategory.NOW, routineDto);
+        new CreateToDoRequest(
+            "goal-1", LocalDate.now(), null, "할 일 내용", TodoCategory.NOW, routineDto);
 
     Routine domainRoutine =
         Routine.of(
@@ -121,7 +122,13 @@ class ToDoControllerTest {
 
     CreateToDoCommand command =
         new CreateToDoCommand(
-            "user-1", "goal-1", "할 일 내용", LocalDate.now(), TodoCategory.NOW, domainRoutine);
+            "user-1",
+            "goal-1",
+            "할 일 내용",
+            LocalDate.now(),
+            null,
+            TodoCategory.NOW,
+            domainRoutine);
     ToDoResult result = new ToDoResult("todo-1");
     ToDoResponse response = new ToDoResponse("todo-1");
 
@@ -154,6 +161,10 @@ class ToDoControllerTest {
                             fieldWithPath("date")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("time")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("ToDo 시간 (HH:mm, optional)"),
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 내용 (1-30자)"),
@@ -221,6 +232,7 @@ class ToDoControllerTest {
         new UpdateToDoRequest(
             "goal-1",
             LocalDate.now(),
+            null,
             "수정된 할 일 내용",
             TodoCategory.NOW,
             routineDto,
@@ -232,9 +244,11 @@ class ToDoControllerTest {
             "goal-1",
             "수정된 할 일 내용",
             LocalDate.now(),
+            null,
             TodoCategory.NOW,
             routine,
             RoutineUpdateType.ALL);
+    // time argument inserted at index 5 to match new signature (date, time, category, ...)
 
     ToDoResult result = new ToDoResult("todo-123");
 
@@ -270,6 +284,10 @@ class ToDoControllerTest {
                             fieldWithPath("date")
                                 .type(JsonFieldType.STRING)
                                 .description("수정할 ToDo 날짜 (yyyy-MM-dd)"),
+                            fieldWithPath("time")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("수정할 ToDo 시간 (HH:mm, optional)"),
                             fieldWithPath("content")
                                 .type(JsonFieldType.STRING)
                                 .description("수정할 ToDo 내용 (1-30자)"),
@@ -329,6 +347,7 @@ class ToDoControllerTest {
         new UpdateToDoRequest(
             "goal-123",
             LocalDate.of(2024, 1, 1),
+            null,
             "Updated routine task",
             TodoCategory.NOW,
             routineDto,
@@ -341,6 +360,7 @@ class ToDoControllerTest {
             "goal-123",
             "Updated routine task",
             LocalDate.of(2024, 1, 1),
+            null,
             TodoCategory.NOW,
             null,
             RoutineUpdateType.FROM_DATE);
@@ -541,6 +561,10 @@ class ToDoControllerTest {
                             fieldWithPath("data[].todo.date")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 날짜"),
+                            fieldWithPath("data[].todo.time")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("ToDo 시간 (HH:mm, optional)"),
                             fieldWithPath("data[].todo.content")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 내용"),
@@ -640,6 +664,10 @@ class ToDoControllerTest {
                             fieldWithPath("data.date")
                                 .type(JsonFieldType.STRING)
                                 .description("ToDo 날짜"),
+                            fieldWithPath("data.time")
+                                .type(JsonFieldType.STRING)
+                                .optional()
+                                .description("ToDo 시간 (HH:mm, optional)"),
                             fieldWithPath("data.isCompleted")
                                 .type(JsonFieldType.BOOLEAN)
                                 .description("완료 여부"),

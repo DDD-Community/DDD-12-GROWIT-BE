@@ -7,6 +7,7 @@ import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.Routine;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class ToDo {
   @JsonIgnore private String userId;
   private String content;
   private LocalDate date;
+  private LocalTime time;
   private boolean isCompleted;
   private boolean isDeleted;
 
@@ -34,6 +36,7 @@ public class ToDo {
         .goalId(command.goalId())
         .content(command.content())
         .date(command.date())
+        .time(command.time())
         .isCompleted(false)
         .isDeleted(false)
         .category(command.category() != null ? command.category() : TodoCategory.NOW)
@@ -43,6 +46,7 @@ public class ToDo {
 
   public void updateBy(UpdateToDoCommand command) {
     this.date = command.date();
+    this.time = command.time();
     this.goalId = command.goalId();
     this.content = command.content();
     this.category = command.category() != null ? command.category() : this.category;
@@ -52,6 +56,7 @@ public class ToDo {
   public void updateContentOnly(UpdateToDoCommand command) {
     // 루틴 정보는 유지하고 내용만 변경
     this.date = command.date();
+    this.time = command.time();
     this.goalId = command.goalId();
     this.content = command.content();
     this.category = command.category() != null ? command.category() : this.category;
