@@ -70,6 +70,7 @@ public class ToDoResponseMapper {
                     TodoCountByDateResponse.CategoryTodoCount.builder()
                         .category(cc.getCategory())
                         .todoCount(cc.getTodoCount())
+                        .completedCount(cc.getCompletedCount())
                         .build())
             .toList();
 

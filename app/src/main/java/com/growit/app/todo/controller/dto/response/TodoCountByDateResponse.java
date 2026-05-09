@@ -28,5 +28,6 @@ public class TodoCountByDateResponse {
   public static class CategoryTodoCount {
     private TodoCategory category;
     private int todoCount;
+    private int completedCount;
   }
 }

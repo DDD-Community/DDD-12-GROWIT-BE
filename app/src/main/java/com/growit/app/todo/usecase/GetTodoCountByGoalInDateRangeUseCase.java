@@ -51,18 +51,25 @@ public class GetTodoCountByGoalInDateRangeUseCase {
                           entry.getKey(), entry.getValue().intValue()))
               .toList();
 
-      // Count todos by category for this date (FE 캘린더 인디케이터용)
-      Map<TodoCategory, Long> todoCountByCategory =
+      // Count todos by category for this date (FE 캘린더 인디케이터용).
+      // Each category exposes both total and completed count so the FE can
+      // dim the dot when an incomplete todo remains (DS 196:1610: opacity
+      // 40% if any incomplete, 100% if all done).
+      Map<TodoCategory, List<ToDo>> todosByCategory =
           todosForDate.stream()
               .filter(todo -> todo.getCategory() != null)
-              .collect(Collectors.groupingBy(ToDo::getCategory, Collectors.counting()));
+              .collect(Collectors.groupingBy(ToDo::getCategory));
 
       List<TodoCountByDateDto.CategoryTodoCount> categoryCounts =
-          todoCountByCategory.entrySet().stream()
+          todosByCategory.entrySet().stream()
               .map(
-                  entry ->
-                      new TodoCountByDateDto.CategoryTodoCount(
-                          entry.getKey(), entry.getValue().intValue()))
+                  entry -> {
+                    int total = entry.getValue().size();
+                    int completed =
+                        (int) entry.getValue().stream().filter(ToDo::isCompleted).count();
+                    return new TodoCountByDateDto.CategoryTodoCount(
+                        entry.getKey(), total, completed);
+                  })
               .toList();
 
       result.add(new TodoCountByDateDto(currentDate, goalCounts, categoryCounts));
