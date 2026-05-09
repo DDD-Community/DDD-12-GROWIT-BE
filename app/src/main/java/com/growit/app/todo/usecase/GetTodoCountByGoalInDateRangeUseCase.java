@@ -2,6 +2,7 @@ package com.growit.app.todo.usecase;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
 import java.time.LocalDate;
@@ -50,7 +51,21 @@ public class GetTodoCountByGoalInDateRangeUseCase {
                           entry.getKey(), entry.getValue().intValue()))
               .toList();
 
-      result.add(new TodoCountByDateDto(currentDate, goalCounts));
+      // Count todos by category for this date (FE 캘린더 인디케이터용)
+      Map<TodoCategory, Long> todoCountByCategory =
+          todosForDate.stream()
+              .filter(todo -> todo.getCategory() != null)
+              .collect(Collectors.groupingBy(ToDo::getCategory, Collectors.counting()));
+
+      List<TodoCountByDateDto.CategoryTodoCount> categoryCounts =
+          todoCountByCategory.entrySet().stream()
+              .map(
+                  entry ->
+                      new TodoCountByDateDto.CategoryTodoCount(
+                          entry.getKey(), entry.getValue().intValue()))
+              .toList();
+
+      result.add(new TodoCountByDateDto(currentDate, goalCounts, categoryCounts));
       currentDate = currentDate.plusDays(1);
     }
 

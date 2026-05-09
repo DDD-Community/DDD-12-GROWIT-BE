@@ -63,9 +63,20 @@ public class ToDoResponseMapper {
                         .build())
             .toList();
 
+    List<TodoCountByDateResponse.CategoryTodoCount> categoryCounts =
+        dto.getCategoryCounts().stream()
+            .map(
+                cc ->
+                    TodoCountByDateResponse.CategoryTodoCount.builder()
+                        .category(cc.getCategory())
+                        .todoCount(cc.getTodoCount())
+                        .build())
+            .toList();
+
     return TodoCountByDateResponse.builder()
         .date(dto.getDate().toString())
         .goals(goalCounts)
+        .categories(categoryCounts)
         .build();
   }
 
