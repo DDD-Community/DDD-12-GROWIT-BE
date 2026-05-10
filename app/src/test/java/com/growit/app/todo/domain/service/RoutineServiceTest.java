@@ -54,6 +54,7 @@ class RoutineServiceTest {
             "goal123",
             "Daily routine task",
             LocalDate.of(2024, 1, 1),
+            null,
             TodoCategory.NOW,
             routine);
 
@@ -64,6 +65,7 @@ class RoutineServiceTest {
             "goal123",
             "Updated routine task",
             LocalDate.of(2024, 1, 3),
+            null,
             TodoCategory.NOW,
             routine,
             RoutineUpdateType.FROM_DATE);
@@ -129,6 +131,7 @@ class RoutineServiceTest {
             "goal123",
             "Updated all routine tasks",
             LocalDate.of(2024, 1, 3),
+            null,
             TodoCategory.NOW,
             routine,
             RoutineUpdateType.ALL);
@@ -160,6 +163,7 @@ class RoutineServiceTest {
             "goal123",
             "Updated single task",
             LocalDate.of(2024, 1, 3),
+            null,
             TodoCategory.NOW,
             null, // 루틴 제거
             RoutineUpdateType.SINGLE);
@@ -187,6 +191,7 @@ class RoutineServiceTest {
             "goal123",
             "Weekly routine task",
             LocalDate.of(2024, 1, 1),
+            null,
             TodoCategory.NOW,
             weeklyRoutine);
 
@@ -229,6 +234,7 @@ class RoutineServiceTest {
             "goal123",
             "Weekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
+            null,
             TodoCategory.NOW,
             weeklyRoutineWithDays);
 
@@ -258,6 +264,7 @@ class RoutineServiceTest {
             "goal123",
             "Biweekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
+            null,
             TodoCategory.NOW,
             biweeklyRoutine);
 
@@ -286,6 +293,7 @@ class RoutineServiceTest {
             "goal123",
             "Weekly routine without specific days",
             LocalDate.of(2024, 1, 1), // 월요일
+            null,
             TodoCategory.NOW,
             weeklyRoutineWithoutDays);
 
@@ -315,6 +323,7 @@ class RoutineServiceTest {
             "goal123",
             "Daily routine with repeatDays",
             LocalDate.of(2024, 1, 1),
+            null,
             TodoCategory.NOW,
             dailyRoutineWithDays);
 

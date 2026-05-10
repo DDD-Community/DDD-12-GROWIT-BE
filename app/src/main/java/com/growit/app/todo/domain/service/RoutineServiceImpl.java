@@ -29,6 +29,7 @@ public class RoutineServiceImpl implements RoutineService {
         command.userId(),
         command.goalId(),
         command.content(),
+        command.time(),
         command.category(),
         command.date(),
         command.routine().getDuration().getStartDate(),
@@ -269,6 +270,7 @@ public class RoutineServiceImpl implements RoutineService {
               command.goalId(),
               command.content(),
               command.date(),
+              command.time(),
               command.category(),
               command.routine());
       return createRoutineToDos(createCommand);
@@ -279,6 +281,7 @@ public class RoutineServiceImpl implements RoutineService {
               command.goalId(),
               command.content(),
               command.date(),
+              command.time(),
               command.category(),
               null);
       ToDo newToDo = ToDo.from(createCommand);
@@ -293,6 +296,7 @@ public class RoutineServiceImpl implements RoutineService {
         command.userId(),
         command.goalId(),
         command.content(),
+        command.time(),
         command.category(),
         command.date(),
         fromDate,
@@ -304,6 +308,7 @@ public class RoutineServiceImpl implements RoutineService {
       String userId,
       String goalId,
       String content,
+      java.time.LocalTime time,
       TodoCategory category,
       LocalDate baseDate,
       LocalDate startDate,
@@ -316,7 +321,7 @@ public class RoutineServiceImpl implements RoutineService {
     String firstToDoId = null;
     for (LocalDate date : dates) {
       CreateToDoCommand routineCommand =
-          new CreateToDoCommand(userId, goalId, content, date, category, sharedRoutine);
+          new CreateToDoCommand(userId, goalId, content, date, time, category, sharedRoutine);
 
       ToDo toDo = ToDo.from(routineCommand);
       toDoRepository.saveToDo(toDo);

@@ -25,6 +25,11 @@ public class ToDoResponseMapper {
         .id(todo.getId())
         .goalId(todo.getGoalId())
         .date(todo.getDate().toString())
+        .time(
+            todo.getTime() != null
+                ? todo.getTime()
+                    .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
+                : null)
         .content(todo.getContent())
         .category(todo.getCategory())
         .completed(todo.isCompleted())

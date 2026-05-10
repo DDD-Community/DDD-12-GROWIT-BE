@@ -22,6 +22,7 @@ public class ToDoDBMapper {
         .goalId(todo.getGoalId())
         .content(todo.getContent())
         .date(todo.getDate())
+        .time(todo.getTime())
         .isCompleted(todo.isCompleted())
         .category(todo.getCategory() != null ? todo.getCategory().name() : "NOW")
         .routineId(routineId)
@@ -37,6 +38,7 @@ public class ToDoDBMapper {
         .userId(entity.getUserId())
         .content(entity.getContent())
         .date(entity.getDate())
+        .time(entity.getTime())
         .isCompleted(entity.isCompleted())
         .isDeleted(entity.getDeletedAt() != null)
         .category(
