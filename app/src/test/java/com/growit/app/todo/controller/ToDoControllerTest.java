@@ -740,12 +740,18 @@ class ToDoControllerTest {
                 LocalDate.of(2024, 1, 1),
                 List.of(
                     new TodoCountByDateDto.GoalTodoCount("goal-1", 3),
-                    new TodoCountByDateDto.GoalTodoCount("goal-2", 2))),
+                    new TodoCountByDateDto.GoalTodoCount("goal-2", 2)),
+                List.of(
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.NOW, 3, 1),
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.STEADY, 2, 2))),
             new TodoCountByDateDto(
                 LocalDate.of(2024, 1, 2),
                 List.of(
                     new TodoCountByDateDto.GoalTodoCount("goal-1", 1),
-                    new TodoCountByDateDto.GoalTodoCount("goal-2", 4))));
+                    new TodoCountByDateDto.GoalTodoCount("goal-2", 4)),
+                List.of(
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.SKIP, 1, 0),
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.DELETE, 4, 4))));
     List<TodoCountByDateResponse> responseList =
         List.of(
             TodoCountByDateResponse.builder()
@@ -754,6 +760,10 @@ class ToDoControllerTest {
                     List.of(
                         new TodoCountByDateResponse.GoalTodoCount("goal-1", 3),
                         new TodoCountByDateResponse.GoalTodoCount("goal-2", 2)))
+                .categories(
+                    List.of(
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.NOW, 3, 1),
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.STEADY, 2, 2)))
                 .build(),
             TodoCountByDateResponse.builder()
                 .date("2024-01-02")
@@ -761,6 +771,10 @@ class ToDoControllerTest {
                     List.of(
                         new TodoCountByDateResponse.GoalTodoCount("goal-1", 1),
                         new TodoCountByDateResponse.GoalTodoCount("goal-2", 4)))
+                .categories(
+                    List.of(
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.SKIP, 1, 0),
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.DELETE, 4, 4)))
                 .build());
 
     given(toDoRequestMapper.toGetDateRangeQueryFilter(any(String.class), eq(from), eq(to)))
@@ -805,7 +819,19 @@ class ToDoControllerTest {
                                 .description("목표 ID"),
                             fieldWithPath("data[].goals[].todoCount")
                                 .type(JsonFieldType.NUMBER)
-                                .description("해당 목표의 ToDo 개수"))
+                                .description("해당 목표의 ToDo 개수"),
+                            fieldWithPath("data[].categories")
+                                .type(JsonFieldType.ARRAY)
+                                .description("카테고리별 ToDo 개수 배열 (캘린더 인디케이터용)"),
+                            fieldWithPath("data[].categories[].category")
+                                .type(JsonFieldType.STRING)
+                                .description("카테고리 (NOW/STEADY/SKIP/DELETE)"),
+                            fieldWithPath("data[].categories[].todoCount")
+                                .type(JsonFieldType.NUMBER)
+                                .description("해당 카테고리의 ToDo 개수"),
+                            fieldWithPath("data[].categories[].completedCount")
+                                .type(JsonFieldType.NUMBER)
+                                .description("해당 카테고리의 완료된 ToDo 개수"))
                         .build())));
   }
 }
