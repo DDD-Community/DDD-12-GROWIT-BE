@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.67.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.0...v1.67.0) (2026-05-21)
+
+
+### Features
+
+* **DEVS-12:** add LocalTime time field to ToDo ([#440](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/440)) ([84650f3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/84650f30442cc54ea6d23eea234a8de41a777ef6))
+* **DEVS-12:** include per-category counts in /todos/count response ([#441](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/441)) ([d7dfb99](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/d7dfb99f2ece7aa98ec97e53396c16096446cd26))
+* home matrix view - category enum for todos ([#438](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/438)) ([e6fb057](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e6fb0577e7dc2bb3be415dca33f3ab4dce952280))
+
+
+### Bug Fixes
+
+* add flyway repair-on-migrate to fix V22/V23 checksum mismatch ([632fd60](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/632fd60b39c4b1649d691f1fa8f932e472368a69))
+* AuthController 분리 ([e69131f](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e69131f83ff304a4fcac8e7701c03b4243586a13))
+* FQN ([44bcf7c](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/44bcf7cc62daf19bd247fe0f6fe706b48df64881))
+* revert V22/V23 migration files to original checksums and remove repair-on-migrate ([4ad1c8d](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4ad1c8d4f520192c7e9865dd23bd8a4bb1aeb735))
+* spotless ([81e0e78](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/81e0e783fbfafac53231c60563cca7479f1ac7cf))
+* test링크 삭제 ([a126f28](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/a126f28949bd52a45ad6e2cd506d1e4d39531d2b))
+* 만료시간 버그 해결 ([3f84838](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/3f8483870035a4925973540abc0754976ecd005f))
+* 카카오 리다이렉트 방식 수정 ([4f001b1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/4f001b157c1c86b3fa6c6009b83362d5890bca40))
+* 허용하지 않았던 image 삭제 ([2d617cc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/2d617ccc78e8193d6b8e6a9a81f19a8974131de7))
+
 ## [1.66.3](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.2...v1.66.3) (2026-03-05)
 
 
