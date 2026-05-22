@@ -25,6 +25,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
@@ -43,6 +44,9 @@ public class MorningAdviceJobConfig {
   private final ChatAdviceDataCollector chatAdviceDataCollector;
   private final ChatAdviceClient chatAdviceClient;
   private final Clock clock;
+
+  @Value("${ai.enabled:false}")
+  private boolean aiEnabled;
 
   @Bean
   public Job morningAdviceJob() {
@@ -88,6 +92,6 @@ public class MorningAdviceJobConfig {
 
   @Bean
   public MorningAdviceWriter morningAdviceWriter() {
-    return new MorningAdviceWriter(chatAdviceClient, chatAdviceRepository);
+    return new MorningAdviceWriter(chatAdviceClient, chatAdviceRepository, aiEnabled);
   }
 }

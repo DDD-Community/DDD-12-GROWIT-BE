@@ -11,10 +11,13 @@ import com.growit.app.goal.usecase.GetUserGoalsUseCase;
 import com.growit.app.user.domain.user.User;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /** 멘토 조언 생성 UseCase - 진행 중인 목표 확인 - 조언 데이터 수집 - AI 조언 생성 */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -24,14 +27,23 @@ public class GenerateMentorAdviceUseCase {
   private final MentorAdviceDataCollector dataCollector;
   private final MentorAdviceService mentorAdviceService;
 
+  /** AI 서버 호출 토글. false면 AI 요청을 보내지 않고 조언 생성을 건너뜁니다. */
+  @Value("${ai.enabled:false}")
+  private boolean aiEnabled;
+
   /**
    * 멘토 조언을 생성합니다.
    *
    * @param user 사용자
-   * @return 생성된 멘토 조언
+   * @return 생성된 멘토 조언, AI 멘토 기능이 비활성화된 경우 null
    * @throws NotFoundException 진행 중인 목표가 없는 경우
    */
   public MentorAdvice execute(User user) {
+    if (!aiEnabled) {
+      log.warn("AI 멘토 기능이 비활성화되어 조언 생성을 건너뜁니다. userId={}", user.getId());
+      return null;
+    }
+
     Goal currentGoal = getCurrentProgressGoal(user);
     MentorAdviceData data = dataCollector.collectData(user, currentGoal);
 
@@ -45,6 +57,11 @@ public class GenerateMentorAdviceUseCase {
    * @return 생성된 멘토 조언 (조건이 맞지 않으면 Optional.empty())
    */
   public Optional<MentorAdvice> tryExecute(User user) {
+    if (!aiEnabled) {
+      log.warn("AI 멘토 기능이 비활성화되어 조언 생성을 건너뜁니다. userId={}", user.getId());
+      return Optional.empty();
+    }
+
     Optional<Goal> currentGoal = getCurrentProgressGoalOptional(user);
     if (currentGoal.isEmpty()) {
       return Optional.empty(); // 진행중인 목표 없음

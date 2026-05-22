@@ -51,6 +51,10 @@ public class GetMentorAdviceUseCase {
 
   private MentorAdvice createNewMentorAdvice(User user) {
     MentorAdvice newAdvice = generateMentorAdviceUseCase.execute(user);
+    if (newAdvice == null) {
+      // AI 기능 비활성화 등으로 조언을 생성하지 못함 - 저장하지 않고 종료
+      return null;
+    }
     mentorAdviceRepository.save(newAdvice);
     return newAdvice;
   }
