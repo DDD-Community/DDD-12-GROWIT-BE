@@ -21,9 +21,15 @@ public class MorningAdviceWriter implements ItemWriter<ChatAdviceRequest> {
 
   private final ChatAdviceClient chatAdviceClient;
   private final ChatAdviceRepository chatAdviceRepository;
+  private final boolean aiEnabled;
 
   @Override
   public void write(Chunk<? extends ChatAdviceRequest> chunk) throws Exception {
+    if (!aiEnabled) {
+      log.warn("AI 기능이 비활성화되어 아침 조언 생성을 건너뜁니다. count={}", chunk.size());
+      return;
+    }
+
     for (ChatAdviceRequest request : chunk) {
       try {
         log.debug("Requesting AI advice for user: {}", request.getUserId());
