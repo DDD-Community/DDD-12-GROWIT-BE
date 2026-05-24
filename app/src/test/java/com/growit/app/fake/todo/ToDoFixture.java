@@ -3,6 +3,7 @@ package com.growit.app.fake.todo;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.response.WeeklyTodosResponse;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
@@ -20,7 +21,7 @@ public class ToDoFixture {
   }
 
   public static CreateToDoRequest defaultCreateToDoRequest() {
-    return new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 예시 내용입니다.", false, null);
+    return new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 예시 내용입니다.", false, null, null);
   }
 
   public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(
@@ -97,6 +98,7 @@ class ToDoBuilder {
         .isCompleted(isCompleted)
         .isDeleted(false)
         .isImportant(isImportant)
+        .category(ToDoCategory.URGENT)
         .routine(null)
         .build();
   }

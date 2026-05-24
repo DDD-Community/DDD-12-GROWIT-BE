@@ -8,6 +8,7 @@ import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class RoutineServiceImpl implements RoutineService {
         command.goalId(),
         command.content(),
         command.isImportant(),
+        command.category(),
         command.date(),
         command.routine().getDuration().getStartDate(),
         command.routine().getDuration().getEndDate());
@@ -269,6 +271,7 @@ public class RoutineServiceImpl implements RoutineService {
               command.content(),
               command.date(),
               command.isImportant(),
+              command.category(),
               command.routine());
       return createRoutineToDos(createCommand);
     } else {
@@ -279,6 +282,7 @@ public class RoutineServiceImpl implements RoutineService {
               command.content(),
               command.date(),
               command.isImportant(),
+              command.category(),
               null);
       ToDo newToDo = ToDo.from(createCommand);
       toDoRepository.saveToDo(newToDo);
@@ -293,6 +297,7 @@ public class RoutineServiceImpl implements RoutineService {
         command.goalId(),
         command.content(),
         command.isImportant(),
+        command.category(),
         command.date(),
         fromDate,
         command.routine().getDuration().getEndDate());
@@ -304,6 +309,7 @@ public class RoutineServiceImpl implements RoutineService {
       String goalId,
       String content,
       boolean isImportant,
+      ToDoCategory category,
       LocalDate baseDate,
       LocalDate startDate,
       LocalDate endDate) {
@@ -315,7 +321,8 @@ public class RoutineServiceImpl implements RoutineService {
     String firstToDoId = null;
     for (LocalDate date : dates) {
       CreateToDoCommand routineCommand =
-          new CreateToDoCommand(userId, goalId, content, date, isImportant, sharedRoutine);
+          new CreateToDoCommand(
+              userId, goalId, content, date, isImportant, category, sharedRoutine);
 
       ToDo toDo = ToDo.from(routineCommand);
       toDoRepository.saveToDo(toDo);
