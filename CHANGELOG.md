@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.67.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.67.0...v1.67.1) (2026-05-24)
+
+
+### Bug Fixes
+
+* rename TodoCategory values to match FE contract ([8ffd396](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/8ffd3963dabf8e2fc58ab6795474d32e2d8c94d9))
+* rename TodoCategory values to match FE contract ([dec30bc](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/dec30bc8f4c694f603462e3d0e604aaece6c856a))
+
 ## [1.67.0](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.66.0...v1.67.0) (2026-05-21)
 
 
