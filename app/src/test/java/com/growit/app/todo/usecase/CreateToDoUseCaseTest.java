@@ -50,7 +50,7 @@ class CreateToDoUseCaseTest {
 
     simpleCommand =
         new CreateToDoCommand(
-            "user123", "goal123", "Simple task", LocalDate.now(), null, TodoCategory.NOW, null);
+            "user123", "goal123", "Simple task", LocalDate.now(), null, TodoCategory.URGENT, null);
 
     RoutineDuration duration =
         RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7));
@@ -64,7 +64,7 @@ class CreateToDoUseCaseTest {
             "Routine task",
             LocalDate.of(2024, 1, 1),
             null,
-            TodoCategory.NOW,
+            TodoCategory.URGENT,
             routine);
   }
 

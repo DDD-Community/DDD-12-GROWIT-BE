@@ -1,8 +1,8 @@
 package com.growit.app.todo.domain;
 
 public enum TodoCategory {
-  NOW, // 긴급O + 중요O (지금/빨리 끝내기)
-  STEADY, // 긴급X + 중요O (꾸준히/천천히 끝내기)
-  SKIP, // 긴급O + 중요X (넘겨도)
-  DELETE // 긴급X + 중요X (지워도)
+  URGENT, // 긴급O + 중요O (긴급)
+  CONSISTENT, // 긴급X + 중요O (꾸준히)
+  DEFERABLE, // 긴급O + 중요X (넘겨도)
+  DELETABLE // 긴급X + 중요X (지워도)
 }

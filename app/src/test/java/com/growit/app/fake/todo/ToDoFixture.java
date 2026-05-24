@@ -22,7 +22,7 @@ public class ToDoFixture {
 
   public static CreateToDoRequest defaultCreateToDoRequest() {
     return new CreateToDoRequest(
-        "goal-1", LocalDate.now(), null, "할 일 예시 내용입니다.", TodoCategory.NOW, null);
+        "goal-1", LocalDate.now(), null, "할 일 예시 내용입니다.", TodoCategory.URGENT, null);
   }
 
   public static Map<String, List<WeeklyTodosResponse>> weeklyTodosMapWith(
@@ -51,7 +51,7 @@ class ToDoBuilder {
   private String userId = "user-1";
   private String content = "테스트 할 일입니다.";
   private boolean isCompleted = false;
-  private TodoCategory category = TodoCategory.NOW;
+  private TodoCategory category = TodoCategory.URGENT;
   private LocalDate date = LocalDate.now();
 
   public ToDoBuilder id(String id) {

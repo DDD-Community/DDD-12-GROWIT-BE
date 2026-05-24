@@ -25,7 +25,7 @@ public class ToDo {
   private boolean isCompleted;
   private boolean isDeleted;
 
-  @Builder.Default private TodoCategory category = TodoCategory.NOW;
+  @Builder.Default private TodoCategory category = TodoCategory.URGENT;
 
   private Routine routine;
 
@@ -39,7 +39,7 @@ public class ToDo {
         .time(command.time())
         .isCompleted(false)
         .isDeleted(false)
-        .category(command.category() != null ? command.category() : TodoCategory.NOW)
+        .category(command.category() != null ? command.category() : TodoCategory.URGENT)
         .routine(command.routine())
         .build();
   }
