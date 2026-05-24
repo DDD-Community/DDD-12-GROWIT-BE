@@ -1,6 +1,7 @@
 package com.growit.app.todo.domain.dto;
 
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.LocalDate;
 
 public record CreateToDoCommand(
@@ -9,4 +10,5 @@ public record CreateToDoCommand(
     String content,
     LocalDate date,
     boolean isImportant,
+    ToDoCategory category,
     Routine routine) {}

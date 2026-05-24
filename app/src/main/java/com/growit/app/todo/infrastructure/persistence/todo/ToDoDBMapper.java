@@ -3,6 +3,7 @@ package com.growit.app.todo.infrastructure.persistence.todo;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDuration;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.RoutineEntity;
 import com.growit.app.todo.infrastructure.persistence.todo.source.entity.ToDoEntity;
 import java.time.DayOfWeek;
@@ -23,6 +24,7 @@ public class ToDoDBMapper {
         .date(todo.getDate())
         .isCompleted(todo.isCompleted())
         .isImportant(todo.isImportant())
+        .category(todo.getCategory() != null ? todo.getCategory() : ToDoCategory.URGENT)
         .routineId(routineId)
         .build();
   }
@@ -39,6 +41,7 @@ public class ToDoDBMapper {
         .isCompleted(entity.isCompleted())
         .isDeleted(entity.getDeletedAt() != null)
         .isImportant(entity.isImportant())
+        .category(entity.getCategory() != null ? entity.getCategory() : ToDoCategory.URGENT)
         .routine(routine)
         .build();
   }

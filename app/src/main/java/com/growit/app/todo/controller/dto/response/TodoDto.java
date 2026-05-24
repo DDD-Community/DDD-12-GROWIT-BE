@@ -1,6 +1,7 @@
 package com.growit.app.todo.controller.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,8 @@ public class TodoDto {
 
   @JsonProperty("isCompleted")
   private boolean completed;
+
+  private ToDoCategory category;
 
   private RoutineDto routine;
 }
