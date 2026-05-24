@@ -25,8 +25,13 @@ public class ToDoResponseMapper {
         .id(todo.getId())
         .goalId(todo.getGoalId())
         .date(todo.getDate().toString())
+        .time(
+            todo.getTime() != null
+                ? todo.getTime()
+                    .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
+                : null)
         .content(todo.getContent())
-        .important(todo.isImportant())
+        .category(todo.getCategory())
         .completed(todo.isCompleted())
         .routine(toRoutineDto(todo.getRoutine()))
         .build();
@@ -63,9 +68,21 @@ public class ToDoResponseMapper {
                         .build())
             .toList();
 
+    List<TodoCountByDateResponse.CategoryTodoCount> categoryCounts =
+        dto.getCategoryCounts().stream()
+            .map(
+                cc ->
+                    TodoCountByDateResponse.CategoryTodoCount.builder()
+                        .category(cc.getCategory())
+                        .todoCount(cc.getTodoCount())
+                        .completedCount(cc.getCompletedCount())
+                        .build())
+            .toList();
+
     return TodoCountByDateResponse.builder()
         .date(dto.getDate().toString())
         .goals(goalCounts)
+        .categories(categoryCounts)
         .build();
   }
 

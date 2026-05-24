@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import lombok.*;
 
 @Entity
@@ -28,23 +29,27 @@ public class ToDoEntity extends BaseEntity {
   @Column(nullable = false)
   private LocalDate date;
 
+  @Column(nullable = true)
+  private LocalTime time;
+
   @Column(nullable = false) // 5자이상 30자이내로 하고 싶음
   private String content;
 
   @Column(nullable = false, columnDefinition = "boolean default false")
   private boolean isCompleted;
 
-  @Column(nullable = false, columnDefinition = "boolean default false")
-  private boolean isImportant;
+  @Column(nullable = false, length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'NOW'")
+  private String category;
 
   @Column(nullable = true)
   private String routineId;
 
   public void updateToByDomain(ToDo toDo) {
     this.date = toDo.getDate();
+    this.time = toDo.getTime();
     this.content = toDo.getContent();
     this.isCompleted = toDo.isCompleted();
-    this.isImportant = toDo.isImportant();
+    this.category = toDo.getCategory() != null ? toDo.getCategory().name() : "NOW";
     this.goalId = toDo.getGoalId();
     if (toDo.getRoutine() != null) {
       this.routineId = toDo.getRoutine().getId();

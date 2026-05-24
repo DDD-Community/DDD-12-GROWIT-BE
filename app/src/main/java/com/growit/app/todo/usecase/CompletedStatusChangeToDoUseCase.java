@@ -23,9 +23,9 @@ public class CompletedStatusChangeToDoUseCase {
       toDo.updateIsCompleted(command.completed());
     }
 
-    // Only update importance if provided (not null)
-    if (command.important() != null) {
-      toDo.updateIsImportant(command.important());
+    // Only update category if provided (not null)
+    if (command.category() != null) {
+      toDo.updateCategory(command.category());
     }
 
     toDoRepository.saveToDo(toDo);

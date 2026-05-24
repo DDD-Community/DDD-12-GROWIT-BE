@@ -1,6 +1,7 @@
 package com.growit.app.todo.controller.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.growit.app.todo.domain.TodoCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +13,11 @@ public class TodoDto {
   private String id;
   private String goalId;
   private String date;
+  /** 투두 시간 (HH:mm, optional) */
+  private String time;
   private String content;
 
-  @JsonProperty("isImportant")
-  private boolean important;
+  private TodoCategory category;
 
   @JsonProperty("isCompleted")
   private boolean completed;

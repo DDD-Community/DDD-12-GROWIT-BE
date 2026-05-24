@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
@@ -49,7 +50,13 @@ class RoutineServiceTest {
 
     createCommand =
         new CreateToDoCommand(
-            "user123", "goal123", "Daily routine task", LocalDate.of(2024, 1, 1), true, routine);
+            "user123",
+            "goal123",
+            "Daily routine task",
+            LocalDate.of(2024, 1, 1),
+            null,
+            TodoCategory.NOW,
+            routine);
 
     updateCommand =
         new UpdateToDoCommand(
@@ -58,7 +65,8 @@ class RoutineServiceTest {
             "goal123",
             "Updated routine task",
             LocalDate.of(2024, 1, 3),
-            true,
+            null,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.FROM_DATE);
 
@@ -71,7 +79,7 @@ class RoutineServiceTest {
             .date(LocalDate.of(2024, 1, 3))
             .isCompleted(false)
             .isDeleted(false)
-            .isImportant(true)
+            .category(TodoCategory.NOW)
             .routine(routine)
             .build();
   }
@@ -123,7 +131,8 @@ class RoutineServiceTest {
             "goal123",
             "Updated all routine tasks",
             LocalDate.of(2024, 1, 3),
-            true,
+            null,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.ALL);
 
@@ -154,7 +163,8 @@ class RoutineServiceTest {
             "goal123",
             "Updated single task",
             LocalDate.of(2024, 1, 3),
-            true,
+            null,
+            TodoCategory.NOW,
             null, // 루틴 제거
             RoutineUpdateType.SINGLE);
 
@@ -181,7 +191,8 @@ class RoutineServiceTest {
             "goal123",
             "Weekly routine task",
             LocalDate.of(2024, 1, 1),
-            true,
+            null,
+            TodoCategory.NOW,
             weeklyRoutine);
 
     // When
@@ -201,7 +212,7 @@ class RoutineServiceTest {
         .date(date)
         .isCompleted(false)
         .isDeleted(false)
-        .isImportant(false)
+        .category(TodoCategory.NOW)
         .routine(routine)
         .build();
   }
@@ -223,7 +234,8 @@ class RoutineServiceTest {
             "goal123",
             "Weekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
-            true,
+            null,
+            TodoCategory.NOW,
             weeklyRoutineWithDays);
 
     // When
@@ -252,7 +264,8 @@ class RoutineServiceTest {
             "goal123",
             "Biweekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
-            true,
+            null,
+            TodoCategory.NOW,
             biweeklyRoutine);
 
     // When
@@ -280,7 +293,8 @@ class RoutineServiceTest {
             "goal123",
             "Weekly routine without specific days",
             LocalDate.of(2024, 1, 1), // 월요일
-            true,
+            null,
+            TodoCategory.NOW,
             weeklyRoutineWithoutDays);
 
     // When
@@ -309,7 +323,8 @@ class RoutineServiceTest {
             "goal123",
             "Daily routine with repeatDays",
             LocalDate.of(2024, 1, 1),
-            true,
+            null,
+            TodoCategory.NOW,
             dailyRoutineWithDays);
 
     // When

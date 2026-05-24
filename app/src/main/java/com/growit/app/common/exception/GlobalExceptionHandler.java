@@ -1,6 +1,7 @@
 package com.growit.app.common.exception;
 
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
+import com.growit.app.advice.domain.exception.AiServiceDisabledException;
 import com.growit.app.common.notification.NotificationService;
 import com.growit.app.common.response.BaseErrorResponse;
 import com.growit.app.common.util.message.ErrorCode;
@@ -99,6 +100,13 @@ public class GlobalExceptionHandler {
   public ResponseEntity<BaseErrorResponse> handleConflictException(BaseException e) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(BaseErrorResponse.builder().message(messageService.msg(e.getMessage())).build());
+  }
+
+  @ExceptionHandler({AiServiceDisabledException.class})
+  public ResponseEntity<BaseErrorResponse> handleAiServiceDisabledException(
+      AiServiceDisabledException e) {
+    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+        .body(BaseErrorResponse.builder().message(e.getMessage()).build());
   }
 
   @ExceptionHandler({NotFoundException.class})

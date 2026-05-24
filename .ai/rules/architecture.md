@@ -1,0 +1,298 @@
+# Architecture Rules — GROWIT BE
+
+## 개요
+
+DDD + Aggregate Root 기반 아키텍처. 모든 도메인은 Aggregate Root 단위로 관리한다.
+
+---
+
+## 패키지 구조
+
+```
+com.growit.app.{domain}/
+├── controller/
+│   ├── {Domain}Controller.java
+│   ├── dto/
+│   │   ├── request/    ← API 요청 DTO
+│   │   └── response/   ← API 응답 DTO
+│   └── mapper/          ← DTO ↔ Command 변환
+├── usecase/
+│   ├── Create{Domain}UseCase.java
+│   ├── Update{Domain}UseCase.java
+│   ├── Delete{Domain}UseCase.java
+│   ├── Get{Domain}UseCase.java
+│   └── dto/             ← UseCase 간 전달 DTO
+├── domain/
+│   ├── {aggregate-root}/
+│   │   ├── {AggregateRoot}.java     ← Aggregate Root Entity
+│   │   ├── {AggregateRoot}Repository.java  ← Repository 인터페이스
+│   │   ├── service/
+│   │   │   ├── {Domain}Service.java
+│   │   │   ├── {Domain}Validator.java
+│   │   │   └── {Domain}Query.java
+│   │   ├── dto/          ← Command/Query DTO
+│   │   └── vo/           ← Value Objects
+│   └── {sub-aggregate}/  ← 동일 도메인 내 하위 Aggregate
+└── infrastructure/
+    ├── persistence/
+    │   └── {aggregate-root}/
+    │       ├── {AggregateRoot}RepositoryImpl.java
+    │       ├── {AggregateRoot}DBMapper.java
+    │       └── source/
+    │           ├── DB{AggregateRoot}Repository.java  ← JPA Repository
+    │           ├── DB{AggregateRoot}QueryRepository.java
+    │           └── entity/
+    │               └── {AggregateRoot}Entity.java    ← JPA @Entity
+    └── client/           ← 외부 API 클라이언트
+```
+
+---
+
+## 계층 의존성 (엄격)
+
+```
+Controller → UseCase → Domain ← Infrastructure
+```
+
+- **Controller**는 **UseCase만** 호출한다.
+- **UseCase**는 **Domain Service / Repository만** 호출한다.
+- **Domain**은 **어떤 계층도 import하지 않는다** (순수 Java).
+- **Infrastructure**는 **Domain의 Repository interface를 구현**한다.
+
+### 금지 의존성
+
+| 계층 | 금지 import |
+|------|------------|
+| Domain | `javax.persistence.*`, `jakarta.persistence.*`, `org.springframework.*`, `infrastructure.*` |
+| Controller | `domain.*` (직접), `infrastructure.*` |
+| UseCase | `infrastructure.*`, `controller.*` |
+
+---
+
+## Aggregate Root 규칙
+
+### 1. Aggregate Root는 해당 도메인의 진입점
+
+- 외부 도메인은 **Aggregate Root의 ID로만** 참조한다.
+- Entity 직접 참조는 금지.
+
+```java
+// 좋은 예: ID 참조
+private final Long userId;
+
+// 나쁜 예: Entity 직접 참조
+private final User user;  // 금지!
+```
+
+### 2. 내부 상태 변경은 Aggregate Root 메서드를 통해서만
+
+```java
+// 좋은 예
+goal.updateTitle("새 제목");
+
+// 나쁜 예
+goal.setTitle("새 제목");  // 금지! @Setter 사용 금지
+```
+
+### 3. Factory Method로 생성
+
+```java
+public class Goal {
+  public static Goal from(Long id, String title, Long userId, ...) {
+    return new Goal(id, title, userId, ...);
+  }
+}
+```
+
+### 4. 하나의 트랜잭션 = 하나의 Aggregate Root
+
+한 트랜잭션에서 여러 Aggregate Root를 수정하지 않는다.
+크로스 Aggregate 작업이 필요하면 이벤트 또는 별도 UseCase로 분리한다.
+
+---
+
+## Domain Layer 규칙
+
+### Entity (Aggregate Root)
+
+- immutable ID
+- 비즈니스 메서드 포함
+- JPA 의존성 없음
+- `@Getter`, `@RequiredArgsConstructor` (Lombok)
+- `@Setter` 금지 (Domain Entity에서)
+- factory method: `static from()`
+
+### Repository 인터페이스
+
+- 인터페이스만 정의
+- 구현은 Infrastructure에서
+- Domain 패키지 내에 위치
+
+```java
+public interface GoalRepository {
+  Goal save(Goal goal);
+  Optional<Goal> findById(Long id);
+  List<Goal> findByUserId(Long userId);
+  void deleteById(Long id);
+}
+```
+
+### Domain Service
+
+- 비즈니스 로직 조합
+- 단일 Aggregate 내에서만 동작
+- `@RequiredArgsConstructor`
+- Spring `@Service` 어노테이션 없음 (UseCase에서 직접 생성하거나 Bean 등록)
+
+### Validator
+
+- 비즈니스 규칙 검증 전담
+- 검증 실패 시 커스텀 예외 throw
+
+### Query
+
+- 읽기 전용 조회 로직
+- 복잡한 조회 조건 조합
+
+### Value Object (VO)
+
+- 불변: `record` 또는 `enum` 사용
+- 자기 검증 포함 (생성 시 유효성 체크)
+
+### Command / Query DTO
+
+- `record` 사용
+- 계층 간 데이터 전달 전용
+- 비즈니스 로직 없음
+
+---
+
+## Infrastructure Layer 규칙
+
+### RepositoryImpl
+
+- Domain Repository 인터페이스 구현
+- `@Repository`, `@RequiredArgsConstructor`
+- DB Mapper를 통해 Domain Entity <-> JPA Entity 변환
+
+### DB Mapper
+
+- Domain Entity <-> JPA Entity 변환 유틸리티
+- static 메서드로 구현
+
+```java
+public class GoalDBMapper {
+  public static Goal toDomain(GoalEntity entity) { ... }
+  public static GoalEntity toEntity(Goal domain) { ... }
+}
+```
+
+### JPA Entity
+
+- `@Entity`, `@Table`
+- `@Getter`, `@NoArgsConstructor(access = AccessLevel.PROTECTED)`
+- `BaseTimeEntity` 상속 (createdAt, updatedAt)
+- Domain Entity와 1:1 대응
+- DB 스키마 매핑 전담
+
+### JPA Repository (Spring Data)
+
+- `DB{Name}Repository extends JpaRepository<{Name}Entity, Long>`
+- Spring Data 쿼리 메서드 또는 `@Query`
+
+### QueryDSL Repository
+
+- `DB{Name}QueryRepository` 인터페이스 + 구현체
+- 복잡한 동적 쿼리
+
+### Client
+
+- 외부 API 호출 (Port & Adapter 패턴)
+- Domain에 정의된 인터페이스 구현
+
+---
+
+## UseCase 규칙
+
+```java
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class CreateGoalUseCase {
+  private final GoalRepository goalRepository;
+  private final GoalService goalService;
+
+  public Goal execute(CreateGoalCommand command) {
+    // 1. 검증
+    goalService.validateCreation(command);
+    // 2. 비즈니스 로직 (Domain에 위임)
+    Goal goal = Goal.from(null, command.title(), command.userId(), ...);
+    // 3. 저장
+    return goalRepository.save(goal);
+  }
+}
+```
+
+- `@Service` + `@RequiredArgsConstructor`
+- `@Transactional` — 트랜잭션 경계
+- **하나의 UseCase = 하나의 비즈니스 액션**
+- 얇은 계층: 검증 -> 비즈니스 로직 위임 -> 저장
+- 크로스 Aggregate 조합만 담당
+
+---
+
+## Controller 규칙
+
+```java
+@RestController
+@RequestMapping("/api/v1/goals")
+@RequiredArgsConstructor
+public class GoalController {
+  private final CreateGoalUseCase createGoalUseCase;
+
+  @PostMapping
+  public ApiResponse<GoalResponse> create(@Valid @RequestBody CreateGoalRequest request) {
+    CreateGoalCommand command = GoalDtoMapper.toCommand(request);
+    Goal goal = createGoalUseCase.execute(command);
+    return ApiResponse.success(GoalDtoMapper.toResponse(goal));
+  }
+}
+```
+
+- REST 엔드포인트 정의
+- DTO <-> Command 변환 (Mapper 사용)
+- **비즈니스 로직 없음**
+- `ApiResponse` 래퍼로 응답
+
+---
+
+## 현재 Aggregate Root 목록
+
+| 도메인 | Aggregate Root | 하위 Aggregate |
+|--------|---------------|----------------|
+| goal | Goal | Planet, GoalAnalysis |
+| todo | ToDo | Routine |
+| user | User | UserToken, Promotion, UserAdviceStatus, UserStats |
+| advice | ChatAdvice, MentorAdvice | Grorong |
+| retrospect | Retrospect | GoalRetrospect |
+| mission | Mission | - |
+| resource | Saying | - |
+
+---
+
+## DB 마이그레이션 (Flyway)
+
+- 경로: `app/src/main/resources/db/migration/`
+- 네이밍: `V{next}__{description}.sql`
+- DDL만 포함 (DML은 별도 R__ 또는 데이터 마이그레이션)
+- 기존 마이그레이션 수정 금지 (새 버전 추가만)
+- 버전 번호 충돌 주의
+
+---
+
+## 예외 처리
+
+- 커스텀 예외 사용 (`common/` 패키지에 정의)
+- `RuntimeException` 직접 throw 금지
+- 예외 → `@ControllerAdvice`에서 `ApiResponse` 에러 형태로 변환
+- 적절한 HTTP 상태 코드 매핑
