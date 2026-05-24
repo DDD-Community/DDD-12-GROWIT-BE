@@ -55,7 +55,7 @@ class RoutineServiceTest {
             "Daily routine task",
             LocalDate.of(2024, 1, 1),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             routine);
 
     updateCommand =
@@ -66,7 +66,7 @@ class RoutineServiceTest {
             "Updated routine task",
             LocalDate.of(2024, 1, 3),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.FROM_DATE);
 
@@ -79,7 +79,7 @@ class RoutineServiceTest {
             .date(LocalDate.of(2024, 1, 3))
             .isCompleted(false)
             .isDeleted(false)
-            .category(TodoCategory.URGENT)
+            .category(TodoCategory.NOW)
             .routine(routine)
             .build();
   }
@@ -132,7 +132,7 @@ class RoutineServiceTest {
             "Updated all routine tasks",
             LocalDate.of(2024, 1, 3),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.ALL);
 
@@ -164,7 +164,7 @@ class RoutineServiceTest {
             "Updated single task",
             LocalDate.of(2024, 1, 3),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             null, // 루틴 제거
             RoutineUpdateType.SINGLE);
 
@@ -192,7 +192,7 @@ class RoutineServiceTest {
             "Weekly routine task",
             LocalDate.of(2024, 1, 1),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             weeklyRoutine);
 
     // When
@@ -212,7 +212,7 @@ class RoutineServiceTest {
         .date(date)
         .isCompleted(false)
         .isDeleted(false)
-        .category(TodoCategory.URGENT)
+        .category(TodoCategory.NOW)
         .routine(routine)
         .build();
   }
@@ -235,7 +235,7 @@ class RoutineServiceTest {
             "Weekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             weeklyRoutineWithDays);
 
     // When
@@ -265,7 +265,7 @@ class RoutineServiceTest {
             "Biweekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             biweeklyRoutine);
 
     // When
@@ -294,7 +294,7 @@ class RoutineServiceTest {
             "Weekly routine without specific days",
             LocalDate.of(2024, 1, 1), // 월요일
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             weeklyRoutineWithoutDays);
 
     // When
@@ -324,7 +324,7 @@ class RoutineServiceTest {
             "Daily routine with repeatDays",
             LocalDate.of(2024, 1, 1),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             dailyRoutineWithDays);
 
     // When

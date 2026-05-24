@@ -112,7 +112,7 @@ class ToDoControllerTest {
 
     CreateToDoRequest request =
         new CreateToDoRequest(
-            "goal-1", LocalDate.now(), null, "할 일 내용", TodoCategory.URGENT, routineDto);
+            "goal-1", LocalDate.now(), null, "할 일 내용", TodoCategory.NOW, routineDto);
 
     Routine domainRoutine =
         Routine.of(
@@ -122,13 +122,7 @@ class ToDoControllerTest {
 
     CreateToDoCommand command =
         new CreateToDoCommand(
-            "user-1",
-            "goal-1",
-            "할 일 내용",
-            LocalDate.now(),
-            null,
-            TodoCategory.URGENT,
-            domainRoutine);
+            "user-1", "goal-1", "할 일 내용", LocalDate.now(), null, TodoCategory.NOW, domainRoutine);
     ToDoResult result = new ToDoResult("todo-1");
     ToDoResponse response = new ToDoResponse("todo-1");
 
@@ -234,7 +228,7 @@ class ToDoControllerTest {
             LocalDate.now(),
             null,
             "수정된 할 일 내용",
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             routineDto,
             RoutineUpdateType.ALL);
     UpdateToDoCommand command =
@@ -245,7 +239,7 @@ class ToDoControllerTest {
             "수정된 할 일 내용",
             LocalDate.now(),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.ALL);
     // time argument inserted at index 5 to match new signature (date, time, category, ...)
@@ -349,7 +343,7 @@ class ToDoControllerTest {
             LocalDate.of(2024, 1, 1),
             null,
             "Updated routine task",
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             routineDto,
             RoutineUpdateType.FROM_DATE);
 
@@ -361,7 +355,7 @@ class ToDoControllerTest {
             "Updated routine task",
             LocalDate.of(2024, 1, 1),
             null,
-            TodoCategory.URGENT,
+            TodoCategory.NOW,
             null,
             RoutineUpdateType.FROM_DATE);
     ToDoResult result = new ToDoResult("todo-123");
@@ -495,7 +489,7 @@ class ToDoControllerTest {
                         .goalId("goal-1")
                         .date("2024-01-01")
                         .content("테스트 할 일입니다.")
-                        .category(TodoCategory.URGENT)
+                        .category(TodoCategory.NOW)
                         .completed(false)
                         .routine(
                             RoutineDto.builder()
@@ -517,7 +511,7 @@ class ToDoControllerTest {
                         .goalId("goal-1")
                         .date("2024-01-01")
                         .content("테스트 할 일입니다.")
-                        .category(TodoCategory.URGENT)
+                        .category(TodoCategory.NOW)
                         .completed(false)
                         .routine(null)
                         .build())
@@ -623,7 +617,7 @@ class ToDoControllerTest {
             .goalId("goal-1")
             .date("2024-01-01")
             .content("테스트 할 일입니다.")
-            .category(TodoCategory.URGENT)
+            .category(TodoCategory.NOW)
             .completed(false)
             .routine(null)
             .build();
@@ -742,16 +736,16 @@ class ToDoControllerTest {
                     new TodoCountByDateDto.GoalTodoCount("goal-1", 3),
                     new TodoCountByDateDto.GoalTodoCount("goal-2", 2)),
                 List.of(
-                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.URGENT, 3, 1),
-                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.CONSISTENT, 2, 2))),
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.NOW, 3, 1),
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.STEADY, 2, 2))),
             new TodoCountByDateDto(
                 LocalDate.of(2024, 1, 2),
                 List.of(
                     new TodoCountByDateDto.GoalTodoCount("goal-1", 1),
                     new TodoCountByDateDto.GoalTodoCount("goal-2", 4)),
                 List.of(
-                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.DEFERABLE, 1, 0),
-                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.DELETABLE, 4, 4))));
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.SKIP, 1, 0),
+                    new TodoCountByDateDto.CategoryTodoCount(TodoCategory.DELETE, 4, 4))));
     List<TodoCountByDateResponse> responseList =
         List.of(
             TodoCountByDateResponse.builder()
@@ -762,9 +756,8 @@ class ToDoControllerTest {
                         new TodoCountByDateResponse.GoalTodoCount("goal-2", 2)))
                 .categories(
                     List.of(
-                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.URGENT, 3, 1),
-                        new TodoCountByDateResponse.CategoryTodoCount(
-                            TodoCategory.CONSISTENT, 2, 2)))
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.NOW, 3, 1),
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.STEADY, 2, 2)))
                 .build(),
             TodoCountByDateResponse.builder()
                 .date("2024-01-02")
@@ -774,9 +767,8 @@ class ToDoControllerTest {
                         new TodoCountByDateResponse.GoalTodoCount("goal-2", 4)))
                 .categories(
                     List.of(
-                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.DEFERABLE, 1, 0),
-                        new TodoCountByDateResponse.CategoryTodoCount(
-                            TodoCategory.DELETABLE, 4, 4)))
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.SKIP, 1, 0),
+                        new TodoCountByDateResponse.CategoryTodoCount(TodoCategory.DELETE, 4, 4)))
                 .build());
 
     given(toDoRequestMapper.toGetDateRangeQueryFilter(any(String.class), eq(from), eq(to)))
