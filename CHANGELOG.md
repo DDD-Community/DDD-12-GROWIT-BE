@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.67.2](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.67.1...v1.67.2) (2026-05-24)
+
+
+### Bug Fixes
+
+* add one-shot FlywayMigrationStrategy to realign V22/V23 checksums ([84c8a69](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/84c8a69153a572435ccd51c7c9fc6ff7f8e162d2))
+* recover dev boot — revert TodoCategory rename + one-shot Flyway repair ([e5865a6](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/e5865a6e13bb5464e095fc6b9174c4b366200734))
+
+
+### Reverts
+
+* TodoCategory rename (PR [#446](https://github.com/DDD-Community/DDD-12-GROWIT-BE/issues/446)) to keep existing DB rows valid ([510ff69](https://github.com/DDD-Community/DDD-12-GROWIT-BE/commit/510ff6906fe14e70446acb6f2b901f75d538400d))
+
 ## [1.67.1](https://github.com/DDD-Community/DDD-12-GROWIT-BE/compare/v1.67.0...v1.67.1) (2026-05-24)
 
 
