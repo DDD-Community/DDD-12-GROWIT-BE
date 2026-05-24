@@ -27,8 +27,7 @@ public class ToDoResponseMapper {
         .date(todo.getDate().toString())
         .time(
             todo.getTime() != null
-                ? todo.getTime()
-                    .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
+                ? todo.getTime().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
                 : null)
         .content(todo.getContent())
         .category(todo.getCategory())

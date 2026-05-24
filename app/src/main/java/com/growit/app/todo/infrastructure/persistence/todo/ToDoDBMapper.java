@@ -24,7 +24,7 @@ public class ToDoDBMapper {
         .date(todo.getDate())
         .time(todo.getTime())
         .isCompleted(todo.isCompleted())
-        .category(todo.getCategory() != null ? todo.getCategory().name() : "NOW")
+        .category(todo.getCategory() != null ? todo.getCategory().name() : "URGENT")
         .routineId(routineId)
         .build();
   }
@@ -44,7 +44,7 @@ public class ToDoDBMapper {
         .category(
             entity.getCategory() != null
                 ? TodoCategory.valueOf(entity.getCategory())
-                : TodoCategory.NOW)
+                : TodoCategory.URGENT)
         .routine(routine)
         .build();
   }
