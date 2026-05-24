@@ -13,8 +13,10 @@ public class TodoDto {
   private String id;
   private String goalId;
   private String date;
+
   /** 투두 시간 (HH:mm, optional) */
   private String time;
+
   private String content;
 
   private TodoCategory category;

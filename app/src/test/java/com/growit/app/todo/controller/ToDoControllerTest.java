@@ -122,13 +122,7 @@ class ToDoControllerTest {
 
     CreateToDoCommand command =
         new CreateToDoCommand(
-            "user-1",
-            "goal-1",
-            "할 일 내용",
-            LocalDate.now(),
-            null,
-            TodoCategory.NOW,
-            domainRoutine);
+            "user-1", "goal-1", "할 일 내용", LocalDate.now(), null, TodoCategory.NOW, domainRoutine);
     ToDoResult result = new ToDoResult("todo-1");
     ToDoResponse response = new ToDoResponse("todo-1");
 
