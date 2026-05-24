@@ -19,7 +19,6 @@ public class ToDoRequestMapper {
         request.getContent(),
         request.getDate(),
         request.isImportant(),
-        request.getCategory(),
         toDomainRoutine(request.getRoutine()));
   }
 
@@ -31,7 +30,6 @@ public class ToDoRequestMapper {
         request.getContent(),
         request.getDate(),
         request.getImportant() != null ? request.getImportant() : false,
-        request.getCategory(),
         toDomainRoutine(request.getRoutine()),
         request.getRoutine() != null && request.getRoutineUpdateType() == null
             ? RoutineUpdateType.ALL

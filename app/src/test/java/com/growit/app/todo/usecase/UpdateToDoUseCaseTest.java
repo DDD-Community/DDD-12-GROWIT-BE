@@ -51,15 +51,7 @@ class UpdateToDoUseCaseTest {
     String newContent = "수정된 내용";
     UpdateToDoCommand command =
         new UpdateToDoCommand(
-            toDo.getId(),
-            toDo.getUserId(),
-            toDo.getGoalId(),
-            newContent,
-            today,
-            false,
-            null,
-            null,
-            null);
+            toDo.getId(), toDo.getUserId(), toDo.getGoalId(), newContent, today, false, null, null);
 
     // When
     ToDoResult result = updateToDoUseCase.execute(command);

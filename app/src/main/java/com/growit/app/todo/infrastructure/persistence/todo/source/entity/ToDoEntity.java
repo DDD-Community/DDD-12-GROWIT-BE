@@ -2,11 +2,8 @@ package com.growit.app.todo.infrastructure.persistence.todo.source.entity;
 
 import com.growit.app.common.entity.BaseEntity;
 import com.growit.app.todo.domain.ToDo;
-import com.growit.app.todo.domain.vo.ToDoCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,10 +37,6 @@ public class ToDoEntity extends BaseEntity {
   @Column(nullable = false, columnDefinition = "boolean default false")
   private boolean isImportant;
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false, length = 32)
-  private ToDoCategory category;
-
   @Column(nullable = true)
   private String routineId;
 
@@ -52,7 +45,6 @@ public class ToDoEntity extends BaseEntity {
     this.content = toDo.getContent();
     this.isCompleted = toDo.isCompleted();
     this.isImportant = toDo.isImportant();
-    this.category = toDo.getCategory() != null ? toDo.getCategory() : ToDoCategory.URGENT;
     this.goalId = toDo.getGoalId();
     if (toDo.getRoutine() != null) {
       this.routineId = toDo.getRoutine().getId();
