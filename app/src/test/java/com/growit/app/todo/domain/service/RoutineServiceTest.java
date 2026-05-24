@@ -49,13 +49,7 @@ class RoutineServiceTest {
 
     createCommand =
         new CreateToDoCommand(
-            "user123",
-            "goal123",
-            "Daily routine task",
-            LocalDate.of(2024, 1, 1),
-            true,
-            null,
-            routine);
+            "user123", "goal123", "Daily routine task", LocalDate.of(2024, 1, 1), true, routine);
 
     updateCommand =
         new UpdateToDoCommand(
@@ -65,7 +59,6 @@ class RoutineServiceTest {
             "Updated routine task",
             LocalDate.of(2024, 1, 3),
             true,
-            null,
             routine,
             RoutineUpdateType.FROM_DATE);
 
@@ -131,7 +124,6 @@ class RoutineServiceTest {
             "Updated all routine tasks",
             LocalDate.of(2024, 1, 3),
             true,
-            null,
             routine,
             RoutineUpdateType.ALL);
 
@@ -163,7 +155,6 @@ class RoutineServiceTest {
             "Updated single task",
             LocalDate.of(2024, 1, 3),
             true,
-            null,
             null, // 루틴 제거
             RoutineUpdateType.SINGLE);
 
@@ -191,7 +182,6 @@ class RoutineServiceTest {
             "Weekly routine task",
             LocalDate.of(2024, 1, 1),
             true,
-            null,
             weeklyRoutine);
 
     // When
@@ -234,7 +224,6 @@ class RoutineServiceTest {
             "Weekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
             true,
-            null,
             weeklyRoutineWithDays);
 
     // When
@@ -264,7 +253,6 @@ class RoutineServiceTest {
             "Biweekly routine on specific days",
             LocalDate.of(2024, 1, 1), // 월요일
             true,
-            null,
             biweeklyRoutine);
 
     // When
@@ -293,7 +281,6 @@ class RoutineServiceTest {
             "Weekly routine without specific days",
             LocalDate.of(2024, 1, 1), // 월요일
             true,
-            null,
             weeklyRoutineWithoutDays);
 
     // When
@@ -323,7 +310,6 @@ class RoutineServiceTest {
             "Daily routine with repeatDays",
             LocalDate.of(2024, 1, 1),
             true,
-            null,
             dailyRoutineWithDays);
 
     // When

@@ -28,7 +28,6 @@ public class ToDoResponseMapper {
         .content(todo.getContent())
         .important(todo.isImportant())
         .completed(todo.isCompleted())
-        .category(todo.getCategory())
         .routine(toRoutineDto(todo.getRoutine()))
         .build();
   }

@@ -48,8 +48,7 @@ class CreateToDoUseCaseTest {
     goal = GoalFixture.customGoal("goal123", "Test Goal", null);
 
     simpleCommand =
-        new CreateToDoCommand(
-            "user123", "goal123", "Simple task", LocalDate.now(), false, null, null);
+        new CreateToDoCommand("user123", "goal123", "Simple task", LocalDate.now(), false, null);
 
     RoutineDuration duration =
         RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7));
@@ -58,7 +57,7 @@ class CreateToDoUseCaseTest {
 
     routineCommand =
         new CreateToDoCommand(
-            "user123", "goal123", "Routine task", LocalDate.of(2024, 1, 1), true, null, routine);
+            "user123", "goal123", "Routine task", LocalDate.of(2024, 1, 1), true, routine);
   }
 
   @Test
