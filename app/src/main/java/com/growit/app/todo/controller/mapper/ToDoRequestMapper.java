@@ -31,8 +31,10 @@ public class ToDoRequestMapper {
         request.getDate(),
         request.getImportant() != null ? request.getImportant() : false,
         toDomainRoutine(request.getRoutine()),
+        // 클라이언트가 수정 범위를 지정하지 않았을 때 가장 파괴적인 ALL 로 해석하면
+        // 반복 전체가 재생성되어 완료 이력이 사라진다. 비파괴적인 SINGLE 을 기본값으로 둔다.
         request.getRoutine() != null && request.getRoutineUpdateType() == null
-            ? RoutineUpdateType.ALL
+            ? RoutineUpdateType.SINGLE
             : request.getRoutineUpdateType());
   }
 

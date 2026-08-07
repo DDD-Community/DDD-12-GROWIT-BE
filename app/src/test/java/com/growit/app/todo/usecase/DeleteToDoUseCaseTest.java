@@ -8,6 +8,7 @@ import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.fake.todo.ToDoFixture;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.DeleteToDoCommand;
+import com.growit.app.todo.domain.service.RoutineServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,10 @@ class DeleteToDoUseCaseTest {
     FakeToDoHandler toDoHandler = new FakeToDoHandler();
     useCase =
         new DeleteToDoUseCase(
-            fakeToDoRepository, toDoHandler, new FakeToDoQuery(fakeToDoRepository), null);
+            fakeToDoRepository,
+            toDoHandler,
+            new FakeToDoQuery(fakeToDoRepository),
+            new RoutineServiceImpl(fakeToDoRepository));
 
     fakeToDoRepository.saveToDo(todo);
   }
