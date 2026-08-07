@@ -42,10 +42,28 @@ public class UpdateToDoUseCase {
       return routineService.updateRoutineToDos(toDo, command);
     }
 
-    toDo.updateBy(command);
+    validateScopeSpecified(toDo, command);
+
+    if (toDo.getRoutine() != null) {
+      // 반복 투두에 범위를 지정하지 않은 수정은 "해당 투두만"으로 본다.
+      // updateBy 를 쓰면 routine 이 null 로 덮여 이 투두만 반복에서 영구히 떨어져 나간다.
+      toDo.updateContentOnly(command);
+    } else {
+      toDo.updateBy(command);
+    }
     toDoRepository.saveToDo(toDo);
 
     return new ToDoResult(toDo.getId());
+  }
+
+  /**
+   * routine 을 보내면서 범위를 지정하지 않은 요청은 의도를 알 수 없다. ALL 로 추측하면 완료 이력이 날아가고, SINGLE 로 추측하면 사용자가 바꾼 반복 설정이
+   * 조용히 버려진다. 어느 쪽도 맞지 않으므로 클라이언트에게 명시를 요구한다.
+   */
+  private void validateScopeSpecified(ToDo toDo, UpdateToDoCommand command) {
+    if (command.routine() != null && toDo.getRoutine() != null) {
+      throw new BadRequestException("반복 설정을 변경하려면 적용 범위(routineUpdateType)를 지정해야 합니다.");
+    }
   }
 
   /**

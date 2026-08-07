@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>반복 투두 범위 API — GROWIT</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --surface: #f7f8fa;
+        --surface-2: #eef0f4;
+        --text: #16181d;
+        --text-dim: #5b6472;
+        --border: #dfe3ea;
+        --accent: #2f6df6;
+        --danger: #d02b3a;
+        --warn: #9a6400;
+        --ok: #1a7f47;
+        --code-bg: #f2f4f8;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f1115;
+          --surface: #161a21;
+          --surface-2: #1d222b;
+          --text: #e7eaf0;
+          --text-dim: #9aa4b4;
+          --border: #2a313c;
+          --accent: #6f9dff;
+          --danger: #ff7b86;
+          --warn: #e0a33c;
+          --ok: #56c98a;
+          --code-bg: #12161c;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo",
+          "Malgun Gothic", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 40px 20px 96px;
+      }
+
+      header.page {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+        margin-bottom: 36px;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+      }
+      .sub {
+        color: var(--text-dim);
+        margin: 0;
+      }
+      .meta {
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--text-dim);
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      h2 {
+        font-size: 20px;
+        margin: 44px 0 12px;
+        letter-spacing: -0.01em;
+        scroll-margin-top: 20px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 28px 0 10px;
+      }
+      p {
+        margin: 10px 0;
+      }
+
+      code {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: var(--code-bg);
+        padding: 2px 5px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+      }
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        overflow-x: auto;
+        margin: 12px 0;
+      }
+      pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .tablewrap {
+        overflow-x: auto;
+        margin: 14px 0;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 560px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      th {
+        background: var(--surface-2);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .method {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 5px;
+        color: #fff;
+      }
+      .put {
+        background: #b8791b;
+      }
+      .del {
+        background: #b93a45;
+      }
+      .endpoint {
+        font-family: var(--mono);
+        font-size: 14px;
+        margin-left: 8px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin: 16px 0;
+      }
+
+      .note {
+        border-left: 3px solid var(--accent);
+        background: var(--surface);
+        padding: 12px 16px;
+        border-radius: 0 8px 8px 0;
+        margin: 16px 0;
+      }
+      .note.warn {
+        border-left-color: var(--warn);
+      }
+      .note.danger {
+        border-left-color: var(--danger);
+      }
+      .note strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .req {
+        color: var(--danger);
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .opt {
+        color: var(--text-dim);
+        font-size: 12px;
+      }
+
+      ul,
+      ol {
+        padding-left: 22px;
+      }
+      li {
+        margin: 5px 0;
+      }
+
+      .cal {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin: 10px 0;
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+      .day {
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 7px 10px;
+        background: var(--surface);
+        min-width: 74px;
+        text-align: center;
+      }
+      .day.kept {
+        border-color: var(--ok);
+      }
+      .day.changed {
+        border-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+      }
+      .day.gone {
+        border-color: var(--danger);
+        opacity: 0.55;
+        text-decoration: line-through;
+      }
+      .day .lbl {
+        display: block;
+        font-size: 10px;
+        color: var(--text-dim);
+        margin-top: 3px;
+        text-decoration: none;
+      }
+
+      .legend {
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-top: 6px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 40px 0;
+      }
+      a {
+        color: var(--accent);
+      }
+      .toc {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 20px;
+      }
+      .toc ul {
+        margin: 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="page">
+        <h1>반복 투두 범위 수정/삭제 API</h1>
+        <p class="sub">
+          반복(루틴) 투두를 <strong>해당 투두만 / 해당 날짜 이후 / 전체</strong> 범위로 수정하거나
+          삭제하는 API 명세입니다.
+        </p>
+        <div class="meta">
+          <span>최종 수정 2026-08-08</span>
+          <span>Base URL <code>/todos</code></span>
+          <span>인증 필요 (Bearer)</span>
+        </div>
+      </header>
+
+      <div class="toc">
+        <strong>목차</strong>
+        <ul>
+          <li><a href="#concept">1. 반복 투두가 저장되는 방식</a></li>
+          <li><a href="#scope">2. 범위 타입 (SINGLE / FROM_DATE / ALL)</a></li>
+          <li><a href="#update">3. 수정 API</a></li>
+          <li><a href="#delete">4. 삭제 API</a></li>
+          <li><a href="#read">5. 조회 응답의 routine 필드</a></li>
+          <li><a href="#scenario">6. 시나리오별 결과</a></li>
+          <li><a href="#pitfall">7. 자주 하는 실수</a></li>
+        </ul>
+      </div>
+
+      <h2 id="concept">1. 반복 투두가 저장되는 방식</h2>
+      <p>
+        반복 투두는 하나의 레코드가 아니라 <strong>날짜별로 독립된 투두 여러 건</strong>으로 저장됩니다.
+        같은 반복에 속한 투두들은 서버 내부에서 동일한 루틴 식별자를 공유합니다.
+      </p>
+      <div class="cal">
+        <div class="day">3/2 (월)<span class="lbl">todo A</span></div>
+        <div class="day">3/9 (월)<span class="lbl">todo B</span></div>
+        <div class="day">3/16 (월)<span class="lbl">todo C</span></div>
+        <div class="day">3/23 (월)<span class="lbl">todo D</span></div>
+      </div>
+      <p class="legend">
+        "매주 월요일" 루틴을 만들면 종료일까지의 모든 날짜에 투두가 미리 생성됩니다. 따라서 범위 수정/삭제는
+        "이 루틴에 속한 투두 중 어디까지를 대상으로 할지" 고르는 동작입니다.
+      </p>
+
+      <h2 id="scope">2. 범위 타입</h2>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>값</th>
+              <th>대상</th>
+              <th>UI 문구</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>SINGLE</code></td>
+              <td>선택한 투두 1건</td>
+              <td>해당 투두만 수정 / 삭제</td>
+            </tr>
+            <tr>
+              <td><code>FROM_DATE</code></td>
+              <td>
+                선택한 투두의 날짜를 <strong>포함해서</strong> 그 이후 전부
+              </td>
+              <td>해당 날짜 이후 투두 수정 / 삭제</td>
+            </tr>
+            <tr>
+              <td><code>ALL</code></td>
+              <td>해당 루틴의 모든 투두 (과거 포함)</td>
+              <td>전체 반복 투두 수정 / 삭제</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>기준 날짜는 "선택한 투두의 원래 날짜"입니다</strong>
+        <code>FROM_DATE</code>의 경계는 URL 경로의 <code>{id}</code>가 가리키는 투두가 원래 갖고 있던
+        날짜입니다. 사용자가 폼에서 날짜를 바꿔 <code>date</code>로 다른 값을 보내더라도 경계는 바뀌지
+        않습니다. 수정과 삭제 모두 동일한 기준을 씁니다.
+      </div>
+
+      <h2 id="update">3. 수정 API</h2>
+      <p>
+        <span class="method put">PUT</span><span class="endpoint">/todos/{id}</span>
+      </p>
+
+      <h3>Request Body</h3>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>필드</th>
+              <th>타입</th>
+              <th>필수</th>
+              <th>설명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>date</code></td>
+              <td>string (YYYY-MM-DD)</td>
+              <td><span class="req">필수</span></td>
+              <td>수정 후 투두 날짜</td>
+            </tr>
+            <tr>
+              <td><code>content</code></td>
+              <td>string (1~30자)</td>
+              <td><span class="req">필수</span></td>
+              <td>할 일 내용</td>
+            </tr>
+            <tr>
+              <td><code>goalId</code></td>
+              <td>string | null</td>
+              <td><span class="opt">선택</span></td>
+              <td>
+                연결할 목표 ID.
+                <strong>생략하면 목표 연결이 해제됩니다.</strong> 유지하려면 기존 값을 그대로 보내세요.
+              </td>
+            </tr>
+            <tr>
+              <td><code>isImportant</code></td>
+              <td>boolean</td>
+              <td><span class="opt">선택</span></td>
+              <td>생략 시 <code>false</code>로 저장됩니다.</td>
+            </tr>
+            <tr>
+              <td><code>routine</code></td>
+              <td>object</td>
+              <td><span class="opt">조건부 필수</span></td>
+              <td>
+                반복 설정. <code>routineUpdateType</code>이 <code>FROM_DATE</code> 또는
+                <code>ALL</code>이면 <strong>반드시 포함</strong>해야 합니다. 없으면 400.
+              </td>
+            </tr>
+            <tr>
+              <td><code>routineUpdateType</code></td>
+              <td><code>SINGLE</code> | <code>FROM_DATE</code> | <code>ALL</code></td>
+              <td><span class="opt">조건부 필수</span></td>
+              <td>
+                적용 범위. <strong>반복 투두에 <code>routine</code>을 함께 보낼 때는 반드시 지정</strong>해야
+                하며, 생략하면 400입니다. <code>routine</code> 없이 내용·날짜만 고칠 때는 생략해도 되고, 그때는
+                해당 투두 1건만 바뀌고 반복 연결은 유지됩니다.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3><code>routine</code> 객체</h3>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>필드</th>
+              <th>타입</th>
+              <th>설명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>repeatType</code></td>
+              <td><code>DAILY</code> | <code>WEEKLY</code> | <code>BIWEEKLY</code> | <code>MONTHLY</code></td>
+              <td>
+                반복 주기. <span class="req">routine 을 보낼 때 필수</span> — 누락하거나 모르는 값이면 400입니다.
+              </td>
+            </tr>
+            <tr>
+              <td><code>duration.startDate</code></td>
+              <td>string (YYYY-MM-DD)</td>
+              <td>반복 시작일</td>
+            </tr>
+            <tr>
+              <td><code>duration.endDate</code></td>
+              <td>string (YYYY-MM-DD)</td>
+              <td>반복 종료일. 시작일보다 앞설 수 없습니다.</td>
+            </tr>
+            <tr>
+              <td><code>repeatDays</code></td>
+              <td>string[] (<code>MONDAY</code> …)</td>
+              <td>
+                주간/격주 반복에서 요일 지정. 일간·월간에서는 무시됩니다.
+                <strong>보내지 않으면 기존 요일 설정이 사라집니다.</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>예시 — 해당 날짜 이후 전부 수정</h3>
+      <pre><code>PUT /todos/todo-b
+Content-Type: application/json
+
+{
+  "goalId": "goal-1",
+  "date": "2026-03-09",
+  "content": "러닝 40분",
+  "isImportant": false,
+  "routine": {
+    "repeatType": "WEEKLY",
+    "duration": { "startDate": "2026-03-02", "endDate": "2026-03-23" }
+  },
+  "routineUpdateType": "FROM_DATE"
+}</code></pre>
+
+      <h3>Response</h3>
+      <p>
+        <code>200 OK</code> — <strong>본문 없음</strong>입니다. 수정 후 목록을 다시 조회해 화면을
+        갱신하세요.
+      </p>
+      <div class="note warn">
+        <strong><code>FROM_DATE</code> / <code>ALL</code>은 투두 ID가 바뀝니다</strong>
+        서버가 대상 투두를 지우고 새로 만들기 때문에, 요청에 사용한 <code>{id}</code>는 응답 후 더 이상
+        존재하지 않습니다. 같은 요청을 재시도하면 <code>404</code>가 납니다. 수정 후에는 반드시 목록을
+        다시 조회하세요. <code>SINGLE</code>은 ID가 유지됩니다.
+      </div>
+      <div class="note">
+        <strong>완료 상태는 같은 날짜가 다시 생성될 때 이어집니다</strong>
+        재생성 후에도 존재하는 날짜의 완료 표시는 보존됩니다. 다만 요일이나 주기를 바꿔 날짜가 어긋나면
+        (예: 월요일 반복 → 화요일 반복) 옛 날짜는 사라지므로 그 완료 이력도 함께 사라집니다.
+      </div>
+
+      <h3>에러</h3>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>상태</th>
+              <th>상황</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>400</code></td>
+              <td>
+                <code>routineUpdateType</code>이 <code>FROM_DATE</code>/<code>ALL</code>인데
+                <code>routine</code>이 없거나 기간이 유효하지 않음
+              </td>
+            </tr>
+            <tr>
+              <td><code>400</code></td>
+              <td>
+                반복 투두에 <code>routine</code>을 보내면서 <code>routineUpdateType</code>을 지정하지 않음
+              </td>
+            </tr>
+            <tr>
+              <td><code>400</code></td>
+              <td>
+                <code>FROM_DATE</code>인데 <code>duration.endDate</code>가 선택한 투두의 날짜보다 앞섬
+                (삭제만 되고 대체 회차가 생기지 않는 조합)
+              </td>
+            </tr>
+            <tr>
+              <td><code>400</code></td>
+              <td><code>repeatType</code>이 없거나 알 수 없는 값</td>
+            </tr>
+            <tr>
+              <td><code>400</code></td>
+              <td>
+                이미 연결된 목표의 같은 날짜에 투두가 10개
+                <span class="opt">(기존에 목표가 연결된 투두에만 적용되며, FROM_DATE/ALL 로 생성되는 나머지
+                날짜는 검사하지 않습니다)</span>
+              </td>
+            </tr>
+            <tr>
+              <td><code>404</code></td>
+              <td>투두가 없거나 본인 소유가 아님</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="delete">4. 삭제 API</h2>
+      <p>
+        <span class="method del">DELETE</span
+        ><span class="endpoint">/todos/{id}?routineDeleteType={SINGLE|FROM_DATE|ALL}</span>
+      </p>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>파라미터</th>
+              <th>위치</th>
+              <th>필수</th>
+              <th>설명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>id</code></td>
+              <td>path</td>
+              <td><span class="req">필수</span></td>
+              <td>선택한 투두 ID</td>
+            </tr>
+            <tr>
+              <td><code>routineDeleteType</code></td>
+              <td>query</td>
+              <td><span class="opt">선택</span></td>
+              <td>
+                반복 투두면 지정하세요. <strong>생략하면 해당 투두 1건만</strong> 삭제됩니다.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre><code>DELETE /todos/todo-b?routineDeleteType=FROM_DATE</code></pre>
+      <p><code>200 OK</code> — <code>{ "data": "삭제가 완료되었습니다." }</code></p>
+
+      <h2 id="read">5. 조회 응답의 routine 필드</h2>
+      <p>
+        수정 요청에 넣을 <code>routine</code>은 조회 응답에서 그대로 가져다 쓰면 됩니다.
+      </p>
+      <pre><code>GET /todos?date=2026-03-09
+
+{
+  "data": [
+    {
+      "todo": {
+        "id": "todo-b",
+        "goalId": "goal-1",
+        "date": "2026-03-09",
+        "content": "러닝 30분",
+        "isCompleted": false,
+        "isImportant": false,
+        "routine": {
+          "repeatType": "WEEKLY",
+          "duration": { "startDate": "2026-03-02", "endDate": "2026-03-23" },
+          "repeatDays": ["MONDAY"]
+        }
+      },
+      "goal": { "id": "goal-1", "name": "건강 챙기기" }
+    }
+  ]
+}</code></pre>
+      <p>
+        <code>routine</code>이 <code>null</code>이면 반복 투두가 아니므로 범위 선택 UI를 띄우지 않습니다.
+      </p>
+
+      <h2 id="scenario">6. 시나리오별 결과</h2>
+      <p>
+        기준 상황: 매주 월요일 루틴 — 3/2, 3/9, 3/16, 3/23. 사용자가 <strong>3/9</strong> 투두를 열었습니다.
+      </p>
+
+      <div class="card">
+        <h3 style="margin-top: 0">SINGLE — 해당 투두만</h3>
+        <div class="cal">
+          <div class="day kept">3/2<span class="lbl">그대로</span></div>
+          <div class="day changed">3/9<span class="lbl">변경</span></div>
+          <div class="day kept">3/16<span class="lbl">그대로</span></div>
+          <div class="day kept">3/23<span class="lbl">그대로</span></div>
+        </div>
+        <p class="legend">반복 연결은 유지되고 투두 ID도 그대로입니다.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top: 0">FROM_DATE — 해당 날짜 이후</h3>
+        <div class="cal">
+          <div class="day kept">3/2<span class="lbl">그대로</span></div>
+          <div class="day changed">3/9<span class="lbl">변경 (포함)</span></div>
+          <div class="day changed">3/16<span class="lbl">변경</span></div>
+          <div class="day changed">3/23<span class="lbl">변경</span></div>
+        </div>
+        <p class="legend">
+          선택한 3/9이 <strong>포함</strong>됩니다. 3/9 이후 투두는 새 ID로 다시 만들어집니다.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top: 0">ALL — 전체 반복</h3>
+        <div class="cal">
+          <div class="day changed">3/2<span class="lbl">변경</span></div>
+          <div class="day changed">3/9<span class="lbl">변경</span></div>
+          <div class="day changed">3/16<span class="lbl">변경</span></div>
+          <div class="day changed">3/23<span class="lbl">변경</span></div>
+        </div>
+        <p class="legend">
+          과거분까지 전부 대상입니다. 재생성 범위는 요청에 실은 <code>duration</code>을 따르므로,
+          시작일을 오늘로 바꿔 보내면 과거 투두는 사라집니다.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top: 0">FROM_DATE 삭제</h3>
+        <div class="cal">
+          <div class="day kept">3/2<span class="lbl">남음</span></div>
+          <div class="day gone">3/9<span class="lbl">삭제</span></div>
+          <div class="day gone">3/16<span class="lbl">삭제</span></div>
+          <div class="day gone">3/23<span class="lbl">삭제</span></div>
+        </div>
+      </div>
+
+      <h2 id="pitfall">7. 자주 하는 실수</h2>
+
+      <div class="note danger">
+        <strong><code>routine</code>을 빼고 <code>FROM_DATE</code>/<code>ALL</code>을 보내기</strong>
+        서버는 대상 투두를 지우고 다시 만드는 방식이라, <code>routine</code>이 없으면 "무엇을 다시
+        만들지"를 알 수 없습니다. 이 조합은 <code>400</code>으로 거절되니 조회 응답의
+        <code>routine</code>을 그대로 실어 보내세요.
+      </div>
+
+      <div class="note danger">
+        <strong>조회 응답의 <code>duration</code>을 임의로 넓혀 보내기</strong>
+        <code>FROM_DATE</code>로 시리즈를 나누면 뒤쪽 시리즈는 <strong>새 반복</strong>이 되고 서버는 좁혀진
+        기간(기준일 ~ 종료일)을 돌려줍니다. 이 값을 무시하고 원래의 넓은 시작일을 다시 보내면, 그 시리즈에서
+        <code>ALL</code>을 눌렀을 때 앞쪽 시리즈가 이미 차지한 날짜에까지 투두를 만들어
+        <strong>같은 날 투두가 중복</strong>됩니다. 항상 마지막 조회 응답의 <code>duration</code>을 그대로
+        쓰세요.
+      </div>
+
+      <div class="note warn">
+        <strong><code>goalId</code>를 생략하기</strong>
+        부분 수정(PATCH)이 아니라 전체 교체(PUT)입니다. <code>goalId</code>를 빼면 <code>null</code>로
+        덮어써져 목표 연결이 끊기고 목표 달성률 집계에서도 빠집니다. <code>isImportant</code>도 같은
+        방식으로 <code>false</code>가 됩니다.
+      </div>
+
+      <div class="note warn">
+        <strong><code>repeatDays</code>를 빼고 되돌려 보내기</strong>
+        월·수·금 반복이던 투두를 수정하면서 <code>repeatDays</code>를 생략하면 요일 지정이 사라져 주 1회로
+        축소됩니다. 조회 응답의 값을 그대로 유지해 보내세요.
+      </div>
+
+      <div class="note">
+        <strong>수정 후 이전 ID를 재사용하기</strong>
+        <code>FROM_DATE</code>/<code>ALL</code> 이후에는 목록을 다시 조회해야 합니다. 응답 본문이 없으므로
+        낙관적 업데이트(optimistic update)로 화면만 바꿔두면 실제 데이터와 어긋납니다.
+      </div>
+
+      <hr />
+      <p style="color: var(--text-dim); font-size: 13px">
+        문의는 백엔드 채널로. 이 문서는 <code>ToDoController</code>,
+        <code>RoutineServiceImpl</code>의 실제 동작을 기준으로 작성되었습니다.
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,5 +1,6 @@
 package com.growit.app.todo.controller.mapper;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.todo.controller.dto.request.CompletedStatusChangeRequest;
 import com.growit.app.todo.controller.dto.request.CreateToDoRequest;
 import com.growit.app.todo.controller.dto.request.UpdateToDoRequest;
@@ -31,11 +32,9 @@ public class ToDoRequestMapper {
         request.getDate(),
         request.getImportant() != null ? request.getImportant() : false,
         toDomainRoutine(request.getRoutine()),
-        // 클라이언트가 수정 범위를 지정하지 않았을 때 가장 파괴적인 ALL 로 해석하면
-        // 반복 전체가 재생성되어 완료 이력이 사라진다. 비파괴적인 SINGLE 을 기본값으로 둔다.
-        request.getRoutine() != null && request.getRoutineUpdateType() == null
-            ? RoutineUpdateType.SINGLE
-            : request.getRoutineUpdateType());
+        // 범위를 추측하지 않는다. 예전에는 routine 만 오면 ALL 로 해석해 반복 전체를 재생성했고,
+        // 그 결과 완료 이력이 사라졌다. 지정되지 않은 범위는 UseCase 에서 거절한다.
+        request.getRoutineUpdateType());
   }
 
   public CompletedStatusChangeCommand toCompletedStatusChangeCommand(
@@ -94,8 +93,20 @@ public class ToDoRequestMapper {
               routineDto.getDuration().getStartDate(), routineDto.getDuration().getEndDate());
     }
 
-    RepeatType repeatType = RepeatType.valueOf(routineDto.getRepeatType());
+    return Routine.of(
+        duration, toRepeatType(routineDto.getRepeatType()), routineDto.getRepeatDays());
+  }
 
-    return Routine.of(duration, repeatType, routineDto.getRepeatDays());
+  /** repeatType 이 없거나 알 수 없는 값이면 valueOf 가 NPE/IAE 를 던져 500 이 된다. 400 으로 돌려준다. */
+  private RepeatType toRepeatType(String repeatType) {
+    if (repeatType == null || repeatType.isBlank()) {
+      throw new BadRequestException("반복 주기(repeatType)는 필수입니다.");
+    }
+
+    try {
+      return RepeatType.valueOf(repeatType);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("알 수 없는 반복 주기입니다: " + repeatType);
+    }
   }
 }

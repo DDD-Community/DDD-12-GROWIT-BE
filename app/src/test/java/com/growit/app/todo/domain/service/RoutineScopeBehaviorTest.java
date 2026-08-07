@@ -2,7 +2,9 @@ package com.growit.app.todo.domain.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.dto.DeleteToDoCommand;
@@ -133,10 +135,45 @@ class RoutineScopeBehaviorTest {
           updateCommand(
               "todo-w2", WEDNESDAY, weeklyRoutine(WEEK_1, WEEK_4), RoutineUpdateType.FROM_DATE));
 
-      assertThat(datesOf(remaining())).doesNotContain(WEEK_2);
+      // 1/1 은 옛 내용으로 남고, 1/8 이후는 전부 지워진 뒤 옮긴 요일(수)로 새 시리즈가 생성된다.
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEDNESDAY, LocalDate.of(2024, 1, 17));
       assertThat(contentAt(WEEK_1)).isEqualTo(OLD_CONTENT);
-      // 옮긴 요일(수)로 새 시리즈가 생성된다.
       assertThat(contentAt(WEDNESDAY)).isEqualTo(NEW_CONTENT);
+      assertThat(contentAt(LocalDate.of(2024, 1, 17))).isEqualTo(NEW_CONTENT);
+    }
+
+    @Test
+    @DisplayName("SINGLE 은 투두 ID 가 유지되고, FROM_DATE 는 새로 생성돼 ID 가 바뀐다")
+    void idStabilityDiffersByScope() {
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand("todo-w2", WEEK_2, seededRoutine, RoutineUpdateType.SINGLE));
+      assertThat(todoAt(WEEK_2).getId()).isEqualTo("todo-w2");
+
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand(
+              "todo-w2", WEEK_2, weeklyRoutine(WEEK_1, WEEK_4), RoutineUpdateType.FROM_DATE));
+      assertThat(todoAt(WEEK_2).getId()).isNotEqualTo("todo-w2");
+    }
+
+    @Test
+    @DisplayName("FROM_DATE 로 재생성되어도 완료 이력은 보존된다")
+    void fromDatePreservesCompletion() {
+      repository.clear();
+      seededRoutine = weeklyRoutine(WEEK_1, WEEK_4);
+      seed("todo-w1", WEEK_1, false);
+      seed("todo-w2", WEEK_2, true); // 완료
+      seed("todo-w3", WEEK_3, false);
+      seed("todo-w4", WEEK_4, false);
+
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand(
+              "todo-w2", WEEK_2, weeklyRoutine(WEEK_1, WEEK_4), RoutineUpdateType.FROM_DATE));
+
+      assertThat(completedAt(WEEK_2)).isTrue();
+      assertThat(completedAt(WEEK_3)).isFalse();
     }
 
     @Test
@@ -162,24 +199,109 @@ class RoutineScopeBehaviorTest {
     }
 
     @Test
-    @DisplayName("FROM_DATE — 루틴 정보가 없으면 삭제하지 않고 단일 수정으로 축소한다")
-    void fromDateWithoutRoutineIsNotDestructive() {
-      routineService.updateRoutineToDos(
-          todoAt(WEEK_2), updateCommand("todo-w2", WEEK_2, null, RoutineUpdateType.FROM_DATE));
+    @DisplayName("FROM_DATE — 루틴 정보가 없으면 거절하고 아무것도 지우지 않는다")
+    void fromDateWithoutRoutineIsRejected() {
+      ToDo target = todoAt(WEEK_2);
+
+      assertThatThrownBy(
+              () ->
+                  routineService.updateRoutineToDos(
+                      target, updateCommand("todo-w2", WEEK_2, null, RoutineUpdateType.FROM_DATE)))
+          .isInstanceOf(BadRequestException.class);
 
       assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_3, WEEK_4);
-      assertThat(contentAt(WEEK_2)).isEqualTo(NEW_CONTENT);
-      assertThat(contentAt(WEEK_3)).isEqualTo(OLD_CONTENT);
+      assertThat(contentAt(WEEK_2)).isEqualTo(OLD_CONTENT);
     }
 
     @Test
-    @DisplayName("ALL — 루틴 정보가 없으면 반복을 지우지 않고 단일 수정으로 축소한다")
-    void allWithoutRoutineIsNotDestructive() {
-      routineService.updateRoutineToDos(
-          todoAt(WEEK_2), updateCommand("todo-w2", WEEK_2, null, RoutineUpdateType.ALL));
+    @DisplayName("ALL — 루틴 정보가 없으면 거절하고 반복을 지우지 않는다")
+    void allWithoutRoutineIsRejected() {
+      ToDo target = todoAt(WEEK_2);
+
+      assertThatThrownBy(
+              () ->
+                  routineService.updateRoutineToDos(
+                      target, updateCommand("todo-w2", WEEK_2, null, RoutineUpdateType.ALL)))
+          .isInstanceOf(BadRequestException.class);
 
       assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_3, WEEK_4);
-      assertThat(contentAt(WEEK_2)).isEqualTo(NEW_CONTENT);
+    }
+  }
+
+  @Nested
+  @DisplayName("데이터 손실 방지")
+  class DataLossGuards {
+
+    @Test
+    @DisplayName("FROM_DATE 로 시리즈를 나눈 뒤 ALL 을 눌러도 투두가 중복 생성되지 않는다")
+    void fromDateThenAllDuplicates() {
+      // 1) FROM_DATE 로 1/8 이후를 새 루틴으로 분리한다. 클라이언트는 조회 응답의 duration(1/1~1/22)을 그대로 보낸다.
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand(
+              "todo-w2", WEEK_2, weeklyRoutine(WEEK_1, WEEK_4), RoutineUpdateType.FROM_DATE));
+
+      // 분리 후 서버가 돌려주는 루틴 기간은 1/1~1/22 가 아니라 1/8~1/22 로 좁혀져 있어야 한다.
+      // 이걸 원본 그대로(1/1 시작) 저장하면, 뒤쪽 시리즈에서 ALL 을 눌렀을 때 1/1 부터 다시 생성해
+      // 앞쪽 시리즈에 남아있는 1/1 과 같은 날에 투두가 2건이 된다.
+      ToDo afterSplit = todoAt(WEEK_3);
+      assertThat(afterSplit.getRoutine().getDuration().getStartDate()).isEqualTo(WEEK_2);
+
+      // 2) 클라이언트는 조회 응답의 routine 을 그대로 되돌려보낸다 (API 문서가 안내하는 방식).
+      Routine echoed = afterSplit.getRoutine();
+      routineService.updateRoutineToDos(
+          afterSplit,
+          updateCommand(
+              afterSplit.getId(),
+              WEEK_3,
+              Routine.of(
+                  RoutineDuration.of(
+                      echoed.getDuration().getStartDate(), echoed.getDuration().getEndDate()),
+                  echoed.getRepeatType(),
+                  echoed.getRepeatDays()),
+              RoutineUpdateType.ALL));
+
+      assertThat(remainingDates()).doesNotHaveDuplicates();
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_3, WEEK_4);
+    }
+
+    @Test
+    @DisplayName("FROM_DATE 로 종료일을 기준일보다 앞당기면 거절한다 (삭제만 되고 재생성 0건이 되는 것을 막는다)")
+    void fromDateWithEndDateBeforeCutoffIsRejected() {
+      // 1/15 투두를 열어 반복 종료일을 1/10 으로 앞당기고 "이후 전체 수정"을 누른 상황.
+      ToDo target = todoAt(WEEK_3);
+
+      assertThatThrownBy(
+              () ->
+                  routineService.updateRoutineToDos(
+                      target,
+                      updateCommand(
+                          "todo-w3",
+                          WEEK_3,
+                          weeklyRoutine(WEEK_1, LocalDate.of(2024, 1, 10)),
+                          RoutineUpdateType.FROM_DATE)))
+          .isInstanceOf(BadRequestException.class);
+
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_3, WEEK_4);
+    }
+
+    @Test
+    @DisplayName("월말 투두에 매월 반복을 걸면 이후 회차가 실제로 생성된다")
+    void monthEndMonthlyCreatesNoOccurrences() {
+      repository.clear();
+      LocalDate monthEnd = LocalDate.of(2024, 1, 31);
+      ToDo plain = plainToDo("todo-month-end", monthEnd);
+      repository.saveToDo(plain);
+
+      Routine monthly =
+          Routine.of(
+              RoutineDuration.of(monthEnd, LocalDate.of(2024, 12, 31)), RepeatType.MONTHLY, null);
+
+      routineService.updateRoutineToDos(
+          plain, updateCommand("todo-month-end", monthEnd, monthly, RoutineUpdateType.ALL));
+
+      // 1/31 하나만 남으면 "매월 반복을 걸었는데 1회차만 존재"하는 상태다.
+      assertThat(remainingDates()).hasSizeGreaterThan(1);
     }
   }
 
@@ -218,6 +340,20 @@ class RoutineScopeBehaviorTest {
   }
 
   // ---------- helpers ----------
+
+  private ToDo plainToDo(String id, LocalDate date) {
+    return ToDo.builder()
+        .id(id)
+        .userId(USER_ID)
+        .goalId(GOAL_ID)
+        .content(OLD_CONTENT)
+        .date(date)
+        .isCompleted(false)
+        .isDeleted(false)
+        .isImportant(false)
+        .routine(null)
+        .build();
+  }
 
   private Routine weeklyRoutine(LocalDate start, LocalDate end) {
     return Routine.of(RoutineDuration.of(start, end), RepeatType.WEEKLY, null);

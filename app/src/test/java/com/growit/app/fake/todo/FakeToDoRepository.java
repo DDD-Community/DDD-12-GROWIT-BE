@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FakeToDoRepository implements ToDoRepository {
   private final Map<String, List<ToDo>> store = new ConcurrentHashMap<>();
 
+  // 운영 구현과 동일하게 soft delete 를 모사한다. 삭제된 ToDo 는 저장소에 남되 모든 조회에서 제외된다.
   @Override
   public void saveToDo(ToDo toDo) {
     store.compute(
@@ -22,9 +23,7 @@ public class FakeToDoRepository implements ToDoRepository {
             todos = new ArrayList<>();
           }
           todos.removeIf(td -> td.getId().equals(toDo.getId()));
-          if (!toDo.isDeleted()) {
-            todos.add(toDo);
-          }
+          todos.add(toDo);
           return todos;
         });
   }
@@ -46,6 +45,7 @@ public class FakeToDoRepository implements ToDoRepository {
   public Optional<ToDo> findById(String id) {
     return store.values().stream()
         .flatMap(List::stream)
+        .filter(todo -> !todo.isDeleted())
         .filter(todo -> todo.getId().equals(id))
         .findFirst();
   }
@@ -53,6 +53,7 @@ public class FakeToDoRepository implements ToDoRepository {
   @Override
   public List<ToDo> findByUserIdAndDate(String userId, LocalDate today) {
     return store.getOrDefault(userId, Collections.emptyList()).stream()
+        .filter(todo -> !todo.isDeleted())
         .filter(todo -> todo.getDate().equals(today))
         .toList();
   }
@@ -110,7 +111,10 @@ public class FakeToDoRepository implements ToDoRepository {
 
   @Override
   public void deleteToDo(String id) {
-    store.values().forEach(todos -> todos.removeIf(todo -> todo.getId().equals(id)));
+    store.values().stream()
+        .flatMap(List::stream)
+        .filter(todo -> todo.getId().equals(id))
+        .forEach(ToDo::deleted);
   }
 
   public void clear() {
