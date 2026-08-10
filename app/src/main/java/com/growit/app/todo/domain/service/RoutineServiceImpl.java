@@ -1,5 +1,6 @@
 package com.growit.app.todo.domain.service;
 
+import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.TodoCategory;
@@ -9,9 +10,14 @@ import com.growit.app.todo.domain.dto.ToDoResult;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.RoutineDuration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,20 +26,43 @@ import org.springframework.stereotype.Service;
 public class RoutineServiceImpl implements RoutineService {
   private final ToDoRepository toDoRepository;
 
+  /**
+   * 루틴 ToDo 일괄 생성에 필요한 값 묶음.
+   *
+   * <p>completedDates 의 날짜는 완료 상태로 복원하고, skipDate 는 이미 저장된 ToDo 가 있어 생성을 건너뛴다. 같은 타입의 필드가 연속돼 위치
+   * 인자로는 순서를 잘못 넣기 쉬우므로 빌더로만 만든다.
+   */
+  @Builder
+  private record RoutineToDoSpec(
+      Routine routine,
+      String userId,
+      String goalId,
+      String content,
+      LocalTime time,
+      TodoCategory category,
+      LocalDate baseDate,
+      LocalDate startDate,
+      LocalDate endDate,
+      Set<LocalDate> completedDates,
+      LocalDate skipDate) {}
+
   @Override
   public ToDoResult createRoutineToDos(CreateToDoCommand command) {
     // 루틴을 먼저 한 번만 생성 (동일한 ID로)
 
     return createToDosForRoutine(
-        command.routine(),
-        command.userId(),
-        command.goalId(),
-        command.content(),
-        command.time(),
-        command.category(),
-        command.date(),
-        command.routine().getDuration().getStartDate(),
-        command.routine().getDuration().getEndDate());
+        RoutineToDoSpec.builder()
+            .routine(command.routine())
+            .userId(command.userId())
+            .goalId(command.goalId())
+            .content(command.content())
+            .time(command.time())
+            .category(command.category())
+            .baseDate(command.date())
+            .startDate(command.routine().getDuration().getStartDate())
+            .endDate(command.routine().getDuration().getEndDate())
+            .completedDates(Set.of())
+            .build());
   }
 
   private List<LocalDate> generateRoutineDates(
@@ -224,9 +253,24 @@ public class RoutineServiceImpl implements RoutineService {
         && command.routine().isValid()) {
       existingToDo.updateBy(command);
       toDoRepository.saveToDo(existingToDo);
-      // 현재 날짜 다음날부터 루틴 생성
-      LocalDate nextDate = getNextDate(command.date(), command.routine().getRepeatType());
-      return createNewRoutineFromDate(command, nextDate);
+
+      // 회차 생성은 이 투두의 날짜부터 시작하되, 그 날짜에는 이미 투두가 있으므로 건너뛴다.
+      // "다음 회차부터" 계산해 시작일로 넘기면 MONTHLY 월말(1/31 -> 2월)에서 null 이 나와
+      // 회차가 하나도 만들어지지 않는다. 생성기는 baseDate 기준 월말 보정을 이미 갖고 있다.
+      return createToDosForRoutine(
+          RoutineToDoSpec.builder()
+              .routine(command.routine())
+              .userId(command.userId())
+              .goalId(command.goalId())
+              .content(command.content())
+              .time(command.time())
+              .category(command.category())
+              .baseDate(command.date())
+              .startDate(command.date())
+              .endDate(command.routine().getDuration().getEndDate())
+              .completedDates(Set.of())
+              .skipDate(command.date())
+              .build());
     }
 
     // 기존 루틴이 없으면 단순 업데이트
@@ -251,79 +295,109 @@ public class RoutineServiceImpl implements RoutineService {
   }
 
   private ToDoResult updateFromDate(ToDo existingToDo, UpdateToDoCommand command) {
-    deleteRoutineToDoFromDate(existingToDo.getRoutine().getId(), command.date(), command.userId());
+    requireRoutine(command);
 
-    if (command.routine() != null && command.routine().isValid()) {
-      return createNewRoutineFromDate(command, command.date());
+    // 기준일은 "선택한 투두의 날짜"다. 사용자가 폼에서 날짜를 바꿨더라도 어디서부터 잘라낼지는
+    // 선택한 투두를 기준으로 해야 "선택한 날짜 포함, 이후 전체" 요구사항을 만족한다.
+    // (삭제 경로인 deleteRoutineToDos 의 FROM_DATE 와 동일한 기준)
+    LocalDate cutoffDate = existingToDo.getDate();
+    LocalDate endDate = command.routine().getDuration().getEndDate();
+
+    // 종료일을 기준일보다 앞당기면 삭제만 되고 대체 회차가 하나도 생기지 않는다.
+    // 조용한 데이터 손실 대신 거절한다.
+    if (endDate.isBefore(cutoffDate)) {
+      throw new BadRequestException("반복 종료일은 수정 기준일보다 앞설 수 없습니다.");
     }
 
-    return new ToDoResult(existingToDo.getId());
+    Set<LocalDate> completedDates =
+        deleteRoutineToDoFromDate(existingToDo.getRoutine().getId(), cutoffDate, command.userId());
+
+    // 뒤쪽 시리즈는 새 루틴으로 갈라진다. 이때 클라이언트가 보낸 원본 기간(기준일 이전부터 시작)을
+    // 그대로 저장하면, 나중에 이 시리즈에서 ALL 을 눌렀을 때 기준일 이전 날짜까지 다시 생성해
+    // 앞쪽 시리즈와 같은 날에 투두가 중복된다. 실제 회차 범위에 맞춰 시작일을 좁힌다.
+    Routine splitRoutine =
+        Routine.of(
+            RoutineDuration.of(cutoffDate, endDate),
+            command.routine().getRepeatType(),
+            command.routine().getRepeatDays());
+
+    return createToDosForRoutine(
+        RoutineToDoSpec.builder()
+            .routine(splitRoutine)
+            .userId(command.userId())
+            .goalId(command.goalId())
+            .content(command.content())
+            .time(command.time())
+            .category(command.category())
+            .baseDate(command.date())
+            .startDate(cutoffDate)
+            .endDate(endDate)
+            .completedDates(completedDates)
+            .build());
   }
 
   private ToDoResult updateAllRoutineToDos(ToDo existingToDo, UpdateToDoCommand command) {
-    deleteAllRoutineToDos(existingToDo.getRoutine().getId(), command.userId());
+    requireRoutine(command);
 
-    if (command.routine() != null && command.routine().isValid()) {
-      CreateToDoCommand createCommand =
-          new CreateToDoCommand(
-              command.userId(),
-              command.goalId(),
-              command.content(),
-              command.date(),
-              command.time(),
-              command.category(),
-              command.routine());
-      return createRoutineToDos(createCommand);
-    } else {
-      CreateToDoCommand createCommand =
-          new CreateToDoCommand(
-              command.userId(),
-              command.goalId(),
-              command.content(),
-              command.date(),
-              command.time(),
-              command.category(),
-              null);
-      ToDo newToDo = ToDo.from(createCommand);
-      toDoRepository.saveToDo(newToDo);
-      return new ToDoResult(newToDo.getId());
+    Set<LocalDate> completedDates =
+        deleteAllRoutineToDos(existingToDo.getRoutine().getId(), command.userId());
+
+    return createToDosForRoutine(
+        RoutineToDoSpec.builder()
+            .routine(command.routine())
+            .userId(command.userId())
+            .goalId(command.goalId())
+            .content(command.content())
+            .time(command.time())
+            .category(command.category())
+            .baseDate(command.date())
+            .startDate(command.routine().getDuration().getStartDate())
+            .endDate(command.routine().getDuration().getEndDate())
+            .completedDates(completedDates)
+            .build());
+  }
+
+  /**
+   * FROM_DATE / ALL 은 대상 투두를 지우고 다시 만든다. 루틴 정보가 없으면 "무엇을 다시 만들지"를 알 수 없어 삭제만 남는다. UseCase 에서도 막지만
+   * 도메인이 스스로 계약을 지키도록 같은 조건을 여기서도 거절한다.
+   */
+  private void requireRoutine(UpdateToDoCommand command) {
+    if (command.routine() == null || !command.routine().isValid()) {
+      throw new BadRequestException("반복 범위를 수정하려면 반복 설정(routine)이 필요합니다.");
     }
   }
 
-  private ToDoResult createNewRoutineFromDate(UpdateToDoCommand command, LocalDate fromDate) {
-    return createToDosForRoutine(
-        command.routine(),
-        command.userId(),
-        command.goalId(),
-        command.content(),
-        command.time(),
-        command.category(),
-        command.date(),
-        fromDate,
-        command.routine().getDuration().getEndDate());
-  }
-
-  private ToDoResult createToDosForRoutine(
-      Routine sharedRoutine,
-      String userId,
-      String goalId,
-      String content,
-      java.time.LocalTime time,
-      TodoCategory category,
-      LocalDate baseDate,
-      LocalDate startDate,
-      LocalDate endDate) {
-
+  private ToDoResult createToDosForRoutine(RoutineToDoSpec spec) {
+    Routine sharedRoutine = spec.routine();
     List<LocalDate> dates =
         generateRoutineDatesWithDays(
-            baseDate, startDate, endDate, sharedRoutine.getRepeatType(), sharedRoutine);
+            spec.baseDate(),
+            spec.startDate(),
+            spec.endDate(),
+            sharedRoutine.getRepeatType(),
+            sharedRoutine);
 
     String firstToDoId = null;
     for (LocalDate date : dates) {
+      // 이 날짜에는 이미 저장된 ToDo 가 있다 (기존 투두에 반복을 새로 붙이는 경우).
+      if (date.equals(spec.skipDate())) {
+        continue;
+      }
       CreateToDoCommand routineCommand =
-          new CreateToDoCommand(userId, goalId, content, date, time, category, sharedRoutine);
+          new CreateToDoCommand(
+              spec.userId(),
+              spec.goalId(),
+              spec.content(),
+              date,
+              spec.time(),
+              spec.category(),
+              sharedRoutine);
 
       ToDo toDo = ToDo.from(routineCommand);
+      // 재생성 전 같은 날짜가 완료 상태였다면 사용자의 완료 이력을 그대로 이어받는다.
+      if (spec.completedDates().contains(date)) {
+        toDo.updateIsCompleted(true);
+      }
       toDoRepository.saveToDo(toDo);
 
       if (firstToDoId == null) {
@@ -334,33 +408,29 @@ public class RoutineServiceImpl implements RoutineService {
     return new ToDoResult(firstToDoId);
   }
 
-  private void deleteRoutineToDoFromDate(String routineId, LocalDate fromDate, String userId) {
+  /** 기준일 이후(기준일 포함) 루틴 ToDo 를 삭제하고, 삭제된 것 중 완료 상태였던 날짜를 돌려준다. */
+  private Set<LocalDate> deleteRoutineToDoFromDate(
+      String routineId, LocalDate fromDate, String userId) {
     List<ToDo> routineToDos =
         toDoRepository.findByRoutineIdAndUserIdAndDateAfter(routineId, userId, fromDate);
-    for (ToDo toDo : routineToDos) {
-      toDoRepository.deleteToDo(toDo.getId());
-    }
+    return deleteAndCollectCompletedDates(routineToDos);
   }
 
-  private void deleteAllRoutineToDos(String routineId, String userId) {
+  /** 루틴에 속한 모든 ToDo 를 삭제하고, 삭제된 것 중 완료 상태였던 날짜를 돌려준다. */
+  private Set<LocalDate> deleteAllRoutineToDos(String routineId, String userId) {
     List<ToDo> routineToDos = toDoRepository.findByRoutineIdAndUserId(routineId, userId);
-    for (ToDo toDo : routineToDos) {
-      toDoRepository.deleteToDo(toDo.getId());
-    }
+    return deleteAndCollectCompletedDates(routineToDos);
   }
 
-  private void deleteOtherRoutineToDos(String routineId, String excludeToDoId, String userId) {
-    List<ToDo> routineToDos = toDoRepository.findByRoutineIdAndUserId(routineId, userId);
+  private Set<LocalDate> deleteAndCollectCompletedDates(List<ToDo> routineToDos) {
+    Set<LocalDate> completedDates = new HashSet<>();
     for (ToDo toDo : routineToDos) {
-      if (!toDo.getId().equals(excludeToDoId)) {
-        toDoRepository.deleteToDo(toDo.getId());
+      if (toDo.isCompleted()) {
+        completedDates.add(toDo.getDate());
       }
+      toDoRepository.deleteToDo(toDo.getId());
     }
-  }
-
-  private void removeRoutineFromToDo(ToDo toDo) {
-    toDo.removeRoutine();
-    toDoRepository.saveToDo(toDo);
+    return completedDates;
   }
 
   @Override
@@ -372,6 +442,7 @@ public class RoutineServiceImpl implements RoutineService {
 
     switch (command.routineDeleteType()) {
       case SINGLE -> toDoRepository.deleteToDo(existingToDo.getId());
+      // 선택한 투두의 날짜를 포함해서 이후 전부 삭제한다.
       case FROM_DATE ->
           deleteRoutineToDoFromDate(
               existingToDo.getRoutine().getId(), existingToDo.getDate(), command.userId());
