@@ -45,6 +45,7 @@ class RoutineScopeBehaviorTest {
   private static final LocalDate WEEK_3 = LocalDate.of(2024, 1, 15); // 월
   private static final LocalDate WEEK_4 = LocalDate.of(2024, 1, 22); // 월
   private static final LocalDate WEDNESDAY = LocalDate.of(2024, 1, 10); // 수
+  private static final java.time.DayOfWeek WEDNESDAY_DOW = java.time.DayOfWeek.WEDNESDAY;
 
   private FakeToDoRepository repository;
   private RoutineServiceImpl routineService;
@@ -295,6 +296,49 @@ class RoutineScopeBehaviorTest {
     }
 
     @Test
+    @DisplayName("앞쪽 기간은 좁히기만 한다 — 원래 종료일보다 뒤로 늘어나지 않는다")
+    void narrowingNeverWidensPrecedingSeries() {
+      // 마지막 회차를 반복 기간(~1/22) 밖인 2/12 로 옮겨둔다. SINGLE 은 날짜를 자유롭게 바꾼다.
+      LocalDate moved = LocalDate.of(2024, 2, 12);
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_4), updateCommand("todo-w4", moved, seededRoutine, RoutineUpdateType.SINGLE));
+
+      // 옮긴 회차에서 요일을 바꿔 재생성(분리) 경로로 보낸다. 기준일이 2/12 이므로
+      // 좁히기를 그대로 두면 앞쪽 기간이 2/11 까지 늘어나 없던 회차가 생길 수 있다.
+      routineService.updateRoutineToDos(
+          todoAt(moved),
+          updateCommand(
+              "todo-w4",
+              moved,
+              Routine.of(
+                  RoutineDuration.of(WEEK_1, LocalDate.of(2024, 3, 31)),
+                  RepeatType.WEEKLY,
+                  List.of(WEDNESDAY_DOW)),
+              RoutineUpdateType.FROM_DATE));
+
+      assertThat(todoAt(WEEK_1).getRoutine().getDuration().getEndDate())
+          .as("앞쪽 반복은 원래 종료일을 넘지 않아야 한다")
+          .isEqualTo(WEEK_4);
+    }
+
+    @Test
+    @DisplayName("반복 기간보다 뒤인 투두에 반복을 걸면 거절한다")
+    void attachRoutineAfterDurationIsRejected() {
+      repository.clear();
+      LocalDate after = LocalDate.of(2024, 3, 1);
+      ToDo plain = plainToDo("todo-after", after);
+      repository.saveToDo(plain);
+
+      Routine january = weeklyRoutine(WEEK_1, LocalDate.of(2024, 1, 31));
+
+      assertThatThrownBy(
+              () ->
+                  routineService.updateRoutineToDos(
+                      plain, updateCommand("todo-after", after, january, RoutineUpdateType.ALL)))
+          .isInstanceOf(BadRequestException.class);
+    }
+
+    @Test
     @DisplayName("반복 기간 밖의 투두에 반복을 걸면 거절한다")
     void attachRoutineOutsideDurationIsRejected() {
       repository.clear();
@@ -434,6 +478,117 @@ class RoutineScopeBehaviorTest {
         .doesNotThrowAnyException();
 
     assertThat(contentAt(monthEnd)).isEqualTo(NEW_CONTENT);
+  }
+
+  @Nested
+  @DisplayName("일정을 바꿔 재생성될 때")
+  class Rescheduled {
+
+    /** 재생성 경로에서만 도는 완료 복원 로직을 검증한다. 일정이 그대로면 제자리 수정이라 이 로직을 타지 않으므로, 여기서는 종료일을 늘려 반드시 재생성되게 한다. */
+    @Test
+    @DisplayName("ALL — 재생성돼도 살아남는 날짜의 완료 이력은 이어받는다")
+    void allCarriesCompletionAcrossRegeneration() {
+      repository.clear();
+      seededRoutine = weeklyRoutine(WEEK_1, WEEK_4);
+      seed("todo-w1", WEEK_1, true); // 완료
+      seed("todo-w2", WEEK_2, false);
+      seed("todo-w3", WEEK_3, true); // 완료
+      seed("todo-w4", WEEK_4, false);
+
+      LocalDate extended = LocalDate.of(2024, 1, 29);
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand("todo-w2", WEEK_2, weeklyRoutine(WEEK_1, extended), RoutineUpdateType.ALL));
+
+      // 종료일이 바뀌었으므로 전부 지워졌다가 다시 만들어진다. ID 는 바뀌지만 완료 표시는 날짜로 따라온다.
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_3, WEEK_4, extended);
+      assertThat(todoAt(WEEK_1).getId()).isNotEqualTo("todo-w1");
+      assertThat(completedAt(WEEK_1)).isTrue();
+      assertThat(completedAt(WEEK_3)).isTrue();
+      assertThat(completedAt(WEEK_2)).isFalse();
+      assertThat(completedAt(WEEK_4)).isFalse();
+      assertThat(completedAt(extended)).isFalse();
+    }
+
+    @Test
+    @DisplayName("FROM_DATE — 요일을 옮기면 날짜가 어긋난 완료 이력은 사라진다")
+    void fromDateDropsCompletionWhenDatesShift() {
+      repository.clear();
+      seededRoutine = weeklyRoutine(WEEK_1, WEEK_4);
+      seed("todo-w1", WEEK_1, false);
+      seed("todo-w2", WEEK_2, true); // 완료 — 월요일
+      seed("todo-w3", WEEK_3, false);
+      seed("todo-w4", WEEK_4, false);
+
+      // 수요일로 옮기면 새 회차 날짜(1/10, 1/17)가 옛 완료 날짜(1/8)와 겹치지 않는다.
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand(
+              "todo-w2", WEDNESDAY, weeklyRoutine(WEEK_1, WEEK_4), RoutineUpdateType.FROM_DATE));
+
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEDNESDAY, LocalDate.of(2024, 1, 17));
+      assertThat(completedAt(WEDNESDAY)).isFalse();
+      assertThat(completedAt(LocalDate.of(2024, 1, 17))).isFalse();
+    }
+
+    @Test
+    @DisplayName("반복 주기만 바꿔도 재생성된다")
+    void repeatTypeChangeTriggersRegeneration() {
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand(
+              "todo-w2",
+              WEEK_2,
+              Routine.of(RoutineDuration.of(WEEK_1, WEEK_4), RepeatType.BIWEEKLY, null),
+              RoutineUpdateType.FROM_DATE));
+
+      // 주간 -> 격주: 1/8, 1/22 만 남는다. 제자리 수정이었다면 1/15 가 그대로 있었을 것이다.
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_4);
+    }
+
+    @Test
+    @DisplayName("요일 지정만 바꿔도 재생성된다")
+    void repeatDaysChangeTriggersRegeneration() {
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand(
+              "todo-w2",
+              WEEK_2,
+              Routine.of(
+                  RoutineDuration.of(WEEK_1, WEEK_4), RepeatType.WEEKLY, List.of(WEDNESDAY_DOW)),
+              RoutineUpdateType.FROM_DATE));
+
+      // 월요일 시리즈가 수요일 시리즈로 바뀐다.
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEDNESDAY, LocalDate.of(2024, 1, 17));
+    }
+
+    @Test
+    @DisplayName("시작일만 바꿔도 재생성된다")
+    void startDateChangeTriggersRegeneration() {
+      routineService.updateRoutineToDos(
+          todoAt(WEEK_2),
+          updateCommand("todo-w2", WEEK_2, weeklyRoutine(WEEK_2, WEEK_4), RoutineUpdateType.ALL));
+
+      // 시작일을 1/8 로 늦추면 1/1 회차가 사라진다. 제자리 수정이었다면 1/1 이 그대로 남았을 것이다.
+      assertThat(remainingDates()).containsExactly(WEEK_2, WEEK_3, WEEK_4);
+    }
+
+    @Test
+    @DisplayName("반복 기간이 너무 길면 거절한다")
+    void tooManyOccurrencesIsRejected() {
+      ToDo target = todoAt(WEEK_2);
+      Routine tenYearsDaily =
+          Routine.of(RoutineDuration.of(WEEK_1, LocalDate.of(2034, 1, 1)), RepeatType.DAILY, null);
+
+      assertThatThrownBy(
+              () ->
+                  routineService.updateRoutineToDos(
+                      target,
+                      updateCommand("todo-w2", WEEK_2, tenYearsDaily, RoutineUpdateType.ALL)))
+          .isInstanceOf(BadRequestException.class);
+
+      assertThat(remainingDates()).containsExactly(WEEK_1, WEEK_2, WEEK_3, WEEK_4);
+    }
   }
 
   @Nested

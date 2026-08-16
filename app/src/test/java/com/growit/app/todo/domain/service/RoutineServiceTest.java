@@ -144,6 +144,64 @@ class RoutineServiceTest {
     assertThat(result).isNotNull();
   }
 
+  /**
+   * FakeToDoRepository 는 저장한 ToDo 인스턴스를 그대로 들고 있어, 도메인 객체를 바꾸기만 하고 saveToDo 를 호출하지 않아도 조회 결과가 바뀐
+   * 것처럼 보인다. 그래서 "저장했는가"는 mock 으로만 검증할 수 있다.
+   */
+  @Test
+  @DisplayName("SINGLE 수정은 변경된 ToDo 를 실제로 저장한다")
+  void shouldPersistSingleUpdate() {
+    UpdateToDoCommand singleCommand =
+        new UpdateToDoCommand(
+            "todo123",
+            "user123",
+            "goal123",
+            "Updated single task",
+            LocalDate.of(2024, 1, 3),
+            true,
+            routine,
+            RoutineUpdateType.SINGLE);
+
+    routineService.updateRoutineToDos(existingToDo, singleCommand);
+
+    verify(toDoRepository, times(1)).saveToDo(existingToDo);
+  }
+
+  @Test
+  @DisplayName("시리즈를 나눌 때 앞쪽 회차를 좁힌 반복으로 실제로 다시 저장한다")
+  void shouldPersistNarrowedPrecedingSeries() {
+    // 요일을 바꿔 재생성 경로로 보낸다.
+    Routine wednesday =
+        Routine.of(
+            RoutineDuration.of(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7)),
+            RepeatType.WEEKLY,
+            List.of(DayOfWeek.WEDNESDAY));
+
+    UpdateToDoCommand splitCommand =
+        new UpdateToDoCommand(
+            "todo123",
+            "user123",
+            "goal123",
+            "Split",
+            LocalDate.of(2024, 1, 3),
+            true,
+            wednesday,
+            RoutineUpdateType.FROM_DATE);
+
+    ToDo preceding = createToDo("todo-before", LocalDate.of(2024, 1, 1));
+    given(toDoRepository.findByRoutineIdAndUserId(anyString(), anyString()))
+        .willReturn(List.of(preceding));
+    given(toDoRepository.findByRoutineIdAndUserIdAndDateAfter(anyString(), anyString(), any()))
+        .willReturn(List.of(createToDo("todo-after", LocalDate.of(2024, 1, 3))));
+
+    routineService.updateRoutineToDos(existingToDo, splitCommand);
+
+    // 앞쪽 회차가 좁힌 반복으로 다시 저장되지 않으면, 나중에 앞쪽에서 ALL 을 누를 때 회차가 중복된다.
+    verify(toDoRepository).saveToDo(preceding);
+    assertThat(preceding.getRoutine().getDuration().getEndDate())
+        .isEqualTo(LocalDate.of(2024, 1, 2));
+  }
+
   @Test
   @DisplayName("SINGLE 타입으로 루틴 수정 시 해당 ToDo만 수정되어야 한다")
   void shouldUpdateSingleToDo() {

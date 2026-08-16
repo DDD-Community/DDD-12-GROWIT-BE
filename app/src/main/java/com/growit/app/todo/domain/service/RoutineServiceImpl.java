@@ -23,6 +23,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RoutineServiceImpl implements RoutineService {
+
+  /** 한 요청이 만들 수 있는 회차 상한. 매일 반복 기준 약 2년치다. */
+  private static final int MAX_OCCURRENCES = 730;
+
   private final ToDoRepository toDoRepository;
 
   /**
@@ -58,7 +62,7 @@ public class RoutineServiceImpl implements RoutineService {
             .endDate(command.routine().getDuration().getEndDate())
             .build();
 
-    return persist(spec, resolveDates(spec), Set.of(), null);
+    return persist(spec, requireNonEmpty(resolveDates(spec)), Set.of(), null);
   }
 
   private List<LocalDate> generateRoutineDates(
@@ -256,10 +260,16 @@ public class RoutineServiceImpl implements RoutineService {
 
   /** 반복이 없던 투두에 반복을 새로 거는 경우. */
   private ToDoResult attachRoutine(ToDo existingToDo, UpdateToDoCommand command) {
-    if (command.routine() == null || !command.routine().isValid()) {
+    if (command.routine() == null) {
       existingToDo.updateBy(command);
       toDoRepository.saveToDo(existingToDo);
       return new ToDoResult(existingToDo.getId());
+    }
+
+    // 기간이 없거나 뒤집힌 반복을 그대로 붙이면 저장 시점에 NPE(500)가 나거나
+    // endDate < startDate 인 반복 행이 남는다.
+    if (!command.routine().isValid()) {
+      throw new BadRequestException("반복 설정이 올바르지 않습니다. 반복 주기와 기간을 확인해 주세요.");
     }
 
     RoutineDuration duration = command.routine().getDuration();
@@ -393,9 +403,20 @@ public class RoutineServiceImpl implements RoutineService {
       return;
     }
 
+    // 좁히기만 해야 한다. SINGLE 로 한 회차를 원래 기간 밖으로 옮겨둔 상태라면 cutoff-1 이
+    // 원래 종료일보다 뒤일 수 있는데, 그대로 쓰면 앞쪽 반복이 오히려 넓어져 없던 회차가 생긴다.
     LocalDate precedingEnd = cutoffDate.minusDays(1);
+    LocalDate currentEnd = current.getDuration().getEndDate();
+    if (currentEnd.isBefore(precedingEnd)) {
+      precedingEnd = currentEnd;
+    }
+
     LocalDate earliest =
         preceding.stream().map(ToDo::getDate).min(LocalDate::compareTo).orElse(precedingEnd);
+    if (precedingEnd.isBefore(earliest)) {
+      precedingEnd = earliest;
+    }
+
     LocalDate precedingStart = current.getDuration().getStartDate();
     if (precedingStart.isAfter(earliest)) {
       precedingStart = earliest;
@@ -447,10 +468,18 @@ public class RoutineServiceImpl implements RoutineService {
         .toList();
   }
 
-  /** 회차가 하나도 안 나오는 요청은 "전부 지우고 아무것도 만들지 않는" 결과가 된다. 조용한 데이터 손실 대신 거절한다. */
+  /**
+   * 회차가 하나도 안 나오는 요청은 "전부 지우고 아무것도 만들지 않는" 결과가 된다. 조용한 데이터 손실 대신 거절한다.
+   *
+   * <p>반대쪽 끝도 막는다. 기간에 상한이 없어 매일 반복을 수십 년으로 잡으면 한 요청이 수만 행을 한 트랜잭션에 쓴다.
+   */
   private List<LocalDate> requireNonEmpty(List<LocalDate> dates) {
     if (dates.isEmpty()) {
       throw new BadRequestException("이 반복 설정으로는 만들 수 있는 회차가 없습니다. 반복 주기와 기간을 확인해 주세요.");
+    }
+    if (dates.size() > MAX_OCCURRENCES) {
+      throw new BadRequestException(
+          "반복 기간이 너무 깁니다. 한 번에 만들 수 있는 회차는 " + MAX_OCCURRENCES + "개까지입니다.");
     }
     return dates;
   }
@@ -517,10 +546,16 @@ public class RoutineServiceImpl implements RoutineService {
 
     switch (command.routineDeleteType()) {
       case SINGLE -> toDoRepository.deleteToDo(existingToDo.getId());
-      // 선택한 투두의 날짜를 포함해서 이후 전부 삭제한다.
-      case FROM_DATE ->
-          deleteRoutineToDoFromDate(
-              existingToDo.getRoutine().getId(), existingToDo.getDate(), command.userId());
+      // 선택한 투두의 날짜를 포함해서 이후 전부 삭제한다. 삭제 후에도 앞쪽 반복이 원래의 넓은 기간을
+      // 들고 있으면, 나중에 앞쪽에서 ALL 로 일정을 바꿀 때 방금 지운 회차가 되살아난다.
+      // 수정 경로의 FROM_DATE 와 같은 이유로 앞쪽 기간도 함께 좁힌다.
+      case FROM_DATE -> {
+        // 앞쪽을 먼저 좁힌다. 이 시점에는 뒤쪽 회차가 아직 옛 반복에 남아 있으므로
+        // 아래 삭제가 옛 반복 id 로 정확히 뒤쪽만 걷어낸다.
+        narrowPrecedingSeries(existingToDo, existingToDo.getDate(), command.userId());
+        deleteRoutineToDoFromDate(
+            existingToDo.getRoutine().getId(), existingToDo.getDate(), command.userId());
+      }
       case ALL -> deleteAllRoutineToDos(existingToDo.getRoutine().getId(), command.userId());
     }
   }

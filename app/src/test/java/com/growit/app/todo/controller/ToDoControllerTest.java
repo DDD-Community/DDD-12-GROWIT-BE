@@ -287,7 +287,8 @@ class ToDoControllerTest {
                             fieldWithPath("routine.repeatType")
                                 .type(JsonFieldType.STRING)
                                 .optional()
-                                .description("반복 타입 (DAILY, WEEKLY, BIWEEKLY, MONTHLY)"),
+                                .description(
+                                    "반복 타입 (DAILY, WEEKLY, BIWEEKLY, MONTHLY). routine 을 보낼 때는 필수 — 없거나 모르는 값이면 400"),
                             fieldWithPath("routine.repeatDays")
                                 .type(JsonFieldType.ARRAY)
                                 .optional()
@@ -296,7 +297,10 @@ class ToDoControllerTest {
                             fieldWithPath("routineUpdateType")
                                 .type(JsonFieldType.STRING)
                                 .optional()
-                                .description("루틴 수정 타입 (SINGLE, FROM_DATE, ALL)"))
+                                .description(
+                                    "루틴 수정 타입 (SINGLE, FROM_DATE, ALL). routine 을 보낼 때는 필수 — 없으면 400. "
+                                        + "FROM_DATE/ALL 은 반복 주기·요일·기간·날짜가 조회값과 모두 같으면 회차를 다시 만들지 않아 id 와 완료 이력이 유지되고, "
+                                        + "하나라도 다르면 대상 회차를 지웠다 다시 만들어 id 가 바뀐다"))
                         .build())));
   }
 
