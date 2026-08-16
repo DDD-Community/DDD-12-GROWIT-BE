@@ -384,8 +384,10 @@
             (<a href="#migrate">0절</a>에서 확인하세요.)
           </li>
           <li>
-            <code>FROM_DATE</code>·<code>ALL</code> 수정은 대상 회차를 <strong>지우고 새로 만듭니다.</strong>
-            id가 바뀌고 응답 바디도 없으니, 성공 후 목록을 다시 조회해야 화면이 맞습니다.
+            <code>FROM_DATE</code>·<code>ALL</code> 수정에서 <strong>반복 설정을 그대로 두고 내용만
+            고치면</strong> 회차를 다시 만들지 않아 id와 완료 이력이 유지됩니다. 반복 주기·요일·기간이나
+            날짜를 <strong>하나라도 바꾸면</strong> 대상 회차를 지우고 새로 만들어 id가 바뀝니다. 응답
+            바디가 없으니 어느 쪽이든 성공 후 목록을 다시 조회하세요.
           </li>
         </ul>
       </div>
@@ -469,10 +471,14 @@
       </p>
 
       <div class="note warn" role="note" aria-label="FROM_DATE와 ALL 수정은 회차를 새로 만들며 id가 바뀝니다">
-        <span class="note-title">FROM_DATE·ALL 수정은 회차를 새로 만듭니다</span>
-        서버는 대상 회차들을 지우고 다시 생성합니다. 그래서 그 범위에 포함된 회차의 <code>id</code>가
-        <strong>요청 전후로 달라집니다.</strong> 화면에 들고 있던 id는 버리고 목록을 다시 조회하세요.
-        (옛 id로 요청하면 404입니다.) 완료 여부는 날짜를 기준으로 이어받으므로 유지됩니다.
+        <span class="note-title">FROM_DATE·ALL 수정은 일정을 바꿀 때만 회차를 새로 만듭니다</span>
+        <code>repeatType</code>, <code>repeatDays</code>, <code>duration.startDate</code>,
+        <code>duration.endDate</code>, 그리고 <code>date</code>가 <strong>조회했을 때와 모두 같으면</strong>
+        서버는 회차를 지우지 않고 내용만 바꿉니다. id와 완료 이력이 그대로 유지됩니다.
+        <br /><br />
+        <strong>다섯 값 중 하나라도 다르면</strong> 대상 회차를 지우고 다시 생성하므로 그 범위의
+        <code>id</code>가 전부 달라집니다. 화면에 들고 있던 id는 버리고 목록을 다시 조회하세요. (옛 id로
+        요청하면 404입니다.) 이때 완료 여부는 <strong>같은 날짜가 다시 만들어질 때만</strong> 이어받습니다.
         <br /><br />
         예외 — <strong>반복이 없던 투두에 반복을 새로 거는 경우</strong>에는 그 투두를 지우지 않고 그대로
         쓰므로 id가 유지됩니다.
@@ -596,13 +602,13 @@ Content-Type: application/json
               <td><code>FROM_DATE</code></td>
               <td>기준일을 <strong>포함해서</strong> 그 이후 전부</td>
               <td>해당 날짜 이후 투두 수정 / 삭제</td>
-              <td>수정 시 <strong>바뀜</strong></td>
+              <td>일정을 바꿀 때만 <strong>바뀜</strong></td>
             </tr>
             <tr>
               <td><code>ALL</code></td>
               <td>해당 반복의 모든 회차 (과거 포함)</td>
               <td>전체 반복 투두 수정 / 삭제</td>
-              <td>수정 시 <strong>바뀜</strong></td>
+              <td>일정을 바꿀 때만 <strong>바뀜</strong></td>
             </tr>
           </tbody>
         </table>
@@ -640,7 +646,9 @@ Content-Type: application/json
               <td><code>routine.duration.startDate</code></td>
               <td>조회 응답에서 복사</td>
               <td>
-                <code>ALL</code>일 때만 반복 시작일. <code>FROM_DATE</code>에서는 <strong>무시</strong>
+                <code>ALL</code>일 때 반복 시작일. <code>FROM_DATE</code>에서는 회차 생성에 쓰이지 않지만,
+                <strong>조회값과 다르면 "일정이 바뀌었다"고 판단해 회차를 다시 만듭니다.</strong> 항상 조회
+                응답의 값을 그대로 보내세요
               </td>
             </tr>
           </tbody>
@@ -826,8 +834,9 @@ Content-Type: application/json
             <tr>
               <td><code>FROM_DATE</code></td>
               <td>
-                <strong>무시됩니다.</strong> 서버가 기준일로 좁혀서 저장합니다. 무엇을 보내도 결과가
-                같습니다
+                회차를 만들 때는 쓰이지 않고 서버가 기준일로 좁혀 저장합니다. 다만
+                <strong>조회값과 다르게 보내면 일정이 바뀐 것으로 보고 회차를 전부 지웠다 다시 만듭니다</strong>
+                (id가 바뀌고 완료 이력이 어긋납니다). 조회값을 그대로 보내세요
               </td>
             </tr>
             <tr>
@@ -1097,7 +1106,11 @@ Content-Type: application/json
       </p>
 
       <h2 id="read">6. 조회와 재조회</h2>
-      <p>조회 응답의 회차에는 자신이 속한 반복 정보가 함께 들어 있습니다.</p>
+      <p>
+        조회 응답의 회차에는 자신이 속한 반복 정보가 함께 들어 있습니다. 아래는 <strong>일정을 바꾸는
+        수정(예: 요일 변경)으로 시리즈가 갈라진 뒤</strong>의 응답입니다 — <code>duration.startDate</code>가
+        기준일로 좁혀져 내려옵니다. 내용만 고치는 수정에서는 갈라짐이 없어 값이 그대로입니다.
+      </p>
       <pre><code>GET /todos/todo-0316
 
 {
@@ -1129,10 +1142,10 @@ Content-Type: application/json
         <code>duration</code>(더 이른 시작일)을 그대로 되돌려보내면, 그 반복에서 <code>ALL</code>을 눌렀을
         때 앞쪽 구간이 차지한 날짜까지 다시 만들어져 <strong>같은 날 투두가 2건</strong>이 됩니다.
         <br /><br />
-        <strong>갈라진 앞쪽 구간도 주의하세요.</strong> 앞쪽 회차(위 예시의 3/2)의
-        <code>duration</code>은 여전히 옛 종료일(4/27)을 그대로 갖고 있지만 실제 회차는 3/2 하나뿐입니다. 이
-        값을 "반복 기간"으로 화면에 표시하거나 그대로 되돌려 <code>ALL</code>을 보내면 옛 기간 전체가
-        재생성됩니다.
+        <strong>갈라진 앞쪽 구간은 서버가 함께 좁혀줍니다.</strong> 위 예시에서 3/2 회차의
+        <code>duration</code>은 기준일 직전인 3/8까지로 줄어 내려옵니다. 그러니 앞쪽에서
+        <code>ALL</code>을 눌러도 뒤쪽 구간의 날짜를 침범하지 않습니다 — 단, 이 역시
+        <strong>조회한 값을 그대로 되돌려보낼 때만</strong> 성립합니다.
       </div>
 
       <h3>수정·삭제 후 재조회</h3>
@@ -1141,9 +1154,9 @@ Content-Type: application/json
           <code>SINGLE</code>은 id가 그대로라 낙관적 업데이트를 해도 됩니다.
         </li>
         <li>
-          <code>FROM_DATE</code>·<code>ALL</code>은 응답에 결과가 없고 id도 바뀌므로
-          <strong>낙관적 업데이트를 하지 마세요.</strong> 로딩 상태를 띄우고 재조회 결과로 그리는 편이
-          안전합니다.
+          <code>FROM_DATE</code>·<code>ALL</code>은 응답에 결과가 없고, 일정을 바꾼 경우에는 id까지
+          바뀌므로 <strong>낙관적 업데이트를 하지 마세요.</strong> 로딩 상태를 띄우고 재조회 결과로 그리는
+          편이 안전합니다.
         </li>
         <li>
           <code>FROM_DATE</code>·<code>ALL</code>은 기준일부터 반복 종료일까지 전부 새로 만듭니다. 지금 보고
@@ -1170,8 +1183,9 @@ Content-Type: application/json
         <div class="day changed">3/23<span class="lbl">변경</span></div>
       </div>
       <p class="legend">
-        3/9 이후는 새 반복으로 갈라지고, 3/2는 옛 반복에 남습니다. <code>SINGLE</code>이면 3/9 한 칸만,
-        <code>ALL</code>이면 네 칸 모두 바뀝니다.
+        내용만 고치면 세 칸의 내용만 바뀌고 id는 그대로입니다. 일정까지 바꾸면 3/9 이후가 새 반복으로
+        갈라지고 3/2는 앞쪽 반복(기간이 3/8까지로 좁혀짐)에 남습니다. <code>SINGLE</code>이면 3/9 한 칸만,
+        <code>ALL</code>이면 네 칸 모두 대상입니다.
       </p>
 
       <h3>ALL</h3>
