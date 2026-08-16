@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - main
+      # develop 머지는 cd-dev 로 바로 배포되므로 PR 단계에서 반드시 검증해야 한다.
+      - develop
 
 jobs:
   pr-build:
