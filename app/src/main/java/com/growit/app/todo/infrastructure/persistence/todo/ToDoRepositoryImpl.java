@@ -128,7 +128,14 @@ public class ToDoRepositoryImpl implements ToDoRepository {
 
   @Override
   public void deleteToDo(String id) {
-    repository.findByUid(id).ifPresent(repository::delete);
+    // 일반 ToDo 삭제와 동일하게 soft delete 한다. 조회 쿼리는 모두 deletedAt IS NULL 을 필터한다.
+    repository
+        .findByUid(id)
+        .ifPresent(
+            entity -> {
+              entity.setDeletedAt(LocalDateTime.now());
+              repository.save(entity);
+            });
   }
 
   private List<ToDo> entitiesToDomain(List<ToDoEntity> entities) {
