@@ -70,9 +70,10 @@ public class ToDo {
    * date 를 덮어쓴다.
    */
   public void updateContentKeepingSchedule(UpdateToDoCommand command) {
+    this.time = command.time();
     this.goalId = command.goalId();
     this.content = command.content();
-    this.isImportant = command.isImportant();
+    this.category = command.category() != null ? command.category() : this.category;
   }
 
   /** 이 투두가 속한 반복을 교체한다. 시리즈를 나눌 때 앞쪽 회차를 좁힌 반복으로 다시 묶는 데 쓴다. */

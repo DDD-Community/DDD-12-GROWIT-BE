@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.growit.app.common.exception.BadRequestException;
 import com.growit.app.fake.todo.FakeToDoRepository;
 import com.growit.app.todo.domain.ToDo;
+import com.growit.app.todo.domain.TodoCategory;
 import com.growit.app.todo.domain.dto.DeleteToDoCommand;
 import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
@@ -666,7 +667,7 @@ class RoutineScopeBehaviorTest {
               .date(WEEK_3)
               .isCompleted(false)
               .isDeleted(false)
-              .isImportant(false)
+              .category(TodoCategory.NOW)
               .routine(other)
               .build());
       repository.saveToDo(
@@ -678,7 +679,7 @@ class RoutineScopeBehaviorTest {
               .date(WEEK_4)
               .isCompleted(false)
               .isDeleted(false)
-              .isImportant(false)
+              .category(TodoCategory.NOW)
               .routine(null)
               .build());
 

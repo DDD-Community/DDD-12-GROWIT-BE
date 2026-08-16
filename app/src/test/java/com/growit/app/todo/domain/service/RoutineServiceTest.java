@@ -167,7 +167,8 @@ class RoutineServiceTest {
             "goal123",
             "Updated single task",
             LocalDate.of(2024, 1, 3),
-            true,
+            null,
+            TodoCategory.NOW,
             routine,
             RoutineUpdateType.SINGLE);
 
@@ -193,7 +194,8 @@ class RoutineServiceTest {
             "goal123",
             "Split",
             LocalDate.of(2024, 1, 3),
-            true,
+            null,
+            TodoCategory.NOW,
             wednesday,
             RoutineUpdateType.FROM_DATE);
 
