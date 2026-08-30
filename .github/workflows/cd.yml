@@ -6,13 +6,14 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: growit-backend-production
+  group: growit-backend-lambda
   cancel-in-progress: false
 
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: growit-server
   LAMBDA_FUNCTION_NAME: growit-server
+  API_URL: https://api.grow-it.me
 
 jobs:
   build-and-deploy:
@@ -50,9 +51,27 @@ jobs:
           docker buildx build --platform linux/arm64 \
             --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" --push ./app
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_ENV"
-      - name: Deploy image to Lambda
+      - name: Capture current development image
+        run: |
+          DEV_IMAGE_URI=$(aws lambda get-function --function-name "$LAMBDA_FUNCTION_NAME" --query 'Code.ImageUri' --output text)
+          echo "DEV_IMAGE_URI=$DEV_IMAGE_URI" >> "$GITHUB_ENV"
+      - name: Publish production version and update alias
         run: |
           aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$IMAGE_URI"
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
+          PROD_VERSION=$(aws lambda publish-version \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --description "main ${GITHUB_SHA}" \
+            --query Version --output text)
+          aws lambda update-alias \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --name prod \
+            --function-version "$PROD_VERSION"
+          echo "PROD_VERSION=$PROD_VERSION" >> "$GITHUB_ENV"
+      - name: Restore development image to latest
+        if: always() && env.DEV_IMAGE_URI != ''
+        run: |
+          aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$DEV_IMAGE_URI"
+          aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
       - name: Verify API
-        run: curl --fail --retry 2 --retry-delay 5 "${{ vars.API_URL }}/actuator/health"
+        run: curl --fail --retry 5 --retry-delay 10 "$API_URL/actuator/health"

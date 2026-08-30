@@ -6,13 +6,14 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: growit-backend-develop
-  cancel-in-progress: true
+  group: growit-backend-lambda
+  cancel-in-progress: false
 
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: growit-server
   LAMBDA_FUNCTION_NAME: growit-server
+  API_URL: https://dev-api.grow-it.me
 
 jobs:
   build-and-deploy:
@@ -55,7 +56,7 @@ jobs:
           aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$IMAGE_URI"
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
       - name: Verify API
-        run: curl --fail --retry 2 --retry-delay 5 "${{ vars.API_URL }}/actuator/health"
+        run: curl --fail --retry 5 --retry-delay 10 "$API_URL/actuator/health"
 
   notify:
     name: Notify Slack
