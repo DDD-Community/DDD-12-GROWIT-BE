@@ -14,6 +14,8 @@ env:
   ECR_REPOSITORY: growit-server
   LAMBDA_FUNCTION_NAME: growit-server
   API_URL: https://api.grow-it.me
+  PROD_DATABASE_URL: ${{ vars.PROD_DATABASE_URL }}
+  DEV_DATABASE_URL: ${{ vars.DEV_DATABASE_URL }}
 
 jobs:
   build-and-deploy:
@@ -55,8 +57,17 @@ jobs:
         run: |
           DEV_IMAGE_URI=$(aws lambda get-function --function-name "$LAMBDA_FUNCTION_NAME" --query 'Code.ImageUri' --output text)
           echo "DEV_IMAGE_URI=$DEV_IMAGE_URI" >> "$GITHUB_ENV"
+          aws lambda get-function-configuration \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --query 'Environment.Variables' > lambda-env.json
+          jq --arg url "$PROD_DATABASE_URL" '.SPRING_DATASOURCE_URL = $url' lambda-env.json > prod-env.json
+          jq --arg url "$DEV_DATABASE_URL" '.SPRING_DATASOURCE_URL = $url' lambda-env.json > dev-env.json
       - name: Publish production version and update alias
         run: |
+          aws lambda update-function-configuration \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --environment "Variables=$(jq -c . prod-env.json)"
+          aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
           aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$IMAGE_URI"
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
           PROD_VERSION=$(aws lambda publish-version \
@@ -71,6 +82,10 @@ jobs:
       - name: Restore development image to latest
         if: always() && env.DEV_IMAGE_URI != ''
         run: |
+          aws lambda update-function-configuration \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --environment "Variables=$(jq -c . dev-env.json)"
+          aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
           aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$DEV_IMAGE_URI"
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
       - name: Verify API

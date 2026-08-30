@@ -14,6 +14,7 @@ env:
   ECR_REPOSITORY: growit-server
   LAMBDA_FUNCTION_NAME: growit-server
   API_URL: https://dev-api.grow-it.me
+  DEV_DATABASE_URL: ${{ vars.DEV_DATABASE_URL }}
 
 jobs:
   build-and-deploy:
@@ -53,6 +54,14 @@ jobs:
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_ENV"
       - name: Deploy image to Lambda
         run: |
+          CURRENT_ENV=$(aws lambda get-function-configuration \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --query 'Environment.Variables')
+          DEV_ENV=$(jq -c --arg url "$DEV_DATABASE_URL" '.SPRING_DATASOURCE_URL = $url' <<< "$CURRENT_ENV")
+          aws lambda update-function-configuration \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --environment "Variables=$DEV_ENV"
+          aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
           aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$IMAGE_URI"
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
       - name: Verify API
