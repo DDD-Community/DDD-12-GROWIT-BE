@@ -54,13 +54,15 @@ jobs:
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_ENV"
       - name: Deploy image to Lambda
         run: |
-          CURRENT_ENV=$(aws lambda get-function-configuration \
+          aws lambda get-function-configuration \
             --function-name "$LAMBDA_FUNCTION_NAME" \
-            --query 'Environment.Variables')
-          DEV_ENV=$(jq -c --arg url "$DEV_DATABASE_URL" '.SPRING_DATASOURCE_URL = $url' <<< "$CURRENT_ENV")
+            --query 'Environment.Variables' > lambda-env.json
+          jq --arg url "$DEV_DATABASE_URL" \
+            '{Variables: (. + {SPRING_DATASOURCE_URL: $url})}' \
+            lambda-env.json > dev-env.json
           aws lambda update-function-configuration \
             --function-name "$LAMBDA_FUNCTION_NAME" \
-            --environment "Variables=$DEV_ENV"
+            --environment file://dev-env.json
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
           aws lambda update-function-code --function-name "$LAMBDA_FUNCTION_NAME" --image-uri "$IMAGE_URI"
           aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION_NAME"
