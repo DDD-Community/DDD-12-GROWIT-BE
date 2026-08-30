@@ -1,12 +1,12 @@
-name: Deploy backend release to Lambda
+name: Deploy production backend to Lambda
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: growit-backend-release
+  group: growit-backend-production
   cancel-in-progress: false
 
 env:
@@ -17,6 +17,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: read
       id-token: write
@@ -44,7 +45,7 @@ jobs:
       - name: Build and push Lambda image
         env:
           ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.event.release.tag_name || github.sha }}
+          IMAGE_TAG: prod-${{ github.sha }}
         run: |
           docker buildx build --platform linux/arm64 \
             --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" --push ./app
