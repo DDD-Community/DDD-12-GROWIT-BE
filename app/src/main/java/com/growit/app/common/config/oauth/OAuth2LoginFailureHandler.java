@@ -12,6 +12,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class OAuth2LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+  private final CookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
+
+  public OAuth2LoginFailureHandler(
+      CookieOAuth2AuthorizationRequestRepository authorizationRequestRepository) {
+    this.authorizationRequestRepository = authorizationRequestRepository;
+  }
+
   @Override
   public void onAuthenticationFailure(
       HttpServletRequest req, HttpServletResponse res, AuthenticationException exception)
@@ -19,6 +26,9 @@ public class OAuth2LoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
     log.error("OAuth2 Login Failed. Error: {}", exception.getMessage(), exception);
 
-    getRedirectStrategy().sendRedirect(req, res, "/login?error=oauth");
+    authorizationRequestRepository.clearRedirectUri(res);
+    String frontendHost =
+        req.getServerName().startsWith("dev-api.") ? "https://dev.grow-it.me" : "https://grow-it.me";
+    getRedirectStrategy().sendRedirect(req, res, frontendHost + "/login?error=oauth");
   }
 }

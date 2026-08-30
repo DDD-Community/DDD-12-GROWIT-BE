@@ -2,6 +2,7 @@ package com.growit.app.common.config;
 
 import com.growit.app.common.config.jwt.JwtFilter;
 import com.growit.app.common.config.oauth.CustomOAuth2AuthorizationRequestResolver;
+import com.growit.app.common.config.oauth.CookieOAuth2AuthorizationRequestRepository;
 import com.growit.app.common.config.oauth.KakaoOAuth2UserService;
 import com.growit.app.common.config.oauth.OAuth2LoginFailureHandler;
 import com.growit.app.common.config.oauth.OAuth2LoginSuccessHandler;
@@ -29,6 +30,7 @@ public class SecurityConfig {
   private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
   private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
   private final CustomOAuth2AuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
+  private final CookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -68,8 +70,11 @@ public class SecurityConfig {
                 oauth
                     .authorizationEndpoint(
                         authorization ->
-                            authorization.authorizationRequestResolver(
-                                customOAuth2AuthorizationRequestResolver))
+                            authorization
+                                .authorizationRequestResolver(
+                                    customOAuth2AuthorizationRequestResolver)
+                                .authorizationRequestRepository(
+                                    cookieOAuth2AuthorizationRequestRepository))
                     .userInfoEndpoint(u -> u.userService(kakaoOAuth2UserService))
                     .successHandler(oAuth2LoginSuccessHandler)
                     .failureHandler(oAuth2LoginFailureHandler))

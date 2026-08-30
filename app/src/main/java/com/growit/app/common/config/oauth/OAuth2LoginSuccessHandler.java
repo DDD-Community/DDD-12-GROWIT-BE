@@ -35,7 +35,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private static final String REFRESH_TOKEN_PARAM = "refreshToken";
   private static final String REGISTRATION_TOKEN_PARAM = "registrationToken";
   private static final String NAME_PARAM = "name";
-  private static final String REDIRECT_URI_SESSION_KEY = "OAUTH2_REDIRECT_URI";
 
   private static final List<String> ALLOWED_REDIRECT_HOSTS =
       List.of("localhost:3000", "grow-it.me", "dev.grow-it.me");
@@ -43,14 +42,17 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private final UserTokenSaver userTokenSaver;
   private final TokenService tokenService;
   private final OAuth2AuthorizedClientService authorizedClientService;
+  private final CookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
 
   public OAuth2LoginSuccessHandler(
       UserTokenSaver userTokenSaver,
       TokenService tokenService,
-      OAuth2AuthorizedClientService authorizedClientService) {
+      OAuth2AuthorizedClientService authorizedClientService,
+      CookieOAuth2AuthorizationRequestRepository authorizationRequestRepository) {
     this.userTokenSaver = userTokenSaver;
     this.tokenService = tokenService;
     this.authorizedClientService = authorizedClientService;
+    this.authorizationRequestRepository = authorizationRequestRepository;
   }
 
   @Override
@@ -91,7 +93,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     String regToken = tokenService.createRegistrationToken(provider, providerId, email);
 
     // If redirect_uri is provided, prefer redirect-based flow (for browser navigation starts)
-    String redirectUri = getRedirectUriFromSession(req);
+    String redirectUri = getRedirectUri(req);
     if (redirectUri != null && !redirectUri.isBlank()) {
       validateRedirectUri(redirectUri);
       String location =
@@ -135,7 +137,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     Token token = tokenService.createToken(user);
     userTokenSaver.saveUserToken(user.getId(), token);
 
-    String redirectUri = getRedirectUriFromSession(req);
+    String redirectUri = getRedirectUri(req);
     if (redirectUri != null && !redirectUri.isBlank()) {
       validateRedirectUri(redirectUri);
       // Redirect flow: attach tokens in fragment (not sent to servers via Referer)
@@ -164,12 +166,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     new ObjectMapper().writeValue(res.getWriter(), ApiResponse.success(response));
   }
 
-  private String getRedirectUriFromSession(HttpServletRequest req) {
-    var session = req.getSession(false);
-    if (session != null) {
-      return (String) session.getAttribute(REDIRECT_URI_SESSION_KEY);
-    }
-    return null;
+  private String getRedirectUri(HttpServletRequest req) {
+    return authorizationRequestRepository.getRedirectUri(req);
   }
 
   private void validateRedirectUri(String redirectUri) {
@@ -224,6 +222,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
       cookie.setMaxAge(0);
       cookie.setHttpOnly(true);
       res.addCookie(cookie);
+      authorizationRequestRepository.clearRedirectUri(res);
     } catch (Exception ignore) {
       // best-effort cleanup; do not block success flow
     }
