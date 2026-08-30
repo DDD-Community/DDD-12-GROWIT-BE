@@ -5,6 +5,8 @@ server:
 spring:
   application:
     name: growit
+  main:
+    lazy-initialization: ${SPRING_MAIN_LAZY_INITIALIZATION:false}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -13,7 +15,7 @@ spring:
 
   batch:
     jdbc:
-      initialize-schema: always
+      initialize-schema: never
     job:
       enabled: false  # 배포 시 자동 실행 방지 (스케줄러가 7AM에 실행)
 
@@ -80,6 +82,8 @@ management:
       exposure:
         include: health,info,metrics,caches
   health:
+    probes:
+      enabled: true
     batch:
       enabled: false  # 배치 잡 실패가 서비스 헬스체크에 영향 주지 않도록
 
