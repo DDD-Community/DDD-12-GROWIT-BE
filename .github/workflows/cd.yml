@@ -80,7 +80,7 @@ jobs:
             --function-version "$PROD_VERSION"
           echo "PROD_VERSION=$PROD_VERSION" >> "$GITHUB_ENV"
       - name: Restore development image to latest
-        if: always() && env.DEV_IMAGE_URI != ''
+        if: always() && env.DEV_IMAGE_URI != '' && hashFiles('dev-env.json') != ''
         run: |
           aws lambda update-function-configuration \
             --function-name "$LAMBDA_FUNCTION_NAME" \
