@@ -17,6 +17,7 @@ import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDuration;
 import com.growit.app.todo.domain.vo.RoutineUpdateType;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,6 +92,26 @@ class RoutineServiceTest {
     verify(toDoRepository, times(7)).saveToDo(any(ToDo.class)); // 7일간의 daily routine
     assertThat(result).isNotNull();
     assertThat(result.getId()).isNotNull();
+  }
+
+  @Test
+  @DisplayName("루틴 생성 시 선택한 카테고리가 모든 회차에 유지되어야 한다")
+  void shouldPreserveCategoryForEveryRoutineOccurrence() {
+    CreateToDoCommand command =
+        new CreateToDoCommand(
+            "user123",
+            "goal123",
+            "Daily routine task",
+            LocalDate.of(2024, 1, 1),
+            false,
+            ToDoCategory.DELETE,
+            routine);
+    ArgumentCaptor<ToDo> captor = ArgumentCaptor.forClass(ToDo.class);
+
+    routineService.createRoutineToDos(command);
+
+    verify(toDoRepository, times(7)).saveToDo(captor.capture());
+    assertThat(captor.getAllValues()).allMatch(todo -> todo.getCategory() == ToDoCategory.DELETE);
   }
 
   @Test

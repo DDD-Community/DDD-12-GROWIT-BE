@@ -10,6 +10,7 @@ import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.RepeatType;
 import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDuration;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class RoutineServiceImpl implements RoutineService {
       String goalId,
       String content,
       boolean isImportant,
+      ToDoCategory category,
       LocalDate baseDate,
       LocalDate startDate,
       LocalDate endDate,
@@ -57,6 +59,7 @@ public class RoutineServiceImpl implements RoutineService {
             .goalId(command.goalId())
             .content(command.content())
             .isImportant(command.isImportant())
+            .category(command.category())
             .baseDate(command.date())
             .startDate(command.routine().getDuration().getStartDate())
             .endDate(command.routine().getDuration().getEndDate())
@@ -452,6 +455,7 @@ public class RoutineServiceImpl implements RoutineService {
         .goalId(command.goalId())
         .content(command.content())
         .isImportant(command.isImportant())
+        .category(command.category())
         .baseDate(command.date())
         .startDate(startDate)
         .endDate(endDate)
@@ -499,6 +503,7 @@ public class RoutineServiceImpl implements RoutineService {
                   spec.content(),
                   date,
                   spec.isImportant(),
+                  spec.category(),
                   spec.routine()));
 
       // 재생성 전 같은 날짜가 완료 상태였다면 사용자의 완료 이력을 그대로 이어받는다.
