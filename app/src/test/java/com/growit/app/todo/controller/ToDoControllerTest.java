@@ -41,6 +41,7 @@ import com.growit.app.todo.domain.vo.Routine;
 import com.growit.app.todo.domain.vo.RoutineDeleteType;
 import com.growit.app.todo.domain.vo.RoutineDuration;
 import com.growit.app.todo.domain.vo.RoutineUpdateType;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import com.growit.app.todo.usecase.*;
 import com.growit.app.todo.usecase.dto.ToDoWithGoalDto;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
@@ -110,7 +111,8 @@ class ToDoControllerTest {
             .build();
 
     CreateToDoRequest request =
-        new CreateToDoRequest("goal-1", LocalDate.now(), "할 일 내용", false, routineDto);
+        new CreateToDoRequest(
+            "goal-1", LocalDate.now(), "할 일 내용", false, ToDoCategory.STEADY, routineDto);
 
     Routine domainRoutine =
         Routine.of(
@@ -158,6 +160,9 @@ class ToDoControllerTest {
                             fieldWithPath("isImportant")
                                 .type(JsonFieldType.BOOLEAN)
                                 .description("중요도 여부"),
+                            fieldWithPath("category")
+                                .type(JsonFieldType.STRING)
+                                .description("Todo 카테고리"),
                             fieldWithPath("routine")
                                 .type(JsonFieldType.OBJECT)
                                 .optional()
