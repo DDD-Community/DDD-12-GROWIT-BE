@@ -1,7 +1,9 @@
 package com.growit.app.todo.controller.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.growit.app.todo.controller.dto.response.RoutineDto;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,7 +25,15 @@ public class CreateToDoRequest {
 
   private boolean isImportant;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private ToDoCategory category;
+
   private RoutineDto routine;
+
+  public CreateToDoRequest(
+      String goalId, LocalDate date, String content, boolean isImportant, RoutineDto routine) {
+    this(goalId, date, content, isImportant, null, routine);
+  }
 
   @JsonProperty("isImportant")
   public boolean isImportant() {

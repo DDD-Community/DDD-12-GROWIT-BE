@@ -4,6 +4,7 @@ import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.ToDoRepository;
 import com.growit.app.todo.domain.dto.GetDateRangeQueryFilter;
 import com.growit.app.todo.usecase.dto.TodoCountByDateDto;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,19 @@ public class GetTodoCountByGoalInDateRangeUseCase {
                           entry.getKey(), entry.getValue().intValue()))
               .toList();
 
-      result.add(new TodoCountByDateDto(currentDate, goalCounts));
+      List<TodoCountByDateDto.CategoryTodoCount> categoryCounts =
+          todosForDate.stream()
+              .collect(Collectors.groupingBy(ToDo::getCategory))
+              .entrySet().stream()
+              .map(
+                  entry ->
+                      new TodoCountByDateDto.CategoryTodoCount(
+                          entry.getKey(),
+                          entry.getValue().size(),
+                          (int) entry.getValue().stream().filter(ToDo::isCompleted).count()))
+              .toList();
+
+      result.add(new TodoCountByDateDto(currentDate, goalCounts, categoryCounts));
       currentDate = currentDate.plusDays(1);
     }
 

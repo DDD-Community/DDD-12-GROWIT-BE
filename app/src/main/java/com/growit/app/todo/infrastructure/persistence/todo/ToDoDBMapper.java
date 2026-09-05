@@ -23,6 +23,7 @@ public class ToDoDBMapper {
         .date(todo.getDate())
         .isCompleted(todo.isCompleted())
         .isImportant(todo.isImportant())
+        .category(todo.getCategory())
         .routineId(routineId)
         .build();
   }
@@ -39,6 +40,12 @@ public class ToDoDBMapper {
         .isCompleted(entity.isCompleted())
         .isDeleted(entity.getDeletedAt() != null)
         .isImportant(entity.isImportant())
+        .category(
+            entity.getCategory() != null
+                ? entity.getCategory()
+                : (entity.isImportant()
+                    ? com.growit.app.todo.domain.vo.ToDoCategory.NOW
+                    : com.growit.app.todo.domain.vo.ToDoCategory.STEADY))
         .routine(routine)
         .build();
   }

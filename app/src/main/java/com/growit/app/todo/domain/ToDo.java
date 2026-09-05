@@ -6,6 +6,7 @@ import com.growit.app.common.util.IDGenerator;
 import com.growit.app.todo.domain.dto.CreateToDoCommand;
 import com.growit.app.todo.domain.dto.UpdateToDoCommand;
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,8 @@ public class ToDo {
   @JsonProperty("isImportant")
   private boolean isImportant;
 
+  private ToDoCategory category;
+
   private Routine routine;
 
   public static ToDo from(CreateToDoCommand command) {
@@ -38,6 +41,7 @@ public class ToDo {
         .isCompleted(false)
         .isDeleted(false)
         .isImportant(command.isImportant())
+        .category(command.category())
         .routine(command.routine())
         .build();
   }
@@ -47,6 +51,7 @@ public class ToDo {
     this.goalId = command.goalId();
     this.content = command.content();
     this.isImportant = command.isImportant();
+    this.category = command.category();
     this.routine = command.routine();
   }
 
@@ -56,6 +61,7 @@ public class ToDo {
     this.goalId = command.goalId();
     this.content = command.content();
     this.isImportant = command.isImportant();
+    this.category = command.category();
     // routine은 변경하지 않음
   }
 
@@ -69,6 +75,7 @@ public class ToDo {
     this.goalId = command.goalId();
     this.content = command.content();
     this.isImportant = command.isImportant();
+    this.category = command.category();
   }
 
   /** 이 투두가 속한 반복을 교체한다. 시리즈를 나눌 때 앞쪽 회차를 좁힌 반복으로 다시 묶는 데 쓴다. */
@@ -105,5 +112,10 @@ public class ToDo {
   @JsonProperty("isImportant")
   public boolean isImportant() {
     return isImportant;
+  }
+
+  /** Legacy records without a category are interpreted from their importance flag. */
+  public ToDoCategory getCategory() {
+    return category != null ? category : (isImportant ? ToDoCategory.NOW : ToDoCategory.STEADY);
   }
 }

@@ -1,8 +1,10 @@
 package com.growit.app.todo.controller.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.growit.app.todo.controller.dto.response.RoutineDto;
 import com.growit.app.todo.domain.vo.RoutineUpdateType;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,6 +27,19 @@ public class UpdateToDoRequest {
   @JsonProperty("isImportant")
   private Boolean important; // Use Boolean wrapper to allow null values
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private ToDoCategory category;
+
   private RoutineDto routine; // nullable
   private RoutineUpdateType routineUpdateType; // nullable
+
+  public UpdateToDoRequest(
+      String goalId,
+      LocalDate date,
+      String content,
+      Boolean important,
+      RoutineDto routine,
+      RoutineUpdateType routineUpdateType) {
+    this(goalId, date, content, important, null, routine, routineUpdateType);
+  }
 }

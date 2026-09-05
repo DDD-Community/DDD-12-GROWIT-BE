@@ -3,6 +3,7 @@ package com.growit.app.todo.controller.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.growit.app.todo.domain.ToDo;
 import com.growit.app.todo.domain.vo.Routine;
+import com.growit.app.todo.domain.vo.ToDoCategory;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,6 +22,7 @@ public class WeeklyTodosResponse {
   private boolean important;
 
   private Routine routine;
+  private ToDoCategory category;
 
   public static WeeklyTodosResponse from(ToDo todo) {
     return WeeklyTodosResponse.builder()
@@ -31,6 +33,7 @@ public class WeeklyTodosResponse {
         .completed(todo.isCompleted())
         .important(todo.isImportant())
         .routine(todo.getRoutine())
+        .category(todo.getCategory())
         .build();
   }
 }

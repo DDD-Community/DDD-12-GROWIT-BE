@@ -20,6 +20,9 @@ public class ToDoRequestMapper {
         request.getContent(),
         request.getDate(),
         request.isImportant(),
+        request.getCategory() != null
+            ? request.getCategory()
+            : (request.isImportant() ? ToDoCategory.NOW : ToDoCategory.STEADY),
         toDomainRoutine(request.getRoutine()));
   }
 
@@ -31,6 +34,9 @@ public class ToDoRequestMapper {
         request.getContent(),
         request.getDate(),
         request.getImportant() != null ? request.getImportant() : false,
+        request.getCategory() != null
+            ? request.getCategory()
+            : (Boolean.TRUE.equals(request.getImportant()) ? ToDoCategory.NOW : ToDoCategory.STEADY),
         toDomainRoutine(request.getRoutine()),
         // 범위를 추측하지 않는다. 예전에는 routine 만 오면 ALL 로 해석해 반복 전체를 재생성했고,
         // 그 결과 완료 이력이 사라졌다. 지정되지 않은 범위는 UseCase 에서 거절한다.
