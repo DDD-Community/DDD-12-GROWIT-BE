@@ -1,4 +1,4 @@
-ALTER TABLE todos ADD COLUMN category VARCHAR(16);
+ALTER TABLE todos ADD COLUMN IF NOT EXISTS category VARCHAR(16);
 
 -- Preserve the old importance meaning for existing data while giving every todo a category.
 UPDATE todos
